@@ -21,15 +21,15 @@ DB_PORT=3306
 DB_SOCKET=""
 ```
 
-A Dockerfile is provided for development. Init the project:
-```
-docker compose up
-```
-
 Front-end assets are built and managed locally. Install packages with Yarn:
 
 ```
 yarn install
+```
+
+A Dockerfile is provided for development. Init the project:
+```
+docker compose up
 ```
 
 Once the containers are running, pop open a web browser and navigate to `http://localhost:3000`
