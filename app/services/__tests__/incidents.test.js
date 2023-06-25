@@ -1,0 +1,363 @@
+const paramHelper = require('../../helpers/param');
+const {
+  getAllQuery,
+  getAtIdQuery,
+  getFirstAndLastDatesQuery,
+  getTotalQuery,
+} = require('../incidents');
+
+describe('getAllQuery()', () => {
+  describe('with default options', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery()).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [],
+      });
+    });
+  });
+
+  describe('with a sourceId', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ sourceId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'WHERE incidents.data_source_id = ?',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [123],
+      });
+    });
+  });
+
+  describe('with a personId', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ personId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+          'WHERE incident_attendees.person_id = ?',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [123],
+      });
+    });
+
+    describe('and a withEntityId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, withEntityId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE incidents.entity_id = ?',
+            'AND incident_attendees.person_id = ?',
+            'ORDER BY incidents.contact_date ASC',
+          ],
+          params: [321, 123],
+        });
+      });
+    });
+  });
+
+  describe('with an entityId', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ entityId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'WHERE',
+          'incidents.entity_id = ?',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [123],
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ entityId: 123, withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE incidents.entity_id = ?',
+            'AND incident_attendees.person_id = ?',
+            'ORDER BY incidents.contact_date ASC',
+          ],
+          params: [123, 321],
+        });
+      });
+    });
+
+    describe('and a quarterSourceId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ entityId: 123, quarterSourceId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'WHERE',
+            'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
+            'ORDER BY incidents.contact_date ASC',
+          ],
+          params: [123, 321],
+        });
+      });
+    });
+  });
+
+  describe('with a page number', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ page: 4 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [],
+      });
+    });
+
+    describe('and perpage', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'ORDER BY incidents.contact_date ASC',
+            'LIMIT ?,?',
+          ],
+          params: [45, 15],
+        });
+      });
+    });
+  });
+
+  describe('with counts', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ includeCount: true })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [],
+      });
+    });
+
+    describe('and a sort column', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({
+          includeCount: true,
+          sortBy: paramHelper.SORT_BY_TOTAL,
+        })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'ORDER BY incidents.contact_date ASC',
+          ],
+          params: [],
+        });
+      });
+    });
+  });
+
+  describe('with a sort', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ sort: 'ASC' })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'ORDER BY incidents.contact_date ASC',
+        ],
+        params: [],
+      });
+      expect(getAllQuery({ sort: 'DESC' })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'ORDER BY incidents.contact_date DESC',
+        ],
+        params: [],
+      });
+    });
+  });
+});
+
+describe('getAtIdQuery()', () => {
+  describe('with no id', () => {
+    test.skip('throws', () => {
+      // todo
+    });
+  });
+
+  describe('with an id', () => {
+    test('returns the expected SQL', () => {
+      expect(getAtIdQuery(8675309)).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes, entities.name AS entity_name',
+          'FROM incidents',
+          'LEFT JOIN entities ON entities.id = incidents.entity_id',
+          'WHERE incidents.id = ?',
+          'LIMIT 1',
+        ],
+        params: [8675309],
+      });
+    });
+  });
+});
+
+describe('getFirstAndLastDatesQuery()', () => {
+  // omg
+
+  describe('with default options', () => {
+    test('returns the expected SQL', () => {
+      expect(getFirstAndLastDatesQuery()).toEqual({
+        clauses: [
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date DESC LIMIT 1)',
+        ],
+        params: [],
+      });
+    });
+  });
+
+  describe('with an entityId', () => {
+    test('returns the expected SQL', () => {
+      expect(getFirstAndLastDatesQuery({ entityId: 123 })).toEqual({
+        clauses: [
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+        ],
+        params: [123, 123],
+      });
+    });
+  });
+
+  describe('with a personId', () => {
+    test('returns the expected SQL', () => {
+      expect(getFirstAndLastDatesQuery({ personId: 123 })).toEqual({
+        clauses: [
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+        ],
+        params: [123, 123],
+      });
+    });
+  });
+
+  describe('with a sourceId', () => {
+    test('returns the expected SQL', () => {
+      expect(getFirstAndLastDatesQuery({ sourceId: 123 })).toEqual({
+        clauses: [
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+        ],
+        params: [123, 123],
+      });
+    });
+  });
+});
+
+describe('getTotalQuery()', () => {
+  describe('with default options', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery()).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+        ],
+        params: [],
+      });
+    });
+  });
+
+  describe('with an entityId', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ entityId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+          'WHERE',
+          'incidents.entity_id = ?',
+        ],
+        params: [123],
+      });
+    });
+  });
+
+  describe('with a sourceId', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ sourceId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+          'WHERE data_source_id = ?',
+        ],
+        params: [123],
+      });
+    });
+  });
+
+  describe('with a withEntityId', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ withEntityId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+          'WHERE',
+          'incidents.entity_id = ?',
+        ],
+        params: [123],
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ withEntityId: 123, withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE incidents.entity_id = ?',
+            'AND incident_attendees.person_id = ?',
+          ],
+          params: [123, 321],
+        });
+      });
+    });
+
+    describe('and a quarterSourceId', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ withEntityId: 123, quarterSourceId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total FROM incidents',
+            'WHERE',
+            'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
+          ],
+          params: [123, 321],
+        });
+      });
+    });
+  });
+});

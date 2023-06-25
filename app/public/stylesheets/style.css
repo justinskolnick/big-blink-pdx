@@ -1,0 +1,201 @@
+:root {
+  --sans-serif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+  --serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+  --section-header-eyes-size-large: 54px;
+  --section-header-eyes-size-small: 27px;
+  --section-header-eyes-space-after: 18px;
+
+  --section-header-icon-size-large: 63px;
+  --section-header-icon-size-small: 36px;
+  --section-header-icon-space-after: 18px;
+
+  --incident-list-padding: 18px;
+
+  --color-white: white;
+  --color-black: black;
+  --color-almost-black: dimgray;
+  --color-gray: gray;
+  --color-light-gray: gainsboro;
+  --color-light-gray-rgb: 220, 220, 220;
+  --color-off-white: linen;
+  --color-brown: brown;
+  --color-light-brown: burlywood;
+  --color-light-brown-rgb: 222, 184, 135;
+  --color-blue: cornflowerblue;
+  --color-blue-rgb: 100, 149, 237;
+  --color-dark-blue: darkblue;
+  --color-light-blue: aliceblue;
+  --color-green: olivedrab;
+  --color-dark-green: darkolivegreen;
+  --color-light-green: lightgreen;
+  --color-red: crimson;
+  --color-orange: orange;
+  --color-orange-rgb: 255, 165, 0;
+  --color-light-orange: sandybrown;
+  --color-yellow: goldenrod;
+  --color-yellow-rgb: 218, 165, 32;
+  --color-light-yellow: cornsilk;
+
+  --color-background: snow;
+  --color-background-rgb: 255, 250, 250;
+  --color-header-accent: var(--color-blue);
+  --color-header-accent-lighter: var(--color-light-blue);
+  --color-header-icon: var(--color-green);
+  --color-header-icon-link: var(--color-blue);
+  --color-text: var(--color-black);
+  --color-link: var(--color-blue);
+  --color-link-dark: var(--color-light-blue);
+  --color-accent: var(--color-green);
+  --color-accent-darker: var(--color-dark-green);
+  --color-accent-lighter: var(--color-light-green);
+  --color-accent-lightest: var(--color-off-white);
+  --color-accent-alt: var(--color-brown);
+  --color-accent-alt-lighter: var(--color-light-brown);
+  --color-accent-alt-lighter-rgb: var(--color-light-brown-rgb);
+  --color-light: var(--color-gray);
+  --color-lighter: var(--color-light-gray);
+  --color-danger: var(--color-red);
+  --color-warning: var(--color-yellow);
+
+  --color-divider: var(--color-light-brown);
+  --color-dull: var(--color-gray);
+
+  --gap: 18px;
+  --grid-border: 3px solid var(--color-divider);
+
+  --color-table-accent: var(--color-gray);
+  --color-table-background: var(--color-background);
+  --color-table-header-background: var(--color-blue);
+  --color-table-header-text: var(--color-background);
+  --color-table-frame-background: var(--color-light-blue);
+  --color-table-footer-background: var(--color-light-blue);
+  --color-table-footer-color: var(--color-blue);
+  --color-table-border: var(--color-blue);
+  --color-table-text-hover: var(--color-background);
+  --color-table-divider: var(--color-blue);
+  --color-table-link: var(--color-blue);
+
+  --color-stat: var(--color-accent-alt);
+  --color-stat-label: var(--color-brown);
+  --color-stat-light: var(--color-off-white);
+}
+
+body {
+  width: 100%;
+  background-color: var(--color-background);
+  font-family: var(--sans-serif);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  border-bottom: 1px solid var(--color-link);
+}
+
+strong {
+  font-weight: bold;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+h2 {
+  font-weight: 200;
+  font-size: 36px;
+}
+
+h3 {
+  font-weight: 200;
+  font-size: 45px;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+h5 {
+  font-weight: 200;
+  font-size: 16px;
+}
+
+h6 {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+th {
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.root {
+  position: relative;
+  height: 100%;
+  background-color: var(--color-background);
+  z-index: 1;
+}
+
+.root::before,
+.root::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 360px;
+}
+
+.root::before {
+  z-index: 1;
+  background-color: var(--color-light-yellow);
+  background-image: linear-gradient(135deg, rgba(var(--color-yellow-rgb), 0.5) 25%, transparent 25%),
+                    linear-gradient(225deg, var(--color-yellow) 25%, transparent 25%),
+                    linear-gradient(45deg, var(--color-yellow) 25%, transparent 25%),
+                    linear-gradient(315deg, rgba(var(--color-yellow-rgb), 0.5) 25%, var(--color-light-yellow) 25%);
+  background-position:  50px 0,
+                        50px 0,
+                        0 0,
+                        0 0;
+  background-size: 100px 100px;
+  background-repeat: repeat;
+}
+
+.root::after {
+  z-index: 2;
+  background-image: linear-gradient(to bottom, rgba(var(--color-background-rgb), 0) 0%, rgba(var(--color-background-rgb), 1) 100%);
+}
+
+.modal-root,
+.alert-root {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body.has-modal .modal-root {
+  z-index: 2;
+}
+
+body.has-alert .alert-root {
+  z-index: 3;
+}

@@ -1,0 +1,31 @@
+name: lobby
+services:
+  web:
+    image: "node:18-bullseye"
+    user: "node"
+    working_dir: /usr/src/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/usr/src/app
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    command: "npm start"
+  db:
+    image: mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: ok
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_HOST: "%"
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_USER: ${DB_USER}
+    volumes:
+      - ./config/docker/db/init:/docker-entrypoint-initdb.d

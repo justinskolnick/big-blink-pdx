@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="<%= robots %>" />
+    <meta name="googlebot" content="<%= robots %>" />
+    <title><%= title %></title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16.png" />
+    <link rel="shortcut icon" href="/images/icons/favicon.ico" />
+    <link rel="stylesheet" href="/stylesheets/reset.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darumadrop+One" />
+  </head>
+  <body>
+    <div class="root" id="root"></div>
+  <% if (process.env.NODE_ENV === 'production') { -%>
+    <script src="/javascripts/index.min.js"></script>
+  <% } else { -%>
+    <script src="/javascripts/index.js"></script>
+  <% } -%>
+  </body>
+</html>

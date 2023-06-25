@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "es2021"
+  },
+  "include": ["app/ui/**/*"],
+  "exclude": ["node_modules"]
+}
