@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, Outlet, ScrollRestoration } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { cx, css } from '@emotion/css';
 
 import fetchFromPath from '../lib/fetch-from-path';
@@ -95,6 +96,10 @@ const App = () => {
 
   return (
     <div className={cx('global-layout', styles)}>
+      <Helmet
+        defaultTitle='The Big Blink PDX'
+        titleTemplate='%s | The Big Blink PDX'
+      />
       <AlertError />
       <AlertMessage />
       <AlertWarning />
