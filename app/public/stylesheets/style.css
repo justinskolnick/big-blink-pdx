@@ -76,7 +76,7 @@
   --color-table-divider: var(--color-blue);
   --color-table-link: var(--color-blue);
 
-  --color-stat: var(--color-accent-alt);
+  --color-stat: var(--color-black);
   --color-stat-label: var(--color-brown);
   --color-stat-light: var(--color-off-white);
 }
