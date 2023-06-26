@@ -40141,13 +40141,13 @@ var styles15 = css`
   @media screen and (min-width: 401px) {
     transform-origin: left bottom;
     transform-style: preserve-3d;
-    transition: filter 250ms ease-in-out,
-                perspective 250ms ease-in-out,
-                transform 250ms ease-in-out;
+    // transition: filter 250ms ease-in-out,
+    //             transform 250ms ease-in-out;
+    transition: filter 250ms ease-in-out;
 
     .has-modal & {
       filter: saturate(0.25);
-      transform: perspective(800px) rotateY(5deg) scale(0.95);
+      // transform: perspective(800px) rotateY(5deg) scale(0.95);
     }
   }
 
