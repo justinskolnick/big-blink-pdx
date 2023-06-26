@@ -39996,12 +39996,11 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("footer"
       "."
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("p", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("s", { children: [
-        "The code for this site is ",
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "https://en.wikipedia.org/wiki/Open-source_software", children: "open source" }),
-        ". Contribute to its development on Github."
-      ] }),
-      " Coming soon!"
+      "The code for this site is ",
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "https://en.wikipedia.org/wiki/Open-source_software", children: "open source" }),
+      ". ",
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "https://github.com/justinskolnick/big-blink-pdx", children: "Contribute to its development on Github" }),
+      "."
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h6", { children: "Privacy Policy" }),
     /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("p", { children: [

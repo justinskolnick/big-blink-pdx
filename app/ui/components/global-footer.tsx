@@ -128,7 +128,7 @@ const GlobalFooter = () => (
         Copyright &copy; 2023 by <a href='https://justinskolnick.com'>Justin Skolnick</a>.
       </p>
       <p>
-        <s>The code for this site is <a href='https://en.wikipedia.org/wiki/Open-source_software'>open source</a>. Contribute to its development on Github.</s> Coming soon!
+        The code for this site is <a href='https://en.wikipedia.org/wiki/Open-source_software'>open source</a>. <a href='https://github.com/justinskolnick/big-blink-pdx'>Contribute to its development on Github</a>.
       </p>
 
       <h6>Privacy Policy</h6>
