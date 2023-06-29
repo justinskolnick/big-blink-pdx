@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import { RootState } from '../../lib/store';
 import { selectors } from '../../reducers/entities';
@@ -38,6 +39,12 @@ const Detail = () => {
 
   return (
     <ItemDetail>
+      <Helmet>
+        <meta
+          name='description'
+          content={`Lobbying activity involving ${entity.name} according to data published by the City of Portland, Oregon`}
+        />
+      </Helmet>
       {hasIncidents && (
         <>
           <ActivityOverview>

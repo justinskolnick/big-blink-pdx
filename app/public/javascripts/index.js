@@ -54913,54 +54913,63 @@ var Detail = () => {
   const hasIncidents = Boolean(incidents);
   if (!hasEntity)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_detail_default, { children: hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(incident_activity_overview_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(stat_group_numbers_default, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(IncidentShareBox, { children: [
-            incidents.percentage,
-            "%"
+  return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(item_detail_default, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+      "meta",
+      {
+        name: "description",
+        content: `Lobbying activity involving ${entity.name} according to data published by the City of Portland, Oregon`
+      }
+    ) }),
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(incident_activity_overview_default, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(stat_group_numbers_default, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(IncidentShareBox, { children: [
+              incidents.percentage,
+              "%"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
+          (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+              incident_date_box_default,
+              {
+                title: "First appearance",
+                incident: incidents.first
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+              incident_date_box_default,
+              {
+                title: "Most recent appearance",
+                incident: incidents.last
+              }
+            )
+          ] })
         ] }),
-        (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-            incident_date_box_default,
-            {
-              title: "First appearance",
-              incident: incidents.first
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-            incident_date_box_default,
-            {
-              title: "Most recent appearance",
-              incident: incidents.last
-            }
-          )
-        ] })
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(chart_default, { label: entity.name })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(chart_default, { label: entity.name })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-      attendees_default,
-      {
-        attendees: entity.attendees,
-        entity
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
-      detail_incidents_default,
-      {
-        ids: entity.incidents?.ids,
-        filters: entity.incidents?.filters,
-        label: entity.name,
-        pagination: entity.incidents?.pagination,
-        scrollToRef,
-        ref
-      }
-    )
-  ] }) });
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+        attendees_default,
+        {
+          attendees: entity.attendees,
+          entity
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+        detail_incidents_default,
+        {
+          ids: entity.incidents?.ids,
+          filters: entity.incidents?.filters,
+          label: entity.name,
+          pagination: entity.incidents?.pagination,
+          scrollToRef,
+          ref
+        }
+      )
+    ] })
+  ] });
 };
 var detail_default = Detail;
 
@@ -55839,61 +55848,70 @@ var Detail3 = () => {
   const hasIncidents = Boolean(incidents);
   if (!hasPerson)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_detail_default, { children: hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_activity_overview_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_numbers_default, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(IncidentShareBox, { children: [
-            incidents.percentage,
-            "%"
+  return /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(item_detail_default, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+      "meta",
+      {
+        name: "description",
+        content: `Lobbying activity involving ${person.name} according to data published by the City of Portland, Oregon`
+      }
+    ) }),
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_activity_overview_default, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_numbers_default, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(IncidentShareBox, { children: [
+              incidents.percentage,
+              "%"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
+          (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+              incident_date_box_default,
+              {
+                title: "First appearance",
+                incident: incidents.first
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+              incident_date_box_default,
+              {
+                title: "Most recent appearance",
+                incident: incidents.last
+              }
+            )
+          ] })
         ] }),
-        (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-            incident_date_box_default,
-            {
-              title: "First appearance",
-              incident: incidents.first
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-            incident_date_box_default,
-            {
-              title: "Most recent appearance",
-              incident: incidents.last
-            }
-          )
-        ] })
+        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(chart_default3, { label: person.name })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(chart_default3, { label: person.name })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-      entities_default3,
-      {
-        entities: person.entities,
-        person
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-      attendees_default2,
-      {
-        attendees: person.attendees,
-        person
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-      detail_incidents_default,
-      {
-        ids: person.incidents?.ids,
-        filters: person.incidents?.filters,
-        label: person.name,
-        pagination: person.incidents?.pagination,
-        scrollToRef,
-        ref
-      }
-    )
-  ] }) });
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+        entities_default3,
+        {
+          entities: person.entities,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+        attendees_default2,
+        {
+          attendees: person.attendees,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+        detail_incidents_default,
+        {
+          ids: person.incidents?.ids,
+          filters: person.incidents?.filters,
+          label: person.name,
+          pagination: person.incidents?.pagination,
+          scrollToRef,
+          ref
+        }
+      )
+    ] })
+  ] });
 };
 var detail_default3 = Detail3;
 
