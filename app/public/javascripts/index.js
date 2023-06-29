@@ -39987,7 +39987,7 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("footer"
       /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(LinkToSources, { children: "data published by the City of Portland" }),
       " (\u201CCity\u201D). Good effort was made to represent City data with accuracy and completeness, though unintentional errors and omissions may have occurred during the import process. In the event a discrepancy is found to exist between the data represented on this site and the data published on the City of Portland\u2019s website, ",
       /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("a", { href: "mailto:help@bigblinkpdx.org", children: "please reach out" }),
-      ". Data on the City\u2019s official is to be considered for all purposes official, accurate, and complete."
+      ". Data on the City\u2019s site is to be considered for all purposes official, accurate, and complete."
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h6", { children: "License" }),
     /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("p", { children: [

@@ -120,7 +120,7 @@ const GlobalFooter = () => (
     <section className='global-footer-content'>
       <h6>About</h6>
       <p>
-        This website (“site”) was developed using <LinkToSources>data published by the City of Portland</LinkToSources> (“City”). Good effort was made to represent City data with accuracy and completeness, though unintentional errors and omissions may have occurred during the import process. In the event a discrepancy is found to exist between the data represented on this site and the data published on the City of Portland’s website, <a href='mailto:help@bigblinkpdx.org'>please reach out</a>. Data on the City’s official is to be considered for all purposes official, accurate, and complete.
+        This website (“site”) was developed using <LinkToSources>data published by the City of Portland</LinkToSources> (“City”). Good effort was made to represent City data with accuracy and completeness, though unintentional errors and omissions may have occurred during the import process. In the event a discrepancy is found to exist between the data represented on this site and the data published on the City of Portland’s website, <a href='mailto:help@bigblinkpdx.org'>please reach out</a>. Data on the City’s site is to be considered for all purposes official, accurate, and complete.
       </p>
 
       <h6>License</h6>
