@@ -1,6 +1,6 @@
 const html = 'html';
 const json = 'application/json';
-const robots = 'noindex';
+const robots = 'all';
 
 module.exports = {
   html,
