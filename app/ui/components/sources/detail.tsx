@@ -76,6 +76,11 @@ const styles = css`
   }
 `;
 
+const disclaimers = {
+  activity: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+  registration: 'Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+};
+
 const Detail = () => {
   const ref = useRef<HTMLDivElement>();
 
@@ -90,8 +95,9 @@ const Detail = () => {
 
   const label = source ? `Q${source.quarter} ${source.year}` : null;
 
+  const isActivity = source?.type === 'activity';
   const incidents = source?.incidents;
-  const hasIncidents = Boolean(incidents);
+  const hasIncidents = isActivity && Boolean(incidents);
 
   if (!hasSource) return null;
 
@@ -120,7 +126,7 @@ const Detail = () => {
           {' '}
           <a href='https://www.portland.gov/what-works-cities/making-data-publicly-accessible'>Open Data Policy</a>.
           {' '}
-          Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.
+          {disclaimers[source.type]}
         </div>
       </section>
 

@@ -47,7 +47,7 @@ const getAllQuery = (options = {}) => {
       params.push(role);
     }
 
-    clauses.push(`GROUP BY ${INCIDENT_ATTENDEES_TABLE}.person_id`);
+    clauses.push(`GROUP BY ${TABLE}.id`);
   }
 
   if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {

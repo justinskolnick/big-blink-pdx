@@ -8,6 +8,7 @@ const adaptRetrievedDate = str => dateHelper.formatDateString(str);
 
 const adaptResult = (result) => ({
   id: result.id,
+  type: result.type,
   format: result.format,
   title: result.title,
   year: result.year,
@@ -18,6 +19,8 @@ const adaptResult = (result) => ({
     total: result.total,
   },
 });
+
+const type = 'activity';
 
 const getAllQuery = (options = {}) => {
   const { includeCount = false } = options;
@@ -40,6 +43,13 @@ const getAllQuery = (options = {}) => {
 
   if (includeCount) {
     clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
+  }
+
+  clauses.push('WHERE');
+  clauses.push('type = ?');
+  params.push(type);
+
+  if (includeCount) {
     clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
   }
 
@@ -66,7 +76,8 @@ const getAtIdQuery = (id) => {
   });
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${TABLE}`);
-  clauses.push('WHERE id = ?');
+  clauses.push('WHERE');
+  clauses.push('id = ?');
   params.push(id);
 
   clauses.push('LIMIT 1');
@@ -90,8 +101,13 @@ const getIdForQuarterQuery = (quarter) => {
   clauses.push('SELECT');
   clauses.push('id');
   clauses.push(`FROM ${TABLE}`);
-  clauses.push('WHERE year = ? AND quarter = ?');
+  clauses.push('WHERE');
+  clauses.push('year = ? AND quarter = ?');
   params.push(y, q);
+
+  clauses.push('AND');
+  clauses.push('type = ?');
+  params.push(type);
 
   clauses.push('LIMIT 1');
 
@@ -108,6 +124,7 @@ const getIdForQuarter = async (quarter) => {
 const getStatsQuery = () => {
   const clauses = [];
   const columns = [];
+  const params = [];
 
   clauses.push('SELECT');
   columns.push(
@@ -120,15 +137,18 @@ const getStatsQuery = () => {
   clauses.push(columns.join(', '));
   clauses.push(`FROM ${TABLE}`);
   clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
+  clauses.push('WHERE');
+  clauses.push('type = ?');
+  params.push(type);
   clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
   clauses.push(`ORDER BY ${TABLE}.id ASC`);
 
-  return { clauses };
+  return { clauses, params };
 };
 
 const getStats = async () => {
-  const { clauses } = getStatsQuery();
-  const results = await db.getAll(clauses);
+  const { clauses, params } = getStatsQuery();
+  const results = await db.getAll(clauses, params);
 
   return results.map(result => ({
     id: result.id,
@@ -137,11 +157,24 @@ const getStats = async () => {
   }));
 };
 
-const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${TABLE}`;
+const getTotalQuery = () => {
+  const clauses = [];
+  const params = [];
+
+  clauses.push('SELECT');
+  clauses.push('COUNT(id) AS total');
+  clauses.push(`FROM ${TABLE}`);
+
+  clauses.push('WHERE');
+  clauses.push('type = ?');
+  params.push(type);
+
+  return { clauses, params };
+};
 
 const getTotal = async () => {
-  const sql = getTotalQuery();
-  const result = await db.get(sql);
+  const { clauses, params } = getTotalQuery();
+  const result = await db.get(clauses, params);
 
   return result.total;
 };

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { percentage } from '../../lib/number';
 import { RootState } from '../../lib/store';
 
-import ItemTableRow from '../item-table-row';
 import ItemTextWithIcon from '../item-text-with-icon';
 import {
   getSortByParam,
@@ -25,13 +24,9 @@ import { SortByValue } from '../../types';
 
 interface PersonItemProps {
   id: number;
-  hasPercent?: boolean;
 }
 
-export const PersonItem = ({
-  hasPercent = false,
-  id,
-}: PersonItemProps) => {
+export const PersonItem = ({ id }: PersonItemProps) => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
   const hasTotal = Boolean(person?.incidents?.total);
   const incidentTotal = useSelector(getIncidentTotal);
@@ -41,13 +36,27 @@ export const PersonItem = ({
   // todo: move percent into the response
 
   return (
-    <ItemTableRow
-      hasPercent={hasPercent}
-      name={<LinkToPerson id={person.id}>{person.name}</LinkToPerson>}
-      percent={hasPercent && hasTotal && percentage(person.incidents.total, incidentTotal)}
-      total={person.incidents?.total}
-      type={<PersonIcon person={person} />}
-    />
+    <tr>
+      <td className='cell-type'><PersonIcon person={person} /></td>
+      <td className='cell-name'>
+        {hasTotal ? (
+          <LinkToPerson id={person.id}>{person.name}</LinkToPerson>
+        ) : (
+          person.name
+        )}
+      </td>
+      {hasTotal ? (
+        <>
+          <td className='cell-total'>{person.incidents.total}</td>
+          <td className='cell-percent'>{percentage(person.incidents.total, incidentTotal)}%</td>
+        </>
+      ) : (
+        <>
+          <td className='cell-total'>-</td>
+          <td className='cell-percent'>-</td>
+        </>
+      )}
+    </tr>
   );
 };
 
@@ -101,7 +110,7 @@ const Index = () => {
         </thead>
         <tbody>
           {pageIds.map((id) => (
-            <PersonItem key={id} id={id} hasPercent />
+            <PersonItem key={id} id={id} />
           ))}
         </tbody>
       </table>

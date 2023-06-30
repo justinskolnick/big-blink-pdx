@@ -39,9 +39,24 @@ export const EntityItem = ({ id }: ItemProps) => {
   return (
     <tr>
       <td className='cell-type'><EntityIcon /></td>
-      <td className='cell-name'><strong><LinkToEntity id={entity.id}>{entity.name}</LinkToEntity></strong></td>
-      <td className='cell-total'>{entity.incidents?.total ?? '-'}</td>
-      <td className='cell-percent'>{hasTotal && `${percentage(entity.incidents.total, incidentTotal)}%`}</td>
+      <td className='cell-name'>
+        {hasTotal ? (
+          <LinkToEntity id={entity.id}>{entity.name}</LinkToEntity>
+        ) : (
+          entity.name
+        )}
+      </td>
+      {hasTotal ? (
+        <>
+          <td className='cell-total'>{entity.incidents.total}</td>
+          <td className='cell-percent'>{percentage(entity.incidents.total, incidentTotal)}%</td>
+        </>
+      ) : (
+        <>
+          <td className='cell-total'>-</td>
+          <td className='cell-percent'>-</td>
+        </>
+      )}
     </tr>
   );
 };

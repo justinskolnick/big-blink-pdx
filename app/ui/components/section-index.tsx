@@ -79,8 +79,12 @@ const styles = css`
       td {
         &.cell-name,
         &.cell-title {
-          font-weight: 600;
+          // font-weight: 600;
           font-size: 14px;
+
+          a {
+            font-weight: 600;
+          }
         }
 
         &.cell-total {

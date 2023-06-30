@@ -39,7 +39,7 @@ const getAllQuery = (options = {}) => {
 
   if (includeCount) {
     clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.entity_id = ${TABLE}.id`);
-    clauses.push(`GROUP BY ${INCIDENTS_TABLE}.entity_id`);
+    clauses.push(`GROUP BY ${TABLE}.id`);
   }
 
   if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {

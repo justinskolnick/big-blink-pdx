@@ -34,7 +34,7 @@ const OfficialsLeaderboard = () => {
         )} />
         <ItemTable hasPercent>
           {ids.map(id => (
-            <PersonItem key={id} id={id} hasPercent />
+            <PersonItem key={id} id={id} />
           ))}
         </ItemTable>
 

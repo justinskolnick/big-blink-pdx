@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment20 = 7;
+        var Fragment21 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment20:
+            case Fragment21:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment20) {
+            if (current2 === null || current2.tag !== Fragment21) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment20) {
+                  if (child.tag === Fragment21) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment20:
+            case Fragment21:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment20:
+            case Fragment21:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment20, elements, key, mode);
+          var fiber = createFiber(Fragment21, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment20 = REACT_FRAGMENT_TYPE;
+        var Fragment21 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment20;
+        exports.Fragment = Fragment21;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment20 = REACT_FRAGMENT_TYPE;
+        var Fragment21 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment20;
+        exports.Fragment = Fragment21;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -41137,8 +41137,12 @@ var styles18 = css`
       td {
         &.cell-name,
         &.cell-title {
-          font-weight: 600;
+          // font-weight: 600;
           font-size: 14px;
+
+          a {
+            font-weight: 600;
+          }
         }
 
         &.cell-total {
@@ -41235,9 +41239,17 @@ var EntityItem = ({ id }) => {
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("tr", { children: [
     /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default2, {}) }),
-    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(LinkToEntity, { id: entity.id, children: entity.name }) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-total", children: entity.incidents?.total ?? "-" }),
-    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-percent", children: hasTotal && `${percentage(entity.incidents.total, incidentTotal)}%` })
+    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-name", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(LinkToEntity, { id: entity.id, children: entity.name }) : entity.name }),
+    hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(import_jsx_runtime27.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-total", children: entity.incidents.total }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("td", { className: "cell-percent", children: [
+        percentage(entity.incidents.total, incidentTotal),
+        "%"
+      ] })
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(import_jsx_runtime27.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-total", children: "-" }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("td", { className: "cell-percent", children: "-" })
+    ] })
   ] });
 };
 var Introduction = () => /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(import_jsx_runtime27.Fragment, { children: [
@@ -41459,6 +41471,7 @@ var item_table_default = ItemTable;
 var import_jsx_runtime32 = __toESM(require_jsx_runtime());
 var ItemTableRow = ({
   hasPercent = false,
+  hasTotal = false,
   name,
   percent,
   total,
@@ -41466,10 +41479,15 @@ var ItemTableRow = ({
 }) => /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("tr", { children: [
   /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-type", children: type }),
   /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-name", children: name }),
-  /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-total", children: total ?? "-" }),
-  hasPercent && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("td", { className: "cell-percent", children: [
-    percent,
-    "%"
+  hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(import_jsx_runtime32.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-total", children: total }),
+    hasPercent && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("td", { className: "cell-percent", children: [
+      percent,
+      "%"
+    ] })
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(import_jsx_runtime32.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-total", children: "-" }),
+    hasPercent && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("td", { className: "cell-percent", children: "-" })
   ] })
 ] });
 var item_table_row_default = ItemTableRow;
@@ -55305,25 +55323,26 @@ var leaderboard_entities_default = EntitiesLeaderboard;
 
 // app/ui/components/people/index.tsx
 var import_jsx_runtime57 = __toESM(require_jsx_runtime());
-var PersonItem = ({
-  hasPercent = false,
-  id
-}) => {
+var PersonItem = ({ id }) => {
   const person = useSelector((state) => selectors3.selectById(state, id));
   const hasTotal = Boolean(person?.incidents?.total);
   const incidentTotal = useSelector(getIncidentTotal);
   if (!person)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
-    item_table_row_default,
-    {
-      hasPercent,
-      name: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(LinkToPerson, { id: person.id, children: person.name }),
-      percent: hasPercent && hasTotal && percentage(person.incidents.total, incidentTotal),
-      total: person.incidents?.total,
-      type: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(icon_default3, { person })
-    }
-  );
+  return /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(icon_default3, { person }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { className: "cell-name", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(LinkToPerson, { id: person.id, children: person.name }) : person.name }),
+    hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { className: "cell-total", children: person.incidents.total }),
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("td", { className: "cell-percent", children: [
+        percentage(person.incidents.total, incidentTotal),
+        "%"
+      ] })
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { className: "cell-total", children: "-" }),
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { className: "cell-percent", children: "-" })
+    ] })
+  ] });
 };
 var Introduction2 = () => /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
   /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("p", { children: [
@@ -55351,7 +55370,7 @@ var Index2 = () => {
           /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(SortLink, { newParams: getSortByParam("total" /* Total */), title: "Sort this list by total", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(item_text_with_icon_default, { icon: "arrow-down", after: true, children: "Total" }) }) }),
           /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-percent", children: "%" })
         ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(PersonItem, { id, hasPercent: true }, id)) })
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(PersonItem, { id }, id)) })
       ] })
     }
   );
@@ -55370,7 +55389,7 @@ var LobbyistsLeaderboard = () => {
     /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(subsection_subhead_default, { title: "Lobbyists", children: "These lobbyists are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(subsection_group_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(item_text_with_icon_default, { icon: "building", children: "Portland\u2019s most active lobbyists:" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(PersonItem, { id, hasPercent: true }, id)) }),
+      /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(LinkToPeople, { children: "View all lobbyists in the full list of people" }) }) })
     ] })
   ] });
@@ -55389,7 +55408,7 @@ var OfficialsLeaderboard = () => {
     /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(subsection_subhead_default, { title: "City Officials", children: "These Portland City officials are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(subsection_group_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_text_with_icon_default, { icon: "building", children: "Portland\u2019s most lobbied officials:" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(PersonItem, { id, hasPercent: true }, id)) }),
+      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(LinkToPeople, { children: "View all officials in the full list of people" }) }) })
     ] })
   ] });
@@ -56124,6 +56143,10 @@ var styles44 = css`
     }
   }
 `;
+var disclaimers = {
+  activity: "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
+  registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
+};
 var Detail4 = () => {
   const ref = (0, import_react40.useRef)();
   const scrollToRef = () => {
@@ -56133,8 +56156,9 @@ var Detail4 = () => {
   const source = useSelector((state) => selectors4.selectById(state, id));
   const hasSource = Boolean(source);
   const label = source ? `Q${source.quarter} ${source.year}` : null;
+  const isActivity = source?.type === "activity";
   const incidents = source?.incidents;
-  const hasIncidents = Boolean(incidents);
+  const hasIncidents = isActivity && Boolean(incidents);
   if (!hasSource)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(item_detail_default, { className: styles44, children: [
@@ -56161,7 +56185,7 @@ var Detail4 = () => {
         /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
         ".",
         " ",
-        "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded."
+        disclaimers[source.type]
       ] })
     ] }),
     hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(import_jsx_runtime74.Fragment, { children: [

@@ -1,6 +1,7 @@
 const TABLE = 'data_sources';
 const FIELDS = [
   'id',
+  'type',
   'format',
   'title',
   'year',

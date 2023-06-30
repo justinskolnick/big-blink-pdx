@@ -154,6 +154,7 @@ type DataFormatStrings = keyof typeof DataFormat;
 
 export type Source = {
   id: number;
+  type: 'activity' | 'registration';
   title: string;
   format: DataFormatStrings;
   quarter: number;

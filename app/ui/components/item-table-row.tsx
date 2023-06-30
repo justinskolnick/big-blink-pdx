@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 interface Props {
   hasPercent?: boolean;
+  hasTotal?: boolean;
   name: ReactNode | string;
   percent?: string;
   total?: ReactNode | string;
@@ -10,6 +11,7 @@ interface Props {
 
 const ItemTableRow = ({
   hasPercent = false,
+  hasTotal = false,
   name,
   percent,
   total,
@@ -18,11 +20,20 @@ const ItemTableRow = ({
   <tr>
     <td className='cell-type'>{type}</td>
     <td className='cell-name'>{name}</td>
-    <td className='cell-total'>{total ?? '-'}</td>
-    {hasPercent && (
-      <td className='cell-percent'>
-        {percent}%
-      </td>
+    {hasTotal ? (
+      <>
+        <td className='cell-total'>{total}</td>
+        {hasPercent && (
+          <td className='cell-percent'>{percent}%</td>
+        )}
+      </>
+    ) : (
+      <>
+        <td className='cell-total'>-</td>
+        {hasPercent && (
+          <td className='cell-percent'>-</td>
+        )}
+      </>
     )}
   </tr>
 );
