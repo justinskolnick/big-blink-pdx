@@ -131,6 +131,7 @@ const AffiliatedItemTable = ({
           <ItemTableRow
             key={i}
             name={<TitleCell item={item} />}
+            hasTotal={Boolean(item.total)}
             total={TotalCell ? <TotalCell item={item} /> : item.total}
             type={('person' in item) ? (
               <PersonIcon person={item.person} />

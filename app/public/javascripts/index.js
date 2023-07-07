@@ -41620,6 +41620,7 @@ var AffiliatedItemTable = ({
       item_table_row_default,
       {
         name: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(TitleCell, { item }),
+        hasTotal: Boolean(item.total),
         total: TotalCell ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(TotalCell, { item }) : item.total,
         type: "person" in item ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(icon_default3, { person: item.person }) : /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(icon_default2, {})
       },
