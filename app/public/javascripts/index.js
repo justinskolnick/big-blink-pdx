@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment21 = 7;
+        var Fragment22 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment21:
+            case Fragment22:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment21) {
+            if (current2 === null || current2.tag !== Fragment22) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment21) {
+                  if (child.tag === Fragment22) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment21:
+            case Fragment22:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment21:
+            case Fragment22:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment21, elements, key, mode);
+          var fiber = createFiber(Fragment22, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment21 = REACT_FRAGMENT_TYPE;
+        var Fragment22 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment21;
+        exports.Fragment = Fragment22;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment21 = REACT_FRAGMENT_TYPE;
+        var Fragment22 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment21;
+        exports.Fragment = Fragment22;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -54992,6 +54992,13 @@ var Detail = () => {
 };
 var detail_default = Detail;
 
+// app/ui/lib/string.ts
+var toSentence = (items, locale = "en", inclusive = true) => {
+  const type = inclusive ? "conjunction" : "disjunction";
+  const list = new Intl.ListFormat(locale, { style: "long", type });
+  return list.format(items);
+};
+
 // app/ui/components/section-header.tsx
 var import_react32 = __toESM(require_react());
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
@@ -55101,11 +55108,21 @@ var styles34 = css`
 
     h3 {
       font-size: 32px;
-      line-height: 45px;
+      line-height: 36px;
 
       a {
         color: var(--color-black);
       }
+    }
+
+    h4 {
+      font-weight: 200;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    h3 + h4 {
+      margin-top: 3px;
     }
   }
 
@@ -55181,12 +55198,14 @@ var getSectionTitle = (section, item) => {
 };
 var SectionHeader = ({
   children,
-  LinkComponent,
+  details,
   icon: icon3,
+  LinkComponent,
   title
 }) => {
   const hasLink = Boolean(LinkComponent);
   const hasSubhead = import_react32.Children.toArray(children).length > 0;
+  const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon3);
   return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(
     "header",
@@ -55201,7 +55220,10 @@ var SectionHeader = ({
         hasIcon && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: cx("section-header-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LinkComponent, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(icon_default, { name: icon3 }) }) : /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(icon_default, { name: icon3 }) }),
         /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "section-header-title", children: [
           /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LinkComponent, { "aria-label": "section-title", children: title }) : title }),
-          hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h3", { children })
+          hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_jsx_runtime50.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h3", { children }),
+            hasDetails && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h4", { children: details })
+          ] })
         ] })
       ]
     }
@@ -55218,6 +55240,11 @@ var Section = ({
   const { id } = useParams();
   const entity = useSelector((state) => selectors.selectById(state, id));
   const title = getSectionTitle(name, entity?.name);
+  const hasLocations = Boolean(entity?.locations);
+  let details;
+  if (hasLocations) {
+    details = toSentence(entity.locations.map((location2) => `${location2.city}, ${location2.region}`));
+  }
   return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("title", { children: title }) }),
     /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
@@ -55226,6 +55253,7 @@ var Section = ({
         icon: icon3,
         title: name,
         LinkComponent: LinkToEntities,
+        details,
         children: entity && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(LinkToEntity, { id: entity.id, children: entity.name })
       }
     ),

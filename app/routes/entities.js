@@ -9,6 +9,7 @@ const headers = require('../lib/headers');
 const { PER_PAGE } = require('../models/entities');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const entities = require('../services/entities');
+const antityLobbyistLocations = require('../services/entity-lobbyist-locations');
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 const sources = require('../services/sources');
@@ -89,6 +90,7 @@ router.get('/:id', async (req, res, next) => {
     let entity;
     let incidentsStats;
     let entityIncidents;
+    let entityLocations;
     let records;
     let attendees;
     let data;
@@ -100,6 +102,7 @@ router.get('/:id', async (req, res, next) => {
 
     try {
       entity = await entities.getAtId(id);
+      entityLocations = await antityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({ entityId: id, quarterSourceId, withPersonId });
       entityIncidents = await incidents.getAll({ page, perPage, entityId: id, quarterSourceId, withPersonId });
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
@@ -116,6 +119,7 @@ router.get('/:id', async (req, res, next) => {
         entity: {
           record: {
             ...entity,
+            locations: entityLocations,
             incidents: {
               records,
               filters: params,

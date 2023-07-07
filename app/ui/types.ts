@@ -89,9 +89,16 @@ type IncidentPagination = {
   pagination: Pagination;
 };
 
+type Location = {
+  id: Id;
+  city: string;
+  region: string;
+};
+
 export type Entity = Item & {
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
+  locations?: Location[];
 }
 
 export type EntityWithIncidentRecords = Entity & {

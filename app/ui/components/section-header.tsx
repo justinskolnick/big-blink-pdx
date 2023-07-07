@@ -9,6 +9,7 @@ import { LinkProps } from './links';
 
 interface Props {
   children?: ReactNode;
+  details?: ReactNode | string;
   icon?: IconName;
   title: ReactNode | string;
   LinkComponent?: ({ children, ...rest }: LinkProps) => JSX.Element;
@@ -120,11 +121,21 @@ const styles = css`
 
     h3 {
       font-size: 32px;
-      line-height: 45px;
+      line-height: 36px;
 
       a {
         color: var(--color-black);
       }
+    }
+
+    h4 {
+      font-weight: 200;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    h3 + h4 {
+      margin-top: 3px;
     }
   }
 
@@ -203,12 +214,14 @@ export const getSectionTitle = (section: string, item?: string) => {
 
 const SectionHeader = ({
   children,
-  LinkComponent,
+  details,
   icon,
+  LinkComponent,
   title,
 }: Props) => {
   const hasLink = Boolean(LinkComponent);
   const hasSubhead = Children.toArray(children).length > 0;
+  const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon);
 
   return (
@@ -241,7 +254,12 @@ const SectionHeader = ({
           title
         )}</h2>
         {hasSubhead && (
-          <h3>{children}</h3>
+          <>
+            <h3>{children}</h3>
+            {hasDetails && (
+              <h4>{details}</h4>
+            )}
+          </>
         )}
       </div>
     </header>
