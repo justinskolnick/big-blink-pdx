@@ -4,6 +4,8 @@ const { TABLE, FIELDS } = require('../models/entities');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
 const db = require('../services/db');
 
+const { SORT_ASC, SORT_DESC } = paramHelper;
+
 const adaptResults = (result) => ({
   id: result.id,
   name: result.name,
@@ -18,6 +20,7 @@ const getAllQuery = (options = {}) => {
     perPage,
     limit,
     includeCount = false,
+    sort,
     sortBy,
   } = options;
 
@@ -42,10 +45,12 @@ const getAllQuery = (options = {}) => {
     clauses.push(`GROUP BY ${TABLE}.id`);
   }
 
+  clauses.push('ORDER BY');
+
   if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {
-    clauses.push('ORDER BY total DESC');
+    clauses.push(`total ${sort || SORT_DESC}`);
   } else {
-    clauses.push(`ORDER BY ${TABLE}.name ASC`);
+    clauses.push(`${TABLE}.name ${sort || SORT_ASC}`);
   }
 
   if (page && perPage) {

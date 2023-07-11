@@ -63,13 +63,23 @@ export type IncidentsFilters = {
   with_person_id?: Id;
 };
 
-export enum SortByValue {
+export enum SortValues {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+export type SortValue = keyof typeof SortValues;
+
+export enum SortByValues {
   Name = 'name',
   Total = 'total',
 }
 
+export type SortByValue = Extract<SortByValues, string>;
+
 export type NewParams = IncidentsFilters & {
   page?: string | number;
+  sort?: SortValue;
   sort_by?: SortByValue;
 };
 

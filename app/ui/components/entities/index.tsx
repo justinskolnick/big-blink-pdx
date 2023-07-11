@@ -5,7 +5,6 @@ import { percentage } from '../../lib/number';
 import { RootState } from '../../lib/store';
 
 import EntityIcon from './icon';
-import ItemTextWithIcon from '../item-text-with-icon';
 import {
   getSortByParam,
   LinkToEntity,
@@ -21,7 +20,7 @@ import {
   getIncidentTotal
 } from '../../selectors';
 
-import { SortByValue } from '../../types';
+import { SortByValues, SortValues } from '../../types';
 
 interface ItemProps {
   id: number;
@@ -87,17 +86,21 @@ const Index = () => {
         <thead>
           <tr>
             <th className='cell-name' colSpan={2}>
-              <SortLink newParams={getSortByParam(SortByValue.Name)} title='Sort this list by name'>
-                <ItemTextWithIcon icon='arrow-up' after>
-                  Name
-                </ItemTextWithIcon>
+              <SortLink
+                newParams={getSortByParam(SortByValues.Name)}
+                defaultSort={SortValues.ASC}
+                title='Sort this list by name'
+              >
+                Name
               </SortLink>
             </th>
             <th className='cell-total'>
-              <SortLink newParams={getSortByParam(SortByValue.Total)} title='Sort this list by total'>
-                <ItemTextWithIcon icon='arrow-down' after>
-                  Total
-                </ItemTextWithIcon>
+              <SortLink
+                newParams={getSortByParam(SortByValues.Total)}
+                defaultSort={SortValues.DESC}
+                title='Sort this list by total'
+              >
+                Total
               </SortLink>
             </th>
             <th className='cell-percent'>%</th>

@@ -1,17 +1,25 @@
-import React, { MouseEvent, ReactNode } from 'react';
-import { useLocation, Link, NavLink } from 'react-router-dom';
+import React, { useEffect, useState, MouseEvent, ReactNode } from 'react';
+import { useLocation, useSearchParams, Link, NavLink } from 'react-router-dom';
 import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';
 
 import ItemTextWithIcon from './item-text-with-icon';
 
-import type { AffiliatedItem, Id, LocationState, NewParams } from '../types';
-import { SortByValue } from '../types';
+import type {
+  AffiliatedItem,
+  Id,
+  LocationState,
+  NewParams,
+  SortByValue,
+  SortValue,
+} from '../types';
+import { SortByValues, SortValues } from '../types';
 
 export interface LinkProps {
   children: ReactNode;
   className?: string;
+  defaultSort?: SortValue;
   hasIcon?: boolean;
   newParams?: NewParams;
   title?: string;
@@ -38,12 +46,13 @@ interface LinkIdProps {
 }
 
 export const quarterParam = 'quarter';
+export const sortParam = 'sort';
 export const sortByParam = 'sort_by';
 export const withEntityIdParam = 'with_entity_id';
 export const withPersonIdParam = 'with_person_id';
 
 export const getSortByParam = (value: SortByValue) => ({
-  [sortByParam]: value === SortByValue.Name ? null : value,
+  [sortByParam]: value === SortByValues.Name ? null : value,
 });
 export const getWithEntityParams = (item: AffiliatedItem) => ({
   [withEntityIdParam]: item.entity.id,
@@ -97,20 +106,67 @@ export const FilterLink = ({
   </LinkToQueryParams>
 );
 
+const toggleSort = (sort: string) =>
+  sort === SortValues.ASC
+    ? SortValues.DESC
+    : SortValues.ASC;
+const getIconNameForSort = (sort: string) =>
+  sort === SortValues.ASC
+    ? 'arrow-up'
+    : 'arrow-down';
+
 export const SortLink = ({
   children,
   className,
   title,
+  newParams,
+  defaultSort,
   ...rest
-}: LinkProps) => (
-  <LinkToQueryParams
-    className={cx('link-sort', className)}
-    title={title || 'Sort this list'}
-    {...rest}
-  >
-    {children}
-  </LinkToQueryParams>
-);
+}: LinkProps) => {
+  const [nextSort, setNextSort] = useState(defaultSort);
+  const [searchParams] = useSearchParams();
+  const queryParams = useQueryParams(newParams);
+  const hasSortBy = searchParams.has('sort_by');
+  const isDefault = newParams.sort_by === null && !hasSortBy;
+  const isSorted = newParams.sort_by !== null && hasSortBy;
+  const hasIcon = isDefault || isSorted;
+  const icon = getIconNameForSort(toggleSort(nextSort));
+
+  useEffect(() => {
+    const sortValue = searchParams.get('sort') || defaultSort;
+
+    if (queryParams.isCurrent) {
+      setNextSort(toggleSort(sortValue));
+    }
+  }, [
+    queryParams,
+    searchParams,
+    defaultSort,
+    setNextSort,
+  ]);
+
+  if (queryParams.isCurrent) {
+    newParams.sort = nextSort === defaultSort ? null : nextSort;
+  }
+
+  return (
+    <LinkToQueryParams
+      className={cx('link-sort', className)}
+      title={title || 'Sort this list'}
+      newParams={newParams}
+      {...rest}
+    >
+      {hasIcon ? (
+        <ItemTextWithIcon
+          icon={icon}
+          after
+        >
+          {children}
+        </ItemTextWithIcon>
+      ) : (children)}
+    </LinkToQueryParams>
+  );
+};
 
 export const GlobalLink = ({ children, to, ...rest }: LinkToProps) => (
   <NavLink

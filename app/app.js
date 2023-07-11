@@ -66,6 +66,15 @@ app.use('/', (req, res, next) => {
     }
   }
 
+  if (req.query.has('sort')) {
+    const value = req.query.get('sort');
+
+    if (!paramHelper.hasSort(value)) {
+      req.query.delete('sort');
+      next(createError(422, paramHelper.getInvalidValueMessage('sort', value)));
+    }
+  }
+
   if (req.query.has('sort_by')) {
     const value = req.query.get('sort_by');
 

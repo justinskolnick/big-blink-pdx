@@ -24,6 +24,7 @@ const view = {
 router.get('/', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const page = req.query.get('page') || 1;
+    const sort = req.query.get('sort');
     const sortBy = req.query.get('sort_by');
 
     const params = {};
@@ -40,10 +41,14 @@ router.get('/', async (req, res, next) => {
         page,
         perPage,
         includeCount: true,
+        sort,
         sortBy,
       });
       entityTotal = await entities.getTotal();
 
+      if (paramHelper.hasSort(sort)) {
+        params.sort = paramHelper.getSort(sort);
+      }
       if (paramHelper.hasSortBy(sortBy)) {
         params.sort_by = paramHelper.getSortBy(sortBy); // eslint-disable-line camelcase
       }

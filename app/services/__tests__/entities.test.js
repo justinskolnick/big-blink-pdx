@@ -13,7 +13,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'entities.id, entities.name',
           'FROM entities',
-          'ORDER BY entities.name ASC',
+          'ORDER BY',
+          'entities.name ASC',
         ],
         params: [],
       });
@@ -27,7 +28,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'entities.id, entities.name',
           'FROM entities',
-          'ORDER BY entities.name ASC',
+          'ORDER BY',
+          'entities.name ASC',
         ],
         params: [],
       });
@@ -40,7 +42,8 @@ describe('getAllQuery()', () => {
             'SELECT',
             'entities.id, entities.name',
             'FROM entities',
-            'ORDER BY entities.name ASC',
+            'ORDER BY',
+            'entities.name ASC',
             'LIMIT ?,?',
           ],
           params: [45, 15],
@@ -56,7 +59,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'entities.id, entities.name',
           'FROM entities',
-          'ORDER BY entities.name ASC',
+          'ORDER BY',
+          'entities.name ASC',
           'LIMIT ?,?',
         ],
         params: [0, 5],
@@ -73,27 +77,52 @@ describe('getAllQuery()', () => {
           'FROM entities',
           'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'GROUP BY entities.id',
-          'ORDER BY entities.name ASC',
+          'ORDER BY',
+          'entities.name ASC',
         ],
         params: [],
       });
     });
 
-    describe('and a sort column', () => {
-      test('returns the expected SQL', () => {
-        expect(getAllQuery({
-          includeCount: true,
-          sortBy: paramHelper.SORT_BY_TOTAL,
-        })).toEqual({
-          clauses: [
-            'SELECT',
-            'entities.id, entities.name, COUNT(incidents.id) AS total',
-            'FROM entities',
-            'LEFT JOIN incidents ON incidents.entity_id = entities.id',
-            'GROUP BY entities.id',
-            'ORDER BY total DESC',
-          ],
-          params: [],
+    describe('and sorting', () => {
+      describe('with sort_by', () => {
+        test('returns the expected SQL', () => {
+          expect(getAllQuery({
+            includeCount: true,
+            sortBy: paramHelper.SORT_BY_TOTAL,
+          })).toEqual({
+            clauses: [
+              'SELECT',
+              'entities.id, entities.name, COUNT(incidents.id) AS total',
+              'FROM entities',
+              'LEFT JOIN incidents ON incidents.entity_id = entities.id',
+              'GROUP BY entities.id',
+              'ORDER BY',
+              'total DESC',
+            ],
+            params: [],
+          });
+        });
+      });
+
+      describe('with sort_by and sort', () => {
+        test('returns the expected SQL', () => {
+          expect(getAllQuery({
+            includeCount: true,
+            sort: paramHelper.SORT_DESC,
+            sortBy: paramHelper.SORT_BY_NAME,
+          })).toEqual({
+            clauses: [
+              'SELECT',
+              'entities.id, entities.name, COUNT(incidents.id) AS total',
+              'FROM entities',
+              'LEFT JOIN incidents ON incidents.entity_id = entities.id',
+              'GROUP BY entities.id',
+              'ORDER BY',
+              'entities.name DESC',
+            ],
+            params: [],
+          });
         });
       });
     });

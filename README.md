@@ -37,7 +37,6 @@ Once the containers are running, pop open a web browser and navigate to `http://
 ## Ongoing Development
 
 ### Next steps
-  - Add `sort` (`ASC`/`DESC`) param and toggle
   - Add contextual date range filters
   - Add support for translations
   - Fix pagination link groupings

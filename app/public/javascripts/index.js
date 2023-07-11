@@ -1088,7 +1088,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState14(initialState3) {
+        function useState15(initialState3) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useState(initialState3);
         }
@@ -1100,7 +1100,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect25(create, deps) {
+        function useEffect26(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1882,7 +1882,7 @@ var require_react_development = __commonJS({
         exports.useContext = useContext5;
         exports.useDebugValue = useDebugValue2;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect25;
+        exports.useEffect = useEffect26;
         exports.useId = useId;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
@@ -1890,7 +1890,7 @@ var require_react_development = __commonJS({
         exports.useMemo = useMemo5;
         exports.useReducer = useReducer;
         exports.useRef = useRef24;
-        exports.useState = useState14;
+        exports.useState = useState15;
         exports.useSyncExternalStore = useSyncExternalStore3;
         exports.useTransition = useTransition;
         exports.version = ReactVersion2;
@@ -2386,9 +2386,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React37 = require_react();
+        var React38 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React37.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3993,7 +3993,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React37.Children.forEach(props.children, function(child) {
+                React38.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -12440,7 +12440,7 @@ var require_react_dom_development = __commonJS({
           }
         }
         var fakeInternalInstance = {};
-        var emptyRefsObject = new React37.Component().refs;
+        var emptyRefsObject = new React38.Component().refs;
         var didWarnAboutStateAssignmentForComponent;
         var didWarnAboutUninitializedState;
         var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -23521,8 +23521,8 @@ var require_use_sync_external_store_shim_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React37 = require_react();
-        var ReactSharedInternals = React37.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var React38 = require_react();
+        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -23552,13 +23552,13 @@ var require_use_sync_external_store_shim_development = __commonJS({
           return x2 === y2 && (x2 !== 0 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is;
-        var useState14 = React37.useState, useEffect25 = React37.useEffect, useLayoutEffect4 = React37.useLayoutEffect, useDebugValue2 = React37.useDebugValue;
+        var useState15 = React38.useState, useEffect26 = React38.useEffect, useLayoutEffect4 = React38.useLayoutEffect, useDebugValue2 = React38.useDebugValue;
         var didWarnOld18Alpha = false;
         var didWarnUncachedGetSnapshot = false;
         function useSyncExternalStore3(subscribe, getSnapshot, getServerSnapshot) {
           {
             if (!didWarnOld18Alpha) {
-              if (React37.startTransition !== void 0) {
+              if (React38.startTransition !== void 0) {
                 didWarnOld18Alpha = true;
                 error("You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release.");
               }
@@ -23574,7 +23574,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
               }
             }
           }
-          var _useState = useState14({
+          var _useState = useState15({
             inst: {
               value,
               getSnapshot
@@ -23589,7 +23589,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
               });
             }
           }, [subscribe, value, getSnapshot]);
-          useEffect25(function() {
+          useEffect26(function() {
             if (checkIfSnapshotChanged(inst)) {
               forceUpdate({
                 inst
@@ -23623,7 +23623,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         var canUseDOM2 = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
         var isServerEnvironment = !canUseDOM2;
         var shim = isServerEnvironment ? useSyncExternalStore$1 : useSyncExternalStore3;
-        var useSyncExternalStore$2 = React37.useSyncExternalStore !== void 0 ? React37.useSyncExternalStore : shim;
+        var useSyncExternalStore$2 = React38.useSyncExternalStore !== void 0 ? React38.useSyncExternalStore : shim;
         exports.useSyncExternalStore = useSyncExternalStore$2;
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
@@ -23655,14 +23655,14 @@ var require_with_selector_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React37 = require_react();
+        var React38 = require_react();
         var shim = require_shim();
         function is(x2, y2) {
           return x2 === y2 && (x2 !== 0 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is;
         var useSyncExternalStore3 = shim.useSyncExternalStore;
-        var useRef24 = React37.useRef, useEffect25 = React37.useEffect, useMemo5 = React37.useMemo, useDebugValue2 = React37.useDebugValue;
+        var useRef24 = React38.useRef, useEffect26 = React38.useEffect, useMemo5 = React38.useMemo, useDebugValue2 = React38.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef24(null);
           var inst;
@@ -23719,7 +23719,7 @@ var require_with_selector_development = __commonJS({
             return [getSnapshotWithSelector, getServerSnapshotWithSelector];
           }, [getSnapshot, getServerSnapshot, selector, isEqual2]), getSelection = _useMemo[0], getServerSelection = _useMemo[1];
           var value = useSyncExternalStore3(subscribe, getSelection, getServerSelection);
-          useEffect25(function() {
+          useEffect26(function() {
             inst.hasValue = true;
             inst.value = value;
           }, [value]);
@@ -24813,7 +24813,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React37 = require_react();
+        var React38 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -24839,7 +24839,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React37.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -25703,8 +25703,8 @@ var require_lib = __commonJS({
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
     }
-    var React37 = require_react();
-    var React__default = _interopDefault(React37);
+    var React38 = require_react();
+    var React__default = _interopDefault(React38);
     function _defineProperty4(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -25787,7 +25787,7 @@ var require_lib = __commonJS({
             return React__default.createElement(WrappedComponent, this.props);
           };
           return SideEffect2;
-        }(React37.PureComponent);
+        }(React38.PureComponent);
         _defineProperty4(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
         _defineProperty4(SideEffect, "canUseDOM", canUseDOM2);
         return SideEffect;
@@ -38672,7 +38672,7 @@ var AlertError = () => {
 var alert_error_default = AlertError;
 
 // app/ui/components/app.tsx
-var import_react21 = __toESM(require_react());
+var import_react22 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
@@ -39735,6 +39735,9 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { classNam
 ] });
 var eyes_default = Eyes;
 
+// app/ui/components/links.tsx
+var import_react18 = __toESM(require_react());
+
 // app/ui/lib/links.ts
 var isCurrent = (location2, newSearch) => {
   const { pathname, search } = location2;
@@ -39759,6 +39762,8 @@ var getQueryParams = (location2, newParams, replace4 = true) => {
       pathname,
       search: newSearch
     },
+    get: (param) => searchParams.get(param),
+    has: (param) => searchParams.has(param),
     isCurrent: isCurrent(location2, newSearch)
   };
 };
@@ -39820,20 +39825,56 @@ var FilterLink = ({
     children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(item_text_with_icon_default, { icon: "filter", children }) : children
   }
 );
+var toggleSort = (sort) => sort === "ASC" /* ASC */ ? "DESC" /* DESC */ : "ASC" /* ASC */;
+var getIconNameForSort = (sort) => sort === "ASC" /* ASC */ ? "arrow-up" : "arrow-down";
 var SortLink = ({
   children,
   className,
   title,
+  newParams,
+  defaultSort,
   ...rest
-}) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
-  LinkToQueryParams,
-  {
-    className: cx("link-sort", className),
-    title: title || "Sort this list",
-    ...rest,
-    children
+}) => {
+  const [nextSort, setNextSort] = (0, import_react18.useState)(defaultSort);
+  const [searchParams] = useSearchParams();
+  const queryParams = useQueryParams(newParams);
+  const hasSortBy = searchParams.has("sort_by");
+  const isDefault = newParams.sort_by === null && !hasSortBy;
+  const isSorted = newParams.sort_by !== null && hasSortBy;
+  const hasIcon = isDefault || isSorted;
+  const icon3 = getIconNameForSort(toggleSort(nextSort));
+  (0, import_react18.useEffect)(() => {
+    const sortValue = searchParams.get("sort") || defaultSort;
+    if (queryParams.isCurrent) {
+      setNextSort(toggleSort(sortValue));
+    }
+  }, [
+    queryParams,
+    searchParams,
+    defaultSort,
+    setNextSort
+  ]);
+  if (queryParams.isCurrent) {
+    newParams.sort = nextSort === defaultSort ? null : nextSort;
   }
-);
+  return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+    LinkToQueryParams,
+    {
+      className: cx("link-sort", className),
+      title: title || "Sort this list",
+      newParams,
+      ...rest,
+      children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
+        item_text_with_icon_default,
+        {
+          icon: icon3,
+          after: true,
+          children
+        }
+      ) : children
+    }
+  );
+};
 var GlobalLink = ({ children, to: to2, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
   NavLink,
   {
@@ -40019,10 +40060,10 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("footer"
 var global_footer_default = GlobalFooter;
 
 // app/ui/components/global-header.tsx
-var import_react19 = __toESM(require_react());
+var import_react20 = __toESM(require_react());
 
 // app/ui/components/incident-modal.tsx
-var import_react18 = __toESM(require_react());
+var import_react19 = __toESM(require_react());
 
 // app/ui/components/item-description.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
@@ -40505,11 +40546,11 @@ var styles13 = css`
   }
 `;
 var IncidentModal = ({ deactivate, id, isActive }) => {
-  const fetched = (0, import_react18.useRef)(false);
+  const fetched = (0, import_react19.useRef)(false);
   const location2 = useLocation();
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
-  (0, import_react18.useEffect)(() => {
+  (0, import_react19.useEffect)(() => {
     if (incident && incident.attendees)
       return;
     if (!fetched.current) {
@@ -40744,8 +40785,8 @@ var DateRangeNote = () => {
 };
 var GlobalHeader = () => {
   const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = (0, import_react19.useState)(pathname);
-  const [selectedId, setSelectedId] = (0, import_react19.useState)();
+  const [savedPathname, setSavedPathname] = (0, import_react20.useState)(pathname);
+  const [selectedId, setSelectedId] = (0, import_react20.useState)();
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
@@ -40760,10 +40801,10 @@ var GlobalHeader = () => {
       setSelectedId(Number(event.target.dataset.id));
     }
   };
-  (0, import_react19.useEffect)(() => {
+  (0, import_react20.useEffect)(() => {
     setSavedPathname(pathname);
   }, [setSavedPathname, pathname]);
-  (0, import_react19.useEffect)(() => {
+  (0, import_react20.useEffect)(() => {
     if (pathname !== savedPathname) {
       setSelectedId(null);
     }
@@ -40819,11 +40860,11 @@ var GlobalHeader = () => {
 var global_header_default = GlobalHeader;
 
 // app/ui/hooks/use-capture-scroll-position.ts
-var import_react20 = __toESM(require_react());
+var import_react21 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
   const dispatch = useDispatch();
-  const [scrollPos, setScrollPos] = (0, import_react20.useState)(0);
+  const [scrollPos, setScrollPos] = (0, import_react21.useState)(0);
   const handleScroll = () => {
     setScrollPos(Number(window.scrollY) * -1);
     if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -40831,13 +40872,13 @@ var useCaptureScrollPosition = (classNames = []) => {
     }
   };
   const debounced = (0, import_debounce.debounce)(handleScroll, 400);
-  (0, import_react20.useEffect)(() => {
+  (0, import_react21.useEffect)(() => {
     window.addEventListener("scroll", debounced);
     return () => {
       window.removeEventListener("scroll", debounced);
     };
   }, [debounced]);
-  (0, import_react20.useEffect)(() => {
+  (0, import_react21.useEffect)(() => {
     dispatch(actions2.setPositionY(scrollPos));
   }, [dispatch, scrollPos]);
 };
@@ -40905,11 +40946,11 @@ var styles15 = css`
   }
 `;
 var App = () => {
-  const initiated = (0, import_react21.useRef)(false);
+  const initiated = (0, import_react22.useRef)(false);
   const location2 = useLocation();
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     const { pathname, search } = location2;
     if (!initiated.current) {
       fetch_from_path_default("/overview");
@@ -40945,7 +40986,7 @@ var EntityIcon = () => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(icon_defaul
 var icon_default2 = EntityIcon;
 
 // app/ui/components/loading.tsx
-var import_react22 = __toESM(require_react());
+var import_react23 = __toESM(require_react());
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var styles16 = css`
   padding: 18px 0;
@@ -40954,8 +40995,8 @@ var styles16 = css`
   text-align: center;
 `;
 var Loading = () => {
-  const timedOut = (0, import_react22.useRef)(false);
-  (0, import_react22.useEffect)(() => {
+  const timedOut = (0, import_react23.useRef)(false);
+  (0, import_react23.useEffect)(() => {
     if (!timedOut.current) {
       setTimeout(() => {
         timedOut.current = true;
@@ -41272,8 +41313,24 @@ var Index = () => {
       isLoading: !hasPageIds,
       children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("table", { className: "section-index-list", cellPadding: "0", cellSpacing: "0", children: [
         /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("tr", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(SortLink, { newParams: getSortByParam("name" /* Name */), title: "Sort this list by name", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_text_with_icon_default, { icon: "arrow-up", after: true, children: "Name" }) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(SortLink, { newParams: getSortByParam("total" /* Total */), title: "Sort this list by total", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_text_with_icon_default, { icon: "arrow-down", after: true, children: "Total" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+            SortLink,
+            {
+              newParams: getSortByParam("name" /* Name */),
+              defaultSort: "ASC" /* ASC */,
+              title: "Sort this list by name",
+              children: "Name"
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
+            SortLink,
+            {
+              newParams: getSortByParam("total" /* Total */),
+              defaultSort: "DESC" /* DESC */,
+              title: "Sort this list by total",
+              children: "Total"
+            }
+          ) }),
           /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-percent", children: "%" })
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(EntityItem, { id }, id)) })
@@ -41284,7 +41341,7 @@ var Index = () => {
 var entities_default2 = Index;
 
 // app/ui/components/entities/detail.tsx
-var import_react31 = __toESM(require_react());
+var import_react32 = __toESM(require_react());
 
 // app/ui/components/subsection-subhead.tsx
 var import_jsx_runtime28 = __toESM(require_jsx_runtime());
@@ -41387,10 +41444,10 @@ var ActivityOverview = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime3
 var incident_activity_overview_default = ActivityOverview;
 
 // app/ui/components/entities/attendees.tsx
-var import_react24 = __toESM(require_react());
+var import_react25 = __toESM(require_react());
 
 // app/ui/components/affiliated-item-table.tsx
-var import_react23 = __toESM(require_react());
+var import_react24 = __toESM(require_react());
 
 // app/ui/components/item-table.tsx
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
@@ -41604,8 +41661,8 @@ var AffiliatedItemTable = ({
   TotalCell,
   label
 }) => {
-  const ref = (0, import_react23.useRef)();
-  const [showAll, setShowAll] = (0, import_react23.useState)(false);
+  const ref = (0, import_react24.useRef)();
+  const [showAll, setShowAll] = (0, import_react24.useState)(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
   const hasMoreToShow = affiliatedItems.length > initialCount;
@@ -41730,9 +41787,9 @@ var Attendees2 = ({
   attendees,
   entity
 }) => {
-  const fetched = (0, import_react24.useRef)(false);
+  const fetched = (0, import_react25.useRef)(false);
   const location2 = useLocation();
-  (0, import_react24.useEffect)(() => {
+  (0, import_react25.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -41774,10 +41831,10 @@ var Attendees2 = ({
 var attendees_default = Attendees2;
 
 // app/ui/components/entities/chart.tsx
-var import_react27 = __toESM(require_react());
+var import_react28 = __toESM(require_react());
 
 // app/ui/components/item-chart.tsx
-var import_react26 = __toESM(require_react());
+var import_react27 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
 function round(v2) {
@@ -54010,7 +54067,7 @@ __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
 // node_modules/react-chartjs-2/dist/index.js
-var import_react25 = __toESM(require_react(), 1);
+var import_react26 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
   if (typeof ref === "function") {
@@ -54055,8 +54112,8 @@ function cloneData(data) {
 }
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins2 = [], fallbackContent, updateMode, ...canvasProps } = props;
-  const canvasRef = (0, import_react25.useRef)(null);
-  const chartRef = (0, import_react25.useRef)();
+  const canvasRef = (0, import_react26.useRef)(null);
+  const chartRef = (0, import_react26.useRef)();
   const renderChart = () => {
     if (!canvasRef.current)
       return;
@@ -54077,7 +54134,7 @@ function ChartComponent(props, ref) {
       chartRef.current = null;
     }
   };
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     if (!redraw && chartRef.current && options2) {
       setOptions(chartRef.current, options2);
     }
@@ -54085,7 +54142,7 @@ function ChartComponent(props, ref) {
     redraw,
     options2
   ]);
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     if (!redraw && chartRef.current) {
       setLabels(chartRef.current.config.data, data.labels);
     }
@@ -54093,7 +54150,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.labels
   ]);
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     if (!redraw && chartRef.current && data.datasets) {
       setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
     }
@@ -54101,7 +54158,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.datasets
   ]);
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     if (!chartRef.current)
       return;
     if (redraw) {
@@ -54117,7 +54174,7 @@ function ChartComponent(props, ref) {
     data.datasets,
     updateMode
   ]);
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     if (!chartRef.current)
       return;
     destroyChart();
@@ -54125,21 +54182,21 @@ function ChartComponent(props, ref) {
   }, [
     type
   ]);
-  (0, import_react25.useEffect)(() => {
+  (0, import_react26.useEffect)(() => {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react25.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react26.default.createElement("canvas", Object.assign({
     ref: canvasRef,
     role: "img",
     height,
     width
   }, canvasProps), fallbackContent);
 }
-var Chart2 = /* @__PURE__ */ (0, import_react25.forwardRef)(ChartComponent);
+var Chart2 = /* @__PURE__ */ (0, import_react26.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react25.forwardRef)((props, ref) => /* @__PURE__ */ import_react25.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react26.forwardRef)((props, ref) => /* @__PURE__ */ import_react26.default.createElement(Chart2, Object.assign({}, props, {
     ref,
     type
   })));
@@ -54205,7 +54262,7 @@ var options = {
 var itemColorStatic = "olivedrab";
 var itemColorLink = "cornflowerblue";
 var ItemChart = ({ handleClick, label, lineProps }) => {
-  const [hasLineLabel, setHasLineLabel] = (0, import_react26.useState)(false);
+  const [hasLineLabel, setHasLineLabel] = (0, import_react27.useState)(false);
   const sources = useSelector(getSourcesDataForChart);
   const sourceData = {
     id: "sources",
@@ -54252,7 +54309,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
     };
   }
   options.plugins.legend.display = hasDatasets && hasLineLabel;
-  (0, import_react26.useEffect)(() => {
+  (0, import_react27.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
   return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "item-overview-chart", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(
@@ -54281,13 +54338,13 @@ var styles25 = css`
   }
 `;
 var Chart3 = ({ label }) => {
-  const fetched = (0, import_react27.useRef)(false);
+  const fetched = (0, import_react28.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react27.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react28.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const lineProps = {
@@ -54297,14 +54354,14 @@ var Chart3 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react27.useEffect)(() => {
+  (0, import_react28.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, location2]);
-  (0, import_react27.useEffect)(() => {
+  (0, import_react28.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -54317,7 +54374,7 @@ var Chart3 = ({ label }) => {
 var chart_default = Chart3;
 
 // app/ui/components/detail-incidents.tsx
-var import_react29 = __toESM(require_react());
+var import_react30 = __toESM(require_react());
 
 // app/ui/components/incidents-header.tsx
 var import_jsx_runtime40 = __toESM(require_jsx_runtime());
@@ -54386,7 +54443,7 @@ var IncidentsHeader = ({
 var incidents_header_default = IncidentsHeader;
 
 // app/ui/components/incident-list-table.tsx
-var import_react28 = __toESM(require_react());
+var import_react29 = __toESM(require_react());
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 var styles27 = css`
   position: relative;
@@ -54546,7 +54603,7 @@ var styles27 = css`
   }
 `;
 var IncidentRow = ({ id }) => {
-  const [isSelected, setIsSelected] = (0, import_react28.useState)(false);
+  const [isSelected, setIsSelected] = (0, import_react29.useState)(false);
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
   const deactivate = () => setIsSelected(false);
@@ -54685,7 +54742,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
     }
   );
 };
-var DetailIncidents = (0, import_react29.forwardRef)(({
+var DetailIncidents = (0, import_react30.forwardRef)(({
   filters,
   ids,
   label,
@@ -54694,9 +54751,9 @@ var DetailIncidents = (0, import_react29.forwardRef)(({
 }, ref) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
-  const idsRef = (0, import_react29.useRef)(null);
-  const paramsStringRef = (0, import_react29.useRef)(null);
-  (0, import_react29.useEffect)(() => {
+  const idsRef = (0, import_react30.useRef)(null);
+  const paramsStringRef = (0, import_react30.useRef)(null);
+  (0, import_react30.useEffect)(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
       idsRef.current = ids;
       if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -54727,13 +54784,13 @@ DetailIncidents.displayName = "DetailIncidents";
 var detail_incidents_default = DetailIncidents;
 
 // app/ui/components/incident-date-box.tsx
-var import_react30 = __toESM(require_react());
+var import_react31 = __toESM(require_react());
 var import_jsx_runtime44 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({
   incident,
   title
 }) => {
-  const [isActive, setIsActive] = (0, import_react30.useState)(false);
+  const [isActive, setIsActive] = (0, import_react31.useState)(false);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
     event.preventDefault();
@@ -54921,7 +54978,7 @@ var stat_group_numbers_default = NumbersGroup;
 // app/ui/components/entities/detail.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 var Detail = () => {
-  const ref = (0, import_react31.useRef)();
+  const ref = (0, import_react32.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55000,7 +55057,7 @@ var toSentence = (items, locale = "en", inclusive = true) => {
 };
 
 // app/ui/components/section-header.tsx
-var import_react32 = __toESM(require_react());
+var import_react33 = __toESM(require_react());
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
 var styles34 = css`
   display: flex;
@@ -55204,7 +55261,7 @@ var SectionHeader = ({
   title
 }) => {
   const hasLink = Boolean(LinkComponent);
-  const hasSubhead = import_react32.Children.toArray(children).length > 0;
+  const hasSubhead = import_react33.Children.toArray(children).length > 0;
   const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon3);
   return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(
@@ -55395,8 +55452,24 @@ var Index2 = () => {
       isLoading: !hasPageIds,
       children: /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("table", { className: "section-index-list", cellPadding: "0", cellSpacing: "0", children: [
         /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("tr", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(SortLink, { newParams: getSortByParam("name" /* Name */), title: "Sort this list by name", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(item_text_with_icon_default, { icon: "arrow-up", after: true, children: "Name" }) }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(SortLink, { newParams: getSortByParam("total" /* Total */), title: "Sort this list by total", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(item_text_with_icon_default, { icon: "arrow-down", after: true, children: "Total" }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+            SortLink,
+            {
+              newParams: getSortByParam("name" /* Name */),
+              defaultSort: "ASC" /* ASC */,
+              title: "Sort this list by name",
+              children: "Name"
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+            SortLink,
+            {
+              newParams: getSortByParam("total" /* Total */),
+              defaultSort: "DESC" /* DESC */,
+              title: "Sort this list by total",
+              children: "Total"
+            }
+          ) }),
           /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-percent", children: "%" })
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(PersonItem, { id }, id)) })
@@ -55507,7 +55580,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { classNa
 var home_default = Home;
 
 // app/ui/components/incidents/index.tsx
-var import_react33 = __toESM(require_react());
+var import_react34 = __toESM(require_react());
 var import_jsx_runtime62 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("p", { children: [
   "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55517,7 +55590,7 @@ var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("p", { 
   "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
 ] });
 var Index3 = () => {
-  const ref = (0, import_react33.useRef)();
+  const ref = (0, import_react34.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55536,17 +55609,17 @@ var Index3 = () => {
 var incidents_default2 = Index3;
 
 // app/ui/components/incident-source-box.tsx
-var import_react34 = __toESM(require_react());
+var import_react35 = __toESM(require_react());
 var import_jsx_runtime63 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
   incident,
   title
 }) => {
-  const fetched = (0, import_react34.useRef)(false);
+  const fetched = (0, import_react35.useRef)(false);
   const location2 = useLocation();
   const id = incident?.sourceId;
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react34.useEffect)(() => {
+  (0, import_react35.useEffect)(() => {
     if (source || !id)
       return;
     if (!fetched.current) {
@@ -55686,16 +55759,16 @@ var Section3 = ({
 var section_default3 = Section3;
 
 // app/ui/components/people/detail.tsx
-var import_react38 = __toESM(require_react());
+var import_react39 = __toESM(require_react());
 
 // app/ui/components/people/attendees.tsx
-var import_react35 = __toESM(require_react());
+var import_react36 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
   attendees,
   person
 }) => {
-  const fetched = (0, import_react35.useRef)(false);
+  const fetched = (0, import_react36.useRef)(false);
   const location2 = useLocation();
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
@@ -55711,7 +55784,7 @@ var Attendees3 = ({
     roles.push("was lobbied by a number of lobbyists as a City of Portland official");
   }
   description.push(roles.join(" and "));
-  (0, import_react35.useEffect)(() => {
+  (0, import_react36.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -55779,7 +55852,7 @@ var Attendees3 = ({
 var attendees_default2 = Attendees3;
 
 // app/ui/components/people/chart.tsx
-var import_react36 = __toESM(require_react());
+var import_react37 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var styles40 = css`
   .item-overview-chart {
@@ -55794,13 +55867,13 @@ var styles40 = css`
   }
 `;
 var Chart5 = ({ label }) => {
-  const fetched = (0, import_react36.useRef)(false);
+  const fetched = (0, import_react37.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react36.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react37.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
   const lineProps = {
@@ -55810,14 +55883,14 @@ var Chart5 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react36.useEffect)(() => {
+  (0, import_react37.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, location2]);
-  (0, import_react36.useEffect)(() => {
+  (0, import_react37.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -55830,14 +55903,14 @@ var Chart5 = ({ label }) => {
 var chart_default3 = Chart5;
 
 // app/ui/components/people/entities.tsx
-var import_react37 = __toESM(require_react());
+var import_react38 = __toESM(require_react());
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
-  const fetched = (0, import_react37.useRef)(false);
+  const fetched = (0, import_react38.useRef)(false);
   const location2 = useLocation();
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
-  (0, import_react37.useEffect)(() => {
+  (0, import_react38.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
@@ -55885,7 +55958,7 @@ var entities_default3 = Entities;
 // app/ui/components/people/detail.tsx
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
-  const ref = (0, import_react38.useRef)();
+  const ref = (0, import_react39.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55989,7 +56062,7 @@ var Section4 = ({
 var section_default4 = Section4;
 
 // app/ui/components/sources/item.tsx
-var import_react39 = __toESM(require_react());
+var import_react40 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var styles41 = css`
   display: flex;
@@ -56033,10 +56106,10 @@ var styles41 = css`
   }
 `;
 var Source = ({ id }) => {
-  const fetched = (0, import_react39.useRef)(false);
+  const fetched = (0, import_react40.useRef)(false);
   const location2 = useLocation();
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react39.useEffect)(() => {
+  (0, import_react40.useEffect)(() => {
     if (source)
       return;
     if (!fetched.current) {
@@ -56099,7 +56172,7 @@ var Index4 = () => {
 var sources_default2 = Index4;
 
 // app/ui/components/sources/detail.tsx
-var import_react40 = __toESM(require_react());
+var import_react41 = __toESM(require_react());
 
 // app/ui/components/sources/chart.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
@@ -56177,7 +56250,7 @@ var disclaimers = {
   registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
 };
 var Detail4 = () => {
-  const ref = (0, import_react40.useRef)();
+  const ref = (0, import_react41.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };

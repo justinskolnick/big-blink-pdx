@@ -13,7 +13,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'people.id, people.type, people.name',
           'FROM people',
-          'ORDER BY people.family ASC, people.given ASC',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
         ],
         params: [],
       });
@@ -27,7 +28,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'people.id, people.type, people.name',
           'FROM people',
-          'ORDER BY people.family ASC, people.given ASC',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
         ],
         params: [],
       });
@@ -40,7 +42,8 @@ describe('getAllQuery()', () => {
             'SELECT',
             'people.id, people.type, people.name',
             'FROM people',
-            'ORDER BY people.family ASC, people.given ASC',
+            'ORDER BY',
+            'people.family ASC, people.given ASC',
             'LIMIT ?,?',
           ],
           params: [45, 15],
@@ -59,28 +62,54 @@ describe('getAllQuery()', () => {
           'LEFT JOIN incident_attendees',
           'ON incident_attendees.person_id = people.id',
           'GROUP BY people.id',
-          'ORDER BY people.family ASC, people.given ASC',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
         ],
         params: [],
       });
     });
 
-    describe('and a sort column', () => {
-      test('returns the expected SQL', () => {
-        expect(getAllQuery({
-          includeCount: true,
-          sortBy: paramHelper.SORT_BY_TOTAL,
-        })).toEqual({
-          clauses: [
-            'SELECT',
-            'people.id, people.type, people.name, COUNT(incident_attendees.id) AS total',
-            'FROM people',
-            'LEFT JOIN incident_attendees',
-            'ON incident_attendees.person_id = people.id',
-            'GROUP BY people.id',
-            'ORDER BY total DESC, people.family ASC, people.given ASC',
-          ],
-          params: [],
+    describe('and sorting', () => {
+      describe('with sort_by', () => {
+        test('returns the expected SQL', () => {
+          expect(getAllQuery({
+            includeCount: true,
+            sortBy: paramHelper.SORT_BY_TOTAL,
+          })).toEqual({
+            clauses: [
+              'SELECT',
+              'people.id, people.type, people.name, COUNT(incident_attendees.id) AS total',
+              'FROM people',
+              'LEFT JOIN incident_attendees',
+              'ON incident_attendees.person_id = people.id',
+              'GROUP BY people.id',
+              'ORDER BY',
+              'total DESC, people.family ASC, people.given ASC',
+            ],
+            params: [],
+          });
+        });
+      });
+
+      describe('with sort_by and sort', () => {
+        test('returns the expected SQL', () => {
+          expect(getAllQuery({
+            includeCount: true,
+            sort: paramHelper.SORT_DESC,
+            sortBy: paramHelper.SORT_BY_NAME,
+          })).toEqual({
+            clauses: [
+              'SELECT',
+              'people.id, people.type, people.name, COUNT(incident_attendees.id) AS total',
+              'FROM people',
+              'LEFT JOIN incident_attendees',
+              'ON incident_attendees.person_id = people.id',
+              'GROUP BY people.id',
+              'ORDER BY',
+              'people.family DESC, people.given DESC',
+            ],
+            params: [],
+          });
         });
       });
     });
