@@ -20,12 +20,6 @@ const styles = css`
   .item-index-group + .item-index-group {
     margin-top: 36px;
   }
-
-  .section-index-list {
-    display: grid;
-    grid-gap: calc(var(--gap) / 2);
-    grid-template-columns: repeat(auto-fit, minmax(315px, 1fr));
-  }
 `;
 
 const Index = () => {
