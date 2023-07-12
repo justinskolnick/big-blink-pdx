@@ -29,7 +29,12 @@ const Index = () => {
       isLoading={!hasPageIds}
     >
       <div className='incident-list-anchor' ref={ref}>
-        <IncidentList ids={pageIds} pagination={pagination} scrollToRef={scrollToRef} />
+        <IncidentList
+          hasSort
+          ids={pageIds}
+          pagination={pagination}
+          scrollToRef={scrollToRef}
+        />
       </div>
     </SectionIndex>
   );

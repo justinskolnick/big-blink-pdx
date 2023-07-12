@@ -39780,8 +39780,8 @@ var quarterParam = "quarter";
 var sortByParam = "sort_by";
 var withEntityIdParam = "with_entity_id";
 var withPersonIdParam = "with_person_id";
-var getSortByParam = (value) => ({
-  [sortByParam]: value === "name" /* Name */ ? null : value
+var getSortByParam = (value, isDefault) => ({
+  [sortByParam]: isDefault ? null : value
 });
 var getWithEntityParams = (item) => ({
   [withEntityIdParam]: item.entity.id
@@ -41316,7 +41316,7 @@ var Index = () => {
           /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(
             SortLink,
             {
-              newParams: getSortByParam("name" /* Name */),
+              newParams: getSortByParam("name" /* Name */, true),
               defaultSort: "ASC" /* ASC */,
               title: "Sort this list by name",
               children: "Name"
@@ -54546,6 +54546,30 @@ var styles27 = css`
     }
   }
 
+  .link-sort {
+    color: inherit;
+
+    &:hover {
+      border-bottom: none;
+
+      .icon {
+        color: var(--color-orange);
+      }
+    }
+
+    &.is-active {
+      border-bottom: none;
+
+      .icon {
+        color: var(--color-accent);
+      }
+    }
+
+    .icon {
+      font-size: 9px;
+    }
+  }
+
   tr {
     &.incident-list-item {
       td {
@@ -54645,13 +54669,21 @@ var IncidentRow = ({ id }) => {
     }
   ) });
 };
-var IncidentListTable = ({ ids }) => {
+var IncidentListTable = ({ hasSort, ids }) => {
   const hasIds = ids?.length > 0;
   if (!ids)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: cx("incident-list-table-frame", styles27), children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "incident-list-table", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("table", { cellPadding: "0", cellSpacing: "0", children: [
     /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-date", children: "Date" }),
+      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-date", children: hasSort ? /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+        SortLink,
+        {
+          newParams: getSortByParam("date" /* Date */, true),
+          defaultSort: "ASC" /* ASC */,
+          title: "Sort this list by date",
+          children: "Date"
+        }
+      ) : "Date" }),
       /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-entity", children: "Entity" }),
       /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-topic", children: "Topic" }),
       /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-link" })
@@ -54681,11 +54713,12 @@ var styles28 = css`
   }
 `;
 var IncidentList = ({
+  hasSort,
   ids,
   pagination,
   scrollToRef
 }) => /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: cx("incident-list", styles28), children: [
-  /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(incident_list_table_default, { ids }),
+  /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(incident_list_table_default, { hasSort, ids }),
   pagination && ids.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("footer", { className: "incident-list-footer", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(pagination_default, { pagination, onPageClick: scrollToRef }) })
 ] });
 var incident_list_default = IncidentList;
@@ -55455,7 +55488,7 @@ var Index2 = () => {
           /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
             SortLink,
             {
-              newParams: getSortByParam("name" /* Name */),
+              newParams: getSortByParam("name" /* Name */, true),
               defaultSort: "ASC" /* ASC */,
               title: "Sort this list by name",
               children: "Name"
@@ -55602,7 +55635,15 @@ var Index3 = () => {
     {
       introduction: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(Introduction3, {}),
       isLoading: !hasPageIds,
-      children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("div", { className: "incident-list-anchor", ref, children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(incident_list_default, { ids: pageIds, pagination, scrollToRef }) })
+      children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("div", { className: "incident-list-anchor", ref, children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(
+        incident_list_default,
+        {
+          hasSort: true,
+          ids: pageIds,
+          pagination,
+          scrollToRef
+        }
+      ) })
     }
   );
 };

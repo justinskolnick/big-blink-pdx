@@ -6,10 +6,15 @@ import { RootState } from '../lib/store';
 
 import Icon from './icon';
 import IncidentModal from './incident-modal';
-import { LinkToIncident } from './links';
+import {
+  getSortByParam,
+  LinkToIncident,
+  SortLink,
+} from './links';
 
 import { selectors } from '../reducers/incidents';
 
+import { SortByValues, SortValues } from '../types';
 import type { Id, Ids } from '../types';
 
 interface IncidentRowProps {
@@ -17,6 +22,7 @@ interface IncidentRowProps {
 }
 
 interface IncidentListTableProps {
+  hasSort?: boolean;
   ids: Ids;
 }
 
@@ -118,6 +124,30 @@ const styles = css`
       &:hover {
         border-bottom: none;
       }
+    }
+  }
+
+  .link-sort {
+    color: inherit;
+
+    &:hover {
+      border-bottom: none;
+
+      .icon {
+        color: var(--color-orange);
+      }
+    }
+
+    &.is-active {
+      border-bottom: none;
+
+      .icon {
+        color: var(--color-accent);
+      }
+    }
+
+    .icon {
+      font-size: 9px;
     }
   }
 
@@ -229,7 +259,7 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
   );
 };
 
-const IncidentListTable = ({ ids }: IncidentListTableProps) => {
+const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
   const hasIds = ids?.length > 0;
 
   if (!ids) return null;
@@ -240,7 +270,17 @@ const IncidentListTable = ({ ids }: IncidentListTableProps) => {
         <table cellPadding='0' cellSpacing='0'>
           <thead>
             <tr>
-              <th className='cell-date'>Date</th>
+              <th className='cell-date'>
+                {hasSort ? (
+                  <SortLink
+                    newParams={getSortByParam(SortByValues.Date, true)}
+                    defaultSort={SortValues.ASC}
+                    title='Sort this list by date'
+                  >
+                    Date
+                  </SortLink>
+                ) : 'Date'}
+              </th>
               <th className='cell-entity'>Entity</th>
               <th className='cell-topic'>Topic</th>
               <th className='cell-link'></th>

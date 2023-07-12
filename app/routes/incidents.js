@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const linkHelper = require('../helpers/links');
+const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { PER_PAGE } = require('../models/incidents');
 const incidents = require('../services/incidents');
@@ -17,7 +18,9 @@ const view = {
 router.get('/', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const page = req.query.get('page') || 1;
+    const sort = req.query.get('sort');
 
+    const params = {};
     const perPage = PER_PAGE;
     const links = linkHelper.links;
 
@@ -28,9 +31,13 @@ router.get('/', async (req, res, next) => {
     let meta;
 
     try {
-      incidentsResult = await incidents.getAll({ page, perPage, sort: 'ASC' });
+      incidentsResult = await incidents.getAll({ page, perPage, sort });
       incidentCountResult = await incidents.getTotal();
       records = await incidentAttendees.getAllForIncidents(incidentsResult);
+
+      if (paramHelper.hasSort(sort)) {
+        params.sort = paramHelper.getSort(sort);
+      }
 
       data = {
         incidents: {
@@ -39,6 +46,7 @@ router.get('/', async (req, res, next) => {
             total: incidentCountResult,
             perPage,
             page,
+            params,
             path: links.incidents(),
           }),
           total: incidentCountResult,

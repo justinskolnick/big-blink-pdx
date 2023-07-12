@@ -7,6 +7,7 @@ import Pagination from './pagination';
 import type { Ids, Pagination as PaginationType } from '../types';
 
 interface Props {
+  hasSort?: boolean;
   ids: Ids;
   pagination: PaginationType;
   scrollToRef: () => void;
@@ -31,12 +32,13 @@ const styles = css`
 `;
 
 const IncidentList = ({
+  hasSort,
   ids,
   pagination,
   scrollToRef,
 }: Props) => (
   <div className={cx('incident-list', styles)}>
-    <IncidentListTable ids={ids} />
+    <IncidentListTable hasSort={hasSort} ids={ids} />
 
     {pagination && ids.length > 0 && (
       <footer className='incident-list-footer'>

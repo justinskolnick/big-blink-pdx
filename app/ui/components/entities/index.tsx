@@ -87,7 +87,7 @@ const Index = () => {
           <tr>
             <th className='cell-name' colSpan={2}>
               <SortLink
-                newParams={getSortByParam(SortByValues.Name)}
+                newParams={getSortByParam(SortByValues.Name, true)}
                 defaultSort={SortValues.ASC}
                 title='Sort this list by name'
               >

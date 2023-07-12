@@ -45,7 +45,7 @@
   --color-header-icon-link: var(--color-blue);
   --color-text: var(--color-black);
   --color-link: var(--color-blue);
-  --color-link-dark: var(--color-light-blue);
+  --color-link-light: var(--color-light-blue);
   --color-accent: var(--color-green);
   --color-accent-darker: var(--color-dark-green);
   --color-accent-lighter: var(--color-light-green);

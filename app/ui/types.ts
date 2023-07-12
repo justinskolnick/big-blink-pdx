@@ -71,6 +71,7 @@ export enum SortValues {
 export type SortValue = keyof typeof SortValues;
 
 export enum SortByValues {
+  Date = 'date',
   Name = 'name',
   Total = 'total',
 }

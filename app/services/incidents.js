@@ -1,10 +1,13 @@
 const dateHelper = require('../helpers/date');
+const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
 const { TABLE: ENTITIES_TABLE } = require('../models/entities');
 const { TABLE, FIELDS } = require('../models/incidents');
 const { TABLE: INCIDENT_ATTENDEES_TABLE } = require('../models/incident-attendees');
 const { TABLE: SOURCES_TABLE } = require('../models/sources');
 const db = require('../services/db');
+
+const { SORT_ASC, SORT_DESC } = paramHelper;
 
 const adaptContactDate = str => dateHelper.formatDateString(str);
 
@@ -35,7 +38,7 @@ const getAllQuery = (options = {}) => {
     personId,
     entityId,
     quarterSourceId,
-    sort = 'ASC',
+    sort = SORT_ASC,
     withEntityId,
     withPersonId,
   } = options;
@@ -82,11 +85,9 @@ const getAllQuery = (options = {}) => {
     }
   }
 
-  if (sort === 'ASC') {
-    clauses.push(`ORDER BY ${TABLE}.contact_date ASC`);
-  } else if (sort === 'DESC') {
-    clauses.push(`ORDER BY ${TABLE}.contact_date DESC`);
-  }
+  clauses.push('ORDER BY');
+  clauses.push(`${TABLE}.contact_date`);
+  clauses.push(sort);
 
   if (page && perPage) {
     const offset = queryHelper.getOffset(page, perPage);
@@ -146,7 +147,7 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     `LEFT JOIN ${SOURCES_TABLE} ON ${TABLE}.data_source_id = ${SOURCES_TABLE}.id`
   ].join(' ');
 
-  ['ASC', 'DESC'].forEach(sort => {
+  [SORT_ASC, SORT_DESC].forEach(sort => {
     const segment = [];
     const conditions = [];
 

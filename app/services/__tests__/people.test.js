@@ -5,6 +5,8 @@ const {
   getTotalQuery,
 } = require('../people');
 
+const { SORT_DESC, SORT_BY_NAME, SORT_BY_TOTAL } = paramHelper;
+
 describe('getAllQuery()', () => {
   describe('with default options', () => {
     test('returns the expected SQL', () => {
@@ -74,7 +76,7 @@ describe('getAllQuery()', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
             includeCount: true,
-            sortBy: paramHelper.SORT_BY_TOTAL,
+            sortBy: SORT_BY_TOTAL,
           })).toEqual({
             clauses: [
               'SELECT',
@@ -95,8 +97,8 @@ describe('getAllQuery()', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
             includeCount: true,
-            sort: paramHelper.SORT_DESC,
-            sortBy: paramHelper.SORT_BY_NAME,
+            sort: SORT_DESC,
+            sortBy: SORT_BY_NAME,
           })).toEqual({
             clauses: [
               'SELECT',

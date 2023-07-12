@@ -14,7 +14,7 @@ import type {
   SortByValue,
   SortValue,
 } from '../types';
-import { SortByValues, SortValues } from '../types';
+import { SortValues } from '../types';
 
 export interface LinkProps {
   children: ReactNode;
@@ -51,8 +51,8 @@ export const sortByParam = 'sort_by';
 export const withEntityIdParam = 'with_entity_id';
 export const withPersonIdParam = 'with_person_id';
 
-export const getSortByParam = (value: SortByValue) => ({
-  [sortByParam]: value === SortByValues.Name ? null : value,
+export const getSortByParam = (value: SortByValue, isDefault?: boolean) => ({
+  [sortByParam]: isDefault ? null : value,
 });
 export const getWithEntityParams = (item: AffiliatedItem) => ({
   [withEntityIdParam]: item.entity.id,
