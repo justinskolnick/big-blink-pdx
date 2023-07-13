@@ -27151,8 +27151,11 @@ function createRouter(init) {
       actionData = null;
     }
     let loaderData = newState.loaderData ? mergeLoaderData(state.loaderData, newState.loaderData, newState.matches || [], newState.errors) : state.loaderData;
-    let blockers = /* @__PURE__ */ new Map();
-    blockerFunctions.clear();
+    let blockers = state.blockers;
+    if (blockers.size > 0) {
+      blockers = new Map(blockers);
+      blockers.forEach((_2, k2) => blockers.set(k2, IDLE_BLOCKER));
+    }
     let preventScrollReset = pendingPreventScrollReset === true || state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && ((_location$state2 = location2.state) == null ? void 0 : _location$state2._isRedirect) !== true;
     if (inFlightDataRoutes) {
       dataRoutes = inFlightDataRoutes;
@@ -56646,7 +56649,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.7.0
+   * @remix-run/router v1.7.1
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56658,7 +56661,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.14.0
+   * React Router v6.14.1
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56670,7 +56673,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.14.0
+   * React Router DOM v6.14.1
    *
    * Copyright (c) Remix Software Inc.
    *
