@@ -39765,8 +39765,8 @@ var getQueryParams = (location2, newParams, replace4 = true) => {
       pathname,
       search: newSearch
     },
-    get: (param) => searchParams.get(param),
-    has: (param) => searchParams.has(param),
+    get: (key) => searchParams.get(key),
+    has: (key) => searchParams.has(key),
     isCurrent: isCurrent(location2, newSearch)
   };
 };
@@ -39840,10 +39840,14 @@ var SortLink = ({
 }) => {
   const [nextSort, setNextSort] = (0, import_react18.useState)(defaultSort);
   const [searchParams] = useSearchParams();
-  const queryParams = useQueryParams(newParams);
+  const params = new Map(Object.entries(newParams));
+  for (const [key, value] of searchParams.entries()) {
+    params.set(key, value);
+  }
+  const queryParams = useQueryParams(Object.fromEntries(params));
   const hasSortBy = searchParams.has("sort_by");
-  const isDefault = newParams.sort_by === null && !hasSortBy;
-  const isSorted = newParams.sort_by !== null && hasSortBy;
+  const isDefault = params.get("sort_by") === null && !hasSortBy;
+  const isSorted = params.get("sort_by") !== null && hasSortBy;
   const hasIcon = isDefault || isSorted;
   const icon3 = getIconNameForSort(toggleSort(nextSort));
   (0, import_react18.useEffect)(() => {
@@ -39858,14 +39862,14 @@ var SortLink = ({
     setNextSort
   ]);
   if (queryParams.isCurrent) {
-    newParams.sort = nextSort === defaultSort ? null : nextSort;
+    params.set("sort", nextSort === defaultSort ? null : nextSort);
   }
   return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
     LinkToQueryParams,
     {
       className: cx("link-sort", className),
       title: title || "Sort this list",
-      newParams,
+      newParams: Object.fromEntries(params),
       ...rest,
       children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
         item_text_with_icon_default,
@@ -54562,10 +54566,6 @@ var styles27 = css`
 
     &.is-active {
       border-bottom: none;
-
-      .icon {
-        color: var(--color-accent);
-      }
     }
 
     .icon {
@@ -54780,6 +54780,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
 };
 var DetailIncidents = (0, import_react30.forwardRef)(({
   filters,
+  hasSort,
   ids,
   label,
   pagination,
@@ -54813,7 +54814,15 @@ var DetailIncidents = (0, import_react30.forwardRef)(({
       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
       /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(DuringQuarter, { filters, filterKey: quarterParam })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(incident_list_default, { ids, pagination, scrollToRef })
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
+      incident_list_default,
+      {
+        hasSort,
+        ids,
+        pagination,
+        scrollToRef
+      }
+    )
   ] });
 });
 DetailIncidents.displayName = "DetailIncidents";
@@ -55074,6 +55083,7 @@ var Detail = () => {
         {
           ids: entity.incidents?.ids,
           filters: entity.incidents?.filters,
+          hasSort: true,
           label: entity.name,
           pagination: entity.incidents?.pagination,
           scrollToRef,
@@ -56081,6 +56091,7 @@ var Detail3 = () => {
         {
           ids: person.incidents?.ids,
           filters: person.incidents?.filters,
+          hasSort: true,
           label: person.name,
           pagination: person.incidents?.pagination,
           scrollToRef,

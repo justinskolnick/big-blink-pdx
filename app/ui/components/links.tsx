@@ -125,10 +125,16 @@ export const SortLink = ({
 }: LinkProps) => {
   const [nextSort, setNextSort] = useState(defaultSort);
   const [searchParams] = useSearchParams();
-  const queryParams = useQueryParams(newParams);
+  const params = new Map(Object.entries(newParams));
+
+  for (const [key, value] of searchParams.entries()) {
+    params.set(key, value);
+  }
+
+  const queryParams = useQueryParams(Object.fromEntries(params));
   const hasSortBy = searchParams.has('sort_by');
-  const isDefault = newParams.sort_by === null && !hasSortBy;
-  const isSorted = newParams.sort_by !== null && hasSortBy;
+  const isDefault = params.get('sort_by') === null && !hasSortBy;
+  const isSorted = params.get('sort_by') !== null && hasSortBy;
   const hasIcon = isDefault || isSorted;
   const icon = getIconNameForSort(toggleSort(nextSort));
 
@@ -146,14 +152,14 @@ export const SortLink = ({
   ]);
 
   if (queryParams.isCurrent) {
-    newParams.sort = nextSort === defaultSort ? null : nextSort;
+    params.set('sort', nextSort === defaultSort ? null : nextSort);
   }
 
   return (
     <LinkToQueryParams
       className={cx('link-sort', className)}
       title={title || 'Sort this list'}
-      newParams={newParams}
+      newParams={Object.fromEntries(params)}
       {...rest}
     >
       {hasIcon ? (

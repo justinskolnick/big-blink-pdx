@@ -1,7 +1,10 @@
+const paramHelper = require('../../helpers/param');
 const {
   getAllQuery,
   getTotalQuery,
 } = require('../incident-attendances');
+
+const { SORT_ASC, SORT_DESC } = paramHelper;
 
 describe('getAllQuery()', () => {
   describe('with default options', () => {
@@ -13,7 +16,9 @@ describe('getAllQuery()', () => {
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
         ],
         params: [],
       });
@@ -31,7 +36,9 @@ describe('getAllQuery()', () => {
           'ON incidents.id = incident_attendees.incident_id',
           'WHERE',
           'incident_attendees.person_id = ?',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
         ],
         params: [123],
       });
@@ -50,7 +57,9 @@ describe('getAllQuery()', () => {
           'incident_attendees.person_id = ?',
           'AND',
           'incidents.data_source_id = ?',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
           ],
           params: [123, 321],
         });
@@ -70,7 +79,9 @@ describe('getAllQuery()', () => {
           'incident_attendees.person_id = ?',
           'AND',
           'incidents.id IN (SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ?)',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
           ],
           params: [123, 123, 321],
         });
@@ -90,7 +101,9 @@ describe('getAllQuery()', () => {
           'incident_attendees.person_id = ?',
           'AND',
           'incidents.entity_id = ?',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
           ],
           params: [123, 321],
         });
@@ -100,25 +113,29 @@ describe('getAllQuery()', () => {
 
   describe('with a sort', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery({ sort: 'ASC' })).toEqual({
+      expect(getAllQuery({ sort: SORT_ASC })).toEqual({
         clauses: [
           'SELECT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
         ],
         params: [],
       });
-      expect(getAllQuery({ sort: 'DESC' })).toEqual({
+      expect(getAllQuery({ sort: SORT_DESC })).toEqual({
         clauses: [
           'SELECT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
-          'ORDER BY incidents.contact_date DESC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'DESC',
         ],
         params: [],
       });
@@ -134,7 +151,9 @@ describe('getAllQuery()', () => {
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
-          'ORDER BY incidents.contact_date ASC',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
         ],
         params: [],
       });
@@ -149,7 +168,9 @@ describe('getAllQuery()', () => {
             'FROM incidents',
             'LEFT JOIN incident_attendees',
             'ON incidents.id = incident_attendees.incident_id',
-            'ORDER BY incidents.contact_date ASC',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
             'LIMIT ?,?',
           ],
           params: [45, 15],

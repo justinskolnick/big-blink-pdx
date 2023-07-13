@@ -33,8 +33,8 @@ export const getQueryParams = (
       pathname,
       search: newSearch,
     },
-    get: (param: string) => searchParams.get(param),
-    has: (param: string) => searchParams.has(param),
+    get: (key: string) => searchParams.get(key),
+    has: (key: string) => searchParams.has(key),
     isCurrent: isCurrent(location, newSearch),
   };
 };

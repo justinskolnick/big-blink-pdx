@@ -140,10 +140,6 @@ const styles = css`
 
     &.is-active {
       border-bottom: none;
-
-      .icon {
-        color: var(--color-accent);
-      }
     }
 
     .icon {

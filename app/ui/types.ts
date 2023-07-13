@@ -78,11 +78,13 @@ export enum SortByValues {
 
 export type SortByValue = Extract<SortByValues, string>;
 
-export type NewParams = IncidentsFilters & {
+type ListParams = {
   page?: string | number;
   sort?: SortValue;
   sort_by?: SortByValue;
 };
+
+export type NewParams = IncidentsFilters & ListParams;
 
 export type IncidentsOverview = {
   filters?: IncidentsFilters;
@@ -109,6 +111,7 @@ type Location = {
 export type Entity = Item & {
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
+  domain?: string;
   locations?: Location[];
 }
 

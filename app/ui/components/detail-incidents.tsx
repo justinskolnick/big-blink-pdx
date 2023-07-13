@@ -24,6 +24,7 @@ interface FiltersProps {
 
 interface Props {
   filters?: IncidentsFilters;
+  hasSort?: boolean;
   ids: Ids;
   label: string;
   pagination: Pagination;
@@ -87,6 +88,7 @@ const DuringQuarter = ({ filters, filterKey }: FiltersProps) => {
 
 const DetailIncidents = forwardRef<HTMLDivElement, Props>(({
   filters,
+  hasSort,
   ids,
   label,
   pagination,
@@ -126,7 +128,12 @@ const DetailIncidents = forwardRef<HTMLDivElement, Props>(({
         <DuringQuarter filters={filters} filterKey={quarterParam} />
       </IncidentsHeader>
 
-      <IncidentList ids={ids} pagination={pagination} scrollToRef={scrollToRef} />
+      <IncidentList
+        hasSort={hasSort}
+        ids={ids}
+        pagination={pagination}
+        scrollToRef={scrollToRef}
+      />
     </section>
   );
 });

@@ -83,6 +83,7 @@ router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
     const page = req.query.get('page') || 1;
     const quarter = req.query.get('quarter');
+    const sort = req.query.get('sort');
     const withPersonId = req.query.get('with_person_id');
 
     const errors = [];
@@ -109,10 +110,20 @@ router.get('/:id', async (req, res, next) => {
       entity = await entities.getAtId(id);
       entityLocations = await antityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({ entityId: id, quarterSourceId, withPersonId });
-      entityIncidents = await incidents.getAll({ page, perPage, entityId: id, quarterSourceId, withPersonId });
+      entityIncidents = await incidents.getAll({
+        page,
+        perPage,
+        entityId: id,
+        quarterSourceId,
+        sort,
+        withPersonId,
+      });
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
       attendees = await incidentAttendees.getAttendees({ entityId: id });
 
+      if (paramHelper.hasSort(sort)) {
+        params.sort = paramHelper.getSort(sort);
+      }
       if (quarterSourceId) {
         params[snakeCase('quarter')] = quarter;
       }

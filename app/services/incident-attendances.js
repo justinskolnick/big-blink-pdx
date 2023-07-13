@@ -1,4 +1,5 @@
 const dateHelper = require('../helpers/date');
+const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
 const {
   FIELDS: INCIDENTS_FIELDS,
@@ -8,6 +9,8 @@ const {
   TABLE: INCIDENT_ATTENDEES_TABLE,
 } = require('../models/incident-attendees');
 const db = require('../services/db');
+
+const { SORT_ASC } = paramHelper;
 
 const adaptResults = (result) => ({
   id: result.id,
@@ -28,7 +31,7 @@ const getAllQuery = (options = {}) => {
     perPage,
     personId,
     quarterSourceId,
-    sort = 'ASC',
+    sort = SORT_ASC,
     withEntityId,
     withPersonId,
   } = options;
@@ -78,11 +81,15 @@ const getAllQuery = (options = {}) => {
     }
   }
 
-  if (sort === 'ASC') {
-    clauses.push(`ORDER BY ${INCIDENTS_TABLE}.contact_date ASC`);
-  } else if (sort === 'DESC') {
-    clauses.push(`ORDER BY ${INCIDENTS_TABLE}.contact_date DESC`);
-  }
+  clauses.push('ORDER BY');
+  clauses.push(`${INCIDENTS_TABLE}.contact_date`);
+  clauses.push(sort);
+
+  // if (sort === 'ASC') {
+  //   clauses.push(`${INCIDENTS_TABLE}.contact_date ASC`);
+  // } else if (sort === 'DESC') {
+  //   clauses.push(`${INCIDENTS_TABLE}.contact_date DESC`);
+  // }
 
   if (page && perPage) {
     const offset = queryHelper.getOffset(page, perPage);

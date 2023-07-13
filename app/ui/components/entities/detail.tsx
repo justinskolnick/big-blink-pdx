@@ -79,6 +79,7 @@ const Detail = () => {
           <DetailIncidents
             ids={entity.incidents?.ids}
             filters={entity.incidents?.filters}
+            hasSort
             label={entity.name}
             pagination={entity.incidents?.pagination}
             scrollToRef={scrollToRef}
