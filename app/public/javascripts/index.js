@@ -55217,6 +55217,14 @@ var styles34 = css`
     h3 + h4 {
       margin-top: 3px;
     }
+
+    .section-header-detail + .section-header-detail {
+      &::before {
+        content: '·';
+        margin-left: calc(var(--gap) / 2);
+        margin-right: calc(var(--gap) / 2);
+      }
+    }
   }
 
   & + .section-index,
@@ -55333,10 +55341,11 @@ var Section = ({
   const { id } = useParams();
   const entity = useSelector((state) => selectors.selectById(state, id));
   const title = getSectionTitle(name, entity?.name);
+  const hasDomain = Boolean(entity?.domain);
   const hasLocations = Boolean(entity?.locations);
-  let details;
+  let locations;
   if (hasLocations) {
-    details = toSentence(entity.locations.map((location2) => `${location2.city}, ${location2.region}`));
+    locations = toSentence(entity.locations.map((location2) => `${location2.city}, ${location2.region}`));
   }
   return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("title", { children: title }) }),
@@ -55346,7 +55355,10 @@ var Section = ({
         icon: icon3,
         title: name,
         LinkComponent: LinkToEntities,
-        details,
+        details: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+          hasLocations && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "section-header-detail", children: locations }),
+          hasDomain && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "section-header-detail", children: entity.domain })
+        ] }),
         children: entity && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(LinkToEntity, { id: entity.id, children: entity.name })
       }
     ),

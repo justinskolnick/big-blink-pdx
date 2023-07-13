@@ -13,7 +13,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name',
+          'entities.id, entities.name, entities.domain',
           'FROM entities',
           'ORDER BY',
           'entities.name ASC',
@@ -28,7 +28,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name',
+          'entities.id, entities.name, entities.domain',
           'FROM entities',
           'ORDER BY',
           'entities.name ASC',
@@ -42,7 +42,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'entities.id, entities.name',
+            'entities.id, entities.name, entities.domain',
             'FROM entities',
             'ORDER BY',
             'entities.name ASC',
@@ -59,7 +59,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ limit: 5 })).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name',
+          'entities.id, entities.name, entities.domain',
           'FROM entities',
           'ORDER BY',
           'entities.name ASC',
@@ -75,7 +75,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeCount: true })).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name, COUNT(incidents.id) AS total',
+          'entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total',
           'FROM entities',
           'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'GROUP BY entities.id',
@@ -95,7 +95,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'entities.id, entities.name, COUNT(incidents.id) AS total',
+              'entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total',
               'FROM entities',
               'LEFT JOIN incidents ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
@@ -116,7 +116,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'entities.id, entities.name, COUNT(incidents.id) AS total',
+              'entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total',
               'FROM entities',
               'LEFT JOIN incidents ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
@@ -143,7 +143,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name',
+          'entities.id, entities.name, entities.domain',
           'FROM entities',
           'WHERE id = ?',
           'LIMIT 1',

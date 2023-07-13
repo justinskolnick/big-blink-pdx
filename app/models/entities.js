@@ -2,6 +2,7 @@ const TABLE = 'entities';
 const FIELDS = [
   'id',
   'name',
+  'domain',
 ];
 const PER_PAGE = 40;
 

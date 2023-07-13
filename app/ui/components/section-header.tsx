@@ -137,6 +137,14 @@ const styles = css`
     h3 + h4 {
       margin-top: 3px;
     }
+
+    .section-header-detail + .section-header-detail {
+      &::before {
+        content: '·';
+        margin-left: calc(var(--gap) / 2);
+        margin-right: calc(var(--gap) / 2);
+      }
+    }
   }
 
   & + .section-index,

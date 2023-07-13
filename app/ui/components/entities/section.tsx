@@ -24,11 +24,12 @@ const Section = ({
   const { id } = useParams();
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
   const title = getSectionTitle(name, entity?.name);
+  const hasDomain = Boolean(entity?.domain);
   const hasLocations = Boolean(entity?.locations);
-  let details;
+  let locations;
 
   if (hasLocations) {
-    details = toSentence(entity.locations.map(location => `${location.city}, ${location.region}`));
+    locations = toSentence(entity.locations.map(location => `${location.city}, ${location.region}`));
   }
 
   return (
@@ -41,7 +42,12 @@ const Section = ({
         icon={icon}
         title={name}
         LinkComponent={LinkToEntities}
-        details={details}
+        details={
+          <>
+            {hasLocations && <span className='section-header-detail'>{locations}</span>}
+            {hasDomain && <span className='section-header-detail'>{entity.domain}</span>}
+          </>
+        }
       >
         {entity && <LinkToEntity id={entity.id}>{entity.name}</LinkToEntity>}
       </SectionHeader>
