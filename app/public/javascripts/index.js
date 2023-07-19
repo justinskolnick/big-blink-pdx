@@ -56401,6 +56401,7 @@ var Detail4 = () => {
         detail_incidents_default,
         {
           ids: source.incidents?.ids,
+          hasSort: true,
           label: source.title,
           pagination: source.incidents?.pagination,
           scrollToRef,

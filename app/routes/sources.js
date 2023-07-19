@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const linkHelper = require('../helpers/links');
+const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const incidents = require('../services/incidents');
@@ -49,7 +50,9 @@ router.get('/:id', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const id = req.params.id;
     const page = req.query.get('page') || 1;
+    const sort = req.query.get('sort');
 
+    const params = {};
     const perPage = INCIDENTS_PER_PAGE;
     const links = linkHelper.links;
 
@@ -63,8 +66,17 @@ router.get('/:id', async (req, res, next) => {
     try {
       source = await sources.getAtId(id);
       incidentsStats = await stats.getIncidentsStats({ sourceId: id });
-      sourceIncidents = await incidents.getAll({ page, perPage, sourceId: id });
+      sourceIncidents = await incidents.getAll({
+        page,
+        perPage,
+        sourceId: id,
+        sort,
+      });
       records = await incidentAttendees.getAllForIncidents(sourceIncidents);
+
+      if (paramHelper.hasSort(sort)) {
+        params.sort = paramHelper.getSort(sort);
+      }
 
       data = {
         source: {
@@ -72,11 +84,13 @@ router.get('/:id', async (req, res, next) => {
             ...source,
             incidents: {
               records,
+              filters: params,
               pagination: linkHelper.getPagination({
-                total: incidentsStats.total,
-                perPage,
                 page,
+                params,
                 path: links.source(id),
+                perPage,
+                total: incidentsStats.total,
               }),
               ...incidentsStats,
             },
