@@ -25946,7 +25946,7 @@ var require_debounce = __commonJS({
   }
 });
 
-// app/ui/index.tsx
+// assets/index.tsx
 var import_client = __toESM(require_client());
 
 // node_modules/react-redux/es/index.js
@@ -27415,6 +27415,7 @@ function createRouter(init) {
     let routesToUse = inFlightDataRoutes || dataRoutes;
     let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(init.history, state, matches, activeSubmission, location2, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionData, pendingError);
     cancelActiveDeferreds((routeId) => !(matches && matches.some((m2) => m2.route.id === routeId)) || matchesToLoad && matchesToLoad.some((m2) => m2.route.id === routeId));
+    pendingNavigationLoadId = ++incrementingLoadId;
     if (matchesToLoad.length === 0 && revalidatingFetchers.length === 0) {
       let updatedFetchers2 = markFetchRedirectsDone();
       completeNavigation(location2, _extends2({
@@ -27448,7 +27449,6 @@ function createRouter(init) {
         fetchers: new Map(state.fetchers)
       } : {}));
     }
-    pendingNavigationLoadId = ++incrementingLoadId;
     revalidatingFetchers.forEach((rf) => {
       if (fetchControllers.has(rf.key)) {
         abortFetcher(rf.key);
@@ -27477,7 +27477,11 @@ function createRouter(init) {
     revalidatingFetchers.forEach((rf) => fetchControllers.delete(rf.key));
     let redirect2 = findRedirect(results);
     if (redirect2) {
-      await startRedirectNavigation(state, redirect2, {
+      if (redirect2.idx >= matchesToLoad.length) {
+        let fetcherKey = revalidatingFetchers[redirect2.idx - matchesToLoad.length].key;
+        fetchRedirectIds.add(fetcherKey);
+      }
+      await startRedirectNavigation(state, redirect2.result, {
         replace: replace4
       });
       return {
@@ -27565,6 +27569,7 @@ function createRouter(init) {
     let abortController = new AbortController();
     let fetchRequest = createClientSideRequest(init.history, path, abortController.signal, submission);
     fetchControllers.set(key, abortController);
+    let originatingLoadId = incrementingLoadId;
     let actionResult = await callLoaderOrAction("action", fetchRequest, match2, requestMatches, manifest, mapRouteProperties2, basename);
     if (fetchRequest.signal.aborted) {
       if (fetchControllers.get(key) === abortController) {
@@ -27574,16 +27579,25 @@ function createRouter(init) {
     }
     if (isRedirectResult(actionResult)) {
       fetchControllers.delete(key);
-      fetchRedirectIds.add(key);
-      let loadingFetcher = getLoadingFetcher(submission);
-      state.fetchers.set(key, loadingFetcher);
-      updateState({
-        fetchers: new Map(state.fetchers)
-      });
-      return startRedirectNavigation(state, actionResult, {
-        submission,
-        isFetchActionRedirect: true
-      });
+      if (pendingNavigationLoadId > originatingLoadId) {
+        let doneFetcher = getDoneFetcher(void 0);
+        state.fetchers.set(key, doneFetcher);
+        updateState({
+          fetchers: new Map(state.fetchers)
+        });
+        return;
+      } else {
+        fetchRedirectIds.add(key);
+        let loadingFetcher = getLoadingFetcher(submission);
+        state.fetchers.set(key, loadingFetcher);
+        updateState({
+          fetchers: new Map(state.fetchers)
+        });
+        return startRedirectNavigation(state, actionResult, {
+          submission,
+          isFetchActionRedirect: true
+        });
+      }
     }
     if (isErrorResult(actionResult)) {
       setFetcherError(key, routeId, actionResult.error);
@@ -27653,7 +27667,11 @@ function createRouter(init) {
     revalidatingFetchers.forEach((r2) => fetchControllers.delete(r2.key));
     let redirect2 = findRedirect(results);
     if (redirect2) {
-      return startRedirectNavigation(state, redirect2);
+      if (redirect2.idx >= matchesToLoad.length) {
+        let fetcherKey = revalidatingFetchers[redirect2.idx - matchesToLoad.length].key;
+        fetchRedirectIds.add(fetcherKey);
+      }
+      return startRedirectNavigation(state, redirect2.result);
     }
     let {
       loaderData,
@@ -27693,6 +27711,7 @@ function createRouter(init) {
     let abortController = new AbortController();
     let fetchRequest = createClientSideRequest(init.history, path, abortController.signal);
     fetchControllers.set(key, abortController);
+    let originatingLoadId = incrementingLoadId;
     let result = await callLoaderOrAction("loader", fetchRequest, match2, matches, manifest, mapRouteProperties2, basename);
     if (isDeferredResult(result)) {
       result = await resolveDeferredData(result, fetchRequest.signal, true) || result;
@@ -27704,9 +27723,18 @@ function createRouter(init) {
       return;
     }
     if (isRedirectResult(result)) {
-      fetchRedirectIds.add(key);
-      await startRedirectNavigation(state, result);
-      return;
+      if (pendingNavigationLoadId > originatingLoadId) {
+        let doneFetcher2 = getDoneFetcher(void 0);
+        state.fetchers.set(key, doneFetcher2);
+        updateState({
+          fetchers: new Map(state.fetchers)
+        });
+        return;
+      } else {
+        fetchRedirectIds.add(key);
+        await startRedirectNavigation(state, result);
+        return;
+      }
     }
     if (isErrorResult(result)) {
       let boundaryMatch = findNearestBoundary(state.matches, routeId);
@@ -28227,19 +28255,25 @@ function getMatchesToLoad(history, state, matches, submission, location2, isReva
       return;
     }
     let fetcher = state.fetchers.get(key);
-    let isPerformingInitialLoad = fetcher && fetcher.state !== "idle" && fetcher.data === void 0 && // If a fetcher.load redirected then it'll be "loading" without any data
-    // so ensure we're not processing the redirect from this fetcher
-    !fetchRedirectIds.has(key);
     let fetcherMatch = getTargetMatch(fetcherMatches, f2.path);
-    let shouldRevalidate = cancelledFetcherLoads.includes(key) || isPerformingInitialLoad || shouldRevalidateLoader(fetcherMatch, _extends2({
-      currentUrl,
-      currentParams: state.matches[state.matches.length - 1].params,
-      nextUrl,
-      nextParams: matches[matches.length - 1].params
-    }, submission, {
-      actionResult,
-      defaultShouldRevalidate: isRevalidationRequired
-    }));
+    let shouldRevalidate = false;
+    if (fetchRedirectIds.has(key)) {
+      shouldRevalidate = false;
+    } else if (cancelledFetcherLoads.includes(key)) {
+      shouldRevalidate = true;
+    } else if (fetcher && fetcher.state !== "idle" && fetcher.data === void 0) {
+      shouldRevalidate = isRevalidationRequired;
+    } else {
+      shouldRevalidate = shouldRevalidateLoader(fetcherMatch, _extends2({
+        currentUrl,
+        currentParams: state.matches[state.matches.length - 1].params,
+        nextUrl,
+        nextParams: matches[matches.length - 1].params
+      }, submission, {
+        actionResult,
+        defaultShouldRevalidate: isRevalidationRequired
+      }));
+    }
     if (shouldRevalidate) {
       revalidatingFetchers.push({
         key,
@@ -28645,7 +28679,10 @@ function findRedirect(results) {
   for (let i2 = results.length - 1; i2 >= 0; i2--) {
     let result = results[i2];
     if (isRedirectResult(result)) {
-      return result;
+      return {
+        result,
+        idx: i2
+      };
     }
   }
 }
@@ -29719,7 +29756,7 @@ function getFormSubmissionInfo(target, basename) {
 }
 var _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"];
 var _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"];
-var _excluded3 = ["reloadDocument", "replace", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"];
+var _excluded3 = ["reloadDocument", "replace", "state", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"];
 function createBrowserRouter(routes, opts) {
   return createRouter({
     basename: opts == null ? void 0 : opts.basename,
@@ -29753,9 +29790,22 @@ function deserializeErrors(errors) {
     if (val && val.__type === "RouteErrorResponse") {
       serialized[key] = new ErrorResponse(val.status, val.statusText, val.data, val.internal === true);
     } else if (val && val.__type === "Error") {
-      let error = new Error(val.message);
-      error.stack = "";
-      serialized[key] = error;
+      if (val.__subType) {
+        let ErrorConstructor = window[val.__subType];
+        if (typeof ErrorConstructor === "function") {
+          try {
+            let error = new ErrorConstructor(val.message);
+            error.stack = "";
+            serialized[key] = error;
+          } catch (e) {
+          }
+        }
+      }
+      if (serialized[key] == null) {
+        let error = new Error(val.message);
+        error.stack = "";
+        serialized[key] = error;
+      }
     } else {
       serialized[key] = val;
     }
@@ -29928,6 +29978,7 @@ var FormImpl = /* @__PURE__ */ React4.forwardRef((_ref6, forwardedRef) => {
   let {
     reloadDocument,
     replace: replace4,
+    state,
     method = defaultMethod,
     action,
     onSubmit,
@@ -29949,6 +30000,7 @@ var FormImpl = /* @__PURE__ */ React4.forwardRef((_ref6, forwardedRef) => {
     submit(submitter || event.currentTarget, {
       method: submitMethod,
       replace: replace4,
+      state,
       relative,
       preventScrollReset
     });
@@ -30079,6 +30131,7 @@ function useSubmit() {
       formMethod: options2.method || method,
       formEncType: options2.encType || encType,
       replace: options2.replace,
+      state: options2.state,
       fromRouteId: currentRouteId
     });
   }, [router2, basename, currentRouteId]);
@@ -30178,7 +30231,7 @@ function useScrollRestoration(_temp3) {
         return;
       }
       if (location2.hash) {
-        let el = document.getElementById(location2.hash.slice(1));
+        let el = document.getElementById(decodeURIComponent(location2.hash.slice(1)));
         if (el) {
           el.scrollIntoView();
           return;
@@ -32824,7 +32877,7 @@ var createQueueWithTimer = function(timeout2) {
 var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
 F();
 
-// app/ui/selectors.ts
+// assets/selectors.ts
 var getEntities = (state) => state.entities;
 var getIncidents = (state) => state.incidents;
 var getPeople = (state) => state.people;
@@ -32897,7 +32950,7 @@ var getErrors = createSelector(getUI, (ui) => ui.errors);
 var getMessages = createSelector(getUI, (ui) => ui.messages);
 var getWarnings = createSelector(getUI, (ui) => ui.warnings);
 
-// app/ui/reducers/entities.ts
+// assets/reducers/entities.ts
 var adapters = {
   adaptOne: (entity) => {
     if (entity.incidents) {
@@ -32967,7 +33020,7 @@ var {
 } = entitiesSlice.actions;
 var entities_default = entitiesSlice.reducer;
 
-// app/ui/reducers/incidents.ts
+// assets/reducers/incidents.ts
 var adapters2 = {
   adaptOne: (incident) => incident,
   getIds: (people) => people.map((incident) => incident.id)
@@ -33020,7 +33073,7 @@ var {
 } = incidentsSlice.actions;
 var incidents_default = incidentsSlice.reducer;
 
-// app/ui/reducers/people.ts
+// assets/reducers/people.ts
 var adapters3 = {
   adaptOne: (person) => {
     if (person.incidents) {
@@ -33091,7 +33144,7 @@ var {
 } = peopleSlice.actions;
 var people_default = peopleSlice.reducer;
 
-// app/ui/reducers/sources.ts
+// assets/reducers/sources.ts
 var adapters4 = {
   adaptOne: (source) => {
     if (source.incidents) {
@@ -33140,7 +33193,7 @@ var sourcesSlice = createSlice({
 var { set: set4, setAll: setAll4, setPageIds: setPageIds4, setPagination: setPagination4 } = sourcesSlice.actions;
 var sources_default = sourcesSlice.reducer;
 
-// app/ui/reducers/stats.ts
+// assets/reducers/stats.ts
 var setEntity = createAction("stats/setEntity");
 var setPerson = createAction("stats/setPerson");
 var setSources = createAction("stats/setSources");
@@ -33165,7 +33218,7 @@ var statsReducer = createReducer(initialState, (builder) => {
 });
 var stats_default = statsReducer;
 
-// app/ui/reducers/ui.ts
+// assets/reducers/ui.ts
 var clearErrors = createAction("ui/clearErrors");
 var clearMessages = createAction("ui/clearMessages");
 var clearWarnings = createAction("ui/clearWarnings");
@@ -33217,7 +33270,7 @@ var uiReducer = createReducer(initialState2, (builder) => {
 });
 var ui_default = uiReducer;
 
-// app/ui/lib/store.ts
+// assets/lib/store.ts
 var store = configureStore({
   reducer: {
     entities: entities_default,
@@ -33231,7 +33284,7 @@ var store = configureStore({
 });
 var store_default = store;
 
-// app/ui/components/alert-error.tsx
+// assets/components/alert-error.tsx
 var import_react13 = __toESM(require_react());
 
 // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
@@ -34000,7 +34053,7 @@ CSSTransition.propTypes = true ? _extends({}, Transition_default.propTypes, {
 }) : {};
 var CSSTransition_default = CSSTransition;
 
-// app/ui/components/alert-portal.tsx
+// assets/components/alert-portal.tsx
 var import_react11 = __toESM(require_react());
 var import_react_dom3 = __toESM(require_react_dom());
 
@@ -35358,7 +35411,7 @@ var css = _createEmotion.css;
 var sheet = _createEmotion.sheet;
 var cache = _createEmotion.cache;
 
-// app/ui/hooks/use-fixed-body-when-has-class.ts
+// assets/hooks/use-fixed-body-when-has-class.ts
 var import_react10 = __toESM(require_react());
 var useFixedBodyWhenHasClass = (className) => {
   const { positionY } = useSelector(getUI);
@@ -35378,7 +35431,7 @@ var useFixedBodyWhenHasClass = (className) => {
 };
 var use_fixed_body_when_has_class_default = useFixedBodyWhenHasClass;
 
-// app/ui/components/alert-portal.tsx
+// assets/components/alert-portal.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime());
 var hasAlertClass = "has-alert";
 var alertRootId = "alert-root";
@@ -38490,7 +38543,7 @@ var faCalendar = {
   icon: [448, 512, [128197, 128198], "f133", "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"]
 };
 
-// app/ui/components/icon.tsx
+// assets/components/icon.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime());
 library$1.add(
   faArrowDown,
@@ -38547,7 +38600,7 @@ var Icon = ({ name, size = "lg" }) => {
 };
 var icon_default = Icon;
 
-// app/ui/components/item-text-with-icon.tsx
+// assets/components/item-text-with-icon.tsx
 var import_jsx_runtime3 = __toESM(require_jsx_runtime());
 var styles3 = css`
   display: inline-flex;
@@ -38576,7 +38629,7 @@ var ItemTextWithIcon = ({
 ] }) });
 var item_text_with_icon_default = ItemTextWithIcon;
 
-// app/ui/components/alert.tsx
+// assets/components/alert.tsx
 var import_jsx_runtime4 = __toESM(require_jsx_runtime());
 var isObject = (alert) => typeof alert === "object";
 var getHasCustomMessage = (alert) => isObject && Boolean(alert.customMessage);
@@ -38644,7 +38697,7 @@ var Alert = ({
 };
 var alert_default = Alert;
 
-// app/ui/components/alert-error.tsx
+// assets/components/alert-error.tsx
 var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var AlertError = () => {
   const [isActive, setIsActive] = (0, import_react13.useState)(false);
@@ -38674,7 +38727,7 @@ var AlertError = () => {
 };
 var alert_error_default = AlertError;
 
-// app/ui/components/app.tsx
+// assets/components/app.tsx
 var import_react22 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
@@ -39399,7 +39452,7 @@ var HelmetSideEffects = (0, import_react_side_effect.default)(reducePropsToState
 var HelmetExport = Helmet(HelmetSideEffects);
 HelmetExport.renderStatic = HelmetExport.rewind;
 
-// app/ui/lib/error.ts
+// assets/lib/error.ts
 var networkError = "It looks like you lost your internet connection. Please reload this page and try again.";
 var notFoundError = "Some data requested by this page could not be loaded.";
 var isErrorWithMessage = (error) => typeof error === "object" && error !== null && "message" in error && typeof error.message === "string";
@@ -39427,7 +39480,7 @@ var getError = (maybeError) => {
   return error;
 };
 
-// app/ui/lib/request.ts
+// assets/lib/request.ts
 var handleResponse = (response) => response.json().then(
   (json2) => response.ok ? json2 : Promise.reject(json2)
 );
@@ -39439,7 +39492,7 @@ var get2 = (url) => fetch(url, {
   }
 }).then(handleResponse);
 
-// app/ui/lib/fetch-from-path.ts
+// assets/lib/fetch-from-path.ts
 var getPeopleFromIncidents = (incidents) => incidents.flatMap((incident) => Object.values(incident.attendees)).flat().map((attendee) => attendee.person);
 var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
 var handleResult = (result) => {
@@ -39563,7 +39616,7 @@ var fetchFromPath = (path) => {
 };
 var fetch_from_path_default = fetchFromPath;
 
-// app/ui/components/modal-portal.tsx
+// assets/components/modal-portal.tsx
 var import_react15 = __toESM(require_react());
 var import_react_dom4 = __toESM(require_react_dom());
 var import_jsx_runtime6 = __toESM(require_jsx_runtime());
@@ -39634,7 +39687,7 @@ var ModalPortal = ({
 };
 var modal_portal_default = ModalPortal;
 
-// app/ui/components/alert-message.tsx
+// assets/components/alert-message.tsx
 var import_react16 = __toESM(require_react());
 var import_jsx_runtime7 = __toESM(require_jsx_runtime());
 var AlertMessage = () => {
@@ -39665,7 +39718,7 @@ var AlertMessage = () => {
 };
 var alert_message_default = AlertMessage;
 
-// app/ui/components/alert-warning.tsx
+// assets/components/alert-warning.tsx
 var import_react17 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var AlertWarning = () => {
@@ -39696,7 +39749,7 @@ var AlertWarning = () => {
 };
 var alert_warning_default = AlertWarning;
 
-// app/ui/components/eyes.tsx
+// assets/components/eyes.tsx
 var import_jsx_runtime9 = __toESM(require_jsx_runtime());
 var styles5 = css`
   display: flex;
@@ -39738,10 +39791,10 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { classNam
 ] });
 var eyes_default = Eyes;
 
-// app/ui/components/links.tsx
+// assets/components/links.tsx
 var import_react18 = __toESM(require_react());
 
-// app/ui/lib/links.ts
+// assets/lib/links.ts
 var isCurrent = (location2, newSearch) => {
   const { pathname, search } = location2;
   const currentPath = [pathname, search].filter(Boolean).join("");
@@ -39771,13 +39824,13 @@ var getQueryParams = (location2, newParams, replace4 = true) => {
   };
 };
 
-// app/ui/types.ts
+// assets/types.ts
 var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
   DataFormat2["csv"] = "CSV";
   return DataFormat2;
 })(DataFormat || {});
 
-// app/ui/components/links.tsx
+// assets/components/links.tsx
 var import_jsx_runtime10 = __toESM(require_jsx_runtime());
 var quarterParam = "quarter";
 var sortByParam = "sort_by";
@@ -39918,7 +39971,7 @@ var LinkToPerson = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, i
 var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Link, { to: "/sources", ...rest, children });
 var LinkToSource = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Link, { to: `/sources/${id}`, onClick, ...rest, children });
 
-// app/ui/components/global-footer.tsx
+// assets/components/global-footer.tsx
 var import_jsx_runtime11 = __toESM(require_jsx_runtime());
 var styles6 = css`
   color: var(--color-dull);
@@ -40066,13 +40119,13 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("footer"
 ] });
 var global_footer_default = GlobalFooter;
 
-// app/ui/components/global-header.tsx
+// assets/components/global-header.tsx
 var import_react20 = __toESM(require_react());
 
-// app/ui/components/incident-modal.tsx
+// assets/components/incident-modal.tsx
 var import_react19 = __toESM(require_react());
 
-// app/ui/components/item-description.tsx
+// assets/components/item-description.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
 var styles7 = css`
   color: var(--color-almost-black);
@@ -40082,7 +40135,7 @@ var styles7 = css`
 var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: cx("item-description", styles7, className), children });
 var item_description_default = ItemDescription;
 
-// app/ui/components/item-subhead.tsx
+// assets/components/item-subhead.tsx
 var import_jsx_runtime13 = __toESM(require_jsx_runtime());
 var styles8 = css`
   color: var(--color-black);
@@ -40151,7 +40204,7 @@ var ItemSubhead = ({
 );
 var item_subhead_default = ItemSubhead;
 
-// app/ui/components/stat-group.tsx
+// assets/components/stat-group.tsx
 var import_jsx_runtime14 = __toESM(require_jsx_runtime());
 var StatGroup = ({
   children,
@@ -40165,7 +40218,7 @@ var StatGroup = ({
 ] });
 var stat_group_default = StatGroup;
 
-// app/ui/components/incident-stat-group.tsx
+// assets/components/incident-stat-group.tsx
 var import_jsx_runtime15 = __toESM(require_jsx_runtime());
 var styles9 = css`
   .activity-stat {
@@ -40213,7 +40266,7 @@ var IncidentStatGroup = ({
 );
 var incident_stat_group_default = IncidentStatGroup;
 
-// app/ui/components/incident-attendees.tsx
+// assets/components/incident-attendees.tsx
 var import_jsx_runtime16 = __toESM(require_jsx_runtime());
 var styles10 = css`
   .incident-attendee {
@@ -40250,7 +40303,7 @@ var Attendees = ({ attendees }) => {
 };
 var incident_attendees_default = Attendees;
 
-// app/ui/components/incident-table.tsx
+// assets/components/incident-table.tsx
 var import_jsx_runtime17 = __toESM(require_jsx_runtime());
 var styles11 = css`
   --color-divider: var(--color-light-gray);
@@ -40321,7 +40374,7 @@ var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime17.j
 ] }) });
 var incident_table_default = IncidentTable;
 
-// app/ui/components/modal.tsx
+// assets/components/modal.tsx
 var import_jsx_runtime18 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
@@ -40348,7 +40401,7 @@ var Modal = ({
 );
 var modal_default = Modal;
 
-// app/ui/components/stat-box.tsx
+// assets/components/stat-box.tsx
 var import_jsx_runtime19 = __toESM(require_jsx_runtime());
 var styles12 = css`
   &.has-icon {
@@ -40398,7 +40451,7 @@ var StatBox = ({
 );
 var stat_box_default = StatBox;
 
-// app/ui/components/incident-modal.tsx
+// assets/components/incident-modal.tsx
 var import_jsx_runtime20 = __toESM(require_jsx_runtime());
 var styles13 = css`
   .modal-overlay {
@@ -40593,7 +40646,7 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
 };
 var incident_modal_default = IncidentModal;
 
-// app/ui/components/global-header.tsx
+// assets/components/global-header.tsx
 var import_jsx_runtime21 = __toESM(require_jsx_runtime());
 var styles14 = css`
   .global-header-content {
@@ -40866,7 +40919,7 @@ var GlobalHeader = () => {
 };
 var global_header_default = GlobalHeader;
 
-// app/ui/hooks/use-capture-scroll-position.ts
+// assets/hooks/use-capture-scroll-position.ts
 var import_react21 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
@@ -40891,7 +40944,7 @@ var useCaptureScrollPosition = (classNames = []) => {
 };
 var use_capture_scroll_position_default = useCaptureScrollPosition;
 
-// app/ui/components/app.tsx
+// assets/components/app.tsx
 var import_jsx_runtime22 = __toESM(require_jsx_runtime());
 var styles15 = css`
   position: relative;
@@ -40984,15 +41037,15 @@ var App = () => {
 };
 var app_default = App;
 
-// app/ui/lib/number.ts
+// assets/lib/number.ts
 var percentage = (portion, total) => (portion / total * 100).toFixed(2);
 
-// app/ui/components/entities/icon.tsx
+// assets/components/entities/icon.tsx
 var import_jsx_runtime23 = __toESM(require_jsx_runtime());
 var EntityIcon = () => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(icon_default, { name: "building" });
 var icon_default2 = EntityIcon;
 
-// app/ui/components/loading.tsx
+// assets/components/loading.tsx
 var import_react23 = __toESM(require_react());
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var styles16 = css`
@@ -41016,7 +41069,7 @@ var Loading = () => {
 };
 var loading_default = Loading;
 
-// app/ui/components/pagination.tsx
+// assets/components/pagination.tsx
 var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var styles17 = css`
   display: flex;
@@ -41109,7 +41162,7 @@ var Pagination = ({ pagination, onPageClick }) => {
 };
 var pagination_default = Pagination;
 
-// app/ui/components/section-index.tsx
+// assets/components/section-index.tsx
 var import_jsx_runtime26 = __toESM(require_jsx_runtime());
 var styles18 = css`
   a {
@@ -41277,7 +41330,7 @@ var SectionIndex = ({
 ] });
 var section_index_default = SectionIndex;
 
-// app/ui/components/entities/index.tsx
+// assets/components/entities/index.tsx
 var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var EntityItem = ({ id }) => {
   const entity = useSelector((state) => selectors.selectById(state, id));
@@ -41347,10 +41400,10 @@ var Index = () => {
 };
 var entities_default2 = Index;
 
-// app/ui/components/entities/detail.tsx
+// assets/components/entities/detail.tsx
 var import_react32 = __toESM(require_react());
 
-// app/ui/components/subsection-subhead.tsx
+// assets/components/subsection-subhead.tsx
 var import_jsx_runtime28 = __toESM(require_jsx_runtime());
 var styles19 = css`
   .item-subhead {
@@ -41388,7 +41441,7 @@ var SubsectionSubhead = ({ children, title }) => /* @__PURE__ */ (0, import_jsx_
 ), children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(item_subhead_default, { title, children: children && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(item_description_default, { children }) }) });
 var subsection_subhead_default = SubsectionSubhead;
 
-// app/ui/components/stat-section.tsx
+// assets/components/stat-section.tsx
 var import_jsx_runtime29 = __toESM(require_jsx_runtime());
 var StatSection = ({
   children,
@@ -41403,7 +41456,7 @@ var StatSection = ({
 ] });
 var stat_section_default = StatSection;
 
-// app/ui/components/incident-activity-overview.tsx
+// assets/components/incident-activity-overview.tsx
 var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var styles20 = css`
   .item-subhead + .activity-stat-group {
@@ -41450,13 +41503,13 @@ var ActivityOverview = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime3
 );
 var incident_activity_overview_default = ActivityOverview;
 
-// app/ui/components/entities/attendees.tsx
+// assets/components/entities/attendees.tsx
 var import_react25 = __toESM(require_react());
 
-// app/ui/components/affiliated-item-table.tsx
+// assets/components/affiliated-item-table.tsx
 var import_react24 = __toESM(require_react());
 
-// app/ui/components/item-table.tsx
+// assets/components/item-table.tsx
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
 var styles21 = css`
   width: 100%;
@@ -41531,7 +41584,7 @@ var ItemTable = ({
 ] });
 var item_table_default = ItemTable;
 
-// app/ui/components/item-table-row.tsx
+// assets/components/item-table-row.tsx
 var import_jsx_runtime32 = __toESM(require_jsx_runtime());
 var ItemTableRow = ({
   hasPercent = false,
@@ -41556,7 +41609,7 @@ var ItemTableRow = ({
 ] });
 var item_table_row_default = ItemTableRow;
 
-// app/ui/components/people/icon.tsx
+// assets/components/people/icon.tsx
 var import_jsx_runtime33 = __toESM(require_jsx_runtime());
 var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
   TypeForIcon2["group"] = "user-group";
@@ -41571,7 +41624,7 @@ var PersonIcon = ({ person }) => {
 };
 var icon_default3 = PersonIcon;
 
-// app/ui/components/affiliated-item-table.tsx
+// assets/components/affiliated-item-table.tsx
 var import_jsx_runtime34 = __toESM(require_jsx_runtime());
 var styles22 = css`
   &.no-results {
@@ -41709,7 +41762,7 @@ var AffiliatedItemTable = ({
 };
 var affiliated_item_table_default = AffiliatedItemTable;
 
-// app/ui/components/incident-activity-groups.tsx
+// assets/components/incident-activity-groups.tsx
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var styles23 = css`
   h5 {
@@ -41751,7 +41804,7 @@ var IncidentActivityGroups = ({
 );
 var incident_activity_groups_default = IncidentActivityGroups;
 
-// app/ui/components/incident-activity-group.tsx
+// assets/components/incident-activity-group.tsx
 var import_jsx_runtime36 = __toESM(require_jsx_runtime());
 var styles24 = css`
   .item-subsection {
@@ -41788,7 +41841,7 @@ var IncidentActivityGroup = ({
 );
 var incident_activity_group_default = IncidentActivityGroup;
 
-// app/ui/components/entities/attendees.tsx
+// assets/components/entities/attendees.tsx
 var import_jsx_runtime37 = __toESM(require_jsx_runtime());
 var Attendees2 = ({
   attendees,
@@ -41837,10 +41890,10 @@ var Attendees2 = ({
 };
 var attendees_default = Attendees2;
 
-// app/ui/components/entities/chart.tsx
+// assets/components/entities/chart.tsx
 var import_react28 = __toESM(require_react());
 
-// app/ui/components/item-chart.tsx
+// assets/components/item-chart.tsx
 var import_react27 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
@@ -42867,7 +42920,7 @@ function _getStartAndCountOfVisiblePoints(meta, points, animationsDisabled) {
     if (minDefined) {
       start = _limitValue(Math.min(
         // @ts-expect-error Need to type _parsed
-        _lookupByKey(_parsed, iScale.axis, min).lo,
+        _lookupByKey(_parsed, axis, min).lo,
         // @ts-expect-error Need to fix types on _lookupByKey
         animationsDisabled ? pointCount : _lookupByKey(points, axis, iScale.getPixelForValue(min)).lo
       ), 0, pointCount - 1);
@@ -46388,7 +46441,7 @@ var LineController = class extends DatasetController {
     line2._chart = this.chart;
     line2._datasetIndex = this.index;
     line2._decimated = !!_dataset._decimated;
-    line2.points = points;
+    line2.points = points.slice(Math.max(this._drawStart - 1, 0), this._drawStart + this._drawCount);
     const options2 = this.resolveDatasetElementOptions(mode);
     if (!this.options.showLine) {
       options2.borderWidth = 0;
@@ -49399,7 +49452,7 @@ function needContext(proxy, names2) {
   }
   return false;
 }
-var version = "4.3.0";
+var version = "4.3.1";
 var KNOWN_POSITIONS = [
   "top",
   "bottom",
@@ -51188,7 +51241,7 @@ var Legend = class extends Element2 {
         cursor2.x += width + padding;
       } else if (typeof legendItem.text !== "string") {
         const fontLineHeight = labelFont.lineHeight;
-        cursor2.y += calculateLegendItemHeight(legendItem, fontLineHeight);
+        cursor2.y += calculateLegendItemHeight(legendItem, fontLineHeight) + padding;
       } else {
         cursor2.y += lineHeight;
       }
@@ -51302,7 +51355,7 @@ function calculateItemHeight(_itemHeight, legendItem, fontLineHeight) {
   return itemHeight;
 }
 function calculateLegendItemHeight(legendItem, fontLineHeight) {
-  const labelHeight = legendItem.text ? legendItem.text.length + 0.5 : 0;
+  const labelHeight = legendItem.text ? legendItem.text.length : 0;
   return fontLineHeight * labelHeight;
 }
 function isListened(type, opts) {
@@ -53503,7 +53556,9 @@ var RadialLinearScale = class extends LinearScaleBase {
         ctx.fillRect(-width / 2 - padding.left, -offset - tickFont.size / 2 - padding.top, width + padding.width, tickFont.size + padding.height);
       }
       renderText(ctx, tick.label, 0, -offset, tickFont, {
-        color: optsAtIndex.color
+        color: optsAtIndex.color,
+        strokeColor: optsAtIndex.textStrokeColor,
+        strokeWidth: optsAtIndex.textStrokeWidth
       });
     });
     ctx.restore();
@@ -53846,7 +53901,7 @@ var TimeScale = class extends Scale {
     if (time === max || options2.bounds === "ticks" || count === 1) {
       addTick(ticks, time, timestamps);
     }
-    return Object.keys(ticks).sort((a2, b2) => a2 - b2).map((x2) => +x2);
+    return Object.keys(ticks).sort(sorter).map((x2) => +x2);
   }
   getLabelForValue(value) {
     const adapter5 = this._adapter;
@@ -54046,6 +54101,18 @@ var TimeSeriesScale = class extends TimeScale {
     }
     return table;
   }
+  _generate() {
+    const min = this.min;
+    const max = this.max;
+    let timestamps = super.getDataTimestamps();
+    if (!timestamps.includes(min) || !timestamps.length) {
+      timestamps.splice(0, 0, min);
+    }
+    if (!timestamps.includes(max) || timestamps.length === 1) {
+      timestamps.push(max);
+    }
+    return timestamps.sort((a2, b2) => a2 - b2);
+  }
   _getTimestampsForTable() {
     let timestamps = this._cache.all || [];
     if (timestamps.length) {
@@ -54210,7 +54277,7 @@ function createTypedChart(type, registerables) {
 }
 var Bar = /* @__PURE__ */ createTypedChart("bar", BarController);
 
-// app/ui/components/item-chart.tsx
+// assets/components/item-chart.tsx
 var import_jsx_runtime38 = __toESM(require_jsx_runtime());
 Chart.register(
   BarElement,
@@ -54330,7 +54397,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
 };
 var item_chart_default = ItemChart;
 
-// app/ui/components/entities/chart.tsx
+// assets/components/entities/chart.tsx
 var import_jsx_runtime39 = __toESM(require_jsx_runtime());
 var styles25 = css`
   .item-overview-chart {
@@ -54380,10 +54447,10 @@ var Chart3 = ({ label }) => {
 };
 var chart_default = Chart3;
 
-// app/ui/components/detail-incidents.tsx
+// assets/components/detail-incidents.tsx
 var import_react30 = __toESM(require_react());
 
-// app/ui/components/incidents-header.tsx
+// assets/components/incidents-header.tsx
 var import_jsx_runtime40 = __toESM(require_jsx_runtime());
 var styles26 = css`
   display: inline-block;
@@ -54449,7 +54516,7 @@ var IncidentsHeader = ({
 );
 var incidents_header_default = IncidentsHeader;
 
-// app/ui/components/incident-list-table.tsx
+// assets/components/incident-list-table.tsx
 var import_react29 = __toESM(require_react());
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 var styles27 = css`
@@ -54696,7 +54763,7 @@ var IncidentListTable = ({ hasSort, ids }) => {
 };
 var incident_list_table_default = IncidentListTable;
 
-// app/ui/components/incident-list.tsx
+// assets/components/incident-list.tsx
 var import_jsx_runtime42 = __toESM(require_jsx_runtime());
 var styles28 = css`
   font-size: 12px;
@@ -54726,7 +54793,7 @@ var IncidentList = ({
 ] });
 var incident_list_default = IncidentList;
 
-// app/ui/components/detail-incidents.tsx
+// assets/components/detail-incidents.tsx
 var import_jsx_runtime43 = __toESM(require_jsx_runtime());
 var styles29 = css`
   .activity-stat-section + & {
@@ -54828,7 +54895,7 @@ var DetailIncidents = (0, import_react30.forwardRef)(({
 DetailIncidents.displayName = "DetailIncidents";
 var detail_incidents_default = DetailIncidents;
 
-// app/ui/components/incident-date-box.tsx
+// assets/components/incident-date-box.tsx
 var import_react31 = __toESM(require_react());
 var import_jsx_runtime44 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({
@@ -54869,7 +54936,7 @@ var IncidentDateBox = ({
 };
 var incident_date_box_default = IncidentDateBox;
 
-// app/ui/components/stat-box-incident-count.tsx
+// assets/components/stat-box-incident-count.tsx
 var import_jsx_runtime45 = __toESM(require_jsx_runtime());
 var styles30 = css`
   background-color: var(--color-stat-light);
@@ -54911,7 +54978,7 @@ var IncidentCountBox = ({
 );
 var stat_box_incident_count_default = IncidentCountBox;
 
-// app/ui/components/incident-activity-stats.tsx
+// assets/components/incident-activity-stats.tsx
 var import_jsx_runtime46 = __toESM(require_jsx_runtime());
 var styles31 = css`
   cursor: pointer;
@@ -54944,7 +55011,7 @@ var IncidentShareBox = ({
   children
 }) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(stat_box_incident_count_default, { title: "Percent of total", children });
 
-// app/ui/components/item-detail.tsx
+// assets/components/item-detail.tsx
 var import_jsx_runtime47 = __toESM(require_jsx_runtime());
 var styles32 = css`
   .item-article {
@@ -54982,7 +55049,7 @@ var styles32 = css`
 var ItemDetail = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("section", { className: cx("item-detail", styles32, className), children });
 var item_detail_default = ItemDetail;
 
-// app/ui/components/stat-group-numbers.tsx
+// assets/components/stat-group-numbers.tsx
 var import_jsx_runtime48 = __toESM(require_jsx_runtime());
 var styles33 = css`
   display: grid;
@@ -55020,7 +55087,7 @@ var NumbersGroup = ({
 );
 var stat_group_numbers_default = NumbersGroup;
 
-// app/ui/components/entities/detail.tsx
+// assets/components/entities/detail.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 var Detail = () => {
   const ref = (0, import_react32.useRef)();
@@ -55095,14 +55162,14 @@ var Detail = () => {
 };
 var detail_default = Detail;
 
-// app/ui/lib/string.ts
+// assets/lib/string.ts
 var toSentence = (items, locale = "en", inclusive = true) => {
   const type = inclusive ? "conjunction" : "disjunction";
   const list = new Intl.ListFormat(locale, { style: "long", type });
   return list.format(items);
 };
 
-// app/ui/components/section-header.tsx
+// assets/components/section-header.tsx
 var import_react33 = __toESM(require_react());
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
 var styles34 = css`
@@ -55342,7 +55409,7 @@ var SectionHeader = ({
 };
 var section_header_default = SectionHeader;
 
-// app/ui/components/entities/section.tsx
+// assets/components/entities/section.tsx
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var Section = ({
   icon: icon3,
@@ -55377,7 +55444,7 @@ var Section = ({
 };
 var section_default = Section;
 
-// app/ui/components/home/chart.tsx
+// assets/components/home/chart.tsx
 var import_jsx_runtime52 = __toESM(require_jsx_runtime());
 var Chart4 = () => {
   const sources = useSelector(getSourcesDataForChart);
@@ -55389,7 +55456,7 @@ var Chart4 = () => {
 };
 var chart_default2 = Chart4;
 
-// app/ui/components/leaderboard/more.tsx
+// assets/components/leaderboard/more.tsx
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
 var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("div", { className: cx("leaderboard-more", css`
     padding-left: 6px;
@@ -55410,7 +55477,7 @@ var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_js
   `), children });
 var more_default = LeaderboardSubsectionGroup;
 
-// app/ui/components/leaderboard/subsection.tsx
+// assets/components/leaderboard/subsection.tsx
 var import_jsx_runtime54 = __toESM(require_jsx_runtime());
 var styles35 = css`
   & + & {
@@ -55426,7 +55493,7 @@ var styles35 = css`
 var LeaderboardSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("section", { className: cx("leaderboard-subsection", styles35), children });
 var subsection_default = LeaderboardSubsection;
 
-// app/ui/components/leaderboard/subsection-group.tsx
+// assets/components/leaderboard/subsection-group.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var styles36 = css`
   .item-subhead {
@@ -55446,7 +55513,7 @@ var styles36 = css`
 var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("div", { className: cx("leaderboard-subsection-group", styles36), children });
 var subsection_group_default = LeaderboardSubsectionGroup2;
 
-// app/ui/components/home/leaderboard-entities.tsx
+// assets/components/home/leaderboard-entities.tsx
 var import_jsx_runtime56 = __toESM(require_jsx_runtime());
 var EntitiesLeaderboard = () => {
   const result = useSelector(getEntitiesLeaderboard);
@@ -55465,7 +55532,7 @@ var EntitiesLeaderboard = () => {
 };
 var leaderboard_entities_default = EntitiesLeaderboard;
 
-// app/ui/components/people/index.tsx
+// assets/components/people/index.tsx
 var import_jsx_runtime57 = __toESM(require_jsx_runtime());
 var PersonItem = ({ id }) => {
   const person = useSelector((state) => selectors3.selectById(state, id));
@@ -55537,7 +55604,7 @@ var Index2 = () => {
 };
 var people_default2 = Index2;
 
-// app/ui/components/home/leaderboard-lobbyists.tsx
+// assets/components/home/leaderboard-lobbyists.tsx
 var import_jsx_runtime58 = __toESM(require_jsx_runtime());
 var LobbyistsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
@@ -55556,7 +55623,7 @@ var LobbyistsLeaderboard = () => {
 };
 var leaderboard_lobbyists_default = LobbyistsLeaderboard;
 
-// app/ui/components/home/leaderboard-officials.tsx
+// assets/components/home/leaderboard-officials.tsx
 var import_jsx_runtime59 = __toESM(require_jsx_runtime());
 var OfficialsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
@@ -55575,7 +55642,7 @@ var OfficialsLeaderboard = () => {
 };
 var leaderboard_officials_default = OfficialsLeaderboard;
 
-// app/ui/components/section.tsx
+// assets/components/section.tsx
 var import_jsx_runtime60 = __toESM(require_jsx_runtime());
 var styles37 = css`
   .section-header + .section-main {
@@ -55604,7 +55671,7 @@ var Section2 = ({
 ] });
 var section_default2 = Section2;
 
-// app/ui/components/home/index.tsx
+// assets/components/home/index.tsx
 var import_jsx_runtime61 = __toESM(require_jsx_runtime());
 var styles38 = css`
   .welcome-section + .welcome-section {
@@ -55637,7 +55704,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { classNa
 ] });
 var home_default = Home;
 
-// app/ui/components/incidents/index.tsx
+// assets/components/incidents/index.tsx
 var import_react34 = __toESM(require_react());
 var import_jsx_runtime62 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("p", { children: [
@@ -55674,7 +55741,7 @@ var Index3 = () => {
 };
 var incidents_default2 = Index3;
 
-// app/ui/components/incident-source-box.tsx
+// assets/components/incident-source-box.tsx
 var import_react35 = __toESM(require_react());
 var import_jsx_runtime63 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
@@ -55705,7 +55772,7 @@ var IncidentSourceBox = ({
 };
 var incident_source_box_default = IncidentSourceBox;
 
-// app/ui/components/incidents/detail.tsx
+// assets/components/incidents/detail.tsx
 var import_jsx_runtime64 = __toESM(require_jsx_runtime());
 var styles39 = css`
   --color-divider: var(--color-light-gray);
@@ -55799,7 +55866,7 @@ var Detail2 = () => {
 };
 var detail_default2 = Detail2;
 
-// app/ui/components/incidents/section.tsx
+// assets/components/incidents/section.tsx
 var import_jsx_runtime65 = __toESM(require_jsx_runtime());
 var Section3 = ({
   icon: icon3,
@@ -55824,10 +55891,10 @@ var Section3 = ({
 };
 var section_default3 = Section3;
 
-// app/ui/components/people/detail.tsx
+// assets/components/people/detail.tsx
 var import_react39 = __toESM(require_react());
 
-// app/ui/components/people/attendees.tsx
+// assets/components/people/attendees.tsx
 var import_react36 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
@@ -55917,7 +55984,7 @@ var Attendees3 = ({
 };
 var attendees_default2 = Attendees3;
 
-// app/ui/components/people/chart.tsx
+// assets/components/people/chart.tsx
 var import_react37 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var styles40 = css`
@@ -55968,7 +56035,7 @@ var Chart5 = ({ label }) => {
 };
 var chart_default3 = Chart5;
 
-// app/ui/components/people/entities.tsx
+// assets/components/people/entities.tsx
 var import_react38 = __toESM(require_react());
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
@@ -56021,7 +56088,7 @@ var Entities = ({ entities, person }) => {
 };
 var entities_default3 = Entities;
 
-// app/ui/components/people/detail.tsx
+// assets/components/people/detail.tsx
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
   const ref = (0, import_react39.useRef)();
@@ -56103,7 +56170,7 @@ var Detail3 = () => {
 };
 var detail_default3 = Detail3;
 
-// app/ui/components/people/section.tsx
+// assets/components/people/section.tsx
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Section4 = ({
   icon: icon3,
@@ -56128,7 +56195,7 @@ var Section4 = ({
 };
 var section_default4 = Section4;
 
-// app/ui/components/sources/item.tsx
+// assets/components/sources/item.tsx
 var import_react40 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var styles41 = css`
@@ -56224,7 +56291,7 @@ var Source = ({ id }) => {
 };
 var item_default = Source;
 
-// app/ui/components/sources/index.tsx
+// assets/components/sources/index.tsx
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var styles42 = css`
   .item-subhead {
@@ -56249,10 +56316,10 @@ var Index4 = () => {
 };
 var sources_default2 = Index4;
 
-// app/ui/components/sources/detail.tsx
+// assets/components/sources/detail.tsx
 var import_react41 = __toESM(require_react());
 
-// app/ui/components/sources/chart.tsx
+// assets/components/sources/chart.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var styles43 = css`
   .item-overview-chart {
@@ -56269,7 +56336,7 @@ var styles43 = css`
 var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: cx("activity-stat activity-chart", styles43), children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(item_chart_default, { label }) });
 var chart_default4 = Chart6;
 
-// app/ui/components/sources/detail.tsx
+// assets/components/sources/detail.tsx
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
 var styles44 = css`
   .activity-meta-section {
@@ -56413,7 +56480,7 @@ var Detail4 = () => {
 };
 var detail_default4 = Detail4;
 
-// app/ui/components/sources/section.tsx
+// assets/components/sources/section.tsx
 var import_jsx_runtime75 = __toESM(require_jsx_runtime());
 var Section5 = ({
   icon: icon3,
@@ -56438,7 +56505,7 @@ var Section5 = ({
 };
 var section_default5 = Section5;
 
-// app/ui/index.tsx
+// assets/index.tsx
 var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var rootTarget = document.getElementById("root");
 var router = createBrowserRouter([
@@ -56673,7 +56740,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.7.1
+   * @remix-run/router v1.7.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56685,7 +56752,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.14.1
+   * React Router v6.14.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56697,7 +56764,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.14.1
+   * React Router DOM v6.14.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56717,7 +56784,7 @@ react-router-dom/dist/index.js:
 
 chart.js/dist/chunks/helpers.segment.js:
   (*!
-   * Chart.js v4.3.0
+   * Chart.js v4.3.1
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
@@ -56725,7 +56792,7 @@ chart.js/dist/chunks/helpers.segment.js:
 
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.3.0
+   * Chart.js v4.3.1
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
