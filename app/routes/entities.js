@@ -4,6 +4,7 @@ const router = express.Router();
 const { snakeCase } = require('snake-case');
 
 const linkHelper = require('../helpers/links');
+const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { PER_PAGE } = require('../models/entities');
@@ -22,20 +23,21 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
+  const page = req.query.get('page') || 1;
+  const sort = req.query.get('sort');
+  const sortBy = req.query.get('sort_by');
+
+  const params = {};
+  const perPage = PER_PAGE;
+  const links = linkHelper.links;
+  const description = metaHelper.getIndexDescription('entities');
+
+  let allEntities;
+  let entityTotal;
+  let data;
+  let meta;
+
   if (req.get('Content-Type') === headers.json) {
-    const page = req.query.get('page') || 1;
-    const sort = req.query.get('sort');
-    const sortBy = req.query.get('sort_by');
-
-    const params = {};
-    const perPage = PER_PAGE;
-    const links = linkHelper.links;
-
-    let allEntities;
-    let entityTotal;
-    let data;
-    let meta;
-
     try {
       allEntities = await entities.getAll({
         page,
@@ -66,48 +68,58 @@ router.get('/', async (req, res, next) => {
           total: entityTotal,
         }
       };
-      meta = { page, view };
+      meta = { description, page, view };
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting entities:', err.message);
+      console.error('Error while getting entities:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
-    res.render(template, { title, robots: headers.robots });
+    meta = { description };
+
+    res.render(template, { title, meta, robots: headers.robots });
   }
 });
 
 router.get('/:id', async (req, res, next) => {
+  const id = req.params.id;
+  const page = req.query.get('page') || 1;
+  const quarter = req.query.get('quarter');
+  const sort = req.query.get('sort');
+  const withPersonId = req.query.get('with_person_id');
+
+  const errors = [];
+  const warnings = [];
+  const params = {};
+  const perPage = INCIDENTS_PER_PAGE;
+  const links = linkHelper.links;
+
+  let quarterSourceId;
+  let entity;
+  let description;
+  let incidentsStats;
+  let entityIncidents;
+  let entityLocations;
+  let records;
+  let attendees;
+  let data;
+  let meta;
+
+  try {
+    entity = await entities.getAtId(id);
+    description = metaHelper.getDetailDescription(entity.name);
+  } catch (err) {
+    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+
   if (req.get('Content-Type') === headers.json) {
-    const id = req.params.id;
-    const page = req.query.get('page') || 1;
-    const quarter = req.query.get('quarter');
-    const sort = req.query.get('sort');
-    const withPersonId = req.query.get('with_person_id');
-
-    const errors = [];
-    const warnings = [];
-    const params = {};
-    const perPage = INCIDENTS_PER_PAGE;
-    const links = linkHelper.links;
-
-    let quarterSourceId;
-    let entity;
-    let incidentsStats;
-    let entityIncidents;
-    let entityLocations;
-    let records;
-    let attendees;
-    let data;
-    let meta;
-
     if (paramHelper.hasQuarterAndYear(quarter)) {
       quarterSourceId = await sources.getIdForQuarter(quarter);
     }
 
     try {
-      entity = await entities.getAtId(id);
       entityLocations = await antityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({ entityId: id, quarterSourceId, withPersonId });
       entityIncidents = await incidents.getAll({
@@ -152,15 +164,25 @@ router.get('/:id', async (req, res, next) => {
           },
         },
       };
-      meta = { errors, id, page, perPage, view, warnings };
+      meta = {
+        description,
+        errors,
+        id,
+        page,
+        perPage,
+        view,
+        warnings,
+      };
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting entity:', err.message);
+      console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
-    res.render(template, { title, robots: headers.robots });
+    meta = { description };
+
+    res.render(template, { title, meta, robots: headers.robots });
   }
 });
 
@@ -189,7 +211,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting entity attendees:', err.message);
+      console.error('Error while getting entity attendees:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
@@ -220,7 +242,7 @@ router.get('/:id/stats', async (req, res, next) => {
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting entity:', err.message);
+      console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {

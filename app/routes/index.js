@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
+const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
@@ -14,13 +15,15 @@ const title = 'Remixing public lobbying data published by the City of Portland, 
 const template = 'main';
 
 router.get('/', async (req, res, next) => {
+  const description = metaHelper.getIndexDescription();
+  const meta = { description };
+
   if (req.get('Content-Type') === headers.json) {
     let entitiesResult;
     let lobbyistsResult;
     let peopleResult;
     let officialsResult;
     let data;
-    let meta;
 
     try {
       entitiesResult = await entities.getAll({
@@ -63,15 +66,14 @@ router.get('/', async (req, res, next) => {
           }
         },
       };
-      meta = {};
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting people:', err.message);
+      console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
-    res.render(template, { title, robots: headers.robots });
+    res.render(template, { title, meta, robots: headers.robots });
   }
 });
 
@@ -100,7 +102,7 @@ router.get('/overview', async (req, res, next) => {
 
       res.json({ data });
     } catch (err) {
-      console.error('Error while getting overview:', err.message);
+      console.error('Error while getting overview:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {

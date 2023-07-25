@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, Outlet, ScrollRestoration } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { useSelector } from 'react-redux';
 import { cx, css } from '@emotion/css';
 
 import fetchFromPath from '../lib/fetch-from-path';
@@ -14,6 +15,8 @@ import GlobalFooter from './global-footer';
 import GlobalHeader from './global-header';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
+
+import { getDescription } from '../selectors';
 
 const styles = css`
   position: relative;
@@ -78,6 +81,7 @@ const styles = css`
 const App = () => {
   const initiated = useRef(false);
   const location = useLocation();
+  const description = useSelector(getDescription);
 
   const scrollCaptureClasses: Array<string> = [hasAlertClass, hasModalClass];
 
@@ -91,7 +95,7 @@ const App = () => {
       initiated.current = true;
     }
 
-    fetchFromPath(pathname + search);
+    fetchFromPath(pathname + search, true);
   }, [initiated, location]);
 
   return (
@@ -99,7 +103,11 @@ const App = () => {
       <Helmet
         defaultTitle='The Big Blink PDX'
         titleTemplate='%s | The Big Blink PDX'
-      />
+      >
+        {description && (
+          <meta name='description' content={description} />
+        )}
+      </Helmet>
       <AlertError />
       <AlertMessage />
       <AlertWarning />

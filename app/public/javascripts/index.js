@@ -32946,6 +32946,7 @@ var getPeopleChartData = createSelector(
   [getSourcesChartIds, getPeopleStats],
   getIndexedTotals
 );
+var getDescription = createSelector(getUI, (ui) => ui.description);
 var getErrors = createSelector(getUI, (ui) => ui.errors);
 var getMessages = createSelector(getUI, (ui) => ui.messages);
 var getWarnings = createSelector(getUI, (ui) => ui.warnings);
@@ -33219,6 +33220,7 @@ var statsReducer = createReducer(initialState, (builder) => {
 var stats_default = statsReducer;
 
 // assets/reducers/ui.ts
+var setDescription = createAction("ui/setDescription");
 var clearErrors = createAction("ui/clearErrors");
 var clearMessages = createAction("ui/clearMessages");
 var clearWarnings = createAction("ui/clearWarnings");
@@ -33230,12 +33232,14 @@ var actions2 = {
   clearErrors,
   clearMessages,
   clearWarnings,
+  setDescription,
   setError,
   setMessage,
   setPositionY,
   setWarning
 };
 var initialState2 = {
+  description: null,
   errors: [],
   messages: [],
   positionY: 0,
@@ -33257,6 +33261,8 @@ var uiReducer = createReducer(initialState2, (builder) => {
       return;
     }
     state.messages.push(action.payload);
+  }).addCase(setDescription, (state, action) => {
+    state.description = action.payload;
   }).addCase(setPositionY, (state, action) => {
     state.positionY = action.payload;
   }).addCase(clearWarnings, (state) => {
@@ -39495,7 +39501,7 @@ var get2 = (url) => fetch(url, {
 // assets/lib/fetch-from-path.ts
 var getPeopleFromIncidents = (incidents) => incidents.flatMap((incident) => Object.values(incident.attendees)).flat().map((attendee) => attendee.person);
 var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
-var handleResult = (result) => {
+var handleResult = (result, isPrimary) => {
   const dispatch = store_default.dispatch;
   const { data, meta } = result;
   if (data) {
@@ -39593,6 +39599,11 @@ var handleResult = (result) => {
     }
   }
   if (meta) {
+    if (isPrimary) {
+      if ("description" in meta) {
+        dispatch(actions2.setDescription(meta.description));
+      }
+    }
     if ("errors" in meta) {
       meta.errors.forEach((error) => {
         dispatch(actions2.setError(error));
@@ -39609,10 +39620,10 @@ var handleError = (error) => {
   const dispatch = store_default.dispatch;
   dispatch(actions2.setError(getError(error)));
 };
-var fetchFromPath = (path) => {
+var fetchFromPath = (path, isPrimary = false) => {
   const url = new URL(path, window.location.toString());
   const endpoint = url.pathname + url.search;
-  return get2(endpoint).then(handleResult).catch(handleError);
+  return get2(endpoint).then((result) => handleResult(result, isPrimary)).catch(handleError);
 };
 var fetch_from_path_default = fetchFromPath;
 
@@ -41008,6 +41019,7 @@ var styles15 = css`
 var App = () => {
   const initiated = (0, import_react22.useRef)(false);
   const location2 = useLocation();
+  const description = useSelector(getDescription);
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
   (0, import_react22.useEffect)(() => {
@@ -41016,14 +41028,15 @@ var App = () => {
       fetch_from_path_default("/overview");
       initiated.current = true;
     }
-    fetch_from_path_default(pathname + search);
+    fetch_from_path_default(pathname + search, true);
   }, [initiated, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: cx("global-layout", styles15), children: [
     /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
       HelmetExport,
       {
         defaultTitle: "The Big Blink PDX",
-        titleTemplate: "%s | The Big Blink PDX"
+        titleTemplate: "%s | The Big Blink PDX",
+        children: description && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("meta", { name: "description", content: description })
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(alert_error_default, {}),
@@ -56102,71 +56115,62 @@ var Detail3 = () => {
   const hasIncidents = Boolean(incidents);
   if (!hasPerson)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(item_detail_default, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-      "meta",
-      {
-        name: "description",
-        content: `Lobbying activity involving ${person.name} according to data published by the City of Portland, Oregon`
-      }
-    ) }),
-    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_activity_overview_default, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_numbers_default, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(IncidentShareBox, { children: [
-              incidents.percentage,
-              "%"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
+  return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_detail_default, { children: hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_activity_overview_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(stat_group_numbers_default, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(IncidentShareBox, { children: [
+            incidents.percentage,
+            "%"
           ] }),
-          (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-              incident_date_box_default,
-              {
-                title: "First appearance",
-                incident: incidents.first
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-              incident_date_box_default,
-              {
-                title: "Most recent appearance",
-                incident: incidents.last
-              }
-            )
-          ] })
+          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(IncidentTotalBox, { onClick: scrollToRef, children: incidents.total })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(chart_default3, { label: person.name })
+        (incidents.first || incidents.last) && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+            incident_date_box_default,
+            {
+              title: "First appearance",
+              incident: incidents.first
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+            incident_date_box_default,
+            {
+              title: "Most recent appearance",
+              incident: incidents.last
+            }
+          )
+        ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-        entities_default3,
-        {
-          entities: person.entities,
-          person
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-        attendees_default2,
-        {
-          attendees: person.attendees,
-          person
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
-        detail_incidents_default,
-        {
-          ids: person.incidents?.ids,
-          filters: person.incidents?.filters,
-          hasSort: true,
-          label: person.name,
-          pagination: person.incidents?.pagination,
-          scrollToRef,
-          ref
-        }
-      )
-    ] })
-  ] });
+      /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(chart_default3, { label: person.name })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+      entities_default3,
+      {
+        entities: person.entities,
+        person
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+      attendees_default2,
+      {
+        attendees: person.attendees,
+        person
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+      detail_incidents_default,
+      {
+        ids: person.incidents?.ids,
+        filters: person.incidents?.filters,
+        hasSort: true,
+        label: person.name,
+        pagination: person.incidents?.pagination,
+        scrollToRef,
+        ref
+      }
+    )
+  ] }) });
 };
 var detail_default3 = Detail3;
 

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const linkHelper = require('../helpers/links');
+const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { PER_PAGE } = require('../models/incidents');
@@ -16,20 +17,21 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
+  const page = req.query.get('page') || 1;
+  const sort = req.query.get('sort');
+
+  const params = {};
+  const perPage = PER_PAGE;
+  const links = linkHelper.links;
+  const description = metaHelper.getIndexDescription();
+
+  let incidentsResult;
+  let incidentCountResult;
+  let records;
+  let data;
+  let meta;
+
   if (req.get('Content-Type') === headers.json) {
-    const page = req.query.get('page') || 1;
-    const sort = req.query.get('sort');
-
-    const params = {};
-    const perPage = PER_PAGE;
-    const links = linkHelper.links;
-
-    let incidentsResult;
-    let incidentCountResult;
-    let records;
-    let data;
-    let meta;
-
     try {
       incidentsResult = await incidents.getAll({ page, perPage, sort });
       incidentCountResult = await incidents.getTotal();
@@ -52,27 +54,30 @@ router.get('/', async (req, res, next) => {
           total: incidentCountResult,
         }
       };
-      meta = { page, perPage, view };
+      meta = { description, page, perPage, view };
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting incidents:', err.message);
+      console.error('Error while getting incidents:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
-    res.render(template, { title, robots: headers.robots });
+    meta = { description };
+
+    res.render(template, { title, meta, robots: headers.robots });
   }
 });
 
 router.get('/:id', async (req, res, next) => {
+  const id = req.params.id;
+  const description = metaHelper.getDetailDescription();
+
+  let incidentResult;
+  let attendeesResult;
+  let data;
+  let meta;
+
   if (req.get('Content-Type') === headers.json) {
-    const id = req.params.id;
-
-    let incidentResult;
-    let attendeesResult;
-    let data;
-    let meta;
-
     try {
       incidentResult = await incidents.getAtId(id);
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
@@ -85,15 +90,17 @@ router.get('/:id', async (req, res, next) => {
           },
         },
       };
-      meta = { id, view };
+      meta = { description, id, view };
 
       res.json({ title, data, meta });
     } catch (err) {
-      console.error('Error while getting incident:', err.message);
+      console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
-    res.render(template, { title, robots: headers.robots });
+    meta = { description };
+
+    res.render(template, { title, meta, robots: headers.robots });
   }
 });
 

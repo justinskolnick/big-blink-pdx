@@ -22,7 +22,7 @@ const getPeopleFromIncidents = (incidents: Incidents) =>
 const getEntitiesFromPerson = (person: Person) =>
   person?.entities ? Object.values(person.entities).flat().map(entry => entry.entity) : [];
 
-const handleResult = (result: Result) => {
+const handleResult = (result: Result, isPrimary: boolean) => {
   const dispatch = store.dispatch;
   const { data, meta } = result;
 
@@ -147,6 +147,12 @@ const handleResult = (result: Result) => {
   }
 
   if (meta) {
+    if (isPrimary) {
+      if ('description' in meta) {
+        dispatch(uiActions.setDescription(meta.description));
+      }
+    }
+
     if ('errors' in meta) {
       meta.errors.forEach((error: ErrorType) => {
         dispatch(uiActions.setError(error));
@@ -167,11 +173,13 @@ const handleError = (error: unknown) => {
   dispatch(uiActions.setError(getError(error)));
 };
 
-const fetchFromPath = (path: string) => {
+const fetchFromPath = (path: string, isPrimary: boolean = false) => {
   const url = new URL(path, window.location.toString());
   const endpoint = url.pathname + url.search;
 
-  return get(endpoint).then(handleResult).catch(handleError);
+  return get(endpoint)
+    .then((result) => handleResult(result, isPrimary))
+    .catch(handleError);
 };
 
 export default fetchFromPath;

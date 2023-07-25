@@ -105,6 +105,7 @@ export const getPeopleChartData = createSelector(
   getIndexedTotals
 );
 
+export const getDescription = createSelector(getUI, ui => ui.description);
 export const getErrors = createSelector(getUI, ui => ui.errors);
 export const getMessages = createSelector(getUI, ui => ui.messages);
 export const getWarnings = createSelector(getUI, ui => ui.warnings);
