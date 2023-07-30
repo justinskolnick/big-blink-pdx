@@ -25,7 +25,7 @@ const Section = ({
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
   const title = getSectionTitle(name, entity?.name);
   const hasDomain = Boolean(entity?.domain);
-  const hasLocations = Boolean(entity?.locations);
+  const hasLocations = Boolean(entity?.locations?.length);
   let locations;
 
   if (hasLocations) {
