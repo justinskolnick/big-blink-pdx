@@ -4,7 +4,12 @@ const { TABLE, FIELDS } = require('../models/entities');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
 const db = require('../services/db');
 
-const { SORT_ASC, SORT_DESC } = paramHelper;
+const {
+  SORT_ASC,
+  SORT_BY_NAME,
+  SORT_BY_TOTAL,
+  SORT_DESC,
+} = paramHelper;
 
 const adaptResults = (result) => ({
   id: result.id,
@@ -21,7 +26,7 @@ const getAllQuery = (options = {}) => {
     limit,
     includeCount = false,
     sort,
-    sortBy,
+    sortBy = SORT_BY_NAME,
   } = options;
 
   const clauses = [];
@@ -37,6 +42,10 @@ const getAllQuery = (options = {}) => {
     selections.push(`COUNT(${INCIDENTS_TABLE}.id) AS total`);
   }
 
+  if (!sortBy || sortBy === SORT_BY_NAME) {
+    selections.push(`CASE WHEN ${TABLE}.name LIKE 'The %' THEN TRIM(SUBSTR(${TABLE}.name FROM 4)) ELSE ${TABLE}.name END AS sort_name`);
+  }
+
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${TABLE}`);
 
@@ -47,10 +56,10 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('ORDER BY');
 
-  if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {
+  if (includeCount && sortBy === SORT_BY_TOTAL) {
     clauses.push(`total ${sort || SORT_DESC}`);
   } else {
-    clauses.push(`${TABLE}.name ${sort || SORT_ASC}`);
+    clauses.push(`sort_name ${sort || SORT_ASC}`);
   }
 
   if (page && perPage) {
