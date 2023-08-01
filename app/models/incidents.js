@@ -12,7 +12,7 @@ const FIELDS = [
   'lobbyists',
   'notes',
 ];
-const PER_PAGE = 10;
+const PER_PAGE = 15;
 
 module.exports = {
   TABLE,
