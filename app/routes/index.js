@@ -11,7 +11,7 @@ const incidents = require('../services/incidents');
 const people = require('../services/people');
 const sources = require('../services/sources');
 
-const title = 'Remixing public lobbying data published by the City of Portland, Oregon';
+const title = 'Remixing lobbying data published by the City of Portland, Oregon';
 const template = 'main';
 
 router.get('/', async (req, res, next) => {
