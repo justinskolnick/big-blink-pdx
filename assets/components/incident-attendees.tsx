@@ -16,7 +16,7 @@ interface AttendeesProps {
 const styles = css`
   .incident-attendee {
     span {
-      color: var(--color-dull);
+      color: var(--color-text-lighter);
       font-weight: 200;
       font-size: 12px;
 

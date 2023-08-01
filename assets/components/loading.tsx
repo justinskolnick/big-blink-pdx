@@ -3,7 +3,7 @@ import { cx, css } from '@emotion/css';
 
 const styles = css`
   padding: 18px 0;
-  color: var(--color-dull);
+  color: var(--color-text-lighter);
   font-size: 18px;
   text-align: center;
 `;

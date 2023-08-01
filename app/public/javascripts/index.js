@@ -35547,7 +35547,7 @@ var styles = css`
       }
 
       &.original-message-content {
-        color: var(--color-dull);
+        color: var(--color-text-lighter);
         font-size: 10px;
       }
     }
@@ -39985,7 +39985,7 @@ var LinkToSource = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, i
 // assets/components/global-footer.tsx
 var import_jsx_runtime11 = __toESM(require_jsx_runtime());
 var styles6 = css`
-  color: var(--color-dull);
+  color: var(--color-text-lighter);
 
   .global-footer-navigation {
     ul {
@@ -40139,7 +40139,7 @@ var import_react19 = __toESM(require_react());
 // assets/components/item-description.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
 var styles7 = css`
-  color: var(--color-almost-black);
+  color: var(--color-text-light);
   font-size: 14px;
   line-height: 21px;
 `;
@@ -40282,7 +40282,7 @@ var import_jsx_runtime16 = __toESM(require_jsx_runtime());
 var styles10 = css`
   .incident-attendee {
     span {
-      color: var(--color-dull);
+      color: var(--color-text-lighter);
       font-weight: 200;
       font-size: 12px;
 
@@ -40422,7 +40422,7 @@ var styles12 = css`
     .icon {
       margin-right: 1ch;
       width: 30px;
-      color: var(--color-almost-black);
+      color: var(--color-text-light);
       font-size: 27px;
 
       svg {
@@ -41063,7 +41063,7 @@ var import_react23 = __toESM(require_react());
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var styles16 = css`
   padding: 18px 0;
-  color: var(--color-dull);
+  color: var(--color-text-lighter);
   font-size: 18px;
   text-align: center;
 `;
@@ -41427,7 +41427,7 @@ var styles19 = css`
     }
 
     .item-description {
-      color: var(--color-dull);
+      color: var(--color-text-lighter);
       font-size: 13px;
     }
   }
@@ -41643,7 +41643,7 @@ var styles22 = css`
   &.no-results {
     padding-bottom: 6px;
     padding-top: 6px;
-    color: var(--color-dull);
+    color: var(--color-text-lighter);
     font-size: 16px;
   }
 
@@ -41668,7 +41668,7 @@ var styles22 = css`
         font-size: 10px;
 
         a {
-          color: var(--color-dull);
+          color: var(--color-text-lighter);
 
           .icon {
             color: inherit;
@@ -54535,28 +54535,11 @@ var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 var styles27 = css`
   position: relative;
   padding: 9px;
-  border: 2px solid var(--color-table-divider);
   border-radius: 9px;
-  background-color: var(--color-table-frame-background);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    --mask:
-      radial-gradient(11.5px at 50% calc(100% + 5.40px),#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) calc(50% - 18px) calc(50% - 5.5px + .5px)/36px 11px ,
-      radial-gradient(11.5px at 50% -5.4px,#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) 50% calc(50% + 5.5px)/36px 11px ;
-    -webkit-mask: var(--mask);
-            mask: var(--mask);
-    background-color: var(--color-table-header-background);
-    z-index: 1;
-  }
+  background: linear-gradient(to bottom, rgba(var(--color-table-frame-background), 0.5) 50%, rgba(var(--color-table-frame-background), 0.25) 100%);
 
   .incident-list-table {
-    border: 2px solid var(--color-table-divider);
+    border: 2px solid rgba(var(--color-table-frame-background), 0.25);
     border-radius: 9px;
     overflow-x: auto;
   }
@@ -56381,7 +56364,7 @@ var styles44 = css`
     line-height: 18px;
 
     strong {
-      color: var(--color-almost-black);
+      color: var(--color-text-light);
       font-weight: 500;
     }
 

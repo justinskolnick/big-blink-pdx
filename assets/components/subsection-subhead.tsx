@@ -13,7 +13,7 @@ const styles = css`
     }
 
     .item-description {
-      color: var(--color-dull);
+      color: var(--color-text-lighter);
       font-size: 13px;
     }
   }

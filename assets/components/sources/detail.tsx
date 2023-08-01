@@ -62,7 +62,7 @@ const styles = css`
     line-height: 18px;
 
     strong {
-      color: var(--color-almost-black);
+      color: var(--color-text-light);
       font-weight: 500;
     }
 

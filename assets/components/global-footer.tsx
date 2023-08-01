@@ -5,7 +5,7 @@ import Eyes from './eyes';
 import { GlobalLink, LinkToSources } from './links';
 
 const styles = css`
-  color: var(--color-dull);
+  color: var(--color-text-lighter);
 
   .global-footer-navigation {
     ul {

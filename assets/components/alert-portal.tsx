@@ -113,7 +113,7 @@ const styles = css`
       }
 
       &.original-message-content {
-        color: var(--color-dull);
+        color: var(--color-text-lighter);
         font-size: 10px;
       }
     }

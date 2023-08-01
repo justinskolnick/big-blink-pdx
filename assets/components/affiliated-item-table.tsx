@@ -19,7 +19,7 @@ const styles = css`
   &.no-results {
     padding-bottom: 6px;
     padding-top: 6px;
-    color: var(--color-dull);
+    color: var(--color-text-lighter);
     font-size: 16px;
   }
 
@@ -44,7 +44,7 @@ const styles = css`
         font-size: 10px;
 
         a {
-          color: var(--color-dull);
+          color: var(--color-text-lighter);
 
           .icon {
             color: inherit;

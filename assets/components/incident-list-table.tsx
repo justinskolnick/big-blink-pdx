@@ -29,28 +29,11 @@ interface IncidentListTableProps {
 const styles = css`
   position: relative;
   padding: 9px;
-  border: 2px solid var(--color-table-divider);
   border-radius: 9px;
-  background-color: var(--color-table-frame-background);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    --mask:
-      radial-gradient(11.5px at 50% calc(100% + 5.40px),#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) calc(50% - 18px) calc(50% - 5.5px + .5px)/36px 11px ,
-      radial-gradient(11.5px at 50% -5.4px,#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) 50% calc(50% + 5.5px)/36px 11px ;
-    -webkit-mask: var(--mask);
-            mask: var(--mask);
-    background-color: var(--color-table-header-background);
-    z-index: 1;
-  }
+  background: linear-gradient(to bottom, rgba(var(--color-table-frame-background), 0.5) 50%, rgba(var(--color-table-frame-background), 0.25) 100%);
 
   .incident-list-table {
-    border: 2px solid var(--color-table-divider);
+    border: 2px solid rgba(var(--color-table-frame-background), 0.25);
     border-radius: 9px;
     overflow-x: auto;
   }

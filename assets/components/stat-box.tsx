@@ -20,7 +20,7 @@ const styles = css`
     .icon {
       margin-right: 1ch;
       width: 30px;
-      color: var(--color-almost-black);
+      color: var(--color-text-light);
       font-size: 27px;
 
       svg {

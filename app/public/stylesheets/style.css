@@ -31,8 +31,6 @@
   --color-light-green: lightgreen;
   --color-red: crimson;
   --color-orange: orange;
-  --color-orange-rgb: 255, 165, 0;
-  --color-light-orange: sandybrown;
   --color-yellow: goldenrod;
   --color-yellow-rgb: 218, 165, 32;
   --color-light-yellow: cornsilk;
@@ -44,6 +42,8 @@
   --color-header-icon: var(--color-green);
   --color-header-icon-link: var(--color-blue);
   --color-text: var(--color-black);
+  --color-text-light: var(--color-almost-black);
+  --color-text-lighter: var(--color-gray);
   --color-link: var(--color-blue);
   --color-link-light: var(--color-light-blue);
   --color-accent: var(--color-green);
@@ -59,7 +59,6 @@
   --color-warning: var(--color-yellow);
 
   --color-divider: var(--color-light-brown);
-  --color-dull: var(--color-gray);
 
   --gap: 18px;
   --grid-border: 3px solid var(--color-divider);
@@ -68,7 +67,7 @@
   --color-table-background: var(--color-background);
   --color-table-header-background: var(--color-blue);
   --color-table-header-text: var(--color-background);
-  --color-table-frame-background: var(--color-light-blue);
+  --color-table-frame-background: var(--color-blue-rgb);
   --color-table-footer-background: var(--color-light-blue);
   --color-table-footer-color: var(--color-blue);
   --color-table-border: var(--color-blue);
