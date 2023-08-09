@@ -17,7 +17,7 @@ const styles = css`
   }
 
   .activity-stat-titles {
-    color: var(--color-accent-alt);
+    color: var(--color-accent-darker);
     font-size: 12px;
     line-height: 21px;
   }

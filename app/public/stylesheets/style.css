@@ -28,7 +28,7 @@
   --color-light-blue: aliceblue;
   --color-green: olivedrab;
   --color-dark-green: darkolivegreen;
-  --color-light-green: lightgreen;
+  --color-light-green: darkseagreen;
   --color-red: crimson;
   --color-orange: orange;
   --color-yellow: goldenrod;
@@ -50,7 +50,7 @@
   --color-accent-darker: var(--color-dark-green);
   --color-accent-lighter: var(--color-light-green);
   --color-accent-lightest: var(--color-off-white);
-  --color-accent-alt: var(--color-brown);
+  --color-accent-alt: var(--color-accent);
   --color-accent-alt-lighter: var(--color-light-brown);
   --color-accent-alt-lighter-rgb: var(--color-light-brown-rgb);
   --color-light: var(--color-gray);
@@ -59,6 +59,7 @@
   --color-warning: var(--color-yellow);
 
   --color-divider: var(--color-light-brown);
+  --color-section-divider: var(--color-light-brown);
 
   --gap: 18px;
   --grid-border: 3px solid var(--color-divider);
@@ -76,7 +77,7 @@
   --color-table-link: var(--color-blue);
 
   --color-stat: var(--color-black);
-  --color-stat-label: var(--color-brown);
+  --color-stat-label: var(--color-accent-darker);
   --color-stat-light: var(--color-off-white);
 }
 

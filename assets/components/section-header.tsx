@@ -30,8 +30,10 @@ const styles = css`
     width: var(--section-header-eyes-size);
     height: var(--section-header-eyes-size);
     border-radius: 50%;
-    background-color: rgba(var(--color-light-gray-rgb), 0.5);
-    color: var(--color-gray);
+    // background-color: rgba(var(--color-light-gray-rgb), 0.5);
+    background-color: var(--color-accent-lightest);
+    // color: var(--color-gray);
+    color: var(--color-accent-darker);
     font-size: 8px;
     z-index: 1;
 

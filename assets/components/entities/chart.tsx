@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { css, cx } from '@emotion/css';
 
 import fetchFromPath from '../../lib/fetch-from-path';
 
+import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 
 import { getEntitiesChartData } from '../../selectors';
@@ -12,19 +12,6 @@ import { getEntitiesChartData } from '../../selectors';
 interface Props {
   label: string;
 }
-
-const styles = css`
-  .item-overview-chart {
-    padding: 18px;
-    border-radius: 9px;
-    background-color: var(--color-stat-light);
-    border: 1px solid var(--color-accent-alt-lighter);
-
-    & + .item-article {
-      margin-top: 18px;
-    }
-  }
-`;
 
 const Chart = ({ label }: Props) => {
   const fetched = useRef(false);
@@ -68,9 +55,9 @@ const Chart = ({ label }: Props) => {
   }, [quarterParam, quarter, setSearchParams]);
 
   return (
-    <div className={cx('activity-stat activity-chart', styles)}>
+    <IncidentActivityChart>
       <ItemChart lineProps={lineProps} handleClick={handleClick} />
-    </div>
+    </IncidentActivityChart>
   );
 };
 

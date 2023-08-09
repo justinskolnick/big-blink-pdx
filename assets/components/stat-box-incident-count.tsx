@@ -12,7 +12,6 @@ interface Props {
 
 const styles = css`
   background-color: var(--color-stat-light);
-  border: 1px solid var(--color-accent-alt-lighter);
 
   .activity-stat-titles {
     color: var(--color-stat-label);
@@ -24,10 +23,6 @@ const styles = css`
 
   &.is-interactive {
     box-shadow: 0 1px 1px var(--color-accent-alt-lighter);
-
-    .activity-stat-value {
-      color: var(--color-link);
-    }
   }
 `;
 

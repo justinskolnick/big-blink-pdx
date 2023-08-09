@@ -29,6 +29,8 @@ ChartJS.register(
   Tooltip,
 );
 
+const colorStatLabel = 'darkolivegreen';
+
 const options = {
   animation: false,
   elements: {
@@ -46,7 +48,7 @@ const options = {
         borderRadius: 6,
         boxHeight: 12,
         boxWidth: 12,
-        color: 'brown',
+        color: colorStatLabel,
         useBorderRadius: true,
       },
     },
@@ -60,13 +62,13 @@ const options = {
       stacked: true,
       ticks: {
         align: 'start',
-        color: 'brown',
+        color: colorStatLabel,
       },
     },
     y: {
       stacked: true,
       ticks: {
-        color: 'brown',
+        color: colorStatLabel,
       },
     },
   },

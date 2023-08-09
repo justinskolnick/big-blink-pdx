@@ -26,7 +26,7 @@ const styles = css`
 
   .activity-overview + .incident-activity-stat-groups {
     padding-top: calc(3 * var(--gap));
-    border-top: 3px solid var(--color-divider);
+    border-top: 3px solid var(--color-section-divider);
   }
 
   @media screen and (max-width: 600px) {
