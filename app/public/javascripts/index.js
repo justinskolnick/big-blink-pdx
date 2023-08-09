@@ -39,7 +39,7 @@ var require_react_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var ReactVersion2 = "18.2.0";
+        var ReactVersion = "18.2.0";
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -514,7 +514,7 @@ var require_react_development = __commonJS({
           }
           return element;
         };
-        function createElement4(type, config2, children) {
+        function createElement6(type, config2, children) {
           var propName;
           var props = {};
           var key = null;
@@ -975,7 +975,7 @@ var require_react_development = __commonJS({
           }
           return lazyType;
         }
-        function forwardRef4(render3) {
+        function forwardRef5(render3) {
           {
             if (render3 != null && render3.$$typeof === REACT_MEMO_TYPE) {
               error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1036,7 +1036,7 @@ var require_react_development = __commonJS({
           }
           return false;
         }
-        function memo(type, compare) {
+        function memo2(type, compare) {
           {
             if (!isValidElementType2(type)) {
               error("memo: The first argument must be a component. Instead received: %s", type === null ? "null" : typeof type);
@@ -1613,7 +1613,7 @@ var require_react_development = __commonJS({
               error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
             }
           }
-          var element = createElement4.apply(this, arguments);
+          var element = createElement6.apply(this, arguments);
           if (element == null) {
             return element;
           }
@@ -1872,10 +1872,10 @@ var require_react_development = __commonJS({
         exports.createElement = createElement$1;
         exports.createFactory = createFactory;
         exports.createRef = createRef;
-        exports.forwardRef = forwardRef4;
+        exports.forwardRef = forwardRef5;
         exports.isValidElement = isValidElement2;
         exports.lazy = lazy;
-        exports.memo = memo;
+        exports.memo = memo2;
         exports.startTransition = startTransition;
         exports.unstable_act = act;
         exports.useCallback = useCallback4;
@@ -1893,7 +1893,7 @@ var require_react_development = __commonJS({
         exports.useState = useState15;
         exports.useSyncExternalStore = useSyncExternalStore3;
         exports.useTransition = useTransition;
-        exports.version = ReactVersion2;
+        exports.version = ReactVersion;
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
         }
@@ -2386,9 +2386,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React38 = require_react();
+        var React40 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React40.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3993,7 +3993,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React38.Children.forEach(props.children, function(child) {
+                React40.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -9392,7 +9392,7 @@ var require_react_dom_development = __commonJS({
             }
           }
         }
-        function createElement4(type, props, rootContainerElement, parentNamespace) {
+        function createElement6(type, props, rootContainerElement, parentNamespace) {
           var isCustomComponentTag;
           var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
           var domElement;
@@ -10253,7 +10253,7 @@ var require_react_dom_development = __commonJS({
             }
             parentNamespace = hostContextDev.namespace;
           }
-          var domElement = createElement4(type, props, rootContainerInstance, parentNamespace);
+          var domElement = createElement6(type, props, rootContainerInstance, parentNamespace);
           precacheFiberNode(internalInstanceHandle, domElement);
           updateFiberProps(domElement, props);
           return domElement;
@@ -12440,7 +12440,7 @@ var require_react_dom_development = __commonJS({
           }
         }
         var fakeInternalInstance = {};
-        var emptyRefsObject = new React38.Component().refs;
+        var emptyRefsObject = new React40.Component().refs;
         var didWarnAboutStateAssignmentForComponent;
         var didWarnAboutUninitializedState;
         var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -22550,7 +22550,7 @@ var require_react_dom_development = __commonJS({
           initializeUpdateQueue(uninitializedFiber);
           return root2;
         }
-        var ReactVersion2 = "18.2.0";
+        var ReactVersion = "18.2.0";
         function createPortal3(children, containerInfo, implementation) {
           var key = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : null;
           {
@@ -22983,7 +22983,7 @@ var require_react_dom_development = __commonJS({
             getCurrentFiber: getCurrentFiberForDevTools,
             // Enables DevTools to detect reconciler version rather than renderer version
             // which may not match for third party renderers.
-            reconcilerVersion: ReactVersion2
+            reconcilerVersion: ReactVersion
           });
         }
         var defaultOnRecoverableError = typeof reportError === "function" ? (
@@ -23434,7 +23434,7 @@ var require_react_dom_development = __commonJS({
         var foundDevTools = injectIntoDevTools({
           findFiberByHostInstance: getClosestInstanceFromNode,
           bundleType: 1,
-          version: ReactVersion2,
+          version: ReactVersion,
           rendererPackageName: "react-dom"
         });
         {
@@ -23458,7 +23458,7 @@ var require_react_dom_development = __commonJS({
         exports.unmountComponentAtNode = unmountComponentAtNode;
         exports.unstable_batchedUpdates = batchedUpdates$1;
         exports.unstable_renderSubtreeIntoContainer = renderSubtreeIntoContainer;
-        exports.version = ReactVersion2;
+        exports.version = ReactVersion;
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
         }
@@ -23521,8 +23521,8 @@ var require_use_sync_external_store_shim_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React38 = require_react();
-        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var React40 = require_react();
+        var ReactSharedInternals = React40.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -23552,13 +23552,13 @@ var require_use_sync_external_store_shim_development = __commonJS({
           return x2 === y2 && (x2 !== 0 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is;
-        var useState15 = React38.useState, useEffect26 = React38.useEffect, useLayoutEffect4 = React38.useLayoutEffect, useDebugValue2 = React38.useDebugValue;
+        var useState15 = React40.useState, useEffect26 = React40.useEffect, useLayoutEffect4 = React40.useLayoutEffect, useDebugValue2 = React40.useDebugValue;
         var didWarnOld18Alpha = false;
         var didWarnUncachedGetSnapshot = false;
         function useSyncExternalStore3(subscribe, getSnapshot, getServerSnapshot) {
           {
             if (!didWarnOld18Alpha) {
-              if (React38.startTransition !== void 0) {
+              if (React40.startTransition !== void 0) {
                 didWarnOld18Alpha = true;
                 error("You are using an outdated, pre-release alpha of React 18 that does not support useSyncExternalStore. The use-sync-external-store shim will not work correctly. Upgrade to a newer pre-release.");
               }
@@ -23623,7 +23623,7 @@ var require_use_sync_external_store_shim_development = __commonJS({
         var canUseDOM2 = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
         var isServerEnvironment = !canUseDOM2;
         var shim = isServerEnvironment ? useSyncExternalStore$1 : useSyncExternalStore3;
-        var useSyncExternalStore$2 = React38.useSyncExternalStore !== void 0 ? React38.useSyncExternalStore : shim;
+        var useSyncExternalStore$2 = React40.useSyncExternalStore !== void 0 ? React40.useSyncExternalStore : shim;
         exports.useSyncExternalStore = useSyncExternalStore$2;
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
@@ -23655,14 +23655,14 @@ var require_with_selector_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React38 = require_react();
+        var React40 = require_react();
         var shim = require_shim();
         function is(x2, y2) {
           return x2 === y2 && (x2 !== 0 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is;
         var useSyncExternalStore3 = shim.useSyncExternalStore;
-        var useRef24 = React38.useRef, useEffect26 = React38.useEffect, useMemo5 = React38.useMemo, useDebugValue2 = React38.useDebugValue;
+        var useRef24 = React40.useRef, useEffect26 = React40.useEffect, useMemo5 = React40.useMemo, useDebugValue2 = React40.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef24(null);
           var inst;
@@ -24813,7 +24813,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React38 = require_react();
+        var React40 = require_react();
         var REACT_ELEMENT_TYPE = Symbol.for("react.element");
         var REACT_PORTAL_TYPE = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -24839,7 +24839,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React40.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -25703,8 +25703,8 @@ var require_lib = __commonJS({
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
     }
-    var React38 = require_react();
-    var React__default = _interopDefault(React38);
+    var React40 = require_react();
+    var React__default = _interopDefault(React40);
     function _defineProperty4(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -25787,7 +25787,7 @@ var require_lib = __commonJS({
             return React__default.createElement(WrappedComponent, this.props);
           };
           return SideEffect2;
-        }(React38.PureComponent);
+        }(React40.PureComponent);
         _defineProperty4(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
         _defineProperty4(SideEffect, "canUseDOM", canUseDOM2);
         return SideEffect;
@@ -25965,37 +25965,39 @@ var setBatch = (newBatch) => batch = newBatch;
 var getBatch = () => batch;
 
 // node_modules/react-redux/es/hooks/useSelector.js
-var import_react3 = __toESM(require_react());
-
-// node_modules/react-redux/es/hooks/useReduxContext.js
 var import_react2 = __toESM(require_react());
 
-// node_modules/react-redux/es/components/Context.js
+// node_modules/react-redux/es/hooks/useReduxContext.js
 var import_react = __toESM(require_react());
-var ContextKey = Symbol.for(`react-redux-context-${import_react.version}`);
-var gT = globalThis;
+
+// node_modules/react-redux/es/components/Context.js
+var React = __toESM(require_react());
+var ContextKey = Symbol.for(`react-redux-context`);
+var gT = typeof globalThis !== "undefined" ? globalThis : (
+  /* fall back to a per-module scope (pre-8.1 behaviour) if `globalThis` is not available */
+  {}
+);
 function getContext() {
-  let realContext = gT[ContextKey];
+  var _gT$ContextKey;
+  if (!React.createContext)
+    return {};
+  const contextMap = (_gT$ContextKey = gT[ContextKey]) != null ? _gT$ContextKey : gT[ContextKey] = /* @__PURE__ */ new Map();
+  let realContext = contextMap.get(React.createContext);
   if (!realContext) {
-    realContext = (0, import_react.createContext)(null);
+    realContext = React.createContext(null);
     if (true) {
       realContext.displayName = "ReactRedux";
     }
-    gT[ContextKey] = realContext;
+    contextMap.set(React.createContext, realContext);
   }
   return realContext;
 }
-var ReactReduxContext = /* @__PURE__ */ new Proxy({}, /* @__PURE__ */ new Proxy({}, {
-  get(_2, handler) {
-    const target = getContext();
-    return (_target, ...args) => Reflect[handler](target, ...args);
-  }
-}));
+var ReactReduxContext = /* @__PURE__ */ getContext();
 
 // node_modules/react-redux/es/hooks/useReduxContext.js
 function createReduxContextHook(context = ReactReduxContext) {
   return function useReduxContext2() {
-    const contextValue = (0, import_react2.useContext)(context);
+    const contextValue = (0, import_react.useContext)(context);
     if (!contextValue) {
       throw new Error("could not find react-redux context value; please ensure the component is wrapped in a <Provider>");
     }
@@ -26043,8 +26045,8 @@ function createSelectorHook(context = ReactReduxContext) {
       stabilityCheck: globalStabilityCheck,
       noopCheck: globalNoopCheck
     } = useReduxContext2();
-    const firstRun = (0, import_react3.useRef)(true);
-    const wrappedSelector = (0, import_react3.useCallback)({
+    const firstRun = (0, import_react2.useRef)(true);
+    const wrappedSelector = (0, import_react2.useCallback)({
       [selector.name](state) {
         const selected = selector(state);
         if (true) {
@@ -26072,7 +26074,7 @@ function createSelectorHook(context = ReactReduxContext) {
       }
     }[selector.name], [selector, globalStabilityCheck, stabilityCheck]);
     const selectedState = useSyncExternalStoreWithSelector(subscription.addNestedSub, store2.getState, getServerState || store2.getState, wrappedSelector, equalityFn);
-    (0, import_react3.useDebugValue)(selectedState);
+    (0, import_react2.useDebugValue)(selectedState);
     return selectedState;
   };
 }
@@ -26112,7 +26114,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 // node_modules/react-redux/es/components/connect.js
 var import_hoist_non_react_statics = __toESM(require_hoist_non_react_statics_cjs());
-var import_react5 = __toESM(require_react());
+var React3 = __toESM(require_react());
 var import_react_is = __toESM(require_react_is2());
 
 // node_modules/react-redux/es/utils/Subscription.js
@@ -26223,9 +26225,9 @@ function createSubscription(store2, parentSub) {
 }
 
 // node_modules/react-redux/es/utils/useIsomorphicLayoutEffect.js
-var import_react4 = __toESM(require_react());
+var React2 = __toESM(require_react());
 var canUseDOM = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
-var useIsomorphicLayoutEffect = canUseDOM ? import_react4.useLayoutEffect : import_react4.useEffect;
+var useIsomorphicLayoutEffect = canUseDOM ? React2.useLayoutEffect : React2.useEffect;
 
 // node_modules/react-redux/es/components/connect.js
 var useSyncExternalStore = notInitialized;
@@ -26234,7 +26236,7 @@ var initializeConnect = (fn2) => {
 };
 
 // node_modules/react-redux/es/components/Provider.js
-var import_react6 = __toESM(require_react());
+var React4 = __toESM(require_react());
 function Provider({
   store: store2,
   context,
@@ -26243,7 +26245,7 @@ function Provider({
   stabilityCheck = "once",
   noopCheck = "once"
 }) {
-  const contextValue = (0, import_react6.useMemo)(() => {
+  const contextValue = React4.useMemo(() => {
     const subscription = createSubscription(store2);
     return {
       store: store2,
@@ -26253,7 +26255,7 @@ function Provider({
       noopCheck
     };
   }, [store2, serverState, stabilityCheck, noopCheck]);
-  const previousState = (0, import_react6.useMemo)(() => store2.getState(), [store2]);
+  const previousState = React4.useMemo(() => store2.getState(), [store2]);
   useIsomorphicLayoutEffect(() => {
     const {
       subscription
@@ -26269,7 +26271,7 @@ function Provider({
     };
   }, [contextValue, previousState]);
   const Context = context || ReactReduxContext;
-  return /* @__PURE__ */ import_react6.default.createElement(Context.Provider, {
+  return /* @__PURE__ */ React4.createElement(Context.Provider, {
     value: contextValue
   }, children);
 }
@@ -26312,10 +26314,10 @@ initializeConnect(import_shim.useSyncExternalStore);
 setBatch(import_react_dom.unstable_batchedUpdates);
 
 // node_modules/react-router-dom/dist/index.js
-var React4 = __toESM(require_react());
+var React6 = __toESM(require_react());
 
 // node_modules/react-router/dist/index.js
-var React3 = __toESM(require_react());
+var React5 = __toESM(require_react());
 
 // node_modules/@remix-run/router/dist/router.js
 function _extends2() {
@@ -26784,13 +26786,13 @@ function matchPath(pattern, pathname) {
   let matchedPathname = match2[0];
   let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
   let captureGroups = match2.slice(1);
-  let params = paramNames.reduce((memo, paramName, index) => {
+  let params = paramNames.reduce((memo2, paramName, index) => {
     if (paramName === "*") {
       let splatValue = captureGroups[index] || "";
       pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
     }
-    memo[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
-    return memo;
+    memo2[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
+    return memo2;
   }, {});
   return {
     params,
@@ -28952,27 +28954,27 @@ function _extends3() {
   };
   return _extends3.apply(this, arguments);
 }
-var DataRouterContext = /* @__PURE__ */ React3.createContext(null);
+var DataRouterContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   DataRouterContext.displayName = "DataRouter";
 }
-var DataRouterStateContext = /* @__PURE__ */ React3.createContext(null);
+var DataRouterStateContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   DataRouterStateContext.displayName = "DataRouterState";
 }
-var AwaitContext = /* @__PURE__ */ React3.createContext(null);
+var AwaitContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   AwaitContext.displayName = "Await";
 }
-var NavigationContext = /* @__PURE__ */ React3.createContext(null);
+var NavigationContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   NavigationContext.displayName = "Navigation";
 }
-var LocationContext = /* @__PURE__ */ React3.createContext(null);
+var LocationContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   LocationContext.displayName = "Location";
 }
-var RouteContext = /* @__PURE__ */ React3.createContext({
+var RouteContext = /* @__PURE__ */ React5.createContext({
   outlet: null,
   matches: [],
   isDataRoute: false
@@ -28980,7 +28982,7 @@ var RouteContext = /* @__PURE__ */ React3.createContext({
 if (true) {
   RouteContext.displayName = "Route";
 }
-var RouteErrorContext = /* @__PURE__ */ React3.createContext(null);
+var RouteErrorContext = /* @__PURE__ */ React5.createContext(null);
 if (true) {
   RouteErrorContext.displayName = "RouteError";
 }
@@ -28997,7 +28999,7 @@ function useHref(to2, _temp) {
   let {
     basename,
     navigator: navigator2
-  } = React3.useContext(NavigationContext);
+  } = React5.useContext(NavigationContext);
   let {
     hash: hash2,
     pathname,
@@ -29016,7 +29018,7 @@ function useHref(to2, _temp) {
   });
 }
 function useInRouterContext() {
-  return React3.useContext(LocationContext) != null;
+  return React5.useContext(LocationContext) != null;
 }
 function useLocation() {
   !useInRouterContext() ? true ? invariant(
@@ -29025,19 +29027,19 @@ function useLocation() {
     // router loaded. We can help them understand how to avoid that.
     "useLocation() may be used only in the context of a <Router> component."
   ) : invariant(false) : void 0;
-  return React3.useContext(LocationContext).location;
+  return React5.useContext(LocationContext).location;
 }
 var navigateEffectWarning = "You should call navigate() in a React.useEffect(), not when your component is first rendered.";
 function useIsomorphicLayoutEffect2(cb) {
-  let isStatic = React3.useContext(NavigationContext).static;
+  let isStatic = React5.useContext(NavigationContext).static;
   if (!isStatic) {
-    React3.useLayoutEffect(cb);
+    React5.useLayoutEffect(cb);
   }
 }
 function useNavigate() {
   let {
     isDataRoute
-  } = React3.useContext(RouteContext);
+  } = React5.useContext(RouteContext);
   return isDataRoute ? useNavigateStable() : useNavigateUnstable();
 }
 function useNavigateUnstable() {
@@ -29047,23 +29049,23 @@ function useNavigateUnstable() {
     // router loaded. We can help them understand how to avoid that.
     "useNavigate() may be used only in the context of a <Router> component."
   ) : invariant(false) : void 0;
-  let dataRouterContext = React3.useContext(DataRouterContext);
+  let dataRouterContext = React5.useContext(DataRouterContext);
   let {
     basename,
     navigator: navigator2
-  } = React3.useContext(NavigationContext);
+  } = React5.useContext(NavigationContext);
   let {
     matches
-  } = React3.useContext(RouteContext);
+  } = React5.useContext(RouteContext);
   let {
     pathname: locationPathname
   } = useLocation();
   let routePathnamesJson = JSON.stringify(getPathContributingMatches(matches).map((match2) => match2.pathnameBase));
-  let activeRef = React3.useRef(false);
+  let activeRef = React5.useRef(false);
   useIsomorphicLayoutEffect2(() => {
     activeRef.current = true;
   });
-  let navigate = React3.useCallback(function(to2, options2) {
+  let navigate = React5.useCallback(function(to2, options2) {
     if (options2 === void 0) {
       options2 = {};
     }
@@ -29082,11 +29084,11 @@ function useNavigateUnstable() {
   }, [basename, navigator2, routePathnamesJson, locationPathname, dataRouterContext]);
   return navigate;
 }
-var OutletContext = /* @__PURE__ */ React3.createContext(null);
+var OutletContext = /* @__PURE__ */ React5.createContext(null);
 function useOutlet(context) {
-  let outlet = React3.useContext(RouteContext).outlet;
+  let outlet = React5.useContext(RouteContext).outlet;
   if (outlet) {
-    return /* @__PURE__ */ React3.createElement(OutletContext.Provider, {
+    return /* @__PURE__ */ React5.createElement(OutletContext.Provider, {
       value: context
     }, outlet);
   }
@@ -29095,7 +29097,7 @@ function useOutlet(context) {
 function useParams() {
   let {
     matches
-  } = React3.useContext(RouteContext);
+  } = React5.useContext(RouteContext);
   let routeMatch = matches[matches.length - 1];
   return routeMatch ? routeMatch.params : {};
 }
@@ -29105,12 +29107,12 @@ function useResolvedPath(to2, _temp2) {
   } = _temp2 === void 0 ? {} : _temp2;
   let {
     matches
-  } = React3.useContext(RouteContext);
+  } = React5.useContext(RouteContext);
   let {
     pathname: locationPathname
   } = useLocation();
   let routePathnamesJson = JSON.stringify(getPathContributingMatches(matches).map((match2) => match2.pathnameBase));
-  return React3.useMemo(() => resolveTo(to2, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to2, routePathnamesJson, locationPathname, relative]);
+  return React5.useMemo(() => resolveTo(to2, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [to2, routePathnamesJson, locationPathname, relative]);
 }
 function useRoutesImpl(routes, locationArg, dataRouterState) {
   !useInRouterContext() ? true ? invariant(
@@ -29121,10 +29123,10 @@ function useRoutesImpl(routes, locationArg, dataRouterState) {
   ) : invariant(false) : void 0;
   let {
     navigator: navigator2
-  } = React3.useContext(NavigationContext);
+  } = React5.useContext(NavigationContext);
   let {
     matches: parentMatches
-  } = React3.useContext(RouteContext);
+  } = React5.useContext(RouteContext);
   let routeMatch = parentMatches[parentMatches.length - 1];
   let parentParams = routeMatch ? routeMatch.params : {};
   let parentPathname = routeMatch ? routeMatch.pathname : "/";
@@ -29169,7 +29171,7 @@ function useRoutesImpl(routes, locationArg, dataRouterState) {
     ])
   })), parentMatches, dataRouterState);
   if (locationArg && renderedMatches) {
-    return /* @__PURE__ */ React3.createElement(LocationContext.Provider, {
+    return /* @__PURE__ */ React5.createElement(LocationContext.Provider, {
       value: {
         location: _extends3({
           pathname: "/",
@@ -29200,22 +29202,22 @@ function DefaultErrorComponent() {
   let devInfo = null;
   if (true) {
     console.error("Error handled by React Router default ErrorBoundary:", error);
-    devInfo = /* @__PURE__ */ React3.createElement(React3.Fragment, null, /* @__PURE__ */ React3.createElement("p", null, "\u{1F4BF} Hey developer \u{1F44B}"), /* @__PURE__ */ React3.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ React3.createElement("code", {
+    devInfo = /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement("p", null, "\u{1F4BF} Hey developer \u{1F44B}"), /* @__PURE__ */ React5.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own ", /* @__PURE__ */ React5.createElement("code", {
       style: codeStyles
-    }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ React3.createElement("code", {
+    }, "ErrorBoundary"), " or", " ", /* @__PURE__ */ React5.createElement("code", {
       style: codeStyles
     }, "errorElement"), " prop on your route."));
   }
-  return /* @__PURE__ */ React3.createElement(React3.Fragment, null, /* @__PURE__ */ React3.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ React3.createElement("h3", {
+  return /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement("h2", null, "Unexpected Application Error!"), /* @__PURE__ */ React5.createElement("h3", {
     style: {
       fontStyle: "italic"
     }
-  }, message), stack ? /* @__PURE__ */ React3.createElement("pre", {
+  }, message), stack ? /* @__PURE__ */ React5.createElement("pre", {
     style: preStyles
   }, stack) : null, devInfo);
 }
-var defaultErrorElement = /* @__PURE__ */ React3.createElement(DefaultErrorComponent, null);
-var RenderErrorBoundary = class extends React3.Component {
+var defaultErrorElement = /* @__PURE__ */ React5.createElement(DefaultErrorComponent, null);
+var RenderErrorBoundary = class extends React5.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29247,9 +29249,9 @@ var RenderErrorBoundary = class extends React3.Component {
     console.error("React Router caught the following error during render", error, errorInfo);
   }
   render() {
-    return this.state.error ? /* @__PURE__ */ React3.createElement(RouteContext.Provider, {
+    return this.state.error ? /* @__PURE__ */ React5.createElement(RouteContext.Provider, {
       value: this.props.routeContext
-    }, /* @__PURE__ */ React3.createElement(RouteErrorContext.Provider, {
+    }, /* @__PURE__ */ React5.createElement(RouteErrorContext.Provider, {
       value: this.state.error,
       children: this.props.component
     })) : this.props.children;
@@ -29261,11 +29263,11 @@ function RenderedRoute(_ref2) {
     match: match2,
     children
   } = _ref2;
-  let dataRouterContext = React3.useContext(DataRouterContext);
+  let dataRouterContext = React5.useContext(DataRouterContext);
   if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match2.route.errorElement || match2.route.ErrorBoundary)) {
     dataRouterContext.staticContext._deepestRenderedBoundaryId = match2.route.id;
   }
-  return /* @__PURE__ */ React3.createElement(RouteContext.Provider, {
+  return /* @__PURE__ */ React5.createElement(RouteContext.Provider, {
     value: routeContext
   }, children);
 }
@@ -29304,13 +29306,13 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
       if (error) {
         children = errorElement;
       } else if (match2.route.Component) {
-        children = /* @__PURE__ */ React3.createElement(match2.route.Component, null);
+        children = /* @__PURE__ */ React5.createElement(match2.route.Component, null);
       } else if (match2.route.element) {
         children = match2.route.element;
       } else {
         children = outlet;
       }
-      return /* @__PURE__ */ React3.createElement(RenderedRoute, {
+      return /* @__PURE__ */ React5.createElement(RenderedRoute, {
         match: match2,
         routeContext: {
           outlet,
@@ -29320,7 +29322,7 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
         children
       });
     };
-    return dataRouterState && (match2.route.ErrorBoundary || match2.route.errorElement || index === 0) ? /* @__PURE__ */ React3.createElement(RenderErrorBoundary, {
+    return dataRouterState && (match2.route.ErrorBoundary || match2.route.errorElement || index === 0) ? /* @__PURE__ */ React5.createElement(RenderErrorBoundary, {
       location: dataRouterState.location,
       revalidation: dataRouterState.revalidation,
       component: errorElement,
@@ -29357,17 +29359,17 @@ function getDataRouterConsoleError(hookName) {
   return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
 }
 function useDataRouterContext(hookName) {
-  let ctx = React3.useContext(DataRouterContext);
+  let ctx = React5.useContext(DataRouterContext);
   !ctx ? true ? invariant(false, getDataRouterConsoleError(hookName)) : invariant(false) : void 0;
   return ctx;
 }
 function useDataRouterState(hookName) {
-  let state = React3.useContext(DataRouterStateContext);
+  let state = React5.useContext(DataRouterStateContext);
   !state ? true ? invariant(false, getDataRouterConsoleError(hookName)) : invariant(false) : void 0;
   return state;
 }
 function useRouteContext(hookName) {
-  let route = React3.useContext(RouteContext);
+  let route = React5.useContext(RouteContext);
   !route ? true ? invariant(false, getDataRouterConsoleError(hookName)) : invariant(false) : void 0;
   return route;
 }
@@ -29389,7 +29391,7 @@ function useMatches() {
     matches,
     loaderData
   } = useDataRouterState(DataRouterStateHook.UseMatches);
-  return React3.useMemo(() => matches.map((match2) => {
+  return React5.useMemo(() => matches.map((match2) => {
     let {
       pathname,
       params
@@ -29405,7 +29407,7 @@ function useMatches() {
 }
 function useRouteError() {
   var _state$errors;
-  let error = React3.useContext(RouteErrorContext);
+  let error = React5.useContext(RouteErrorContext);
   let state = useDataRouterState(DataRouterStateHook.UseRouteError);
   let routeId = useCurrentRouteId(DataRouterStateHook.UseRouteError);
   if (error) {
@@ -29418,11 +29420,11 @@ function useNavigateStable() {
     router: router2
   } = useDataRouterContext(DataRouterHook.UseNavigateStable);
   let id = useCurrentRouteId(DataRouterStateHook.UseNavigateStable);
-  let activeRef = React3.useRef(false);
+  let activeRef = React5.useRef(false);
   useIsomorphicLayoutEffect2(() => {
     activeRef.current = true;
   });
-  let navigate = React3.useCallback(function(to2, options2) {
+  let navigate = React5.useCallback(function(to2, options2) {
     if (options2 === void 0) {
       options2 = {};
     }
@@ -29447,22 +29449,22 @@ function warningOnce(key, cond, message) {
   }
 }
 var START_TRANSITION = "startTransition";
-var startTransitionImpl = React3[START_TRANSITION];
+var startTransitionImpl = React5[START_TRANSITION];
 function RouterProvider(_ref2) {
   let {
     fallbackElement,
     router: router2,
     future
   } = _ref2;
-  let [state, setStateImpl] = React3.useState(router2.state);
+  let [state, setStateImpl] = React5.useState(router2.state);
   let {
     v7_startTransition
   } = future || {};
-  let setState = React3.useCallback((newState) => {
+  let setState = React5.useCallback((newState) => {
     v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl, v7_startTransition]);
-  React3.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
-  let navigator2 = React3.useMemo(() => {
+  React5.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
+  let navigator2 = React5.useMemo(() => {
     return {
       createHref: router2.createHref,
       encodeLocation: router2.encodeLocation,
@@ -29479,22 +29481,22 @@ function RouterProvider(_ref2) {
     };
   }, [router2]);
   let basename = router2.basename || "/";
-  let dataRouterContext = React3.useMemo(() => ({
+  let dataRouterContext = React5.useMemo(() => ({
     router: router2,
     navigator: navigator2,
     static: false,
     basename
   }), [router2, navigator2, basename]);
-  return /* @__PURE__ */ React3.createElement(React3.Fragment, null, /* @__PURE__ */ React3.createElement(DataRouterContext.Provider, {
+  return /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement(DataRouterContext.Provider, {
     value: dataRouterContext
-  }, /* @__PURE__ */ React3.createElement(DataRouterStateContext.Provider, {
+  }, /* @__PURE__ */ React5.createElement(DataRouterStateContext.Provider, {
     value: state
-  }, /* @__PURE__ */ React3.createElement(Router, {
+  }, /* @__PURE__ */ React5.createElement(Router, {
     basename,
     location: state.location,
     navigationType: state.historyAction,
     navigator: navigator2
-  }, state.initialized ? /* @__PURE__ */ React3.createElement(DataRoutes, {
+  }, state.initialized ? /* @__PURE__ */ React5.createElement(DataRoutes, {
     routes: router2.routes,
     state
   }) : fallbackElement))), null);
@@ -29520,7 +29522,7 @@ function Router(_ref5) {
   } = _ref5;
   !!useInRouterContext() ? true ? invariant(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app.") : invariant(false) : void 0;
   let basename = basenameProp.replace(/^\/*/, "/");
-  let navigationContext = React3.useMemo(() => ({
+  let navigationContext = React5.useMemo(() => ({
     basename,
     navigator: navigator2,
     static: staticProp
@@ -29535,7 +29537,7 @@ function Router(_ref5) {
     state = null,
     key = "default"
   } = locationProp;
-  let locationContext = React3.useMemo(() => {
+  let locationContext = React5.useMemo(() => {
     let trailingPathname = stripBasename(pathname, basename);
     if (trailingPathname == null) {
       return null;
@@ -29555,9 +29557,9 @@ function Router(_ref5) {
   if (locationContext == null) {
     return null;
   }
-  return /* @__PURE__ */ React3.createElement(NavigationContext.Provider, {
+  return /* @__PURE__ */ React5.createElement(NavigationContext.Provider, {
     value: navigationContext
-  }, /* @__PURE__ */ React3.createElement(LocationContext.Provider, {
+  }, /* @__PURE__ */ React5.createElement(LocationContext.Provider, {
     children,
     value: locationContext
   }));
@@ -29583,7 +29585,7 @@ function mapRouteProperties(route) {
       }
     }
     Object.assign(updates, {
-      element: /* @__PURE__ */ React3.createElement(route.Component),
+      element: /* @__PURE__ */ React5.createElement(route.Component),
       Component: void 0
     });
   }
@@ -29594,7 +29596,7 @@ function mapRouteProperties(route) {
       }
     }
     Object.assign(updates, {
-      errorElement: /* @__PURE__ */ React3.createElement(route.ErrorBoundary),
+      errorElement: /* @__PURE__ */ React5.createElement(route.ErrorBoundary),
       ErrorBoundary: void 0
     });
   }
@@ -29656,9 +29658,9 @@ function createSearchParams(init) {
   if (init === void 0) {
     init = "";
   }
-  return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo, key) => {
+  return new URLSearchParams(typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo2, key) => {
     let value = init[key];
-    return memo.concat(Array.isArray(value) ? value.map((v2) => [key, v2]) : [[key, value]]);
+    return memo2.concat(Array.isArray(value) ? value.map((v2) => [key, v2]) : [[key, value]]);
   }, []));
 }
 function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
@@ -29813,7 +29815,7 @@ function deserializeErrors(errors) {
   return serialized;
 }
 var START_TRANSITION2 = "startTransition";
-var startTransitionImpl2 = React4[START_TRANSITION2];
+var startTransitionImpl2 = React6[START_TRANSITION2];
 function HistoryRouter(_ref3) {
   let {
     basename,
@@ -29821,18 +29823,18 @@ function HistoryRouter(_ref3) {
     future,
     history
   } = _ref3;
-  let [state, setStateImpl] = React4.useState({
+  let [state, setStateImpl] = React6.useState({
     action: history.action,
     location: history.location
   });
   let {
     v7_startTransition
   } = future || {};
-  let setState = React4.useCallback((newState) => {
+  let setState = React6.useCallback((newState) => {
     v7_startTransition && startTransitionImpl2 ? startTransitionImpl2(() => setStateImpl(newState)) : setStateImpl(newState);
   }, [setStateImpl, v7_startTransition]);
-  React4.useLayoutEffect(() => history.listen(setState), [history, setState]);
-  return /* @__PURE__ */ React4.createElement(Router, {
+  React6.useLayoutEffect(() => history.listen(setState), [history, setState]);
+  return /* @__PURE__ */ React6.createElement(Router, {
     basename,
     children,
     location: state.location,
@@ -29845,7 +29847,7 @@ if (true) {
 }
 var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 var ABSOLUTE_URL_REGEX2 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-var Link = /* @__PURE__ */ React4.forwardRef(function LinkWithRef(_ref4, ref) {
+var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref4, ref) {
   let {
     onClick,
     relative,
@@ -29858,7 +29860,7 @@ var Link = /* @__PURE__ */ React4.forwardRef(function LinkWithRef(_ref4, ref) {
   } = _ref4, rest = _objectWithoutPropertiesLoose2(_ref4, _excluded);
   let {
     basename
-  } = React4.useContext(NavigationContext);
+  } = React6.useContext(NavigationContext);
   let absoluteHref;
   let isExternal = false;
   if (typeof to2 === "string" && ABSOLUTE_URL_REGEX2.test(to2)) {
@@ -29897,7 +29899,7 @@ var Link = /* @__PURE__ */ React4.forwardRef(function LinkWithRef(_ref4, ref) {
   }
   return (
     // eslint-disable-next-line jsx-a11y/anchor-has-content
-    /* @__PURE__ */ React4.createElement("a", _extends4({}, rest, {
+    /* @__PURE__ */ React6.createElement("a", _extends4({}, rest, {
       href: absoluteHref || href,
       onClick: isExternal || reloadDocument ? onClick : handleClick,
       ref,
@@ -29908,7 +29910,7 @@ var Link = /* @__PURE__ */ React4.forwardRef(function LinkWithRef(_ref4, ref) {
 if (true) {
   Link.displayName = "Link";
 }
-var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref5, ref) {
+var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref5, ref) {
   let {
     "aria-current": ariaCurrentProp = "page",
     caseSensitive = false,
@@ -29922,10 +29924,10 @@ var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref5, r
     relative: rest.relative
   });
   let location2 = useLocation();
-  let routerState = React4.useContext(DataRouterStateContext);
+  let routerState = React6.useContext(DataRouterStateContext);
   let {
     navigator: navigator2
-  } = React4.useContext(NavigationContext);
+  } = React6.useContext(NavigationContext);
   let toPathname = navigator2.encodeLocation ? navigator2.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location2.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -29950,7 +29952,7 @@ var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref5, r
     isActive,
     isPending
   }) : styleProp;
-  return /* @__PURE__ */ React4.createElement(Link, _extends4({}, rest, {
+  return /* @__PURE__ */ React6.createElement(Link, _extends4({}, rest, {
     "aria-current": ariaCurrent,
     className,
     ref,
@@ -29964,9 +29966,9 @@ var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref5, r
 if (true) {
   NavLink.displayName = "NavLink";
 }
-var Form = /* @__PURE__ */ React4.forwardRef((props, ref) => {
+var Form = /* @__PURE__ */ React6.forwardRef((props, ref) => {
   let submit = useSubmit();
-  return /* @__PURE__ */ React4.createElement(FormImpl, _extends4({}, props, {
+  return /* @__PURE__ */ React6.createElement(FormImpl, _extends4({}, props, {
     submit,
     ref
   }));
@@ -29974,7 +29976,7 @@ var Form = /* @__PURE__ */ React4.forwardRef((props, ref) => {
 if (true) {
   Form.displayName = "Form";
 }
-var FormImpl = /* @__PURE__ */ React4.forwardRef((_ref6, forwardedRef) => {
+var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref6, forwardedRef) => {
   let {
     reloadDocument,
     replace: replace4,
@@ -30005,7 +30007,7 @@ var FormImpl = /* @__PURE__ */ React4.forwardRef((_ref6, forwardedRef) => {
       preventScrollReset
     });
   };
-  return /* @__PURE__ */ React4.createElement("form", _extends4({
+  return /* @__PURE__ */ React6.createElement("form", _extends4({
     ref: forwardedRef,
     method: formMethod,
     action: formAction,
@@ -30045,12 +30047,12 @@ function getDataRouterConsoleError2(hookName) {
   return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
 }
 function useDataRouterContext2(hookName) {
-  let ctx = React4.useContext(DataRouterContext);
+  let ctx = React6.useContext(DataRouterContext);
   !ctx ? true ? invariant(false, getDataRouterConsoleError2(hookName)) : invariant(false) : void 0;
   return ctx;
 }
 function useDataRouterState2(hookName) {
-  let state = React4.useContext(DataRouterStateContext);
+  let state = React6.useContext(DataRouterStateContext);
   !state ? true ? invariant(false, getDataRouterConsoleError2(hookName)) : invariant(false) : void 0;
   return state;
 }
@@ -30067,7 +30069,7 @@ function useLinkClickHandler(to2, _temp) {
   let path = useResolvedPath(to2, {
     relative
   });
-  return React4.useCallback((event) => {
+  return React6.useCallback((event) => {
     if (shouldProcessLinkClick(event, target)) {
       event.preventDefault();
       let replace4 = replaceProp !== void 0 ? replaceProp : createPath(location2) === createPath(path);
@@ -30082,17 +30084,17 @@ function useLinkClickHandler(to2, _temp) {
 }
 function useSearchParams(defaultInit) {
   true ? warning2(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params\n\nIf you're unsure how to load polyfills, we recommend you check out https://polyfill.io/v3/ which provides some recommendations about how to load polyfills only for users that need them, instead of for every user.") : void 0;
-  let defaultSearchParamsRef = React4.useRef(createSearchParams(defaultInit));
-  let hasSetSearchParamsRef = React4.useRef(false);
+  let defaultSearchParamsRef = React6.useRef(createSearchParams(defaultInit));
+  let hasSetSearchParamsRef = React6.useRef(false);
   let location2 = useLocation();
-  let searchParams = React4.useMemo(() => (
+  let searchParams = React6.useMemo(() => (
     // Only merge in the defaults if we haven't yet called setSearchParams.
     // Once we call that we want those to take precedence, otherwise you can't
     // remove a param with setSearchParams({}) if it has an initial value
     getSearchParamsForLocation(location2.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current)
   ), [location2.search]);
   let navigate = useNavigate();
-  let setSearchParams = React4.useCallback((nextInit, navigateOptions) => {
+  let setSearchParams = React6.useCallback((nextInit, navigateOptions) => {
     const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
     hasSetSearchParamsRef.current = true;
     navigate("?" + newSearchParams, navigateOptions);
@@ -30110,9 +30112,9 @@ function useSubmit() {
   } = useDataRouterContext2(DataRouterHook2.UseSubmit);
   let {
     basename
-  } = React4.useContext(NavigationContext);
+  } = React6.useContext(NavigationContext);
   let currentRouteId = useRouteId();
-  return React4.useCallback(function(target, options2) {
+  return React6.useCallback(function(target, options2) {
     if (options2 === void 0) {
       options2 = {};
     }
@@ -30142,8 +30144,8 @@ function useFormAction(action, _temp2) {
   } = _temp2 === void 0 ? {} : _temp2;
   let {
     basename
-  } = React4.useContext(NavigationContext);
-  let routeContext = React4.useContext(RouteContext);
+  } = React6.useContext(NavigationContext);
+  let routeContext = React6.useContext(RouteContext);
   !routeContext ? true ? invariant(false, "useFormAction must be used inside a RouteContext") : invariant(false) : void 0;
   let [match2] = routeContext.matches.slice(-1);
   let path = _extends4({}, useResolvedPath(action ? action : ".", {
@@ -30183,17 +30185,17 @@ function useScrollRestoration(_temp3) {
   } = useDataRouterState2(DataRouterStateHook2.UseScrollRestoration);
   let {
     basename
-  } = React4.useContext(NavigationContext);
+  } = React6.useContext(NavigationContext);
   let location2 = useLocation();
   let matches = useMatches();
   let navigation = useNavigation();
-  React4.useEffect(() => {
+  React6.useEffect(() => {
     window.history.scrollRestoration = "manual";
     return () => {
       window.history.scrollRestoration = "auto";
     };
   }, []);
-  usePageHide(React4.useCallback(() => {
+  usePageHide(React6.useCallback(() => {
     if (navigation.state === "idle") {
       let key = (getKey ? getKey(location2, matches) : null) || location2.key;
       savedScrollPositions[key] = window.scrollY;
@@ -30202,7 +30204,7 @@ function useScrollRestoration(_temp3) {
     window.history.scrollRestoration = "auto";
   }, [storageKey, getKey, navigation.state, location2, matches]));
   if (typeof document !== "undefined") {
-    React4.useLayoutEffect(() => {
+    React6.useLayoutEffect(() => {
       try {
         let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
         if (sessionPositions) {
@@ -30211,7 +30213,7 @@ function useScrollRestoration(_temp3) {
       } catch (e) {
       }
     }, [storageKey]);
-    React4.useLayoutEffect(() => {
+    React6.useLayoutEffect(() => {
       let getKeyWithoutBasename = getKey && basename !== "/" ? (location3, matches2) => getKey(
         // Strip the basename to match useLocation()
         _extends4({}, location3, {
@@ -30222,7 +30224,7 @@ function useScrollRestoration(_temp3) {
       let disableScrollRestoration = router2 == null ? void 0 : router2.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKeyWithoutBasename);
       return () => disableScrollRestoration && disableScrollRestoration();
     }, [router2, basename, getKey]);
-    React4.useLayoutEffect(() => {
+    React6.useLayoutEffect(() => {
       if (restoreScrollPosition === false) {
         return;
       }
@@ -30248,7 +30250,7 @@ function usePageHide(callback2, options2) {
   let {
     capture
   } = options2 || {};
-  React4.useEffect(() => {
+  React6.useEffect(() => {
     let opts = capture != null ? {
       capture
     } : void 0;
@@ -33291,7 +33293,7 @@ var store = configureStore({
 var store_default = store;
 
 // assets/components/alert-error.tsx
-var import_react13 = __toESM(require_react());
+var import_react9 = __toESM(require_react());
 
 // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o2, p3) {
@@ -33345,11 +33347,11 @@ function removeClass(element, className) {
 }
 
 // node_modules/react-transition-group/esm/CSSTransition.js
-var import_react9 = __toESM(require_react());
+var import_react5 = __toESM(require_react());
 
 // node_modules/react-transition-group/esm/Transition.js
 var import_prop_types2 = __toESM(require_prop_types());
-var import_react8 = __toESM(require_react());
+var import_react4 = __toESM(require_react());
 var import_react_dom2 = __toESM(require_react_dom());
 
 // node_modules/react-transition-group/esm/config.js
@@ -33378,8 +33380,8 @@ var classNamesShape = true ? import_prop_types.default.oneOfType([import_prop_ty
 })]) : null;
 
 // node_modules/react-transition-group/esm/TransitionGroupContext.js
-var import_react7 = __toESM(require_react());
-var TransitionGroupContext_default = import_react7.default.createContext(null);
+var import_react3 = __toESM(require_react());
+var TransitionGroupContext_default = import_react3.default.createContext(null);
 
 // node_modules/react-transition-group/esm/utils/reflow.js
 var forceReflow = function forceReflow2(node2) {
@@ -33595,13 +33597,13 @@ var Transition = /* @__PURE__ */ function(_React$Component) {
     var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
     return (
       // allows for nested Transitions
-      /* @__PURE__ */ import_react8.default.createElement(TransitionGroupContext_default.Provider, {
+      /* @__PURE__ */ import_react4.default.createElement(TransitionGroupContext_default.Provider, {
         value: null
-      }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps))
+      }, typeof children === "function" ? children(status, childProps) : import_react4.default.cloneElement(import_react4.default.Children.only(children), childProps))
     );
   };
   return Transition2;
-}(import_react8.default.Component);
+}(import_react4.default.Component);
 Transition.contextType = TransitionGroupContext_default;
 Transition.propTypes = true ? {
   /**
@@ -33919,7 +33921,7 @@ var CSSTransition = /* @__PURE__ */ function(_React$Component) {
   };
   _proto.render = function render3() {
     var _this$props = this.props, _2 = _this$props.classNames, props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
-    return /* @__PURE__ */ import_react9.default.createElement(Transition_default, _extends({}, props, {
+    return /* @__PURE__ */ import_react5.default.createElement(Transition_default, _extends({}, props, {
       onEnter: this.onEnter,
       onEntered: this.onEntered,
       onEntering: this.onEntering,
@@ -33929,7 +33931,7 @@ var CSSTransition = /* @__PURE__ */ function(_React$Component) {
     }));
   };
   return CSSTransition2;
-}(import_react9.default.Component);
+}(import_react5.default.Component);
 CSSTransition.defaultProps = {
   classNames: ""
 };
@@ -34060,7 +34062,7 @@ CSSTransition.propTypes = true ? _extends({}, Transition_default.propTypes, {
 var CSSTransition_default = CSSTransition;
 
 // assets/components/alert-portal.tsx
-var import_react11 = __toESM(require_react());
+var import_react7 = __toESM(require_react());
 var import_react_dom3 = __toESM(require_react_dom());
 
 // node_modules/@emotion/sheet/dist/emotion-sheet.browser.esm.js
@@ -35418,10 +35420,10 @@ var sheet = _createEmotion.sheet;
 var cache = _createEmotion.cache;
 
 // assets/hooks/use-fixed-body-when-has-class.ts
-var import_react10 = __toESM(require_react());
+var import_react6 = __toESM(require_react());
 var useFixedBodyWhenHasClass = (className) => {
   const { positionY } = useSelector(getUI);
-  (0, import_react10.useEffect)(() => {
+  (0, import_react6.useEffect)(() => {
     document.body.classList.add(className);
     document.body.style.position = "fixed";
     if (positionY !== 0) {
@@ -35593,7 +35595,7 @@ var AlertPortal = ({
   deactivate,
   isActive
 }) => {
-  const ref = (0, import_react11.useRef)();
+  const ref = (0, import_react7.useRef)();
   const target = document.getElementById(alertPortalId);
   const handleClick = () => {
     deactivate();
@@ -35603,7 +35605,7 @@ var AlertPortal = ({
       deactivate();
     }
   };
-  (0, import_react11.useEffect)(() => {
+  (0, import_react7.useEffect)(() => {
     isActive && ref.current?.focus();
     return () => {
       ref.current?.blur();
@@ -36985,7 +36987,7 @@ var p2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORM
   mark: noop$1,
   measure: noop$1
 };
-var preamble = 'FA "6.4.0"';
+var preamble = 'FA "6.4.2"';
 var begin = function begin2(name) {
   p2.mark("".concat(preamble, " ").concat(name, " begins"));
   return function() {
@@ -37024,12 +37026,12 @@ function getMutator() {
 function createElementNS(tag) {
   return DOCUMENT.createElementNS("http://www.w3.org/2000/svg", tag);
 }
-function createElement3(tag) {
+function createElement5(tag) {
   return DOCUMENT.createElement(tag);
 }
 function convertSVG(abstractObj) {
   var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-  var _params$ceFn = params.ceFn, ceFn = _params$ceFn === void 0 ? abstractObj.tag === "svg" ? createElementNS : createElement3 : _params$ceFn;
+  var _params$ceFn = params.ceFn, ceFn = _params$ceFn === void 0 ? abstractObj.tag === "svg" ? createElementNS : createElement5 : _params$ceFn;
   if (typeof abstractObj === "string") {
     return DOCUMENT.createTextNode(abstractObj);
   }
@@ -37683,7 +37685,7 @@ function replaceForPosition(node2, position2) {
             extra,
             watchable: true
           }));
-          var element = DOCUMENT.createElement("svg");
+          var element = DOCUMENT.createElementNS("http://www.w3.org/2000/svg", "svg");
           if (position2 === "::before") {
             node2.insertBefore(element, node2.firstChild);
           } else {
@@ -38108,7 +38110,7 @@ var counter = api.counter;
 
 // node_modules/@fortawesome/react-fontawesome/index.es.js
 var import_prop_types4 = __toESM(require_prop_types());
-var import_react12 = __toESM(require_react());
+var import_react8 = __toESM(require_react());
 function ownKeys3(object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
@@ -38275,13 +38277,13 @@ function styleToObject(style) {
     return acc;
   }, {});
 }
-function convert(createElement4, element) {
+function convert(createElement6, element) {
   var extraProps = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
   if (typeof element === "string") {
     return element;
   }
   var children = (element.children || []).map(function(child) {
-    return convert(createElement4, child);
+    return convert(createElement6, child);
   });
   var mixins = Object.keys(element.attributes || {}).reduce(function(acc, key) {
     var val = element.attributes[key];
@@ -38306,7 +38308,7 @@ function convert(createElement4, element) {
   });
   var _extraProps$style = extraProps.style, existingStyle = _extraProps$style === void 0 ? {} : _extraProps$style, remaining = _objectWithoutProperties(extraProps, _excluded4);
   mixins.attrs["style"] = _objectSpread23(_objectSpread23({}, mixins.attrs["style"]), existingStyle);
-  return createElement4.apply(void 0, [element.tag, _objectSpread23(_objectSpread23({}, mixins.attrs), remaining)].concat(_toConsumableArray2(children)));
+  return createElement6.apply(void 0, [element.tag, _objectSpread23(_objectSpread23({}, mixins.attrs), remaining)].concat(_toConsumableArray2(children)));
 }
 var PRODUCTION2 = false;
 try {
@@ -38348,7 +38350,7 @@ function normalizeIconArgs(icon3) {
 function objectWithKey(key, value) {
   return Array.isArray(value) && value.length > 0 || !Array.isArray(value) && value ? _defineProperty3({}, key, value) : {};
 }
-var FontAwesomeIcon = /* @__PURE__ */ import_react12.default.forwardRef(function(props, ref) {
+var FontAwesomeIcon = /* @__PURE__ */ import_react8.default.forwardRef(function(props, ref) {
   var iconArgs = props.icon, maskArgs = props.mask, symbol = props.symbol, className = props.className, title = props.title, titleId = props.titleId, maskId = props.maskId;
   var iconLookup = normalizeIconArgs(iconArgs);
   var classes = objectWithKey("classes", [].concat(_toConsumableArray2(classList(props)), _toConsumableArray2(className.split(" "))));
@@ -38433,7 +38435,7 @@ FontAwesomeIcon.defaultProps = {
   transform: null,
   swapOpacity: false
 };
-var convertCurry = convert.bind(null, import_react12.default.createElement);
+var convertCurry = convert.bind(null, import_react8.default.createElement);
 
 // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
 var faFileCsv = {
@@ -38706,7 +38708,7 @@ var alert_default = Alert;
 // assets/components/alert-error.tsx
 var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var AlertError = () => {
-  const [isActive, setIsActive] = (0, import_react13.useState)(false);
+  const [isActive, setIsActive] = (0, import_react9.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -38716,7 +38718,7 @@ var AlertError = () => {
   };
   const alerts = useSelector(getErrors);
   const hasAlerts = alerts.length > 0;
-  (0, import_react13.useEffect)(() => {
+  (0, import_react9.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -38734,13 +38736,13 @@ var AlertError = () => {
 var alert_error_default = AlertError;
 
 // assets/components/app.tsx
-var import_react22 = __toESM(require_react());
+var import_react18 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
 var import_react_side_effect = __toESM(require_lib());
 var import_react_fast_compare = __toESM(require_react_fast_compare());
-var import_react14 = __toESM(require_react());
+var import_react10 = __toESM(require_react());
 var import_object_assign = __toESM(require_object_assign());
 var ATTRIBUTE_NAMES = {
   BODY: "bodyAttributes",
@@ -39197,7 +39199,7 @@ var generateTitleAsReactComponent = function generateTitleAsReactComponent2(type
     key: title
   }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
   var props = convertElementAttributestoReactProps(attributes, initProps);
-  return [import_react14.default.createElement(TAG_NAMES.TITLE, props, title)];
+  return [import_react10.default.createElement(TAG_NAMES.TITLE, props, title)];
 };
 var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
   return tags.map(function(tag, i2) {
@@ -39214,7 +39216,7 @@ var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, 
         mappedTag[mappedAttribute] = tag[attribute];
       }
     });
-    return import_react14.default.createElement(type, mappedTag);
+    return import_react10.default.createElement(type, mappedTag);
   });
 };
 var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -39342,7 +39344,7 @@ var Helmet = function Helmet2(Component2) {
     HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
       var _this2 = this;
       var arrayTypeChildren = {};
-      import_react14.default.Children.forEach(children, function(child) {
+      import_react10.default.Children.forEach(children, function(child) {
         if (!child || !child.props) {
           return;
         }
@@ -39381,7 +39383,7 @@ var Helmet = function Helmet2(Component2) {
       if (children) {
         newProps = this.mapChildrenToProps(children, newProps);
       }
-      return import_react14.default.createElement(Component2, newProps);
+      return import_react10.default.createElement(Component2, newProps);
     };
     createClass(HelmetWrapper, null, [{
       key: "canUseDOM",
@@ -39411,7 +39413,7 @@ var Helmet = function Helmet2(Component2) {
       }
     }]);
     return HelmetWrapper;
-  }(import_react14.default.Component), _class.propTypes = {
+  }(import_react10.default.Component), _class.propTypes = {
     base: import_prop_types5.default.object,
     bodyAttributes: import_prop_types5.default.object,
     children: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.node), import_prop_types5.default.node]),
@@ -39628,7 +39630,7 @@ var fetchFromPath = (path, isPrimary = false) => {
 var fetch_from_path_default = fetchFromPath;
 
 // assets/components/modal-portal.tsx
-var import_react15 = __toESM(require_react());
+var import_react11 = __toESM(require_react());
 var import_react_dom4 = __toESM(require_react_dom());
 var import_jsx_runtime6 = __toESM(require_jsx_runtime());
 var hasModalClass = "has-modal";
@@ -39656,7 +39658,7 @@ var ModalPortal = ({
   deactivate,
   isActive
 }) => {
-  const ref = (0, import_react15.useRef)();
+  const ref = (0, import_react11.useRef)();
   const target = document.getElementById(modalPortalId);
   const handleOverlayClick = () => {
     deactivate();
@@ -39666,7 +39668,7 @@ var ModalPortal = ({
       deactivate();
     }
   };
-  (0, import_react15.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     isActive && ref.current?.focus();
     return () => {
       ref.current?.blur();
@@ -39699,10 +39701,10 @@ var ModalPortal = ({
 var modal_portal_default = ModalPortal;
 
 // assets/components/alert-message.tsx
-var import_react16 = __toESM(require_react());
+var import_react12 = __toESM(require_react());
 var import_jsx_runtime7 = __toESM(require_jsx_runtime());
 var AlertMessage = () => {
-  const [isActive, setIsActive] = (0, import_react16.useState)(false);
+  const [isActive, setIsActive] = (0, import_react12.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -39712,7 +39714,7 @@ var AlertMessage = () => {
   };
   const alerts = useSelector(getMessages);
   const hasAlerts = alerts.length > 0;
-  (0, import_react16.useEffect)(() => {
+  (0, import_react12.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -39730,10 +39732,10 @@ var AlertMessage = () => {
 var alert_message_default = AlertMessage;
 
 // assets/components/alert-warning.tsx
-var import_react17 = __toESM(require_react());
+var import_react13 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var AlertWarning = () => {
-  const [isActive, setIsActive] = (0, import_react17.useState)(false);
+  const [isActive, setIsActive] = (0, import_react13.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -39743,7 +39745,7 @@ var AlertWarning = () => {
   };
   const alerts = useSelector(getWarnings);
   const hasAlerts = alerts.length > 0;
-  (0, import_react17.useEffect)(() => {
+  (0, import_react13.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -39803,7 +39805,7 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { classNam
 var eyes_default = Eyes;
 
 // assets/components/links.tsx
-var import_react18 = __toESM(require_react());
+var import_react14 = __toESM(require_react());
 
 // assets/lib/links.ts
 var isCurrent = (location2, newSearch) => {
@@ -39902,7 +39904,7 @@ var SortLink = ({
   defaultSort,
   ...rest
 }) => {
-  const [nextSort, setNextSort] = (0, import_react18.useState)(defaultSort);
+  const [nextSort, setNextSort] = (0, import_react14.useState)(defaultSort);
   const [searchParams] = useSearchParams();
   const params = new Map(Object.entries(newParams));
   for (const [key, value] of searchParams.entries()) {
@@ -39914,7 +39916,7 @@ var SortLink = ({
   const isSorted = params.get("sort_by") !== null && hasSortBy;
   const hasIcon = isDefault || isSorted;
   const icon3 = getIconNameForSort(toggleSort(nextSort));
-  (0, import_react18.useEffect)(() => {
+  (0, import_react14.useEffect)(() => {
     const sortValue = searchParams.get("sort") || defaultSort;
     if (queryParams.isCurrent) {
       setNextSort(toggleSort(sortValue));
@@ -40131,10 +40133,10 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("footer"
 var global_footer_default = GlobalFooter;
 
 // assets/components/global-header.tsx
-var import_react20 = __toESM(require_react());
+var import_react16 = __toESM(require_react());
 
 // assets/components/incident-modal.tsx
-var import_react19 = __toESM(require_react());
+var import_react15 = __toESM(require_react());
 
 // assets/components/item-description.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
@@ -40617,11 +40619,11 @@ var styles13 = css`
   }
 `;
 var IncidentModal = ({ deactivate, id, isActive }) => {
-  const fetched = (0, import_react19.useRef)(false);
+  const fetched = (0, import_react15.useRef)(false);
   const location2 = useLocation();
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
-  (0, import_react19.useEffect)(() => {
+  (0, import_react15.useEffect)(() => {
     if (incident && incident.attendees)
       return;
     if (!fetched.current) {
@@ -40856,8 +40858,8 @@ var DateRangeNote = () => {
 };
 var GlobalHeader = () => {
   const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = (0, import_react20.useState)(pathname);
-  const [selectedId, setSelectedId] = (0, import_react20.useState)();
+  const [savedPathname, setSavedPathname] = (0, import_react16.useState)(pathname);
+  const [selectedId, setSelectedId] = (0, import_react16.useState)();
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
@@ -40872,10 +40874,10 @@ var GlobalHeader = () => {
       setSelectedId(Number(event.target.dataset.id));
     }
   };
-  (0, import_react20.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     setSavedPathname(pathname);
   }, [setSavedPathname, pathname]);
-  (0, import_react20.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     if (pathname !== savedPathname) {
       setSelectedId(null);
     }
@@ -40931,11 +40933,11 @@ var GlobalHeader = () => {
 var global_header_default = GlobalHeader;
 
 // assets/hooks/use-capture-scroll-position.ts
-var import_react21 = __toESM(require_react());
+var import_react17 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
   const dispatch = useDispatch();
-  const [scrollPos, setScrollPos] = (0, import_react21.useState)(0);
+  const [scrollPos, setScrollPos] = (0, import_react17.useState)(0);
   const handleScroll = () => {
     setScrollPos(Number(window.scrollY) * -1);
     if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -40943,13 +40945,13 @@ var useCaptureScrollPosition = (classNames = []) => {
     }
   };
   const debounced = (0, import_debounce.debounce)(handleScroll, 400);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     window.addEventListener("scroll", debounced);
     return () => {
       window.removeEventListener("scroll", debounced);
     };
   }, [debounced]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     dispatch(actions2.setPositionY(scrollPos));
   }, [dispatch, scrollPos]);
 };
@@ -41017,12 +41019,12 @@ var styles15 = css`
   }
 `;
 var App = () => {
-  const initiated = (0, import_react22.useRef)(false);
+  const initiated = (0, import_react18.useRef)(false);
   const location2 = useLocation();
   const description = useSelector(getDescription);
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react18.useEffect)(() => {
     const { pathname, search } = location2;
     if (!initiated.current) {
       fetch_from_path_default("/overview");
@@ -41059,7 +41061,7 @@ var EntityIcon = () => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(icon_defaul
 var icon_default2 = EntityIcon;
 
 // assets/components/loading.tsx
-var import_react23 = __toESM(require_react());
+var import_react19 = __toESM(require_react());
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var styles16 = css`
   padding: 18px 0;
@@ -41068,8 +41070,8 @@ var styles16 = css`
   text-align: center;
 `;
 var Loading = () => {
-  const timedOut = (0, import_react23.useRef)(false);
-  (0, import_react23.useEffect)(() => {
+  const timedOut = (0, import_react19.useRef)(false);
+  (0, import_react19.useEffect)(() => {
     if (!timedOut.current) {
       setTimeout(() => {
         timedOut.current = true;
@@ -41414,7 +41416,7 @@ var Index = () => {
 var entities_default2 = Index;
 
 // assets/components/entities/detail.tsx
-var import_react32 = __toESM(require_react());
+var import_react28 = __toESM(require_react());
 
 // assets/components/subsection-subhead.tsx
 var import_jsx_runtime28 = __toESM(require_jsx_runtime());
@@ -41517,10 +41519,10 @@ var ActivityOverview = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime3
 var incident_activity_overview_default = ActivityOverview;
 
 // assets/components/entities/attendees.tsx
-var import_react25 = __toESM(require_react());
+var import_react21 = __toESM(require_react());
 
 // assets/components/affiliated-item-table.tsx
-var import_react24 = __toESM(require_react());
+var import_react20 = __toESM(require_react());
 
 // assets/components/item-table.tsx
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
@@ -41734,8 +41736,8 @@ var AffiliatedItemTable = ({
   TotalCell,
   label
 }) => {
-  const ref = (0, import_react24.useRef)();
-  const [showAll, setShowAll] = (0, import_react24.useState)(false);
+  const ref = (0, import_react20.useRef)();
+  const [showAll, setShowAll] = (0, import_react20.useState)(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
   const hasMoreToShow = affiliatedItems.length > initialCount;
@@ -41860,9 +41862,9 @@ var Attendees2 = ({
   attendees,
   entity
 }) => {
-  const fetched = (0, import_react25.useRef)(false);
+  const fetched = (0, import_react21.useRef)(false);
   const location2 = useLocation();
-  (0, import_react25.useEffect)(() => {
+  (0, import_react21.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -41904,7 +41906,7 @@ var Attendees2 = ({
 var attendees_default = Attendees2;
 
 // assets/components/entities/chart.tsx
-var import_react28 = __toESM(require_react());
+var import_react24 = __toESM(require_react());
 
 // assets/components/incident-activity-chart.tsx
 var import_jsx_runtime38 = __toESM(require_jsx_runtime());
@@ -41923,7 +41925,7 @@ var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_run
 var incident_activity_chart_default = IncidentActivityChart;
 
 // assets/components/item-chart.tsx
-var import_react27 = __toESM(require_react());
+var import_react23 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
 function round(v2) {
@@ -46470,7 +46472,7 @@ var LineController = class extends DatasetController {
     line2._chart = this.chart;
     line2._datasetIndex = this.index;
     line2._decimated = !!_dataset._decimated;
-    line2.points = points.slice(Math.max(this._drawStart - 1, 0), this._drawStart + this._drawCount);
+    line2.points = points;
     const options2 = this.resolveDatasetElementOptions(mode);
     if (!this.options.showLine) {
       options2.borderWidth = 0;
@@ -49481,7 +49483,7 @@ function needContext(proxy, names2) {
   }
   return false;
 }
-var version = "4.3.1";
+var version = "4.3.3";
 var KNOWN_POSITIONS = [
   "top",
   "bottom",
@@ -54170,7 +54172,7 @@ __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
 // node_modules/react-chartjs-2/dist/index.js
-var import_react26 = __toESM(require_react(), 1);
+var import_react22 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
   if (typeof ref === "function") {
@@ -54215,8 +54217,8 @@ function cloneData(data) {
 }
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins2 = [], fallbackContent, updateMode, ...canvasProps } = props;
-  const canvasRef = (0, import_react26.useRef)(null);
-  const chartRef = (0, import_react26.useRef)();
+  const canvasRef = (0, import_react22.useRef)(null);
+  const chartRef = (0, import_react22.useRef)();
   const renderChart = () => {
     if (!canvasRef.current)
       return;
@@ -54237,7 +54239,7 @@ function ChartComponent(props, ref) {
       chartRef.current = null;
     }
   };
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current && options2) {
       setOptions(chartRef.current, options2);
     }
@@ -54245,7 +54247,7 @@ function ChartComponent(props, ref) {
     redraw,
     options2
   ]);
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current) {
       setLabels(chartRef.current.config.data, data.labels);
     }
@@ -54253,7 +54255,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.labels
   ]);
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current && data.datasets) {
       setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
     }
@@ -54261,7 +54263,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.datasets
   ]);
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!chartRef.current)
       return;
     if (redraw) {
@@ -54277,7 +54279,7 @@ function ChartComponent(props, ref) {
     data.datasets,
     updateMode
   ]);
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!chartRef.current)
       return;
     destroyChart();
@@ -54285,21 +54287,21 @@ function ChartComponent(props, ref) {
   }, [
     type
   ]);
-  (0, import_react26.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react26.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react22.default.createElement("canvas", Object.assign({
     ref: canvasRef,
     role: "img",
     height,
     width
   }, canvasProps), fallbackContent);
 }
-var Chart2 = /* @__PURE__ */ (0, import_react26.forwardRef)(ChartComponent);
+var Chart2 = /* @__PURE__ */ (0, import_react22.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react26.forwardRef)((props, ref) => /* @__PURE__ */ import_react26.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react22.forwardRef)((props, ref) => /* @__PURE__ */ import_react22.default.createElement(Chart2, Object.assign({}, props, {
     ref,
     type
   })));
@@ -54366,7 +54368,7 @@ var options = {
 var itemColorStatic = "olivedrab";
 var itemColorLink = "cornflowerblue";
 var ItemChart = ({ handleClick, label, lineProps }) => {
-  const [hasLineLabel, setHasLineLabel] = (0, import_react27.useState)(false);
+  const [hasLineLabel, setHasLineLabel] = (0, import_react23.useState)(false);
   const sources = useSelector(getSourcesDataForChart);
   const sourceData = {
     id: "sources",
@@ -54413,7 +54415,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
     };
   }
   options.plugins.legend.display = hasDatasets && hasLineLabel;
-  (0, import_react27.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
   return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "item-overview-chart", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
@@ -54430,13 +54432,13 @@ var item_chart_default = ItemChart;
 // assets/components/entities/chart.tsx
 var import_jsx_runtime40 = __toESM(require_jsx_runtime());
 var Chart3 = ({ label }) => {
-  const fetched = (0, import_react28.useRef)(false);
+  const fetched = (0, import_react24.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react28.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react24.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const lineProps = {
@@ -54446,14 +54448,14 @@ var Chart3 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react28.useEffect)(() => {
+  (0, import_react24.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, location2]);
-  (0, import_react28.useEffect)(() => {
+  (0, import_react24.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -54466,7 +54468,7 @@ var Chart3 = ({ label }) => {
 var chart_default = Chart3;
 
 // assets/components/detail-incidents.tsx
-var import_react30 = __toESM(require_react());
+var import_react26 = __toESM(require_react());
 
 // assets/components/incidents-header.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
@@ -54535,7 +54537,7 @@ var IncidentsHeader = ({
 var incidents_header_default = IncidentsHeader;
 
 // assets/components/incident-list-table.tsx
-var import_react29 = __toESM(require_react());
+var import_react25 = __toESM(require_react());
 var import_jsx_runtime42 = __toESM(require_jsx_runtime());
 var styles27 = css`
   position: relative;
@@ -54698,7 +54700,7 @@ var styles27 = css`
   }
 `;
 var IncidentRow = ({ id }) => {
-  const [isSelected, setIsSelected] = (0, import_react29.useState)(false);
+  const [isSelected, setIsSelected] = (0, import_react25.useState)(false);
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
   const deactivate = () => setIsSelected(false);
@@ -54846,7 +54848,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
     }
   );
 };
-var DetailIncidents = (0, import_react30.forwardRef)(({
+var DetailIncidents = (0, import_react26.forwardRef)(({
   filters,
   hasSort,
   ids,
@@ -54856,9 +54858,9 @@ var DetailIncidents = (0, import_react30.forwardRef)(({
 }, ref) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
-  const idsRef = (0, import_react30.useRef)(null);
-  const paramsStringRef = (0, import_react30.useRef)(null);
-  (0, import_react30.useEffect)(() => {
+  const idsRef = (0, import_react26.useRef)(null);
+  const paramsStringRef = (0, import_react26.useRef)(null);
+  (0, import_react26.useEffect)(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
       idsRef.current = ids;
       if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -54897,13 +54899,13 @@ DetailIncidents.displayName = "DetailIncidents";
 var detail_incidents_default = DetailIncidents;
 
 // assets/components/incident-date-box.tsx
-var import_react31 = __toESM(require_react());
+var import_react27 = __toESM(require_react());
 var import_jsx_runtime45 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({
   incident,
   title
 }) => {
-  const [isActive, setIsActive] = (0, import_react31.useState)(false);
+  const [isActive, setIsActive] = (0, import_react27.useState)(false);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
     event.preventDefault();
@@ -55086,7 +55088,7 @@ var stat_group_numbers_default = NumbersGroup;
 // assets/components/entities/detail.tsx
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
 var Detail = () => {
-  const ref = (0, import_react32.useRef)();
+  const ref = (0, import_react28.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55166,7 +55168,7 @@ var toSentence = (items, locale = "en", inclusive = true) => {
 };
 
 // assets/components/section-header.tsx
-var import_react33 = __toESM(require_react());
+var import_react29 = __toESM(require_react());
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var styles34 = css`
   display: flex;
@@ -55380,7 +55382,7 @@ var SectionHeader = ({
   title
 }) => {
   const hasLink = Boolean(LinkComponent);
-  const hasSubhead = import_react33.Children.toArray(children).length > 0;
+  const hasSubhead = import_react29.Children.toArray(children).length > 0;
   const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon3);
   return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(
@@ -55703,7 +55705,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("div", { classNa
 var home_default = Home;
 
 // assets/components/incidents/index.tsx
-var import_react34 = __toESM(require_react());
+var import_react30 = __toESM(require_react());
 var import_jsx_runtime63 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { children: [
   "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55713,7 +55715,7 @@ var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { 
   "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
 ] });
 var Index3 = () => {
-  const ref = (0, import_react34.useRef)();
+  const ref = (0, import_react30.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55740,17 +55742,17 @@ var Index3 = () => {
 var incidents_default2 = Index3;
 
 // assets/components/incident-source-box.tsx
-var import_react35 = __toESM(require_react());
+var import_react31 = __toESM(require_react());
 var import_jsx_runtime64 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
   incident,
   title
 }) => {
-  const fetched = (0, import_react35.useRef)(false);
+  const fetched = (0, import_react31.useRef)(false);
   const location2 = useLocation();
   const id = incident?.sourceId;
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react35.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     if (source || !id)
       return;
     if (!fetched.current) {
@@ -55890,16 +55892,16 @@ var Section3 = ({
 var section_default3 = Section3;
 
 // assets/components/people/detail.tsx
-var import_react39 = __toESM(require_react());
+var import_react35 = __toESM(require_react());
 
 // assets/components/people/attendees.tsx
-var import_react36 = __toESM(require_react());
+var import_react32 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
   attendees,
   person
 }) => {
-  const fetched = (0, import_react36.useRef)(false);
+  const fetched = (0, import_react32.useRef)(false);
   const location2 = useLocation();
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
@@ -55915,7 +55917,7 @@ var Attendees3 = ({
     roles.push("was lobbied by a number of lobbyists as a City of Portland official");
   }
   description.push(roles.join(" and "));
-  (0, import_react36.useEffect)(() => {
+  (0, import_react32.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -55983,16 +55985,16 @@ var Attendees3 = ({
 var attendees_default2 = Attendees3;
 
 // assets/components/people/chart.tsx
-var import_react37 = __toESM(require_react());
+var import_react33 = __toESM(require_react());
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
 var Chart5 = ({ label }) => {
-  const fetched = (0, import_react37.useRef)(false);
+  const fetched = (0, import_react33.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react37.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react33.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
   const lineProps = {
@@ -56002,14 +56004,14 @@ var Chart5 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react37.useEffect)(() => {
+  (0, import_react33.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, location2]);
-  (0, import_react37.useEffect)(() => {
+  (0, import_react33.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -56022,14 +56024,14 @@ var Chart5 = ({ label }) => {
 var chart_default3 = Chart5;
 
 // assets/components/people/entities.tsx
-var import_react38 = __toESM(require_react());
+var import_react34 = __toESM(require_react());
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
-  const fetched = (0, import_react38.useRef)(false);
+  const fetched = (0, import_react34.useRef)(false);
   const location2 = useLocation();
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
-  (0, import_react38.useEffect)(() => {
+  (0, import_react34.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
@@ -56077,7 +56079,7 @@ var entities_default3 = Entities;
 // assets/components/people/detail.tsx
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
-  const ref = (0, import_react39.useRef)();
+  const ref = (0, import_react35.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -56173,7 +56175,7 @@ var Section4 = ({
 var section_default4 = Section4;
 
 // assets/components/sources/item.tsx
-var import_react40 = __toESM(require_react());
+var import_react36 = __toESM(require_react());
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var styles40 = css`
   display: flex;
@@ -56234,10 +56236,10 @@ var styles40 = css`
   }
 `;
 var Source = ({ id }) => {
-  const fetched = (0, import_react40.useRef)(false);
+  const fetched = (0, import_react36.useRef)(false);
   const location2 = useLocation();
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react40.useEffect)(() => {
+  (0, import_react36.useEffect)(() => {
     if (source)
       return;
     if (!fetched.current) {
@@ -56294,7 +56296,7 @@ var Index4 = () => {
 var sources_default2 = Index4;
 
 // assets/components/sources/detail.tsx
-var import_react41 = __toESM(require_react());
+var import_react37 = __toESM(require_react());
 
 // assets/components/sources/chart.tsx
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
@@ -56360,7 +56362,7 @@ var disclaimers = {
   registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
 };
 var Detail4 = () => {
-  const ref = (0, import_react41.useRef)();
+  const ref = (0, import_react37.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -56749,7 +56751,7 @@ react-router-dom/dist/index.js:
 
 chart.js/dist/chunks/helpers.segment.js:
   (*!
-   * Chart.js v4.3.1
+   * Chart.js v4.3.3
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
@@ -56757,7 +56759,7 @@ chart.js/dist/chunks/helpers.segment.js:
 
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.3.1
+   * Chart.js v4.3.3
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
