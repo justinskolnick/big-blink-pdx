@@ -27776,10 +27776,17 @@ function createRouter(init) {
       } : {})
     );
     invariant(redirectLocation, "Expected a location on the redirect navigation");
-    if (ABSOLUTE_URL_REGEX.test(redirect2.location) && isBrowser3) {
-      let url = init.history.createURL(redirect2.location);
-      let isDifferentBasename = stripBasename(url.pathname, basename) == null;
-      if (routerWindow.location.origin !== url.origin || isDifferentBasename) {
+    if (isBrowser3) {
+      let isDocumentReload = false;
+      if (redirect2.reloadDocument) {
+        isDocumentReload = true;
+      } else if (ABSOLUTE_URL_REGEX.test(redirect2.location)) {
+        const url = init.history.createURL(redirect2.location);
+        isDocumentReload = // Hard reload if it's an absolute URL to a new origin
+        url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
+        stripBasename(url.pathname, basename) == null;
+      }
+      if (isDocumentReload) {
         if (replace4) {
           routerWindow.location.replace(redirect2.location);
         } else {
@@ -28427,14 +28434,16 @@ async function callLoaderOrAction(type, request, match2, matches, manifest, mapR
         type: ResultType.redirect,
         status,
         location: location2,
-        revalidate: result.headers.get("X-Remix-Revalidate") !== null
+        revalidate: result.headers.get("X-Remix-Revalidate") !== null,
+        reloadDocument: result.headers.get("X-Remix-Reload-Document") !== null
       };
     }
     if (opts.isRouteRequest) {
-      throw {
-        type: resultType || ResultType.data,
+      let queryRouteResponse = {
+        type: resultType === ResultType.error ? ResultType.error : ResultType.data,
         response: result
       };
+      throw queryRouteResponse;
     }
     let data;
     let contentType = result.headers.get("Content-Type");
@@ -29336,14 +29345,13 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
     }) : getChildren();
   }, null);
 }
-var DataRouterHook;
-(function(DataRouterHook3) {
+var DataRouterHook = /* @__PURE__ */ function(DataRouterHook3) {
   DataRouterHook3["UseBlocker"] = "useBlocker";
   DataRouterHook3["UseRevalidator"] = "useRevalidator";
   DataRouterHook3["UseNavigateStable"] = "useNavigate";
-})(DataRouterHook || (DataRouterHook = {}));
-var DataRouterStateHook;
-(function(DataRouterStateHook3) {
+  return DataRouterHook3;
+}(DataRouterHook || {});
+var DataRouterStateHook = /* @__PURE__ */ function(DataRouterStateHook3) {
   DataRouterStateHook3["UseBlocker"] = "useBlocker";
   DataRouterStateHook3["UseLoaderData"] = "useLoaderData";
   DataRouterStateHook3["UseActionData"] = "useActionData";
@@ -29354,7 +29362,8 @@ var DataRouterStateHook;
   DataRouterStateHook3["UseRevalidator"] = "useRevalidator";
   DataRouterStateHook3["UseNavigateStable"] = "useNavigate";
   DataRouterStateHook3["UseRouteId"] = "useRouteId";
-})(DataRouterStateHook || (DataRouterStateHook = {}));
+  return DataRouterStateHook3;
+}(DataRouterStateHook || {});
 function getDataRouterConsoleError(hookName) {
   return hookName + " must be used within a data router.  See https://reactrouter.com/routers/picking-a-router.";
 }
@@ -29564,12 +29573,6 @@ function Router(_ref5) {
     value: locationContext
   }));
 }
-var AwaitRenderStatus;
-(function(AwaitRenderStatus2) {
-  AwaitRenderStatus2[AwaitRenderStatus2["pending"] = 0] = "pending";
-  AwaitRenderStatus2[AwaitRenderStatus2["success"] = 1] = "success";
-  AwaitRenderStatus2[AwaitRenderStatus2["error"] = 2] = "error";
-})(AwaitRenderStatus || (AwaitRenderStatus = {}));
 var neverSettledPromise = new Promise(() => {
 });
 function mapRouteProperties(route) {
@@ -29666,13 +29669,13 @@ function createSearchParams(init) {
 function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
   let searchParams = createSearchParams(locationSearch);
   if (defaultSearchParams) {
-    for (let key of defaultSearchParams.keys()) {
+    defaultSearchParams.forEach((_2, key) => {
       if (!searchParams.has(key)) {
         defaultSearchParams.getAll(key).forEach((value) => {
           searchParams.append(key, value);
         });
       }
-    }
+    });
   }
   return searchParams;
 }
@@ -30154,7 +30157,6 @@ function useFormAction(action, _temp2) {
   let location2 = useLocation();
   if (action == null) {
     path.search = location2.search;
-    path.hash = location2.hash;
     if (match2.route.index) {
       let params = new URLSearchParams(path.search);
       params.delete("index");
@@ -43231,6 +43233,7 @@ function applyScaleDefaults(defaults2) {
     reverse: false,
     beginAtZero: false,
     bounds: "ticks",
+    clip: true,
     grace: 0,
     grid: {
       display: true,
@@ -43709,7 +43712,7 @@ function renderText(ctx, text2, x2, y2, font, opts = {}) {
 }
 function addRoundedRectPath(ctx, rect) {
   const { x: x2, y: y2, w: w3, h: h3, radius } = rect;
-  ctx.arc(x2 + radius.topLeft, y2 + radius.topLeft, radius.topLeft, -HALF_PI, PI, true);
+  ctx.arc(x2 + radius.topLeft, y2 + radius.topLeft, radius.topLeft, 1.5 * PI, PI, true);
   ctx.lineTo(x2, y2 + h3 - radius.bottomLeft);
   ctx.arc(x2 + radius.bottomLeft, y2 + h3 - radius.bottomLeft, radius.bottomLeft, PI, HALF_PI, true);
   ctx.lineTo(x2 + w3 - radius.bottomRight, y2 + h3);
@@ -49483,7 +49486,7 @@ function needContext(proxy, names2) {
   }
   return false;
 }
-var version = "4.3.3";
+var version = "4.4.0";
 var KNOWN_POSITIONS = [
   "top",
   "bottom",
@@ -49552,16 +49555,20 @@ function determineLastEvent(e, lastEvent, inChartArea, isClick) {
   }
   return e;
 }
-function getDatasetArea(meta) {
+function getSizeForArea(scale, chartArea, field) {
+  return scale.options.clip ? scale[field] : chartArea[field];
+}
+function getDatasetArea(meta, chartArea) {
   const { xScale, yScale } = meta;
   if (xScale && yScale) {
     return {
-      left: xScale.left,
-      right: xScale.right,
-      top: yScale.top,
-      bottom: yScale.bottom
+      left: getSizeForArea(xScale, chartArea, "left"),
+      right: getSizeForArea(xScale, chartArea, "right"),
+      top: getSizeForArea(yScale, chartArea, "top"),
+      bottom: getSizeForArea(yScale, chartArea, "bottom")
     };
   }
+  return chartArea;
 }
 var Chart = class {
   static register(...items) {
@@ -50057,7 +50064,7 @@ var Chart = class {
     const ctx = this.ctx;
     const clip = meta._clip;
     const useClip = !clip.disabled;
-    const area = getDatasetArea(meta) || this.chartArea;
+    const area = getDatasetArea(meta, this.chartArea);
     const args = {
       meta,
       index: meta.index,
@@ -56707,7 +56714,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.7.2
+   * @remix-run/router v1.8.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56719,7 +56726,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.14.2
+   * React Router v6.15.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56731,7 +56738,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.14.2
+   * React Router DOM v6.15.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56751,7 +56758,7 @@ react-router-dom/dist/index.js:
 
 chart.js/dist/chunks/helpers.segment.js:
   (*!
-   * Chart.js v4.3.3
+   * Chart.js v4.4.0
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
@@ -56759,7 +56766,7 @@ chart.js/dist/chunks/helpers.segment.js:
 
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.3.3
+   * Chart.js v4.4.0
    * https://www.chartjs.org
    * (c) 2023 Chart.js Contributors
    * Released under the MIT License
