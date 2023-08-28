@@ -6,14 +6,22 @@ const db = require('../services/db');
 
 const { SORT_ASC, SORT_DESC } = paramHelper;
 
-const adaptResults = (result) => ({
-  id: result.id,
-  type: result.type,
-  name: result.name,
-  incidents: {
-    total: result.total,
-  },
-});
+const adaptResult = (result) => {
+  const adapted = {
+    id: result.id,
+    type: result.type,
+    name: result.name,
+    roles: result.roles?.split(',') ?? [],
+  };
+
+  if (result.total) {
+    adapted.incidents = {
+      total: result.total,
+    };
+  }
+
+  return adapted;
+};
 
 const getAllQuery = (options = {}) => {
   const {
@@ -75,7 +83,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResults);
+  return results.map(adaptResult);
 };
 
 const getAtIdQuery = (id) => {
@@ -105,12 +113,7 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return {
-    id: result.id,
-    type: result.type,
-    name: result.name,
-    roles: result.roles?.split(',') ?? [],
-  };
+  return adaptResult(result);
 };
 
 const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${TABLE}`;

@@ -165,7 +165,7 @@ const collectPeople = people => {
 };
 
 const getPeopleQuery = (options = {}) => {
-  const { entityId, personId, personRole, role } = options;
+  const { entityId, personId, personRole, role, sourceId } = options;
 
   const clauses = [];
   const params = [];
@@ -175,7 +175,7 @@ const getPeopleQuery = (options = {}) => {
   clauses.push(`FROM ${TABLE}`);
   clauses.push(`LEFT JOIN ${PEOPLE_TABLE} ON ${PEOPLE_TABLE}.id = ${TABLE}.person_id`);
 
-  if (entityId || personId) {
+  if (entityId || personId || sourceId) {
     clauses.push(`WHERE ${TABLE}.incident_id IN`);
   }
 
@@ -202,6 +202,11 @@ const getPeopleQuery = (options = {}) => {
   if (personId) {
     clauses.push(`AND ${TABLE}.person_id != ?`);
     params.push(personId);
+  }
+
+  if (sourceId) {
+    clauses.push(`(SELECT id FROM ${INCIDENTS_TABLE} WHERE data_source_id = ?)`);
+    params.push(sourceId);
   }
 
   if (role) {

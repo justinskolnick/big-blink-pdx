@@ -6,6 +6,7 @@ import { css, cx } from '@emotion/css';
 import { RootState } from '../../lib/store';
 
 import ActivityOverview from '../incident-activity-overview';
+import Attendees from './attendees';
 import Chart from './chart';
 import DateBox from '../incident-date-box';
 import IncidentStatGroup from '../incident-stat-group';
@@ -155,6 +156,11 @@ const Detail = () => {
 
             <Chart label={label} />
           </ActivityOverview>
+
+          <Attendees
+            attendees={source.attendees}
+            source={source}
+          />
 
           <DetailIncidents
             ids={source.incidents?.ids}

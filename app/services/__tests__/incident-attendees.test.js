@@ -226,4 +226,21 @@ describe('getPeopleQuery()', () => {
       });
     });
   });
+
+  describe('with a sourceId', () => {
+    test('returns the expected SQL', () => {
+      expect(getPeopleQuery({ sourceId: 1 })).toEqual({
+        clauses: [
+          'SELECT',
+          'people.name, incident_attendees.person_id AS id, people.type',
+          'FROM incident_attendees',
+          'LEFT JOIN people ON people.id = incident_attendees.person_id',
+          'WHERE incident_attendees.incident_id IN',
+          '(SELECT id FROM incidents WHERE data_source_id = ?)',
+          'ORDER BY incident_attendees.person_id ASC',
+        ],
+        params: [1],
+      });
+    });
+  });
 });

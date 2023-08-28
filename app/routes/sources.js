@@ -129,4 +129,37 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.get('/:id/attendees', async (req, res, next) => {
+  if (req.get('Content-Type') === headers.json) {
+    const id = req.params.id;
+
+    let source;
+    let attendees;
+    let data;
+    let meta;
+
+    try {
+      source = await sources.getAtId(id);
+      attendees = await incidentAttendees.getAttendees({ sourceId: id });
+
+      data = {
+        source: {
+          record: {
+            ...source,
+            attendees,
+          },
+        },
+      };
+      meta = { id, view };
+
+      res.json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting source attendees:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.render(template, { title, robots: headers.robots });
+  }
+});
+
 module.exports = router;

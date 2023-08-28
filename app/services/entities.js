@@ -11,13 +11,20 @@ const {
   SORT_DESC,
 } = paramHelper;
 
-const adaptResults = (result) => ({
-  id: result.id,
-  name: result.name,
-  incidents: {
-    total: result.total,
-  },
-});
+const adaptResult = (result) => {
+  const adapted = {
+    id: result.id,
+    name: result.name,
+  };
+
+  if (result.total) {
+    adapted.incidents = {
+      total: result.total,
+    };
+  }
+
+  return adapted;
+};
 
 const getAllQuery = (options = {}) => {
   const {
@@ -79,7 +86,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResults);
+  return results.map(adaptResult);
 };
 
 const getAtIdQuery = (id) => {
@@ -105,7 +112,7 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return result;
+  return adaptResult(result);
 };
 
 const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${TABLE}`;

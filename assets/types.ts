@@ -183,6 +183,7 @@ export type Source = {
   publicUrl: string;
   retrievedDate: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  attendees?: Attendees;
 }
 
 export type SourceWithIncidentRecords = Source & {

@@ -6,19 +6,26 @@ const db = require('../services/db');
 
 const adaptRetrievedDate = str => dateHelper.formatDateString(str);
 
-const adaptResult = (result) => ({
-  id: result.id,
-  type: result.type,
-  format: result.format,
-  title: result.title,
-  year: result.year,
-  quarter: result.quarter,
-  publicUrl: result.public_url,
-  retrievedDate: adaptRetrievedDate(result.retrieved_at),
-  incidents: {
-    total: result.total,
-  },
-});
+const adaptResult = (result) => {
+  const adapted = {
+    id: result.id,
+    type: result.type,
+    format: result.format,
+    title: result.title,
+    year: result.year,
+    quarter: result.quarter,
+    publicUrl: result.public_url,
+    retrievedDate: adaptRetrievedDate(result.retrieved_at),
+  };
+
+  if (result.total) {
+    adapted.incidents = {
+      total: result.total,
+    };
+  }
+
+  return adapted;
+};
 
 const type = 'activity';
 
@@ -89,7 +96,7 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return adaptResult(result);
+  return result;
 };
 
 const getIdForQuarterQuery = (quarter) => {
