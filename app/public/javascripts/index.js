@@ -33153,11 +33153,20 @@ var people_default = peopleSlice.reducer;
 var adapters4 = {
   adaptOne: (source) => {
     if (source.incidents) {
-      const { first, last, pagination, percentage: percentage2, records, total } = source.incidents;
+      const {
+        filters,
+        first,
+        last,
+        pagination,
+        percentage: percentage2,
+        records,
+        total
+      } = source.incidents;
       const ids = records ? { ids: records.map((record) => record.id) } : void 0;
       return {
         ...source,
         incidents: {
+          filters,
           first,
           last,
           pagination,
@@ -56491,6 +56500,7 @@ var Detail4 = () => {
         detail_incidents_default,
         {
           ids: source.incidents?.ids,
+          filters: source.incidents?.filters,
           hasSort: true,
           label: source.title,
           pagination: source.incidents?.pagination,

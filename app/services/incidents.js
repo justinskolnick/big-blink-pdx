@@ -51,14 +51,24 @@ const getAllQuery = (options = {}) => {
   clauses.push(`FROM ${TABLE}`);
 
   if (sourceId) {
-    clauses.push(`WHERE ${TABLE}.data_source_id = ?`);
-    params.push(sourceId);
+    if (withPersonId) {
+      clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.data_source_id = ?`);
+      clauses.push(`AND ${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
+      params.push(sourceId, withPersonId);
+    } else {
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.data_source_id = ?`);
+      params.push(sourceId);
+    }
   }
 
   if (entityId) {
     if (withPersonId) {
       clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
-      clauses.push(`WHERE ${TABLE}.entity_id = ?`);
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.entity_id = ?`);
       clauses.push(`AND ${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
       params.push(entityId, withPersonId);
     } else {
@@ -75,7 +85,8 @@ const getAllQuery = (options = {}) => {
   } else if (personId) {
     if (withEntityId) {
       clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
-      clauses.push(`WHERE ${TABLE}.entity_id = ?`);
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.entity_id = ?`);
       clauses.push(`AND ${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
       params.push(withEntityId, personId);
     } else {
@@ -206,14 +217,24 @@ const getTotalQuery = (options = {}) => {
   clauses.push(`COUNT(${TABLE}.id) AS total FROM ${TABLE}`);
 
   if (sourceId) {
-    clauses.push('WHERE data_source_id = ?');
-    params.push(sourceId);
+    if (withPersonId) {
+      clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.data_source_id = ?`);
+      clauses.push(`AND ${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
+      params.push(sourceId, withPersonId);
+    } else {
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.data_source_id = ?`);
+      params.push(sourceId);
+    }
   }
 
   if (entityId || withEntityId) {
     if (withPersonId) {
       clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
-      clauses.push(`WHERE ${TABLE}.entity_id = ?`);
+      clauses.push('WHERE');
+      clauses.push(`${TABLE}.entity_id = ?`);
       clauses.push(`AND ${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
       params.push(entityId || withEntityId, withPersonId);
     } else {

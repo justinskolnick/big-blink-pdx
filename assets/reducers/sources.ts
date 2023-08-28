@@ -15,12 +15,21 @@ import type {
 export const adapters = {
   adaptOne: (source: SourceWithIncidentRecords): any => {
     if (source.incidents) {
-      const { first, last, pagination, percentage, records, total } = source.incidents;
+      const {
+        filters,
+        first,
+        last,
+        pagination,
+        percentage,
+        records,
+        total,
+      } = source.incidents;
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
       return {
         ...source,
         incidents: {
+          filters,
           first,
           last,
           pagination,

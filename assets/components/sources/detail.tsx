@@ -164,6 +164,7 @@ const Detail = () => {
 
           <DetailIncidents
             ids={source.incidents?.ids}
+            filters={source.incidents?.filters}
             hasSort
             label={source.title}
             pagination={source.incidents?.pagination}

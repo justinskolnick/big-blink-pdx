@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
+const { snakeCase } = require('snake-case');
 
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
@@ -54,6 +55,7 @@ router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   const page = req.query.get('page') || 1;
   const sort = req.query.get('sort');
+  const withPersonId = req.query.get('with_person_id');
 
   const params = {};
   const perPage = INCIDENTS_PER_PAGE;
@@ -77,17 +79,21 @@ router.get('/:id', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      incidentsStats = await stats.getIncidentsStats({ sourceId: id });
+      incidentsStats = await stats.getIncidentsStats({ sourceId: id, withPersonId });
       sourceIncidents = await incidents.getAll({
         page,
         perPage,
         sourceId: id,
         sort,
+        withPersonId,
       });
       records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
+      }
+      if (withPersonId) {
+        params[snakeCase('withPersonId')] = Number(withPersonId);
       }
 
       data = {
@@ -102,7 +108,7 @@ router.get('/:id', async (req, res, next) => {
                 params,
                 path: links.source(id),
                 perPage,
-                total: incidentsStats.total,
+                total: incidentsStats.paginationTotal,
               }),
               ...incidentsStats,
             },

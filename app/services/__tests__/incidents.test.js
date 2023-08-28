@@ -32,12 +32,33 @@ describe('getAllQuery()', () => {
           'SELECT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
-          'WHERE incidents.data_source_id = ?',
+          'WHERE',
+          'incidents.data_source_id = ?',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
         ],
         params: [123],
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ sourceId: 123, withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incidents.data_source_id = ?',
+            'AND incident_attendees.person_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: [123, 321],
+        });
       });
     });
   });
@@ -67,7 +88,8 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
-            'WHERE incidents.entity_id = ?',
+            'WHERE',
+            'incidents.entity_id = ?',
             'AND incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
@@ -104,7 +126,8 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
-            'WHERE incidents.entity_id = ?',
+            'WHERE',
+            'incidents.entity_id = ?',
             'AND incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
@@ -337,7 +360,8 @@ describe('getTotalQuery()', () => {
         clauses: [
           'SELECT',
           'COUNT(incidents.id) AS total FROM incidents',
-          'WHERE data_source_id = ?',
+          'WHERE',
+          'incidents.data_source_id = ?',
         ],
         params: [123],
       });
@@ -364,7 +388,8 @@ describe('getTotalQuery()', () => {
             'SELECT',
             'COUNT(incidents.id) AS total FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
-            'WHERE incidents.entity_id = ?',
+            'WHERE',
+            'incidents.entity_id = ?',
             'AND incident_attendees.person_id = ?',
           ],
           params: [123, 321],

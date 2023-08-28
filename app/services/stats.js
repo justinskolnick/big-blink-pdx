@@ -81,6 +81,7 @@ const getIncidentsStats = async (options = {}) => {
 
   if (sourceId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ sourceId });
+    paginationTotal = await incidents.getTotal({ sourceId, withEntityId, withPersonId });
     total = await incidents.getTotal({ sourceId });
   }
 
