@@ -3,16 +3,10 @@ import { useLocation } from 'react-router-dom';
 
 import fetchFromPath from '../../lib/fetch-from-path';
 
-import AffiliatedItemTable from '../affiliated-item-table';
+import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import ItemTextWithIcon from '../item-text-with-icon';
-import {
-  getWithPersonParams,
-  FilterLink,
-  LinkToPerson,
-} from '../links';
-import StatBox from '../stat-box';
 
 import type { Attendees as AttendeesType, Entity } from '../../types';
 
@@ -48,39 +42,14 @@ const Attendees = ({
             As an entity, {entity.name} ...
           </ItemTextWithIcon>
         }>
-          <StatBox title='Lobbied these City officials:'>
-            <AffiliatedItemTable
-              affiliatedItems={attendees.officials}
-              label='people'
-              TitleCell={({ item }) => (
-                <LinkToPerson id={item.person.id}>
-                  {item.person.name}
-                </LinkToPerson>
-              )}
-              TotalCell={({ item }) => (
-                <FilterLink newParams={getWithPersonParams(item)} hasIcon>
-                  {item.total}
-                </FilterLink>
-              )}
-            />
-          </StatBox>
-
-          <StatBox title='Through these lobbyists:'>
-            <AffiliatedItemTable
-              affiliatedItems={attendees.lobbyists}
-              label='people'
-              TitleCell={({ item }) => (
-                <LinkToPerson id={item.person.id}>
-                  {item.person.name}
-                </LinkToPerson>
-              )}
-              TotalCell={({ item }) => (
-                <FilterLink newParams={getWithPersonParams(item)} hasIcon>
-                  {item.total}
-                </FilterLink>
-              )}
-            />
-          </StatBox>
+          <AffiliatedPeopleTable
+            people={attendees.officials}
+            title='Lobbied these City officials:'
+          />
+          <AffiliatedPeopleTable
+            people={attendees.lobbyists}
+            title='Through these lobbyists:'
+          />
         </IncidentActivityGroup>
       ) : null}
     </IncidentActivityGroups>
