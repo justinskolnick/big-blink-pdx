@@ -24,29 +24,29 @@ const styles = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-grow: 0;
     flex-shrink: 0;
     margin-top: calc(var(--gap) / 4);
     margin-right: calc(var(--gap) * -1);
     width: var(--section-header-eyes-size);
     height: var(--section-header-eyes-size);
     border-radius: 50%;
-    // background-color: rgba(var(--color-light-gray-rgb), 0.5);
     background-color: var(--color-accent-lightest);
-    // color: var(--color-gray);
     color: var(--color-accent-darker);
     font-size: 8px;
     z-index: 1;
 
     .eyes {
+      flex-grow: 0;
+      flex-shrink: 0;
       width: 36px;
+      height: 11px;
+      gap: 1.5px;
     }
 
     .icon {
       width: 11px;
-    }
-
-    .icon + .icon {
-      margin-left: 1px;
+      height: 11px;
     }
 
     &:hover {

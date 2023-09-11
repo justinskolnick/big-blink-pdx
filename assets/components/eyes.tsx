@@ -1,15 +1,15 @@
 import React from 'react';
 import { cx, css } from '@emotion/css';
 
-import Icon from './icon';
+import Eye from '../icons/eye';
 
 const styles = css`
   display: flex;
+  column-count: 3;
   scale: 1 1;
 
   .icon {
-    flex-grow: 0;
-    flex-shrink: 0;
+    transform: scale(1, 1);
   }
 
   @keyframes blink {
@@ -39,9 +39,9 @@ const styles = css`
 
 const Eyes = () => (
   <div className={cx('eyes', styles)}>
-    <Icon name='eye' />
-    <Icon name='eye' />
-    <Icon name='eye' />
+    <Eye />
+    <Eye />
+    <Eye />
   </div>
 );
 

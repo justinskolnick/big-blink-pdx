@@ -59,13 +59,16 @@ const styles = css`
       font-size: calc(var(--gap) / 2);
       transition: background-color 250ms ease-in-out;
 
-      .icon {
-        transform: scale(1, 1);
-        transition: transform 125ms ease-in-out;
+      .eyes {
+        width: 36px;
+        height: 11px;
+        gap: 1.5px;
       }
 
-      .icon + .icon {
-        margin-left: 2px;
+      .icon {
+        width: 11px;
+        height: 11px;
+        transition: transform 125ms ease-in-out;
       }
     }
 

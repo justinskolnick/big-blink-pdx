@@ -20,11 +20,13 @@ const styles = css`
       white-space: nowrap;
 
       .eyes {
-        width: 53px;
-        font-size: 12px;
+        width: 52px;
+        height: 16px;
+        gap: 2px;
 
         .icon {
-          width: 17px;
+          width: 16px;
+          height: 16px;
         }
 
         &:hover {
@@ -50,10 +52,6 @@ const styles = css`
     a {
       .icon {
         color: var(--color-black);
-      }
-
-      .icon + .icon {
-        margin-left: 1px;
       }
 
       &[href='/'] {
