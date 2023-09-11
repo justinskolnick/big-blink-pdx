@@ -33,6 +33,8 @@ const toPageLink = (pathname, page, params = {}) => {
   };
 };
 
+const pagesToDisplayInPagination = 10;
+
 const getPagination = (config) => {
   const { total, perPage, page, params, path } = config;
 
@@ -46,35 +48,27 @@ const getPagination = (config) => {
   const pageCount = Math.ceil(total / perPage);
   const pageNumbers = [...Array(pageCount)].map((n,i) => i + 1);
   const currentIndex = pageNumbers.indexOf(pageValue);
-  const lastIndex = pageNumbers.indexOf(pageNumbers.at(-1));
-  let adjustedPageNumbers = [];
+  const adjustedPageNumbers = [];
+  let lower;
+  let upper;
 
-  if (pageCount > 10) {
-    if (pageValue > 10) {
-      adjustedPageNumbers.push(pageNumbers.at(0));
-      adjustedPageNumbers.push(null);
-
-      if (pageCount - currentIndex > 10) {
-        adjustedPageNumbers = [].concat(
-          adjustedPageNumbers,
-          pageNumbers.slice(currentIndex - 1, currentIndex + 9)
-        );
-        adjustedPageNumbers.push(null);
-        adjustedPageNumbers.push(pageNumbers.at(-1));
-      } else {
-        adjustedPageNumbers = [].concat(
-          adjustedPageNumbers,
-          pageNumbers.slice(lastIndex - 9, lastIndex + 1)
-        );
-      }
-    } else {
-      adjustedPageNumbers = [].concat(
-        adjustedPageNumbers,
-        pageNumbers.slice(0, 10)
-      );
-    }
+  if (pagesToDisplayInPagination > pageValue) {
+    lower = 1;
+    upper = pageCount >= pagesToDisplayInPagination ? pagesToDisplayInPagination : pageCount;
+  } else if ((pagesToDisplayInPagination - 1) > (pageCount - pageValue)) {
+    lower = pageCount - (pagesToDisplayInPagination - 1);
+    upper = pageCount;
   } else {
-    adjustedPageNumbers = pageNumbers;
+    lower = pageValue - 1;
+    upper = pageValue + (pagesToDisplayInPagination - 2);
+  }
+
+  if (lower > 1) {
+    adjustedPageNumbers.push(1, null);
+  }
+
+  for (let i = lower; i < upper + 1; i++ ) {
+    adjustedPageNumbers.push(i);
   }
 
   return {
