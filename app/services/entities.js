@@ -1,6 +1,6 @@
 const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
-const { TABLE, FIELDS } = require('../models/entities');
+const { TABLE, FIELDS, adaptResult } = require('../models/entities');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
 const db = require('../services/db');
 
@@ -10,21 +10,6 @@ const {
   SORT_BY_TOTAL,
   SORT_DESC,
 } = paramHelper;
-
-const adaptResult = (result) => {
-  const adapted = {
-    id: result.id,
-    name: result.name,
-  };
-
-  if (result.total) {
-    adapted.incidents = {
-      total: result.total,
-    };
-  }
-
-  return adapted;
-};
 
 const getAllQuery = (options = {}) => {
   const {

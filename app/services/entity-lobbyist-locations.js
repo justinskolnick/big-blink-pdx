@@ -1,11 +1,5 @@
-const { TABLE, FIELDS } = require('../models/entity-lobbyist-locations');
+const { TABLE, FIELDS, adaptResult } = require('../models/entity-lobbyist-locations');
 const db = require('../services/db');
-
-const adaptResult = result => ({
-  id: result.id,
-  city: result.city,
-  region: result.region,
-});
 
 const getAllQuery = (options = {}) => {
   const {

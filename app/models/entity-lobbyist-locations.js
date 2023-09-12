@@ -7,7 +7,14 @@ const FIELDS = [
   'region',
 ];
 
+const adaptResult = result => ({
+  id: result.id,
+  city: result.city,
+  region: result.region,
+});
+
 module.exports = {
   TABLE,
   FIELDS,
+  adaptResult,
 };

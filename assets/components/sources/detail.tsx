@@ -9,6 +9,7 @@ import ActivityOverview from '../incident-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DateBox from '../incident-date-box';
+import Entities from './entities';
 import IncidentStatGroup from '../incident-stat-group';
 import DetailIncidents from '../detail-incidents';
 import Icon from '../icon';
@@ -159,6 +160,11 @@ const Detail = () => {
 
           <Attendees
             attendees={source.attendees}
+            source={source}
+          />
+
+          <Entities
+            entities={source.entities}
             source={source}
           />
 

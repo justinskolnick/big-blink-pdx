@@ -55,6 +55,7 @@ router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   const page = req.query.get('page') || 1;
   const sort = req.query.get('sort');
+  const withEntityId = req.query.get('with_entity_id');
   const withPersonId = req.query.get('with_person_id');
 
   const params = {};
@@ -79,18 +80,22 @@ router.get('/:id', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      incidentsStats = await stats.getIncidentsStats({ sourceId: id, withPersonId });
+      incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
       sourceIncidents = await incidents.getAll({
         page,
         perPage,
         sourceId: id,
         sort,
+        withEntityId,
         withPersonId,
       });
       records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
+      }
+      if (withEntityId) {
+        params[snakeCase('withEntityId')] = Number(withEntityId);
       }
       if (withPersonId) {
         params[snakeCase('withPersonId')] = Number(withPersonId);
@@ -161,6 +166,39 @@ router.get('/:id/attendees', async (req, res, next) => {
       res.json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting source attendees:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.render(template, { title, robots: headers.robots });
+  }
+});
+
+router.get('/:id/entities', async (req, res, next) => {
+  if (req.get('Content-Type') === headers.json) {
+    const id = req.params.id;
+
+    let source;
+    let entities;
+    let data;
+    let meta;
+
+    try {
+      source = await sources.getAtId(id);
+      entities = await sources.getEntitiesForId(id);
+
+      data = {
+        source: {
+          record: {
+            ...source,
+            entities,
+          },
+        },
+      };
+      meta = { id, view };
+
+      res.json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting source entities:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {

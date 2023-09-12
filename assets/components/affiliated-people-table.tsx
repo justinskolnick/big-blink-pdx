@@ -8,10 +8,10 @@ import {
 } from './links';
 import StatBox from './stat-box';
 
-import type { Attendee } from '../types';
+import type { AffiliatedItem } from '../types';
 
 interface Props {
-  people: Attendee[];
+  people: AffiliatedItem[];
   title: string;
 }
 

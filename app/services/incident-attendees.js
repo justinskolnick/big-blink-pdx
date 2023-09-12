@@ -3,20 +3,10 @@ const pluralize = require('pluralize');
 const queryHelper = require('../helpers/query');
 const { sortTotalDescending } = require('../lib/sorting');
 const { TABLE: ENTITIES_TABLE } = require('../models/entities');
-const { TABLE } = require('../models/incident-attendees');
+const { TABLE, adaptJoinedResult } = require('../models/incident-attendees');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
 const { TABLE: PEOPLE_TABLE } = require('../models/people');
 const db = require('../services/db');
-
-const adaptJoined = data => ({
-  id: data.id,
-  as: data.appears_as,
-  person: {
-    id: data.person_id,
-    name: data.name,
-    type: data.type,
-  },
-});
 
 const getAllQuery = (options = {}) => {
   const { page, perPage, incidentId } = options;
@@ -64,7 +54,7 @@ const getAll = async (options = {}) => {
 
       all[key] = results
         .filter(result => result.role === role)
-        .map(adaptJoined);
+        .map(adaptJoinedResult);
 
       return all;
     }, {});

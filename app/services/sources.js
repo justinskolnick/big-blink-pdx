@@ -1,31 +1,8 @@
-const dateHelper = require('../helpers/date');
 const paramHelper = require('../helpers/param');
+const { TABLE: ENTITIES_TABLE } = require('../models/entities');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
-const { TABLE, FIELDS } = require('../models/sources');
+const { TABLE, FIELDS, adaptResult, adaptEntitiesResult } = require('../models/sources');
 const db = require('../services/db');
-
-const adaptRetrievedDate = str => dateHelper.formatDateString(str);
-
-const adaptResult = (result) => {
-  const adapted = {
-    id: result.id,
-    type: result.type,
-    format: result.format,
-    title: result.title,
-    year: result.year,
-    quarter: result.quarter,
-    publicUrl: result.public_url,
-    retrievedDate: adaptRetrievedDate(result.retrieved_at),
-  };
-
-  if (result.total) {
-    adapted.incidents = {
-      total: result.total,
-    };
-  }
-
-  return adapted;
-};
 
 const type = 'activity';
 
@@ -97,6 +74,38 @@ const getAtId = async (id) => {
   const result = await db.get(clauses, params);
 
   return result;
+};
+
+const getEntitiesForIdQuery = (id) => {
+  const clauses = [];
+  const selections = [];
+  const params = [];
+
+  clauses.push('SELECT');
+
+  selections.push(`${ENTITIES_TABLE}.id`);
+  selections.push(`${ENTITIES_TABLE}.name`);
+  selections.push(`COUNT(${INCIDENTS_TABLE}.entity_id) AS total`);
+
+  clauses.push(selections.join(', '));
+
+  clauses.push(`FROM ${INCIDENTS_TABLE}`);
+  clauses.push(`LEFT JOIN ${ENTITIES_TABLE} ON ${INCIDENTS_TABLE}.entity_id = ${ENTITIES_TABLE}.id`);
+  clauses.push('WHERE');
+  clauses.push(`${INCIDENTS_TABLE}.data_source_id = ?`);
+  params.push(id);
+
+  clauses.push(`GROUP BY ${INCIDENTS_TABLE}.entity_id`);
+  clauses.push('ORDER BY total DESC');
+
+  return { clauses, params };
+};
+
+const getEntitiesForId = async (id) => {
+  const { clauses, params } = getEntitiesForIdQuery(id);
+  const results = await db.getAll(clauses, params);
+
+  return results.map(adaptEntitiesResult);
 };
 
 const getIdForQuarterQuery = (quarter) => {
@@ -191,6 +200,8 @@ module.exports = {
   getAllQuery,
   getAtId,
   getAtIdQuery,
+  getEntitiesForId,
+  getEntitiesForIdQuery,
   getIdForQuarter,
   getIdForQuarterQuery,
   getStats,

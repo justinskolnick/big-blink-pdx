@@ -9,7 +9,7 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
-import type { ErrorType, Incident, Incidents, Person, WarningType } from '../types';
+import type { ErrorType, Incident, Incidents, Person, Source, WarningType } from '../types';
 
 type Result = {
   data: any;
@@ -21,6 +21,9 @@ const getPeopleFromIncidents = (incidents: Incidents) =>
 
 const getEntitiesFromPerson = (person: Person) =>
   person?.entities ? Object.values(person.entities).flat().map(entry => entry.entity) : [];
+
+const getEntitiesFromSource = (source: Source) =>
+  source?.entities ? source.entities.flat().map(entry => entry.entity) : [];
 
 const handleResult = (result: Result, isPrimary: boolean) => {
   const dispatch = store.dispatch;
@@ -128,10 +131,12 @@ const handleResult = (result: Result, isPrimary: boolean) => {
       const source = sourceActions.adapters.adaptOne(data.source.record);
       const incidents = sourceActions.adapters.getIncidents(data.source.record);
       const people = getPeopleFromIncidents(incidents);
+      const entities = getEntitiesFromSource(data.source.record);
 
       dispatch(sourceActions.set(source));
       dispatch(incidentActions.setAll(incidents));
       dispatch(personActions.setAll(people));
+      dispatch(entityActions.setAll(entities));
     }
 
     if ('sources' in data) {

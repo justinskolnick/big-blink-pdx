@@ -51,13 +51,14 @@ describe('getAllQuery()', () => {
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
             'incidents.data_source_id = ?',
-            'AND incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: [123, 321],
+          params: [321, 123],
         });
       });
     });
@@ -71,7 +72,8 @@ describe('getAllQuery()', () => {
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
-          'WHERE incident_attendees.person_id = ?',
+          'WHERE',
+          'incident_attendees.person_id = ?',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
@@ -90,7 +92,8 @@ describe('getAllQuery()', () => {
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
-            'AND incident_attendees.person_id = ?',
+            'AND',
+            'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
@@ -128,7 +131,8 @@ describe('getAllQuery()', () => {
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
-            'AND incident_attendees.person_id = ?',
+            'AND',
+            'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
@@ -356,14 +360,30 @@ describe('getTotalQuery()', () => {
 
   describe('with a sourceId', () => {
     test('returns the expected SQL', () => {
-      expect(getTotalQuery({ sourceId: 123 })).toEqual({
+      expect(getTotalQuery({ sourceId: 3 })).toEqual({
         clauses: [
           'SELECT',
           'COUNT(incidents.id) AS total FROM incidents',
           'WHERE',
           'incidents.data_source_id = ?',
         ],
-        params: [123],
+        params: [3],
+      });
+    });
+
+    describe('and a withEntityId', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ sourceId: 3, withEntityId: 123 })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total FROM incidents',
+            'WHERE',
+            'incidents.data_source_id = ?',
+            'AND',
+            'incidents.entity_id = ?',
+          ],
+          params: [3, 123],
+        });
       });
     });
   });
@@ -390,7 +410,8 @@ describe('getTotalQuery()', () => {
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
-            'AND incident_attendees.person_id = ?',
+            'AND',
+            'incident_attendees.person_id = ?',
           ],
           params: [123, 321],
         });
@@ -399,16 +420,16 @@ describe('getTotalQuery()', () => {
 
     describe('and a quarterSourceId', () => {
       test('returns the expected SQL', () => {
-        expect(getTotalQuery({ withEntityId: 123, quarterSourceId: 321 })).toEqual({
+        expect(getTotalQuery({ withEntityId: 123, quarterSourceId: 3 })).toEqual({
           clauses: [
             'SELECT',
             'COUNT(incidents.id) AS total FROM incidents',
             'WHERE',
-            'incidents.entity_id = ?',
-            'AND',
             'incidents.data_source_id = ?',
+            'AND',
+            'incidents.entity_id = ?',
           ],
-          params: [123, 321],
+          params: [3, 123],
         });
       });
     });

@@ -1,27 +1,10 @@
 const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
 const { TABLE: INCIDENT_ATTENDEES_TABLE } = require('../models/incident-attendees');
-const { TABLE, FIELDS } = require('../models/people');
+const { TABLE, FIELDS, adaptResult } = require('../models/people');
 const db = require('../services/db');
 
 const { SORT_ASC, SORT_DESC } = paramHelper;
-
-const adaptResult = (result) => {
-  const adapted = {
-    id: result.id,
-    type: result.type,
-    name: result.name,
-    roles: result.roles?.split(',') ?? [],
-  };
-
-  if (result.total) {
-    adapted.incidents = {
-      total: result.total,
-    };
-  }
-
-  return adapted;
-};
 
 const getAllQuery = (options = {}) => {
   const {

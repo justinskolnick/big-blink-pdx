@@ -6,8 +6,26 @@ const FIELDS = [
 ];
 const PER_PAGE = 40;
 
+const adaptResult = (result) => {
+  const adapted = {
+    id: result.id,
+    type: result.type,
+    name: result.name,
+    roles: result.roles?.split(',') ?? [],
+  };
+
+  if (result.total) {
+    adapted.incidents = {
+      total: result.total,
+    };
+  }
+
+  return adapted;
+};
+
 module.exports = {
   TABLE,
   FIELDS,
   PER_PAGE,
+  adaptResult,
 };

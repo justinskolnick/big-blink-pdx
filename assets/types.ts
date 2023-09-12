@@ -184,6 +184,7 @@ export type Source = {
   retrievedDate: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
+  entities?: AffiliatedItem[];
 }
 
 export type SourceWithIncidentRecords = Source & {
