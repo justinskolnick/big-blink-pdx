@@ -158,13 +158,13 @@ const Detail = () => {
             <Chart label={label} />
           </ActivityOverview>
 
-          <Attendees
-            attendees={source.attendees}
+          <Entities
+            entities={source.entities}
             source={source}
           />
 
-          <Entities
-            entities={source.entities}
+          <Attendees
+            attendees={source.attendees}
             source={source}
           />
 

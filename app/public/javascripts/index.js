@@ -56517,16 +56517,16 @@ var Detail4 = () => {
         /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(chart_default4, { label })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
-        attendees_default3,
+        entities_default4,
         {
-          attendees: source.attendees,
+          entities: source.entities,
           source
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
-        entities_default4,
+        attendees_default3,
         {
-          entities: source.entities,
+          attendees: source.attendees,
           source
         }
       ),
