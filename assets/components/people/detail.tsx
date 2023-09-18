@@ -8,17 +8,9 @@ import { selectors } from '../../reducers/people';
 import ActivityOverview from '../incident-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DateBox from '../incident-date-box';
-import IncidentStatGroup from '../incident-stat-group';
 import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
-import {
-  IncidentShareBox,
-  IncidentTotalBox,
-} from '../incident-activity-stats';
 import ItemDetail from '../item-detail';
-import NumbersGroup from '../stat-group-numbers';
-import StatGroup from '../stat-group';
 
 const Detail = () => {
   const ref = useRef<HTMLDivElement>();
@@ -41,27 +33,10 @@ const Detail = () => {
     <ItemDetail>
       {hasIncidents && (
         <>
-          <ActivityOverview>
-            <StatGroup className='activity-numbers-and-dates'>
-              <NumbersGroup>
-                <IncidentShareBox>{incidents.percentage}%</IncidentShareBox>
-                <IncidentTotalBox onClick={scrollToRef}>{incidents.total}</IncidentTotalBox>
-              </NumbersGroup>
-
-              {(incidents.first || incidents.last) && (
-                <IncidentStatGroup className='activity-dates'>
-                  <DateBox
-                    title='First appearance'
-                    incident={incidents.first}
-                  />
-                  <DateBox
-                    title='Most recent appearance'
-                    incident={incidents.last}
-                  />
-                </IncidentStatGroup>
-              )}
-            </StatGroup>
-
+          <ActivityOverview
+            incidents={incidents}
+            scrollToRef={scrollToRef}
+          >
             <Chart label={person.name} />
           </ActivityOverview>
 

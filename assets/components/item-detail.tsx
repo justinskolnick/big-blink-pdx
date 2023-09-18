@@ -20,13 +20,15 @@ const styles = css`
     padding-top: calc(3 * var(--gap));
   }
 
-  .activity-stat-section + .activity-stat-section {
-    margin-top: calc(3 * var(--gap));
-  }
-
   .activity-overview + .incident-activity-stat-groups {
+    margin-top: calc(3 * var(--gap));
     padding-top: calc(3 * var(--gap));
     border-top: 3px solid var(--color-section-divider);
+  }
+
+  .incident-activity-stat-groups + .incident-activity-stat-groups,
+  .incident-activity-stat-groups + .incident-list-section {
+    margin-top: calc(3 * var(--gap));
   }
 
   @media screen and (max-width: 600px) {

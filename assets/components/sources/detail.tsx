@@ -8,18 +8,10 @@ import { RootState } from '../../lib/store';
 import ActivityOverview from '../incident-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DateBox from '../incident-date-box';
-import Entities from './entities';
-import IncidentStatGroup from '../incident-stat-group';
 import DetailIncidents from '../detail-incidents';
+import Entities from './entities';
 import Icon from '../icon';
-import {
-  IncidentShareBox,
-  IncidentTotalBox,
-} from '../incident-activity-stats';
 import ItemDetail from '../item-detail';
-import NumbersGroup from '../stat-group-numbers';
-import StatGroup from '../stat-group';
 
 import { selectors } from '../../reducers/sources';
 
@@ -75,6 +67,10 @@ const styles = css`
         word-break: break-all;
       }
     }
+  }
+
+  .activity-meta-section + .activity-overview {
+    margin-top: calc(3 * var(--gap));
   }
 `;
 
@@ -134,27 +130,16 @@ const Detail = () => {
 
       {hasIncidents && (
         <>
-          <ActivityOverview>
-            <StatGroup className='activity-numbers-and-dates'>
-              <NumbersGroup>
-                <IncidentShareBox>{incidents.percentage}%</IncidentShareBox>
-                <IncidentTotalBox onClick={scrollToRef}>{incidents.total}</IncidentTotalBox>
-              </NumbersGroup>
-
-              {(incidents.first || incidents.last) && (
-                <IncidentStatGroup className='activity-dates'>
-                  <DateBox
-                    title={`First reported incident of ${label}`}
-                    incident={incidents.first}
-                  />
-                  <DateBox
-                    title={`Last reported incident of ${label}`}
-                    incident={incidents.last}
-                  />
-                </IncidentStatGroup>
-              )}
-            </StatGroup>
-
+          <ActivityOverview
+            incidents={incidents}
+            labels={{
+              incidents: {
+                first: `First reported incident of ${label}`,
+                last: `Last reported incident of ${label}`,
+              }
+            }}
+            scrollToRef={scrollToRef}
+          >
             <Chart label={label} />
           </ActivityOverview>
 
