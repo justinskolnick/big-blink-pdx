@@ -35,7 +35,7 @@ const Attendees = ({
     <IncidentActivityGroups title='Associated Names'>
       {attendees ? (
         <IncidentActivityGroup title={
-          <ItemTextWithIcon icon='database'>
+          <ItemTextWithIcon icon='user-group'>
             These people appear in {source.title}
           </ItemTextWithIcon>
         }>

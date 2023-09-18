@@ -56321,7 +56321,7 @@ var Attendees4 = ({
       fetched.current = true;
     }
   }, [fetched, location2]);
-  return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(incident_activity_group_default, { title: /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(item_text_with_icon_default, { icon: "database", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(incident_activity_group_default, { title: /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(item_text_with_icon_default, { icon: "user-group", children: [
     "These people appear in ",
     source.title
   ] }), children: [
@@ -56361,7 +56361,7 @@ var Entities2 = ({ entities, source }) => {
       fetched.current = true;
     }
   }, [fetched, location2]);
-  return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(incident_activity_group_default, { title: /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(item_text_with_icon_default, { icon: "database", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(incident_activity_group_default, { title: /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(item_text_with_icon_default, { icon: "briefcase", children: [
     "These entities appear in ",
     source.title
   ] }), children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(affiliated_entities_table_default, { entities }) }) : null });

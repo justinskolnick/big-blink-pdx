@@ -32,7 +32,7 @@ const Entities = ({ entities, source }: Props) => {
     <IncidentActivityGroups title='Associated Entities'>
       {entities ? (
         <IncidentActivityGroup title={
-          <ItemTextWithIcon icon='database'>
+          <ItemTextWithIcon icon='briefcase'>
             These entities appear in {source.title}
           </ItemTextWithIcon>
         }>
