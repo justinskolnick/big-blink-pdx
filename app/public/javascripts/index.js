@@ -26054,17 +26054,38 @@ function createSelectorHook(context = ReactReduxContext) {
           if (finalStabilityCheck === "always" || finalStabilityCheck === "once" && firstRun.current) {
             const toCompare = selector(state);
             if (!equalityFn(selected, toCompare)) {
+              let stack = void 0;
+              try {
+                throw new Error();
+              } catch (e) {
+                ;
+                ({
+                  stack
+                } = e);
+              }
               console.warn("Selector " + (selector.name || "unknown") + " returned a different result when called with the same parameters. This can lead to unnecessary rerenders.\nSelectors that return a new reference (such as an object or an array) should be memoized: https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization", {
                 state,
                 selected,
-                selected2: toCompare
+                selected2: toCompare,
+                stack
               });
             }
           }
           const finalNoopCheck = typeof noopCheck === "undefined" ? globalNoopCheck : noopCheck;
           if (finalNoopCheck === "always" || finalNoopCheck === "once" && firstRun.current) {
             if (selected === state) {
-              console.warn("Selector " + (selector.name || "unknown") + " returned the root state when called. This can lead to unnecessary rerenders.\nSelectors that return the entire state are almost certainly a mistake, as they will cause a rerender whenever *anything* in state changes.");
+              let stack = void 0;
+              try {
+                throw new Error();
+              } catch (e) {
+                ;
+                ({
+                  stack
+                } = e);
+              }
+              console.warn("Selector " + (selector.name || "unknown") + " returned the root state when called. This can lead to unnecessary rerenders.\nSelectors that return the entire state are almost certainly a mistake, as they will cause a rerender whenever *anything* in state changes.", {
+                stack
+              });
             }
           }
           if (firstRun.current)
@@ -26183,9 +26204,19 @@ var nullListeners = {
 function createSubscription(store2, parentSub) {
   let unsubscribe;
   let listeners = nullListeners;
+  let subscriptionsAmount = 0;
+  let selfSubscribed = false;
   function addNestedSub(listener4) {
     trySubscribe();
-    return listeners.subscribe(listener4);
+    const cleanupListener = listeners.subscribe(listener4);
+    let removed = false;
+    return () => {
+      if (!removed) {
+        removed = true;
+        cleanupListener();
+        tryUnsubscribe();
+      }
+    };
   }
   function notifyNestedSubs() {
     listeners.notify();
@@ -26196,20 +26227,34 @@ function createSubscription(store2, parentSub) {
     }
   }
   function isSubscribed() {
-    return Boolean(unsubscribe);
+    return selfSubscribed;
   }
   function trySubscribe() {
+    subscriptionsAmount++;
     if (!unsubscribe) {
       unsubscribe = parentSub ? parentSub.addNestedSub(handleChangeWrapper) : store2.subscribe(handleChangeWrapper);
       listeners = createListenerCollection();
     }
   }
   function tryUnsubscribe() {
-    if (unsubscribe) {
+    subscriptionsAmount--;
+    if (unsubscribe && subscriptionsAmount === 0) {
       unsubscribe();
       unsubscribe = void 0;
       listeners.clear();
       listeners = nullListeners;
+    }
+  }
+  function trySubscribeSelf() {
+    if (!selfSubscribed) {
+      selfSubscribed = true;
+      trySubscribe();
+    }
+  }
+  function tryUnsubscribeSelf() {
+    if (selfSubscribed) {
+      selfSubscribed = false;
+      tryUnsubscribe();
     }
   }
   const subscription = {
@@ -26217,8 +26262,8 @@ function createSubscription(store2, parentSub) {
     notifyNestedSubs,
     handleChangeWrapper,
     isSubscribed,
-    trySubscribe,
-    tryUnsubscribe,
+    trySubscribe: trySubscribeSelf,
+    tryUnsubscribe: tryUnsubscribeSelf,
     getListeners: () => listeners
   };
   return subscription;
@@ -26632,6 +26677,20 @@ function matchRoutes(routes, locationArg, basename) {
   }
   return matches;
 }
+function convertRouteMatchToUiMatch(match2, loaderData) {
+  let {
+    route,
+    pathname,
+    params
+  } = match2;
+  return {
+    id: route.id,
+    pathname,
+    params,
+    data: loaderData[route.id],
+    handle: route.handle
+  };
+}
 function flattenRoutes(routes, branches, parentsMeta, parentPath) {
   if (branches === void 0) {
     branches = [];
@@ -26932,7 +26991,7 @@ var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
 var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
 var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
 var normalizeHash = (hash2) => !hash2 || hash2 === "#" ? "" : hash2.startsWith("#") ? hash2 : "#" + hash2;
-var ErrorResponse = class {
+var ErrorResponseImpl = class {
   constructor(status, statusText, data, internal) {
     if (internal === void 0) {
       internal = false;
@@ -27596,8 +27655,7 @@ function createRouter(init) {
           fetchers: new Map(state.fetchers)
         });
         return startRedirectNavigation(state, actionResult, {
-          submission,
-          isFetchActionRedirect: true
+          fetcherSubmission: submission
         });
       }
     }
@@ -27759,22 +27817,15 @@ function createRouter(init) {
   async function startRedirectNavigation(state2, redirect2, _temp) {
     let {
       submission,
-      replace: replace4,
-      isFetchActionRedirect
+      fetcherSubmission,
+      replace: replace4
     } = _temp === void 0 ? {} : _temp;
     if (redirect2.revalidate) {
       isRevalidationRequired = true;
     }
-    let redirectLocation = createLocation(
-      state2.location,
-      redirect2.location,
-      // TODO: This can be removed once we get rid of useTransition in Remix v2
-      _extends2({
-        _isRedirect: true
-      }, isFetchActionRedirect ? {
-        _isFetchActionRedirect: true
-      } : {})
-    );
+    let redirectLocation = createLocation(state2.location, redirect2.location, {
+      _isRedirect: true
+    });
     invariant(redirectLocation, "Expected a location on the redirect navigation");
     if (isBrowser3) {
       let isDocumentReload = false;
@@ -27797,7 +27848,15 @@ function createRouter(init) {
     }
     pendingNavigationController = null;
     let redirectHistoryAction = replace4 === true ? Action.Replace : Action.Push;
-    let activeSubmission = submission || getSubmissionFromNavigation(state2.navigation);
+    let {
+      formMethod,
+      formAction,
+      formEncType
+    } = state2.navigation;
+    if (!submission && !fetcherSubmission && formMethod && formAction && formEncType) {
+      submission = getSubmissionFromNavigation(state2.navigation);
+    }
+    let activeSubmission = submission || fetcherSubmission;
     if (redirectPreserveMethodStatusCodes.has(redirect2.status) && activeSubmission && isMutationMethod(activeSubmission.formMethod)) {
       await startNavigation(redirectHistoryAction, redirectLocation, {
         submission: _extends2({}, activeSubmission, {
@@ -27806,17 +27865,12 @@ function createRouter(init) {
         // Preserve this flag across redirects
         preventScrollReset: pendingPreventScrollReset
       });
-    } else if (isFetchActionRedirect) {
-      await startNavigation(redirectHistoryAction, redirectLocation, {
-        overrideNavigation: getLoadingNavigation(redirectLocation),
-        fetcherSubmission: activeSubmission,
-        // Preserve this flag across redirects
-        preventScrollReset: pendingPreventScrollReset
-      });
     } else {
-      let overrideNavigation = getLoadingNavigation(redirectLocation, activeSubmission);
+      let overrideNavigation = getLoadingNavigation(redirectLocation, submission);
       await startNavigation(redirectHistoryAction, redirectLocation, {
         overrideNavigation,
+        // Send fetcher submissions through for shouldRevalidate
+        fetcherSubmission,
         // Preserve this flag across redirects
         preventScrollReset: pendingPreventScrollReset
       });
@@ -27997,7 +28051,7 @@ function createRouter(init) {
   }
   function getScrollKey(location2, matches) {
     if (getScrollRestorationKey) {
-      let key = getScrollRestorationKey(location2, matches.map((m2) => createUseMatchesMatch(m2, state.loaderData)));
+      let key = getScrollRestorationKey(location2, matches.map((m2) => convertRouteMatchToUiMatch(m2, state.loaderData)));
       return key || location2.key;
     }
     return location2.key;
@@ -28371,7 +28425,19 @@ async function callLoaderOrAction(type, request, match2, matches, manifest, mapR
     let handler = match2.route[type];
     if (match2.route.lazy) {
       if (handler) {
-        let values = await Promise.all([runHandler(handler), loadLazyRouteModule(match2.route, mapRouteProperties2, manifest)]);
+        let handlerError;
+        let values = await Promise.all([
+          // If the handler throws, don't let it immediately bubble out,
+          // since we need to let the lazy() execution finish so we know if this
+          // route has a boundary that can handle the error
+          runHandler(handler).catch((e) => {
+            handlerError = e;
+          }),
+          loadLazyRouteModule(match2.route, mapRouteProperties2, manifest)
+        ]);
+        if (handlerError) {
+          throw handlerError;
+        }
         result = values[0];
       } else {
         await loadLazyRouteModule(match2.route, mapRouteProperties2, manifest);
@@ -28455,7 +28521,7 @@ async function callLoaderOrAction(type, request, match2, matches, manifest, mapR
     if (resultType === ResultType.error) {
       return {
         type: resultType,
-        error: new ErrorResponse(status, result.statusText, data),
+        error: new ErrorResponseImpl(status, result.statusText, data),
         headers: result.headers
       };
     }
@@ -28684,7 +28750,7 @@ function getInternalRouterError(status, _temp4) {
       errorMessage = 'Invalid request method "' + method.toUpperCase() + '"';
     }
   }
-  return new ErrorResponse(status || 500, statusText, new Error(errorMessage), true);
+  return new ErrorResponseImpl(status || 500, statusText, new Error(errorMessage), true);
 }
 function findRedirect(results) {
   for (let i2 = results.length - 1; i2 >= 0; i2--) {
@@ -28787,20 +28853,6 @@ async function resolveDeferredData(result, signal, unwrap) {
 function hasNakedIndexQuery(search) {
   return new URLSearchParams(search).getAll("index").some((v2) => v2 === "");
 }
-function createUseMatchesMatch(match2, loaderData) {
-  let {
-    route,
-    pathname,
-    params
-  } = match2;
-  return {
-    id: route.id,
-    pathname,
-    params,
-    data: loaderData[route.id],
-    handle: route.handle
-  };
-}
 function getTargetMatch(matches, location2) {
   let search = typeof location2 === "string" ? parsePath(location2).search : location2.search;
   if (matches[matches.length - 1].route.index && hasNakedIndexQuery(search || "")) {
@@ -28900,8 +28952,7 @@ function getLoadingFetcher(submission, data) {
       formData: submission.formData,
       json: submission.json,
       text: submission.text,
-      data,
-      " _hasFetcherDoneAnything ": true
+      data
     };
     return fetcher;
   } else {
@@ -28913,8 +28964,7 @@ function getLoadingFetcher(submission, data) {
       formData: void 0,
       json: void 0,
       text: void 0,
-      data,
-      " _hasFetcherDoneAnything ": true
+      data
     };
     return fetcher;
   }
@@ -28928,8 +28978,7 @@ function getSubmittingFetcher(submission, existingFetcher) {
     formData: submission.formData,
     json: submission.json,
     text: submission.text,
-    data: existingFetcher ? existingFetcher.data : void 0,
-    " _hasFetcherDoneAnything ": true
+    data: existingFetcher ? existingFetcher.data : void 0
   };
   return fetcher;
 }
@@ -28942,8 +28991,7 @@ function getDoneFetcher(data) {
     formData: void 0,
     json: void 0,
     text: void 0,
-    data,
-    " _hasFetcherDoneAnything ": true
+    data
   };
   return fetcher;
 }
@@ -29400,19 +29448,7 @@ function useMatches() {
     matches,
     loaderData
   } = useDataRouterState(DataRouterStateHook.UseMatches);
-  return React5.useMemo(() => matches.map((match2) => {
-    let {
-      pathname,
-      params
-    } = match2;
-    return {
-      id: match2.route.id,
-      pathname,
-      params,
-      data: loaderData[match2.route.id],
-      handle: match2.route.handle
-    };
-  }), [matches, loaderData]);
+  return React5.useMemo(() => matches.map((m2) => convertRouteMatchToUiMatch(m2, loaderData)), [matches, loaderData]);
 }
 function useRouteError() {
   var _state$errors;
@@ -29793,7 +29829,7 @@ function deserializeErrors(errors) {
   let serialized = {};
   for (let [key, val] of entries) {
     if (val && val.__type === "RouteErrorResponse") {
-      serialized[key] = new ErrorResponse(val.status, val.statusText, val.data, val.internal === true);
+      serialized[key] = new ErrorResponseImpl(val.status, val.statusText, val.data, val.internal === true);
     } else if (val && val.__type === "Error") {
       if (val.__subType) {
         let ErrorConstructor = window[val.__subType];
@@ -31560,6 +31596,78 @@ function isPlainObject3(value) {
   }
   return proto === baseProto;
 }
+var hasMatchFunction = function(v2) {
+  return v2 && typeof v2.match === "function";
+};
+function createAction(type, prepareAction) {
+  function actionCreator() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
+    }
+    if (prepareAction) {
+      var prepared = prepareAction.apply(void 0, args);
+      if (!prepared) {
+        throw new Error("prepareAction did not return an object");
+      }
+      return __spreadValues(__spreadValues({
+        type,
+        payload: prepared.payload
+      }, "meta" in prepared && { meta: prepared.meta }), "error" in prepared && { error: prepared.error });
+    }
+    return { type, payload: args[0] };
+  }
+  actionCreator.toString = function() {
+    return "" + type;
+  };
+  actionCreator.type = type;
+  actionCreator.match = function(action) {
+    return action.type === type;
+  };
+  return actionCreator;
+}
+function isAction(action) {
+  return isPlainObject3(action) && "type" in action;
+}
+function isActionCreator(action) {
+  return typeof action === "function" && "type" in action && hasMatchFunction(action);
+}
+function isFSA(action) {
+  return isAction(action) && typeof action.type === "string" && Object.keys(action).every(isValidKey);
+}
+function isValidKey(key) {
+  return ["type", "payload", "error", "meta"].indexOf(key) > -1;
+}
+function getMessage(type) {
+  var splitType = type ? ("" + type).split("/") : [];
+  var actionName = splitType[splitType.length - 1] || "actionCreator";
+  return 'Detected an action creator with type "' + (type || "unknown") + "\" being dispatched. \nMake sure you're calling the action creator before dispatching, i.e. `dispatch(" + actionName + "())` instead of `dispatch(" + actionName + ")`. This is necessary even if the action has no payload.";
+}
+function createActionCreatorInvariantMiddleware(options2) {
+  if (options2 === void 0) {
+    options2 = {};
+  }
+  if (false) {
+    return function() {
+      return function(next2) {
+        return function(action) {
+          return next2(action);
+        };
+      };
+    };
+  }
+  var _c = options2.isActionCreator, isActionCreator2 = _c === void 0 ? isActionCreator : _c;
+  return function() {
+    return function(next2) {
+      return function(action) {
+        if (isActionCreator2(action)) {
+          console.warn(getMessage(action.type));
+        }
+        return next2(action);
+      };
+    };
+  };
+}
 function getTimeMeasureUtils(maxDelay, fnName) {
   var elapsed = 0;
   return {
@@ -31708,15 +31816,19 @@ function trackForMutations(isImmutable, ignorePaths, obj) {
     }
   };
 }
-function trackProperties(isImmutable, ignorePaths, obj, path) {
+function trackProperties(isImmutable, ignorePaths, obj, path, checkedObjects) {
   if (ignorePaths === void 0) {
     ignorePaths = [];
   }
   if (path === void 0) {
     path = "";
   }
+  if (checkedObjects === void 0) {
+    checkedObjects = /* @__PURE__ */ new Set();
+  }
   var tracked = { value: obj };
-  if (!isImmutable(obj)) {
+  if (!isImmutable(obj) && !checkedObjects.has(obj)) {
+    checkedObjects.add(obj);
     tracked.children = {};
     for (var key in obj) {
       var childPath = path ? path + "." + key : key;
@@ -31955,7 +32067,7 @@ function getDefaultMiddleware(options2) {
   if (options2 === void 0) {
     options2 = {};
   }
-  var _c = options2.thunk, thunk2 = _c === void 0 ? true : _c, _d = options2.immutableCheck, immutableCheck = _d === void 0 ? true : _d, _e = options2.serializableCheck, serializableCheck = _e === void 0 ? true : _e;
+  var _c = options2.thunk, thunk2 = _c === void 0 ? true : _c, _d = options2.immutableCheck, immutableCheck = _d === void 0 ? true : _d, _e = options2.serializableCheck, serializableCheck = _e === void 0 ? true : _e, _f = options2.actionCreatorCheck, actionCreatorCheck = _f === void 0 ? true : _f;
   var middlewareArray = new MiddlewareArray();
   if (thunk2) {
     if (isBoolean(thunk2)) {
@@ -31978,6 +32090,13 @@ function getDefaultMiddleware(options2) {
         serializableOptions = serializableCheck;
       }
       middlewareArray.push(createSerializableStateInvariantMiddleware(serializableOptions));
+    }
+    if (actionCreatorCheck) {
+      var actionCreatorOptions = {};
+      if (!isBoolean(actionCreatorCheck)) {
+        actionCreatorOptions = actionCreatorCheck;
+      }
+      middlewareArray.unshift(createActionCreatorInvariantMiddleware(actionCreatorOptions));
     }
   }
   return middlewareArray;
@@ -32023,42 +32142,6 @@ function configureStore(options2) {
   var composedEnhancer = finalCompose.apply(void 0, storeEnhancers);
   return createStore(rootReducer, preloadedState, composedEnhancer);
 }
-function createAction(type, prepareAction) {
-  function actionCreator() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-      args[_i] = arguments[_i];
-    }
-    if (prepareAction) {
-      var prepared = prepareAction.apply(void 0, args);
-      if (!prepared) {
-        throw new Error("prepareAction did not return an object");
-      }
-      return __spreadValues(__spreadValues({
-        type,
-        payload: prepared.payload
-      }, "meta" in prepared && { meta: prepared.meta }), "error" in prepared && { error: prepared.error });
-    }
-    return { type, payload: args[0] };
-  }
-  actionCreator.toString = function() {
-    return "" + type;
-  };
-  actionCreator.type = type;
-  actionCreator.match = function(action) {
-    return action.type === type;
-  };
-  return actionCreator;
-}
-function isAction(action) {
-  return isPlainObject3(action) && "type" in action;
-}
-function isFSA(action) {
-  return isAction(action) && typeof action.type === "string" && Object.keys(action).every(isValidKey);
-}
-function isValidKey(key) {
-  return ["type", "payload", "error", "meta"].indexOf(key) > -1;
-}
 function executeReducerBuilderCallback(builderCallback) {
   var actionsMap = {};
   var actionMatchers = [];
@@ -32074,8 +32157,11 @@ function executeReducerBuilderCallback(builderCallback) {
         }
       }
       var type = typeof typeOrActionCreator === "string" ? typeOrActionCreator : typeOrActionCreator.type;
+      if (!type) {
+        throw new Error("`builder.addCase` cannot be called with an empty action type");
+      }
       if (type in actionsMap) {
-        throw new Error("addCase cannot be called with two reducers for the same action type");
+        throw new Error("`builder.addCase` cannot be called with two reducers for the same action type");
       }
       actionsMap[type] = reducer;
       return builder;
@@ -56777,7 +56863,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.8.0
+   * @remix-run/router v1.9.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56789,7 +56875,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.15.0
+   * React Router v6.16.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56801,7 +56887,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.15.0
+   * React Router DOM v6.16.0
    *
    * Copyright (c) Remix Software Inc.
    *
