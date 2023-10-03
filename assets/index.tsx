@@ -40,10 +40,7 @@ const router = createBrowserRouter([
       {
         path: 'entities/*',
         element: (
-          <EntitiesSection
-            icon='building'
-            name='Entities'
-          />
+          <EntitiesSection icon='building' />
         ),
         children: [
           {
@@ -59,10 +56,7 @@ const router = createBrowserRouter([
       {
         path: 'incidents/*',
         element: (
-          <IncidentsSection
-            icon='handshake'
-            name='Incidents'
-          />
+          <IncidentsSection icon='handshake' />
         ),
         children: [
           {
@@ -78,10 +72,7 @@ const router = createBrowserRouter([
       {
         path: 'people/*',
         element: (
-          <PeopleSection
-            icon='user-large'
-            name='People'
-          />
+          <PeopleSection icon='user-large' />
         ),
         children: [
           {
@@ -97,10 +88,7 @@ const router = createBrowserRouter([
       {
         path: 'sources/*',
         element: (
-          <SourcesSection
-            icon='database'
-            name='Data Sources'
-          />
+          <SourcesSection icon='database' />
         ),
         children: [
           {

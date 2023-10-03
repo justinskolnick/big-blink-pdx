@@ -1,7 +1,13 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type { AlertType, ErrorType, MessageType, WarningType } from '../types';
+import type {
+  AlertType,
+  ErrorType,
+  MessageType,
+  SectionType,
+  WarningType
+} from '../types';
 
 const setDescription = createAction<string>('ui/setDescription');
 const clearErrors = createAction<string>('ui/clearErrors');
@@ -10,6 +16,7 @@ const clearWarnings = createAction<string>('ui/clearWarnings');
 const setError = createAction<ErrorType>('ui/setError');
 const setMessage = createAction<MessageType>('ui/setMessage');
 const setPositionY = createAction<number>('ui/setPositionY');
+const setSection = createAction<SectionType>('ui/setSection');
 const setWarning = createAction<WarningType>('ui/setWarning');
 
 export const actions = {
@@ -20,6 +27,7 @@ export const actions = {
   setError,
   setMessage,
   setPositionY,
+  setSection,
   setWarning,
 };
 
@@ -28,6 +36,7 @@ const initialState = {
   errors: [] as ErrorType[],
   messages: [] as MessageType[],
   positionY: 0 as number,
+  section: {} as SectionType,
   warnings: [] as WarningType[],
 };
 
@@ -64,6 +73,9 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(clearWarnings, (state) => {
       state.warnings = initialState.warnings;
+    })
+    .addCase(setSection, (state, action: PayloadAction<SectionType>) => {
+      state.section = action.payload;
     })
     .addCase(setWarning, (state, action: PayloadAction<WarningType>) => {
       if (customMessageExists(state.warnings, action.payload.customMessage)) {

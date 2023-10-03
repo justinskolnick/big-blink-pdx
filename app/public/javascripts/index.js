@@ -33039,6 +33039,7 @@ var getPeopleChartData = createSelector(
 var getDescription = createSelector(getUI, (ui) => ui.description);
 var getErrors = createSelector(getUI, (ui) => ui.errors);
 var getMessages = createSelector(getUI, (ui) => ui.messages);
+var getSection = createSelector(getUI, (ui) => ui.section);
 var getWarnings = createSelector(getUI, (ui) => ui.warnings);
 
 // assets/reducers/entities.ts
@@ -33326,6 +33327,7 @@ var clearWarnings = createAction("ui/clearWarnings");
 var setError = createAction("ui/setError");
 var setMessage = createAction("ui/setMessage");
 var setPositionY = createAction("ui/setPositionY");
+var setSection = createAction("ui/setSection");
 var setWarning = createAction("ui/setWarning");
 var actions2 = {
   clearErrors,
@@ -33335,6 +33337,7 @@ var actions2 = {
   setError,
   setMessage,
   setPositionY,
+  setSection,
   setWarning
 };
 var initialState2 = {
@@ -33342,6 +33345,7 @@ var initialState2 = {
   errors: [],
   messages: [],
   positionY: 0,
+  section: {},
   warnings: []
 };
 var customMessageExists = (alerts, customMessage) => customMessage && alerts.some((alert) => alert.customMessage === customMessage);
@@ -33366,6 +33370,8 @@ var uiReducer = createReducer(initialState2, (builder) => {
     state.positionY = action.payload;
   }).addCase(clearWarnings, (state) => {
     state.warnings = initialState2.warnings;
+  }).addCase(setSection, (state, action) => {
+    state.section = action.payload;
   }).addCase(setWarning, (state, action) => {
     if (customMessageExists(state.warnings, action.payload.customMessage)) {
       return;
@@ -39697,6 +39703,9 @@ var handleResult = (result, isPrimary) => {
     if (isPrimary) {
       if ("description" in meta) {
         dispatch(actions2.setDescription(meta.description));
+      }
+      if ("section" in meta) {
+        dispatch(actions2.setSection(meta.section));
       }
     }
     if ("errors" in meta) {
@@ -55487,12 +55496,6 @@ var styles33 = css`
     padding-right: var(--layout-margin);
   }
 `;
-var getSectionTitle = (section, item) => {
-  if (item) {
-    return `${item} | ${section}`;
-  }
-  return section;
-};
 var SectionHeader = ({
   children,
   details,
@@ -55500,43 +55503,45 @@ var SectionHeader = ({
   LinkComponent,
   title
 }) => {
+  const section = useSelector(getSection);
+  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
   const hasLink = Boolean(LinkComponent);
   const hasSubhead = import_react29.Children.toArray(children).length > 0;
   const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon3);
-  return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(
-    "header",
-    {
-      className: cx(
-        "section-header",
-        hasSubhead && "has-subheader",
-        styles33
-      ),
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "section-header-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(eyes_default, {}) }),
-        hasIcon && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: cx("section-header-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LinkComponent, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(icon_default, { name: icon3 }) }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(icon_default, { name: icon3 }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { className: "section-header-title", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LinkComponent, { "aria-label": "section-title", children: title }) : title }),
-          hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children }),
-            hasDetails && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h4", { children: details })
+  return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("title", { children: pageTitle }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(
+      "header",
+      {
+        className: cx(
+          "section-header",
+          hasSubhead && "has-subheader",
+          styles33
+        ),
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "section-header-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(eyes_default, {}) }),
+          hasIcon && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: cx("section-header-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LinkComponent, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(icon_default, { name: icon3 }) }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(icon_default, { name: icon3 }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { className: "section-header-title", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LinkComponent, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
+            hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children }),
+              hasDetails && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h4", { children: details })
+            ] })
           ] })
-        ] })
-      ]
-    }
-  );
+        ]
+      }
+    )
+  ] });
 };
 var section_header_default = SectionHeader;
 
 // assets/components/entities/section.tsx
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
-var Section = ({
-  icon: icon3,
-  name
-}) => {
+var Section = ({ icon: icon3 }) => {
   const { id } = useParams();
   const entity = useSelector((state) => selectors.selectById(state, id));
-  const title = getSectionTitle(name, entity?.name);
+  const section = useSelector(getSection);
   const hasDomain = Boolean(entity?.domain);
   const hasLocations = Boolean(entity?.locations?.length);
   let locations;
@@ -55544,18 +55549,16 @@ var Section = ({
     locations = toSentence(entity.locations.map((location2) => `${location2.city}, ${location2.region}`));
   }
   return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("title", { children: title }) }),
     /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
       section_header_default,
       {
         icon: icon3,
-        title: name,
         LinkComponent: LinkToEntities,
         details: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
           hasLocations && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { className: "section-header-detail", children: locations }),
           hasDomain && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { className: "section-header-detail", children: entity.domain })
         ] }),
-        children: entity && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(LinkToEntity, { id: entity.id, children: entity.name })
+        children: section.subtitle && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(LinkToEntity, { id: section.id, children: section.subtitle })
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Outlet, {})
@@ -55987,22 +55990,15 @@ var detail_default2 = Detail2;
 
 // assets/components/incidents/section.tsx
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
-var Section3 = ({
-  icon: icon3,
-  name
-}) => {
-  const { id } = useParams();
-  const incident = useSelector((state) => selectors2.selectById(state, id));
-  const title = getSectionTitle(name, incident ? "Incident" : null);
+var Section3 = ({ icon: icon3 }) => {
+  const section = useSelector(getSection);
   return /* @__PURE__ */ (0, import_jsx_runtime67.jsxs)(import_jsx_runtime67.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)("title", { children: title }) }),
     /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(
       section_header_default,
       {
         icon: icon3,
-        title: name,
         LinkComponent: LinkToIncidents,
-        children: incident && /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(LinkToIncident, { id: incident.id, children: "Incident" })
+        children: section.subtitle && /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(LinkToIncident, { id: section.id, children: section.subtitle })
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(Outlet, {})
@@ -56244,22 +56240,17 @@ var detail_default3 = Detail3;
 
 // assets/components/people/section.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
-var Section4 = ({
-  icon: icon3,
-  name
-}) => {
+var Section4 = ({ icon: icon3 }) => {
   const { id } = useParams();
   const person = useSelector((state) => selectors3.selectById(state, id));
-  const title = getSectionTitle(name, person?.name);
+  const section = useSelector(getSection);
   return /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(import_jsx_runtime73.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("title", { children: title }) }),
     /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
       section_header_default,
       {
         icon: person?.type ? getIconName2(person) : icon3,
-        title: name,
         LinkComponent: LinkToPeople,
-        children: person && /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(LinkToPerson, { id: person.id, children: person.name })
+        children: section.subtitle && /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(LinkToPerson, { id: section.id, children: section.subtitle })
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(Outlet, {})
@@ -56605,22 +56596,15 @@ var detail_default4 = Detail4;
 
 // assets/components/sources/section.tsx
 var import_jsx_runtime80 = __toESM(require_jsx_runtime());
-var Section5 = ({
-  icon: icon3,
-  name
-}) => {
-  const { id } = useParams();
-  const source = useSelector((state) => selectors4.selectById(state, id));
-  const title = getSectionTitle(name, source?.title);
+var Section5 = ({ icon: icon3 }) => {
+  const section = useSelector(getSection);
   return /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_jsx_runtime80.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("title", { children: title }) }),
     /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
       section_header_default,
       {
         icon: icon3,
-        title: name,
         LinkComponent: LinkToSources,
-        children: source && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(LinkToSource, { id: source.id, children: source.title })
+        children: section.subtitle && /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(LinkToSource, { id: section.id, children: section.subtitle })
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(Outlet, {})
@@ -56643,13 +56627,7 @@ var router = createBrowserRouter([
       },
       {
         path: "entities/*",
-        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-          section_default,
-          {
-            icon: "building",
-            name: "Entities"
-          }
-        ),
+        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(section_default, { icon: "building" }),
         children: [
           {
             path: "",
@@ -56663,13 +56641,7 @@ var router = createBrowserRouter([
       },
       {
         path: "incidents/*",
-        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-          section_default3,
-          {
-            icon: "handshake",
-            name: "Incidents"
-          }
-        ),
+        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(section_default3, { icon: "handshake" }),
         children: [
           {
             path: "",
@@ -56683,13 +56655,7 @@ var router = createBrowserRouter([
       },
       {
         path: "people/*",
-        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-          section_default4,
-          {
-            icon: "user-large",
-            name: "People"
-          }
-        ),
+        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(section_default4, { icon: "user-large" }),
         children: [
           {
             path: "",
@@ -56703,13 +56669,7 @@ var router = createBrowserRouter([
       },
       {
         path: "sources/*",
-        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-          section_default5,
-          {
-            icon: "database",
-            name: "Data Sources"
-          }
-        ),
+        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(section_default5, { icon: "database" }),
         children: [
           {
             path: "",

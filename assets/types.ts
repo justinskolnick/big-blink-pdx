@@ -18,6 +18,13 @@ export type LocationState = {
   search: string;
 };
 
+export type SectionType = {
+  id?: number;
+  slug?: string;
+  subtitle?: string;
+  title: string;
+};
+
 type PageObject = {
   label: string;
   link: LocationState;

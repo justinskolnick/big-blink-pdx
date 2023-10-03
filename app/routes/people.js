@@ -17,8 +17,13 @@ const stats = require('../services/stats');
 
 const title = 'People';
 const template = 'main';
+const slug = 'people';
+const section = {
+  slug,
+  title,
+};
 const view = {
-  section: 'people',
+  section: slug,
 };
 
 router.get('/', async (req, res, next) => {
@@ -35,6 +40,9 @@ router.get('/', async (req, res, next) => {
   let personTotal;
   let data;
   let meta;
+
+  section.id = null;
+  section.subtitle = null;
 
   if (req.get('Content-Type') === headers.json) {
     try {
@@ -67,7 +75,12 @@ router.get('/', async (req, res, next) => {
           total: personTotal,
         }
       };
-      meta = { description, page, view };
+      meta = {
+        description,
+        page,
+        section,
+        view,
+      };
 
       res.json({ title, data, meta });
     } catch (err) {
@@ -107,6 +120,8 @@ router.get('/:id', async (req, res, next) => {
   try {
     person = await people.getAtId(id);
     description = metaHelper.getDetailDescription(person.name);
+    section.id = person.id;
+    section.subtitle = person.name;
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -168,6 +183,7 @@ router.get('/:id', async (req, res, next) => {
         id,
         page,
         perPage,
+        section,
         view,
         warnings,
       };

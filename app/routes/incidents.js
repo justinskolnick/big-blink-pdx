@@ -12,8 +12,13 @@ const incidentAttendees = require('../services/incident-attendees');
 
 const title = 'Incidents';
 const template = 'main';
+const slug = 'incidents';
+const section = {
+  slug,
+  title,
+};
 const view = {
-  section: 'incidents',
+  section: slug,
 };
 
 router.get('/', async (req, res, next) => {
@@ -30,6 +35,9 @@ router.get('/', async (req, res, next) => {
   let records;
   let data;
   let meta;
+
+  section.id = null;
+  section.subtitle = null;
 
   if (req.get('Content-Type') === headers.json) {
     try {
@@ -54,7 +62,13 @@ router.get('/', async (req, res, next) => {
           total: incidentCountResult,
         }
       };
-      meta = { description, page, perPage, view };
+      meta = {
+        description,
+        page,
+        perPage,
+        section,
+        view,
+      };
 
       res.json({ title, data, meta });
     } catch (err) {
@@ -82,6 +96,9 @@ router.get('/:id', async (req, res, next) => {
       incidentResult = await incidents.getAtId(id);
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
 
+      section.id = incidentResult.id;
+      section.subtitle = 'Incident';
+
       data = {
         incident: {
           record: {
@@ -90,7 +107,12 @@ router.get('/:id', async (req, res, next) => {
           },
         },
       };
-      meta = { description, id, view };
+      meta = {
+        description,
+        id,
+        section,
+        view,
+      };
 
       res.json({ title, data, meta });
     } catch (err) {

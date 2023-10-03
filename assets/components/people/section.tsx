@@ -1,42 +1,33 @@
 import React from 'react';
 import { useParams, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import { RootState } from '../../lib/store';
 
 import { LinkToPeople, LinkToPerson } from '../links';
 import { getIconName } from './icon';
-import SectionHeader, { getSectionTitle } from '../section-header';
+import SectionHeader from '../section-header';
 
 import { selectors } from '../../reducers/people';
+import { getSection } from '../../selectors';
 
 interface Props {
   icon: IconName;
-  name: string;
 }
 
-const Section = ({
-  icon,
-  name,
-}: Props) => {
+const Section = ({ icon }: Props) => {
   const { id } = useParams();
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
-  const title = getSectionTitle(name, person?.name);
+  const section = useSelector(getSection);
 
   return (
     <>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
-
       <SectionHeader
         icon={person?.type ? getIconName(person) : icon}
-        title={name}
         LinkComponent={LinkToPeople}
       >
-        {person && <LinkToPerson id={person.id}>{person.name}</LinkToPerson>}
+        {section.subtitle && <LinkToPerson id={section.id}>{section.subtitle}</LinkToPerson>}
       </SectionHeader>
 
       <Outlet />

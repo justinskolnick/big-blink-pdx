@@ -156,6 +156,9 @@ const handleResult = (result: Result, isPrimary: boolean) => {
       if ('description' in meta) {
         dispatch(uiActions.setDescription(meta.description));
       }
+      if ('section' in meta) {
+        dispatch(uiActions.setSection(meta.section));
+      }
     }
 
     if ('errors' in meta) {

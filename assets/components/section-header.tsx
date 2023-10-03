@@ -1,4 +1,6 @@
 import React, { Children, ReactNode } from 'react';
+import { Helmet } from 'react-helmet';
+import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { css, cx } from '@emotion/css';
 
@@ -7,11 +9,13 @@ import Icon from './icon';
 
 import { LinkProps } from './links';
 
+import { getSection } from '../selectors';
+
 interface Props {
   children?: ReactNode;
   details?: ReactNode | string;
   icon?: IconName;
-  title: ReactNode | string;
+  title?: ReactNode | string;
   LinkComponent?: ({ children, ...rest }: LinkProps) => JSX.Element;
 }
 
@@ -214,14 +218,6 @@ const styles = css`
   }
 `;
 
-export const getSectionTitle = (section: string, item?: string) => {
-  if (item) {
-    return `${item} | ${section}`;
-  }
-
-  return section;
-};
-
 const SectionHeader = ({
   children,
   details,
@@ -229,50 +225,59 @@ const SectionHeader = ({
   LinkComponent,
   title,
 }: Props) => {
+  const section = useSelector(getSection);
+  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
+
   const hasLink = Boolean(LinkComponent);
   const hasSubhead = Children.toArray(children).length > 0;
   const hasDetails = Boolean(details);
   const hasIcon = Boolean(icon);
 
   return (
-    <header
-      className={cx(
-        'section-header',
-        hasSubhead && 'has-subheader',
-        styles
-      )}
-    >
-      <div className='section-header-eyes'>
-        <Eyes />
-      </div>
-      {hasIcon && (
-        <div className={cx('section-header-icon', hasLink && 'has-link')}>
-          {hasLink ? (
-            <LinkComponent aria-label='section-icon'>
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+      </Helmet>
+
+      <header
+        className={cx(
+          'section-header',
+          hasSubhead && 'has-subheader',
+          styles
+        )}
+      >
+        <div className='section-header-eyes'>
+          <Eyes />
+        </div>
+        {hasIcon && (
+          <div className={cx('section-header-icon', hasLink && 'has-link')}>
+            {hasLink ? (
+              <LinkComponent aria-label='section-icon'>
+                <Icon name={icon} />
+              </LinkComponent>
+            ) : (
               <Icon name={icon} />
-            </LinkComponent>
+            )}
+          </div>
+        )}
+
+        <div className='section-header-title'>
+          <h2>{hasLink ? (
+            <LinkComponent aria-label='section-title'>{title ?? section.title}</LinkComponent>
           ) : (
-            <Icon name={icon} />
+            title ?? section.title
+          )}</h2>
+          {hasSubhead && (
+            <>
+              <h3>{children}</h3>
+              {hasDetails && (
+                <h4>{details}</h4>
+              )}
+            </>
           )}
         </div>
-      )}
-
-      <div className='section-header-title'>
-        <h2>{hasLink ? (
-          <LinkComponent aria-label='section-title'>{title}</LinkComponent>
-        ) : (
-          title
-        )}</h2>
-        {hasSubhead && (
-          <>
-            <h3>{children}</h3>
-            {hasDetails && (
-              <h4>{details}</h4>
-            )}
-          </>
-        )}
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 

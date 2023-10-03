@@ -1,29 +1,25 @@
 import React from 'react';
 import { useParams, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import { RootState } from '../../lib/store';
 import { toSentence } from '../../lib/string';
 
 import { LinkToEntities, LinkToEntity } from '../links';
-import SectionHeader, { getSectionTitle } from '../section-header';
+import SectionHeader from '../section-header';
 
 import { selectors } from '../../reducers/entities';
+import { getSection } from '../../selectors';
 
 interface Props {
   icon: IconName;
-  name: string;
 }
 
-const Section = ({
-  icon,
-  name,
-}: Props) => {
+const Section = ({ icon }: Props) => {
   const { id } = useParams();
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
-  const title = getSectionTitle(name, entity?.name);
+  const section = useSelector(getSection);
   const hasDomain = Boolean(entity?.domain);
   const hasLocations = Boolean(entity?.locations?.length);
   let locations;
@@ -34,13 +30,8 @@ const Section = ({
 
   return (
     <>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
-
       <SectionHeader
         icon={icon}
-        title={name}
         LinkComponent={LinkToEntities}
         details={
           <>
@@ -49,7 +40,7 @@ const Section = ({
           </>
         }
       >
-        {entity && <LinkToEntity id={entity.id}>{entity.name}</LinkToEntity>}
+        {section.subtitle && <LinkToEntity id={section.id}>{section.subtitle}</LinkToEntity>}
       </SectionHeader>
 
       <Outlet />
