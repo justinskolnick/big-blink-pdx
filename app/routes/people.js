@@ -1,12 +1,12 @@
 const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
-const { snakeCase } = require('snake-case');
 
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
+const { snakeCase } = require('../lib/string');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const { PER_PAGE } = require('../models/people');
 const incidentAttendances = require('../services/incident-attendances');
