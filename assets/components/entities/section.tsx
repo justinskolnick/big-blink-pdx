@@ -1,15 +1,11 @@
 import React from 'react';
-import { useParams, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-
-import { RootState } from '../../lib/store';
-import { toSentence } from '../../lib/string';
 
 import { LinkToEntities, LinkToEntity } from '../links';
 import SectionHeader from '../section-header';
 
-import { selectors } from '../../reducers/entities';
 import { getSection } from '../../selectors';
 
 interface Props {
@@ -17,28 +13,17 @@ interface Props {
 }
 
 const Section = ({ icon }: Props) => {
-  const { id } = useParams();
-  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
   const section = useSelector(getSection);
-  const hasDomain = Boolean(entity?.domain);
-  const hasLocations = Boolean(entity?.locations?.length);
-  let locations;
-
-  if (hasLocations) {
-    locations = toSentence(entity.locations.map(location => `${location.city}, ${location.region}`));
-  }
+  const hasDetails = section?.details?.length > 0;
 
   return (
     <>
       <SectionHeader
         icon={icon}
         LinkComponent={LinkToEntities}
-        details={
-          <>
-            {hasLocations && <span className='section-header-detail'>{locations}</span>}
-            {hasDomain && <span className='section-header-detail'>{entity.domain}</span>}
-          </>
-        }
+        details={hasDetails && section.details.map((detail, i) => (
+          <span key={i} className='section-header-detail'>{detail}</span>
+        ))}
       >
         {section.subtitle && <LinkToEntity id={section.id}>{section.subtitle}</LinkToEntity>}
       </SectionHeader>

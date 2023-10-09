@@ -6,7 +6,7 @@ const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
-const { snakeCase } = require('../lib/string');
+const { snakeCase, toSentence } = require('../lib/string');
 const { PER_PAGE } = require('../models/entities');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const entities = require('../services/entities');
@@ -148,6 +148,21 @@ router.get('/:id', async (req, res, next) => {
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
       attendees = await incidentAttendees.getAttendees({ entityId: id });
 
+      const hasDomain = Boolean(entity.domain);
+      const hasLocations = entityLocations.length;
+
+      if (hasLocations || hasDomain) {
+        section.details = [];
+
+        if (hasLocations) {
+          section.details.push(toSentence(entityLocations.map(location => `${location.city}, ${location.region}`)));
+        }
+
+        if (hasDomain) {
+          section.details.push(entity.domain);
+        }
+      }
+
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
       }
@@ -162,7 +177,6 @@ router.get('/:id', async (req, res, next) => {
         entity: {
           record: {
             ...entity,
-            locations: entityLocations,
             incidents: {
               records,
               filters: params,

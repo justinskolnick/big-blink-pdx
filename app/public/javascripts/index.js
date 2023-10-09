@@ -55288,13 +55288,6 @@ var Detail = () => {
 };
 var detail_default = Detail;
 
-// assets/lib/string.ts
-var toSentence = (items, locale = "en", inclusive = true) => {
-  const type = inclusive ? "conjunction" : "disjunction";
-  const list = new Intl.ListFormat(locale, { style: "long", type });
-  return list.format(items);
-};
-
 // assets/components/section-header.tsx
 var import_react29 = __toESM(require_react());
 var import_jsx_runtime52 = __toESM(require_jsx_runtime());
@@ -55539,25 +55532,15 @@ var section_header_default = SectionHeader;
 // assets/components/entities/section.tsx
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
 var Section = ({ icon: icon3 }) => {
-  const { id } = useParams();
-  const entity = useSelector((state) => selectors.selectById(state, id));
   const section = useSelector(getSection);
-  const hasDomain = Boolean(entity?.domain);
-  const hasLocations = Boolean(entity?.locations?.length);
-  let locations;
-  if (hasLocations) {
-    locations = toSentence(entity.locations.map((location2) => `${location2.city}, ${location2.region}`));
-  }
+  const hasDetails = section?.details?.length > 0;
   return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
       section_header_default,
       {
         icon: icon3,
         LinkComponent: LinkToEntities,
-        details: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
-          hasLocations && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { className: "section-header-detail", children: locations }),
-          hasDomain && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { className: "section-header-detail", children: entity.domain })
-        ] }),
+        details: hasDetails && section.details.map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { className: "section-header-detail", children: detail }, i2)),
         children: section.subtitle && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(LinkToEntity, { id: section.id, children: section.subtitle })
       }
     ),
