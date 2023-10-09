@@ -10,6 +10,7 @@ const adaptResult = (result) => {
   const adapted = {
     id: result.id,
     name: result.name,
+    domain: result.domain,
   };
 
   if (result.total) {
