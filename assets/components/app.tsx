@@ -13,6 +13,7 @@ import AlertMessage from './alert-message';
 import AlertWarning from './alert-warning';
 import GlobalFooter from './global-footer';
 import GlobalHeader from './global-header';
+import Section from './section';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
 
@@ -82,6 +83,7 @@ const App = () => {
   const initiated = useRef(false);
   const location = useLocation();
   const description = useSelector(getDescription);
+  const isHome = location.pathname === '/';
 
   const scrollCaptureClasses: Array<string> = [hasAlertClass, hasModalClass];
 
@@ -114,7 +116,13 @@ const App = () => {
       <GlobalHeader />
 
       <main className='global-main'>
-        <Outlet />
+        {isHome ? (
+          <Outlet />
+        ) : (
+          <Section>
+            <Outlet />
+          </Section>
+        )}
       </main>
 
       <GlobalFooter />

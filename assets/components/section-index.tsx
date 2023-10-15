@@ -24,7 +24,7 @@ const styles = css`
     h4 {
       color: var(--color-accent-alt);
       font-weight: 600;
-      font-size: 12px;
+      font-size: 18px;
       line-height: 21px;
     }
 
@@ -148,11 +148,6 @@ const styles = css`
 
   .item-content + .item-footer {
     margin-top: 2rem;
-  }
-
-  @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
   }
 `;
 

@@ -2,8 +2,8 @@ import React from 'react';
 
 import Icon from '../icon';
 
-const EntityIcon = () => (
+const EntitiesIcon = () => (
   <Icon name='building' />
 );
 
-export default EntityIcon;
+export default EntitiesIcon;

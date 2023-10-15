@@ -9,7 +9,7 @@ import {
   LinkToPerson,
   SortLink,
 } from '../links';
-import PersonIcon from './icon';
+import Icon from './icon';
 import SectionIndex from '../section-index';
 
 import { selectors } from '../../reducers/people';
@@ -36,7 +36,7 @@ export const PersonItem = ({ id }: PersonItemProps) => {
 
   return (
     <tr>
-      <td className='cell-type'><PersonIcon person={person} /></td>
+      <td className='cell-type'><Icon person={person} /></td>
       <td className='cell-name'>
         {hasTotal ? (
           <LinkToPerson id={person.id}>{person.name}</LinkToPerson>

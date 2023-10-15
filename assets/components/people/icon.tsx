@@ -1,11 +1,17 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Icon from '../icon';
+
+import { RootState } from '../../lib/store';
+
+import { selectors } from '../../reducers/people';
 
 import type { Person } from '../../types';
 
 interface Props {
-  person: Person;
+  person?: Person;
 }
 
 enum TypeForIcon {
@@ -14,12 +20,15 @@ enum TypeForIcon {
   unknown = 'circle-question',
 }
 
-export const getIconName = (person: Person) => TypeForIcon[person.type];
+const getIconName = (person?: Person) => TypeForIcon[person?.type ?? 'person'];
 
-const PersonIcon = ({ person }: Props) => {
-  const iconName = getIconName(person);
+const PeopleIcon = ({ person }: Props) => {
+  const { id } = useParams();
+  const personAtId = useSelector((state: RootState) => selectors.selectById(state, id));
 
-  return <Icon name={iconName} />;
+  const name = getIconName(person || personAtId);
+
+  return <Icon name={name} />;
 };
 
-export default PersonIcon;
+export default PeopleIcon;

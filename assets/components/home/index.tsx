@@ -11,6 +11,16 @@ const styles = css`
   .welcome-section + .welcome-section {
     margin-top: calc(3 * var(--gap));
   }
+
+  @media screen and (max-width: 600px) {
+    .welcome-section {
+      .section-header-title {
+        h2 {
+          font-size: 24px;
+        }
+      }
+    }
+  }
 `;
 
 const Home = () => (
