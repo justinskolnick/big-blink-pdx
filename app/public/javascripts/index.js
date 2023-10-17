@@ -788,7 +788,7 @@ var require_react_development = __commonJS({
           }
           return children;
         }
-        function createContext4(defaultValue) {
+        function createContext5(defaultValue) {
           var context = {
             $$typeof: REACT_CONTEXT_TYPE,
             // As a workaround to support multiple concurrent renderers, we categorize
@@ -1868,7 +1868,7 @@ var require_react_development = __commonJS({
         exports.Suspense = REACT_SUSPENSE_TYPE;
         exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
         exports.cloneElement = cloneElement$1;
-        exports.createContext = createContext4;
+        exports.createContext = createContext5;
         exports.createElement = createElement$1;
         exports.createFactory = createFactory;
         exports.createRef = createRef;
@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment22 = 7;
+        var Fragment23 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment22:
+            case Fragment23:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment22) {
+            if (current2 === null || current2.tag !== Fragment23) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment22) {
+                  if (child.tag === Fragment23) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment22:
+            case Fragment23:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment22:
+            case Fragment23:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment22, elements, key, mode);
+          var fiber = createFiber(Fragment23, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment22 = REACT_FRAGMENT_TYPE;
+        var Fragment23 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment22;
+        exports.Fragment = Fragment23;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment22 = REACT_FRAGMENT_TYPE;
+        var Fragment23 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment22;
+        exports.Fragment = Fragment23;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -27046,6 +27046,7 @@ var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 var defaultMapRouteProperties = (route) => ({
   hasErrorBoundary: Boolean(route.hasErrorBoundary)
 });
+var TRANSITIONS_STORAGE_KEY = "remix-router-transitions";
 function createRouter(init) {
   const routerWindow = init.window ? init.window : typeof window !== "undefined" ? window : void 0;
   const isBrowser3 = typeof routerWindow !== "undefined" && typeof routerWindow.document !== "undefined" && typeof routerWindow.document.createElement !== "undefined";
@@ -27117,6 +27118,9 @@ function createRouter(init) {
   let pendingAction = Action.Pop;
   let pendingPreventScrollReset = false;
   let pendingNavigationController;
+  let pendingViewTransitionEnabled = false;
+  let appliedViewTransitions = /* @__PURE__ */ new Map();
+  let removePageHideEventListener = null;
   let isUninterruptedRevalidation = false;
   let isRevalidationRequired = false;
   let cancelledDeferredRoutes = [];
@@ -27174,6 +27178,12 @@ function createRouter(init) {
       }
       return startNavigation(historyAction, location2);
     });
+    if (isBrowser3) {
+      restoreAppliedTransitions(routerWindow, appliedViewTransitions);
+      let _saveAppliedTransitions = () => persistAppliedTransitions(routerWindow, appliedViewTransitions);
+      routerWindow.addEventListener("pagehide", _saveAppliedTransitions);
+      removePageHideEventListener = () => routerWindow.removeEventListener("pagehide", _saveAppliedTransitions);
+    }
     if (!state.initialized) {
       startNavigation(Action.Pop, state.location);
     }
@@ -27182,6 +27192,9 @@ function createRouter(init) {
   function dispose() {
     if (unlistenHistory) {
       unlistenHistory();
+    }
+    if (removePageHideEventListener) {
+      removePageHideEventListener();
     }
     subscribers.clear();
     pendingNavigationController && pendingNavigationController.abort();
@@ -27192,9 +27205,11 @@ function createRouter(init) {
     subscribers.add(fn2);
     return () => subscribers.delete(fn2);
   }
-  function updateState(newState) {
+  function updateState(newState, viewTransitionOpts) {
     state = _extends2({}, state, newState);
-    subscribers.forEach((subscriber) => subscriber(state));
+    subscribers.forEach((subscriber) => subscriber(state, {
+      unstable_viewTransitionOpts: viewTransitionOpts
+    }));
   }
   function completeNavigation(location2, newState) {
     var _location$state, _location$state2;
@@ -27231,6 +27246,33 @@ function createRouter(init) {
     } else if (pendingAction === Action.Replace) {
       init.history.replace(location2, location2.state);
     }
+    let viewTransitionOpts;
+    if (pendingAction === Action.Pop) {
+      let priorPaths = appliedViewTransitions.get(state.location.pathname);
+      if (priorPaths && priorPaths.has(location2.pathname)) {
+        viewTransitionOpts = {
+          currentLocation: state.location,
+          nextLocation: location2
+        };
+      } else if (appliedViewTransitions.has(location2.pathname)) {
+        viewTransitionOpts = {
+          currentLocation: location2,
+          nextLocation: state.location
+        };
+      }
+    } else if (pendingViewTransitionEnabled) {
+      let toPaths = appliedViewTransitions.get(state.location.pathname);
+      if (toPaths) {
+        toPaths.add(location2.pathname);
+      } else {
+        toPaths = /* @__PURE__ */ new Set([location2.pathname]);
+        appliedViewTransitions.set(state.location.pathname, toPaths);
+      }
+      viewTransitionOpts = {
+        currentLocation: state.location,
+        nextLocation: location2
+      };
+    }
     updateState(_extends2({}, newState, {
       actionData,
       loaderData,
@@ -27242,9 +27284,10 @@ function createRouter(init) {
       restoreScrollPosition: getSavedScrollPosition(location2, newState.matches || state.matches),
       preventScrollReset,
       blockers
-    }));
+    }), viewTransitionOpts);
     pendingAction = Action.Pop;
     pendingPreventScrollReset = false;
+    pendingViewTransitionEnabled = false;
     isUninterruptedRevalidation = false;
     isRevalidationRequired = false;
     cancelledDeferredRoutes = [];
@@ -27308,7 +27351,8 @@ function createRouter(init) {
       // render at the right error boundary after we match routes
       pendingError: error,
       preventScrollReset,
-      replace: opts && opts.replace
+      replace: opts && opts.replace,
+      enableViewTransition: opts && opts.unstable_viewTransition
     });
   }
   function revalidate() {
@@ -27336,6 +27380,7 @@ function createRouter(init) {
     isUninterruptedRevalidation = (opts && opts.startUninterruptedRevalidation) === true;
     saveScrollPosition(state.location, state.matches);
     pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
+    pendingViewTransitionEnabled = (opts && opts.enableViewTransition) === true;
     let routesToUse = inFlightDataRoutes || dataRoutes;
     let loadingNavigation = opts && opts.overrideNavigation;
     let matches = matchRoutes(routesToUse, location2, basename);
@@ -28086,6 +28131,9 @@ function createRouter(init) {
     get routes() {
       return dataRoutes;
     },
+    get window() {
+      return routerWindow;
+    },
     initialize,
     subscribe,
     enableScrollRestoration,
@@ -28705,7 +28753,7 @@ function findNearestBoundary(matches, routeId) {
   return eligibleMatches.reverse().find((m2) => m2.route.hasErrorBoundary === true) || matches[0];
 }
 function getShortCircuitMatches(routes) {
-  let route = routes.find((r2) => r2.index || !r2.path || r2.path === "/") || {
+  let route = routes.length === 1 ? routes[0] : routes.find((r2) => r2.index || !r2.path || r2.path === "/") || {
     id: "__shim-error-route__"
   };
   return {
@@ -28994,6 +29042,33 @@ function getDoneFetcher(data) {
     data
   };
   return fetcher;
+}
+function restoreAppliedTransitions(_window, transitions) {
+  try {
+    let sessionPositions = _window.sessionStorage.getItem(TRANSITIONS_STORAGE_KEY);
+    if (sessionPositions) {
+      let json2 = JSON.parse(sessionPositions);
+      for (let [k2, v2] of Object.entries(json2 || {})) {
+        if (v2 && Array.isArray(v2)) {
+          transitions.set(k2, new Set(v2 || []));
+        }
+      }
+    }
+  } catch (e) {
+  }
+}
+function persistAppliedTransitions(_window, transitions) {
+  if (transitions.size > 0) {
+    let json2 = {};
+    for (let [k2, v2] of transitions) {
+      json2[k2] = [...v2];
+    }
+    try {
+      _window.sessionStorage.setItem(TRANSITIONS_STORAGE_KEY, JSON.stringify(json2));
+    } catch (error) {
+      warning2(false, "Failed to save applied view transitions in sessionStorage (" + error + ").");
+    }
+  }
 }
 
 // node_modules/react-router/dist/index.js
@@ -29495,64 +29570,6 @@ function warningOnce(key, cond, message) {
 }
 var START_TRANSITION = "startTransition";
 var startTransitionImpl = React5[START_TRANSITION];
-function RouterProvider(_ref2) {
-  let {
-    fallbackElement,
-    router: router2,
-    future
-  } = _ref2;
-  let [state, setStateImpl] = React5.useState(router2.state);
-  let {
-    v7_startTransition
-  } = future || {};
-  let setState = React5.useCallback((newState) => {
-    v7_startTransition && startTransitionImpl ? startTransitionImpl(() => setStateImpl(newState)) : setStateImpl(newState);
-  }, [setStateImpl, v7_startTransition]);
-  React5.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
-  let navigator2 = React5.useMemo(() => {
-    return {
-      createHref: router2.createHref,
-      encodeLocation: router2.encodeLocation,
-      go: (n2) => router2.navigate(n2),
-      push: (to2, state2, opts) => router2.navigate(to2, {
-        state: state2,
-        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
-      }),
-      replace: (to2, state2, opts) => router2.navigate(to2, {
-        replace: true,
-        state: state2,
-        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
-      })
-    };
-  }, [router2]);
-  let basename = router2.basename || "/";
-  let dataRouterContext = React5.useMemo(() => ({
-    router: router2,
-    navigator: navigator2,
-    static: false,
-    basename
-  }), [router2, navigator2, basename]);
-  return /* @__PURE__ */ React5.createElement(React5.Fragment, null, /* @__PURE__ */ React5.createElement(DataRouterContext.Provider, {
-    value: dataRouterContext
-  }, /* @__PURE__ */ React5.createElement(DataRouterStateContext.Provider, {
-    value: state
-  }, /* @__PURE__ */ React5.createElement(Router, {
-    basename,
-    location: state.location,
-    navigationType: state.historyAction,
-    navigator: navigator2
-  }, state.initialized ? /* @__PURE__ */ React5.createElement(DataRoutes, {
-    routes: router2.routes,
-    state
-  }) : fallbackElement))), null);
-}
-function DataRoutes(_ref2) {
-  let {
-    routes,
-    state
-  } = _ref2;
-  return useRoutesImpl(routes, void 0, state);
-}
 function Outlet(props) {
   return useOutlet(props.context);
 }
@@ -29795,9 +29812,9 @@ function getFormSubmissionInfo(target, basename) {
     body
   };
 }
-var _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"];
-var _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"];
-var _excluded3 = ["reloadDocument", "replace", "state", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset"];
+var _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset", "unstable_viewTransition"];
+var _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "unstable_viewTransition", "children"];
+var _excluded3 = ["reloadDocument", "replace", "state", "method", "action", "onSubmit", "submit", "relative", "preventScrollReset", "unstable_viewTransition"];
 function createBrowserRouter(routes, opts) {
   return createRouter({
     basename: opts == null ? void 0 : opts.basename,
@@ -29809,7 +29826,8 @@ function createBrowserRouter(routes, opts) {
     }),
     hydrationData: (opts == null ? void 0 : opts.hydrationData) || parseHydrationData(),
     routes,
-    mapRouteProperties
+    mapRouteProperties,
+    window: opts == null ? void 0 : opts.window
   }).initialize();
 }
 function parseHydrationData() {
@@ -29853,15 +29871,181 @@ function deserializeErrors(errors) {
   }
   return serialized;
 }
+var ViewTransitionContext = /* @__PURE__ */ React6.createContext({
+  isTransitioning: false
+});
+if (true) {
+  ViewTransitionContext.displayName = "ViewTransition";
+}
 var START_TRANSITION2 = "startTransition";
 var startTransitionImpl2 = React6[START_TRANSITION2];
-function HistoryRouter(_ref3) {
+function startTransitionSafe(cb) {
+  if (startTransitionImpl2) {
+    startTransitionImpl2(cb);
+  } else {
+    cb();
+  }
+}
+var Deferred = class {
+  constructor() {
+    this.status = "pending";
+    this.promise = new Promise((resolve2, reject) => {
+      this.resolve = (value) => {
+        if (this.status === "pending") {
+          this.status = "resolved";
+          resolve2(value);
+        }
+      };
+      this.reject = (reason) => {
+        if (this.status === "pending") {
+          this.status = "rejected";
+          reject(reason);
+        }
+      };
+    });
+  }
+};
+function RouterProvider(_ref2) {
+  let {
+    fallbackElement,
+    router: router2,
+    future
+  } = _ref2;
+  let [state, setStateImpl] = React6.useState(router2.state);
+  let [pendingState, setPendingState] = React6.useState();
+  let [vtContext, setVtContext] = React6.useState({
+    isTransitioning: false
+  });
+  let [renderDfd, setRenderDfd] = React6.useState();
+  let [transition, setTransition] = React6.useState();
+  let [interruption, setInterruption] = React6.useState();
+  let {
+    v7_startTransition
+  } = future || {};
+  let optInStartTransition = React6.useCallback((cb) => {
+    if (v7_startTransition) {
+      startTransitionSafe(cb);
+    } else {
+      cb();
+    }
+  }, [v7_startTransition]);
+  let setState = React6.useCallback((newState, _ref22) => {
+    let {
+      unstable_viewTransitionOpts: viewTransitionOpts
+    } = _ref22;
+    if (!viewTransitionOpts || router2.window == null || typeof router2.window.document.startViewTransition !== "function") {
+      optInStartTransition(() => setStateImpl(newState));
+    } else if (transition && renderDfd) {
+      renderDfd.resolve();
+      transition.skipTransition();
+      setInterruption({
+        state: newState,
+        currentLocation: viewTransitionOpts.currentLocation,
+        nextLocation: viewTransitionOpts.nextLocation
+      });
+    } else {
+      setPendingState(newState);
+      setVtContext({
+        isTransitioning: true,
+        currentLocation: viewTransitionOpts.currentLocation,
+        nextLocation: viewTransitionOpts.nextLocation
+      });
+    }
+  }, [optInStartTransition, transition, renderDfd, router2.window]);
+  React6.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
+  React6.useEffect(() => {
+    if (vtContext.isTransitioning) {
+      setRenderDfd(new Deferred());
+    }
+  }, [vtContext.isTransitioning]);
+  React6.useEffect(() => {
+    if (renderDfd && pendingState && router2.window) {
+      let newState = pendingState;
+      let renderPromise = renderDfd.promise;
+      let transition2 = router2.window.document.startViewTransition(async () => {
+        optInStartTransition(() => setStateImpl(newState));
+        await renderPromise;
+      });
+      transition2.finished.finally(() => {
+        setRenderDfd(void 0);
+        setTransition(void 0);
+        setPendingState(void 0);
+        setVtContext({
+          isTransitioning: false
+        });
+      });
+      setTransition(transition2);
+    }
+  }, [optInStartTransition, pendingState, renderDfd, router2.window]);
+  React6.useEffect(() => {
+    if (renderDfd && pendingState && state.location.key === pendingState.location.key) {
+      renderDfd.resolve();
+    }
+  }, [renderDfd, transition, state.location, pendingState]);
+  React6.useEffect(() => {
+    if (!vtContext.isTransitioning && interruption) {
+      setPendingState(interruption.state);
+      setVtContext({
+        isTransitioning: true,
+        currentLocation: interruption.currentLocation,
+        nextLocation: interruption.nextLocation
+      });
+      setInterruption(void 0);
+    }
+  }, [vtContext.isTransitioning, interruption]);
+  let navigator2 = React6.useMemo(() => {
+    return {
+      createHref: router2.createHref,
+      encodeLocation: router2.encodeLocation,
+      go: (n2) => router2.navigate(n2),
+      push: (to2, state2, opts) => router2.navigate(to2, {
+        state: state2,
+        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+      }),
+      replace: (to2, state2, opts) => router2.navigate(to2, {
+        replace: true,
+        state: state2,
+        preventScrollReset: opts == null ? void 0 : opts.preventScrollReset
+      })
+    };
+  }, [router2]);
+  let basename = router2.basename || "/";
+  let dataRouterContext = React6.useMemo(() => ({
+    router: router2,
+    navigator: navigator2,
+    static: false,
+    basename
+  }), [router2, navigator2, basename]);
+  return /* @__PURE__ */ React6.createElement(React6.Fragment, null, /* @__PURE__ */ React6.createElement(DataRouterContext.Provider, {
+    value: dataRouterContext
+  }, /* @__PURE__ */ React6.createElement(DataRouterStateContext.Provider, {
+    value: state
+  }, /* @__PURE__ */ React6.createElement(ViewTransitionContext.Provider, {
+    value: vtContext
+  }, /* @__PURE__ */ React6.createElement(Router, {
+    basename,
+    location: state.location,
+    navigationType: state.historyAction,
+    navigator: navigator2
+  }, state.initialized ? /* @__PURE__ */ React6.createElement(DataRoutes, {
+    routes: router2.routes,
+    state
+  }) : fallbackElement)))), null);
+}
+function DataRoutes(_ref3) {
+  let {
+    routes,
+    state
+  } = _ref3;
+  return useRoutesImpl(routes, void 0, state);
+}
+function HistoryRouter(_ref6) {
   let {
     basename,
     children,
     future,
     history
-  } = _ref3;
+  } = _ref6;
   let [state, setStateImpl] = React6.useState({
     action: history.action,
     location: history.location
@@ -29886,7 +30070,7 @@ if (true) {
 }
 var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 var ABSOLUTE_URL_REGEX2 = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref4, ref) {
+var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref7, ref) {
   let {
     onClick,
     relative,
@@ -29895,8 +30079,9 @@ var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref4, ref) {
     state,
     target,
     to: to2,
-    preventScrollReset
-  } = _ref4, rest = _objectWithoutPropertiesLoose2(_ref4, _excluded);
+    preventScrollReset,
+    unstable_viewTransition
+  } = _ref7, rest = _objectWithoutPropertiesLoose2(_ref7, _excluded);
   let {
     basename
   } = React6.useContext(NavigationContext);
@@ -29927,7 +30112,8 @@ var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref4, ref) {
     state,
     target,
     preventScrollReset,
-    relative
+    relative,
+    unstable_viewTransition
   });
   function handleClick(event) {
     if (onClick)
@@ -29949,7 +30135,7 @@ var Link = /* @__PURE__ */ React6.forwardRef(function LinkWithRef(_ref4, ref) {
 if (true) {
   Link.displayName = "Link";
 }
-var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref5, ref) {
+var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref8, ref) {
   let {
     "aria-current": ariaCurrentProp = "page",
     caseSensitive = false,
@@ -29957,8 +30143,9 @@ var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref5, r
     end: end3 = false,
     style: styleProp,
     to: to2,
+    unstable_viewTransition,
     children
-  } = _ref5, rest = _objectWithoutPropertiesLoose2(_ref5, _excluded2);
+  } = _ref8, rest = _objectWithoutPropertiesLoose2(_ref8, _excluded2);
   let path = useResolvedPath(to2, {
     relative: rest.relative
   });
@@ -29967,6 +30154,9 @@ var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref5, r
   let {
     navigator: navigator2
   } = React6.useContext(NavigationContext);
+  let isTransitioning = routerState != null && // Conditional usage is OK here because the usage of a data router is static
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useViewTransitionState(path) && unstable_viewTransition === true;
   let toPathname = navigator2.encodeLocation ? navigator2.encodeLocation(path).pathname : path.pathname;
   let locationPathname = location2.pathname;
   let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -29977,30 +30167,27 @@ var NavLink = /* @__PURE__ */ React6.forwardRef(function NavLinkWithRef(_ref5, r
   }
   let isActive = locationPathname === toPathname || !end3 && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
   let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end3 && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+  let renderProps = {
+    isActive,
+    isPending,
+    isTransitioning
+  };
   let ariaCurrent = isActive ? ariaCurrentProp : void 0;
   let className;
   if (typeof classNameProp === "function") {
-    className = classNameProp({
-      isActive,
-      isPending
-    });
+    className = classNameProp(renderProps);
   } else {
-    className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null].filter(Boolean).join(" ");
+    className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null, isTransitioning ? "transitioning" : null].filter(Boolean).join(" ");
   }
-  let style = typeof styleProp === "function" ? styleProp({
-    isActive,
-    isPending
-  }) : styleProp;
+  let style = typeof styleProp === "function" ? styleProp(renderProps) : styleProp;
   return /* @__PURE__ */ React6.createElement(Link, _extends4({}, rest, {
     "aria-current": ariaCurrent,
     className,
     ref,
     style,
-    to: to2
-  }), typeof children === "function" ? children({
-    isActive,
-    isPending
-  }) : children);
+    to: to2,
+    unstable_viewTransition
+  }), typeof children === "function" ? children(renderProps) : children);
 });
 if (true) {
   NavLink.displayName = "NavLink";
@@ -30015,7 +30202,7 @@ var Form = /* @__PURE__ */ React6.forwardRef((props, ref) => {
 if (true) {
   Form.displayName = "Form";
 }
-var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref6, forwardedRef) => {
+var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref9, forwardedRef) => {
   let {
     reloadDocument,
     replace: replace4,
@@ -30025,8 +30212,9 @@ var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref6, forwardedRef) => {
     onSubmit,
     submit,
     relative,
-    preventScrollReset
-  } = _ref6, props = _objectWithoutPropertiesLoose2(_ref6, _excluded3);
+    preventScrollReset,
+    unstable_viewTransition
+  } = _ref9, props = _objectWithoutPropertiesLoose2(_ref9, _excluded3);
   let formMethod = method.toLowerCase() === "get" ? "get" : "post";
   let formAction = useFormAction(action, {
     relative
@@ -30043,7 +30231,8 @@ var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref6, forwardedRef) => {
       replace: replace4,
       state,
       relative,
-      preventScrollReset
+      preventScrollReset,
+      unstable_viewTransition
     });
   };
   return /* @__PURE__ */ React6.createElement("form", _extends4({
@@ -30056,11 +30245,11 @@ var FormImpl = /* @__PURE__ */ React6.forwardRef((_ref6, forwardedRef) => {
 if (true) {
   FormImpl.displayName = "FormImpl";
 }
-function ScrollRestoration(_ref7) {
+function ScrollRestoration(_ref10) {
   let {
     getKey,
     storageKey
-  } = _ref7;
+  } = _ref10;
   useScrollRestoration({
     getKey,
     storageKey
@@ -30076,6 +30265,7 @@ var DataRouterHook2;
   DataRouterHook3["UseSubmit"] = "useSubmit";
   DataRouterHook3["UseSubmitFetcher"] = "useSubmitFetcher";
   DataRouterHook3["UseFetcher"] = "useFetcher";
+  DataRouterHook3["useViewTransitionState"] = "useViewTransitionState";
 })(DataRouterHook2 || (DataRouterHook2 = {}));
 var DataRouterStateHook2;
 (function(DataRouterStateHook3) {
@@ -30101,7 +30291,8 @@ function useLinkClickHandler(to2, _temp) {
     replace: replaceProp,
     state,
     preventScrollReset,
-    relative
+    relative,
+    unstable_viewTransition
   } = _temp === void 0 ? {} : _temp;
   let navigate = useNavigate();
   let location2 = useLocation();
@@ -30116,10 +30307,11 @@ function useLinkClickHandler(to2, _temp) {
         replace: replace4,
         state,
         preventScrollReset,
-        relative
+        relative,
+        unstable_viewTransition
       });
     }
-  }, [location2, navigate, path, replaceProp, state, target, to2, preventScrollReset, relative]);
+  }, [location2, navigate, path, replaceProp, state, target, to2, preventScrollReset, relative, unstable_viewTransition]);
 }
 function useSearchParams(defaultInit) {
   true ? warning2(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params\n\nIf you're unsure how to load polyfills, we recommend you check out https://polyfill.io/v3/ which provides some recommendations about how to load polyfills only for users that need them, instead of for every user.") : void 0;
@@ -30173,7 +30365,8 @@ function useSubmit() {
       formEncType: options2.encType || encType,
       replace: options2.replace,
       state: options2.state,
-      fromRouteId: currentRouteId
+      fromRouteId: currentRouteId,
+      unstable_viewTransition: options2.unstable_viewTransition
     });
   }, [router2, basename, currentRouteId]);
 }
@@ -30238,7 +30431,11 @@ function useScrollRestoration(_temp3) {
       let key = (getKey ? getKey(location2, matches) : null) || location2.key;
       savedScrollPositions[key] = window.scrollY;
     }
-    sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
+    try {
+      sessionStorage.setItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY, JSON.stringify(savedScrollPositions));
+    } catch (error) {
+      true ? warning2(false, "Failed to save scroll positions in sessionStorage, <ScrollRestoration /> will not work properly (" + error + ").") : void 0;
+    }
     window.history.scrollRestoration = "auto";
   }, [storageKey, getKey, navigation.state, location2, matches]));
   if (typeof document !== "undefined") {
@@ -30297,6 +30494,25 @@ function usePageHide(callback2, options2) {
       window.removeEventListener("pagehide", callback2, opts);
     };
   }, [callback2, capture]);
+}
+function useViewTransitionState(to2, opts) {
+  if (opts === void 0) {
+    opts = {};
+  }
+  let vtContext = React6.useContext(ViewTransitionContext);
+  !(vtContext != null) ? true ? invariant(false, "`unstable_useViewTransitionState` must be used within `react-router-dom`'s `RouterProvider`.  Did you accidentally import `RouterProvider` from `react-router`?") : invariant(false) : void 0;
+  let {
+    basename
+  } = useDataRouterContext2(DataRouterHook2.useViewTransitionState);
+  let path = useResolvedPath(to2, {
+    relative: opts.relative
+  });
+  if (!vtContext.isTransitioning) {
+    return false;
+  }
+  let currentPath = stripBasename(vtContext.currentLocation.pathname, basename) || vtContext.currentLocation.pathname;
+  let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
+  return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
 
 // node_modules/immer/dist/immer.esm.mjs
@@ -44115,7 +44331,7 @@ function _addGrace(minmax, grace, beginAtZero) {
     max: keepZero(max, change)
   };
 }
-function createContext3(parentContext, context) {
+function createContext4(parentContext, context) {
   return Object.assign(Object.create(parentContext), context);
 }
 function _createResolver(scopes, prefixes2 = [
@@ -45074,7 +45290,7 @@ function doSplitByStyles(line2, segments, points, segmentOptions) {
     let style;
     for (i2 = start + 1; i2 <= segment.end; i2++) {
       const pt = points[i2 % count];
-      style = readStyle(segmentOptions.setContext(createContext3(chartContext, {
+      style = readStyle(segmentOptions.setContext(createContext4(chartContext, {
         type: "segment",
         p0: prev2,
         p1: pt,
@@ -45631,7 +45847,7 @@ function getFirstScaleId(chart, axis) {
   return Object.keys(scales).filter((key) => scales[key].axis === axis).shift();
 }
 function createDatasetContext(parent, index) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     active: false,
     dataset: void 0,
     datasetIndex: index,
@@ -45641,7 +45857,7 @@ function createDatasetContext(parent, index) {
   });
 }
 function createDataContext(parent, index, element) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     active: false,
     dataIndex: index,
     parsed: void 0,
@@ -47942,13 +48158,13 @@ function getTitleHeight(options2, fallback) {
   return lines * font.lineHeight + padding.height;
 }
 function createScaleContext(parent, scale) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     scale,
     type: "scale"
   });
 }
 function createTickContext(parent, index, tick) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     tick,
     index,
     type: "tick"
@@ -50410,7 +50626,7 @@ var Chart = class {
     return meta;
   }
   getContext() {
-    return this.$context || (this.$context = createContext3(null, {
+    return this.$context || (this.$context = createContext4(null, {
       chart: this,
       type: "chart"
     }));
@@ -52157,7 +52373,7 @@ function getBeforeAfterBodyLines(callback2) {
   return pushOrConcat([], splitNewlines(callback2));
 }
 function createTooltipContext(parent, tooltip, tooltipItems) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     tooltip,
     tooltipItems,
     type: "tooltip"
@@ -53689,7 +53905,7 @@ function drawRadiusLine(scale, gridLineOpts, radius, labelCount, borderOpts) {
   ctx.restore();
 }
 function createPointLabelContext(parent, index, label) {
-  return createContext3(parent, {
+  return createContext4(parent, {
     label,
     index,
     type: "pointLabel"
@@ -56806,7 +57022,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.9.0
+   * @remix-run/router v1.10.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56818,7 +57034,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.16.0
+   * React Router v6.17.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56830,7 +57046,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.16.0
+   * React Router DOM v6.17.0
    *
    * Copyright (c) Remix Software Inc.
    *
