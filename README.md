@@ -10,6 +10,8 @@ Technical goals for the project included spinning up a Node app from zero, scopi
 
 ## Installation
 
+### Getting up and running
+
 After cloning this repository, make a new `.env` file in the root directory, using the following block as a template. If the values for `DB_USER` and `DB_DATABASE` aren't your thing, edit `config/docker/db/init/init.sql` to match your new values before you build the project. _Never commit a `.env` file to a repository._
 
 ```env
@@ -21,7 +23,7 @@ DB_PORT=3306
 DB_SOCKET=""
 ```
 
-Front-end assets are built and managed locally. Install packages with Yarn:
+Install app packages with Yarn:
 
 ```
 yarn install
@@ -33,6 +35,14 @@ docker compose up
 ```
 
 Once the containers are running, pop open a web browser and navigate to `http://localhost:3000`
+
+### Making changes to the front-end
+
+Front-end assets are built and managed locally. If you want to make changes to the site's user interface, `cd` into `assets` and install the packages there:
+
+```
+yarn install
+```
 
 ## Ongoing Development
 
