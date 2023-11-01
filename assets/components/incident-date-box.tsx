@@ -8,13 +8,9 @@ import type { IncidentFirstOrLast } from '../types';
 
 interface Props {
   incident: IncidentFirstOrLast;
-  title: string;
 }
 
-const IncidentDateBox = ({
-  incident,
-  title,
-}: Props) => {
+const IncidentDateBox = ({ incident }: Props) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event: MouseEvent) => {
@@ -31,16 +27,16 @@ const IncidentDateBox = ({
   if (!incident) return null;
 
   return (
-    <StatBox title={title} icon='calendar'>
+    <StatBox title={incident.label} icon='calendar'>
       <LinkToIncident
-        id={incident.id}
+        id={incident.value.id}
         onClick={handleLinkClick}
       >
-        {incident.contactDate}
+        {incident.value.contactDate}
       </LinkToIncident>
       <IncidentModal
         deactivate={deactivate}
-        id={incident.id}
+        id={incident.value.id}
         isActive={isActive}
       />
     </StatBox>

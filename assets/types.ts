@@ -61,7 +61,10 @@ export type Incident = {
   attendees: Attendees;
 };
 
-export type IncidentFirstOrLast = Pick<Incident, 'id' | 'contactDate'>;
+export type IncidentFirstOrLast = {
+  label: string;
+  value: Pick<Incident, 'id' | 'contactDate'>;
+};
 
 export type Incidents = Incident[];
 
@@ -94,12 +97,16 @@ type ListParams = {
 
 export type NewParams = IncidentsFilters & ListParams;
 
-export type IncidentsOverview = {
-  filters?: IncidentsFilters;
+type IncidentsStats = {
   first?: IncidentFirstOrLast;
   last?: IncidentFirstOrLast;
   percentage: string;
   total: number;
+};
+
+export type IncidentsOverview = {
+  filters?: IncidentsFilters;
+  stats: IncidentsStats;
 };
 
 export type IncidentRecords = {

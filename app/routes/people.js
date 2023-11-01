@@ -172,7 +172,18 @@ router.get('/:id', async (req, res, next) => {
                 path: links.person(id),
                 params,
               }),
-              ...incidentsStats,
+              stats: {
+                first: {
+                  label: 'First appearance',
+                  value: incidentsStats.first,
+                },
+                last: {
+                  label: 'Most recent appearance',
+                  value: incidentsStats.last,
+                },
+                percentage: incidentsStats.percentage,
+                total: incidentsStats.total,
+              },
             },
           },
         },

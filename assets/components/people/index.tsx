@@ -27,7 +27,7 @@ interface PersonItemProps {
 
 export const PersonItem = ({ id }: PersonItemProps) => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasTotal = Boolean(person?.incidents?.total);
+  const hasTotal = Boolean(person?.incidents?.stats.total);
   const incidentTotal = useSelector(getIncidentTotal);
 
   if (!person) return null;
@@ -46,8 +46,8 @@ export const PersonItem = ({ id }: PersonItemProps) => {
       </td>
       {hasTotal ? (
         <>
-          <td className='cell-total'>{person.incidents.total}</td>
-          <td className='cell-percent'>{percentage(person.incidents.total, incidentTotal)}%</td>
+          <td className='cell-total'>{person.incidents.stats.total}</td>
+          <td className='cell-percent'>{percentage(person.incidents.stats.total, incidentTotal)}%</td>
         </>
       ) : (
         <>

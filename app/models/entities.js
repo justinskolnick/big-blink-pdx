@@ -15,7 +15,9 @@ const adaptResult = (result) => {
 
   if (result.total) {
     adapted.incidents = {
-      total: result.total,
+      stats: {
+        total: result.total,
+      },
     };
   }
 

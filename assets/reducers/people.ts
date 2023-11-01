@@ -23,12 +23,9 @@ export const adapters = {
     if (person.incidents) {
       const {
         filters,
-        first,
-        last,
         pagination,
-        percentage,
         records,
-        total,
+        stats,
       } = person.incidents;
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
@@ -36,11 +33,8 @@ export const adapters = {
         ...person,
         incidents: {
           filters,
-          first,
-          last,
           pagination,
-          percentage,
-          total,
+          stats,
           ...ids,
         },
       };

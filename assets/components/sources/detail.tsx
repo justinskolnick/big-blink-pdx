@@ -132,12 +132,6 @@ const Detail = () => {
         <>
           <ActivityOverview
             incidents={incidents}
-            labels={{
-              incidents: {
-                first: `First reported incident of ${label}`,
-                last: `Last reported incident of ${label}`,
-              }
-            }}
             scrollToRef={scrollToRef}
           >
             <Chart label={label} />

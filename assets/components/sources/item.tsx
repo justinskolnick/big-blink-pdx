@@ -105,7 +105,7 @@ const Source = ({ id }: Props) => {
 
       <div className='item-source-quarter-description'>
         <h6>{source.title}</h6>
-        <p>{source.incidents?.total} incidents</p>
+        <p>{source.incidents?.stats.total} incidents</p>
       </div>
     </LinkToSource>
   );

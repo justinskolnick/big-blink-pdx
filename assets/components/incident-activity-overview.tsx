@@ -64,26 +64,15 @@ const styles = css`
   }
 `;
 
-type IncidentsLabels = {
-  first: string;
-  last: string;
-};
-
-type Labels = {
-  incidents: IncidentsLabels;
-};
-
 interface Props {
   children: ReactNode;
   incidents: IncidentsOverview;
-  labels?: Labels;
   scrollToRef: () => void;
 }
 
 const ActivityOverview = ({
   children,
   incidents,
-  labels,
   scrollToRef,
 }: Props) => (
   <div className={cx('activity-overview', styles)}>
@@ -91,26 +80,20 @@ const ActivityOverview = ({
       <StatGroup className='activity-numbers-and-dates'>
         <NumbersGroup>
           <IncidentCountBox title='Percent of total'>
-            {incidents.percentage}%
+            {incidents.stats.percentage}%
           </IncidentCountBox>
           <IncidentCountBox
             onClick={scrollToRef}
             title='Incidents'
             className='activity-stat-action'
           >
-            {incidents.total}
+            {incidents.stats.total}
           </IncidentCountBox>
         </NumbersGroup>
 
         <IncidentStatGroup className='activity-dates'>
-          <DateBox
-            title={labels?.incidents?.first || 'First appearance'}
-            incident={incidents.first}
-          />
-          <DateBox
-            title={labels?.incidents?.last || 'Most recent appearance'}
-            incident={incidents.last}
-          />
+          <DateBox incident={incidents.stats.first} />
+          <DateBox incident={incidents.stats.last} />
         </IncidentStatGroup>
       </StatGroup>
     </StatSection>

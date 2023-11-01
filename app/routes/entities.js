@@ -187,7 +187,18 @@ router.get('/:id', async (req, res, next) => {
                 perPage,
                 total: incidentsStats.paginationTotal,
               }),
-              ...incidentsStats,
+              stats: {
+                first: {
+                  label: 'First appearance',
+                  value: incidentsStats.first,
+                },
+                last: {
+                  label: 'Most recent appearance',
+                  value: incidentsStats.last,
+                },
+                percentage: incidentsStats.percentage,
+                total: incidentsStats.total,
+              },
             },
             attendees,
           },
