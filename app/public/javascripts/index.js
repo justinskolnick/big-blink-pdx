@@ -40316,16 +40316,15 @@ var styles6 = css`
   color: var(--color-text-lighter);
 
   .global-footer-navigation {
-    ul {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 14px;
-      line-height: 27px;
-    }
-
-    li {
-      white-space: nowrap;
+    .global-footer-navigation-title {
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: none;
+        color: var(--color-black);
+        white-space: nowrap;
+      }
 
       .eyes {
         width: 52px;
@@ -40344,11 +40343,29 @@ var styles6 = css`
         }
       }
 
-      &:first-child {
-        margin-right: calc(var(--gap) / 2);
+      h6 {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 27px;
       }
 
-      &:not(:first-child):not(:last-child) {
+      .eyes + h6 {
+        margin-left: calc(var(--gap) / 2);
+      }
+    }
+
+    ul {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 14px;
+      line-height: 27px;
+    }
+
+    li {
+      white-space: nowrap;
+
+      &:not(:last-child) {
         &::after {
           content: '·';
           margin-left: calc(var(--gap) / 2);
@@ -40356,21 +40373,10 @@ var styles6 = css`
         }
       }
     }
-
-    a {
-      .icon {
-        color: var(--color-black);
-      }
-
-      &[href='/'] {
-        color: var(--color-black);
-        font-weight: 600;
-      }
-    }
   }
 
   .global-footer-navigation + .global-footer-content {
-    margin-top: var(--gap);
+    margin-top: calc(var(--gap) * 2);
   }
 
   h6,
@@ -40407,17 +40413,39 @@ var styles6 = css`
   @media screen and (max-width: 600px) {
     padding-left: var(--layout-margin);
     padding-right: var(--layout-margin);
+
+    .global-footer-navigation {
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-top: calc(var(--gap) / 2);
+      }
+    }
+  }
+
+  @media screen and (min-width: 601px) {
+    .global-footer-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-left: calc(var(--gap) * 2);
+      }
+    }
   }
 `;
 var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("footer", { className: cx("global-footer", styles6), children: [
-  /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("nav", { className: "global-footer-navigation", "aria-label": "Global Navigation", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("ul", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(eyes_default, {}) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/", children: "The Big Blink" }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/incidents", children: "Incidents" }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/entities", children: "Entities" }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/people", children: "People" }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/sources", children: "Data Sources" }) })
-  ] }) }),
+  /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("nav", { className: "global-footer-navigation", "aria-label": "Global Navigation", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "global-footer-navigation-title", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(GlobalLink, { to: "/", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(eyes_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h6", { children: "The Big Blink" })
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("ul", { className: "global-footer-navigation-links", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/incidents", children: "Incidents" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/entities", children: "Entities" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/people", children: "People" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(GlobalLink, { to: "/sources", children: "Data Sources" }) })
+    ] })
+  ] }),
   /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("section", { className: "global-footer-content", children: [
     /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h6", { children: "About" }),
     /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("p", { children: [

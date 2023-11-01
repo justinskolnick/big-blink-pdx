@@ -8,16 +8,15 @@ const styles = css`
   color: var(--color-text-lighter);
 
   .global-footer-navigation {
-    ul {
-      display: inline-flex;
-      align-items: center;
-      flex-wrap: wrap;
-      font-size: 14px;
-      line-height: 27px;
-    }
-
-    li {
-      white-space: nowrap;
+    .global-footer-navigation-title {
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: none;
+        color: var(--color-black);
+        white-space: nowrap;
+      }
 
       .eyes {
         width: 52px;
@@ -36,11 +35,29 @@ const styles = css`
         }
       }
 
-      &:first-child {
-        margin-right: calc(var(--gap) / 2);
+      h6 {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 27px;
       }
 
-      &:not(:first-child):not(:last-child) {
+      .eyes + h6 {
+        margin-left: calc(var(--gap) / 2);
+      }
+    }
+
+    ul {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 14px;
+      line-height: 27px;
+    }
+
+    li {
+      white-space: nowrap;
+
+      &:not(:last-child) {
         &::after {
           content: '·';
           margin-left: calc(var(--gap) / 2);
@@ -48,21 +65,10 @@ const styles = css`
         }
       }
     }
-
-    a {
-      .icon {
-        color: var(--color-black);
-      }
-
-      &[href='/'] {
-        color: var(--color-black);
-        font-weight: 600;
-      }
-    }
   }
 
   .global-footer-navigation + .global-footer-content {
-    margin-top: var(--gap);
+    margin-top: calc(var(--gap) * 2);
   }
 
   h6,
@@ -99,15 +105,38 @@ const styles = css`
   @media screen and (max-width: 600px) {
     padding-left: var(--layout-margin);
     padding-right: var(--layout-margin);
+
+    .global-footer-navigation {
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-top: calc(var(--gap) / 2);
+      }
+    }
+  }
+
+  @media screen and (min-width: 601px) {
+    .global-footer-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-left: calc(var(--gap) * 2);
+      }
+    }
   }
 `;
 
 const GlobalFooter = () => (
   <footer className={cx('global-footer', styles)}>
     <nav className='global-footer-navigation' aria-label='Global Navigation'>
-      <ul>
-        <li><GlobalLink to='/'><Eyes /></GlobalLink></li>
-        <li><GlobalLink to='/'>The Big Blink</GlobalLink></li>
+      <div className='global-footer-navigation-title'>
+        <GlobalLink to='/'>
+          <Eyes />
+          <h6>The Big Blink</h6>
+        </GlobalLink>
+      </div>
+
+      <ul className='global-footer-navigation-links'>
         <li><GlobalLink to='/incidents'>Incidents</GlobalLink></li>
         <li><GlobalLink to='/entities'>Entities</GlobalLink></li>
         <li><GlobalLink to='/people'>People</GlobalLink></li>
