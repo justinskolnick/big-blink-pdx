@@ -42616,9 +42616,7 @@ var styles26 = css`
   }
 
   .activity-stat-group + .activity-stat-group {
-    margin-top: calc(2 * var(--gap));
-    padding-top: calc(2 * var(--gap));
-    border-top: 1px solid var(--color-divider);
+    margin-top: calc(var(--gap) * 3);
   }
 
   @media screen and (min-width: 813px) {
@@ -42659,7 +42657,12 @@ var styles27 = css`
   }
 
   .item-subhead + .item-subsection {
-    margin-top: calc(2 * var(--gap));
+    margin-top: calc(var(--gap) * 1);
+  }
+
+  .activity-stat-titles {
+    font-size: 13px;
+    font-weight: 200;
   }
 
   .activity-stat-value {

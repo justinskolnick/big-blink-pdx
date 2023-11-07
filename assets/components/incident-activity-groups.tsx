@@ -10,9 +10,7 @@ const styles = css`
   }
 
   .activity-stat-group + .activity-stat-group {
-    margin-top: calc(2 * var(--gap));
-    padding-top: calc(2 * var(--gap));
-    border-top: 1px solid var(--color-divider);
+    margin-top: calc(var(--gap) * 3);
   }
 
   @media screen and (min-width: 813px) {

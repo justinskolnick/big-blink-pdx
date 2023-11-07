@@ -17,7 +17,12 @@ const styles = css`
   }
 
   .item-subhead + .item-subsection {
-    margin-top: calc(2 * var(--gap));
+    margin-top: var(--gap);
+  }
+
+  .activity-stat-titles {
+    font-size: 13px;
+    font-weight: 200;
   }
 
   .activity-stat-value {
