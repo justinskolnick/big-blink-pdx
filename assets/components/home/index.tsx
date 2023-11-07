@@ -8,12 +8,12 @@ import OfficialsLeaderboard from './leaderboard-officials';
 import Section from '../section';
 
 const styles = css`
-  .welcome-section + .welcome-section {
+  .item-overview-chart + .leaderboard-subsection {
     margin-top: calc(3 * var(--gap));
   }
 
   @media screen and (max-width: 600px) {
-    .welcome-section {
+    .section {
       .section-header-title {
         h2 {
           font-size: 24px;
@@ -26,18 +26,10 @@ const styles = css`
 const Home = () => (
   <div className={cx('welcome', styles)}>
     <Section
-      className='welcome-section'
       icon='chart-simple'
       title='Lobbying activity over time'
     >
       <Chart />
-    </Section>
-
-    <Section
-      className='welcome-section'
-      icon='trophy'
-      title='Leaderboard'
-    >
       <EntitiesLeaderboard />
       <LobbyistsLeaderboard />
       <OfficialsLeaderboard />

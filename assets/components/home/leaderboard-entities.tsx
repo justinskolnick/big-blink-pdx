@@ -15,7 +15,9 @@ import SubsectionSubhead from '../subsection-subhead';
 
 const EntitiesLeaderboard = () => {
   const result = useSelector(getEntitiesLeaderboard);
-  const ids = result?.all ?? [];
+  const all = result?.all;
+  const label = all?.label ?? '';
+  const ids = all?.ids ?? [];
   const hasIds = ids.length > 0;
 
   if (!hasIds) return null;
@@ -28,8 +30,8 @@ const EntitiesLeaderboard = () => {
 
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='building'>
-            Portland’s most active lobbying entities:
+          <ItemTextWithIcon icon='trophy'>
+            {label}:
           </ItemTextWithIcon>
         )} />
         <ItemTable hasPercent>

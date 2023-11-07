@@ -15,7 +15,9 @@ import SubsectionSubhead from '../subsection-subhead';
 
 const OfficialsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
-  const ids = result?.officials ?? [];
+  const officials = result?.officials;
+  const label = officials?.label ?? '';
+  const ids = officials?.ids ?? [];
   const hasIds = ids.length > 0;
 
   if (!hasIds) return null;
@@ -28,8 +30,8 @@ const OfficialsLeaderboard = () => {
 
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='building'>
-            Portland’s most lobbied officials:
+          <ItemTextWithIcon icon='trophy'>
+            {label}:
           </ItemTextWithIcon>
         )} />
         <ItemTable hasPercent>

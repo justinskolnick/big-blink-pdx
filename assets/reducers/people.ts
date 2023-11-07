@@ -6,6 +6,7 @@ import type {
   Ids,
   Incident,
   Incidents,
+  LeaderboardSet,
   Pagination,
   People,
   Person,
@@ -14,8 +15,8 @@ import type {
 
 type Leaderboard = {
   all: Ids;
-  lobbyists: Ids;
-  officials: Ids;
+  lobbyists: LeaderboardSet;
+  officials: LeaderboardSet;
 };
 
 export const adapters = {
@@ -56,8 +57,14 @@ export const peopleSlice = createSlice({
   name: 'people',
   initialState: adapter.getInitialState({
     leaderboard: {
-      lobbyists: [],
-      officials: [],
+      lobbyists: {
+        ids: [],
+        label: '',
+      },
+      officials: {
+        ids: [],
+        label: '',
+      },
     },
     pageIds: [],
     pagination: null,

@@ -15,7 +15,9 @@ import SubsectionSubhead from '../subsection-subhead';
 
 const LobbyistsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
-  const ids = result?.lobbyists ?? [];
+  const lobbyists = result?.lobbyists;
+  const label = lobbyists?.label ?? '';
+  const ids = lobbyists?.ids ?? [];
   const hasIds = ids.length > 0;
 
   if (!hasIds) return null;
@@ -28,8 +30,8 @@ const LobbyistsLeaderboard = () => {
 
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='building'>
-            Portland’s most active lobbyists:
+          <ItemTextWithIcon icon='trophy'>
+            {label}:
           </ItemTextWithIcon>
         )} />
         <ItemTable hasPercent>

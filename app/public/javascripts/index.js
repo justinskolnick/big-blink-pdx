@@ -33290,7 +33290,10 @@ var entitiesSlice = createSlice({
   name: "entities",
   initialState: adapter.getInitialState({
     leaderboard: {
-      all: []
+      all: {
+        ids: [],
+        label: ""
+      }
     },
     pageIds: [],
     pagination: null
@@ -33407,8 +33410,14 @@ var peopleSlice = createSlice({
   name: "people",
   initialState: adapter3.getInitialState({
     leaderboard: {
-      lobbyists: [],
-      officials: []
+      lobbyists: {
+        ids: [],
+        label: ""
+      },
+      officials: {
+        ids: [],
+        label: ""
+      }
     },
     pageIds: [],
     pagination: null
@@ -55888,14 +55897,19 @@ var subsection_group_default = LeaderboardSubsectionGroup2;
 var import_jsx_runtime61 = __toESM(require_jsx_runtime());
 var EntitiesLeaderboard = () => {
   const result = useSelector(getEntitiesLeaderboard);
-  const ids = result?.all ?? [];
+  const all = result?.all;
+  const label = all?.label ?? "";
+  const ids = all?.ids ?? [];
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(subsection_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(subsection_subhead_default, { title: "Lobbying Entities", children: "These lobbying entities are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_text_with_icon_default, { icon: "building", children: "Portland\u2019s most active lobbying entities:" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
+        label,
+        ":"
+      ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(EntityItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(LinkToEntities, { children: "View the full list of lobbying entities" }) }) })
     ] })
@@ -55979,14 +55993,19 @@ var people_default2 = Index2;
 var import_jsx_runtime63 = __toESM(require_jsx_runtime());
 var LobbyistsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
-  const ids = result?.lobbyists ?? [];
+  const lobbyists = result?.lobbyists;
+  const label = lobbyists?.label ?? "";
+  const ids = lobbyists?.ids ?? [];
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(subsection_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(subsection_subhead_default, { title: "Lobbyists", children: "These lobbyists are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_text_with_icon_default, { icon: "building", children: "Portland\u2019s most active lobbyists:" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
+        label,
+        ":"
+      ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(LinkToPeople, { children: "View all lobbyists in the full list of people" }) }) })
     ] })
@@ -55998,14 +56017,19 @@ var leaderboard_lobbyists_default = LobbyistsLeaderboard;
 var import_jsx_runtime64 = __toESM(require_jsx_runtime());
 var OfficialsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
-  const ids = result?.officials ?? [];
+  const officials = result?.officials;
+  const label = officials?.label ?? "";
+  const ids = officials?.ids ?? [];
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(subsection_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(subsection_subhead_default, { title: "City Officials", children: "These Portland City officials are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_text_with_icon_default, { icon: "building", children: "Portland\u2019s most lobbied officials:" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
+        label,
+        ":"
+      ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(LinkToPeople, { children: "View all officials in the full list of people" }) }) })
     ] })
@@ -56016,12 +56040,12 @@ var leaderboard_officials_default = OfficialsLeaderboard;
 // components/home/index.tsx
 var import_jsx_runtime65 = __toESM(require_jsx_runtime());
 var styles36 = css`
-  .welcome-section + .welcome-section {
+  .item-overview-chart + .leaderboard-subsection {
     margin-top: calc(3 * var(--gap));
   }
 
   @media screen and (max-width: 600px) {
-    .welcome-section {
+    .section {
       .section-header-title {
         h2 {
           font-size: 24px;
@@ -56030,30 +56054,19 @@ var styles36 = css`
     }
   }
 `;
-var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)("div", { className: cx("welcome", styles36), children: [
-  /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(
-    section_default,
-    {
-      className: "welcome-section",
-      icon: "chart-simple",
-      title: "Lobbying activity over time",
-      children: /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(chart_default2, {})
-    }
-  ),
-  /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
-    section_default,
-    {
-      className: "welcome-section",
-      icon: "trophy",
-      title: "Leaderboard",
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_entities_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_lobbyists_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_officials_default, {})
-      ]
-    }
-  )
-] });
+var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsx)("div", { className: cx("welcome", styles36), children: /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
+  section_default,
+  {
+    icon: "chart-simple",
+    title: "Lobbying activity over time",
+    children: [
+      /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(chart_default2, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_entities_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_lobbyists_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_officials_default, {})
+    ]
+  }
+) });
 var home_default = Home;
 
 // components/incidents/index.tsx

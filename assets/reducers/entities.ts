@@ -9,11 +9,12 @@ import type {
   Ids,
   Incident,
   Incidents,
+  LeaderboardSet,
   Pagination,
 } from '../types';
 
 type Leaderboard = {
-  all: Ids;
+  all: LeaderboardSet;
 };
 
 export const adapters = {
@@ -54,7 +55,10 @@ export const entitiesSlice = createSlice({
   name: 'entities',
   initialState: adapter.getInitialState({
     leaderboard: {
-      all: [],
+      all: {
+        ids: [],
+        label: '',
+      },
     },
     pageIds: [],
     pagination: null,

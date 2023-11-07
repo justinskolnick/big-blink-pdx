@@ -58,14 +58,23 @@ router.get('/', async (req, res, next) => {
         entities: {
           records: entitiesResult,
           leaderboard: {
-            all: entitiesResult.map(item => item.id),
+            all: {
+              label: 'Portland’s most active lobbying entities',
+              ids: entitiesResult.map(item => item.id),
+            },
           }
         },
         people: {
           records: peopleResult,
           leaderboard: {
-            lobbyists: lobbyistsResult.map(item => item.id),
-            officials: officialsResult.map(item => item.id),
+            lobbyists: {
+              label: 'Portland’s most active lobbyists',
+              ids: lobbyistsResult.map(item => item.id),
+            },
+            officials: {
+              label: 'Portland’s most lobbied officials',
+              ids: officialsResult.map(item => item.id),
+            },
           }
         },
       };

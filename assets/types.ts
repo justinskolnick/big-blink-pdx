@@ -97,6 +97,11 @@ type ListParams = {
 
 export type NewParams = IncidentsFilters & ListParams;
 
+export type LeaderboardSet = {
+  ids: Ids;
+  label: string;
+};
+
 type IncidentsStats = {
   first?: IncidentFirstOrLast;
   last?: IncidentFirstOrLast;
