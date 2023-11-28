@@ -272,7 +272,7 @@ const GlobalHeader = () => {
 
         {hasData && (
           <p>
-            remixes public lobbying data published by the City of Portland, Oregon, including
+            remixes lobbying data published by the City of Portland, Oregon, including
             {' '}
             <LinkToIncidents>{total} lobbying incidents</LinkToIncidents>
             {' '}

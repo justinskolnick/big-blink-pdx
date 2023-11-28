@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**The Big Blink PDX** is a website that remixes public lobbying data published by the City of Portland, Oregon, with the primary goal of surfacing relationships and highlighting activity over time.
+**The Big Blink PDX** is a website that remixes lobbying data published by the City of Portland, Oregon, with the primary goal of surfacing relationships and highlighting activity over time.
 
 The site's Express/Node.js back-end functions as a REST API for a React front-end driven by React Router and Redux. The front-end is TypeScript. The full production database and downloaded records are included in the repository.
 

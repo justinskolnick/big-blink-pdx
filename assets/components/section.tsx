@@ -1,62 +1,112 @@
 import React, { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx, css } from '@emotion/css';
 
-import SectionHeader from './section-header';
+import Header from './header';
+import HeaderIntro from './header-intro';
 
 const styles = css`
-  .section-header {
-    display: flex;
-    align-items: flex-start;
-
-    .section-header-eyes {
-      position: relative;
+  .header {
+    .header-overview {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 0;
-      flex-shrink: 0;
-      margin-top: calc(var(--gap) / 4);
-      margin-right: calc(var(--gap) * -1);
-      width: var(--section-header-eyes-size);
-      height: var(--section-header-eyes-size);
-      border-radius: 50%;
-      background-color: var(--color-accent-lightest);
-      color: var(--color-accent-darker);
-      font-size: 8px;
-      z-index: 1;
+    }
 
-      .eyes {
+    .header-identity {
+      display: inline-flex;
+      align-items: center;
+      margin-top: calc(var(--gap) / 9);
+      white-space: nowrap;
+
+      h1 {
+        font-family: 'Darumadrop One';
+        font-size: 24px;
+        text-shadow: 0 0 9px var(--color-background);
+        text-transform: uppercase;
+
+        .text-primary {
+          margin: 0 0.25ch;
+          color: var(--color-black);
+          transition: color 250ms ease-in-out;
+        }
+
+        .text-secondary {
+          margin-top: 0.0833em;
+          color: var(--color-lighter-brown);
+          font-size: 75%;
+          transition: color 350ms ease-in-out;
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          border-bottom: none;
+
+          .text-primary,
+          .text-secondary {
+            color: var(--color-brown);
+          }
+        }
+      }
+
+      .header-identity-eyes {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-grow: 0;
         flex-shrink: 0;
-        width: 36px;
-        height: 11px;
-        gap: 1.5px;
-      }
+        margin-top: calc(var(--gap) / 4);
+        width: var(--header-eyes-size);
+        height: var(--header-eyes-size);
+        border-radius: 50%;
+        background-color: var(--color-lightest-brown);
+        color: var(--color-almost-black);
+        font-size: 8px;
+        z-index: 1;
 
-      .icon {
-        width: 11px;
-        height: 11px;
-      }
+        .eyes {
+          flex-grow: 0;
+          flex-shrink: 0;
+          justify-content: center;
+          width: 100%;
+          height: var(--header-eye-size);
+          gap: 1.5px;
+        }
 
-      &:hover {
         .icon {
-          animation: blink 500ms;
+          width: var(--header-eye-size);
+          height: var(--header-eye-size);
+        }
+
+        &:hover {
+          .icon {
+            animation: blink 500ms;
+          }
         }
       }
     }
 
-    .section-header-icon {
+    .header-section {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .header-section-icon {
+      flex-shrink: 0;
       position: relative;
-      width: var(--section-header-icon-size);
-      height: var(--section-header-icon-size);
+      width: var(--header-section-icon-size);
+      height: var(--header-section-icon-size);
       border-radius: 50%;
       background-color: var(--color-header-icon);
-      box-shadow: 0px 1px 3px var(--color-gray);
       z-index: 2;
 
       &.has-link {
         background-color: var(--color-header-icon-link);
+        box-shadow: 0px 1px 3px var(--color-gray);
         transition: width 250ms ease-in-out,
                     height 250ms ease-in-out;
 
@@ -70,8 +120,8 @@ const styles = css`
         display: flex;
         align-items: center;
         justify-content: center;
-        width: var(--section-header-icon-size);
-        height: var(--section-header-icon-size);
+        width: var(--header-section-icon-size);
+        height: var(--header-section-icon-size);
         color: var(--color-white);
 
         &.has-link {
@@ -80,12 +130,12 @@ const styles = css`
         }
 
         svg {
-          font-size: calc(var(--section-header-icon-size) / 9 * 4);
+          font-size: calc(var(--header-section-icon-size) / 9 * 4);
         }
       }
     }
 
-    .section-header-title {
+    .header-section-title {
       margin: calc(var(--gap) / 3 * 2) 0;
 
       h2 {
@@ -130,7 +180,7 @@ const styles = css`
         margin-top: 3px;
       }
 
-      .section-header-detail + .section-header-detail {
+      .header-section-detail + .header-section-detail {
         &::before {
           content: '·';
           margin-left: calc(var(--gap) / 2);
@@ -145,23 +195,77 @@ const styles = css`
     }
   }
 
-  .section-header + .section-main {
-    margin-top: calc(2 * var(--gap));
+  .header + .section-main {
+    margin-top: calc(var(--gap) * 4);
+  }
+
+  @media screen and (min-width: 813px) {
+    --header-eyes-size: var(--header-eyes-size-large);
+    --header-eye-size: var(--header-eye-size-large);
+
+    .header {
+      .header-overview {
+        align-items: flex-start;
+      }
+
+      .header-identity {
+        h1 + .header-identity-eyes {
+          margin-left: var(--gap);
+        }
+      }
+
+      .header-identity + .header-section {
+        margin-left: calc(var(--gap) / 1.5 * -1);
+      }
+    }
+  }
+
+  @media screen and (max-width: 812px) {
+    --header-eyes-size: var(--header-eyes-size-small);
+    --header-eye-size: var(--header-eye-size-small);
+
+    .header {
+      .header-overview {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .header-identity {
+        .header-identity-eyes {
+          display: none;
+        }
+      }
+
+      .header-identity + .header-section {
+        margin-top: calc(var(--gap) * 2);
+      }
+    }
   }
 
   @media screen and (min-width: 613px) {
-    --section-header-eyes-size: var(--section-header-eyes-size-large);
-    --section-header-icon-size: var(--section-header-icon-size-large);
+    --header-section-icon-size: var(--header-section-icon-size-large);
 
-    .section-header {
+    .header {
+      .header-identity {
+        margin-top: 0;
+      }
+
       &.has-subheader {
-        .section-header-title {
+        .header-section-title {
           margin-top: calc(var(--gap) / 6);
           margin-bottom: calc(var(--gap) / 6);
         }
       }
 
-      .section-header-icon {
+      .header-overview + .header-intro {
+        margin-top: calc(var(--gap) * 2);
+      }
+
+      .header-identity + .header-identity-eyes {
+        margin-left: var(--gap);
+      }
+
+      .header-section-icon {
         &.has-link {
           .icon {
             transition: transform 1s ease-in-out;
@@ -175,34 +279,45 @@ const styles = css`
         }
       }
 
-      .section-header-icon + .section-header-title {
-        margin-left: var(--section-header-icon-space-after);
+      .header-section-icon + .header-section-title {
+        margin-left: var(--header-section-icon-space-after);
       }
     }
   }
 
   @media screen and (max-width: 612px) {
-    --section-header-eyes-size: var(--section-header-eyes-size-small);
-    --section-header-icon-size: var(--section-header-icon-size-small);
+    --header-eyes-size: var(--header-eyes-size-small);
+    --header-section-icon-size: var(--header-section-icon-size-small);
 
-    .section-header {
+    .header {
       align-items: center;
       flex-direction: column;
 
-      &.has-subheader {
+      .header-overview {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .header-overview + .header-intro {
+        margin-top: calc(var(--gap) * 1);
+      }
+
+      .header-section {
+        flex-direction: column;
         align-items: center;
       }
 
-      .section-header-title {
+      .header-section-title {
         text-align: center;
       }
 
-      .section-header-eyes {
+      .header-identity-eyes {
         display: none;
       }
 
-      .section-header-icon + .section-header-title {
-        margin-top: var(--section-header-icon-space-after);
+      .header-section-icon + .header-section-title {
+        margin-top: var(--header-section-icon-space-after);
       }
     }
   }
@@ -225,14 +340,22 @@ const Section = ({
   className,
   icon,
   title,
-}: Props) => (
-  <section className={cx('section', styles, className)}>
-    <SectionHeader title={title} icon={icon} />
+}: Props) => {
+  const location = useLocation();
+  const isRoot = location.pathname === '/';
 
-    <section className='section-main'>
-      {children}
+  return (
+    <section className={cx('section', styles, className)}>
+      <Header title={title} icon={icon}>
+        {isRoot && <HeaderIntro />}
+      </Header>
+
+
+      <section className='section-main'>
+        {children}
+      </section>
     </section>
-  </section>
-);
+  );
+};
 
 export default Section;

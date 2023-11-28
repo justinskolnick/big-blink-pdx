@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, cx } from '@emotion/css';
+import { css } from '@emotion/css';
 
 import Chart from './chart';
 import EntitiesLeaderboard from './leaderboard-entities';
@@ -24,17 +24,16 @@ const styles = css`
 `;
 
 const Home = () => (
-  <div className={cx('welcome', styles)}>
-    <Section
-      icon='chart-simple'
-      title='Lobbying activity over time'
-    >
-      <Chart />
-      <EntitiesLeaderboard />
-      <LobbyistsLeaderboard />
-      <OfficialsLeaderboard />
-    </Section>
-  </div>
+  <Section
+    icon='chart-simple'
+    title='Lobbying in Portland, Oregon'
+    className={styles}
+  >
+    <Chart />
+    <EntitiesLeaderboard />
+    <LobbyistsLeaderboard />
+    <OfficialsLeaderboard />
+  </Section>
 );
 
 export default Home;

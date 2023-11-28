@@ -2,13 +2,15 @@
   --sans-serif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
   --serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 
-  --section-header-eyes-size-large: 54px;
-  --section-header-eyes-size-small: 27px;
-  --section-header-eyes-space-after: 18px;
-
-  --section-header-icon-size-large: 63px;
-  --section-header-icon-size-small: 36px;
-  --section-header-icon-space-after: 18px;
+  --header-eyes-size-large: 54px;
+  --header-eyes-size-small: 36px;
+  --header-eyes-space-after: 18px;
+  --header-eye-size-large: 11px;
+  --header-eye-size-small: 8px;
+  
+  --header-section-icon-size-large: 63px;
+  --header-section-icon-size-small: 36px;
+  --header-section-icon-space-after: 18px;
 
   --incident-list-padding: 18px;
 
@@ -22,6 +24,8 @@
   --color-brown: brown;
   --color-light-brown: burlywood;
   --color-light-brown-rgb: 222, 184, 135;
+  --color-lighter-brown: tan;
+  --color-lightest-brown: wheat;
   --color-blue: cornflowerblue;
   --color-blue-rgb: 100, 149, 237;
   --color-dark-blue: darkblue;
@@ -151,7 +155,7 @@ th {
   top: 0;
   left: 0;
   right: 0;
-  height: 360px;
+  height: 180px;
 }
 
 .root::before {
@@ -161,17 +165,17 @@ th {
                     linear-gradient(225deg, var(--color-yellow) 25%, transparent 25%),
                     linear-gradient(45deg, var(--color-yellow) 25%, transparent 25%),
                     linear-gradient(315deg, rgba(var(--color-yellow-rgb), 0.5) 25%, var(--color-light-yellow) 25%);
-  background-position:  50px 0,
-                        50px 0,
+  background-position:  18px 0,
+                        18px 0,
                         0 0,
                         0 0;
-  background-size: 100px 100px;
+  background-size: 36px 36px;
   background-repeat: repeat;
 }
 
 .root::after {
   z-index: 2;
-  background-image: linear-gradient(to bottom, rgba(var(--color-background-rgb), 0) 0%, rgba(var(--color-background-rgb), 1) 100%);
+  background-image: linear-gradient(to bottom, rgba(var(--color-background-rgb), 0.8) 0%, rgba(var(--color-background-rgb), 1) 100%);
 }
 
 .modal-root,

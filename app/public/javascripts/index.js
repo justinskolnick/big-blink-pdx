@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment19 = 7;
+        var Fragment18 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment19:
+            case Fragment18:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment19) {
+            if (current2 === null || current2.tag !== Fragment18) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment19) {
+                  if (child.tag === Fragment18) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment19:
+            case Fragment18:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment19:
+            case Fragment18:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment19, elements, key, mode);
+          var fiber = createFiber(Fragment18, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment19 = REACT_FRAGMENT_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment19;
+        exports.Fragment = Fragment18;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment19 = REACT_FRAGMENT_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment19;
+        exports.Fragment = Fragment18;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24265,7 +24265,7 @@ var require_react_is_development3 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment19 = REACT_FRAGMENT_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24324,7 +24324,7 @@ var require_react_is_development3 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment19;
+        exports.Fragment = Fragment18;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -40836,24 +40836,157 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("footer"
 ] });
 var global_footer_default = GlobalFooter;
 
-// components/global-header.tsx
+// components/entities/icon.tsx
+var import_jsx_runtime13 = __toESM(require_jsx_runtime());
+var EntitiesIcon = () => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(icon_default, { name: "building" });
+var icon_default2 = EntitiesIcon;
+
+// components/incidents/icon.tsx
+var import_jsx_runtime14 = __toESM(require_jsx_runtime());
+var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(icon_default, { name: "handshake" });
+var icon_default3 = EntitiesIcon2;
+
+// components/people/icon.tsx
+var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
+  TypeForIcon2["group"] = "user-group";
+  TypeForIcon2["person"] = "user-large";
+  TypeForIcon2["unknown"] = "circle-question";
+  return TypeForIcon2;
+})(TypeForIcon || {});
+var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
+var PeopleIcon = ({ person }) => {
+  const { id } = useParams();
+  const personAtId = useSelector((state) => selectors3.selectById(state, id));
+  const name = getIconName2(person || personAtId);
+  return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(icon_default, { name });
+};
+var icon_default4 = PeopleIcon;
+
+// components/sources/icon.tsx
+var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+var EntitiesIcon3 = () => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name: "database" });
+var icon_default5 = EntitiesIcon3;
+
+// components/section-icon.tsx
+var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+var ENTITIES = "entities";
+var INCIDENTS = "incidents";
+var PEOPLE = "people";
+var SOURCES = "sources";
+var SectionIcon = ({ name, slug }) => {
+  if (name) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default, { name });
+  } else if (slug === ENTITIES) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default2, {});
+  } else if (slug === INCIDENTS) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default3, {});
+  } else if (slug === PEOPLE) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default4, {});
+  } else if (slug === SOURCES) {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(icon_default5, {});
+  }
+  return null;
+};
+var section_icon_default = SectionIcon;
+
+// components/header.tsx
+var import_jsx_runtime18 = __toESM(require_jsx_runtime());
+var ENTITIES2 = "entities";
+var INCIDENTS2 = "incidents";
+var PEOPLE2 = "people";
+var SOURCES2 = "sources";
+var useGetSectionLink = (slug) => {
+  if (slug === ENTITIES2) {
+    return LinkToEntities;
+  } else if (slug === INCIDENTS2) {
+    return LinkToIncidents;
+  } else if (slug === PEOPLE2) {
+    return LinkToPeople;
+  } else if (slug === SOURCES2) {
+    return LinkToSources;
+  }
+};
+var useGetSectionItemLink = (slug) => {
+  if (slug === ENTITIES2) {
+    return LinkToEntity;
+  } else if (slug === INCIDENTS2) {
+    return LinkToIncident;
+  } else if (slug === PEOPLE2) {
+    return LinkToPerson;
+  } else if (slug === SOURCES2) {
+    return LinkToSource;
+  }
+};
+var Header = ({
+  children,
+  icon: icon3,
+  title
+}) => {
+  const section = useSelector(getSection);
+  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
+  const slug = section.slug;
+  const SectionLink = useGetSectionLink(slug);
+  const SectionItemLink = useGetSectionItemLink(slug);
+  const hasLink = Boolean(SectionLink);
+  const hasSubhead = Boolean(section.subtitle);
+  const hasDetails = section.details?.length > 0;
+  return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("title", { children: pageTitle }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+      "header",
+      {
+        className: cx(
+          "header",
+          hasSubhead && "has-subheader"
+        ),
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-overview", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-identity", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "The" }),
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-primary", children: "Big Blink" }),
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "PDX" })
+              ] }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(eyes_default, {}) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: cx("header-section-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section-title", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
+                hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionItemLink, { id: section.id, children: section.subtitle }) }),
+                  hasDetails && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h4", { children: section.details.map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "header-section-detail", children: detail }, i2)) })
+                ] })
+              ] })
+            ] })
+          ] }),
+          children
+        ]
+      }
+    )
+  ] });
+};
+var header_default = Header;
+
+// components/header-intro.tsx
 var import_react16 = __toESM(require_react());
 
 // components/incident-modal.tsx
 var import_react15 = __toESM(require_react());
 
 // components/item-description.tsx
-var import_jsx_runtime13 = __toESM(require_jsx_runtime());
+var import_jsx_runtime19 = __toESM(require_jsx_runtime());
 var styles7 = css`
   color: var(--color-text-light);
   font-size: 14px;
   line-height: 21px;
 `;
-var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: cx("item-description", styles7, className), children });
+var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { className: cx("item-description", styles7, className), children });
 var item_description_default = ItemDescription;
 
 // components/item-subhead.tsx
-var import_jsx_runtime14 = __toESM(require_jsx_runtime());
+var import_jsx_runtime20 = __toESM(require_jsx_runtime());
 var styles8 = css`
   color: var(--color-black);
   line-height: 27px;
@@ -40903,7 +41036,7 @@ var ItemSubhead = ({
   hasBorder,
   title,
   subtitle
-}) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
   "header",
   {
     className: cx(
@@ -40913,8 +41046,8 @@ var ItemSubhead = ({
       className
     ),
     children: [
-      title && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h4", { children: title }),
-      subtitle && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h5", { children: subtitle }),
+      title && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h4", { children: title }),
+      subtitle && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h5", { children: subtitle }),
       children
     ]
   }
@@ -40922,21 +41055,21 @@ var ItemSubhead = ({
 var item_subhead_default = ItemSubhead;
 
 // components/stat-group.tsx
-var import_jsx_runtime15 = __toESM(require_jsx_runtime());
+var import_jsx_runtime21 = __toESM(require_jsx_runtime());
 var StatGroup = ({
   children,
   className,
   description,
   subtitle,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: cx("activity-stat-group", className), children: [
-  title || subtitle ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) }) : null,
+}) => /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: cx("activity-stat-group", className), children: [
+  title || subtitle ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) }) : null,
   children
 ] });
 var stat_group_default = StatGroup;
 
 // components/incident-stat-group.tsx
-var import_jsx_runtime16 = __toESM(require_jsx_runtime());
+var import_jsx_runtime22 = __toESM(require_jsx_runtime());
 var styles9 = css`
   .activity-stat {
     &.has-icon {
@@ -40973,7 +41106,7 @@ var IncidentStatGroup = ({
   children,
   className,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
   stat_group_default,
   {
     className: cx("incident-stat-group", styles9, className),
@@ -40984,7 +41117,7 @@ var IncidentStatGroup = ({
 var incident_stat_group_default = IncidentStatGroup;
 
 // components/incident-attendees.tsx
-var import_jsx_runtime17 = __toESM(require_jsx_runtime());
+var import_jsx_runtime23 = __toESM(require_jsx_runtime());
 var styles10 = css`
   .incident-attendee {
     span {
@@ -41010,18 +41143,18 @@ var styles10 = css`
     margin-top: 3px;
   }
 `;
-var Attendee = ({ attendee }) => /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("li", { className: "incident-attendee", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(LinkToPerson, { id: attendee.person.id, children: attendee.person.name }),
-  attendee.as !== attendee.person.name && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { children: attendee.as })
+var Attendee = ({ attendee }) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("li", { className: "incident-attendee", children: [
+  /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(LinkToPerson, { id: attendee.person.id, children: attendee.person.name }),
+  attendee.as !== attendee.person.name && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { children: attendee.as })
 ] }, attendee.person.id);
 var Attendees = ({ attendees }) => {
   const hasAttendees = attendees?.length > 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("ul", { className: cx("incident-attendees", styles10), children: hasAttendees ? attendees.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Attendee, { attendee }, attendee.person.id)) : "none" });
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("ul", { className: cx("incident-attendees", styles10), children: hasAttendees ? attendees.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Attendee, { attendee }, attendee.person.id)) : "none" });
 };
 var incident_attendees_default = Attendees;
 
 // components/incident-table.tsx
-var import_jsx_runtime18 = __toESM(require_jsx_runtime());
+var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var styles11 = css`
   --color-divider: var(--color-light-gray);
 
@@ -41059,53 +41192,53 @@ var styles11 = css`
     }
   }
 `;
-var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("table", { className: cx("incident-table", styles11), cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tbody", { children: [
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Entity" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(LinkToEntity, { id: incident.entityId, children: incident.entity }) })
+var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("table", { className: cx("incident-table", styles11), cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tbody", { children: [
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Entity" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToEntity, { id: incident.entityId, children: incident.entity }) })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Date" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: incident.contactDate })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Date" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactDate })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Type" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: incident.contactType })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Type" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactType })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Category" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: incident.category })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Category" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.category })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Topic" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: incident.topic })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Topic" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.topic })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Officials" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Officials" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
   ] }),
-  /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("th", { children: "Lobbyists" }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Lobbyists" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
   ] })
 ] }) });
 var incident_table_default = IncidentTable;
 
 // components/modal.tsx
-var import_jsx_runtime19 = __toESM(require_jsx_runtime());
+var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
   className,
   deactivate,
   isActive
-}) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
   CSSTransition_default,
   {
     timeout: 250,
     classNames: "modal",
     in: isActive,
     unmountOnExit: true,
-    children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+    children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
       modal_portal_default,
       {
         className,
@@ -41119,7 +41252,7 @@ var Modal = ({
 var modal_default = Modal;
 
 // components/stat-box.tsx
-var import_jsx_runtime20 = __toESM(require_jsx_runtime());
+var import_jsx_runtime26 = __toESM(require_jsx_runtime());
 var styles12 = css`
   &.has-icon {
     display: flex;
@@ -41147,7 +41280,7 @@ var StatBox = ({
   icon: icon3,
   onClick,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+}) => /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(
   "div",
   {
     className: cx(
@@ -41158,10 +41291,10 @@ var StatBox = ({
     ),
     onClick,
     children: [
-      icon3 && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default, { name: icon3 }),
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "activity-stat-content", children: [
-        title && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "activity-stat-title", children: title }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", { className: "activity-stat-value", children })
+      icon3 && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(icon_default, { name: icon3 }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "activity-stat-content", children: [
+        title && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { className: "activity-stat-title", children: title }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "activity-stat-value", children })
       ] })
     ]
   }
@@ -41169,7 +41302,7 @@ var StatBox = ({
 var stat_box_default = StatBox;
 
 // components/incident-modal.tsx
-var import_jsx_runtime21 = __toESM(require_jsx_runtime());
+var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var styles13 = css`
   .modal-overlay {
     background-color: rgba(var(--color-blue-rgb), 0);
@@ -41337,11 +41470,11 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
   }, [fetched, location2, id, incident]);
   if (!incident)
     return;
-  return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(modal_default, { className: styles13, deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "modal-incident", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(item_text_with_icon_default, { icon: "handshake", children: "Lobbying Incident" }) }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("main", { className: "incident-main", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(incident_table_default, { incident }),
-      hasNotes && /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(incident_stat_group_default, { className: css`
+  return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(modal_default, { className: styles13, deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("section", { className: "modal-incident", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_text_with_icon_default, { icon: "handshake", children: "Lobbying Incident" }) }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("main", { className: "incident-main", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(incident_table_default, { incident }),
+      hasNotes && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(incident_stat_group_default, { className: css`
               padding: 18px;
               border-radius: 9px;
               background-color: var(--color-off-white);
@@ -41356,99 +41489,22 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
                 font-size: 13px;
                 line-height: 18px;
               }
-            `, children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(stat_box_default, { title: "Notes regarding this incident", icon: "asterisk", children: incident.notes || "None" }) })
+            `, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(stat_box_default, { title: "Notes regarding this incident", icon: "asterisk", children: incident.notes || "None" }) })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("footer", { className: "incident-footer", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(LinkToIncident, { id: incident.id, children: "View the full record" }) }) })
+    /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("footer", { className: "incident-footer", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(LinkToIncident, { id: incident.id, children: "View the full record" }) }) })
   ] }) });
 };
 var incident_modal_default = IncidentModal;
 
-// components/global-header.tsx
-var import_jsx_runtime22 = __toESM(require_jsx_runtime());
+// components/header-intro.tsx
+var import_jsx_runtime28 = __toESM(require_jsx_runtime());
 var styles14 = css`
-  .global-header-content {
-    padding: 0 calc(var(--gap) * 2) var(--gap);
-    background-color: var(--color-background);
-    box-shadow: 0px 3px 9px var(--color-light-brown);
-  }
-
-  h1 {
-    position: relative;
-    top: calc(var(--gap) * -1);
-    font-family: 'Darumadrop One';
-    text-transform: uppercase;
-
-    .global-header-link {
-      display: flex;
-      align-items: center;
-      border-radius: calc(var(--gap) / 2);
-      background-color: var(--color-link);
-      color: var(--color-background);
-      overflow: hidden;
-
-      &:hover {
-        border-bottom: none;
-      }
-    }
-
-    .global-header-link-icon,
-    .global-header-link-text {
-      box-sizing: border-box;
-    }
-
-    .global-header-link-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: calc(var(--gap) / 2);
-      width: calc(var(--gap) / 2 * 7);
-      height: 100%;
-      background-color: var(--color-dark-blue);
-      color: var(--color-background);
-      font-size: calc(var(--gap) / 2);
-      transition: background-color 250ms ease-in-out;
-
-      .eyes {
-        width: 36px;
-        height: 11px;
-        gap: 1.5px;
-      }
-
-      .icon {
-        width: 11px;
-        height: 11px;
-        transition: transform 125ms ease-in-out;
-      }
-    }
-
-    .global-header-link-text {
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      padding: var(--gap) calc(var(--gap) / 2 * 3);
-      background-color: var(--color-link);
-      white-space: nowrap;
-      transition: background-color 250ms ease-in-out,
-                  box-shadow 250ms ease-in-out,
-                  transform 250ms ease-in-out;
-
-      .text-primary {
-        margin: 0 0.25ch;
-      }
-
-      .text-secondary {
-        color: rgba(var(--color-background-rgb), 0.5);
-        font-size: 75%;
-      }
-    }
-  }
-
   p {
-    font-weight: 200;
+    font-weight: 100;
+  }
 
-    a {
-      color: var(--color-link);
-    }
+  .global-date-range-note {
+    cursor: pointer;
 
     .icon {
       position: relative;
@@ -41458,92 +41514,15 @@ var styles14 = css`
     }
   }
 
-  .global-date-range-note {
-    cursor: pointer;
-  }
-
-  @media screen and (min-width: 601px) {
-    padding-left: calc(var(--layout-margin) / 2);
-    padding-right: calc(var(--layout-margin) / 2);
-
-    .global-header-content {
-      padding: 0 calc(var(--gap) * 2) var(--gap);
-    }
-
-    h1 {
-      top: calc(var(--gap) * -1);
-      display: flex;
-      justify-content: center;
-
-      .global-header-link {
-        &:hover {
-          .global-header-link-icon {
-            background-color: var(--color-black);
-
-            .icon {
-              transform: scale(1, 1.5);
-            }
-          }
-
-          .global-header-link-text {
-            transform: translateX(calc(var(--gap) / 2 * 7 * -1));
-          }
-        }
-      }
-
-      .global-header-link-text {
-        height: calc(var(--gap) * 4);
-        transform: translateX(calc(var(--gap) / 6 * -1));
-      }
-    }
-
-    h1 + p {
-      margin-top: calc(var(--gap) / 2 * -1);
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    padding-left: calc(var(--layout-margin) / 2);
-    padding-right: calc(var(--layout-margin) / 2);
-
-    .global-header-content {
-      padding: 0 var(--gap) var(--gap);
-    }
-
-    h1 {
-      display: block;
-      top: calc(var(--gap) / 2 * -1);
-
-      .global-header-link {
-        display: block;
-        text-align: center;
-      }
-
-      .global-header-link-icon {
-        display: none;
-      }
-
-      .global-header-link-text {
-        padding: calc(var(--gap) / 2);
-      }
-    }
-  }
-
-  @media screen and (min-width: 401px) {
-    h1 {
-      font-size: 36px;
-    }
-
+  @media screen and (min-width: 613px) {
     p {
       font-size: 24px;
-      line-height: 45px;
+      line-height: 36px;
     }
   }
 
-  @media screen and (max-width: 400px) {
-    h1 {
-      font-size: 30px;
-    }
+  @media screen and (max-width: 612px) {
+    text-align: center;
 
     p {
       font-size: 18px;
@@ -41561,9 +41540,9 @@ var DateRangeNote = () => {
       message: dateRangeMessage
     }));
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "global-date-range-note", onClick: handleClick, children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(icon_default, { name: "asterisk" }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { className: "global-date-range-note", onClick: handleClick, children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(icon_default, { name: "asterisk" }) });
 };
-var GlobalHeader = () => {
+var HeaderIntro = () => {
   const { pathname } = useLocation();
   const [savedPathname, setSavedPathname] = (0, import_react16.useState)(pathname);
   const [selectedId, setSelectedId] = (0, import_react16.useState)();
@@ -41589,231 +41568,151 @@ var GlobalHeader = () => {
       setSelectedId(null);
     }
   }, [pathname, savedPathname, setSelectedId]);
-  return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("header", { className: cx("global-header", styles14), children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "global-header-content", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(GlobalLink, { to: "/", className: "global-header-link", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "global-header-link-icon", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(eyes_default, {}) }),
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("span", { className: "global-header-link-text", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "text-secondary", children: "The" }),
-        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "text-primary", children: "Big Blink" }),
-        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("span", { className: "text-secondary", children: "PDX" })
-      ] })
-    ] }) }),
-    hasData && /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("p", { children: [
-      "remixes public lobbying data published by the City of Portland, Oregon, including",
+  if (!hasData)
+    return null;
+  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: cx("header-intro", styles14), children: [
+    /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("p", { children: [
+      "The Big Blink remixes lobbying data published by the City of Portland, Oregon, including",
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(LinkToIncidents, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(LinkToIncidents, { children: [
         total,
         " lobbying incidents"
       ] }),
       " ",
       "reported between",
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(LinkToIncident, { id: first.id, "data-id": first.id, onClick: handleClick, children: first.contactDate }),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(LinkToIncident, { id: first.id, "data-id": first.id, onClick: handleClick, children: first.contactDate }),
       " ",
       "and",
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(LinkToIncident, { id: last.id, "data-id": last.id, onClick: handleClick, children: last.contactDate }),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(LinkToIncident, { id: last.id, "data-id": last.id, onClick: handleClick, children: last.contactDate }),
       ".",
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(DateRangeNote, {})
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(DateRangeNote, {})
     ] }),
-    hasData && /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_jsx_runtime22.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
-        incident_modal_default,
-        {
-          deactivate,
-          id: first.id,
-          isActive: selectedId === first.id
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(
-        incident_modal_default,
-        {
-          deactivate,
-          id: last.id,
-          isActive: selectedId === last.id
-        }
-      )
-    ] })
-  ] }) });
-};
-var global_header_default = GlobalHeader;
-
-// components/entities/icon.tsx
-var import_jsx_runtime23 = __toESM(require_jsx_runtime());
-var EntitiesIcon = () => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(icon_default, { name: "building" });
-var icon_default2 = EntitiesIcon;
-
-// components/incidents/icon.tsx
-var import_jsx_runtime24 = __toESM(require_jsx_runtime());
-var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(icon_default, { name: "handshake" });
-var icon_default3 = EntitiesIcon2;
-
-// components/people/icon.tsx
-var import_jsx_runtime25 = __toESM(require_jsx_runtime());
-var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
-  TypeForIcon2["group"] = "user-group";
-  TypeForIcon2["person"] = "user-large";
-  TypeForIcon2["unknown"] = "circle-question";
-  return TypeForIcon2;
-})(TypeForIcon || {});
-var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
-var PeopleIcon = ({ person }) => {
-  const { id } = useParams();
-  const personAtId = useSelector((state) => selectors3.selectById(state, id));
-  const name = getIconName2(person || personAtId);
-  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(icon_default, { name });
-};
-var icon_default4 = PeopleIcon;
-
-// components/sources/icon.tsx
-var import_jsx_runtime26 = __toESM(require_jsx_runtime());
-var EntitiesIcon3 = () => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(icon_default, { name: "database" });
-var icon_default5 = EntitiesIcon3;
-
-// components/section-icon.tsx
-var import_jsx_runtime27 = __toESM(require_jsx_runtime());
-var ENTITIES = "entities";
-var INCIDENTS = "incidents";
-var PEOPLE = "people";
-var SOURCES = "sources";
-var SectionIcon = ({ name, slug }) => {
-  if (name) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default, { name });
-  } else if (slug === ENTITIES) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default2, {});
-  } else if (slug === INCIDENTS) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default3, {});
-  } else if (slug === PEOPLE) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default4, {});
-  } else if (slug === SOURCES) {
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default5, {});
-  }
-  return null;
-};
-var section_icon_default = SectionIcon;
-
-// components/section-header.tsx
-var import_jsx_runtime28 = __toESM(require_jsx_runtime());
-var ENTITIES2 = "entities";
-var INCIDENTS2 = "incidents";
-var PEOPLE2 = "people";
-var SOURCES2 = "sources";
-var useGetSectionLink = (slug) => {
-  if (slug === ENTITIES2) {
-    return LinkToEntities;
-  } else if (slug === INCIDENTS2) {
-    return LinkToIncidents;
-  } else if (slug === PEOPLE2) {
-    return LinkToPeople;
-  } else if (slug === SOURCES2) {
-    return LinkToSources;
-  }
-};
-var useGetSectionItemLink = (slug) => {
-  if (slug === ENTITIES2) {
-    return LinkToEntity;
-  } else if (slug === INCIDENTS2) {
-    return LinkToIncident;
-  } else if (slug === PEOPLE2) {
-    return LinkToPerson;
-  } else if (slug === SOURCES2) {
-    return LinkToSource;
-  }
-};
-var SectionHeader = ({
-  icon: icon3,
-  title
-}) => {
-  const section = useSelector(getSection);
-  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
-  const slug = section.slug;
-  const SectionLink = useGetSectionLink(slug);
-  const SectionItemLink = useGetSectionItemLink(slug);
-  const hasLink = Boolean(SectionLink);
-  const hasSubhead = Boolean(section.subtitle);
-  const hasDetails = section.details?.length > 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("title", { children: pageTitle }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(
-      "header",
+    /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+      incident_modal_default,
       {
-        className: cx(
-          "section-header",
-          hasSubhead && "has-subheader"
-        ),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "section-header-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(eyes_default, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: cx("section-header-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(SectionLink, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(section_icon_default, { name: icon3, slug }) }) : /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(section_icon_default, { name: icon3, slug }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "section-header-title", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
-            hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(SectionItemLink, { id: section.id, children: section.subtitle }) }),
-              hasDetails && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h4", { children: section.details.map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { className: "section-header-detail", children: detail }, i2)) })
-            ] })
-          ] })
-        ]
+        deactivate,
+        id: first.id,
+        isActive: selectedId === first.id
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+      incident_modal_default,
+      {
+        deactivate,
+        id: last.id,
+        isActive: selectedId === last.id
       }
     )
   ] });
 };
-var section_header_default = SectionHeader;
+var header_intro_default = HeaderIntro;
 
 // components/section.tsx
 var import_jsx_runtime29 = __toESM(require_jsx_runtime());
 var styles15 = css`
-  .section-header {
-    display: flex;
-    align-items: flex-start;
-
-    .section-header-eyes {
-      position: relative;
+  .header {
+    .header-overview {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 0;
-      flex-shrink: 0;
-      margin-top: calc(var(--gap) / 4);
-      margin-right: calc(var(--gap) * -1);
-      width: var(--section-header-eyes-size);
-      height: var(--section-header-eyes-size);
-      border-radius: 50%;
-      background-color: var(--color-accent-lightest);
-      color: var(--color-accent-darker);
-      font-size: 8px;
-      z-index: 1;
+    }
 
-      .eyes {
+    .header-identity {
+      display: inline-flex;
+      align-items: center;
+      margin-top: calc(var(--gap) / 9);
+      white-space: nowrap;
+
+      h1 {
+        font-family: 'Darumadrop One';
+        font-size: 24px;
+        text-shadow: 0 0 9px var(--color-background);
+        text-transform: uppercase;
+
+        .text-primary {
+          margin: 0 0.25ch;
+          color: var(--color-black);
+          transition: color 250ms ease-in-out;
+        }
+
+        .text-secondary {
+          margin-top: 0.0833em;
+          color: var(--color-lighter-brown);
+          font-size: 75%;
+          transition: color 350ms ease-in-out;
+        }
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          border-bottom: none;
+
+          .text-primary,
+          .text-secondary {
+            color: var(--color-brown);
+          }
+        }
+      }
+
+      .header-identity-eyes {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-grow: 0;
         flex-shrink: 0;
-        width: 36px;
-        height: 11px;
-        gap: 1.5px;
-      }
+        margin-top: calc(var(--gap) / 4);
+        width: var(--header-eyes-size);
+        height: var(--header-eyes-size);
+        border-radius: 50%;
+        background-color: var(--color-lightest-brown);
+        color: var(--color-almost-black);
+        font-size: 8px;
+        z-index: 1;
 
-      .icon {
-        width: 11px;
-        height: 11px;
-      }
+        .eyes {
+          flex-grow: 0;
+          flex-shrink: 0;
+          justify-content: center;
+          width: 100%;
+          height: var(--header-eye-size);
+          gap: 1.5px;
+        }
 
-      &:hover {
         .icon {
-          animation: blink 500ms;
+          width: var(--header-eye-size);
+          height: var(--header-eye-size);
+        }
+
+        &:hover {
+          .icon {
+            animation: blink 500ms;
+          }
         }
       }
     }
 
-    .section-header-icon {
+    .header-section {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .header-section-icon {
+      flex-shrink: 0;
       position: relative;
-      width: var(--section-header-icon-size);
-      height: var(--section-header-icon-size);
+      width: var(--header-section-icon-size);
+      height: var(--header-section-icon-size);
       border-radius: 50%;
       background-color: var(--color-header-icon);
-      box-shadow: 0px 1px 3px var(--color-gray);
       z-index: 2;
 
       &.has-link {
         background-color: var(--color-header-icon-link);
+        box-shadow: 0px 1px 3px var(--color-gray);
         transition: width 250ms ease-in-out,
                     height 250ms ease-in-out;
 
@@ -41827,8 +41726,8 @@ var styles15 = css`
         display: flex;
         align-items: center;
         justify-content: center;
-        width: var(--section-header-icon-size);
-        height: var(--section-header-icon-size);
+        width: var(--header-section-icon-size);
+        height: var(--header-section-icon-size);
         color: var(--color-white);
 
         &.has-link {
@@ -41837,12 +41736,12 @@ var styles15 = css`
         }
 
         svg {
-          font-size: calc(var(--section-header-icon-size) / 9 * 4);
+          font-size: calc(var(--header-section-icon-size) / 9 * 4);
         }
       }
     }
 
-    .section-header-title {
+    .header-section-title {
       margin: calc(var(--gap) / 3 * 2) 0;
 
       h2 {
@@ -41887,7 +41786,7 @@ var styles15 = css`
         margin-top: 3px;
       }
 
-      .section-header-detail + .section-header-detail {
+      .header-section-detail + .header-section-detail {
         &::before {
           content: '·';
           margin-left: calc(var(--gap) / 2);
@@ -41902,23 +41801,77 @@ var styles15 = css`
     }
   }
 
-  .section-header + .section-main {
-    margin-top: calc(2 * var(--gap));
+  .header + .section-main {
+    margin-top: calc(var(--gap) * 4);
+  }
+
+  @media screen and (min-width: 813px) {
+    --header-eyes-size: var(--header-eyes-size-large);
+    --header-eye-size: var(--header-eye-size-large);
+
+    .header {
+      .header-overview {
+        align-items: flex-start;
+      }
+
+      .header-identity {
+        h1 + .header-identity-eyes {
+          margin-left: var(--gap);
+        }
+      }
+
+      .header-identity + .header-section {
+        margin-left: calc(var(--gap) / 1.5 * -1);
+      }
+    }
+  }
+
+  @media screen and (max-width: 812px) {
+    --header-eyes-size: var(--header-eyes-size-small);
+    --header-eye-size: var(--header-eye-size-small);
+
+    .header {
+      .header-overview {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .header-identity {
+        .header-identity-eyes {
+          display: none;
+        }
+      }
+
+      .header-identity + .header-section {
+        margin-top: calc(var(--gap) * 2);
+      }
+    }
   }
 
   @media screen and (min-width: 613px) {
-    --section-header-eyes-size: var(--section-header-eyes-size-large);
-    --section-header-icon-size: var(--section-header-icon-size-large);
+    --header-section-icon-size: var(--header-section-icon-size-large);
 
-    .section-header {
+    .header {
+      .header-identity {
+        margin-top: 0;
+      }
+
       &.has-subheader {
-        .section-header-title {
+        .header-section-title {
           margin-top: calc(var(--gap) / 6);
           margin-bottom: calc(var(--gap) / 6);
         }
       }
 
-      .section-header-icon {
+      .header-overview + .header-intro {
+        margin-top: calc(var(--gap) * 2);
+      }
+
+      .header-identity + .header-identity-eyes {
+        margin-left: var(--gap);
+      }
+
+      .header-section-icon {
         &.has-link {
           .icon {
             transition: transform 1s ease-in-out;
@@ -41932,34 +41885,45 @@ var styles15 = css`
         }
       }
 
-      .section-header-icon + .section-header-title {
-        margin-left: var(--section-header-icon-space-after);
+      .header-section-icon + .header-section-title {
+        margin-left: var(--header-section-icon-space-after);
       }
     }
   }
 
   @media screen and (max-width: 612px) {
-    --section-header-eyes-size: var(--section-header-eyes-size-small);
-    --section-header-icon-size: var(--section-header-icon-size-small);
+    --header-eyes-size: var(--header-eyes-size-small);
+    --header-section-icon-size: var(--header-section-icon-size-small);
 
-    .section-header {
+    .header {
       align-items: center;
       flex-direction: column;
 
-      &.has-subheader {
+      .header-overview {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .header-overview + .header-intro {
+        margin-top: calc(var(--gap) * 1);
+      }
+
+      .header-section {
+        flex-direction: column;
         align-items: center;
       }
 
-      .section-header-title {
+      .header-section-title {
         text-align: center;
       }
 
-      .section-header-eyes {
+      .header-identity-eyes {
         display: none;
       }
 
-      .section-header-icon + .section-header-title {
-        margin-top: var(--section-header-icon-space-after);
+      .header-section-icon + .header-section-title {
+        margin-top: var(--header-section-icon-space-after);
       }
     }
   }
@@ -41974,10 +41938,14 @@ var Section = ({
   className,
   icon: icon3,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { className: cx("section", styles15, className), children: [
-  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(section_header_default, { title, icon: icon3 }),
-  /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("section", { className: "section-main", children })
-] });
+}) => {
+  const location2 = useLocation();
+  const isRoot = location2.pathname === "/";
+  return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { className: cx("section", styles15, className), children: [
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(header_default, { title, icon: icon3, children: isRoot && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(header_intro_default, {}) }),
+    /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("section", { className: "section-main", children })
+  ] });
+};
 var section_default = Section;
 
 // hooks/use-capture-scroll-position.ts
@@ -42038,10 +42006,6 @@ var styles16 = css`
     text-decoration: none;
   }
 
-  .global-header + .global-main {
-    margin-top: calc(3 * var(--gap));
-  }
-
   .global-main + .global-footer {
     margin-top: calc(3 * var(--gap));
     padding-top: calc(3 * var(--gap));
@@ -42093,7 +42057,6 @@ var App = () => {
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(alert_error_default, {}),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(alert_message_default, {}),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(alert_warning_default, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(global_header_default, {}),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("main", { className: "global-main", children: isHome ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Outlet, {}) : /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(Outlet, {}) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(global_footer_default, {}),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ScrollRestoration, {})
@@ -56418,11 +56381,12 @@ var styles36 = css`
     }
   }
 `;
-var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsx)("div", { className: cx("welcome", styles36), children: /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
+var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
   section_default,
   {
     icon: "chart-simple",
-    title: "Lobbying activity over time",
+    title: "Lobbying in Portland, Oregon",
+    className: styles36,
     children: [
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(chart_default2, {}),
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_entities_default, {}),
@@ -56430,7 +56394,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsx)("div", { classNam
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_officials_default, {})
     ]
   }
-) });
+);
 var home_default = Home;
 
 // components/incidents/index.tsx

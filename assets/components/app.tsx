@@ -12,7 +12,6 @@ import AlertError from './alert-error';
 import AlertMessage from './alert-message';
 import AlertWarning from './alert-warning';
 import GlobalFooter from './global-footer';
-import GlobalHeader from './global-header';
 import Section from './section';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
@@ -48,10 +47,6 @@ const styles = css`
 
   a {
     text-decoration: none;
-  }
-
-  .global-header + .global-main {
-    margin-top: calc(3 * var(--gap));
   }
 
   .global-main + .global-footer {
@@ -113,7 +108,6 @@ const App = () => {
       <AlertError />
       <AlertMessage />
       <AlertWarning />
-      <GlobalHeader />
 
       <main className='global-main'>
         {isHome ? (
