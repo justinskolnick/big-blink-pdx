@@ -4,11 +4,19 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "esbuild ./index.tsx --bundle --jsx=automatic --format=esm --target=es2021 --sourcemap --outfile=../app/public/javascripts/index.js",
-    "build-production": "esbuild ./index.tsx --bundle --jsx=automatic --format=esm --target=es2021 --sourcemap --minify --outfile=../app/public/javascripts/index.min.js",
-    "watch": "esbuild ./index.tsx --bundle --jsx=automatic --format=esm --target=es2021 --sourcemap --outfile=../app/public/javascripts/index.js --watch",
+    "build": "NODE_ENV=development ./bin/scripts-development.js",
+    "build-production": "NODE_ENV=production ./bin/scripts-production.js",
+    "watch": "NODE_ENV=development ./bin/scripts-development-watch.js",
     "lint": "eslint . --ext .tsx,.ts,.js --cache --cache-location ./tmp/.eslintcache",
     "test": "jest"
+  },
+  "config": {
+    "scripts": {
+      "build": [
+        "index.tsx"
+      ],
+      "dist": "../app/public/javascripts"
+    }
   },
   "test": "jest",
   "devDependencies": {
