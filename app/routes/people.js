@@ -231,8 +231,28 @@ router.get('/:id/attendees', async (req, res, next) => {
           record: {
             ...person,
             attendees: {
-              asLobbyist,
-              asOfficial,
+              asLobbyist: {
+                label: `As a lobbyist, ${person.name} ...`,
+                lobbyists: {
+                  label: 'Alongside these lobbyists',
+                  records: asLobbyist.lobbyists.records,
+                },
+                officials: {
+                  label: 'Lobbied these City officials',
+                  records: asLobbyist.officials.records,
+                },
+              },
+              asOfficial: {
+                label: `As a City official, ${person.name} ...`,
+                lobbyists: {
+                  label: 'Was lobbied by these lobbyists',
+                  records: asOfficial.lobbyists.records,
+                },
+                officials: {
+                  label: 'Alongside these City officials',
+                  records: asOfficial.officials.records,
+                },
+              },
             },
           },
         },

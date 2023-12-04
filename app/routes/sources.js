@@ -183,7 +183,17 @@ router.get('/:id/attendees', async (req, res, next) => {
         source: {
           record: {
             ...source,
-            attendees,
+            attendees: {
+              label: `These people appear in ${source.title}`,
+              lobbyists: {
+                label: 'Lobbyists',
+                records: attendees.lobbyists.records,
+              },
+              officials: {
+                label: 'City Officials',
+                records: attendees.officials.records,
+              },
+            },
           },
         },
       };

@@ -1,11 +1,15 @@
 import React, { ReactNode } from 'react';
 import { cx, css } from '@emotion/css';
 
+import ItemTextWithIcon from './item-text-with-icon';
 import StatGroup from './stat-group';
+
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 interface Props {
   children: ReactNode;
   className?: string;
+  icon: IconName;
   title?: string | ReactNode;
 }
 
@@ -39,11 +43,16 @@ const styles = css`
 export const IncidentActivityGroup = ({
   children,
   className,
+  icon,
   title,
 }: Props) => (
   <StatGroup
     className={cx('incident-activity-stat-group', styles, className)}
-    subtitle={title}
+    subtitle={
+      <ItemTextWithIcon icon={icon}>
+        {title}
+      </ItemTextWithIcon>
+    }
   >
     <div className='item-subsection'>{children}</div>
   </StatGroup>

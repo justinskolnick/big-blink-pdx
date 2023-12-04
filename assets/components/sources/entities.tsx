@@ -6,7 +6,6 @@ import fetchFromPath from '../../lib/fetch-from-path';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
-import ItemTextWithIcon from '../item-text-with-icon';
 
 import type { AffiliatedItem, Source } from '../../types';
 
@@ -31,11 +30,10 @@ const Entities = ({ entities, source }: Props) => {
   return (
     <IncidentActivityGroups title='Associated Entities'>
       {entities ? (
-        <IncidentActivityGroup title={
-          <ItemTextWithIcon icon='briefcase'>
-            These entities appear in {source.title}
-          </ItemTextWithIcon>
-        }>
+        <IncidentActivityGroup
+          icon='briefcase'
+          title={`These entities appear in ${source.title}`}
+        >
           <AffiliatedEntitiesTable entities={entities} />
         </IncidentActivityGroup>
       ) : null}

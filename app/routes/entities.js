@@ -146,7 +146,6 @@ router.get('/:id', async (req, res, next) => {
         withPersonId,
       });
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
-      attendees = await incidentAttendees.getAttendees({ entityId: id });
 
       const hasDomain = Boolean(entity.domain);
       const hasLocations = entityLocations.length;
@@ -200,7 +199,6 @@ router.get('/:id', async (req, res, next) => {
                 total: incidentsStats.total,
               },
             },
-            attendees,
           },
         },
       };
@@ -244,7 +242,17 @@ router.get('/:id/attendees', async (req, res, next) => {
         entity: {
           record: {
             ...entity,
-            attendees,
+            attendees: {
+              label: `As an entity, ${entity.name} ...`,
+              lobbyists: {
+                label: 'Through these lobbyists',
+                records: attendees.lobbyists.records,
+              },
+              officials: {
+                label: 'Lobbied these City officials',
+                records: attendees.officials.records,
+              },
+            },
           },
         },
       };

@@ -64,8 +64,15 @@ const getAll = async (options = {}) => {
 
 const getAllForIncidents = async (incidents) => {
   const amended = await Promise.all(incidents.map(async (incident) => {
-    const attendeesResult = await getAll({ incidentId: incident.id });
-    incident.attendees = attendeesResult;
+    const result = await getAll({ incidentId: incident.id });
+
+    incident.attendees = Object.entries(result).reduce((attendees, [key, value]) => {
+      attendees[key] = {
+        records: value,
+      };
+
+      return attendees;
+    }, {});
 
     return incident;
   }));
@@ -151,7 +158,9 @@ const collectPeople = people => {
       return byKey;
     }, {});
 
-  return Object.values(unsorted).sort(sortTotalDescending);
+  return {
+    records: Object.values(unsorted).sort(sortTotalDescending),
+  };
 };
 
 const getPeopleQuery = (options = {}) => {

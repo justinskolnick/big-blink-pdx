@@ -3,14 +3,10 @@ import { cx, css } from '@emotion/css';
 
 import { LinkToPerson } from './links';
 
-import { Attendee as AttendeeType } from '../types';
+import { AttendeeGroup } from '../types';
 
-interface AttendeeProps {
-  attendee: AttendeeType;
-}
-
-interface AttendeesProps {
-  attendees?: AttendeeType[];
+interface Props {
+  attendees?: AttendeeGroup;
 }
 
 const styles = css`
@@ -39,24 +35,20 @@ const styles = css`
   }
 `;
 
-const Attendee = ({ attendee }: AttendeeProps) => (
-  <li key={attendee.person.id} className='incident-attendee'>
-    <LinkToPerson id={attendee.person.id}>{attendee.person.name}</LinkToPerson>
-    {attendee.as !== attendee.person.name && (
-      <span>
-        {attendee.as}
-      </span>
-    )}
-  </li>
-);
-
-const Attendees = ({ attendees }: AttendeesProps) => {
-  const hasAttendees = attendees?.length > 0;
+const Attendees = ({ attendees }: Props) => {
+  const hasAttendees = attendees?.records.length > 0;
 
   return (
     <ul className={cx('incident-attendees', styles)}>
-      {hasAttendees ? attendees.map(attendee => (
-        <Attendee key={attendee.person.id} attendee={attendee} />
+      {hasAttendees ? attendees.records.map(attendee => (
+        <li key={attendee.person.id} className='incident-attendee'>
+          <LinkToPerson id={attendee.person.id}>{attendee.person.name}</LinkToPerson>
+          {attendee.as !== attendee.person.name && (
+            <span>
+              {attendee.as}
+            </span>
+          )}
+        </li>
       )) : 'none'}
     </ul>
   );

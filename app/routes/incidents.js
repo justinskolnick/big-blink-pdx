@@ -103,7 +103,14 @@ router.get('/:id', async (req, res, next) => {
         incident: {
           record: {
             ...incidentResult,
-            attendees: attendeesResult,
+            attendees: {
+              lobbyists: {
+                records: attendeesResult.lobbyists,
+              },
+              officials: {
+                records: attendeesResult.officials,
+              },
+            },
           },
         },
       };

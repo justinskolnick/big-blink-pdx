@@ -9,7 +9,7 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
-import type { ErrorType, Incident, Incidents, Person, Source, WarningType } from '../types';
+import type { AttendeeGroup, ErrorType, Incident, Incidents, Person, Source, WarningType } from '../types';
 
 type Result = {
   data: any;
@@ -17,7 +17,11 @@ type Result = {
 };
 
 const getPeopleFromIncidents = (incidents: Incidents) =>
-  incidents.flatMap((incident: Incident) => Object.values(incident.attendees)).flat().map(attendee => attendee.person);
+  incidents.flatMap((incident: Incident) =>
+    Object.values(incident.attendees)
+      .map((group: AttendeeGroup) => group.records).flat()
+      .map(attendee => attendee.person)
+  );
 
 const getEntitiesFromPerson = (person: Person) =>
   person?.entities ? Object.values(person.entities).flat().map(entry => entry.entity) : [];

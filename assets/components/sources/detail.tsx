@@ -142,10 +142,7 @@ const Detail = () => {
             source={source}
           />
 
-          <Attendees
-            attendees={source.attendees}
-            source={source}
-          />
+          <Attendees attendees={source.attendees} />
 
           <DetailIncidents
             ids={source.incidents?.ids}

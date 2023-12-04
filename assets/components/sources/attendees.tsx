@@ -6,19 +6,14 @@ import fetchFromPath from '../../lib/fetch-from-path';
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
-import ItemTextWithIcon from '../item-text-with-icon';
 
-import type { Attendees as AttendeesType, Source } from '../../types';
+import type { Attendees as AttendeesType } from '../../types';
 
 interface Props {
   attendees: AttendeesType;
-  source: Source;
 }
 
-const Attendees = ({
-  attendees,
-  source,
-}: Props) => {
+const Attendees = ({ attendees }: Props) => {
   const fetched = useRef(false);
   const location = useLocation();
 
@@ -34,19 +29,12 @@ const Attendees = ({
   return (
     <IncidentActivityGroups title='Associated Names'>
       {attendees ? (
-        <IncidentActivityGroup title={
-          <ItemTextWithIcon icon='user-group'>
-            These people appear in {source.title}
-          </ItemTextWithIcon>
-        }>
-          <AffiliatedPeopleTable
-            people={attendees.officials}
-            title='City Officials:'
-          />
-          <AffiliatedPeopleTable
-            people={attendees.lobbyists}
-            title='Lobbyists:'
-          />
+        <IncidentActivityGroup
+          icon='user-group'
+          title={attendees.label}
+        >
+          <AffiliatedPeopleTable attendees={attendees.officials} />
+          <AffiliatedPeopleTable attendees={attendees.lobbyists} />
         </IncidentActivityGroup>
       ) : null}
     </IncidentActivityGroups>

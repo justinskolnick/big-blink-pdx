@@ -46,6 +46,23 @@ export type Pagination = {
   total: number;
 }
 
+export type Attendee = {
+  as?: string;
+  person: Person;
+  total?: number;
+}
+
+export type AttendeeGroup = {
+  label?: string;
+  records: Attendee[];
+}
+
+export type Attendees = {
+  label?: string;
+  lobbyists: AttendeeGroup;
+  officials: AttendeeGroup;
+}
+
 export type Incident = {
   category: string;
   contactDate: string;
@@ -58,15 +75,15 @@ export type Incident = {
   sourceId: number;
   topic: string;
   notes: string;
-  attendees: Attendees;
-};
-
-export type IncidentFirstOrLast = {
-  label: string;
-  value: Pick<Incident, 'id' | 'contactDate'>;
+  attendees?: Attendees;
 };
 
 export type Incidents = Incident[];
+
+export type IncidentFirstOrLast = {
+  label: string;
+  value: Incident;
+};
 
 export type IncidentsFilters = {
   quarter?: string;
@@ -205,17 +222,6 @@ export type SourceWithIncidentRecords = Source & {
 }
 
 export type Sources = Source[];
-
-export type Attendee = {
-  as?: string;
-  person: Person;
-  total?: number;
-}
-
-export type Attendees = {
-  lobbyists: Attendee[];
-  officials: Attendee[];
-}
 
 export type ErrorType = {
   customMessage?: string;

@@ -6,7 +6,6 @@ import fetchFromPath from '../../lib/fetch-from-path';
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
-import ItemTextWithIcon from '../item-text-with-icon';
 
 import type { Person, PersonAttendees } from '../../types';
 import { Role } from '../../types';
@@ -58,35 +57,21 @@ const Attendees = ({
       {attendees ? (
         <>
           {isLobbist && (
-            <IncidentActivityGroup title={
-              <ItemTextWithIcon icon='briefcase'>
-                As a lobbyist, {person.name} ...
-              </ItemTextWithIcon>
-            }>
-              <AffiliatedPeopleTable
-                people={attendees.asLobbyist.officials}
-                title='Lobbied these City officials:'
-              />
-              <AffiliatedPeopleTable
-                people={attendees.asLobbyist.lobbyists}
-                title='Alongside these lobbyists:'
-              />
+            <IncidentActivityGroup
+              icon='briefcase'
+              title={attendees.asLobbyist.label}
+            >
+              <AffiliatedPeopleTable attendees={attendees.asLobbyist.officials} />
+              <AffiliatedPeopleTable attendees={attendees.asLobbyist.lobbyists} />
             </IncidentActivityGroup>
           )}
           {isOfficial && (
-            <IncidentActivityGroup title={
-              <ItemTextWithIcon icon='landmark'>
-                As a City official, {person.name} ...
-              </ItemTextWithIcon>
-            }>
-              <AffiliatedPeopleTable
-                people={attendees.asOfficial.lobbyists}
-                title='Was lobbied by these lobbyists:'
-              />
-              <AffiliatedPeopleTable
-                people={attendees.asOfficial.officials}
-                title='Alongside these City officials:'
-              />
+            <IncidentActivityGroup
+              icon='landmark'
+              title={attendees.asOfficial.label}
+            >
+              <AffiliatedPeopleTable attendees={attendees.asOfficial.lobbyists} />
+              <AffiliatedPeopleTable attendees={attendees.asOfficial.officials} />
             </IncidentActivityGroup>
           )}
         </>

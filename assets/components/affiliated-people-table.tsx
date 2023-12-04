@@ -8,20 +8,16 @@ import {
 } from './links';
 import StatBox from './stat-box';
 
-import type { AffiliatedItem } from '../types';
+import type { AttendeeGroup } from '../types';
 
 interface Props {
-  people: AffiliatedItem[];
-  title: string;
+  attendees: AttendeeGroup;
 }
 
-const AffiliatedPeopleTable = ({
-  people,
-  title,
-}: Props) => (
-  <StatBox title={title}>
+const AffiliatedPeopleTable = ({ attendees }: Props) => (
+  <StatBox title={attendees.label}>
     <AffiliatedItemTable
-      affiliatedItems={people}
+      affiliatedItems={attendees.records}
       label='people'
       TitleCell={({ item }) => (
         <LinkToPerson id={item.person.id}>

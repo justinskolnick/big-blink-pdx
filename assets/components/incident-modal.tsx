@@ -180,18 +180,19 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   const location = useLocation();
 
   const incident = useSelector((state: RootState) => selectors.selectById(state, id));
+  const hasIncident = Boolean(incident && 'attendees' in incident);
   const hasNotes = Boolean(incident?.notes);
 
   useEffect(() => {
-    if (incident && incident.attendees) return;
+    if (hasIncident) return;
 
     if (!fetched.current) {
       fetchFromPath('/incidents/' + id);
       fetched.current = true;
     }
-  }, [fetched, location, id, incident]);
+  }, [fetched, location, hasIncident, id]);
 
-  if (!incident) return;
+  if (!incident) return null;
 
   return (
     <Modal className={styles} deactivate={deactivate} isActive={isActive}>

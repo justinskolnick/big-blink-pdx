@@ -6,7 +6,6 @@ import fetchFromPath from '../../lib/fetch-from-path';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
-import ItemTextWithIcon from '../item-text-with-icon';
 
 import type { Person, PersonEntities } from '../../types';
 import { Role } from '../../types';
@@ -40,20 +39,18 @@ const Entities = ({ entities, person }: Props) => {
       {entities ? (
         <>
           {isLobbist && (
-            <IncidentActivityGroup title={
-              <ItemTextWithIcon icon='briefcase'>
-                As a lobbyist, {person.name} interacted with City officials on behalf of these entities:
-              </ItemTextWithIcon>
-            }>
+            <IncidentActivityGroup
+              icon='briefcase'
+              title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities:`}
+            >
               <AffiliatedEntitiesTable entities={entities.asLobbyist} />
             </IncidentActivityGroup>
           )}
           {isOfficial && (
-            <IncidentActivityGroup title={
-              <ItemTextWithIcon icon='landmark'>
-                As a City official, {person.name} was lobbied by representatives of these entities:
-              </ItemTextWithIcon>
-            }>
+            <IncidentActivityGroup
+              icon='landmark'
+              title={`As a City official, ${person.name} was lobbied by representatives of these entities:`}
+            >
               <AffiliatedEntitiesTable entities={entities.asOfficial} />
             </IncidentActivityGroup>
           )}
