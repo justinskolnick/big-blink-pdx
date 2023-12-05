@@ -26,6 +26,8 @@ const Chart = ({ label }: Props) => {
 
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
+  const hasData = data?.length > 0;
+
   const lineProps = {
     label,
     data,
@@ -36,13 +38,13 @@ const Chart = ({ label }: Props) => {
   };
 
   useEffect(() => {
-    if (!fetched.current) {
+    if (!hasData || !fetched.current) {
       const { pathname } = location;
 
       fetchFromPath(pathname + '/stats');
       fetched.current = true;
     }
-  }, [fetched, location]);
+  }, [fetched, hasData, location]);
 
   useEffect(() => {
     if (quarter) {

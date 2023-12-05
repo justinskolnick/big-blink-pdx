@@ -55594,6 +55594,7 @@ var Chart3 = ({ label }) => {
   const [quarter, setQuarter] = (0, import_react25.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
+  const hasData = data?.length > 0;
   const lineProps = {
     label,
     data
@@ -55602,12 +55603,12 @@ var Chart3 = ({ label }) => {
     setQuarter(value.replace(" ", "-"));
   };
   (0, import_react25.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasData, location2]);
   (0, import_react25.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
@@ -56635,6 +56636,7 @@ var Chart5 = ({ label }) => {
   const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
+  const hasData = data?.length > 0;
   const lineProps = {
     label,
     data
@@ -56643,12 +56645,12 @@ var Chart5 = ({ label }) => {
     setQuarter(value.replace(" ", "-"));
   };
   (0, import_react32.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasData, location2]);
   (0, import_react32.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
