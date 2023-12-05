@@ -17,14 +17,16 @@ const Attendees = ({ attendees }: Props) => {
   const fetched = useRef(false);
   const location = useLocation();
 
+  const hasAttendees = Boolean(attendees);
+
   useEffect(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location;
 
       fetchFromPath(pathname + '/attendees');
       fetched.current = true;
     }
-  }, [fetched, location]);
+  }, [fetched, hasAttendees, location]);
 
   return (
     <IncidentActivityGroups title='Associated Names'>

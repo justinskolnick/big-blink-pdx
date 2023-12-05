@@ -21,14 +21,16 @@ const Attendees = ({
   const fetched = useRef(false);
   const location = useLocation();
 
+  const hasAttendees = 'attendees' in entity;
+
   useEffect(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location;
 
       fetchFromPath(pathname + '/attendees');
       fetched.current = true;
     }
-  }, [fetched, location]);
+  }, [fetched, hasAttendees, location]);
 
   return (
     <IncidentActivityGroups

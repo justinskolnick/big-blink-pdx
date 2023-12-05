@@ -43024,13 +43024,14 @@ var Attendees2 = ({
 }) => {
   const fetched = (0, import_react22.useRef)(false);
   const location2 = useLocation();
+  const hasAttendees = "attendees" in entity;
   (0, import_react22.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasAttendees, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
     incident_activity_groups_default,
     {
@@ -56565,6 +56566,7 @@ var Attendees3 = ({
 }) => {
   const fetched = (0, import_react31.useRef)(false);
   const location2 = useLocation();
+  const hasAttendees = "attendees" in person;
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
   const description = [
@@ -56580,12 +56582,12 @@ var Attendees3 = ({
   }
   description.push(roles.join(" and "));
   (0, import_react31.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasAttendees, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
     incident_activity_groups_default,
     {
@@ -56683,15 +56685,16 @@ var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
   const fetched = (0, import_react33.useRef)(false);
   const location2 = useLocation();
+  const hasEntities = "entities" in person;
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
   (0, import_react33.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasEntities || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasEntities, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
     incident_activity_groups_default,
     {
@@ -56903,13 +56906,14 @@ var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var Attendees4 = ({ attendees }) => {
   const fetched = (0, import_react36.useRef)(false);
   const location2 = useLocation();
+  const hasAttendees = Boolean(attendees);
   (0, import_react36.useEffect)(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
       fetched.current = true;
     }
-  }, [fetched, location2]);
+  }, [fetched, hasAttendees, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(
     incident_activity_group_default,
     {

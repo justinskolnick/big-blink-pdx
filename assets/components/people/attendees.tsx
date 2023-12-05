@@ -22,6 +22,7 @@ const Attendees = ({
   const fetched = useRef(false);
   const location = useLocation();
 
+  const hasAttendees = 'attendees' in person;
   const isLobbist = person.roles?.includes(Role.Lobbyist);
   const isOfficial = person.roles?.includes(Role.Official);
 
@@ -41,13 +42,13 @@ const Attendees = ({
   description.push(roles.join(' and '));
 
   useEffect(() => {
-    if (!fetched.current) {
+    if (!hasAttendees || !fetched.current) {
       const { pathname } = location;
 
       fetchFromPath(pathname + '/attendees');
       fetched.current = true;
     }
-  }, [fetched, location]);
+  }, [fetched, hasAttendees, location]);
 
   return (
     <IncidentActivityGroups

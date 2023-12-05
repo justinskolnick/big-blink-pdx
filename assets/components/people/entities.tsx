@@ -19,17 +19,18 @@ const Entities = ({ entities, person }: Props) => {
   const fetched = useRef(false);
   const location = useLocation();
 
+  const hasEntities = 'entities' in person;
   const isLobbist = person.roles?.includes(Role.Lobbyist);
   const isOfficial = person.roles?.includes(Role.Official);
 
   useEffect(() => {
-    if (!fetched.current) {
+    if (!hasEntities || !fetched.current) {
       const { pathname } = location;
 
       fetchFromPath(pathname + '/entities');
       fetched.current = true;
     }
-  }, [fetched, location]);
+  }, [fetched, hasEntities, location]);
 
   return (
     <IncidentActivityGroups
