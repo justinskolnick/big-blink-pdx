@@ -2,12 +2,6 @@ import React, { ReactNode } from 'react';
 import { cx, css } from '@emotion/css';
 
 const styles = css`
-  .item-article {
-    a {
-      color: var(--color-link);
-    }
-  }
-
   .item-content + .item-footer {
     margin-top: 2rem;
   }
@@ -31,9 +25,10 @@ const styles = css`
     margin-top: calc(3 * var(--gap));
   }
 
-  @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
+  .item-overview-chart {
+    padding: 18px;
+    border-radius: 9px;
+    background-color: var(--color-stat-light);
   }
 `;
 

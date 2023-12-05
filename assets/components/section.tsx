@@ -27,28 +27,24 @@ const styles = css`
         .text-primary {
           margin: 0 0.25ch;
           color: var(--color-black);
-          transition: color 250ms ease-in-out;
         }
 
         .text-secondary {
           margin-top: 0.0833em;
           color: var(--color-lighter-brown);
           font-size: 75%;
-          transition: color 350ms ease-in-out;
         }
       }
 
-      a {
+      a.header-identity-link {
         display: flex;
         align-items: center;
+        transform: scale(1);
+        transition: transform 250ms ease-in-out;
 
         &:hover {
           border-bottom: none;
-
-          .text-primary,
-          .text-secondary {
-            color: var(--color-brown);
-          }
+          transform: scale(1.125);
         }
       }
 
@@ -323,8 +319,8 @@ const styles = css`
   }
 
   @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
+    padding-left: var(--layout-margin-x);
+    padding-right: var(--layout-margin-x);
   }
 `;
 

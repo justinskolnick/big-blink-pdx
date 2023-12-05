@@ -4489,15 +4489,15 @@ var require_react_dom_development = __commonJS({
           };
         }
         var warnValidStyle$1 = warnValidStyle;
-        function createDangerousStringForStyles(styles41) {
+        function createDangerousStringForStyles(styles40) {
           {
             var serialized = "";
             var delimiter2 = "";
-            for (var styleName in styles41) {
-              if (!styles41.hasOwnProperty(styleName)) {
+            for (var styleName in styles40) {
+              if (!styles40.hasOwnProperty(styleName)) {
                 continue;
               }
-              var styleValue = styles41[styleName];
+              var styleValue = styles40[styleName];
               if (styleValue != null) {
                 var isCustomProperty3 = styleName.indexOf("--") === 0;
                 serialized += delimiter2 + (isCustomProperty3 ? styleName : hyphenateStyleName(styleName)) + ":";
@@ -4508,19 +4508,19 @@ var require_react_dom_development = __commonJS({
             return serialized || null;
           }
         }
-        function setValueForStyles(node2, styles41) {
+        function setValueForStyles(node2, styles40) {
           var style2 = node2.style;
-          for (var styleName in styles41) {
-            if (!styles41.hasOwnProperty(styleName)) {
+          for (var styleName in styles40) {
+            if (!styles40.hasOwnProperty(styleName)) {
               continue;
             }
             var isCustomProperty3 = styleName.indexOf("--") === 0;
             {
               if (!isCustomProperty3) {
-                warnValidStyle$1(styleName, styles41[styleName]);
+                warnValidStyle$1(styleName, styles40[styleName]);
               }
             }
-            var styleValue = dangerousStyleValue(styleName, styles41[styleName], isCustomProperty3);
+            var styleValue = dangerousStyleValue(styleName, styles40[styleName], isCustomProperty3);
             if (styleName === "float") {
               styleName = "cssFloat";
             }
@@ -4534,9 +4534,9 @@ var require_react_dom_development = __commonJS({
         function isValueEmpty(value) {
           return value == null || typeof value === "boolean" || value === "";
         }
-        function expandShorthandMap(styles41) {
+        function expandShorthandMap(styles40) {
           var expanded = {};
-          for (var key in styles41) {
+          for (var key in styles40) {
             var longhands = shorthandToLonghand[key] || [key];
             for (var i2 = 0; i2 < longhands.length; i2++) {
               expanded[longhands[i2]] = key;
@@ -23747,9 +23747,9 @@ var require_with_selector = __commonJS({
   }
 });
 
-// node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js
+// node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23902,9 +23902,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/hoist-non-react-statics/node_modules/react-is/index.js
+// node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/hoist-non-react-statics/node_modules/react-is/index.js"(exports, module) {
+  "node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -24002,9 +24002,9 @@ var require_hoist_non_react_statics_cjs = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development2 = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -24184,181 +24184,14 @@ var require_react_is_development2 = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/react-redux/node_modules/react-is/index.js
 var require_react_is2 = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/react-redux/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
     } else {
       module.exports = require_react_is_development2();
-    }
-  }
-});
-
-// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
-var require_react_is_development3 = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
-    "use strict";
-    if (true) {
-      (function() {
-        "use strict";
-        var hasSymbol = typeof Symbol === "function" && Symbol.for;
-        var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for("react.element") : 60103;
-        var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for("react.portal") : 60106;
-        var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for("react.fragment") : 60107;
-        var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for("react.strict_mode") : 60108;
-        var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for("react.profiler") : 60114;
-        var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for("react.provider") : 60109;
-        var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for("react.context") : 60110;
-        var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for("react.async_mode") : 60111;
-        var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for("react.concurrent_mode") : 60111;
-        var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for("react.forward_ref") : 60112;
-        var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for("react.suspense") : 60113;
-        var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for("react.suspense_list") : 60120;
-        var REACT_MEMO_TYPE = hasSymbol ? Symbol.for("react.memo") : 60115;
-        var REACT_LAZY_TYPE = hasSymbol ? Symbol.for("react.lazy") : 60116;
-        var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for("react.block") : 60121;
-        var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for("react.fundamental") : 60117;
-        var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for("react.responder") : 60118;
-        var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for("react.scope") : 60119;
-        function isValidElementType2(type) {
-          return typeof type === "string" || typeof type === "function" || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-          type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === "object" && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-        }
-        function typeOf(object) {
-          if (typeof object === "object" && object !== null) {
-            var $$typeof = object.$$typeof;
-            switch ($$typeof) {
-              case REACT_ELEMENT_TYPE:
-                var type = object.type;
-                switch (type) {
-                  case REACT_ASYNC_MODE_TYPE:
-                  case REACT_CONCURRENT_MODE_TYPE:
-                  case REACT_FRAGMENT_TYPE:
-                  case REACT_PROFILER_TYPE:
-                  case REACT_STRICT_MODE_TYPE:
-                  case REACT_SUSPENSE_TYPE:
-                    return type;
-                  default:
-                    var $$typeofType = type && type.$$typeof;
-                    switch ($$typeofType) {
-                      case REACT_CONTEXT_TYPE:
-                      case REACT_FORWARD_REF_TYPE:
-                      case REACT_LAZY_TYPE:
-                      case REACT_MEMO_TYPE:
-                      case REACT_PROVIDER_TYPE:
-                        return $$typeofType;
-                      default:
-                        return $$typeof;
-                    }
-                }
-              case REACT_PORTAL_TYPE:
-                return $$typeof;
-            }
-          }
-          return void 0;
-        }
-        var AsyncMode = REACT_ASYNC_MODE_TYPE;
-        var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
-        var ContextConsumer = REACT_CONTEXT_TYPE;
-        var ContextProvider = REACT_PROVIDER_TYPE;
-        var Element3 = REACT_ELEMENT_TYPE;
-        var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment18 = REACT_FRAGMENT_TYPE;
-        var Lazy = REACT_LAZY_TYPE;
-        var Memo = REACT_MEMO_TYPE;
-        var Portal = REACT_PORTAL_TYPE;
-        var Profiler = REACT_PROFILER_TYPE;
-        var StrictMode = REACT_STRICT_MODE_TYPE;
-        var Suspense = REACT_SUSPENSE_TYPE;
-        var hasWarnedAboutDeprecatedIsAsyncMode = false;
-        function isAsyncMode(object) {
-          {
-            if (!hasWarnedAboutDeprecatedIsAsyncMode) {
-              hasWarnedAboutDeprecatedIsAsyncMode = true;
-              console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.");
-            }
-          }
-          return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-        }
-        function isConcurrentMode(object) {
-          return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-        }
-        function isContextConsumer2(object) {
-          return typeOf(object) === REACT_CONTEXT_TYPE;
-        }
-        function isContextProvider(object) {
-          return typeOf(object) === REACT_PROVIDER_TYPE;
-        }
-        function isElement(object) {
-          return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        function isForwardRef(object) {
-          return typeOf(object) === REACT_FORWARD_REF_TYPE;
-        }
-        function isFragment(object) {
-          return typeOf(object) === REACT_FRAGMENT_TYPE;
-        }
-        function isLazy(object) {
-          return typeOf(object) === REACT_LAZY_TYPE;
-        }
-        function isMemo(object) {
-          return typeOf(object) === REACT_MEMO_TYPE;
-        }
-        function isPortal(object) {
-          return typeOf(object) === REACT_PORTAL_TYPE;
-        }
-        function isProfiler(object) {
-          return typeOf(object) === REACT_PROFILER_TYPE;
-        }
-        function isStrictMode(object) {
-          return typeOf(object) === REACT_STRICT_MODE_TYPE;
-        }
-        function isSuspense(object) {
-          return typeOf(object) === REACT_SUSPENSE_TYPE;
-        }
-        exports.AsyncMode = AsyncMode;
-        exports.ConcurrentMode = ConcurrentMode;
-        exports.ContextConsumer = ContextConsumer;
-        exports.ContextProvider = ContextProvider;
-        exports.Element = Element3;
-        exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment18;
-        exports.Lazy = Lazy;
-        exports.Memo = Memo;
-        exports.Portal = Portal;
-        exports.Profiler = Profiler;
-        exports.StrictMode = StrictMode;
-        exports.Suspense = Suspense;
-        exports.isAsyncMode = isAsyncMode;
-        exports.isConcurrentMode = isConcurrentMode;
-        exports.isContextConsumer = isContextConsumer2;
-        exports.isContextProvider = isContextProvider;
-        exports.isElement = isElement;
-        exports.isForwardRef = isForwardRef;
-        exports.isFragment = isFragment;
-        exports.isLazy = isLazy;
-        exports.isMemo = isMemo;
-        exports.isPortal = isPortal;
-        exports.isProfiler = isProfiler;
-        exports.isStrictMode = isStrictMode;
-        exports.isSuspense = isSuspense;
-        exports.isValidElementType = isValidElementType2;
-        exports.typeOf = typeOf;
-      })();
-    }
-  }
-});
-
-// node_modules/prop-types/node_modules/react-is/index.js
-var require_react_is3 = __commonJS({
-  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
-    "use strict";
-    if (false) {
-      module.exports = null;
-    } else {
-      module.exports = require_react_is_development3();
     }
   }
 });
@@ -24519,7 +24352,7 @@ var require_checkPropTypes = __commonJS({
 var require_factoryWithTypeCheckers = __commonJS({
   "node_modules/prop-types/factoryWithTypeCheckers.js"(exports, module) {
     "use strict";
-    var ReactIs = require_react_is3();
+    var ReactIs = require_react_is();
     var assign2 = require_object_assign();
     var ReactPropTypesSecret = require_ReactPropTypesSecret();
     var has = require_has();
@@ -24962,7 +24795,7 @@ var require_factoryWithTypeCheckers = __commonJS({
 var require_prop_types = __commonJS({
   "node_modules/prop-types/index.js"(exports, module) {
     if (true) {
-      ReactIs = require_react_is3();
+      ReactIs = require_react_is();
       throwOnDirectAccess = true;
       module.exports = require_factoryWithTypeCheckers()(ReactIs.isElement, throwOnDirectAccess);
     } else {
@@ -35540,8 +35373,8 @@ var createCache = function createCache2(options2) {
       currentSheet.insert(rule);
     })];
     var serializer = middleware(omnipresentPlugins.concat(stylisPlugins, finalizingPlugins));
-    var stylis = function stylis2(styles41) {
-      return serialize(compile(styles41), serializer);
+    var stylis = function stylis2(styles40) {
+      return serialize(compile(styles40), serializer);
     };
     _insert = function insert(selector, serialized, sheet2, shouldCache) {
       currentSheet = sheet2;
@@ -35761,11 +35594,11 @@ function handleInterpolation(mergedProps, registered, interpolation) {
             next2 = next2.next;
           }
         }
-        var styles41 = interpolation.styles + ";";
+        var styles40 = interpolation.styles + ";";
         if (interpolation.map !== void 0) {
-          styles41 += interpolation.map;
+          styles40 += interpolation.map;
         }
-        return styles41;
+        return styles40;
       }
       return createStringFromObject(mergedProps, registered, interpolation);
     }
@@ -35857,30 +35690,30 @@ var serializeStyles = function serializeStyles2(args, registered, mergedProps) {
     return args[0];
   }
   var stringMode = true;
-  var styles41 = "";
+  var styles40 = "";
   cursor = void 0;
   var strings = args[0];
   if (strings == null || strings.raw === void 0) {
     stringMode = false;
-    styles41 += handleInterpolation(mergedProps, registered, strings);
+    styles40 += handleInterpolation(mergedProps, registered, strings);
   } else {
     if (strings[0] === void 0) {
       console.error(ILLEGAL_ESCAPE_SEQUENCE_ERROR);
     }
-    styles41 += strings[0];
+    styles40 += strings[0];
   }
   for (var i2 = 1; i2 < args.length; i2++) {
-    styles41 += handleInterpolation(mergedProps, registered, args[i2]);
+    styles40 += handleInterpolation(mergedProps, registered, args[i2]);
     if (stringMode) {
       if (strings[i2] === void 0) {
         console.error(ILLEGAL_ESCAPE_SEQUENCE_ERROR);
       }
-      styles41 += strings[i2];
+      styles40 += strings[i2];
     }
   }
   var sourceMap;
   if (true) {
-    styles41 = styles41.replace(sourceMapPattern, function(match3) {
+    styles40 = styles40.replace(sourceMapPattern, function(match3) {
       sourceMap = match3;
       return "";
     });
@@ -35888,15 +35721,15 @@ var serializeStyles = function serializeStyles2(args, registered, mergedProps) {
   labelPattern.lastIndex = 0;
   var identifierName = "";
   var match2;
-  while ((match2 = labelPattern.exec(styles41)) !== null) {
+  while ((match2 = labelPattern.exec(styles40)) !== null) {
     identifierName += "-" + // $FlowFixMe we know it's not null
     match2[1];
   }
-  var name = murmur2(styles41) + identifierName;
+  var name = murmur2(styles40) + identifierName;
   if (true) {
     return {
       name,
-      styles: styles41,
+      styles: styles40,
       map: sourceMap,
       next: cursor,
       toString: function toString() {
@@ -35906,7 +35739,7 @@ var serializeStyles = function serializeStyles2(args, registered, mergedProps) {
   }
   return {
     name,
-    styles: styles41,
+    styles: styles40,
     next: cursor
   };
 };
@@ -36745,9 +36578,9 @@ function joinAttributes(attributes) {
     return acc + "".concat(attributeName, '="').concat(htmlEscape(attributes[attributeName]), '" ');
   }, "").trim();
 }
-function joinStyles(styles41) {
-  return Object.keys(styles41 || {}).reduce(function(acc, styleName) {
-    return acc + "".concat(styleName, ": ").concat(styles41[styleName].trim(), ";");
+function joinStyles(styles40) {
+  return Object.keys(styles40 || {}).reduce(function(acc, styleName) {
+    return acc + "".concat(styleName, ": ").concat(styles40[styleName].trim(), ";");
   }, "");
 }
 function transformIsMeaningful(transform) {
@@ -37407,14 +37240,14 @@ function domVariants(val, abstractCreator) {
   return val;
 }
 function asIcon(_ref2) {
-  var children = _ref2.children, main = _ref2.main, mask = _ref2.mask, attributes = _ref2.attributes, styles41 = _ref2.styles, transform = _ref2.transform;
+  var children = _ref2.children, main = _ref2.main, mask = _ref2.mask, attributes = _ref2.attributes, styles40 = _ref2.styles, transform = _ref2.transform;
   if (transformIsMeaningful(transform) && main.found && !mask.found) {
     var width = main.width, height = main.height;
     var offset = {
       x: width / height / 2,
       y: 0.5
     };
-    attributes["style"] = joinStyles(_objectSpread22(_objectSpread22({}, styles41), {}, {
+    attributes["style"] = joinStyles(_objectSpread22(_objectSpread22({}, styles40), {}, {
       "transform-origin": "".concat(offset.x + transform.x / 16, "em ").concat(offset.y + transform.y / 16, "em")
     }));
   }
@@ -37512,17 +37345,17 @@ function makeLayersTextAbstract(params) {
   if (watchable) {
     attributes[DATA_FA_I2SVG] = "";
   }
-  var styles41 = _objectSpread22({}, extra.styles);
+  var styles40 = _objectSpread22({}, extra.styles);
   if (transformIsMeaningful(transform)) {
-    styles41["transform"] = transformForCss({
+    styles40["transform"] = transformForCss({
       transform,
       startCentered: true,
       width,
       height
     });
-    styles41["-webkit-transform"] = styles41["transform"];
+    styles40["-webkit-transform"] = styles40["transform"];
   }
-  var styleString = joinStyles(styles41);
+  var styleString = joinStyles(styles40);
   if (styleString.length > 0) {
     attributes["style"] = styleString;
   }
@@ -37854,9 +37687,9 @@ function styleParser(node2) {
   var val = [];
   if (style) {
     val = style.split(";").reduce(function(acc, style2) {
-      var styles41 = style2.split(":");
-      var prop = styles41[0];
-      var value = styles41.slice(1);
+      var styles40 = style2.split(":");
+      var prop = styles40[0];
+      var value = styles40.slice(1);
       if (prop && value.length > 0) {
         acc[prop] = value.join(":").trim();
       }
@@ -38064,7 +37897,7 @@ function resolveIcons(next2) {
 }
 var render = function render2(iconDefinition) {
   var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-  var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$symbol = params.symbol, symbol = _params$symbol === void 0 ? false : _params$symbol, _params$mask = params.mask, mask = _params$mask === void 0 ? null : _params$mask, _params$maskId = params.maskId, maskId = _params$maskId === void 0 ? null : _params$maskId, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$titleId = params.titleId, titleId = _params$titleId === void 0 ? null : _params$titleId, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles41 = _params$styles === void 0 ? {} : _params$styles;
+  var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$symbol = params.symbol, symbol = _params$symbol === void 0 ? false : _params$symbol, _params$mask = params.mask, mask = _params$mask === void 0 ? null : _params$mask, _params$maskId = params.maskId, maskId = _params$maskId === void 0 ? null : _params$maskId, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$titleId = params.titleId, titleId = _params$titleId === void 0 ? null : _params$titleId, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles40 = _params$styles === void 0 ? {} : _params$styles;
   if (!iconDefinition)
     return;
   var prefix3 = iconDefinition.prefix, iconName = iconDefinition.iconName, icon3 = iconDefinition.icon;
@@ -38102,7 +37935,7 @@ var render = function render2(iconDefinition) {
       titleId,
       extra: {
         attributes,
-        styles: styles41,
+        styles: styles40,
         classes
       }
     });
@@ -38158,8 +37991,8 @@ var ReplaceElements = {
       });
     };
     providers$$1.generateAbstractIcon = function(_ref3) {
-      var children = _ref3.children, attributes = _ref3.attributes, main = _ref3.main, transform = _ref3.transform, styles41 = _ref3.styles;
-      var styleString = joinStyles(styles41);
+      var children = _ref3.children, attributes = _ref3.attributes, main = _ref3.main, transform = _ref3.transform, styles40 = _ref3.styles;
+      var styleString = joinStyles(styles40);
       if (styleString.length > 0) {
         attributes["style"] = styleString;
       }
@@ -38216,7 +38049,7 @@ var LayersCounter = {
     return {
       counter: function counter2(content) {
         var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        var _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles41 = _params$styles === void 0 ? {} : _params$styles;
+        var _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles40 = _params$styles === void 0 ? {} : _params$styles;
         return domVariants({
           type: "counter",
           content
@@ -38230,7 +38063,7 @@ var LayersCounter = {
             title,
             extra: {
               attributes,
-              styles: styles41,
+              styles: styles40,
               classes: ["".concat(config.cssPrefix, "-layers-counter")].concat(_toConsumableArray(classes))
             }
           });
@@ -38244,7 +38077,7 @@ var LayersText = {
     return {
       text: function text2(content) {
         var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles41 = _params$styles === void 0 ? {} : _params$styles;
+        var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles40 = _params$styles === void 0 ? {} : _params$styles;
         return domVariants({
           type: "text",
           content
@@ -38259,7 +38092,7 @@ var LayersText = {
             title,
             extra: {
               attributes,
-              styles: styles41,
+              styles: styles40,
               classes: ["".concat(config.cssPrefix, "-layers-text")].concat(_toConsumableArray(classes))
             }
           });
@@ -38315,15 +38148,15 @@ function replaceForPosition(node2, position2) {
     var alreadyProcessedPseudoElement = children.filter(function(c2) {
       return c2.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position2;
     })[0];
-    var styles41 = WINDOW.getComputedStyle(node2, position2);
-    var fontFamily = styles41.getPropertyValue("font-family").match(FONT_FAMILY_PATTERN);
-    var fontWeight = styles41.getPropertyValue("font-weight");
-    var content = styles41.getPropertyValue("content");
+    var styles40 = WINDOW.getComputedStyle(node2, position2);
+    var fontFamily = styles40.getPropertyValue("font-family").match(FONT_FAMILY_PATTERN);
+    var fontWeight = styles40.getPropertyValue("font-weight");
+    var content = styles40.getPropertyValue("content");
     if (alreadyProcessedPseudoElement && !fontFamily) {
       node2.removeChild(alreadyProcessedPseudoElement);
       return resolve2();
     } else if (fontFamily && content !== "none" && content !== "") {
-      var _content = styles41.getPropertyValue("content");
+      var _content = styles40.getPropertyValue("content");
       var family = ~["Sharp"].indexOf(fontFamily[2]) ? FAMILY_SHARP : FAMILY_CLASSIC;
       var prefix3 = ~["Solid", "Regular", "Light", "Thin", "Duotone", "Brands", "Kit"].indexOf(fontFamily[2]) ? STYLE_TO_PREFIX[family][fontFamily[2].toLowerCase()] : FONT_WEIGHT_TO_PREFIX[family][fontWeight];
       var _hexValueFromContent = hexValueFromContent(_content), hexValue = _hexValueFromContent.value, isSecondary = _hexValueFromContent.isSecondary;
@@ -40764,17 +40597,6 @@ var styles6 = css`
     color: var(--color-link);
   }
 
-  @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
-
-    .global-footer-navigation {
-      .global-footer-navigation-title + .global-footer-navigation-links {
-        margin-top: calc(var(--gap) / 2);
-      }
-    }
-  }
-
   @media screen and (min-width: 601px) {
     .global-footer-navigation {
       display: flex;
@@ -40783,6 +40605,17 @@ var styles6 = css`
 
       .global-footer-navigation-title + .global-footer-navigation-links {
         margin-left: calc(var(--gap) * 2);
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding-left: var(--layout-margin-x);
+    padding-right: var(--layout-margin-x);
+
+    .global-footer-navigation {
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-top: calc(var(--gap) / 2);
       }
     }
   }
@@ -40947,7 +40780,9 @@ var Header = ({
             /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-identity", children: [
               /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "The" }),
+                " ",
                 /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-primary", children: "Big Blink" }),
+                " ",
                 /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "PDX" })
               ] }) }),
               /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(eyes_default, {}) })
@@ -41506,6 +41341,10 @@ var import_jsx_runtime28 = __toESM(require_jsx_runtime());
 var styles14 = css`
   p {
     font-weight: 100;
+
+    a {
+      font-weight: 300;
+    }
   }
 
   .global-date-range-note {
@@ -41638,28 +41477,24 @@ var styles15 = css`
         .text-primary {
           margin: 0 0.25ch;
           color: var(--color-black);
-          transition: color 250ms ease-in-out;
         }
 
         .text-secondary {
           margin-top: 0.0833em;
           color: var(--color-lighter-brown);
           font-size: 75%;
-          transition: color 350ms ease-in-out;
         }
       }
 
-      a {
+      a.header-identity-link {
         display: flex;
         align-items: center;
+        transform: scale(1);
+        transition: transform 250ms ease-in-out;
 
         &:hover {
           border-bottom: none;
-
-          .text-primary,
-          .text-secondary {
-            color: var(--color-brown);
-          }
+          transform: scale(1.125);
         }
       }
 
@@ -41934,8 +41769,8 @@ var styles15 = css`
   }
 
   @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
+    padding-left: var(--layout-margin-x);
+    padding-right: var(--layout-margin-x);
   }
 `;
 var Section = ({
@@ -41983,16 +41818,12 @@ var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var styles16 = css`
   position: relative;
   margin: 0 auto;
-  padding-top: var(--layout-margin);
-  padding-bottom: var(--layout-margin);
+  padding-top: var(--layout-margin-y);
+  padding-bottom: var(--layout-margin-y);
   max-width: 990px;
   width: 100vw;
   height: 100%;
   z-index: 3;
-
-  @media screen and (min-width: 601px) {
-    width: calc(100vw - (2 * var(--layout-margin)));
-  }
 
   @media screen and (min-width: 401px) {
     transform-origin: left bottom;
@@ -42012,8 +41843,8 @@ var styles16 = css`
   }
 
   .global-main + .global-footer {
-    margin-top: calc(3 * var(--gap));
-    padding-top: calc(3 * var(--gap));
+    margin-top: calc(var(--gap) * 3);
+    padding-top: calc(var(--gap) * 3);
     border-top: 3px solid var(--color-light-gray);
   }
 
@@ -42023,16 +41854,20 @@ var styles16 = css`
     }
 
     &.item-header + .item-content {
-      margin-top: calc(3 * var(--gap));
+      margin-top: calc(var(--gap) * 3);
     }
   }
 
-  @media screen and (max-width: 600px) {
-    --layout-margin: var(--gap);
+  @media screen and (min-width: 601px) {
+    --layout-margin-x: calc(var(--gap) * 3);
+    --layout-margin-y: calc(var(--gap) * 3);
+
+    width: calc(100vw - calc(var(--layout-margin-x) * 2));
   }
 
-  @media screen and (min-width: 601px) {
-    --layout-margin: calc(3 * var(--gap));
+  @media screen and (max-width: 600px) {
+    --layout-margin-x: var(--gap);
+    --layout-margin-y: calc(var(--gap) * 3);
   }
 `;
 var App = () => {
@@ -43058,18 +42893,7 @@ var import_react25 = __toESM(require_react());
 
 // components/incident-activity-chart.tsx
 var import_jsx_runtime48 = __toESM(require_jsx_runtime());
-var styles28 = css`
-  .item-overview-chart {
-    padding: 18px;
-    border-radius: 9px;
-    background-color: var(--color-stat-light);
-
-    & + .item-article {
-      margin-top: 18px;
-    }
-  }
-`;
-var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: cx("activity-stat activity-chart", styles28), children });
+var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "activity-stat activity-chart", children });
 var incident_activity_chart_default = IncidentActivityChart;
 
 // components/item-chart.tsx
@@ -45450,12 +45274,12 @@ var positions = [
   "bottom",
   "left"
 ];
-function getPositionedStyle(styles41, style, suffix) {
+function getPositionedStyle(styles40, style, suffix) {
   const result = {};
   suffix = suffix ? "-" + suffix : "";
   for (let i2 = 0; i2 < 4; i2++) {
     const pos = positions[i2];
-    result[pos] = parseFloat(styles41[style + "-" + pos + suffix]) || 0;
+    result[pos] = parseFloat(styles40[style + "-" + pos + suffix]) || 0;
   }
   result.width = result.left + result.right;
   result.height = result.top + result.bottom;
@@ -55626,7 +55450,7 @@ var import_react27 = __toESM(require_react());
 
 // components/incidents-header.tsx
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
-var styles29 = css`
+var styles28 = css`
   display: inline-block;
 
   h4, h5 {
@@ -55682,7 +55506,7 @@ var IncidentsHeader = ({
 }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
   item_subhead_default,
   {
-    className: styles29,
+    className: styles28,
     title: "Incidents",
     subtitle: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(PrimaryAssociation, { label }),
     children
@@ -55693,7 +55517,7 @@ var incidents_header_default = IncidentsHeader;
 // components/incident-list-table.tsx
 var import_react26 = __toESM(require_react());
 var import_jsx_runtime52 = __toESM(require_jsx_runtime());
-var styles30 = css`
+var styles29 = css`
   position: relative;
   padding: 9px;
   border-radius: 9px;
@@ -55900,7 +55724,7 @@ var IncidentListTable = ({ hasSort, ids }) => {
   const hasIds = ids?.length > 0;
   if (!ids)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: cx("incident-list-table-frame", styles30), children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "incident-list-table", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("table", { cellPadding: "0", cellSpacing: "0", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: cx("incident-list-table-frame", styles29), children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "incident-list-table", children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("table", { cellPadding: "0", cellSpacing: "0", children: [
     /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { className: "cell-date", children: hasSort ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(
         SortLink,
@@ -55922,7 +55746,7 @@ var incident_list_table_default = IncidentListTable;
 
 // components/incident-list.tsx
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
-var styles31 = css`
+var styles30 = css`
   font-size: 12px;
   line-height: 18px;
 
@@ -55944,7 +55768,7 @@ var IncidentList = ({
   ids,
   pagination,
   scrollToRef
-}) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: cx("incident-list", styles31), children: [
+}) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: cx("incident-list", styles30), children: [
   /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(incident_list_table_default, { hasSort, ids }),
   pagination && ids.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("footer", { className: "incident-list-footer", children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(pagination_default, { pagination, onPageClick: scrollToRef }) })
 ] });
@@ -55952,7 +55776,7 @@ var incident_list_default = IncidentList;
 
 // components/detail-incidents.tsx
 var import_jsx_runtime54 = __toESM(require_jsx_runtime());
-var styles32 = css`
+var styles31 = css`
   .activity-stat-section + & {
     padding-top: calc(3 * var(--gap));
     border-top: 3px solid var(--color-divider);
@@ -56031,7 +55855,7 @@ var DetailIncidents = (0, import_react27.forwardRef)(({
   ]);
   return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: cx(
     "activity-stat-section incident-list-section",
-    styles32
+    styles31
   ), ref, children: [
     /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(incidents_header_default, { label, children: [
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
@@ -56054,13 +55878,7 @@ var detail_incidents_default = DetailIncidents;
 
 // components/item-detail.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
-var styles33 = css`
-  .item-article {
-    a {
-      color: var(--color-link);
-    }
-  }
-
+var styles32 = css`
   .item-content + .item-footer {
     margin-top: 2rem;
   }
@@ -56084,12 +55902,13 @@ var styles33 = css`
     margin-top: calc(3 * var(--gap));
   }
 
-  @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
+  .item-overview-chart {
+    padding: 18px;
+    border-radius: 9px;
+    background-color: var(--color-stat-light);
   }
 `;
-var ItemDetail = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("section", { className: cx("item-detail", styles33, className), children });
+var ItemDetail = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("section", { className: cx("item-detail", styles32, className), children });
 var item_detail_default = ItemDetail;
 
 // components/entities/detail.tsx
@@ -56182,7 +56001,7 @@ var more_default = LeaderboardSubsectionGroup;
 
 // components/leaderboard/subsection.tsx
 var import_jsx_runtime59 = __toESM(require_jsx_runtime());
-var styles34 = css`
+var styles33 = css`
   & + & {
     margin-top: calc(3 * var(--gap));
   }
@@ -56193,12 +56012,12 @@ var styles34 = css`
     grid-gap: calc(2 * var(--gap));
   }
 `;
-var LeaderboardSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("section", { className: cx("leaderboard-subsection", styles34), children });
+var LeaderboardSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("section", { className: cx("leaderboard-subsection", styles33), children });
 var subsection_default = LeaderboardSubsection;
 
 // components/leaderboard/subsection-group.tsx
 var import_jsx_runtime60 = __toESM(require_jsx_runtime());
-var styles35 = css`
+var styles34 = css`
   .item-subhead {
     h5 {
       display: flex;
@@ -56213,7 +56032,7 @@ var styles35 = css`
     margin-top: var(--gap);
   }
 `;
-var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: cx("leaderboard-subsection-group", styles35), children });
+var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: cx("leaderboard-subsection-group", styles34), children });
 var subsection_group_default = LeaderboardSubsectionGroup2;
 
 // components/home/leaderboard-entities.tsx
@@ -56362,7 +56181,7 @@ var leaderboard_officials_default = OfficialsLeaderboard;
 
 // components/home/index.tsx
 var import_jsx_runtime65 = __toESM(require_jsx_runtime());
-var styles36 = css`
+var styles35 = css`
   .item-overview-chart + .leaderboard-subsection {
     margin-top: calc(3 * var(--gap));
   }
@@ -56382,7 +56201,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
   {
     icon: "chart-simple",
     title: "Lobbying in Portland, Oregon",
-    className: styles36,
+    className: styles35,
     children: [
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(chart_default2, {}),
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(leaderboard_entities_default, {}),
@@ -56463,7 +56282,7 @@ var incident_source_box_default = IncidentSourceBox;
 
 // components/incidents/detail.tsx
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
-var styles37 = css`
+var styles36 = css`
   --color-divider: var(--color-light-gray);
 
   .item-content-section {
@@ -56536,7 +56355,7 @@ var Detail2 = () => {
   const incident = useSelector((state) => selectors2.selectById(state, id));
   if (!incident)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(item_detail_default, { className: styles37, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(item_detail_default, { className: styles36, children: [
     /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
       /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(item_subhead_default, { title: "Details" }),
       /* @__PURE__ */ (0, import_jsx_runtime68.jsx)("div", { className: "incident-details", children: /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(incident_table_default, { incident }) })
@@ -56781,7 +56600,7 @@ var detail_default3 = Detail3;
 // components/sources/item.tsx
 var import_react35 = __toESM(require_react());
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
-var styles38 = css`
+var styles37 = css`
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
@@ -56856,7 +56675,7 @@ var Source = ({ id }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
     LinkToSource,
     {
-      className: cx("item-source-quarter", styles38),
+      className: cx("item-source-quarter", styles37),
       id: source.id,
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(icon_default, { name: "database" }) }),
@@ -56876,7 +56695,7 @@ var item_default = Source;
 
 // components/sources/index.tsx
 var import_jsx_runtime75 = __toESM(require_jsx_runtime());
-var styles39 = css`
+var styles38 = css`
   .item-subhead {
     color: var(--color-accent);
   }
@@ -56892,7 +56711,7 @@ var styles39 = css`
 var Index4 = () => {
   const byYear = useSelector(getSourcesByYear);
   const hasSources = byYear.length > 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(section_index_default, { className: styles39, isLoading: !hasSources, children: byYear.map((sources) => /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)("div", { className: "item-index-group", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(section_index_default, { className: styles38, isLoading: !hasSources, children: byYear.map((sources) => /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)("div", { className: "item-index-group", children: [
     /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(item_subhead_default, { title: sources.year }),
     /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("div", { className: "section-index-list", children: sources.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(item_default, { id: source.id }, source.id)) })
   ] }, sources.year)) });
@@ -56961,7 +56780,7 @@ var entities_default4 = Entities2;
 
 // components/sources/detail.tsx
 var import_jsx_runtime79 = __toESM(require_jsx_runtime());
-var styles40 = css`
+var styles39 = css`
   .activity-meta-section {
     display: flex;
     align-items: stretch;
@@ -57035,7 +56854,7 @@ var Detail4 = () => {
   const hasIncidents = isActivity && Boolean(incidents);
   if (!hasSource)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(item_detail_default, { className: styles40, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(item_detail_default, { className: styles39, children: [
     /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)("section", { className: "activity-meta-section item-source-file", children: [
       /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("div", { className: cx("activity-meta-section-icon", {
         "icon-csv": source.format === "csv"
@@ -57275,16 +57094,6 @@ react-is/cjs/react-is.development.js:
 react-is/cjs/react-is.development.js:
   (**
    * @license React
-   * react-is.development.js
-   *
-   * Copyright (c) Facebook, Inc. and its affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
-
-react-is/cjs/react-is.development.js:
-  (** @license React v16.13.1
    * react-is.development.js
    *
    * Copyright (c) Facebook, Inc. and its affiliates.

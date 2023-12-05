@@ -102,17 +102,6 @@ const styles = css`
     color: var(--color-link);
   }
 
-  @media screen and (max-width: 600px) {
-    padding-left: var(--layout-margin);
-    padding-right: var(--layout-margin);
-
-    .global-footer-navigation {
-      .global-footer-navigation-title + .global-footer-navigation-links {
-        margin-top: calc(var(--gap) / 2);
-      }
-    }
-  }
-
   @media screen and (min-width: 601px) {
     .global-footer-navigation {
       display: flex;
@@ -121,6 +110,17 @@ const styles = css`
 
       .global-footer-navigation-title + .global-footer-navigation-links {
         margin-left: calc(var(--gap) * 2);
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding-left: var(--layout-margin-x);
+    padding-right: var(--layout-margin-x);
+
+    .global-footer-navigation {
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-top: calc(var(--gap) / 2);
       }
     }
   }

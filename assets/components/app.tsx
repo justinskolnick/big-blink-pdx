@@ -21,16 +21,12 @@ import { getDescription } from '../selectors';
 const styles = css`
   position: relative;
   margin: 0 auto;
-  padding-top: var(--layout-margin);
-  padding-bottom: var(--layout-margin);
+  padding-top: var(--layout-margin-y);
+  padding-bottom: var(--layout-margin-y);
   max-width: 990px;
   width: 100vw;
   height: 100%;
   z-index: 3;
-
-  @media screen and (min-width: 601px) {
-    width: calc(100vw - (2 * var(--layout-margin)));
-  }
 
   @media screen and (min-width: 401px) {
     transform-origin: left bottom;
@@ -50,8 +46,8 @@ const styles = css`
   }
 
   .global-main + .global-footer {
-    margin-top: calc(3 * var(--gap));
-    padding-top: calc(3 * var(--gap));
+    margin-top: calc(var(--gap) * 3);
+    padding-top: calc(var(--gap) * 3);
     border-top: 3px solid var(--color-light-gray);
   }
 
@@ -61,16 +57,20 @@ const styles = css`
     }
 
     &.item-header + .item-content {
-      margin-top: calc(3 * var(--gap));
+      margin-top: calc(var(--gap) * 3);
     }
   }
 
-  @media screen and (max-width: 600px) {
-    --layout-margin: var(--gap);
+  @media screen and (min-width: 601px) {
+    --layout-margin-x: calc(var(--gap) * 3);
+    --layout-margin-y: calc(var(--gap) * 3);
+
+    width: calc(100vw - calc(var(--layout-margin-x) * 2));
   }
 
-  @media screen and (min-width: 601px) {
-    --layout-margin: calc(3 * var(--gap));
+  @media screen and (max-width: 600px) {
+    --layout-margin-x: var(--gap);
+    --layout-margin-y: calc(var(--gap) * 3);
   }
 `;
 

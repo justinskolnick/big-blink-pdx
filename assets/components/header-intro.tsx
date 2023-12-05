@@ -18,6 +18,10 @@ import {
 const styles = css`
   p {
     font-weight: 100;
+
+    a {
+      font-weight: 300;
+    }
   }
 
   .global-date-range-note {

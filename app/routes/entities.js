@@ -115,7 +115,6 @@ router.get('/:id', async (req, res, next) => {
   let entityIncidents;
   let entityLocations;
   let records;
-  let attendees;
   let data;
   let meta;
 

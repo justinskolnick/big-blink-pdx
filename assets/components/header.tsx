@@ -89,7 +89,9 @@ const Header = ({
             <h1>
               <GlobalLink to='/' className='header-identity-link'>
                 <span className='text-secondary'>The</span>
+                {' '}
                 <span className='text-primary'>Big Blink</span>
+                {' '}
                 <span className='text-secondary'>PDX</span>
               </GlobalLink>
             </h1>
