@@ -25675,10 +25675,10 @@ var require_react_jsx_runtime_development = __commonJS({
           }
         }
         var jsx81 = jsxWithValidationDynamic;
-        var jsxs47 = jsxWithValidationStatic;
+        var jsxs48 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
         exports.jsx = jsx81;
-        exports.jsxs = jsxs47;
+        exports.jsxs = jsxs48;
       })();
     }
   }
@@ -41341,10 +41341,6 @@ var import_jsx_runtime28 = __toESM(require_jsx_runtime());
 var styles14 = css`
   p {
     font-weight: 100;
-
-    a {
-      font-weight: 300;
-    }
   }
 
   .global-date-range-note {
@@ -41371,6 +41367,10 @@ var styles14 = css`
     p {
       font-size: 18px;
       line-height: 27px;
+
+      a {
+        font-weight: 300;
+      }
     }
   }
 `;
@@ -41494,7 +41494,7 @@ var styles15 = css`
 
         &:hover {
           border-bottom: none;
-          transform: scale(1.125);
+          transform: scale(1.05);
         }
       }
 
@@ -41557,7 +41557,8 @@ var styles15 = css`
                     height 250ms ease-in-out;
 
         .icon {
-          transition: width 250ms ease-in-out,
+          transition: background-color 250ms ease-in-out,
+                      width 250ms ease-in-out,
                       height 250ms ease-in-out;
         }
       }
@@ -41571,7 +41572,8 @@ var styles15 = css`
         color: var(--color-white);
 
         &.has-link {
-          transition: width 250ms ease-in-out,
+          transition: background-color 250ms ease-in-out,
+                      width 250ms ease-in-out,
                       height 250ms ease-in-out;
         }
 
@@ -55395,7 +55397,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
   (0, import_react24.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
-  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "item-overview-chart", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "item-chart", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
     Bar,
     {
       datasetIdKey: "id",
@@ -55902,7 +55904,7 @@ var styles32 = css`
     margin-top: calc(3 * var(--gap));
   }
 
-  .item-overview-chart {
+  .item-chart {
     padding: 18px;
     border-radius: 9px;
     background-color: var(--color-stat-light);
@@ -55966,21 +55968,67 @@ var Detail = () => {
 };
 var detail_default = Detail;
 
-// components/home/chart.tsx
+// components/leaderboard/subsection.tsx
 var import_jsx_runtime57 = __toESM(require_jsx_runtime());
+var styles33 = css`
+  & + & {
+    margin-top: calc(3 * var(--gap));
+  }
+
+  &.is-grid {
+    @media screen and (min-width: 813px) {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: calc(2 * var(--gap));
+    }
+  }
+`;
+var LeaderboardSubsection = ({ children, isGrid = false }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("section", { className: cx(
+  "leaderboard-subsection",
+  isGrid && "is-grid",
+  styles33
+), children });
+var subsection_default = LeaderboardSubsection;
+
+// components/leaderboard/subsection-group.tsx
+var import_jsx_runtime58 = __toESM(require_jsx_runtime());
+var styles34 = css`
+  .item-subhead {
+    h5 {
+      display: flex;
+    }
+  }
+
+  .item-subhead + .item-chart,
+  .item-subhead + .item-table {
+    margin-top: var(--gap);
+  }
+
+  .item-table + .leaderboard-more {
+    margin-top: var(--gap);
+  }
+`;
+var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("div", { className: cx("leaderboard-subsection-group", styles34), children });
+var subsection_group_default = LeaderboardSubsectionGroup;
+
+// components/home/chart.tsx
+var import_jsx_runtime59 = __toESM(require_jsx_runtime());
 var Chart4 = () => {
   const sources = useSelector(getSourcesDataForChart);
   const data = sources?.data;
   const lineProps = {
     data
   };
-  return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(item_chart_default, { lineProps });
+  return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(subsection_default, { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(subsection_group_default, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_text_with_icon_default, { icon: "chart-simple", children: "Lobbying activity over time" }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(item_chart_default, { lineProps })
+  ] }) });
 };
 var chart_default2 = Chart4;
 
 // components/leaderboard/more.tsx
-var import_jsx_runtime58 = __toESM(require_jsx_runtime());
-var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("div", { className: cx("leaderboard-more", css`
+var import_jsx_runtime60 = __toESM(require_jsx_runtime());
+var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: cx("leaderboard-more", css`
     padding-left: 6px;
     padding-right: 6px;
 
@@ -55997,43 +56045,7 @@ var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_js
       margin-left: 2.5ch;
     }
   `), children });
-var more_default = LeaderboardSubsectionGroup;
-
-// components/leaderboard/subsection.tsx
-var import_jsx_runtime59 = __toESM(require_jsx_runtime());
-var styles33 = css`
-  & + & {
-    margin-top: calc(3 * var(--gap));
-  }
-
-  @media screen and (min-width: 813px) {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-gap: calc(2 * var(--gap));
-  }
-`;
-var LeaderboardSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("section", { className: cx("leaderboard-subsection", styles33), children });
-var subsection_default = LeaderboardSubsection;
-
-// components/leaderboard/subsection-group.tsx
-var import_jsx_runtime60 = __toESM(require_jsx_runtime());
-var styles34 = css`
-  .item-subhead {
-    h5 {
-      display: flex;
-    }
-  }
-
-  .item-subhead + .item-table {
-    margin-top: calc(var(--gap) / 2);
-  }
-
-  .item-table + .leaderboard-more {
-    margin-top: var(--gap);
-  }
-`;
-var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: cx("leaderboard-subsection-group", styles34), children });
-var subsection_group_default = LeaderboardSubsectionGroup2;
+var more_default = LeaderboardSubsectionGroup2;
 
 // components/home/leaderboard-entities.tsx
 var import_jsx_runtime61 = __toESM(require_jsx_runtime());
@@ -56045,13 +56057,10 @@ var EntitiesLeaderboard = () => {
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(subsection_default, { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(subsection_default, { isGrid: true, children: [
     /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(subsection_subhead_default, { title: "Lobbying Entities", children: "These lobbying entities are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
-        label,
-        ":"
-      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_text_with_icon_default, { icon: "trophy", children: label }) }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(EntityItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(LinkToEntities, { children: "View the full list of lobbying entities" }) }) })
     ] })
@@ -56141,13 +56150,10 @@ var LobbyistsLeaderboard = () => {
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(subsection_default, { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(subsection_default, { isGrid: true, children: [
     /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(subsection_subhead_default, { title: "Lobbyists", children: "These lobbyists are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
-        label,
-        ":"
-      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_text_with_icon_default, { icon: "trophy", children: label }) }),
       /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(LinkToPeople, { children: "View all lobbyists in the full list of people" }) }) })
     ] })
@@ -56165,13 +56171,10 @@ var OfficialsLeaderboard = () => {
   const hasIds = ids.length > 0;
   if (!hasIds)
     return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(subsection_default, { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(subsection_default, { isGrid: true, children: [
     /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(subsection_subhead_default, { title: "City Officials", children: "These Portland City officials are ranked by total number of lobbying incident appearances." }),
     /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(subsection_group_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(item_text_with_icon_default, { icon: "trophy", children: [
-        label,
-        ":"
-      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_subhead_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_text_with_icon_default, { icon: "trophy", children: label }) }),
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_table_default, { hasPercent: true, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(PersonItem, { id }, id)) }),
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(LinkToPeople, { children: "View all officials in the full list of people" }) }) })
     ] })
@@ -56182,10 +56185,6 @@ var leaderboard_officials_default = OfficialsLeaderboard;
 // components/home/index.tsx
 var import_jsx_runtime65 = __toESM(require_jsx_runtime());
 var styles35 = css`
-  .item-overview-chart + .leaderboard-subsection {
-    margin-top: calc(3 * var(--gap));
-  }
-
   @media screen and (max-width: 600px) {
     .section {
       .section-header-title {
@@ -56199,7 +56198,7 @@ var styles35 = css`
 var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
   section_default,
   {
-    icon: "chart-simple",
+    icon: "handshake",
     title: "Lobbying in Portland, Oregon",
     className: styles35,
     children: [

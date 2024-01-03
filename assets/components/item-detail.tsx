@@ -25,7 +25,7 @@ const styles = css`
     margin-top: calc(3 * var(--gap));
   }
 
-  .item-overview-chart {
+  .item-chart {
     padding: 18px;
     border-radius: 9px;
     background-color: var(--color-stat-light);

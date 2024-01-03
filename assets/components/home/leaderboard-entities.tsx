@@ -23,7 +23,7 @@ const EntitiesLeaderboard = () => {
   if (!hasIds) return null;
 
   return (
-    <LeaderboardSubsection>
+    <LeaderboardSubsection isGrid>
       <SubsectionSubhead title='Lobbying Entities'>
         These lobbying entities are ranked by total number of lobbying incident appearances.
       </SubsectionSubhead>
@@ -31,7 +31,7 @@ const EntitiesLeaderboard = () => {
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
           <ItemTextWithIcon icon='trophy'>
-            {label}:
+            {label}
           </ItemTextWithIcon>
         )} />
         <ItemTable hasPercent>

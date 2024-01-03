@@ -23,7 +23,7 @@ const OfficialsLeaderboard = () => {
   if (!hasIds) return null;
 
   return (
-    <LeaderboardSubsection>
+    <LeaderboardSubsection isGrid>
       <SubsectionSubhead title='City Officials'>
         These Portland City officials are ranked by total number of lobbying incident appearances.
       </SubsectionSubhead>
@@ -31,7 +31,7 @@ const OfficialsLeaderboard = () => {
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
           <ItemTextWithIcon icon='trophy'>
-            {label}:
+            {label}
           </ItemTextWithIcon>
         )} />
         <ItemTable hasPercent>

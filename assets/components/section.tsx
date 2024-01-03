@@ -44,7 +44,7 @@ const styles = css`
 
         &:hover {
           border-bottom: none;
-          transform: scale(1.125);
+          transform: scale(1.05);
         }
       }
 
@@ -107,7 +107,8 @@ const styles = css`
                     height 250ms ease-in-out;
 
         .icon {
-          transition: width 250ms ease-in-out,
+          transition: background-color 250ms ease-in-out,
+                      width 250ms ease-in-out,
                       height 250ms ease-in-out;
         }
       }
@@ -121,7 +122,8 @@ const styles = css`
         color: var(--color-white);
 
         &.has-link {
-          transition: width 250ms ease-in-out,
+          transition: background-color 250ms ease-in-out,
+                      width 250ms ease-in-out,
                       height 250ms ease-in-out;
         }
 

@@ -152,7 +152,7 @@ const ItemChart = ({ handleClick, label, lineProps }: Props) => {
   }, [lineProps, setHasLineLabel]);
 
   return (
-    <div className='item-overview-chart'>
+    <div className='item-chart'>
       <Bar
         datasetIdKey='id'
         options={options}

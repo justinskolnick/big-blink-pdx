@@ -8,8 +8,9 @@ const styles = css`
     }
   }
 
+  .item-subhead + .item-chart,
   .item-subhead + .item-table {
-    margin-top: calc(var(--gap) / 2);
+    margin-top: var(--gap);
   }
 
   .item-table + .leaderboard-more {

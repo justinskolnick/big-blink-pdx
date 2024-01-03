@@ -8,10 +8,6 @@ import OfficialsLeaderboard from './leaderboard-officials';
 import Section from '../section';
 
 const styles = css`
-  .item-overview-chart + .leaderboard-subsection {
-    margin-top: calc(3 * var(--gap));
-  }
-
   @media screen and (max-width: 600px) {
     .section {
       .section-header-title {
@@ -25,7 +21,7 @@ const styles = css`
 
 const Home = () => (
   <Section
-    icon='chart-simple'
+    icon='handshake'
     title='Lobbying in Portland, Oregon'
     className={styles}
   >
