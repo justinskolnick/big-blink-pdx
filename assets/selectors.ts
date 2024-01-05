@@ -1,5 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { sortQuarterAscendingTypeDecending } from './lib/sorting';
+
 import { RootState } from './lib/store';
 import type { Ids, Id, Source } from './types';
 
@@ -67,6 +69,7 @@ export const getSourcesByYear = createSelector(
         }
 
         byYear[item.year].items.push(item);
+        byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
 
         return byYear;
       }, {} as { [year: number]: SourcesByYear; });

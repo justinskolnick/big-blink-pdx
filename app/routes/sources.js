@@ -8,6 +8,7 @@ const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
+const { ACTIVITY_TYPE, REGISTRATION_TYPE } = require('../models/sources');
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 const sources = require('../services/sources');
@@ -26,7 +27,8 @@ const view = {
 
 router.get('/', async (req, res, next) => {
   const description = metaHelper.getIndexDescription();
-  let sourcesResult;
+  let activitySourcesResult;
+  let registrationSourcesResult;
   let sourceTotal;
   let data;
   let meta;
@@ -36,12 +38,20 @@ router.get('/', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      sourcesResult = await sources.getAll({ includeCount: true });
-      sourceTotal = await sources.getTotal();
+      activitySourcesResult = await sources.getAll({
+        includeCount: true,
+        types: [ACTIVITY_TYPE],
+      });
+      registrationSourcesResult = await sources.getAll({
+        types: [REGISTRATION_TYPE],
+      });
+      sourceTotal = await sources.getTotal({
+        types: [ACTIVITY_TYPE, REGISTRATION_TYPE],
+      });
 
       data = {
         sources: {
-          records: sourcesResult,
+          records: [].concat(activitySourcesResult, registrationSourcesResult),
           total: sourceTotal,
         }
       };
@@ -94,65 +104,79 @@ router.get('/:id', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
-      sourceIncidents = await incidents.getAll({
-        page,
-        perPage,
-        sourceId: id,
-        sort,
-        withEntityId,
-        withPersonId,
-      });
-      records = await incidentAttendees.getAllForIncidents(sourceIncidents);
+      if (source.type === ACTIVITY_TYPE) {
+        incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
+        sourceIncidents = await incidents.getAll({
+          page,
+          perPage,
+          sourceId: id,
+          sort,
+          withEntityId,
+          withPersonId,
+        });
+        records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
-      if (paramHelper.hasSort(sort)) {
-        params.sort = paramHelper.getSort(sort);
-      }
-      if (withEntityId) {
-        params[snakeCase('withEntityId')] = Number(withEntityId);
-      }
-      if (withPersonId) {
-        params[snakeCase('withPersonId')] = Number(withPersonId);
-      }
+        if (paramHelper.hasSort(sort)) {
+          params.sort = paramHelper.getSort(sort);
+        }
+        if (withEntityId) {
+          params[snakeCase('withEntityId')] = Number(withEntityId);
+        }
+        if (withPersonId) {
+          params[snakeCase('withPersonId')] = Number(withPersonId);
+        }
 
-      data = {
-        source: {
-          record: {
-            ...source,
-            incidents: {
-              records,
-              filters: params,
-              pagination: linkHelper.getPagination({
-                page,
-                params,
-                path: links.source(id),
-                perPage,
-                total: incidentsStats.paginationTotal,
-              }),
-              stats: {
-                first: {
-                  label: `First reported incident of Q${source.quarter} ${source.year}`,
-                  value: incidentsStats.first,
+        data = {
+          source: {
+            record: {
+              ...source,
+              incidents: {
+                records,
+                filters: params,
+                pagination: linkHelper.getPagination({
+                  page,
+                  params,
+                  path: links.source(id),
+                  perPage,
+                  total: incidentsStats.paginationTotal,
+                }),
+                stats: {
+                  first: {
+                    label: `First reported incident of Q${source.quarter} ${source.year}`,
+                    value: incidentsStats.first,
+                  },
+                  last: {
+                    label: `Last reported incident of Q${source.quarter} ${source.year}`,
+                    value: incidentsStats.last,
+                  },
+                  percentage: incidentsStats.percentage,
+                  total: incidentsStats.total,
                 },
-                last: {
-                  label: `Last reported incident of Q${source.quarter} ${source.year}`,
-                  value: incidentsStats.last,
-                },
-                percentage: incidentsStats.percentage,
-                total: incidentsStats.total,
               },
             },
           },
-        },
-      };
-      meta = {
-        description,
-        id,
-        page,
-        perPage,
-        section,
-        view,
-      };
+        };
+        meta = {
+          description,
+          id,
+          page,
+          perPage,
+          section,
+          view,
+        };
+      } else {
+        data = {
+          source: {
+            record: source,
+          }
+        };
+        meta = {
+          description,
+          id,
+          section,
+          view,
+        };
+      }
 
       res.json({ title, data, meta });
     } catch (err) {

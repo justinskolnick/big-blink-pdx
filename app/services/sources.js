@@ -1,13 +1,17 @@
 const paramHelper = require('../helpers/param');
 const { TABLE: ENTITIES_TABLE } = require('../models/entities');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
-const { TABLE, FIELDS, adaptResult, adaptEntitiesResult } = require('../models/sources');
+const {
+  TABLE,
+  FIELDS,
+  ACTIVITY_TYPE,
+  adaptResult,
+  adaptEntitiesResult,
+} = require('../models/sources');
 const db = require('../services/db');
 
-const type = 'activity';
-
 const getAllQuery = (options = {}) => {
-  const { includeCount = false } = options;
+  const { includeCount = false, types = [] } = options;
 
   const clauses = [];
   const selections = [];
@@ -29,9 +33,17 @@ const getAllQuery = (options = {}) => {
     clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
   }
 
-  clauses.push('WHERE');
-  clauses.push('type = ?');
-  params.push(type);
+  if (types.length > 0) {
+    clauses.push('WHERE');
+
+    if (types.length > 1) {
+      clauses.push('type in (' + Array(types.length).fill('?').join(',') + ')');
+    } else {
+      clauses.push('type = ?');
+    }
+
+    params.push(...types);
+  }
 
   if (includeCount) {
     clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
@@ -123,7 +135,7 @@ const getIdForQuarterQuery = (quarter) => {
 
   clauses.push('AND');
   clauses.push('type = ?');
-  params.push(type);
+  params.push(ACTIVITY_TYPE);
 
   clauses.push('LIMIT 1');
 
@@ -155,7 +167,7 @@ const getStatsQuery = () => {
   clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
   clauses.push('WHERE');
   clauses.push('type = ?');
-  params.push(type);
+  params.push(ACTIVITY_TYPE);
   clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
   clauses.push(`ORDER BY ${TABLE}.id ASC`);
 
@@ -173,7 +185,9 @@ const getStats = async () => {
   }));
 };
 
-const getTotalQuery = () => {
+const getTotalQuery = (options = {}) => {
+  const { types = [] } = options;
+
   const clauses = [];
   const params = [];
 
@@ -181,15 +195,23 @@ const getTotalQuery = () => {
   clauses.push('COUNT(id) AS total');
   clauses.push(`FROM ${TABLE}`);
 
-  clauses.push('WHERE');
-  clauses.push('type = ?');
-  params.push(type);
+  if (types.length > 0) {
+    clauses.push('WHERE');
+
+    if (types.length > 1) {
+      clauses.push('type in (' + Array(types.length).fill('?').join(',') + ')');
+    } else {
+      clauses.push('type = ?');
+    }
+
+    params.push(...types);
+  }
 
   return { clauses, params };
 };
 
-const getTotal = async () => {
-  const { clauses, params } = getTotalQuery();
+const getTotal = async (options = {}) => {
+  const { clauses, params } = getTotalQuery(options);
   const result = await db.get(clauses, params);
 
   return result.total;

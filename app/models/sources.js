@@ -12,6 +12,9 @@ const FIELDS = [
   'retrieved_at',
 ];
 
+const ACTIVITY_TYPE = 'activity';
+const REGISTRATION_TYPE = 'registration';
+
 const adaptRetrievedDate = str => dateHelper.formatDateString(str);
 
 const adaptResult = (result) => {
@@ -55,6 +58,8 @@ const adaptEntitiesResult = (result) => {
 module.exports = {
   TABLE,
   FIELDS,
+  ACTIVITY_TYPE,
+  REGISTRATION_TYPE,
   adaptEntitiesResult,
   adaptResult,
 };

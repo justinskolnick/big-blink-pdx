@@ -33369,6 +33369,9 @@ var createQueueWithTimer = function(timeout2) {
 var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
 F();
 
+// lib/sorting.ts
+var sortQuarterAscendingTypeDecending = (a2, b2) => a2.quarter - b2.quarter || b2.type.localeCompare(a2.type);
+
 // selectors.ts
 var getEntities = (state) => state.entities;
 var getIncidents = (state) => state.incidents;
@@ -33415,6 +33418,7 @@ var getSourcesByYear = createSelector(
         };
       }
       byYear[item.year].items.push(item);
+      byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
       return byYear;
     }, {});
     return Object.values(sourcesByYear);
@@ -56661,6 +56665,7 @@ var Source = ({ id }) => {
   const fetched = (0, import_react35.useRef)(false);
   const location2 = useLocation();
   const source = useSelector((state) => selectors4.selectById(state, id));
+  const hasIncidents = Boolean(source.incidents);
   (0, import_react35.useEffect)(() => {
     if (source)
       return;
@@ -56680,7 +56685,7 @@ var Source = ({ id }) => {
         /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(icon_default, { name: "database" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)("div", { className: "item-source-quarter-description", children: [
           /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("h6", { children: source.title }),
-          /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)("p", { children: [
+          hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)("p", { children: [
             source.incidents?.stats.total,
             " incidents"
           ] })

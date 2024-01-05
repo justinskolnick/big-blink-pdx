@@ -10,23 +10,29 @@ const {
 describe('getAllQuery()', () => {
   describe('with default options', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery()).toEqual({
+      const types = ['activity', 'registration'];
+      const options = { types };
+
+      expect(getAllQuery(options)).toEqual({
         clauses: [
           'SELECT',
           'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at',
           'FROM data_sources',
           'WHERE',
-          'type = ?',
+          'type in (?,?)',
           'ORDER BY data_sources.id ASC',
         ],
-        params: ['activity'],
+        params: types,
       });
     });
   });
 
   describe('with counts', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery({ includeCount: true })).toEqual({
+      const types = ['activity'];
+      const options = { includeCount: true, types };
+
+      expect(getAllQuery(options)).toEqual({
         clauses: [
           'SELECT',
           'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at, COUNT(incidents.id) AS total',
@@ -37,7 +43,7 @@ describe('getAllQuery()', () => {
           'GROUP BY incidents.data_source_id',
           'ORDER BY data_sources.id ASC',
         ],
-        params: ['activity'],
+        params: types,
       });
     });
   });
@@ -142,15 +148,18 @@ describe('getStatsQuery()', () => {
 
 describe('getTotalQuery()', () => {
   test('returns the expected SQL', () => {
-    expect(getTotalQuery()).toEqual({
+    const types = ['activity', 'registration'];
+    const options = { types };
+
+    expect(getTotalQuery(options)).toEqual({
       clauses: [
         'SELECT',
         'COUNT(id) AS total',
         'FROM data_sources',
         'WHERE',
-        'type = ?',
+        'type in (?,?)',
       ],
-      params: ['activity'],
+      params: types,
     });
   });
 });

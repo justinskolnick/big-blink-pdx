@@ -81,6 +81,7 @@ const Source = ({ id }: Props) => {
   const location = useLocation();
 
   const source = useSelector((state: RootState) => selectors.selectById(state, id));
+  const hasIncidents = Boolean(source.incidents);
 
   useEffect(() => {
     if (source) return;
@@ -105,7 +106,9 @@ const Source = ({ id }: Props) => {
 
       <div className='item-source-quarter-description'>
         <h6>{source.title}</h6>
-        <p>{source.incidents?.stats.total} incidents</p>
+        {hasIncidents && (
+          <p>{source.incidents?.stats.total} incidents</p>
+        )}
       </div>
     </LinkToSource>
   );
