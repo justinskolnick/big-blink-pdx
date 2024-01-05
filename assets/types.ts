@@ -158,6 +158,7 @@ export type PersonAttendees = {
 
 export type PersonEntity = {
   entity: Entity;
+  isRegistered?: boolean;
   total?: number;
 };
 
@@ -168,6 +169,7 @@ type Interest = {
 
 export type AffiliatedItem = {
   entity?: Item;
+  isRegistered?: boolean;
   person?: Pick<Person, 'id' | 'name' | 'type'>;
   values?: Interest;
   total?: number;

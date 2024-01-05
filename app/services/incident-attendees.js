@@ -3,10 +3,11 @@ const pluralize = require('pluralize');
 const queryHelper = require('../helpers/query');
 const { sortTotalDescending } = require('../lib/sorting');
 const { TABLE: ENTITIES_TABLE } = require('../models/entities');
-const { TABLE, adaptJoinedResult } = require('../models/incident-attendees');
+const { TABLE, LOBBYIST_ROLE, OFFICIAL_ROLE, adaptJoinedResult } = require('../models/incident-attendees');
 const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
 const { TABLE: PEOPLE_TABLE } = require('../models/people');
-const db = require('../services/db');
+const db = require('./db');
+const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
 
 const getAllQuery = (options = {}) => {
   const { page, perPage, incidentId } = options;
@@ -134,11 +135,28 @@ const getEntitiesQuery = (options = {}) => {
 };
 
 const getEntities = async (options = {}) => {
+  const { personId, personRole } = options;
   const { clauses, params } = getEntitiesQuery(options);
+  const hasPersonId = Boolean(personId);
 
   const results = await db.getAll(clauses, params);
 
-  return collectEntities(results);
+  let collectedResults = collectEntities(results);
+
+  if (hasPersonId && personRole === LOBBYIST_ROLE) {
+    collectedResults = await Promise.all(collectedResults.map(async (result) => {
+      const registrationResult = await entityLobbyistRegistrations.getTotal({
+        entityId: result.entity.id,
+        personId,
+      });
+
+      result.isRegistered = registrationResult > 0;
+
+      return result;
+    }))
+  }
+
+  return collectedResults;
 };
 
 // todo: add count to query
@@ -226,7 +244,7 @@ const getPeople = async (options = {}) => {
 };
 
 const getLobbyists = async (options = {}) => {
-  options.role = 'lobbyist';
+  options.role = LOBBYIST_ROLE;
 
   const people = await getPeople(options);
 
@@ -234,7 +252,7 @@ const getLobbyists = async (options = {}) => {
 };
 
 const getOfficials = async (options = {}) => {
-  options.role = 'official';
+  options.role = OFFICIAL_ROLE;
 
   const people = await getPeople(options);
 

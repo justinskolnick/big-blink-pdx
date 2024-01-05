@@ -8,6 +8,9 @@ const FIELDS = [
 ];
 const PER_PAGE = 20;
 
+const LOBBYIST_ROLE = 'lobbyist';
+const OFFICIAL_ROLE = 'official';
+
 const adaptJoinedResult = data => ({
   id: data.id,
   as: data.appears_as,
@@ -22,5 +25,7 @@ module.exports = {
   TABLE,
   FIELDS,
   PER_PAGE,
+  LOBBYIST_ROLE,
+  OFFICIAL_ROLE,
   adaptJoinedResult,
 };

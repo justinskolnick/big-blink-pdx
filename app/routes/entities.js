@@ -10,7 +10,7 @@ const { snakeCase, toSentence } = require('../lib/string');
 const { PER_PAGE } = require('../models/entities');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const entities = require('../services/entities');
-const antityLobbyistLocations = require('../services/entity-lobbyist-locations');
+const entityLobbyistLocations = require('../services/entity-lobbyist-locations');
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 const sources = require('../services/sources');
@@ -134,7 +134,7 @@ router.get('/:id', async (req, res, next) => {
     }
 
     try {
-      entityLocations = await antityLobbyistLocations.getAll({ entityId: id });
+      entityLocations = await entityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({ entityId: id, quarterSourceId, withPersonId });
       entityIncidents = await incidents.getAll({
         page,

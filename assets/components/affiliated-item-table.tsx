@@ -65,6 +65,17 @@ const styles = css`
           }
         }
       }
+
+      .item-status {
+        color: var(--color-green);
+        font-size: 9px;
+      }
+
+      .item-entity + .item-status {
+        position: relative;
+        top: calc(var(--gap) / -6);
+        margin-left: calc(var(--gap) / 2);
+      }
     }
   }
 

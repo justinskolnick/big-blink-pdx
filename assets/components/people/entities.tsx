@@ -44,7 +44,7 @@ const Entities = ({ entities, person }: Props) => {
               icon='briefcase'
               title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities:`}
             >
-              <AffiliatedEntitiesTable entities={entities.asLobbyist} />
+              <AffiliatedEntitiesTable person={person} entities={entities.asLobbyist} />
             </IncidentActivityGroup>
           )}
           {isOfficial && (

@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment18 = 7;
+        var Fragment19 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment18:
+            case Fragment19:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment18) {
+            if (current2 === null || current2.tag !== Fragment19) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment18) {
+                  if (child.tag === Fragment19) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment18:
+            case Fragment19:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment18:
+            case Fragment19:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment18, elements, key, mode);
+          var fiber = createFiber(Fragment19, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment18 = REACT_FRAGMENT_TYPE;
+        var Fragment19 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment18;
+        exports.Fragment = Fragment19;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment18 = REACT_FRAGMENT_TYPE;
+        var Fragment19 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment18;
+        exports.Fragment = Fragment19;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -25675,10 +25675,10 @@ var require_react_jsx_runtime_development = __commonJS({
           }
         }
         var jsx81 = jsxWithValidationDynamic;
-        var jsxs48 = jsxWithValidationStatic;
+        var jsxs49 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
         exports.jsx = jsx81;
-        exports.jsxs = jsxs48;
+        exports.jsxs = jsxs49;
       })();
     }
   }
@@ -39026,6 +39026,11 @@ var faBuilding = {
   iconName: "building",
   icon: [384, 512, [127970, 61687], "f1ad", "M48 0C21.5 0 0 21.5 0 48V464c0 26.5 21.5 48 48 48h96V432c0-26.5 21.5-48 48-48s48 21.5 48 48v80h96c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H48zM64 240c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V240zm112-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V240c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V240zM80 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H176c-8.8 0-16-7.2-16-16V112zM272 96h32c8.8 0 16 7.2 16 16v32c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16z"]
 };
+var faCheck = {
+  prefix: "fas",
+  iconName: "check",
+  icon: [448, 512, [10003, 10004], "f00c", "M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"]
+};
 var faBriefcase = {
   prefix: "fas",
   iconName: "briefcase",
@@ -39066,6 +39071,7 @@ library$1.add(
   faBuilding,
   faCalendar,
   faChartSimple,
+  faCheck,
   faChevronRight,
   faCircleQuestion,
   faDatabase,
@@ -39089,6 +39095,7 @@ var SetForIcon = /* @__PURE__ */ ((SetForIcon2) => {
   SetForIcon2["building"] = "fas" /* Solid */;
   SetForIcon2["calendar"] = "far" /* Regular */;
   SetForIcon2["chart-simple"] = "fas" /* Solid */;
+  SetForIcon2["check"] = "fas" /* Solid */;
   SetForIcon2["chevron-right"] = "fas" /* Solid */;
   SetForIcon2["circle-question"] = "fas" /* Solid */;
   SetForIcon2["database"] = "fas" /* Solid */;
@@ -42674,6 +42681,17 @@ var styles25 = css`
             font-size: 10px;
           }
         }
+      }
+
+      .item-status {
+        color: var(--color-green);
+        font-size: 9px;
+      }
+
+      .item-entity + .item-status {
+        position: relative;
+        top: calc(var(--gap) / -6);
+        margin-left: calc(var(--gap) / 2);
       }
     }
   }
@@ -56492,16 +56510,30 @@ var import_react33 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var AffiliatedEntitiesTable = ({
   entities,
+  person,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
-  affiliated_item_table_default,
-  {
-    affiliatedItems: entities,
-    label: "entities",
-    TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, children: item.entity.name }),
-    TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total })
-  }
-) });
+}) => {
+  const hasPerson = Boolean(person);
+  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+    affiliated_item_table_default,
+    {
+      affiliatedItems: entities,
+      label: "entities",
+      TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(import_jsx_runtime71.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }),
+        hasPerson && item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
+          "span",
+          {
+            className: "item-status",
+            title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
+            children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check" })
+          }
+        )
+      ] }),
+      TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total })
+    }
+  ) });
+};
 var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
 // components/people/entities.tsx
@@ -56530,7 +56562,7 @@ var Entities = ({ entities, person }) => {
           {
             icon: "briefcase",
             title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities:`,
-            children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { entities: entities.asLobbyist })
+            children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { person, entities: entities.asLobbyist })
           }
         ),
         isOfficial && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
