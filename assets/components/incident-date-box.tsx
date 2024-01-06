@@ -12,6 +12,8 @@ interface Props {
 
 const IncidentDateBox = ({ incident }: Props) => {
   const [isActive, setIsActive] = useState<boolean>(false);
+  const hasIncident = Boolean(incident?.value);
+
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event: MouseEvent) => {
     event.preventDefault();
@@ -24,7 +26,7 @@ const IncidentDateBox = ({ incident }: Props) => {
     }
   };
 
-  if (!incident) return null;
+  if (!hasIncident) return null;
 
   return (
     <StatBox title={incident.label} icon='calendar'>

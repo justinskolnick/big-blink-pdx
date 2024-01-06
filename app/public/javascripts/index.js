@@ -42278,6 +42278,7 @@ var import_react20 = __toESM(require_react());
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({ incident }) => {
   const [isActive, setIsActive] = (0, import_react20.useState)(false);
+  const hasIncident = Boolean(incident?.value);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
     event.preventDefault();
@@ -42288,7 +42289,7 @@ var IncidentDateBox = ({ incident }) => {
       }
     }
   };
-  if (!incident)
+  if (!hasIncident)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(stat_box_default, { title: incident.label, icon: "calendar", children: [
     /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
