@@ -1,10 +1,12 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-import type { AlertType } from '../types';
-
 import AlertPortal from './alert-portal';
 import ItemTextWithIcon from './item-text-with-icon';
+
+import { unique } from '../lib/array';
+
+import type { AlertType } from '../types';
 
 interface MessageContentProps {
   alert: AlertType;
@@ -63,6 +65,7 @@ const Alert = ({
   isActive,
 }: AlertProps) => {
   const iconName = ['error', 'warning'].includes(grade) ? 'triangle-exclamation' : 'asterisk';
+  const classNames = unique(['alert-message', `alert-${grade}`]).join(' ');
 
   return (
     <CSSTransition
@@ -75,7 +78,7 @@ const Alert = ({
         deactivate={deactivate}
         isActive={isActive}
       >
-        <section className={`alert-message alert-${grade}`}>
+        <section className={classNames}>
           <header className='alert-header'>
             <h4>
               <ItemTextWithIcon icon={iconName}>

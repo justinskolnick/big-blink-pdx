@@ -138,6 +138,7 @@ const styles = css`
 
       h2 {
         font-family: 'Darumadrop One';
+        font-size: 33px;
         text-transform: uppercase;
       }
     }

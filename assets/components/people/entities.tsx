@@ -42,7 +42,7 @@ const Entities = ({ entities, person }: Props) => {
           {isLobbist && (
             <IncidentActivityGroup
               icon='briefcase'
-              title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities:`}
+              title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`}
             >
               <AffiliatedEntitiesTable person={person} entities={entities.asLobbyist} />
             </IncidentActivityGroup>
@@ -50,7 +50,7 @@ const Entities = ({ entities, person }: Props) => {
           {isOfficial && (
             <IncidentActivityGroup
               icon='landmark'
-              title={`As a City official, ${person.name} was lobbied by representatives of these entities:`}
+              title={`As a City official, ${person.name} was lobbied by representatives of these entities`}
             >
               <AffiliatedEntitiesTable entities={entities.asOfficial} />
             </IncidentActivityGroup>

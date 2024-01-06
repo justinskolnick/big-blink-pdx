@@ -35985,8 +35985,9 @@ var styles = css`
     --alert-space-size: 18px;
 
     box-sizing: border-box;
-    padding: 18px;
-    width: 400px;
+    margin: var(--gap);
+    padding: var(--gap);
+    max-width: 400px;
     border-radius: 18px;
     background-color: var(--color-background);
     box-shadow: 0 4px 9px var(--color-gray);
@@ -39145,6 +39146,9 @@ var ItemTextWithIcon = ({
 ] }) });
 var item_text_with_icon_default = ItemTextWithIcon;
 
+// lib/array.ts
+var unique = (arr) => [...new Set(arr)];
+
 // components/alert.tsx
 var import_jsx_runtime4 = __toESM(require_jsx_runtime());
 var isObject = (alert) => typeof alert === "object";
@@ -39185,6 +39189,7 @@ var Alert = ({
   isActive
 }) => {
   const iconName = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
+  const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     CSSTransition_default,
     {
@@ -39197,7 +39202,7 @@ var Alert = ({
         {
           deactivate,
           isActive,
-          children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: `alert-message alert-${grade}`, children: [
+          children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: classNames, children: [
             /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(item_text_with_icon_default, { icon: iconName, children: [
               grade === "error" && "Error",
               grade === "message" && "Message",
@@ -40770,7 +40775,7 @@ var Header = ({
   title
 }) => {
   const section = useSelector(getSection);
-  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
+  const pageTitle = section.subtitle ? `${section.subtitle} \xB7 ${section.title}` : section.title;
   const slug = section.slug;
   const SectionLink = useGetSectionLink(slug);
   const SectionItemLink = useGetSectionItemLink(slug);
@@ -41599,6 +41604,7 @@ var styles15 = css`
 
       h2 {
         font-family: 'Darumadrop One';
+        font-size: 33px;
         text-transform: uppercase;
       }
     }
@@ -41903,7 +41909,7 @@ var App = () => {
       HelmetExport,
       {
         defaultTitle: "The Big Blink PDX",
-        titleTemplate: "%s | The Big Blink PDX",
+        titleTemplate: "%s \xB7 The Big Blink PDX",
         children: description && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("meta", { name: "description", content: description })
       }
     ),
@@ -42644,14 +42650,9 @@ var styles25 = css`
   table {
     tbody {
       tr {
-        &:nth-of-type(-n + 5) {
-          .cell-name {
-            font-size: 16px;
-          }
-        }
-
         .cell-name {
           font-weight: 400;
+          font-size: 16px;
         }
       }
     }
@@ -56562,7 +56563,7 @@ var Entities = ({ entities, person }) => {
           incident_activity_group_default,
           {
             icon: "briefcase",
-            title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities:`,
+            title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`,
             children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { person, entities: entities.asLobbyist })
           }
         ),
@@ -56570,7 +56571,7 @@ var Entities = ({ entities, person }) => {
           incident_activity_group_default,
           {
             icon: "landmark",
-            title: `As a City official, ${person.name} was lobbied by representatives of these entities:`,
+            title: `As a City official, ${person.name} was lobbied by representatives of these entities`,
             children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { entities: entities.asOfficial })
           }
         )

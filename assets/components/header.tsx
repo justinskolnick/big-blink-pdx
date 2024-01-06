@@ -61,7 +61,7 @@ const Header = ({
   title,
 }: Props) => {
   const section = useSelector(getSection);
-  const pageTitle = section.subtitle ? `${section.subtitle} | ${section.title}` : section.title;
+  const pageTitle = section.subtitle ? `${section.subtitle} · ${section.title}` : section.title;
 
   const slug = section.slug;
 

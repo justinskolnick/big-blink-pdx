@@ -99,7 +99,7 @@ const App = () => {
     <div className={cx('global-layout', styles)}>
       <Helmet
         defaultTitle='The Big Blink PDX'
-        titleTemplate='%s | The Big Blink PDX'
+        titleTemplate='%s · The Big Blink PDX'
       >
         {description && (
           <meta name='description' content={description} />

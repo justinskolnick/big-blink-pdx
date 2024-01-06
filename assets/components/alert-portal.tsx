@@ -49,8 +49,9 @@ const styles = css`
     --alert-space-size: 18px;
 
     box-sizing: border-box;
-    padding: 18px;
-    width: 400px;
+    margin: var(--gap);
+    padding: var(--gap);
+    max-width: 400px;
     border-radius: 18px;
     background-color: var(--color-background);
     box-shadow: 0 4px 9px var(--color-gray);

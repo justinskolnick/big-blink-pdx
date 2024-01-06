@@ -26,14 +26,9 @@ const styles = css`
   table {
     tbody {
       tr {
-        &:nth-of-type(-n + 5) {
-          .cell-name {
-            font-size: 16px;
-          }
-        }
-
         .cell-name {
           font-weight: 400;
+          font-size: 16px;
         }
       }
     }
