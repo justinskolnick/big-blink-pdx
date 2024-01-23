@@ -153,7 +153,7 @@ const getEntities = async (options = {}) => {
       result.isRegistered = registrationResult > 0;
 
       return result;
-    }))
+    }));
   }
 
   return collectedResults;

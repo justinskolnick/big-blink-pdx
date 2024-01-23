@@ -1,4 +1,4 @@
-const { TABLE, FIELDS, adaptResult } = require('../models/entity-lobbyist-registrations');
+const { TABLE } = require('../models/entity-lobbyist-registrations');
 const db = require('../services/db');
 
 const getTotalQuery = (options = {}) => {

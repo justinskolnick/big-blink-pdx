@@ -9,7 +9,6 @@ const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
 const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
 const { PER_PAGE } = require('../models/people');
-// const entityLobbyistRegistrations = require('../services/entity-lobbyist-registrations');
 const incidentAttendances = require('../services/incident-attendances');
 const incidentAttendees = require('../services/incident-attendees');
 const people = require('../services/people');

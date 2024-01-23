@@ -42842,6 +42842,7 @@ var styles25 = css`
           position: relative;
           width: 100%;
           height: 100%;
+          max-height: 27px;
 
           .icon {
             position: absolute;
