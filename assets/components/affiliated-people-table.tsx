@@ -6,6 +6,7 @@ import {
   FilterLink,
   LinkToPerson,
 } from './links';
+import PersonIcon from './people/icon';
 import StatBox from './stat-box';
 
 import type { AttendeeGroup } from '../types';
@@ -19,6 +20,9 @@ const AffiliatedPeopleTable = ({ attendees }: Props) => (
     <AffiliatedItemTable
       affiliatedItems={attendees.records}
       label='people'
+      IconCell={({ item }) => (
+        <PersonIcon person={item.person} />
+      )}
       TitleCell={({ item }) => (
         <LinkToPerson id={item.person.id}>
           {item.person.name}

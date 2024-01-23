@@ -2437,7 +2437,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment19 = 7;
+        var Fragment18 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3593,7 +3593,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment19:
+            case Fragment18:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13264,7 +13264,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-            if (current2 === null || current2.tag !== Fragment19) {
+            if (current2 === null || current2.tag !== Fragment18) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13667,7 +13667,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE) {
-                  if (child.tag === Fragment19) {
+                  if (child.tag === Fragment18) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17842,7 +17842,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment19:
+            case Fragment18:
               return updateFragment(current2, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current2, workInProgress2, renderLanes2);
@@ -18115,7 +18115,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef:
-            case Fragment19:
+            case Fragment18:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22374,7 +22374,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment19, elements, key, mode);
+          var fiber = createFiber(Fragment18, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23747,9 +23747,9 @@ var require_with_selector = __commonJS({
   }
 });
 
-// node_modules/react-is/cjs/react-is.development.js
+// node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  "node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/hoist-non-react-statics/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23816,7 +23816,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment19 = REACT_FRAGMENT_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -23875,7 +23875,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment19;
+        exports.Fragment = Fragment18;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -23902,9 +23902,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// node_modules/react-is/index.js
+// node_modules/hoist-non-react-statics/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  "node_modules/react-is/index.js"(exports, module) {
+  "node_modules/hoist-non-react-statics/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -24002,9 +24002,9 @@ var require_hoist_non_react_statics_cjs = __commonJS({
   }
 });
 
-// node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js
+// node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development2 = __commonJS({
-  "node_modules/react-redux/node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -24087,7 +24087,7 @@ var require_react_is_development2 = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE;
         var Element3 = REACT_ELEMENT_TYPE;
         var ForwardRef = REACT_FORWARD_REF_TYPE;
-        var Fragment19 = REACT_FRAGMENT_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
         var Lazy = REACT_LAZY_TYPE;
         var Memo = REACT_MEMO_TYPE;
         var Portal = REACT_PORTAL_TYPE;
@@ -24155,7 +24155,7 @@ var require_react_is_development2 = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef;
-        exports.Fragment = Fragment19;
+        exports.Fragment = Fragment18;
         exports.Lazy = Lazy;
         exports.Memo = Memo;
         exports.Portal = Portal;
@@ -24184,14 +24184,181 @@ var require_react_is_development2 = __commonJS({
   }
 });
 
-// node_modules/react-redux/node_modules/react-is/index.js
+// node_modules/react-is/index.js
 var require_react_is2 = __commonJS({
-  "node_modules/react-redux/node_modules/react-is/index.js"(exports, module) {
+  "node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
     } else {
       module.exports = require_react_is_development2();
+    }
+  }
+});
+
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
+var require_react_is_development3 = __commonJS({
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
+    "use strict";
+    if (true) {
+      (function() {
+        "use strict";
+        var hasSymbol = typeof Symbol === "function" && Symbol.for;
+        var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for("react.element") : 60103;
+        var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for("react.portal") : 60106;
+        var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for("react.fragment") : 60107;
+        var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for("react.strict_mode") : 60108;
+        var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for("react.profiler") : 60114;
+        var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for("react.provider") : 60109;
+        var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for("react.context") : 60110;
+        var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for("react.async_mode") : 60111;
+        var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for("react.concurrent_mode") : 60111;
+        var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for("react.forward_ref") : 60112;
+        var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for("react.suspense") : 60113;
+        var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for("react.suspense_list") : 60120;
+        var REACT_MEMO_TYPE = hasSymbol ? Symbol.for("react.memo") : 60115;
+        var REACT_LAZY_TYPE = hasSymbol ? Symbol.for("react.lazy") : 60116;
+        var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for("react.block") : 60121;
+        var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for("react.fundamental") : 60117;
+        var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for("react.responder") : 60118;
+        var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for("react.scope") : 60119;
+        function isValidElementType2(type) {
+          return typeof type === "string" || typeof type === "function" || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+          type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === "object" && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
+        }
+        function typeOf(object) {
+          if (typeof object === "object" && object !== null) {
+            var $$typeof = object.$$typeof;
+            switch ($$typeof) {
+              case REACT_ELEMENT_TYPE:
+                var type = object.type;
+                switch (type) {
+                  case REACT_ASYNC_MODE_TYPE:
+                  case REACT_CONCURRENT_MODE_TYPE:
+                  case REACT_FRAGMENT_TYPE:
+                  case REACT_PROFILER_TYPE:
+                  case REACT_STRICT_MODE_TYPE:
+                  case REACT_SUSPENSE_TYPE:
+                    return type;
+                  default:
+                    var $$typeofType = type && type.$$typeof;
+                    switch ($$typeofType) {
+                      case REACT_CONTEXT_TYPE:
+                      case REACT_FORWARD_REF_TYPE:
+                      case REACT_LAZY_TYPE:
+                      case REACT_MEMO_TYPE:
+                      case REACT_PROVIDER_TYPE:
+                        return $$typeofType;
+                      default:
+                        return $$typeof;
+                    }
+                }
+              case REACT_PORTAL_TYPE:
+                return $$typeof;
+            }
+          }
+          return void 0;
+        }
+        var AsyncMode = REACT_ASYNC_MODE_TYPE;
+        var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
+        var ContextConsumer = REACT_CONTEXT_TYPE;
+        var ContextProvider = REACT_PROVIDER_TYPE;
+        var Element3 = REACT_ELEMENT_TYPE;
+        var ForwardRef = REACT_FORWARD_REF_TYPE;
+        var Fragment18 = REACT_FRAGMENT_TYPE;
+        var Lazy = REACT_LAZY_TYPE;
+        var Memo = REACT_MEMO_TYPE;
+        var Portal = REACT_PORTAL_TYPE;
+        var Profiler = REACT_PROFILER_TYPE;
+        var StrictMode = REACT_STRICT_MODE_TYPE;
+        var Suspense = REACT_SUSPENSE_TYPE;
+        var hasWarnedAboutDeprecatedIsAsyncMode = false;
+        function isAsyncMode(object) {
+          {
+            if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+              hasWarnedAboutDeprecatedIsAsyncMode = true;
+              console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.");
+            }
+          }
+          return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+        }
+        function isConcurrentMode(object) {
+          return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
+        }
+        function isContextConsumer2(object) {
+          return typeOf(object) === REACT_CONTEXT_TYPE;
+        }
+        function isContextProvider(object) {
+          return typeOf(object) === REACT_PROVIDER_TYPE;
+        }
+        function isElement(object) {
+          return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        function isForwardRef(object) {
+          return typeOf(object) === REACT_FORWARD_REF_TYPE;
+        }
+        function isFragment(object) {
+          return typeOf(object) === REACT_FRAGMENT_TYPE;
+        }
+        function isLazy(object) {
+          return typeOf(object) === REACT_LAZY_TYPE;
+        }
+        function isMemo(object) {
+          return typeOf(object) === REACT_MEMO_TYPE;
+        }
+        function isPortal(object) {
+          return typeOf(object) === REACT_PORTAL_TYPE;
+        }
+        function isProfiler(object) {
+          return typeOf(object) === REACT_PROFILER_TYPE;
+        }
+        function isStrictMode(object) {
+          return typeOf(object) === REACT_STRICT_MODE_TYPE;
+        }
+        function isSuspense(object) {
+          return typeOf(object) === REACT_SUSPENSE_TYPE;
+        }
+        exports.AsyncMode = AsyncMode;
+        exports.ConcurrentMode = ConcurrentMode;
+        exports.ContextConsumer = ContextConsumer;
+        exports.ContextProvider = ContextProvider;
+        exports.Element = Element3;
+        exports.ForwardRef = ForwardRef;
+        exports.Fragment = Fragment18;
+        exports.Lazy = Lazy;
+        exports.Memo = Memo;
+        exports.Portal = Portal;
+        exports.Profiler = Profiler;
+        exports.StrictMode = StrictMode;
+        exports.Suspense = Suspense;
+        exports.isAsyncMode = isAsyncMode;
+        exports.isConcurrentMode = isConcurrentMode;
+        exports.isContextConsumer = isContextConsumer2;
+        exports.isContextProvider = isContextProvider;
+        exports.isElement = isElement;
+        exports.isForwardRef = isForwardRef;
+        exports.isFragment = isFragment;
+        exports.isLazy = isLazy;
+        exports.isMemo = isMemo;
+        exports.isPortal = isPortal;
+        exports.isProfiler = isProfiler;
+        exports.isStrictMode = isStrictMode;
+        exports.isSuspense = isSuspense;
+        exports.isValidElementType = isValidElementType2;
+        exports.typeOf = typeOf;
+      })();
+    }
+  }
+});
+
+// node_modules/prop-types/node_modules/react-is/index.js
+var require_react_is3 = __commonJS({
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
+    "use strict";
+    if (false) {
+      module.exports = null;
+    } else {
+      module.exports = require_react_is_development3();
     }
   }
 });
@@ -24352,7 +24519,7 @@ var require_checkPropTypes = __commonJS({
 var require_factoryWithTypeCheckers = __commonJS({
   "node_modules/prop-types/factoryWithTypeCheckers.js"(exports, module) {
     "use strict";
-    var ReactIs = require_react_is();
+    var ReactIs = require_react_is3();
     var assign2 = require_object_assign();
     var ReactPropTypesSecret = require_ReactPropTypesSecret();
     var has = require_has();
@@ -24795,7 +24962,7 @@ var require_factoryWithTypeCheckers = __commonJS({
 var require_prop_types = __commonJS({
   "node_modules/prop-types/index.js"(exports, module) {
     if (true) {
-      ReactIs = require_react_is();
+      ReactIs = require_react_is3();
       throwOnDirectAccess = true;
       module.exports = require_factoryWithTypeCheckers()(ReactIs.isElement, throwOnDirectAccess);
     } else {
@@ -39111,9 +39278,9 @@ var SetForIcon = /* @__PURE__ */ ((SetForIcon2) => {
   SetForIcon2["user-large"] = "fas" /* Solid */;
   return SetForIcon2;
 })(SetForIcon || {});
-var Icon = ({ name, size = "lg" }) => {
+var Icon = ({ className, name, size = "lg" }) => {
   const set7 = SetForIcon[name];
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: `icon icon-${name}`, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FontAwesomeIcon, { icon: [set7, name], size }) });
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { className: cx(`icon icon-${name}`, className), children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(FontAwesomeIcon, { icon: [set7, name], size }) });
 };
 var icon_default = Icon;
 
@@ -42658,6 +42825,47 @@ var styles25 = css`
     }
 
     td {
+      &.cell-type {
+        padding: 0;
+        width: 27px;
+        height: 27px;
+
+        .icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        }
+
+        .icons {
+          position: relative;
+          width: 100%;
+          height: 100%;
+
+          .icon {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+          }
+
+          .icon-registered {
+            top: auto;
+            left: auto;
+            right: -3px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: 1px solid var(--color-white);
+            background-color: var(--color-green);
+            color: var(--color-white);
+            font-size: 6px;
+          }
+        }
+      }
+
       &.cell-total {
         font-weight: 600;
         font-size: 10px;
@@ -42683,17 +42891,6 @@ var styles25 = css`
             font-size: 10px;
           }
         }
-      }
-
-      .item-status {
-        color: var(--color-green);
-        font-size: 9px;
-      }
-
-      .item-entity + .item-status {
-        position: relative;
-        top: calc(var(--gap) / -6);
-        margin-left: calc(var(--gap) / 2);
       }
     }
   }
@@ -42736,6 +42933,7 @@ var styles25 = css`
 `;
 var AffiliatedItemTable = ({
   affiliatedItems,
+  IconCell,
   TitleCell,
   TotalCell,
   label
@@ -42758,7 +42956,7 @@ var AffiliatedItemTable = ({
         name: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(TitleCell, { item }),
         hasTotal: Boolean(item.total),
         total: TotalCell ? /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(TotalCell, { item }) : item.total,
-        type: "person" in item ? /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(icon_default4, { person: item.person }) : /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(icon_default2, {})
+        type: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(IconCell, { item })
       },
       i2
     )) }),
@@ -42788,6 +42986,7 @@ var AffiliatedPeopleTable = ({ attendees }) => /* @__PURE__ */ (0, import_jsx_ru
   {
     affiliatedItems: attendees.records,
     label: "people",
+    IconCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(icon_default4, { person: item.person }),
     TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(LinkToPerson, { id: item.person.id, children: item.person.name }),
     TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(FilterLink, { newParams: getWithPersonParams(item), hasIcon: true, children: item.total })
   }
@@ -56510,6 +56709,7 @@ var import_react33 = __toESM(require_react());
 
 // components/affiliated-entities-table.tsx
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
+var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
   entities,
   person,
@@ -56521,17 +56721,18 @@ var AffiliatedEntitiesTable = ({
     {
       affiliatedItems: entities,
       label: "entities",
-      TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(import_jsx_runtime71.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }),
-        hasPerson && item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
-          "span",
-          {
-            className: "item-status",
-            title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
-            children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check" })
-          }
-        )
-      ] }),
+      IconCell: ({ item }) => hasPerson && item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
+        "div",
+        {
+          className: "icons",
+          title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(RegisteredIcon, {})
+          ]
+        }
+      ) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}),
+      TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }),
       TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total })
     }
   ) });
@@ -57132,6 +57333,16 @@ react-is/cjs/react-is.development.js:
 react-is/cjs/react-is.development.js:
   (**
    * @license React
+   * react-is.development.js
+   *
+   * Copyright (c) Facebook, Inc. and its affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+react-is/cjs/react-is.development.js:
+  (** @license React v16.13.1
    * react-is.development.js
    *
    * Copyright (c) Facebook, Inc. and its affiliates.

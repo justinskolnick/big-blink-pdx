@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
+import EntityIcon from './entities/icon';
 import Icon from './icon';
 import {
   getWithEntityParams,
@@ -17,6 +18,8 @@ interface Props {
   title?: string;
 }
 
+const RegisteredIcon = () => <Icon name='check' className='icon-registered' />;
+
 const AffiliatedEntitiesTable = ({
   entities,
   person,
@@ -29,20 +32,23 @@ const AffiliatedEntitiesTable = ({
       <AffiliatedItemTable
         affiliatedItems={entities}
         label='entities'
+        IconCell={({ item }) =>
+          hasPerson && item.isRegistered ? (
+            <div
+              className='icons'
+              title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
+            >
+              <EntityIcon />
+              <RegisteredIcon />
+            </div>
+          ) : (
+            <EntityIcon />
+          )
+        }
         TitleCell={({ item }) => (
-          <>
-            <LinkToEntity id={item.entity.id} className='item-entity'>
-              {item.entity.name}
-            </LinkToEntity>
-            {hasPerson && item.isRegistered && (
-              <span
-                className='item-status'
-                title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
-              >
-                <Icon name='check' />
-              </span>
-            )}
-          </>
+          <LinkToEntity id={item.entity.id} className='item-entity'>
+            {item.entity.name}
+          </LinkToEntity>
         )}
         TotalCell={({ item }) => (
           <FilterLink newParams={getWithEntityParams(item)} hasIcon>

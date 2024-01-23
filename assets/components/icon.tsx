@@ -1,4 +1,5 @@
 import React from 'react';
+import { cx } from '@emotion/css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library, IconName, SizeProp } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -84,15 +85,16 @@ enum SetForIcon {
 }
 
 interface Props {
+  className?: string;
   name: IconName;
   size?: SizeProp;
 }
 
-const Icon = ({ name, size = 'lg' }: Props) => {
+const Icon = ({ className, name, size = 'lg' }: Props) => {
   const set = SetForIcon[name as keyof typeof SetForIcon];
 
   return (
-    <span className={`icon icon-${name}`}>
+    <span className={cx(`icon icon-${name}`, className)}>
       <FontAwesomeIcon icon={[set, name]} size={size} />
     </span>
   );

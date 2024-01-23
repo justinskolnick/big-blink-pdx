@@ -1,15 +1,14 @@
 import React, { useRef, useState, Fragment, ReactElement } from 'react';
 import { cx, css } from '@emotion/css';
 
-import EntityIcon from './entities/icon';
 import ItemTable from './item-table';
 import ItemTableRow from './item-table-row';
-import PersonIcon from './people/icon';
 
 import type { AffiliatedItem } from '../types';
 
 interface Props {
   affiliatedItems: AffiliatedItem[];
+  IconCell: (ctx: { item: AffiliatedItem }) => ReactElement;
   TitleCell: (ctx: { item: AffiliatedItem }) => ReactElement;
   TotalCell?: (ctx: { item: AffiliatedItem }) => ReactElement;
   label: string;
@@ -34,6 +33,47 @@ const styles = css`
     }
 
     td {
+      &.cell-type {
+        padding: 0;
+        width: 27px;
+        height: 27px;
+
+        .icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        }
+
+        .icons {
+          position: relative;
+          width: 100%;
+          height: 100%;
+
+          .icon {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+          }
+
+          .icon-registered {
+            top: auto;
+            left: auto;
+            right: -3px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            border: 1px solid var(--color-white);
+            background-color: var(--color-green);
+            color: var(--color-white);
+            font-size: 6px;
+          }
+        }
+      }
+
       &.cell-total {
         font-weight: 600;
         font-size: 10px;
@@ -59,17 +99,6 @@ const styles = css`
             font-size: 10px;
           }
         }
-      }
-
-      .item-status {
-        color: var(--color-green);
-        font-size: 9px;
-      }
-
-      .item-entity + .item-status {
-        position: relative;
-        top: calc(var(--gap) / -6);
-        margin-left: calc(var(--gap) / 2);
       }
     }
   }
@@ -113,6 +142,7 @@ const styles = css`
 
 const AffiliatedItemTable = ({
   affiliatedItems,
+  IconCell,
   TitleCell,
   TotalCell,
   label,
@@ -139,11 +169,7 @@ const AffiliatedItemTable = ({
             name={<TitleCell item={item} />}
             hasTotal={Boolean(item.total)}
             total={TotalCell ? <TotalCell item={item} /> : item.total}
-            type={('person' in item) ? (
-              <PersonIcon person={item.person} />
-            ) : (
-              <EntityIcon />
-            )}
+            type={<IconCell item={item} />}
           />
         ))}
       </ItemTable>
