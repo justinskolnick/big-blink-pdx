@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent, ReactNode } from 'react';
+import React, { useEffect, useRef, useState, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
 import { useLocation, useSearchParams, Link, NavLink } from 'react-router-dom';
 import { cx } from '@emotion/css';
 
@@ -16,33 +16,41 @@ import type {
 } from '../types';
 import { SortValues } from '../types';
 
-export interface LinkProps {
+interface LinkProps {
   children: ReactNode;
   className?: string;
-  defaultSort?: SortValue;
-  hasIcon?: boolean;
-  newParams?: NewParams;
+  onClick?: (event?: ReactMouseEvent) => void;
+  preventScrollReset?: boolean;
   title?: string;
+  to?: string | LocationState;
 }
 
-interface LinkToPageProps {
-  children: ReactNode;
+interface LinkToPageProps extends LinkProps {
   isCurrent?: boolean;
-  onClick: () => void;
-  to: string | LocationState;
 }
 
 interface LinkToProps {
   children: ReactNode;
   className?: string;
+  to?: string | LocationState;
+}
+
+interface BetterLinkProps extends LinkProps {
   to: string | LocationState;
 }
 
-interface LinkIdProps {
-  children: ReactNode;
-  className?: string;
+interface FilterLinkProps extends LinkProps {
+  hasIcon?: boolean;
+  newParams?: NewParams;
+}
+
+interface SortLinkProps extends LinkProps {
+  defaultSort?: SortValue;
+  newParams?: NewParams;
+}
+
+interface LinkIdProps extends LinkProps {
   id: Id;
-  onClick?: (event?: MouseEvent) => void;
 }
 
 export const quarterParam = 'quarter';
@@ -64,12 +72,38 @@ export const getWithPersonParams = (item: AffiliatedItem) => ({
 const useQueryParams = (newParams: NewParams, replace = true) =>
   getQueryParams(useLocation(), newParams, replace);
 
+const BetterLink = ({
+  onClick,
+  ...rest
+}: BetterLinkProps) => {
+  const ref = useRef<HTMLAnchorElement>();
+
+  const handleClick = (e: ReactMouseEvent<HTMLAnchorElement>) => {
+    if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      const customEvent = new MouseEvent('click', {
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        button: e.button,
+      });
+
+      e.preventDefault();
+      ref.current.dispatchEvent(customEvent);
+    } else {
+      onClick?.(e);
+    }
+  };
+
+  return <Link ref={ref} onClick={handleClick} {...rest} />;
+};
+
 export const LinkToQueryParams = ({
   children,
   className,
   newParams,
   ...rest
-}: LinkProps) => {
+}: FilterLinkProps) => {
   const queryParams = useQueryParams(newParams);
 
   return (
@@ -92,7 +126,7 @@ export const FilterLink = ({
   hasIcon,
   title,
   ...rest
-}: LinkProps) => (
+}: FilterLinkProps) => (
   <LinkToQueryParams
     className={cx('link-filter', className)}
     title={title || 'Apply this filter'}
@@ -122,7 +156,7 @@ export const SortLink = ({
   newParams,
   defaultSort,
   ...rest
-}: LinkProps) => {
+}: SortLinkProps) => {
   const [nextSort, setNextSort] = useState(defaultSort);
   const [searchParams] = useSearchParams();
   const params = new Map(Object.entries(newParams));
@@ -204,33 +238,33 @@ export const LinkToPage = ({
 );
 
 export const LinkToEntities = ({ children, ...rest }: LinkProps) => (
-  <Link to='/entities' {...rest}>{children}</Link>
+  <BetterLink to='/entities' {...rest}>{children}</BetterLink>
 );
 
 export const LinkToEntity = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <Link to={`/entities/${id}`} onClick={onClick} {...rest}>{children}</Link>
+  <BetterLink to={`/entities/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
 );
 
 export const LinkToIncidents = ({ children, ...rest }: LinkProps) => (
-  <Link to='/incidents' {...rest}>{children}</Link>
+  <BetterLink to='/incidents' {...rest}>{children}</BetterLink>
 );
 
 export const LinkToIncident = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <Link to={`/incidents/${id}`} onClick={onClick} {...rest}>{children}</Link>
+  <BetterLink to={`/incidents/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
 );
 
 export const LinkToPeople = ({ children, ...rest }: LinkProps) => (
-  <Link to='/people' {...rest}>{children}</Link>
+  <BetterLink to='/people' {...rest}>{children}</BetterLink>
 );
 
 export const LinkToPerson = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <Link to={`/people/${id}`} onClick={onClick} {...rest}>{children}</Link>
+  <BetterLink to={`/people/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
 );
 
 export const LinkToSources = ({ children, ...rest }: LinkProps) => (
-  <Link to='/sources' {...rest}>{children}</Link>
+  <BetterLink to='/sources' {...rest}>{children}</BetterLink>
 );
 
 export const LinkToSource = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <Link to={`/sources/${id}`} onClick={onClick} {...rest}>{children}</Link>
+  <BetterLink to={`/sources/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
 );

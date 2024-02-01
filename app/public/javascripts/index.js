@@ -1096,7 +1096,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef26(initialValue) {
+        function useRef27(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1889,7 +1889,7 @@ var require_react_development = __commonJS({
         exports.useLayoutEffect = useLayoutEffect4;
         exports.useMemo = useMemo5;
         exports.useReducer = useReducer;
-        exports.useRef = useRef26;
+        exports.useRef = useRef27;
         exports.useState = useState15;
         exports.useSyncExternalStore = useSyncExternalStore3;
         exports.useTransition = useTransition;
@@ -23662,9 +23662,9 @@ var require_with_selector_development = __commonJS({
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is;
         var useSyncExternalStore3 = shim.useSyncExternalStore;
-        var useRef26 = React41.useRef, useEffect28 = React41.useEffect, useMemo5 = React41.useMemo, useDebugValue2 = React41.useDebugValue;
+        var useRef27 = React41.useRef, useEffect28 = React41.useEffect, useMemo5 = React41.useMemo, useDebugValue2 = React41.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef26(null);
+          var instRef = useRef27(null);
           var inst;
           if (instRef.current === null) {
             inst = {
@@ -40555,6 +40555,28 @@ var getWithPersonParams = (item) => ({
   [withPersonIdParam]: item.person.id
 });
 var useQueryParams = (newParams, replace4 = true) => getQueryParams(useLocation(), newParams, replace4);
+var BetterLink = ({
+  onClick,
+  ...rest
+}) => {
+  const ref = (0, import_react14.useRef)();
+  const handleClick = (e) => {
+    if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+      const customEvent = new MouseEvent("click", {
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        button: e.button
+      });
+      e.preventDefault();
+      ref.current.dispatchEvent(customEvent);
+    } else {
+      onClick?.(e);
+    }
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { ref, onClick: handleClick, ...rest });
+};
 var LinkToQueryParams = ({
   children,
   className,
@@ -40671,14 +40693,14 @@ var LinkToPage = ({
     children
   }
 );
-var LinkToEntities = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: "/entities", ...rest, children });
-var LinkToEntity = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: `/entities/${id}`, onClick, ...rest, children });
-var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: "/incidents", ...rest, children });
-var LinkToIncident = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: `/incidents/${id}`, onClick, ...rest, children });
-var LinkToPeople = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: "/people", ...rest, children });
-var LinkToPerson = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: `/people/${id}`, onClick, ...rest, children });
-var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: "/sources", ...rest, children });
-var LinkToSource = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { to: `/sources/${id}`, onClick, ...rest, children });
+var LinkToEntities = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: "/entities", ...rest, children });
+var LinkToEntity = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: `/entities/${id}`, onClick, ...rest, children });
+var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: "/incidents", ...rest, children });
+var LinkToIncident = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: `/incidents/${id}`, onClick, ...rest, children });
+var LinkToPeople = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: "/people", ...rest, children });
+var LinkToPerson = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: `/people/${id}`, onClick, ...rest, children });
+var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: "/sources", ...rest, children });
+var LinkToSource = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: `/sources/${id}`, onClick, ...rest, children });
 
 // components/global-footer.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
