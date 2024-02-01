@@ -33,12 +33,12 @@ interface Props {
 
 const styles = css`
   .activity-stat-section + & {
-    padding-top: calc(3 * var(--gap));
-    border-top: 3px solid var(--color-divider);
+    padding-top: calc(var(--gap) * 3);
+    border-top: 3px solid var(--color-section-divider);
   }
 
   .item-subhead + .incident-list {
-    margin-top: calc(2 * var(--gap));
+    margin-top: calc(var(--gap) * 2);
   }
 `;
 

@@ -40,6 +40,7 @@ const styles = css`
 
 
   table {
+    table-layout: fixed;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -75,6 +76,7 @@ const styles = css`
   }
 
   .cell-date {
+    width: 18ch;
     white-space: nowrap;
 
     .has-notes {
@@ -89,12 +91,13 @@ const styles = css`
   }
 
   .cell-entity {
-    min-width: 15ch;
+    width: 25ch;
     font-weight: 600;
   }
 
   .cell-link {
     padding: 0;
+    width: 36px;
     font-weight: 600;
     vertical-align: middle;
 
@@ -173,14 +176,15 @@ const styles = css`
     }
   }
 
-  @media screen and (max-width: 600px) {
-    position: relative;
-
-    table {
-      position: relative;
-      z-index: 2;
+  @media screen and (max-width: 812px) {
+    .cell-topic {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
 
+  @media screen and (max-width: 600px) {
     .cell-link {
       display: none;
     }

@@ -48,7 +48,7 @@ const styles = css`
   .global-main + .global-footer {
     margin-top: calc(var(--gap) * 3);
     padding-top: calc(var(--gap) * 3);
-    border-top: 3px solid var(--color-light-gray);
+    border-top: 3px solid var(--color-section-divider);
   }
 
   header {

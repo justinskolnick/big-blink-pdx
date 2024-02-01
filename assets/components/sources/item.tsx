@@ -52,18 +52,29 @@ const styles = css`
     }
   }
 
-  & + & {
-    margin-top: calc(var(--gap) / 2);
-  }
-
-  @media screen and (min-width: 601px) {
+  @media screen and (min-width: 901px) {
     .item-source-quarter-description {
       display: flex;
       justify-content: space-between;
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (min-width: 781px) and (max-width: 900px) {
+    .item-source-quarter-description {
+      h6 + p {
+        margin-top: 3px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 451px) and (max-width: 780px) {
+    .item-source-quarter-description {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
     .item-source-quarter-description {
       h6 + p {
         margin-top: 3px;

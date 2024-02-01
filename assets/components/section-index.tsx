@@ -141,13 +141,11 @@ const styles = css`
   }
 
   .item-footer {
-    padding: 1.5rem 0.5rem 0;
-    border-top: 2px solid var(--color-divider);
     font-size: 14px;
   }
 
   .item-content + .item-footer {
-    margin-top: 2rem;
+    margin-top: calc(var(--gap) * 2);
   }
 `;
 

@@ -42053,7 +42053,7 @@ var styles16 = css`
   .global-main + .global-footer {
     margin-top: calc(var(--gap) * 3);
     padding-top: calc(var(--gap) * 3);
-    border-top: 3px solid var(--color-light-gray);
+    border-top: 3px solid var(--color-section-divider);
   }
 
   header {
@@ -42370,13 +42370,11 @@ var styles19 = css`
   }
 
   .item-footer {
-    padding: 1.5rem 0.5rem 0;
-    border-top: 2px solid var(--color-divider);
     font-size: 14px;
   }
 
   .item-content + .item-footer {
-    margin-top: 2rem;
+    margin-top: calc(var(--gap) * 2);
   }
 `;
 var SectionIndex = ({
@@ -55779,6 +55777,7 @@ var styles29 = css`
 
 
   table {
+    table-layout: fixed;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -55814,6 +55813,7 @@ var styles29 = css`
   }
 
   .cell-date {
+    width: 18ch;
     white-space: nowrap;
 
     .has-notes {
@@ -55828,12 +55828,13 @@ var styles29 = css`
   }
 
   .cell-entity {
-    min-width: 15ch;
+    width: 25ch;
     font-weight: 600;
   }
 
   .cell-link {
     padding: 0;
+    width: 36px;
     font-weight: 600;
     vertical-align: middle;
 
@@ -55912,14 +55913,15 @@ var styles29 = css`
     }
   }
 
-  @media screen and (max-width: 600px) {
-    position: relative;
-
-    table {
-      position: relative;
-      z-index: 2;
+  @media screen and (max-width: 812px) {
+    .cell-topic {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
 
+  @media screen and (max-width: 600px) {
     .cell-link {
       display: none;
     }
@@ -56026,12 +56028,12 @@ var incident_list_default = IncidentList;
 var import_jsx_runtime54 = __toESM(require_jsx_runtime());
 var styles31 = css`
   .activity-stat-section + & {
-    padding-top: calc(3 * var(--gap));
-    border-top: 3px solid var(--color-divider);
+    padding-top: calc(var(--gap) * 3);
+    border-top: 3px solid var(--color-section-divider);
   }
 
   .item-subhead + .incident-list {
-    margin-top: calc(2 * var(--gap));
+    margin-top: calc(var(--gap) * 2);
   }
 `;
 var WithEntityId = ({ filters, filterKey }) => {
@@ -56900,18 +56902,29 @@ var styles37 = css`
     }
   }
 
-  & + & {
-    margin-top: calc(var(--gap) / 2);
-  }
-
-  @media screen and (min-width: 601px) {
+  @media screen and (min-width: 901px) {
     .item-source-quarter-description {
       display: flex;
       justify-content: space-between;
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (min-width: 781px) and (max-width: 900px) {
+    .item-source-quarter-description {
+      h6 + p {
+        margin-top: 3px;
+      }
+    }
+  }
+
+  @media screen and (min-width: 451px) and (max-width: 780px) {
+    .item-source-quarter-description {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
     .item-source-quarter-description {
       h6 + p {
         margin-top: 3px;
@@ -56968,6 +56981,18 @@ var styles38 = css`
 
   .item-index-group + .item-index-group {
     margin-top: 36px;
+  }
+
+  .section-index-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc(var(--gap) / 2);
+  }
+
+  @media screen and (max-width: 780px) {
+    .section-index-list {
+      grid-template-columns: 1fr;
+    }
   }
 `;
 var Index4 = () => {
