@@ -1,0 +1,20 @@
+.incident-header {
+  display: inline-block;
+
+  h4, h5 {
+    display: inline;
+  }
+
+  .incidents-association {
+    font-weight: 600;
+  }
+
+  .incidents-association-remove {
+    color: var(--color-danger);
+    font-weight: 600;
+
+    &:hover {
+      border-bottom-color: var(--color-danger);
+    }
+  }
+}

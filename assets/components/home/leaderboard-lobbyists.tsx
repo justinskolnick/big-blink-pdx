@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { getPeopleLeaderboard } from '../../selectors';
 
+import Icon from '../icon';
 import ItemSubhead from '../item-subhead';
 import ItemTable from '../item-table';
 import ItemTextWithIcon from '../item-text-with-icon';
@@ -30,9 +31,10 @@ const LobbyistsLeaderboard = () => {
 
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='trophy'>
-            {label}
-          </ItemTextWithIcon>
+          <>
+            <Icon name='trophy' />
+            <span className='item-text'>{label}</span>
+          </>
         )} />
         <ItemTable hasPercent>
           {ids.map(id => (

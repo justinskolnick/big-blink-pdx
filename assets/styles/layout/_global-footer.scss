@@ -1,0 +1,121 @@
+.global-footer {
+  color: var(--color-text-lighter);
+
+  .global-footer-navigation {
+    .global-footer-navigation-title {
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-bottom: none;
+        color: var(--color-black);
+        white-space: nowrap;
+      }
+
+      .eyes {
+        width: 52px;
+        height: 16px;
+        gap: 2px;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          .icon {
+            animation: blink 500ms;
+          }
+        }
+      }
+
+      h6 {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 27px;
+      }
+
+      .eyes + h6 {
+        margin-left: calc(var(--gap) / 2);
+      }
+    }
+
+    ul {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 14px;
+      line-height: 27px;
+    }
+
+    li {
+      white-space: nowrap;
+
+      &:not(:last-child) {
+        &::after {
+          content: '·';
+          margin-left: calc(var(--gap) / 2);
+          margin-right: calc(var(--gap) / 2);
+        }
+      }
+    }
+  }
+
+  .global-footer-navigation + .global-footer-content {
+    margin-top: calc(var(--gap) * 2);
+  }
+
+  h6,
+  p {
+    display: inline;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  p + h6 {
+    &::before {
+      content: ' // ';
+      font-weight: 400;
+    }
+  }
+
+  h6 + p {
+    &::before {
+      content: ': ';
+      font-weight: 600;
+    }
+  }
+
+  p + p {
+    &::before {
+      content: ' ';
+    }
+  }
+
+  a {
+    color: var(--color-link);
+  }
+
+  @media screen and (min-width: 601px) {
+    .global-footer-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-left: calc(var(--gap) * 2);
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding-left: var(--layout-margin-x);
+    padding-right: var(--layout-margin-x);
+
+    .global-footer-navigation {
+      .global-footer-navigation-title + .global-footer-navigation-links {
+        margin-top: calc(var(--gap) / 2);
+      }
+    }
+  }
+}

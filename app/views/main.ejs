@@ -15,16 +15,15 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16.png" />
     <link rel="shortcut icon" href="/images/icons/favicon.ico" />
-    <link rel="stylesheet" href="/stylesheets/reset.css" />
-    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darumadrop+One" />
   </head>
   <body>
     <div class="root" id="root"></div>
   <% if (process.env.NODE_ENV === 'production') { -%>
-    <script src="/javascripts/index.min.js"></script>
+    <script src="/scripts/index.min.js"></script>
   <% } else { -%>
-    <script src="/javascripts/index.js"></script>
+    <script src="/scripts/index.js"></script>
   <% } -%>
   </body>
 </html>

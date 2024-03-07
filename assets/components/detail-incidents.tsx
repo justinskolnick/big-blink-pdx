@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, forwardRef } from 'react';
 import { useSelector } from 'react-redux';
-import { cx, css } from '@emotion/css';
 
 import { RootState } from '../lib/store';
 
@@ -30,17 +29,6 @@ interface Props {
   pagination: Pagination;
   scrollToRef: () => void;
 }
-
-const styles = css`
-  .activity-stat-section + & {
-    padding-top: calc(var(--gap) * 3);
-    border-top: 3px solid var(--color-section-divider);
-  }
-
-  .item-subhead + .incident-list {
-    margin-top: calc(var(--gap) * 2);
-  }
-`;
 
 const WithEntityId = ({ filters, filterKey }: FiltersProps) => {
   const id = filters?.[filterKey];
@@ -118,10 +106,7 @@ const DetailIncidents = forwardRef<HTMLDivElement, Props>(({
   ]);
 
   return (
-    <section className={cx(
-      'activity-stat-section incident-list-section',
-      styles,
-    )} ref={ref}>
+    <section className='activity-stat-section incident-list-section' ref={ref}>
       <IncidentsHeader label={label}>
         <WithEntityId filters={filters} filterKey={withEntityIdParam} />
         <WithPersonId filters={filters} filterKey={withPersonIdParam} />

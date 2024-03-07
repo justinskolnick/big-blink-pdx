@@ -1,28 +1,12 @@
 import React, { useEffect, useRef, KeyboardEvent, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { cx, css } from '@emotion/css';
+import { cx } from '@emotion/css';
 
 import useFixedBodyWhenHasClass from '../hooks/use-fixed-body-when-has-class';
 
 export const hasModalClass = 'has-modal' as const;
 export const modalRootId = 'modal-root' as const;
 export const modalPortalId = 'modal-root-portal' as const;
-
-const styles = css`
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .modal-content {
-    position: absolute;
-  }
-`;
 
 interface Props {
   children: ReactNode;
@@ -63,7 +47,7 @@ const ModalPortal = ({
 
   return createPortal(
     <div
-      className={cx('modal', styles, className)}
+      className={cx('modal', className)}
       onKeyUp={handleKeyUp}
       ref={ref}
       tabIndex={0}

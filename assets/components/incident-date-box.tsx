@@ -29,7 +29,7 @@ const IncidentDateBox = ({ incident }: Props) => {
   if (!hasIncident) return null;
 
   return (
-    <StatBox title={incident.label} icon='calendar'>
+    <StatBox className='activity-stat-details' title={incident.label} icon='calendar'>
       <LinkToIncident
         id={incident.value.id}
         onClick={handleLinkClick}

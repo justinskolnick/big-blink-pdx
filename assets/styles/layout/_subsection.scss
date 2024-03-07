@@ -1,0 +1,14 @@
+.subsection-header {
+  .item-subhead {
+    .item-description {
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (max-width: 812px) {
+    & + .leaderboard-subsection-group,
+    & + .incident-activity-stat-groups-list {
+      margin-top: calc(2 * var(--gap));
+    }
+  }
+}

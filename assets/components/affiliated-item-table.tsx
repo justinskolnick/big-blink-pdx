@@ -1,5 +1,4 @@
 import React, { useRef, useState, Fragment, ReactElement } from 'react';
-import { cx, css } from '@emotion/css';
 
 import ItemTable from './item-table';
 import ItemTableRow from './item-table-row';
@@ -13,133 +12,6 @@ interface Props {
   TotalCell?: (ctx: { item: AffiliatedItem }) => ReactElement;
   label: string;
 }
-
-const styles = css`
-  &.no-results {
-    padding-bottom: 6px;
-    padding-top: 6px;
-    color: var(--color-text-lighter);
-    font-size: 16px;
-  }
-
-  table {
-    tbody {
-      tr {
-        .cell-name {
-          font-weight: 400;
-          font-size: 16px;
-        }
-      }
-    }
-
-    td {
-      &.cell-type {
-        padding: 0;
-        width: 27px;
-        height: 27px;
-
-        .icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-        }
-
-        .icons {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          max-height: 27px;
-
-          .icon {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-          }
-
-          .icon-registered {
-            top: auto;
-            left: auto;
-            right: -3px;
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            border: 1px solid var(--color-white);
-            background-color: var(--color-green);
-            color: var(--color-white);
-            font-size: 6px;
-          }
-        }
-      }
-
-      &.cell-total {
-        font-weight: 600;
-        font-size: 10px;
-
-        a {
-          color: var(--color-text-lighter);
-
-          .icon {
-            color: inherit;
-          }
-
-          &:hover {
-            border-bottom: none;
-            color: var(--color-link);
-          }
-        }
-
-        .item-text-with-icon {
-          align-items: center;
-
-          .icon {
-            margin-right: 1ch;
-            font-size: 10px;
-          }
-        }
-      }
-    }
-  }
-
-  .button-toggle {
-    cursor: pointer;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 9px 18px;
-    width: 100%;
-    border: none;
-    border-radius: 9px;
-    background-color: var(--color-accent-lightest);
-    box-shadow: 0 1px 2px var(--color-accent-alt-lighter);
-    color: var(--color-link);
-    font-weight: 600;
-    font-size: 12px;
-    text-align: center;
-    transition: box-shadow 250ms ease,
-                transform 250ms ease;
-
-    &:hover {
-      transform: scale(1.05);
-      transition-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  table + .button-toggle {
-    margin-top: 1rem;
-  }
-
-  a {
-    color: var(--color-link);
-  }
-`;
 
 const AffiliatedItemTable = ({
   affiliatedItems,
@@ -162,7 +34,7 @@ const AffiliatedItemTable = ({
   };
 
   return hasItems ? (
-    <div className={styles} ref={ref}>
+    <div className='affiliated-items' ref={ref}>
       <ItemTable>
         {items.map((item, i) => (
           <ItemTableRow
@@ -190,7 +62,7 @@ const AffiliatedItemTable = ({
       )}
     </div>
   ) : (
-    <div className={cx(styles, 'no-results')}>None found</div>
+    <div className='affiliated-items no-results'>None found</div>
   );
 };
 

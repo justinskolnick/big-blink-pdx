@@ -1,0 +1,23 @@
+.activity-stat-details {
+  &.has-icon {
+    align-items: flex-start;
+
+    .icon {
+      color: var(--color-accent-alt-lighter);
+    }
+  }
+
+  .activity-stat-titles {
+    font-size: 13px;
+    line-height: 21px;
+  }
+
+  .activity-stat-value {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+.activity-stat-details + .activity-stat-details {
+  margin-top: calc(var(--gap) / 2);
+}

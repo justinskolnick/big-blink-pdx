@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { css } from '@emotion/css';
 
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
@@ -14,27 +13,6 @@ interface IncidentsHeaderProps {
   children?: ReactNode;
   label?: string;
 }
-
-const styles = css`
-  display: inline-block;
-
-  h4, h5 {
-    display: inline;
-  }
-
-  .incidents-association {
-    font-weight: 600;
-  }
-
-  .incidents-association-remove {
-    color: var(--color-danger);
-    font-weight: 600;
-
-    &:hover {
-      border-bottom-color: var(--color-danger);
-    }
-  }
-`;
 
 const PrimaryAssociation = ({ label }: AssociationProps) => {
   if (!label) return null;
@@ -78,7 +56,7 @@ const IncidentsHeader = ({
   label,
 }: IncidentsHeaderProps) => (
   <ItemSubhead
-    className={styles}
+    className='incident-header'
     title='Incidents'
     subtitle={<PrimaryAssociation label={label} />}
   >

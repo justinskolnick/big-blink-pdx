@@ -1,5 +1,4 @@
 import React from 'react';
-import { cx, css } from '@emotion/css';
 
 import IncidentListTable from './incident-list-table';
 import Pagination from './pagination';
@@ -13,31 +12,13 @@ interface Props {
   scrollToRef: () => void;
 }
 
-const styles = css`
-  font-size: 12px;
-  line-height: 18px;
-
-  a {
-    color: var(--color-table-link);
-
-    &.is-active {
-      border-bottom: 2px solid currentColor;
-    }
-  }
-
-  .incident-list-footer {
-    padding: 18px 9px;
-    color: var(--color-table-footer-color);
-  }
-`;
-
 const IncidentList = ({
   hasSort,
   ids,
   pagination,
   scrollToRef,
 }: Props) => (
-  <div className={cx('incident-list', styles)}>
+  <div className='incident-list'>
     <IncidentListTable hasSort={hasSort} ids={ids} />
 
     {pagination && ids.length > 0 && (

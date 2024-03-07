@@ -1,7 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { cx, css } from '@emotion/css';
 
 import { LinkToIncidents, LinkToIncident } from './links';
 import Icon from './icon';
@@ -14,43 +13,6 @@ import {
   getIncidentLast,
   getIncidentTotal,
 } from '../selectors';
-
-const styles = css`
-  p {
-    font-weight: 100;
-  }
-
-  .global-date-range-note {
-    cursor: pointer;
-
-    .icon {
-      position: relative;
-      top: -0.75em;
-      color: var(--color-accent-alt-lighter);
-      font-size: 0.5em;
-    }
-  }
-
-  @media screen and (min-width: 613px) {
-    p {
-      font-size: 24px;
-      line-height: 36px;
-    }
-  }
-
-  @media screen and (max-width: 612px) {
-    text-align: center;
-
-    p {
-      font-size: 18px;
-      line-height: 27px;
-
-      a {
-        font-weight: 300;
-      }
-    }
-  }
-`;
 
 const dateRangeMessage = 'Some incident dates appear to be anomalous and have been omitted from this range, pending official word from the City Auditor’s office. Refer to individual incident records for more details.' as const;
 
@@ -108,7 +70,7 @@ const HeaderIntro = () => {
   if (!hasData) return null;
 
   return (
-    <div className={cx('header-intro', styles)}>
+    <div className='header-intro'>
       <p>
         The Big Blink remixes lobbying data published by the City of Portland, Oregon, including
         {' '}

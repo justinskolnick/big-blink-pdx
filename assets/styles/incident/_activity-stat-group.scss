@@ -1,0 +1,26 @@
+.incident-activity-stat-group {
+  .item-subsection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(261px, 1fr));
+    grid-gap: var(--gap);
+  }
+
+  .item-subhead + .item-subsection {
+    margin-top: var(--gap);
+  }
+
+  .activity-stat-titles {
+    font-size: 13px;
+    font-weight: 200;
+  }
+
+  .activity-stat-value {
+    table {
+      width: 100%;
+    }
+  }
+
+  .activity-stat-titles + .activity-stat-value {
+    margin-top: var(--gap);
+  }
+}

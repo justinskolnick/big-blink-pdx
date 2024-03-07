@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getEntitiesLeaderboard } from '../../selectors';
 
 import { EntityItem } from '../entities/index';
+import Icon from '../icon';
 import ItemSubhead from '../item-subhead';
 import ItemTable from '../item-table';
 import ItemTextWithIcon from '../item-text-with-icon';
@@ -30,9 +31,10 @@ const EntitiesLeaderboard = () => {
 
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='trophy'>
-            {label}
-          </ItemTextWithIcon>
+          <>
+            <Icon name='trophy' />
+            <span className='item-text'>{label}</span>
+          </>
         )} />
         <ItemTable hasPercent>
           {ids.map(id => (

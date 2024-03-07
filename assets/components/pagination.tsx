@@ -1,5 +1,4 @@
 import React from 'react';
-import { cx, css } from '@emotion/css';
 
 import Icon from './icon';
 import { LinkToPage } from './links';
@@ -10,58 +9,13 @@ interface PaginationProps {
   pagination: PaginationType;
 }
 
-const styles = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .pagination-pages {
-    ul {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    li + li {
-      margin-left: 1rem;
-    }
-  }
-
-  .pagination-page {
-    font-weight: 600;
-  }
-
-  .pagination-direction {
-    .icon {
-      color: var(--color-table-link);
-      opacity: 0.5;
-    }
-
-    a {
-      .icon {
-        opacity: 1;
-      }
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .pagination-pages {
-      display: none;
-    }
-
-    .pagination-direction {
-      font-size: 18px;
-    }
-  }
-`;
-
 const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
   const { page, pageCount, pages } = pagination;
 
   if (!pages) return null;
 
   return (
-    <div className={cx('pagination', styles)}>
+    <div className='pagination'>
       <div className='pagination-direction'>
         {pages.previous ? (
           <LinkToPage

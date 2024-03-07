@@ -1,0 +1,19 @@
+.leaderboard-subsection-group {
+  .item-subhead {
+    h5 {
+      display: flex;
+    }
+  }
+
+  .item-subhead + .item-chart {
+    margin-top: calc(var(--gap) * 2);
+  }
+
+  .item-subhead + .item-table {
+    margin-top: var(--gap);
+  }
+
+  .item-table + .leaderboard-more {
+    margin-top: var(--gap);
+  }
+}

@@ -39,7 +39,7 @@ const IncidentSourceBox = ({
   if (!incident || !source) return null;
 
   return (
-    <StatBox title={title} icon='database'>
+    <StatBox className='activity-stat-details' title={title} icon='database'>
       <LinkToSource
         id={source.id}
       >

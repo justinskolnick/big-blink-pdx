@@ -1,0 +1,13 @@
+.leaderboard-subsection {
+  & + & {
+    margin-top: calc(3 * var(--gap));
+  }
+
+  &.is-grid {
+    @media screen and (min-width: 813px) {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: calc(2 * var(--gap));
+    }
+  }
+}

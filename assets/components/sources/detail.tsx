@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { css, cx } from '@emotion/css';
+import { cx } from '@emotion/css';
 
 import { RootState } from '../../lib/store';
 
@@ -16,63 +16,6 @@ import ItemDetail from '../item-detail';
 import { selectors } from '../../reducers/sources';
 
 import { DataFormat } from '../../types';
-
-const styles = css`
-  .activity-meta-section {
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-start;
-    overflow: hidden;
-    border-radius: 9px;
-    border: 1px solid var(--color-blue);
-
-    header + & {
-      margin-top: 36px;
-    }
-  }
-
-  .activity-meta-section-icon {
-    flex-shrink: 0;
-    box-sizing: border-box;
-    padding: 24px 18px 18px;
-    width: 63px;
-    background-color: var(--color-light-blue);
-
-    &.icon-csv {
-      padding-left: 21px;
-      padding-right: 15px;
-    }
-
-    .icon {
-      color: var(--color-blue);
-      font-size: 21px;
-    }
-  }
-
-  .activity-meta-section-description {
-    padding: 18px;
-    color: var(--color-gray);
-    font-size: 12px;
-    line-height: 18px;
-
-    strong {
-      color: var(--color-text-light);
-      font-weight: 500;
-    }
-
-    a {
-      color: var(--color-link);
-
-      &[target] {
-        word-break: break-all;
-      }
-    }
-  }
-
-  .activity-meta-section + .activity-overview {
-    margin-top: calc(3 * var(--gap));
-  }
-`;
 
 const disclaimers = {
   activity: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
@@ -100,7 +43,7 @@ const Detail = () => {
   if (!hasSource) return null;
 
   return (
-    <ItemDetail className={styles}>
+    <ItemDetail>
       <section className='activity-meta-section item-source-file'>
         <div className={cx('activity-meta-section-icon', {
           'icon-csv': source.format === 'csv',

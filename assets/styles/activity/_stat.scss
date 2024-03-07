@@ -1,0 +1,21 @@
+.activity-stat {
+  &.has-icon {
+    display: flex;
+    align-items: center;
+
+    .icon {
+      margin-right: 1ch;
+      width: 30px;
+      color: var(--color-text-light);
+      font-size: 27px;
+
+      svg {
+        width: 100%;
+      }
+    }
+  }
+
+  .activity-stat-content {
+    width: 100%;
+  }
+}

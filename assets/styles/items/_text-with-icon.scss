@@ -1,0 +1,13 @@
+.item-text-with-icon {
+  display: inline-flex;
+  align-items: flex-start;
+
+  .icon {
+    font-size: 12px;
+  }
+
+  .item-text + .icon,
+  .icon + .item-text {
+    margin-left: 0.5ch;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { cx, css } from '@emotion/css';
+import { cx } from '@emotion/css';
 
 import StatBox from './stat-box';
 
@@ -10,22 +10,6 @@ interface Props {
   title: string;
 }
 
-const styles = css`
-  background-color: var(--color-stat-light);
-
-  .activity-stat-titles {
-    color: var(--color-stat-label);
-  }
-
-  .activity-stat-value {
-    color: var(--color-stat);
-  }
-
-  &.is-interactive {
-    box-shadow: 0 1px 1px var(--color-accent-alt-lighter);
-  }
-`;
-
 const IncidentCountBox = ({
   children,
   className,
@@ -34,9 +18,9 @@ const IncidentCountBox = ({
 }: Props) => (
   <StatBox
     className={cx(
-      styles,
+      'activity-stat-incident-count',
       onClick && 'is-interactive',
-      className
+      className,
     )}
     onClick={onClick}
     title={title}

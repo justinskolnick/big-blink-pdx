@@ -1,0 +1,40 @@
+.item-subhead {
+  line-height: 27px;
+
+  h4 + h5,
+  h5 + h5 {
+    margin-left: 0.5ch;
+  }
+
+  &.has-border {
+    padding-top: 9px;
+    border-top: 3px solid var(--color-divider);
+  }
+
+  .icon {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background-color: var(--color-accent-alt);
+    color: var(--color-background);
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .item-text {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    line-height: 18px;
+  }
+
+  .icon + .item-text,
+  .item-text + .icon {
+    margin-left: calc(var(--gap) / 2);
+  }
+
+  .item-description {
+    color: var(--color-text-lighter);
+  }
+}

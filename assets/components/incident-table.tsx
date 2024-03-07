@@ -1,48 +1,9 @@
 import React from 'react';
-import { cx, css } from '@emotion/css';
 
 import Attendees from './incident-attendees';
 import { LinkToEntity } from './links';
 
 import type { Incident } from '../types';
-
-const styles = css`
-  --color-divider: var(--color-light-gray);
-
-  width: 100%;
-
-  th, td {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    line-height: 18px;
-    text-align: left;
-  }
-
-  tr {
-    &:nth-of-type(n + 2) {
-      th, td {
-        border-top: 1px solid var(--color-divider);
-      }
-    }
-  }
-
-  th {
-    color: var(--color-table-accent);
-
-    &::after {
-      content: ':';
-    }
-  }
-
-  td {
-    padding-left: var(--gap);
-    font-size: 14px;
-
-    a {
-      font-weight: 600;
-    }
-  }
-`;
 
 interface Props {
   incident: Incident;
@@ -52,7 +13,7 @@ const IncidentTable = ({ incident }: Props) => {
   const hasAttendees = 'attendees' in incident;
 
   return (
-    <table className={cx('incident-table', styles)} cellPadding='0' cellSpacing='0'>
+    <table className='incident-table' cellPadding='0' cellSpacing='0'>
       <tbody>
         <tr>
           <th>Entity</th>

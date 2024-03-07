@@ -1,0 +1,17 @@
+.leaderboard-more {
+  padding-left: 6px;
+  padding-right: 6px;
+
+  .icon {
+    color: var(--color-light);
+    font-size: 10px;
+  }
+
+  .item-text {
+    font-size: 12px;
+  }
+
+  .icon + .item-text {
+    margin-left: 2.5ch;
+  }
+}

@@ -1,0 +1,37 @@
+.incident-table {
+  --color-divider: var(--color-light-gray);
+
+  width: 100%;
+
+  th, td {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    line-height: 18px;
+    text-align: left;
+  }
+
+  tr {
+    &:nth-of-type(n + 2) {
+      th, td {
+        border-top: 1px solid var(--color-divider);
+      }
+    }
+  }
+
+  th {
+    color: var(--color-table-accent);
+
+    &::after {
+      content: ':';
+    }
+  }
+
+  td {
+    padding-left: var(--gap);
+    font-size: 14px;
+
+    a {
+      font-weight: 600;
+    }
+  }
+}

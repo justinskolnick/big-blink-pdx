@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import Icon from '../icon';
 import ItemChart from '../item-chart';
 import ItemSubhead from '../item-subhead';
-import ItemTextWithIcon from '../item-text-with-icon';
 import LeaderboardSubsection from '../leaderboard/subsection';
 import LeaderboardSubsectionGroup from '../leaderboard/subsection-group';
 
@@ -20,9 +20,12 @@ const Chart = () => {
     <LeaderboardSubsection>
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={(
-          <ItemTextWithIcon icon='chart-simple'>
-            Lobbying activity over time
-          </ItemTextWithIcon>
+          <>
+            <Icon name='chart-simple' />
+            <span className='item-text'>
+              Lobbying activity over time
+            </span>
+          </>
         )} />
 
         <ItemChart lineProps={lineProps} />

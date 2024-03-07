@@ -1,0 +1,25 @@
+.incident-attendees {
+  .incident-attendee {
+    span {
+      color: var(--color-text-lighter);
+      font-weight: 200;
+      font-size: 12px;
+
+      &::before {
+        content: 'as “';
+      }
+
+      &::after {
+        content: '”';
+      }
+    }
+
+    a + span {
+      margin-left: 0.5ch;
+    }
+  }
+
+  .incident-attendee + .incident-attendee {
+    margin-top: 3px;
+  }
+}
