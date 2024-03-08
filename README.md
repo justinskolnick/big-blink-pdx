@@ -64,7 +64,7 @@ yarn install
 ### Long-range planning
   - Drop REST for GraphQL?
   - Rebuild the back-end in TypeScript
-  - Alternatives to Emotion for styling - a straightforward SCSS approach might do the job
+  - ~~Alternatives to Emotion for styling - a straightforward SCSS approach might do the job~~
 
 ## Contributing
 
@@ -72,4 +72,4 @@ Issues and PRs are welcome. And spot fixes are more welcome than overhauls. If y
 
 ## License
 
-Copyright (c) 2023 Justin Skolnick. [MIT License](/LICENSE).
+Copyright (c) 2023-2024 Justin Skolnick. [MIT License](/LICENSE).
