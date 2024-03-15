@@ -1885,6 +1885,9 @@ body.has-alert .alert-root {
   border-top: 3px solid var(--color-divider);
 }
 .item-subhead .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   box-sizing: border-box;
   width: 27px;
@@ -2001,6 +2004,7 @@ body.has-alert .alert-root {
 }
 .leaderboard-subsection-group .item-subhead h5 {
   display: flex;
+  align-items: center;
 }
 .leaderboard-subsection-group .item-subhead + .item-chart {
   margin-top: calc(18px * 2);
