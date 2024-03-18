@@ -18,6 +18,13 @@ export type LocationState = {
   search: string;
 };
 
+export enum Sections {
+  Entities = 'entities',
+  Incidents = 'incidents',
+  People = 'people',
+  Sources = 'sources',
+}
+
 export type SectionType = {
   details?: string[];
   id?: number;
@@ -114,9 +121,24 @@ type ListParams = {
 
 export type NewParams = IncidentsFilters & ListParams;
 
+type LeaderboardLinkLabels = {
+  more: string;
+};
+
+type LeaderboardTableLabels = {
+  title: string;
+};
+
+type LeaderboardLabels = {
+  links: LeaderboardLinkLabels;
+  subtitle: string;
+  table: LeaderboardTableLabels;
+  title: string;
+};
+
 export type LeaderboardSet = {
   ids: Ids;
-  label: string;
+  labels: LeaderboardLabels;
 };
 
 type IncidentsStats = {

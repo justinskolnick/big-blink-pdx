@@ -20,31 +20,28 @@ import SectionIcon from './section-icon';
 
 import { getSection } from '../selectors';
 
-const ENTITIES = 'entities' as const;
-const INCIDENTS = 'incidents' as const;
-const PEOPLE = 'people' as const;
-const SOURCES = 'sources' as const;
+import { Sections } from '../types';
 
 const useGetSectionLink = (slug: string) => {
-  if (slug === ENTITIES) {
+  if (slug === Sections.Entities) {
     return LinkToEntities;
-  } else if (slug === INCIDENTS) {
+  } else if (slug === Sections.Incidents) {
     return LinkToIncidents;
-  } else if (slug === PEOPLE) {
+  } else if (slug === Sections.People) {
     return LinkToPeople;
-  } else if (slug === SOURCES) {
+  } else if (slug === Sections.Sources) {
     return LinkToSources;
   }
 };
 
 const useGetSectionItemLink = (slug: string) => {
-  if (slug === ENTITIES) {
+  if (slug === Sections.Entities) {
     return LinkToEntity;
-  } else if (slug === INCIDENTS) {
+  } else if (slug === Sections.Incidents) {
     return LinkToIncident;
-  } else if (slug === PEOPLE) {
+  } else if (slug === Sections.People) {
     return LinkToPerson;
-  } else if (slug === SOURCES) {
+  } else if (slug === Sections.Sources) {
     return LinkToSource;
   }
 };

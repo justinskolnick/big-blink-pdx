@@ -14,9 +14,14 @@ import type {
 } from '../types';
 
 type Leaderboard = {
-  all: Ids;
   lobbyists: LeaderboardSet;
   officials: LeaderboardSet;
+};
+
+type InitialState = {
+  leaderboard: Leaderboard;
+  pageIds: Ids;
+  pagination?: Pagination;
 };
 
 export const adapters = {
@@ -53,22 +58,32 @@ export const adapter = createEntityAdapter<Person>();
 
 export const selectors = adapter.getSelectors(getPeople);
 
+const leaderboardSet = {
+  ids: [] as Ids,
+  labels: {
+    links: {
+      more: '',
+    },
+    subtitle: '',
+    table: {
+      title: '',
+    },
+    title: '',
+  },
+};
+
+const initialState = {
+  leaderboard: {
+    lobbyists: leaderboardSet,
+    officials: leaderboardSet,
+  },
+  pageIds: [],
+  pagination: null,
+} as InitialState;
+
 export const peopleSlice = createSlice({
   name: 'people',
-  initialState: adapter.getInitialState({
-    leaderboard: {
-      lobbyists: {
-        ids: [],
-        label: '',
-      },
-      officials: {
-        ids: [],
-        label: '',
-      },
-    },
-    pageIds: [],
-    pagination: null,
-  }),
+  initialState: adapter.getInitialState(initialState),
   reducers: {
     set: (state, action: PayloadAction<Person>) => {
       adapter.upsertOne(state, action.payload);

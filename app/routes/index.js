@@ -59,7 +59,16 @@ router.get('/', async (req, res, next) => {
           records: entitiesResult,
           leaderboard: {
             all: {
-              label: 'Portland’s most active lobbying entities',
+              labels: {
+                title: 'Lobbying Entities',
+                subtitle: 'Lobbying entities are ranked by total number of lobbying incident appearances.',
+                table: {
+                  title: 'Portland’s most active lobbying entities',
+                },
+                links: {
+                  more: 'View the full list of lobbying entities',
+                }
+              },
               ids: entitiesResult.map(item => item.id),
             },
           }
@@ -68,11 +77,29 @@ router.get('/', async (req, res, next) => {
           records: peopleResult,
           leaderboard: {
             lobbyists: {
-              label: 'Portland’s most active lobbyists',
+              labels: {
+                title: 'Lobbyists',
+                subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
+                table: {
+                  title: 'Portland’s most active lobbyists',
+                },
+                links: {
+                  more: 'View all lobbyists in the full list of people',
+                },
+              },
               ids: lobbyistsResult.map(item => item.id),
             },
             officials: {
-              label: 'Portland’s most lobbied officials',
+              labels: {
+                title: 'City Officials',
+                subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
+                table: {
+                  title: 'Portland’s most lobbied officials',
+                },
+                links: {
+                  more: 'View all officials in the full list of people',
+                },
+              },
               ids: officialsResult.map(item => item.id),
             },
           }
