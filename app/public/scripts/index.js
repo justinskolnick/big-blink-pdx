@@ -33665,10 +33665,10 @@ var createQueueWithTimer = function(timeout2) {
 var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
 F();
 
-// lib/sorting.ts
+// scripts/lib/sorting.ts
 var sortQuarterAscendingTypeDecending = (a2, b2) => a2.quarter - b2.quarter || b2.type.localeCompare(a2.type);
 
-// selectors.ts
+// scripts/selectors.ts
 var getEntities = (state) => state.entities;
 var getIncidents = (state) => state.incidents;
 var getPeople = (state) => state.people;
@@ -33744,7 +33744,7 @@ var getMessages = createSelector(getUI, (ui) => ui.messages);
 var getSection = createSelector(getUI, (ui) => ui.section);
 var getWarnings = createSelector(getUI, (ui) => ui.warnings);
 
-// reducers/entities.ts
+// scripts/reducers/entities.ts
 var adapters = {
   adaptOne: (entity) => {
     if (entity.incidents) {
@@ -33811,7 +33811,7 @@ var {
 } = entitiesSlice.actions;
 var entities_default = entitiesSlice.reducer;
 
-// reducers/incidents.ts
+// scripts/reducers/incidents.ts
 var adapters2 = {
   adaptOne: (incident) => incident,
   getIds: (people) => people.map((incident) => incident.id)
@@ -33864,7 +33864,7 @@ var {
 } = incidentsSlice.actions;
 var incidents_default = incidentsSlice.reducer;
 
-// reducers/people.ts
+// scripts/reducers/people.ts
 var adapters3 = {
   adaptOne: (person) => {
     if (person.incidents) {
@@ -33935,7 +33935,7 @@ var {
 } = peopleSlice.actions;
 var people_default = peopleSlice.reducer;
 
-// reducers/sources.ts
+// scripts/reducers/sources.ts
 var adapters4 = {
   adaptOne: (source) => {
     if (source.incidents) {
@@ -33987,7 +33987,7 @@ var sourcesSlice = createSlice({
 var { set: set4, setAll: setAll4, setPageIds: setPageIds4, setPagination: setPagination4 } = sourcesSlice.actions;
 var sources_default = sourcesSlice.reducer;
 
-// reducers/stats.ts
+// scripts/reducers/stats.ts
 var setEntity = createAction("stats/setEntity");
 var setPerson = createAction("stats/setPerson");
 var setSources = createAction("stats/setSources");
@@ -34012,7 +34012,7 @@ var statsReducer = createReducer(initialState, (builder) => {
 });
 var stats_default = statsReducer;
 
-// reducers/ui.ts
+// scripts/reducers/ui.ts
 var setDescription = createAction("ui/setDescription");
 var clearErrors = createAction("ui/clearErrors");
 var clearMessages = createAction("ui/clearMessages");
@@ -34074,7 +34074,7 @@ var uiReducer = createReducer(initialState2, (builder) => {
 });
 var ui_default = uiReducer;
 
-// lib/store.ts
+// scripts/lib/store.ts
 var store = configureStore({
   reducer: {
     entities: entities_default,
@@ -34088,7 +34088,7 @@ var store = configureStore({
 });
 var store_default = store;
 
-// components/alert-error.tsx
+// scripts/components/alert-error.tsx
 var import_react9 = __toESM(require_react());
 
 // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
@@ -34857,11 +34857,11 @@ CSSTransition.propTypes = true ? _extends({}, Transition_default.propTypes, {
 }) : {};
 var CSSTransition_default = CSSTransition;
 
-// components/alert-portal.tsx
+// scripts/components/alert-portal.tsx
 var import_react7 = __toESM(require_react());
 var import_react_dom3 = __toESM(require_react_dom());
 
-// hooks/use-fixed-body-when-has-class.ts
+// scripts/hooks/use-fixed-body-when-has-class.ts
 var import_react6 = __toESM(require_react());
 var useFixedBodyWhenHasClass = (className) => {
   const { positionY } = useSelector(getUI);
@@ -34881,7 +34881,7 @@ var useFixedBodyWhenHasClass = (className) => {
 };
 var use_fixed_body_when_has_class_default = useFixedBodyWhenHasClass;
 
-// components/alert-portal.tsx
+// scripts/components/alert-portal.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime());
 var hasAlertClass = "has-alert";
 var alertRootId = "alert-root";
@@ -39210,7 +39210,7 @@ var faCalendar = {
   icon: [448, 512, [128197, 128198], "f133", "M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"]
 };
 
-// components/icon.tsx
+// scripts/components/icon.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime());
 library$1.add(
   faArrowDown,
@@ -39267,7 +39267,7 @@ var Icon = ({ className, name, size = "lg" }) => {
 };
 var icon_default = Icon;
 
-// components/item-text-with-icon.tsx
+// scripts/components/item-text-with-icon.tsx
 var import_jsx_runtime3 = __toESM(require_jsx_runtime());
 var ItemTextWithIcon = ({
   after = false,
@@ -39282,10 +39282,10 @@ var ItemTextWithIcon = ({
 ] }) });
 var item_text_with_icon_default = ItemTextWithIcon;
 
-// lib/array.ts
+// scripts/lib/array.ts
 var unique = (arr) => [...new Set(arr)];
 
-// components/alert.tsx
+// scripts/components/alert.tsx
 var import_jsx_runtime4 = __toESM(require_jsx_runtime());
 var isObject = (alert) => typeof alert === "object";
 var getHasCustomMessage = (alert) => isObject && Boolean(alert.customMessage);
@@ -39354,7 +39354,7 @@ var Alert = ({
 };
 var alert_default = Alert;
 
-// components/alert-error.tsx
+// scripts/components/alert-error.tsx
 var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var AlertError = () => {
   const [isActive, setIsActive] = (0, import_react9.useState)(false);
@@ -39384,7 +39384,7 @@ var AlertError = () => {
 };
 var alert_error_default = AlertError;
 
-// components/app.tsx
+// scripts/components/app.tsx
 var import_react18 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
@@ -40109,7 +40109,7 @@ var HelmetSideEffects = (0, import_react_side_effect.default)(reducePropsToState
 var HelmetExport = Helmet(HelmetSideEffects);
 HelmetExport.renderStatic = HelmetExport.rewind;
 
-// lib/error.ts
+// scripts/lib/error.ts
 var networkError = "It looks like you lost your internet connection. Please reload this page and try again.";
 var notFoundError = "Some data requested by this page could not be loaded.";
 var isErrorWithMessage = (error) => typeof error === "object" && error !== null && "message" in error && typeof error.message === "string";
@@ -40137,7 +40137,7 @@ var getError = (maybeError) => {
   return error;
 };
 
-// lib/request.ts
+// scripts/lib/request.ts
 var handleResponse = (response) => response.json().then(
   (json2) => response.ok ? json2 : Promise.reject(json2)
 );
@@ -40149,7 +40149,7 @@ var get2 = (url) => fetch(url, {
   }
 }).then(handleResponse);
 
-// lib/fetch-from-path.ts
+// scripts/lib/fetch-from-path.ts
 var getPeopleFromIncidents = (incidents) => incidents.flatMap(
   (incident) => Object.values(incident.attendees).map((group) => group.records).flat().map((attendee) => attendee.person)
 );
@@ -40286,7 +40286,7 @@ var fetchFromPath = (path, isPrimary = false) => {
 };
 var fetch_from_path_default = fetchFromPath;
 
-// components/modal-portal.tsx
+// scripts/components/modal-portal.tsx
 var import_react11 = __toESM(require_react());
 var import_react_dom4 = __toESM(require_react_dom());
 var import_jsx_runtime6 = __toESM(require_jsx_runtime());
@@ -40342,7 +40342,7 @@ var ModalPortal = ({
 };
 var modal_portal_default = ModalPortal;
 
-// components/alert-message.tsx
+// scripts/components/alert-message.tsx
 var import_react12 = __toESM(require_react());
 var import_jsx_runtime7 = __toESM(require_jsx_runtime());
 var AlertMessage = () => {
@@ -40373,7 +40373,7 @@ var AlertMessage = () => {
 };
 var alert_message_default = AlertMessage;
 
-// components/alert-warning.tsx
+// scripts/components/alert-warning.tsx
 var import_react13 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var AlertWarning = () => {
@@ -40404,7 +40404,7 @@ var AlertWarning = () => {
 };
 var alert_warning_default = AlertWarning;
 
-// icons/eye.tsx
+// scripts/icons/eye.tsx
 var import_jsx_runtime9 = __toESM(require_jsx_runtime());
 var Eye = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 72 72", className: "icon", fill: "currentColor", children: [
   /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("path", { d: "M35.99 30.48c0 4.44-3.61 8.05-8.05 8.05-.89 0-1.75-.15-2.55-.41-.69-.23-1.5.2-1.47.93.04.87.16 1.73.4 2.6 1.72 6.44 8.35 10.26 14.78 8.54 6.44-1.72 10.26-8.35 8.54-14.78-1.4-5.22-6.01-8.72-11.14-8.94-.73-.03-1.16.77-.93 1.47.27.8.42 1.65.42 2.54z" }),
@@ -40412,7 +40412,7 @@ var Eye = () => /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("svg", { xmlns: "h
 ] });
 var eye_default = Eye;
 
-// components/eyes.tsx
+// scripts/components/eyes.tsx
 var import_jsx_runtime10 = __toESM(require_jsx_runtime());
 var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "eyes", children: [
   /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(eye_default, {}),
@@ -40421,10 +40421,10 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { classNa
 ] });
 var eyes_default = Eyes;
 
-// components/links.tsx
+// scripts/components/links.tsx
 var import_react14 = __toESM(require_react());
 
-// lib/links.ts
+// scripts/lib/links.ts
 var isCurrent = (location2, newSearch) => {
   const { pathname, search } = location2;
   const currentPath = [pathname, search].filter(Boolean).join("");
@@ -40454,13 +40454,13 @@ var getQueryParams = (location2, newParams, replace4 = true) => {
   };
 };
 
-// types.ts
+// scripts/types.ts
 var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
   DataFormat2["csv"] = "CSV";
   return DataFormat2;
 })(DataFormat || {});
 
-// components/links.tsx
+// scripts/components/links.tsx
 var import_jsx_runtime11 = __toESM(require_jsx_runtime());
 var quarterParam = "quarter";
 var sortByParam = "sort_by";
@@ -40623,7 +40623,7 @@ var LinkToPerson = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, i
 var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: "/sources", ...rest, children });
 var LinkToSource = ({ children, id, onClick, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(BetterLink, { to: `/sources/${id}`, onClick, ...rest, children });
 
-// components/global-footer.tsx
+// scripts/components/global-footer.tsx
 var import_jsx_runtime12 = __toESM(require_jsx_runtime());
 var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("footer", { className: "global-footer", children: [
   /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("nav", { className: "global-footer-navigation", "aria-label": "Global Navigation", children: [
@@ -40676,17 +40676,17 @@ var GlobalFooter = () => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("footer"
 ] });
 var global_footer_default = GlobalFooter;
 
-// components/entities/icon.tsx
+// scripts/components/entities/icon.tsx
 var import_jsx_runtime13 = __toESM(require_jsx_runtime());
 var EntitiesIcon = () => /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(icon_default, { name: "building" });
 var icon_default2 = EntitiesIcon;
 
-// components/incidents/icon.tsx
+// scripts/components/incidents/icon.tsx
 var import_jsx_runtime14 = __toESM(require_jsx_runtime());
 var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(icon_default, { name: "handshake" });
 var icon_default3 = EntitiesIcon2;
 
-// components/people/icon.tsx
+// scripts/components/people/icon.tsx
 var import_jsx_runtime15 = __toESM(require_jsx_runtime());
 var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
   TypeForIcon2["group"] = "user-group";
@@ -40703,12 +40703,12 @@ var PeopleIcon = ({ person }) => {
 };
 var icon_default4 = PeopleIcon;
 
-// components/sources/icon.tsx
+// scripts/components/sources/icon.tsx
 var import_jsx_runtime16 = __toESM(require_jsx_runtime());
 var EntitiesIcon3 = () => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name: "database" });
 var icon_default5 = EntitiesIcon3;
 
-// components/section-icon.tsx
+// scripts/components/section-icon.tsx
 var import_jsx_runtime17 = __toESM(require_jsx_runtime());
 var ENTITIES = "entities";
 var INCIDENTS = "incidents";
@@ -40730,7 +40730,7 @@ var SectionIcon = ({ name, slug }) => {
 };
 var section_icon_default = SectionIcon;
 
-// components/header.tsx
+// scripts/components/header.tsx
 var import_jsx_runtime18 = __toESM(require_jsx_runtime());
 var ENTITIES2 = "entities";
 var INCIDENTS2 = "incidents";
@@ -40811,18 +40811,18 @@ var Header = ({
 };
 var header_default = Header;
 
-// components/header-intro.tsx
+// scripts/components/header-intro.tsx
 var import_react16 = __toESM(require_react());
 
-// components/incident-modal.tsx
+// scripts/components/incident-modal.tsx
 var import_react15 = __toESM(require_react());
 
-// components/item-description.tsx
+// scripts/components/item-description.tsx
 var import_jsx_runtime19 = __toESM(require_jsx_runtime());
 var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", { className: cx("item-description", className), children });
 var item_description_default = ItemDescription;
 
-// components/item-subhead.tsx
+// scripts/components/item-subhead.tsx
 var import_jsx_runtime20 = __toESM(require_jsx_runtime());
 var ItemSubhead = ({
   children,
@@ -40847,7 +40847,7 @@ var ItemSubhead = ({
 );
 var item_subhead_default = ItemSubhead;
 
-// components/stat-group.tsx
+// scripts/components/stat-group.tsx
 var import_jsx_runtime21 = __toESM(require_jsx_runtime());
 var StatGroup = ({
   children,
@@ -40861,7 +40861,7 @@ var StatGroup = ({
 ] });
 var stat_group_default = StatGroup;
 
-// components/incident-stat-group.tsx
+// scripts/components/incident-stat-group.tsx
 var import_jsx_runtime22 = __toESM(require_jsx_runtime());
 var IncidentStatGroup = ({
   children,
@@ -40877,7 +40877,7 @@ var IncidentStatGroup = ({
 );
 var incident_stat_group_default = IncidentStatGroup;
 
-// components/incident-attendees.tsx
+// scripts/components/incident-attendees.tsx
 var import_jsx_runtime23 = __toESM(require_jsx_runtime());
 var Attendees = ({ attendees }) => {
   const hasAttendees = attendees?.records.length > 0;
@@ -40888,7 +40888,7 @@ var Attendees = ({ attendees }) => {
 };
 var incident_attendees_default = Attendees;
 
-// components/incident-table.tsx
+// scripts/components/incident-table.tsx
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
 var IncidentTable = ({ incident }) => {
   const hasAttendees = "attendees" in incident;
@@ -40925,7 +40925,7 @@ var IncidentTable = ({ incident }) => {
 };
 var incident_table_default = IncidentTable;
 
-// components/modal.tsx
+// scripts/components/modal.tsx
 var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
@@ -40952,7 +40952,7 @@ var Modal = ({
 );
 var modal_default = Modal;
 
-// components/stat-box.tsx
+// scripts/components/stat-box.tsx
 var import_jsx_runtime26 = __toESM(require_jsx_runtime());
 var StatBox = ({
   children,
@@ -40980,7 +40980,7 @@ var StatBox = ({
 );
 var stat_box_default = StatBox;
 
-// components/incident-modal.tsx
+// scripts/components/incident-modal.tsx
 var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var IncidentModal = ({ deactivate, id, isActive }) => {
   const fetched = (0, import_react15.useRef)(false);
@@ -41012,7 +41012,7 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
 };
 var incident_modal_default = IncidentModal;
 
-// components/header-intro.tsx
+// scripts/components/header-intro.tsx
 var import_jsx_runtime28 = __toESM(require_jsx_runtime());
 var dateRangeMessage = "Some incident dates appear to be anomalous and have been omitted from this range, pending official word from the City Auditor\u2019s office. Refer to individual incident records for more details.";
 var DateRangeNote = () => {
@@ -41094,7 +41094,7 @@ var HeaderIntro = () => {
 };
 var header_intro_default = HeaderIntro;
 
-// components/section.tsx
+// scripts/components/section.tsx
 var import_jsx_runtime29 = __toESM(require_jsx_runtime());
 var Section = ({
   children,
@@ -41111,7 +41111,7 @@ var Section = ({
 };
 var section_default = Section;
 
-// hooks/use-capture-scroll-position.ts
+// scripts/hooks/use-capture-scroll-position.ts
 var import_react17 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
@@ -41136,7 +41136,7 @@ var useCaptureScrollPosition = (classNames = []) => {
 };
 var use_capture_scroll_position_default = useCaptureScrollPosition;
 
-// components/app.tsx
+// scripts/components/app.tsx
 var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var App = () => {
   const initiated = (0, import_react18.useRef)(false);
@@ -41173,10 +41173,10 @@ var App = () => {
 };
 var app_default = App;
 
-// lib/number.ts
+// scripts/lib/number.ts
 var percentage = (portion, total) => (portion / total * 100).toFixed(2);
 
-// components/loading.tsx
+// scripts/components/loading.tsx
 var import_react19 = __toESM(require_react());
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
 var Loading = () => {
@@ -41194,7 +41194,7 @@ var Loading = () => {
 };
 var loading_default = Loading;
 
-// components/pagination.tsx
+// scripts/components/pagination.tsx
 var import_jsx_runtime32 = __toESM(require_jsx_runtime());
 var Pagination = ({ pagination, onPageClick }) => {
   const { page, pageCount, pages } = pagination;
@@ -41243,7 +41243,7 @@ var Pagination = ({ pagination, onPageClick }) => {
 };
 var pagination_default = Pagination;
 
-// components/section-index.tsx
+// scripts/components/section-index.tsx
 var import_jsx_runtime33 = __toESM(require_jsx_runtime());
 var SectionIndex = ({
   children,
@@ -41261,7 +41261,7 @@ var SectionIndex = ({
 ] });
 var section_index_default = SectionIndex;
 
-// components/entities/index.tsx
+// scripts/components/entities/index.tsx
 var import_jsx_runtime34 = __toESM(require_jsx_runtime());
 var EntityItem = ({ id }) => {
   const entity = useSelector((state) => selectors.selectById(state, id));
@@ -41331,10 +41331,10 @@ var Index = () => {
 };
 var entities_default2 = Index;
 
-// components/entities/detail.tsx
+// scripts/components/entities/detail.tsx
 var import_react28 = __toESM(require_react());
 
-// components/incident-date-box.tsx
+// scripts/components/incident-date-box.tsx
 var import_react20 = __toESM(require_react());
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({ incident }) => {
@@ -41373,7 +41373,7 @@ var IncidentDateBox = ({ incident }) => {
 };
 var incident_date_box_default = IncidentDateBox;
 
-// components/stat-box-incident-count.tsx
+// scripts/components/stat-box-incident-count.tsx
 var import_jsx_runtime36 = __toESM(require_jsx_runtime());
 var IncidentCountBox = ({
   children,
@@ -41395,7 +41395,7 @@ var IncidentCountBox = ({
 );
 var stat_box_incident_count_default = IncidentCountBox;
 
-// components/stat-group-numbers.tsx
+// scripts/components/stat-group-numbers.tsx
 var import_jsx_runtime37 = __toESM(require_jsx_runtime());
 var NumbersGroup = ({
   children,
@@ -41411,12 +41411,12 @@ var NumbersGroup = ({
 );
 var stat_group_numbers_default = NumbersGroup;
 
-// components/subsection-subhead.tsx
+// scripts/components/subsection-subhead.tsx
 var import_jsx_runtime38 = __toESM(require_jsx_runtime());
 var SubsectionSubhead = ({ children, title }) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "subsection-header", children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(item_subhead_default, { title, children: children && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(item_description_default, { children }) }) });
 var subsection_subhead_default = SubsectionSubhead;
 
-// components/stat-section.tsx
+// scripts/components/stat-section.tsx
 var import_jsx_runtime39 = __toESM(require_jsx_runtime());
 var StatSection = ({
   children,
@@ -41431,7 +41431,7 @@ var StatSection = ({
 ] });
 var stat_section_default = StatSection;
 
-// components/incident-activity-overview.tsx
+// scripts/components/incident-activity-overview.tsx
 var import_jsx_runtime40 = __toESM(require_jsx_runtime());
 var ActivityOverview = ({
   children,
@@ -41463,13 +41463,13 @@ var ActivityOverview = ({
 ] });
 var incident_activity_overview_default = ActivityOverview;
 
-// components/entities/attendees.tsx
+// scripts/components/entities/attendees.tsx
 var import_react22 = __toESM(require_react());
 
-// components/affiliated-item-table.tsx
+// scripts/components/affiliated-item-table.tsx
 var import_react21 = __toESM(require_react());
 
-// components/item-table.tsx
+// scripts/components/item-table.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 var ItemTable = ({
   children,
@@ -41484,7 +41484,7 @@ var ItemTable = ({
 ] });
 var item_table_default = ItemTable;
 
-// components/item-table-row.tsx
+// scripts/components/item-table-row.tsx
 var import_jsx_runtime42 = __toESM(require_jsx_runtime());
 var ItemTableRow = ({
   hasPercent = false,
@@ -41509,7 +41509,7 @@ var ItemTableRow = ({
 ] });
 var item_table_row_default = ItemTableRow;
 
-// components/affiliated-item-table.tsx
+// scripts/components/affiliated-item-table.tsx
 var import_jsx_runtime43 = __toESM(require_jsx_runtime());
 var AffiliatedItemTable = ({
   affiliatedItems,
@@ -41559,7 +41559,7 @@ var AffiliatedItemTable = ({
 };
 var affiliated_item_table_default = AffiliatedItemTable;
 
-// components/affiliated-people-table.tsx
+// scripts/components/affiliated-people-table.tsx
 var import_jsx_runtime44 = __toESM(require_jsx_runtime());
 var AffiliatedPeopleTable = ({ attendees }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
   affiliated_item_table_default,
@@ -41573,7 +41573,7 @@ var AffiliatedPeopleTable = ({ attendees }) => /* @__PURE__ */ (0, import_jsx_ru
 ) });
 var affiliated_people_table_default = AffiliatedPeopleTable;
 
-// components/incident-activity-groups.tsx
+// scripts/components/incident-activity-groups.tsx
 var import_jsx_runtime45 = __toESM(require_jsx_runtime());
 var IncidentActivityGroups = ({
   children,
@@ -41591,7 +41591,7 @@ var IncidentActivityGroups = ({
 );
 var incident_activity_groups_default = IncidentActivityGroups;
 
-// components/incident-activity-group.tsx
+// scripts/components/incident-activity-group.tsx
 var import_jsx_runtime46 = __toESM(require_jsx_runtime());
 var IncidentActivityGroup = ({
   children,
@@ -41611,7 +41611,7 @@ var IncidentActivityGroup = ({
 );
 var incident_activity_group_default = IncidentActivityGroup;
 
-// components/entities/attendees.tsx
+// scripts/components/entities/attendees.tsx
 var import_jsx_runtime47 = __toESM(require_jsx_runtime());
 var Attendees2 = ({
   attendees,
@@ -41648,15 +41648,15 @@ var Attendees2 = ({
 };
 var attendees_default = Attendees2;
 
-// components/entities/chart.tsx
+// scripts/components/entities/chart.tsx
 var import_react25 = __toESM(require_react());
 
-// components/incident-activity-chart.tsx
+// scripts/components/incident-activity-chart.tsx
 var import_jsx_runtime48 = __toESM(require_jsx_runtime());
 var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "activity-stat activity-chart", children });
 var incident_activity_chart_default = IncidentActivityChart;
 
-// components/item-chart.tsx
+// scripts/components/item-chart.tsx
 var import_react24 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
@@ -54061,7 +54061,7 @@ function createTypedChart(type, registerables) {
 }
 var Bar = /* @__PURE__ */ createTypedChart("bar", BarController);
 
-// components/item-chart.tsx
+// scripts/components/item-chart.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 Chart.register(
   BarElement,
@@ -54182,7 +54182,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
 };
 var item_chart_default = ItemChart;
 
-// components/entities/chart.tsx
+// scripts/components/entities/chart.tsx
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
 var Chart3 = ({ label }) => {
   const fetched = (0, import_react25.useRef)(false);
@@ -54221,10 +54221,10 @@ var Chart3 = ({ label }) => {
 };
 var chart_default = Chart3;
 
-// components/detail-incidents.tsx
+// scripts/components/detail-incidents.tsx
 var import_react27 = __toESM(require_react());
 
-// components/incidents-header.tsx
+// scripts/components/incidents-header.tsx
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var PrimaryAssociation = ({ label }) => {
   if (!label)
@@ -54270,7 +54270,7 @@ var IncidentsHeader = ({
 );
 var incidents_header_default = IncidentsHeader;
 
-// components/incident-list-table.tsx
+// scripts/components/incident-list-table.tsx
 var import_react26 = __toESM(require_react());
 var import_jsx_runtime52 = __toESM(require_jsx_runtime());
 var IncidentRow = ({ id }) => {
@@ -54340,7 +54340,7 @@ var IncidentListTable = ({ hasSort, ids }) => {
 };
 var incident_list_table_default = IncidentListTable;
 
-// components/incident-list.tsx
+// scripts/components/incident-list.tsx
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
 var IncidentList = ({
   hasSort,
@@ -54353,7 +54353,7 @@ var IncidentList = ({
 ] });
 var incident_list_default = IncidentList;
 
-// components/detail-incidents.tsx
+// scripts/components/detail-incidents.tsx
 var import_jsx_runtime54 = __toESM(require_jsx_runtime());
 var WithEntityId = ({ filters, filterKey }) => {
   const id = filters?.[filterKey];
@@ -54442,12 +54442,12 @@ var DetailIncidents = (0, import_react27.forwardRef)(({
 DetailIncidents.displayName = "DetailIncidents";
 var detail_incidents_default = DetailIncidents;
 
-// components/item-detail.tsx
+// scripts/components/item-detail.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var ItemDetail = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("section", { className: cx("item-detail", className), children });
 var item_detail_default = ItemDetail;
 
-// components/entities/detail.tsx
+// scripts/components/entities/detail.tsx
 var import_jsx_runtime56 = __toESM(require_jsx_runtime());
 var Detail = () => {
   const ref = (0, import_react28.useRef)();
@@ -54502,7 +54502,7 @@ var Detail = () => {
 };
 var detail_default = Detail;
 
-// components/leaderboard/subsection.tsx
+// scripts/components/leaderboard/subsection.tsx
 var import_jsx_runtime57 = __toESM(require_jsx_runtime());
 var LeaderboardSubsection = ({ children, isGrid = false }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("section", { className: cx(
   "leaderboard-subsection",
@@ -54510,12 +54510,12 @@ var LeaderboardSubsection = ({ children, isGrid = false }) => /* @__PURE__ */ (0
 ), children });
 var subsection_default = LeaderboardSubsection;
 
-// components/leaderboard/subsection-group.tsx
+// scripts/components/leaderboard/subsection-group.tsx
 var import_jsx_runtime58 = __toESM(require_jsx_runtime());
 var LeaderboardSubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("div", { className: "leaderboard-subsection-group", children });
 var subsection_group_default = LeaderboardSubsectionGroup;
 
-// components/home/chart.tsx
+// scripts/components/home/chart.tsx
 var import_jsx_runtime59 = __toESM(require_jsx_runtime());
 var Chart4 = () => {
   const sources = useSelector(getSourcesDataForChart);
@@ -54533,12 +54533,12 @@ var Chart4 = () => {
 };
 var chart_default2 = Chart4;
 
-// components/leaderboard/more.tsx
+// scripts/components/leaderboard/more.tsx
 var import_jsx_runtime60 = __toESM(require_jsx_runtime());
 var LeaderboardSubsectionGroup2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: "leaderboard-more", children });
 var more_default = LeaderboardSubsectionGroup2;
 
-// components/home/leaderboard-entities.tsx
+// scripts/components/home/leaderboard-entities.tsx
 var import_jsx_runtime61 = __toESM(require_jsx_runtime());
 var EntitiesLeaderboard = () => {
   const result = useSelector(getEntitiesLeaderboard);
@@ -54562,7 +54562,7 @@ var EntitiesLeaderboard = () => {
 };
 var leaderboard_entities_default = EntitiesLeaderboard;
 
-// components/people/index.tsx
+// scripts/components/people/index.tsx
 var import_jsx_runtime62 = __toESM(require_jsx_runtime());
 var PersonItem = ({ id }) => {
   const person = useSelector((state) => selectors3.selectById(state, id));
@@ -54634,7 +54634,7 @@ var Index2 = () => {
 };
 var people_default2 = Index2;
 
-// components/home/leaderboard-lobbyists.tsx
+// scripts/components/home/leaderboard-lobbyists.tsx
 var import_jsx_runtime63 = __toESM(require_jsx_runtime());
 var LobbyistsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
@@ -54658,7 +54658,7 @@ var LobbyistsLeaderboard = () => {
 };
 var leaderboard_lobbyists_default = LobbyistsLeaderboard;
 
-// components/home/leaderboard-officials.tsx
+// scripts/components/home/leaderboard-officials.tsx
 var import_jsx_runtime64 = __toESM(require_jsx_runtime());
 var OfficialsLeaderboard = () => {
   const result = useSelector(getPeopleLeaderboard);
@@ -54682,7 +54682,7 @@ var OfficialsLeaderboard = () => {
 };
 var leaderboard_officials_default = OfficialsLeaderboard;
 
-// components/home/index.tsx
+// scripts/components/home/index.tsx
 var import_jsx_runtime65 = __toESM(require_jsx_runtime());
 var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
   section_default,
@@ -54700,7 +54700,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
 );
 var home_default = Home;
 
-// components/incidents/index.tsx
+// scripts/components/incidents/index.tsx
 var import_react29 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { children: [
@@ -54737,7 +54737,7 @@ var Index3 = () => {
 };
 var incidents_default2 = Index3;
 
-// components/incident-source-box.tsx
+// scripts/components/incident-source-box.tsx
 var import_react30 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
@@ -54768,7 +54768,7 @@ var IncidentSourceBox = ({
 };
 var incident_source_box_default = IncidentSourceBox;
 
-// components/incidents/detail.tsx
+// scripts/components/incidents/detail.tsx
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
 var Detail2 = () => {
   const { id } = useParams();
@@ -54794,10 +54794,10 @@ var Detail2 = () => {
 };
 var detail_default2 = Detail2;
 
-// components/people/detail.tsx
+// scripts/components/people/detail.tsx
 var import_react34 = __toESM(require_react());
 
-// components/people/attendees.tsx
+// scripts/components/people/attendees.tsx
 var import_react31 = __toESM(require_react());
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
@@ -54862,7 +54862,7 @@ var Attendees3 = ({
 };
 var attendees_default2 = Attendees3;
 
-// components/people/chart.tsx
+// scripts/components/people/chart.tsx
 var import_react32 = __toESM(require_react());
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Chart5 = ({ label }) => {
@@ -54902,10 +54902,10 @@ var Chart5 = ({ label }) => {
 };
 var chart_default3 = Chart5;
 
-// components/people/entities.tsx
+// scripts/components/people/entities.tsx
 var import_react33 = __toESM(require_react());
 
-// components/affiliated-entities-table.tsx
+// scripts/components/affiliated-entities-table.tsx
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
@@ -54937,7 +54937,7 @@ var AffiliatedEntitiesTable = ({
 };
 var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
-// components/people/entities.tsx
+// scripts/components/people/entities.tsx
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
   const fetched = (0, import_react33.useRef)(false);
@@ -54980,7 +54980,7 @@ var Entities = ({ entities, person }) => {
 };
 var entities_default3 = Entities;
 
-// components/people/detail.tsx
+// scripts/components/people/detail.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
   const ref = (0, import_react34.useRef)();
@@ -55033,7 +55033,7 @@ var Detail3 = () => {
 };
 var detail_default3 = Detail3;
 
-// components/sources/item.tsx
+// scripts/components/sources/item.tsx
 var import_react35 = __toESM(require_react());
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
 var Source = ({ id }) => {
@@ -55072,7 +55072,7 @@ var Source = ({ id }) => {
 };
 var item_default = Source;
 
-// components/sources/index.tsx
+// scripts/components/sources/index.tsx
 var import_jsx_runtime75 = __toESM(require_jsx_runtime());
 var Index4 = () => {
   const byYear = useSelector(getSourcesByYear);
@@ -55084,10 +55084,10 @@ var Index4 = () => {
 };
 var sources_default2 = Index4;
 
-// components/sources/detail.tsx
+// scripts/components/sources/detail.tsx
 var import_react38 = __toESM(require_react());
 
-// components/sources/attendees.tsx
+// scripts/components/sources/attendees.tsx
 var import_react36 = __toESM(require_react());
 var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var Attendees4 = ({ attendees }) => {
@@ -55115,12 +55115,12 @@ var Attendees4 = ({ attendees }) => {
 };
 var attendees_default3 = Attendees4;
 
-// components/sources/chart.tsx
+// scripts/components/sources/chart.tsx
 var import_jsx_runtime77 = __toESM(require_jsx_runtime());
 var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(incident_activity_chart_default, { children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(item_chart_default, { label }) });
 var chart_default4 = Chart6;
 
-// components/sources/entities.tsx
+// scripts/components/sources/entities.tsx
 var import_react37 = __toESM(require_react());
 var import_jsx_runtime78 = __toESM(require_jsx_runtime());
 var Entities2 = ({ entities, source }) => {
@@ -55144,7 +55144,7 @@ var Entities2 = ({ entities, source }) => {
 };
 var entities_default4 = Entities2;
 
-// components/sources/detail.tsx
+// scripts/components/sources/detail.tsx
 var import_jsx_runtime79 = __toESM(require_jsx_runtime());
 var disclaimers = {
   activity: "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
