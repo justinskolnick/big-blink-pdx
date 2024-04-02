@@ -35,6 +35,9 @@ const defaults = {
 
 const development = {
   ...defaults,
+  banner: {
+    js: '/* eslint-disable */',
+  },
   minify: false,
   outExtension: {
     '.js': '.js',
