@@ -15,5 +15,9 @@
     "target": "es2021"
   },
   "include": ["**/*"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "eslint.config.mjs",
+    "jest.config.mjs",
+    "node_modules"
+  ]
 }
