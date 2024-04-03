@@ -2438,7 +2438,7 @@ var require_react_dom_development = __commonJS({
         var HostPortal = 4;
         var HostComponent = 5;
         var HostText = 6;
-        var Fragment20 = 7;
+        var Fragment21 = 7;
         var Mode = 8;
         var ContextConsumer = 9;
         var ContextProvider = 10;
@@ -3594,7 +3594,7 @@ var require_react_dom_development = __commonJS({
               return "DehydratedFragment";
             case ForwardRef2:
               return getWrappedName$1(type, type.render, "ForwardRef");
-            case Fragment20:
+            case Fragment21:
               return "Fragment";
             case HostComponent:
               return type;
@@ -13265,7 +13265,7 @@ var require_react_dom_development = __commonJS({
             }
           }
           function updateFragment2(returnFiber, current3, fragment, lanes, key) {
-            if (current3 === null || current3.tag !== Fragment20) {
+            if (current3 === null || current3.tag !== Fragment21) {
               var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
               created.return = returnFiber;
               return created;
@@ -13668,7 +13668,7 @@ var require_react_dom_development = __commonJS({
               if (child.key === key) {
                 var elementType = element.type;
                 if (elementType === REACT_FRAGMENT_TYPE2) {
-                  if (child.tag === Fragment20) {
+                  if (child.tag === Fragment21) {
                     deleteRemainingChildren(returnFiber, child.sibling);
                     var existing = useFiber(child, element.props.children);
                     existing.return = returnFiber;
@@ -17843,7 +17843,7 @@ var require_react_dom_development = __commonJS({
               var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
               return updateForwardRef(current3, workInProgress2, type, _resolvedProps2, renderLanes2);
             }
-            case Fragment20:
+            case Fragment21:
               return updateFragment(current3, workInProgress2, renderLanes2);
             case Mode:
               return updateMode(current3, workInProgress2, renderLanes2);
@@ -18116,7 +18116,7 @@ var require_react_dom_development = __commonJS({
             case SimpleMemoComponent:
             case FunctionComponent:
             case ForwardRef2:
-            case Fragment20:
+            case Fragment21:
             case Mode:
             case Profiler:
             case ContextConsumer:
@@ -22375,7 +22375,7 @@ var require_react_dom_development = __commonJS({
           return fiber;
         }
         function createFiberFromFragment(elements, mode, lanes, key) {
-          var fiber = createFiber(Fragment20, elements, key, mode);
+          var fiber = createFiber(Fragment21, elements, key, mode);
           fiber.lanes = lanes;
           return fiber;
         }
@@ -23682,7 +23682,7 @@ var require_react_is_development = __commonJS({
         var ContextProvider = REACT_PROVIDER_TYPE2;
         var Element3 = REACT_ELEMENT_TYPE2;
         var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-        var Fragment20 = REACT_FRAGMENT_TYPE2;
+        var Fragment21 = REACT_FRAGMENT_TYPE2;
         var Lazy = REACT_LAZY_TYPE2;
         var Memo2 = REACT_MEMO_TYPE2;
         var Portal = REACT_PORTAL_TYPE2;
@@ -23741,7 +23741,7 @@ var require_react_is_development = __commonJS({
         exports.ContextProvider = ContextProvider;
         exports.Element = Element3;
         exports.ForwardRef = ForwardRef2;
-        exports.Fragment = Fragment20;
+        exports.Fragment = Fragment21;
         exports.Lazy = Lazy;
         exports.Memo = Memo2;
         exports.Portal = Portal;
@@ -41576,10 +41576,11 @@ var import_react19 = __toESM(require_react());
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
 var ItemTable = ({
   children,
+  hasAnotherIcon = false,
   hasPercent = false
 }) => /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("table", { className: "item-table", cellPadding: "0", cellSpacing: "0", children: [
   /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("tr", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-name", colSpan: 2, children: "Name" }),
+    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-name", colSpan: hasAnotherIcon ? 3 : 2, children: "Name" }),
     /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-total", children: "Total" }),
     hasPercent && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-percent", children: "%" })
   ] }) }),
@@ -55003,25 +55004,29 @@ var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
   entities,
+  hasLobbyist,
   person,
   title
 }) => {
   const ref = (0, import_react31.useRef)();
   const hasPerson = Boolean(person);
-  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_table_default, { children: entities.map((item, i) => {
+  return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
     const hasTotal = Boolean(item.total);
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: hasPerson && item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
-        "div",
-        {
-          className: "icons",
-          title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(RegisteredIcon, {})
-          ]
-        }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
+      hasPerson ? hasLobbyist ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(import_jsx_runtime71.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
+          "div",
+          {
+            className: "icons",
+            title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default4, {}),
+              /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(RegisteredIcon, {})
+            ]
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default4, {}) })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }) }),
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-total", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : "-" })
     ] }, i);
@@ -55055,7 +55060,14 @@ var Entities = ({ entities, person }) => {
           {
             icon: "briefcase",
             title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`,
-            children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { person, entities: entities.asLobbyist })
+            children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
+              affiliated_entities_table_default,
+              {
+                entities: entities.asLobbyist,
+                hasLobbyist: true,
+                person
+              }
+            )
           }
         ),
         isOfficial && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(

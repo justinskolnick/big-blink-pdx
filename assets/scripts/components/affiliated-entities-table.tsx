@@ -8,12 +8,14 @@ import {
   FilterLink,
   LinkToEntity,
 } from './links';
+import PersonIcon from './people/icon';
 import StatBox from './stat-box';
 
 import type { AffiliatedItem, Person } from '../types';
 
 interface Props {
   entities: AffiliatedItem[];
+  hasLobbyist?: boolean;
   person?: Person;
   title?: string;
 }
@@ -22,6 +24,7 @@ const RegisteredIcon = () => <Icon name='check' className='icon-registered' />;
 
 const AffiliatedEntitiesTable = ({
   entities,
+  hasLobbyist,
   person,
   title,
 }: Props) => {
@@ -32,25 +35,42 @@ const AffiliatedEntitiesTable = ({
   return (
     <StatBox title={title}>
       <div className='affiliated-items' ref={ref}>
-        <ItemTable>
+        <ItemTable hasAnotherIcon={hasPerson && hasLobbyist}>
           {entities.map((item, i) => {
             const hasTotal = Boolean(item.total);
 
             return (
               <tr key={i}>
-                <td className='cell-type'>
-                  {hasPerson && item.isRegistered ? (
-                    <div
-                      className='icons'
-                      title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
-                    >
-                      <EntityIcon />
-                      <RegisteredIcon />
-                    </div>
+                {hasPerson ? (
+                  hasLobbyist ? (
+                    <>
+                      <td className='cell-type'>
+                        <EntityIcon />
+                      </td>
+                      <td className='cell-type'>
+                        {item.isRegistered ? (
+                          <div
+                            className='icons'
+                            title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
+                          >
+                            <PersonIcon />
+                            <RegisteredIcon />
+                          </div>
+                        ) : (
+                          <PersonIcon />
+                        )}
+                      </td>
+                    </>
                   ) : (
+                    <td className='cell-type'>
+                      <EntityIcon />
+                    </td>
+                  )
+                ) : (
+                  <td className='cell-type'>
                     <EntityIcon />
-                  )}
-                </td>
+                  </td>
+                )}
                 <td className='cell-name'>
                   <LinkToEntity id={item.entity.id} className='item-entity'>
                     {item.entity.name}
