@@ -1,15 +1,16 @@
 import React, { useRef, useState, ReactElement } from 'react';
 
 import ItemTable from './item-table';
-import ItemTableRow from './item-table-row';
 
 import type { AffiliatedItem } from '../types';
 
+type CellComponent = (ctx: { item: AffiliatedItem }) => ReactElement;
+
 interface Props {
   affiliatedItems: AffiliatedItem[];
-  IconCell: (ctx: { item: AffiliatedItem }) => ReactElement;
-  TitleCell: (ctx: { item: AffiliatedItem }) => ReactElement;
-  TotalCell?: (ctx: { item: AffiliatedItem }) => ReactElement;
+  IconCell?: CellComponent;
+  TitleCell: CellComponent;
+  TotalCell?: CellComponent;
   label: string;
 }
 
@@ -36,15 +37,21 @@ const AffiliatedItemTable = ({
   return hasItems ? (
     <div className='affiliated-items' ref={ref}>
       <ItemTable>
-        {items.map((item, i) => (
-          <ItemTableRow
-            key={i}
-            name={<TitleCell item={item} />}
-            hasTotal={Boolean(item.total)}
-            total={TotalCell ? <TotalCell item={item} /> : item.total}
-            type={<IconCell item={item} />}
-          />
-        ))}
+        {items.map((item, i) => {
+          const hasTotal = Boolean(item.total);
+
+          return (
+            <tr key={i}>
+              <td className='cell-type'><IconCell item={item} /></td>
+              <td className='cell-name'><TitleCell item={item} /></td>
+              <td className='cell-total'>
+                {hasTotal ? (
+                  TotalCell ? <TotalCell item={item} /> : item.total
+                ) : '-'}
+              </td>
+            </tr>
+          );
+        })}
       </ItemTable>
 
       {hasMoreToShow && (

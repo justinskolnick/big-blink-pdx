@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import AffiliatedItemTable from './affiliated-item-table';
 import EntityIcon from './entities/icon';
 import Icon from './icon';
+import ItemTable from './item-table';
 import {
   getWithEntityParams,
   FilterLink,
@@ -25,37 +25,49 @@ const AffiliatedEntitiesTable = ({
   person,
   title,
 }: Props) => {
+  const ref = useRef<HTMLDivElement>();
+
   const hasPerson = Boolean(person);
 
   return (
     <StatBox title={title}>
-      <AffiliatedItemTable
-        affiliatedItems={entities}
-        label='entities'
-        IconCell={({ item }) =>
-          hasPerson && item.isRegistered ? (
-            <div
-              className='icons'
-              title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
-            >
-              <EntityIcon />
-              <RegisteredIcon />
-            </div>
-          ) : (
-            <EntityIcon />
-          )
-        }
-        TitleCell={({ item }) => (
-          <LinkToEntity id={item.entity.id} className='item-entity'>
-            {item.entity.name}
-          </LinkToEntity>
-        )}
-        TotalCell={({ item }) => (
-          <FilterLink newParams={getWithEntityParams(item)} hasIcon>
-            {item.total}
-          </FilterLink>
-        )}
-      />
+      <div className='affiliated-items' ref={ref}>
+        <ItemTable>
+          {entities.map((item, i) => {
+            const hasTotal = Boolean(item.total);
+
+            return (
+              <tr key={i}>
+                <td className='cell-type'>
+                  {hasPerson && item.isRegistered ? (
+                    <div
+                      className='icons'
+                      title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
+                    >
+                      <EntityIcon />
+                      <RegisteredIcon />
+                    </div>
+                  ) : (
+                    <EntityIcon />
+                  )}
+                </td>
+                <td className='cell-name'>
+                  <LinkToEntity id={item.entity.id} className='item-entity'>
+                    {item.entity.name}
+                  </LinkToEntity>
+                </td>
+                <td className='cell-total'>
+                  {hasTotal ? (
+                    <FilterLink newParams={getWithEntityParams(item)} hasIcon>
+                      {item.total}
+                    </FilterLink>
+                  ) : '-'}
+                </td>
+              </tr>
+            );
+          })}
+        </ItemTable>
+      </div>
     </StatBox>
   );
 };
