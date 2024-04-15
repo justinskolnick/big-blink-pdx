@@ -1,4 +1,4 @@
-import React, { useRef, useState, Fragment, ReactElement } from 'react';
+import React, { useRef, useState, ReactElement } from 'react';
 
 import ItemTable from './item-table';
 import ItemTableRow from './item-table-row';
