@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import camelcaseKeys from 'camelcase-keys';
 
 import { getSources } from '../selectors';
 import type {
@@ -24,7 +25,7 @@ export const adapters = {
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
       return {
-        ...source,
+        ...camelcaseKeys(source, { deep: false }),
         incidents: {
           filters,
           pagination,

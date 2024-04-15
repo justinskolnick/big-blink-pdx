@@ -1410,9 +1410,9 @@ var require_react_development = __commonJS({
         }
         function checkPropTypes(typeSpecs, values, location2, componentName, element) {
           {
-            var has = Function.call.bind(hasOwnProperty);
+            var has2 = Function.call.bind(hasOwnProperty);
             for (var typeSpecName in typeSpecs) {
-              if (has(typeSpecs, typeSpecName)) {
+              if (has2(typeSpecs, typeSpecName)) {
                 var error$1 = void 0;
                 try {
                   if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -5676,7 +5676,7 @@ var require_react_dom_development = __commonJS({
         function get3(key) {
           return key._reactInternals;
         }
-        function has(key) {
+        function has2(key) {
           return key._reactInternals !== void 0;
         }
         function set7(key, value) {
@@ -10780,9 +10780,9 @@ var require_react_dom_development = __commonJS({
         }
         function checkPropTypes(typeSpecs, values, location2, componentName, element) {
           {
-            var has2 = Function.call.bind(hasOwnProperty);
+            var has3 = Function.call.bind(hasOwnProperty);
             for (var typeSpecName in typeSpecs) {
-              if (has2(typeSpecs, typeSpecName)) {
+              if (has3(typeSpecs, typeSpecName)) {
                 var error$1 = void 0;
                 try {
                   if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -23336,7 +23336,7 @@ var require_react_dom_development = __commonJS({
           if (!isValidContainerLegacy(containerNode)) {
             throw new Error("Target container is not a DOM element.");
           }
-          if (parentComponent == null || !has(parentComponent)) {
+          if (parentComponent == null || !has2(parentComponent)) {
             throw new Error("parentComponent must be a valid React Component");
           }
           return legacyRenderSubtreeIntoContainer(parentComponent, element, containerNode, false, callback2);
@@ -24459,7 +24459,7 @@ var require_checkPropTypes = __commonJS({
     if (true) {
       ReactPropTypesSecret = require_ReactPropTypesSecret();
       loggedTypeFailures = {};
-      has = require_has();
+      has2 = require_has();
       printWarning = function(text2) {
         var message = "Warning: " + text2;
         if (typeof console !== "undefined") {
@@ -24473,11 +24473,11 @@ var require_checkPropTypes = __commonJS({
     }
     var ReactPropTypesSecret;
     var loggedTypeFailures;
-    var has;
+    var has2;
     function checkPropTypes(typeSpecs, values, location2, componentName, getStack) {
       if (true) {
         for (var typeSpecName in typeSpecs) {
-          if (has(typeSpecs, typeSpecName)) {
+          if (has2(typeSpecs, typeSpecName)) {
             var error;
             try {
               if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -24523,7 +24523,7 @@ var require_factoryWithTypeCheckers = __commonJS({
     var ReactIs = require_react_is3();
     var assign2 = require_object_assign();
     var ReactPropTypesSecret = require_ReactPropTypesSecret();
-    var has = require_has();
+    var has2 = require_has();
     var checkPropTypes = require_checkPropTypes();
     var printWarning = function() {
     };
@@ -24742,7 +24742,7 @@ var require_factoryWithTypeCheckers = __commonJS({
             return new PropTypeError("Invalid " + location2 + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected an object."));
           }
           for (var key in propValue) {
-            if (has(propValue, key)) {
+            if (has2(propValue, key)) {
               var error = typeChecker(propValue, key, componentName, location2, propFullName + "." + key, ReactPropTypesSecret);
               if (error instanceof Error) {
                 return error;
@@ -24775,7 +24775,7 @@ var require_factoryWithTypeCheckers = __commonJS({
             if (checkerResult == null) {
               return null;
             }
-            if (checkerResult.data && has(checkerResult.data, "expectedType")) {
+            if (checkerResult.data && has2(checkerResult.data, "expectedType")) {
               expectedTypes.push(checkerResult.data.expectedType);
             }
           }
@@ -24829,7 +24829,7 @@ var require_factoryWithTypeCheckers = __commonJS({
           var allKeys = assign2({}, props[propName], shapeTypes);
           for (var key in allKeys) {
             var checker = shapeTypes[key];
-            if (has(shapeTypes, key) && typeof checker !== "function") {
+            if (has2(shapeTypes, key) && typeof checker !== "function") {
               return invalidValidatorError(componentName, location2, propFullName, key, getPreciseType(checker));
             }
             if (!checker) {
@@ -25395,9 +25395,9 @@ var require_react_jsx_runtime_development = __commonJS({
         }
         function checkPropTypes(typeSpecs, values, location2, componentName, element) {
           {
-            var has = Function.call.bind(hasOwnProperty);
+            var has2 = Function.call.bind(hasOwnProperty);
             for (var typeSpecName in typeSpecs) {
-              if (has(typeSpecs, typeSpecName)) {
+              if (has2(typeSpecs, typeSpecName)) {
                 var error$1 = void 0;
                 try {
                   if (typeof typeSpecs[typeSpecName] !== "function") {
@@ -32006,13 +32006,13 @@ function defaultMemoize(func, equalityCheckOrOptions) {
   };
   var _providedOptions$equa = providedOptions.equalityCheck, equalityCheck = _providedOptions$equa === void 0 ? defaultEqualityCheck : _providedOptions$equa, _providedOptions$maxS = providedOptions.maxSize, maxSize = _providedOptions$maxS === void 0 ? 1 : _providedOptions$maxS, resultEqualityCheck = providedOptions.resultEqualityCheck;
   var comparator = createCacheKeyComparator(equalityCheck);
-  var cache2 = maxSize === 1 ? createSingletonCache(comparator) : createLruCache(maxSize, comparator);
+  var cache3 = maxSize === 1 ? createSingletonCache(comparator) : createLruCache(maxSize, comparator);
   function memoized() {
-    var value = cache2.get(arguments);
+    var value = cache3.get(arguments);
     if (value === NOT_FOUND) {
       value = func.apply(null, arguments);
       if (resultEqualityCheck) {
-        var entries = cache2.getEntries();
+        var entries = cache3.getEntries();
         var matchingEntry = entries.find(function(entry) {
           return resultEqualityCheck(entry.value, value);
         });
@@ -32020,12 +32020,12 @@ function defaultMemoize(func, equalityCheckOrOptions) {
           value = matchingEntry.value;
         }
       }
-      cache2.put(arguments, value);
+      cache3.put(arguments, value);
     }
     return value;
   }
   memoized.clearCache = function() {
-    return cache2.clear();
+    return cache3.clear();
   };
   return memoized;
 }
@@ -32649,7 +32649,7 @@ function isPlain(val) {
   var type = typeof val;
   return val == null || type === "string" || type === "boolean" || type === "number" || Array.isArray(val) || isPlainObject3(val);
 }
-function findNonSerializableValue(value, path, isSerializable, getEntries, ignoredPaths, cache2) {
+function findNonSerializableValue(value, path, isSerializable, getEntries, ignoredPaths, cache3) {
   if (path === void 0) {
     path = "";
   }
@@ -32669,7 +32669,7 @@ function findNonSerializableValue(value, path, isSerializable, getEntries, ignor
   if (typeof value !== "object" || value === null) {
     return false;
   }
-  if (cache2 == null ? void 0 : cache2.has(value))
+  if (cache3 == null ? void 0 : cache3.has(value))
     return false;
   var entries = getEntries != null ? getEntries(value) : Object.entries(value);
   var hasIgnoredPaths = ignoredPaths.length > 0;
@@ -32693,7 +32693,7 @@ function findNonSerializableValue(value, path, isSerializable, getEntries, ignor
       } };
     }
     if (typeof nestedValue2 === "object") {
-      foundNestedSerializable = findNonSerializableValue(nestedValue2, nestedPath, isSerializable, getEntries, ignoredPaths, cache2);
+      foundNestedSerializable = findNonSerializableValue(nestedValue2, nestedPath, isSerializable, getEntries, ignoredPaths, cache3);
       if (foundNestedSerializable) {
         return { value: foundNestedSerializable };
       }
@@ -32705,8 +32705,8 @@ function findNonSerializableValue(value, path, isSerializable, getEntries, ignor
     if (typeof state_2 === "object")
       return state_2.value;
   }
-  if (cache2 && isNestedFrozen(value))
-    cache2.add(value);
+  if (cache3 && isNestedFrozen(value))
+    cache3.add(value);
   return false;
 }
 function isNestedFrozen(value) {
@@ -32735,7 +32735,7 @@ function createSerializableStateInvariantMiddleware(options2) {
     };
   }
   var _c = options2.isSerializable, isSerializable = _c === void 0 ? isPlain : _c, getEntries = options2.getEntries, _d = options2.ignoredActions, ignoredActions = _d === void 0 ? [] : _d, _e = options2.ignoredActionPaths, ignoredActionPaths = _e === void 0 ? ["meta.arg", "meta.baseQueryMeta"] : _e, _f = options2.ignoredPaths, ignoredPaths = _f === void 0 ? [] : _f, _g = options2.warnAfter, warnAfter = _g === void 0 ? 32 : _g, _h = options2.ignoreState, ignoreState = _h === void 0 ? false : _h, _j = options2.ignoreActions, ignoreActions = _j === void 0 ? false : _j, _k = options2.disableCache, disableCache = _k === void 0 ? false : _k;
-  var cache2 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
+  var cache3 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
   return function(storeAPI) {
     return function(next2) {
       return function(action) {
@@ -32743,7 +32743,7 @@ function createSerializableStateInvariantMiddleware(options2) {
         var measureUtils = getTimeMeasureUtils(warnAfter, "SerializableStateInvariantMiddleware");
         if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) {
           measureUtils.measureTime(function() {
-            var foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache2);
+            var foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache3);
             if (foundActionNonSerializableValue) {
               var keyPath = foundActionNonSerializableValue.keyPath, value = foundActionNonSerializableValue.value;
               console.error("A non-serializable value was detected in an action, in the path: `" + keyPath + "`. Value:", value, "\nTake a look at the logic that dispatched this action: ", action, "\n(See https://redux.js.org/faq/actions#why-should-type-be-a-string-or-at-least-serializable-why-should-my-action-types-be-constants)", "\n(To allow non-serializable values see: https://redux-toolkit.js.org/usage/usage-guide#working-with-non-serializable-data)");
@@ -32753,7 +32753,7 @@ function createSerializableStateInvariantMiddleware(options2) {
         if (!ignoreState) {
           measureUtils.measureTime(function() {
             var state = storeAPI.getState();
-            var foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache2);
+            var foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache3);
             if (foundStateNonSerializableValue) {
               var keyPath = foundStateNonSerializableValue.keyPath, value = foundStateNonSerializableValue.value;
               console.error("A non-serializable value was detected in the state, in the path: `" + keyPath + "`. Value:", value, "\nTake a look at the reducer(s) handling this action type: " + action.type + ".\n(See https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state)");
@@ -33955,6 +33955,417 @@ var {
 } = peopleSlice.actions;
 var people_default = peopleSlice.reducer;
 
+// node_modules/map-obj/index.js
+var isObject = (value) => typeof value === "object" && value !== null;
+var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+var mapObjectSkip = Symbol("mapObjectSkip");
+var _mapObject = (object, mapper, options2, isSeen = /* @__PURE__ */ new WeakMap()) => {
+  options2 = {
+    deep: false,
+    target: {},
+    ...options2
+  };
+  if (isSeen.has(object)) {
+    return isSeen.get(object);
+  }
+  isSeen.set(object, options2.target);
+  const { target } = options2;
+  delete options2.target;
+  const mapArray = (array) => array.map((element) => isObjectCustom(element) ? _mapObject(element, mapper, options2, isSeen) : element);
+  if (Array.isArray(object)) {
+    return mapArray(object);
+  }
+  for (const [key, value] of Object.entries(object)) {
+    const mapResult = mapper(key, value, object);
+    if (mapResult === mapObjectSkip) {
+      continue;
+    }
+    let [newKey, newValue, { shouldRecurse = true } = {}] = mapResult;
+    if (newKey === "__proto__") {
+      continue;
+    }
+    if (options2.deep && shouldRecurse && isObjectCustom(newValue)) {
+      newValue = Array.isArray(newValue) ? mapArray(newValue) : _mapObject(newValue, mapper, options2, isSeen);
+    }
+    target[newKey] = newValue;
+  }
+  return target;
+};
+function mapObject(object, mapper, options2) {
+  if (!isObject(object)) {
+    throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
+  }
+  return _mapObject(object, mapper, options2);
+}
+
+// node_modules/camelcase/index.js
+var UPPERCASE = /[\p{Lu}]/u;
+var LOWERCASE = /[\p{Ll}]/u;
+var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
+var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
+var SEPARATORS = /[_.\- ]+/;
+var LEADING_SEPARATORS = new RegExp("^" + SEPARATORS.source);
+var SEPARATORS_AND_IDENTIFIER = new RegExp(SEPARATORS.source + IDENTIFIER.source, "gu");
+var NUMBERS_AND_IDENTIFIER = new RegExp("\\d+" + IDENTIFIER.source, "gu");
+var preserveCamelCase = (string, toLowerCase, toUpperCase, preserveConsecutiveUppercase2) => {
+  let isLastCharLower = false;
+  let isLastCharUpper = false;
+  let isLastLastCharUpper = false;
+  let isLastLastCharPreserved = false;
+  for (let index = 0; index < string.length; index++) {
+    const character2 = string[index];
+    isLastLastCharPreserved = index > 2 ? string[index - 3] === "-" : true;
+    if (isLastCharLower && UPPERCASE.test(character2)) {
+      string = string.slice(0, index) + "-" + string.slice(index);
+      isLastCharLower = false;
+      isLastLastCharUpper = isLastCharUpper;
+      isLastCharUpper = true;
+      index++;
+    } else if (isLastCharUpper && isLastLastCharUpper && LOWERCASE.test(character2) && (!isLastLastCharPreserved || preserveConsecutiveUppercase2)) {
+      string = string.slice(0, index - 1) + "-" + string.slice(index - 1);
+      isLastLastCharUpper = isLastCharUpper;
+      isLastCharUpper = false;
+      isLastCharLower = true;
+    } else {
+      isLastCharLower = toLowerCase(character2) === character2 && toUpperCase(character2) !== character2;
+      isLastLastCharUpper = isLastCharUpper;
+      isLastCharUpper = toUpperCase(character2) === character2 && toLowerCase(character2) !== character2;
+    }
+  }
+  return string;
+};
+var preserveConsecutiveUppercase = (input, toLowerCase) => {
+  LEADING_CAPITAL.lastIndex = 0;
+  return input.replaceAll(LEADING_CAPITAL, (match2) => toLowerCase(match2));
+};
+var postProcess = (input, toUpperCase) => {
+  SEPARATORS_AND_IDENTIFIER.lastIndex = 0;
+  NUMBERS_AND_IDENTIFIER.lastIndex = 0;
+  return input.replaceAll(NUMBERS_AND_IDENTIFIER, (match2, pattern, offset) => ["_", "-"].includes(input.charAt(offset + match2.length)) ? match2 : toUpperCase(match2)).replaceAll(SEPARATORS_AND_IDENTIFIER, (_2, identifier2) => toUpperCase(identifier2));
+};
+function camelCase(input, options2) {
+  if (!(typeof input === "string" || Array.isArray(input))) {
+    throw new TypeError("Expected the input to be `string | string[]`");
+  }
+  options2 = {
+    pascalCase: false,
+    preserveConsecutiveUppercase: false,
+    ...options2
+  };
+  if (Array.isArray(input)) {
+    input = input.map((x2) => x2.trim()).filter((x2) => x2.length).join("-");
+  } else {
+    input = input.trim();
+  }
+  if (input.length === 0) {
+    return "";
+  }
+  const toLowerCase = options2.locale === false ? (string) => string.toLowerCase() : (string) => string.toLocaleLowerCase(options2.locale);
+  const toUpperCase = options2.locale === false ? (string) => string.toUpperCase() : (string) => string.toLocaleUpperCase(options2.locale);
+  if (input.length === 1) {
+    if (SEPARATORS.test(input)) {
+      return "";
+    }
+    return options2.pascalCase ? toUpperCase(input) : toLowerCase(input);
+  }
+  const hasUpperCase = input !== toLowerCase(input);
+  if (hasUpperCase) {
+    input = preserveCamelCase(input, toLowerCase, toUpperCase, options2.preserveConsecutiveUppercase);
+  }
+  input = input.replace(LEADING_SEPARATORS, "");
+  input = options2.preserveConsecutiveUppercase ? preserveConsecutiveUppercase(input, toLowerCase) : toLowerCase(input);
+  if (options2.pascalCase) {
+    input = toUpperCase(input.charAt(0)) + input.slice(1);
+  }
+  return postProcess(input, toUpperCase);
+}
+
+// node_modules/quick-lru/index.js
+var QuickLRU = class extends Map {
+  constructor(options2 = {}) {
+    super();
+    if (!(options2.maxSize && options2.maxSize > 0)) {
+      throw new TypeError("`maxSize` must be a number greater than 0");
+    }
+    if (typeof options2.maxAge === "number" && options2.maxAge === 0) {
+      throw new TypeError("`maxAge` must be a number greater than 0");
+    }
+    this.maxSize = options2.maxSize;
+    this.maxAge = options2.maxAge || Number.POSITIVE_INFINITY;
+    this.onEviction = options2.onEviction;
+    this.cache = /* @__PURE__ */ new Map();
+    this.oldCache = /* @__PURE__ */ new Map();
+    this._size = 0;
+  }
+  // TODO: Use private class methods when targeting Node.js 16.
+  _emitEvictions(cache3) {
+    if (typeof this.onEviction !== "function") {
+      return;
+    }
+    for (const [key, item] of cache3) {
+      this.onEviction(key, item.value);
+    }
+  }
+  _deleteIfExpired(key, item) {
+    if (typeof item.expiry === "number" && item.expiry <= Date.now()) {
+      if (typeof this.onEviction === "function") {
+        this.onEviction(key, item.value);
+      }
+      return this.delete(key);
+    }
+    return false;
+  }
+  _getOrDeleteIfExpired(key, item) {
+    const deleted = this._deleteIfExpired(key, item);
+    if (deleted === false) {
+      return item.value;
+    }
+  }
+  _getItemValue(key, item) {
+    return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
+  }
+  _peek(key, cache3) {
+    const item = cache3.get(key);
+    return this._getItemValue(key, item);
+  }
+  _set(key, value) {
+    this.cache.set(key, value);
+    this._size++;
+    if (this._size >= this.maxSize) {
+      this._size = 0;
+      this._emitEvictions(this.oldCache);
+      this.oldCache = this.cache;
+      this.cache = /* @__PURE__ */ new Map();
+    }
+  }
+  _moveToRecent(key, item) {
+    this.oldCache.delete(key);
+    this._set(key, item);
+  }
+  *_entriesAscending() {
+    for (const item of this.oldCache) {
+      const [key, value] = item;
+      if (!this.cache.has(key)) {
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield item;
+        }
+      }
+    }
+    for (const item of this.cache) {
+      const [key, value] = item;
+      const deleted = this._deleteIfExpired(key, value);
+      if (deleted === false) {
+        yield item;
+      }
+    }
+  }
+  get(key) {
+    if (this.cache.has(key)) {
+      const item = this.cache.get(key);
+      return this._getItemValue(key, item);
+    }
+    if (this.oldCache.has(key)) {
+      const item = this.oldCache.get(key);
+      if (this._deleteIfExpired(key, item) === false) {
+        this._moveToRecent(key, item);
+        return item.value;
+      }
+    }
+  }
+  set(key, value, { maxAge = this.maxAge } = {}) {
+    const expiry = typeof maxAge === "number" && maxAge !== Number.POSITIVE_INFINITY ? Date.now() + maxAge : void 0;
+    if (this.cache.has(key)) {
+      this.cache.set(key, {
+        value,
+        expiry
+      });
+    } else {
+      this._set(key, { value, expiry });
+    }
+    return this;
+  }
+  has(key) {
+    if (this.cache.has(key)) {
+      return !this._deleteIfExpired(key, this.cache.get(key));
+    }
+    if (this.oldCache.has(key)) {
+      return !this._deleteIfExpired(key, this.oldCache.get(key));
+    }
+    return false;
+  }
+  peek(key) {
+    if (this.cache.has(key)) {
+      return this._peek(key, this.cache);
+    }
+    if (this.oldCache.has(key)) {
+      return this._peek(key, this.oldCache);
+    }
+  }
+  delete(key) {
+    const deleted = this.cache.delete(key);
+    if (deleted) {
+      this._size--;
+    }
+    return this.oldCache.delete(key) || deleted;
+  }
+  clear() {
+    this.cache.clear();
+    this.oldCache.clear();
+    this._size = 0;
+  }
+  resize(newSize) {
+    if (!(newSize && newSize > 0)) {
+      throw new TypeError("`maxSize` must be a number greater than 0");
+    }
+    const items = [...this._entriesAscending()];
+    const removeCount = items.length - newSize;
+    if (removeCount < 0) {
+      this.cache = new Map(items);
+      this.oldCache = /* @__PURE__ */ new Map();
+      this._size = items.length;
+    } else {
+      if (removeCount > 0) {
+        this._emitEvictions(items.slice(0, removeCount));
+      }
+      this.oldCache = new Map(items.slice(removeCount));
+      this.cache = /* @__PURE__ */ new Map();
+      this._size = 0;
+    }
+    this.maxSize = newSize;
+  }
+  *keys() {
+    for (const [key] of this) {
+      yield key;
+    }
+  }
+  *values() {
+    for (const [, value] of this) {
+      yield value;
+    }
+  }
+  *[Symbol.iterator]() {
+    for (const item of this.cache) {
+      const [key, value] = item;
+      const deleted = this._deleteIfExpired(key, value);
+      if (deleted === false) {
+        yield [key, value.value];
+      }
+    }
+    for (const item of this.oldCache) {
+      const [key, value] = item;
+      if (!this.cache.has(key)) {
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield [key, value.value];
+        }
+      }
+    }
+  }
+  *entriesDescending() {
+    let items = [...this.cache];
+    for (let i2 = items.length - 1; i2 >= 0; --i2) {
+      const item = items[i2];
+      const [key, value] = item;
+      const deleted = this._deleteIfExpired(key, value);
+      if (deleted === false) {
+        yield [key, value.value];
+      }
+    }
+    items = [...this.oldCache];
+    for (let i2 = items.length - 1; i2 >= 0; --i2) {
+      const item = items[i2];
+      const [key, value] = item;
+      if (!this.cache.has(key)) {
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield [key, value.value];
+        }
+      }
+    }
+  }
+  *entriesAscending() {
+    for (const [key, value] of this._entriesAscending()) {
+      yield [key, value.value];
+    }
+  }
+  get size() {
+    if (!this._size) {
+      return this.oldCache.size;
+    }
+    let oldCacheSize = 0;
+    for (const key of this.oldCache.keys()) {
+      if (!this.cache.has(key)) {
+        oldCacheSize++;
+      }
+    }
+    return Math.min(this._size + oldCacheSize, this.maxSize);
+  }
+  entries() {
+    return this.entriesAscending();
+  }
+  forEach(callbackFunction, thisArgument = this) {
+    for (const [key, value] of this.entriesAscending()) {
+      callbackFunction.call(thisArgument, value, key, this);
+    }
+  }
+  get [Symbol.toStringTag]() {
+    return JSON.stringify([...this.entriesAscending()]);
+  }
+};
+
+// node_modules/camelcase-keys/index.js
+var has = (array, key) => array.some((element) => {
+  if (typeof element === "string") {
+    return element === key;
+  }
+  element.lastIndex = 0;
+  return element.test(key);
+});
+var cache = new QuickLRU({ maxSize: 1e5 });
+var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+var transform = (input, options2 = {}) => {
+  if (!isObject2(input)) {
+    return input;
+  }
+  const {
+    exclude,
+    pascalCase = false,
+    stopPaths,
+    deep = false,
+    preserveConsecutiveUppercase: preserveConsecutiveUppercase2 = false
+  } = options2;
+  const stopPathsSet = new Set(stopPaths);
+  const makeMapper = (parentPath) => (key, value) => {
+    if (deep && isObject2(value)) {
+      const path = parentPath === void 0 ? key : `${parentPath}.${key}`;
+      if (!stopPathsSet.has(path)) {
+        value = mapObject(value, makeMapper(path));
+      }
+    }
+    if (!(exclude && has(exclude, key))) {
+      const cacheKey = pascalCase ? `${key}_` : key;
+      if (cache.has(cacheKey)) {
+        key = cache.get(cacheKey);
+      } else {
+        const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
+        if (key.length < 100) {
+          cache.set(cacheKey, returnValue);
+        }
+        key = returnValue;
+      }
+    }
+    return [key, value];
+  };
+  return mapObject(input, makeMapper(void 0));
+};
+function camelcaseKeys(input, options2) {
+  if (Array.isArray(input)) {
+    return Object.keys(input).map((key) => transform(input[key], options2));
+  }
+  return transform(input, options2);
+}
+
 // scripts/reducers/sources.ts
 var adapters4 = {
   adaptOne: (source) => {
@@ -33967,7 +34378,7 @@ var adapters4 = {
       } = source.incidents;
       const ids = records ? { ids: records.map((record) => record.id) } : void 0;
       return {
-        ...source,
+        ...camelcaseKeys(source, { deep: false }),
         incidents: {
           filters,
           pagination,
@@ -35388,11 +35799,11 @@ function middleware(collection) {
 
 // node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function memoize(fn2) {
-  var cache2 = /* @__PURE__ */ Object.create(null);
+  var cache3 = /* @__PURE__ */ Object.create(null);
   return function(arg) {
-    if (cache2[arg] === void 0)
-      cache2[arg] = fn2(arg);
-    return cache2[arg];
+    if (cache3[arg] === void 0)
+      cache3[arg] = fn2(arg);
+    return cache3[arg];
   };
 }
 
@@ -35489,9 +35900,9 @@ var ignoreFlag = "emotion-disable-server-rendering-unsafe-selector-warning-pleas
 var isIgnoringComment = function isIgnoringComment2(element) {
   return element.type === "comm" && element.children.indexOf(ignoreFlag) > -1;
 };
-var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm2(cache2) {
+var createUnsafeSelectorsAlarm = function createUnsafeSelectorsAlarm2(cache3) {
   return function(element, index, children) {
-    if (element.type !== "rule" || cache2.compat)
+    if (element.type !== "rule" || cache3.compat)
       return;
     var unsafePseudoClasses = element.value.match(/(:first|:nth|:nth-last)-child/g);
     if (unsafePseudoClasses) {
@@ -35742,7 +36153,7 @@ var createCache = function createCache2(options2) {
   if (true) {
     omnipresentPlugins.push(createUnsafeSelectorsAlarm({
       get compat() {
-        return cache2.compat;
+        return cache3.compat;
       }
     }), incorrectImportAlarm);
   }
@@ -35774,11 +36185,11 @@ var createCache = function createCache2(options2) {
       }
       stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles);
       if (shouldCache) {
-        cache2.inserted[serialized.name] = true;
+        cache3.inserted[serialized.name] = true;
       }
     };
   }
-  var cache2 = {
+  var cache3 = {
     key,
     sheet: new StyleSheet({
       key,
@@ -35793,8 +36204,8 @@ var createCache = function createCache2(options2) {
     registered: {},
     insert: _insert
   };
-  cache2.sheet.hydrate(nodesToHydrate);
-  return cache2;
+  cache3.sheet.hydrate(nodesToHydrate);
+  return cache3;
 };
 
 // node_modules/@emotion/hash/dist/emotion-hash.esm.js
@@ -36144,8 +36555,8 @@ function getRegisteredStyles(registered, registeredStyles, classNames) {
   });
   return rawClassName;
 }
-var registerStyles = function registerStyles2(cache2, serialized, isStringTag) {
-  var className = cache2.key + "-" + serialized.name;
+var registerStyles = function registerStyles2(cache3, serialized, isStringTag) {
+  var className = cache3.key + "-" + serialized.name;
   if (
     // we only need to add the styles to the registered cache if the
     // class name could be used further down
@@ -36156,27 +36567,27 @@ var registerStyles = function registerStyles2(cache2, serialized, isStringTag) {
     // in node since emotion-server relies on whether a style is in
     // the registered cache to know whether a style is global or not
     // also, note that this check will be dead code eliminated in the browser
-    isBrowser2 === false) && cache2.registered[className] === void 0
+    isBrowser2 === false) && cache3.registered[className] === void 0
   ) {
-    cache2.registered[className] = serialized.styles;
+    cache3.registered[className] = serialized.styles;
   }
 };
-var insertStyles = function insertStyles2(cache2, serialized, isStringTag) {
-  registerStyles(cache2, serialized, isStringTag);
-  var className = cache2.key + "-" + serialized.name;
-  if (cache2.inserted[serialized.name] === void 0) {
+var insertStyles = function insertStyles2(cache3, serialized, isStringTag) {
+  registerStyles(cache3, serialized, isStringTag);
+  var className = cache3.key + "-" + serialized.name;
+  if (cache3.inserted[serialized.name] === void 0) {
     var current = serialized;
     do {
-      cache2.insert(serialized === current ? "." + className : "", current, cache2.sheet, true);
+      cache3.insert(serialized === current ? "." + className : "", current, cache3.sheet, true);
       current = current.next;
     } while (current !== void 0);
   }
 };
 
 // node_modules/@emotion/css/create-instance/dist/emotion-css-create-instance.esm.js
-function insertWithoutScoping(cache2, serialized) {
-  if (cache2.inserted[serialized.name] === void 0) {
-    return cache2.insert("", serialized, cache2.sheet, true);
+function insertWithoutScoping(cache3, serialized) {
+  if (cache3.inserted[serialized.name] === void 0) {
+    return cache3.insert("", serialized, cache3.sheet, true);
   }
 }
 function merge(registered, css3, className) {
@@ -36188,29 +36599,29 @@ function merge(registered, css3, className) {
   return rawClassName + css3(registeredStyles);
 }
 var createEmotion = function createEmotion2(options2) {
-  var cache2 = createCache(options2);
-  cache2.sheet.speedy = function(value) {
+  var cache3 = createCache(options2);
+  cache3.sheet.speedy = function(value) {
     if (this.ctr !== 0) {
       throw new Error("speedy must be changed before any rules are inserted");
     }
     this.isSpeedy = value;
   };
-  cache2.compat = true;
+  cache3.compat = true;
   var css3 = function css4() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    var serialized = serializeStyles(args, cache2.registered, void 0);
-    insertStyles(cache2, serialized, false);
-    return cache2.key + "-" + serialized.name;
+    var serialized = serializeStyles(args, cache3.registered, void 0);
+    insertStyles(cache3, serialized, false);
+    return cache3.key + "-" + serialized.name;
   };
   var keyframes2 = function keyframes3() {
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    var serialized = serializeStyles(args, cache2.registered);
+    var serialized = serializeStyles(args, cache3.registered);
     var animation = "animation-" + serialized.name;
-    insertWithoutScoping(cache2, {
+    insertWithoutScoping(cache3, {
       name: serialized.name,
       styles: "@keyframes " + animation + "{" + serialized.styles + "}"
     });
@@ -36220,14 +36631,14 @@ var createEmotion = function createEmotion2(options2) {
     for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
       args[_key3] = arguments[_key3];
     }
-    var serialized = serializeStyles(args, cache2.registered);
-    insertWithoutScoping(cache2, serialized);
+    var serialized = serializeStyles(args, cache3.registered);
+    insertWithoutScoping(cache3, serialized);
   };
   var cx2 = function cx3() {
     for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
       args[_key4] = arguments[_key4];
     }
-    return merge(cache2.registered, css3, classnames(args));
+    return merge(cache3.registered, css3, classnames(args));
   };
   return {
     css: css3,
@@ -36236,19 +36647,19 @@ var createEmotion = function createEmotion2(options2) {
     keyframes: keyframes2,
     hydrate: function hydrate2(ids) {
       ids.forEach(function(key) {
-        cache2.inserted[key] = true;
+        cache3.inserted[key] = true;
       });
     },
     flush: function flush2() {
-      cache2.registered = {};
-      cache2.inserted = {};
-      cache2.sheet.flush();
+      cache3.registered = {};
+      cache3.inserted = {};
+      cache3.sheet.flush();
     },
     // $FlowFixMe
-    sheet: cache2.sheet,
-    cache: cache2,
-    getRegisteredStyles: getRegisteredStyles.bind(null, cache2.registered),
-    merge: merge.bind(null, cache2.registered, css3)
+    sheet: cache3.sheet,
+    cache: cache3,
+    getRegisteredStyles: getRegisteredStyles.bind(null, cache3.registered),
+    merge: merge.bind(null, cache3.registered, css3)
   };
 };
 var classnames = function classnames2(args) {
@@ -36300,7 +36711,7 @@ var injectGlobal = _createEmotion.injectGlobal;
 var keyframes = _createEmotion.keyframes;
 var css = _createEmotion.css;
 var sheet = _createEmotion.sheet;
-var cache = _createEmotion.cache;
+var cache2 = _createEmotion.cache;
 
 // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
 function ownKeys2(object, enumerableOnly) {
@@ -36758,17 +37169,17 @@ function joinStyles(styles2) {
     return acc + "".concat(styleName, ": ").concat(styles2[styleName].trim(), ";");
   }, "");
 }
-function transformIsMeaningful(transform) {
-  return transform.size !== meaninglessTransform.size || transform.x !== meaninglessTransform.x || transform.y !== meaninglessTransform.y || transform.rotate !== meaninglessTransform.rotate || transform.flipX || transform.flipY;
+function transformIsMeaningful(transform2) {
+  return transform2.size !== meaninglessTransform.size || transform2.x !== meaninglessTransform.x || transform2.y !== meaninglessTransform.y || transform2.rotate !== meaninglessTransform.rotate || transform2.flipX || transform2.flipY;
 }
 function transformForSvg(_ref2) {
-  var transform = _ref2.transform, containerWidth = _ref2.containerWidth, iconWidth = _ref2.iconWidth;
+  var transform2 = _ref2.transform, containerWidth = _ref2.containerWidth, iconWidth = _ref2.iconWidth;
   var outer = {
     transform: "translate(".concat(containerWidth / 2, " 256)")
   };
-  var innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
-  var innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
-  var innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
+  var innerTranslate = "translate(".concat(transform2.x * 32, ", ").concat(transform2.y * 32, ") ");
+  var innerScale = "scale(".concat(transform2.size / 16 * (transform2.flipX ? -1 : 1), ", ").concat(transform2.size / 16 * (transform2.flipY ? -1 : 1), ") ");
+  var innerRotate = "rotate(".concat(transform2.rotate, " 0 0)");
   var inner = {
     transform: "".concat(innerTranslate, " ").concat(innerScale, " ").concat(innerRotate)
   };
@@ -36782,17 +37193,17 @@ function transformForSvg(_ref2) {
   };
 }
 function transformForCss(_ref2) {
-  var transform = _ref2.transform, _ref2$width = _ref2.width, width = _ref2$width === void 0 ? UNITS_IN_GRID : _ref2$width, _ref2$height = _ref2.height, height = _ref2$height === void 0 ? UNITS_IN_GRID : _ref2$height, _ref2$startCentered = _ref2.startCentered, startCentered = _ref2$startCentered === void 0 ? false : _ref2$startCentered;
+  var transform2 = _ref2.transform, _ref2$width = _ref2.width, width = _ref2$width === void 0 ? UNITS_IN_GRID : _ref2$width, _ref2$height = _ref2.height, height = _ref2$height === void 0 ? UNITS_IN_GRID : _ref2$height, _ref2$startCentered = _ref2.startCentered, startCentered = _ref2$startCentered === void 0 ? false : _ref2$startCentered;
   var val = "";
   if (startCentered && IS_IE) {
-    val += "translate(".concat(transform.x / d2 - width / 2, "em, ").concat(transform.y / d2 - height / 2, "em) ");
+    val += "translate(".concat(transform2.x / d2 - width / 2, "em, ").concat(transform2.y / d2 - height / 2, "em) ");
   } else if (startCentered) {
-    val += "translate(calc(-50% + ".concat(transform.x / d2, "em), calc(-50% + ").concat(transform.y / d2, "em)) ");
+    val += "translate(calc(-50% + ".concat(transform2.x / d2, "em), calc(-50% + ").concat(transform2.y / d2, "em)) ");
   } else {
-    val += "translate(".concat(transform.x / d2, "em, ").concat(transform.y / d2, "em) ");
+    val += "translate(".concat(transform2.x / d2, "em, ").concat(transform2.y / d2, "em) ");
   }
-  val += "scale(".concat(transform.size / d2 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / d2 * (transform.flipY ? -1 : 1), ") ");
-  val += "rotate(".concat(transform.rotate, "deg) ");
+  val += "scale(".concat(transform2.size / d2 * (transform2.flipX ? -1 : 1), ", ").concat(transform2.size / d2 * (transform2.flipY ? -1 : 1), ") ");
+  val += "rotate(".concat(transform2.rotate, "deg) ");
   return val;
 }
 var baseStyles = ':root, :host {\n  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Solid";\n  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Regular";\n  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Light";\n  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Thin";\n  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  -webkit-transform-origin: center center;\n          transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  -webkit-transform-origin: center center;\n          transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  -webkit-transform: scale(var(--fa-counter-scale, 0.25));\n          transform: scale(var(--fa-counter-scale, 0.25));\n  -webkit-transform-origin: top right;\n          transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  -webkit-transform: scale(var(--fa-layers-scale, 0.25));\n          transform: scale(var(--fa-layers-scale, 0.25));\n  -webkit-transform-origin: bottom right;\n          transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  -webkit-transform: scale(var(--fa-layers-scale, 0.25));\n          transform: scale(var(--fa-layers-scale, 0.25));\n  -webkit-transform-origin: bottom left;\n          transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  -webkit-transform: scale(var(--fa-layers-scale, 0.25));\n          transform: scale(var(--fa-layers-scale, 0.25));\n  -webkit-transform-origin: top right;\n          transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  -webkit-transform: scale(var(--fa-layers-scale, 0.25));\n          transform: scale(var(--fa-layers-scale, 0.25));\n  -webkit-transform-origin: top left;\n          transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(var(--fa-li-width, 2em) * -1);\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  -webkit-animation-name: fa-beat;\n          animation-name: fa-beat;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);\n          animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  -webkit-animation-name: fa-bounce;\n          animation-name: fa-bounce;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  -webkit-animation-name: fa-fade;\n          animation-name: fa-fade;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  -webkit-animation-name: fa-beat-fade;\n          animation-name: fa-beat-fade;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  -webkit-animation-name: fa-flip;\n          animation-name: fa-flip;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);\n          animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  -webkit-animation-name: fa-shake;\n          animation-name: fa-shake;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, linear);\n          animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  -webkit-animation-name: fa-spin;\n          animation-name: fa-spin;\n  -webkit-animation-delay: var(--fa-animation-delay, 0s);\n          animation-delay: var(--fa-animation-delay, 0s);\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 2s);\n          animation-duration: var(--fa-animation-duration, 2s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, linear);\n          animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  -webkit-animation-name: fa-spin;\n          animation-name: fa-spin;\n  -webkit-animation-direction: var(--fa-animation-direction, normal);\n          animation-direction: var(--fa-animation-direction, normal);\n  -webkit-animation-duration: var(--fa-animation-duration, 1s);\n          animation-duration: var(--fa-animation-duration, 1s);\n  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n          animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  -webkit-animation-timing-function: var(--fa-animation-timing, steps(8));\n          animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    -webkit-animation-delay: -1ms;\n            animation-delay: -1ms;\n    -webkit-animation-duration: 1ms;\n            animation-duration: 1ms;\n    -webkit-animation-iteration-count: 1;\n            animation-iteration-count: 1;\n    -webkit-transition-delay: 0s;\n            transition-delay: 0s;\n    -webkit-transition-duration: 0s;\n            transition-duration: 0s;\n  }\n}\n@-webkit-keyframes fa-beat {\n  0%, 90% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  45% {\n    -webkit-transform: scale(var(--fa-beat-scale, 1.25));\n            transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  45% {\n    -webkit-transform: scale(var(--fa-beat-scale, 1.25));\n            transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@-webkit-keyframes fa-bounce {\n  0% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    -webkit-transform: scale(1, 1) translateY(0);\n            transform: scale(1, 1) translateY(0);\n  }\n}\n@-webkit-keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@-webkit-keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));\n            transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));\n            transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@-webkit-keyframes fa-flip {\n  50% {\n    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@-webkit-keyframes fa-shake {\n  0% {\n    -webkit-transform: rotate(-15deg);\n            transform: rotate(-15deg);\n  }\n  4% {\n    -webkit-transform: rotate(15deg);\n            transform: rotate(15deg);\n  }\n  8%, 24% {\n    -webkit-transform: rotate(-18deg);\n            transform: rotate(-18deg);\n  }\n  12%, 28% {\n    -webkit-transform: rotate(18deg);\n            transform: rotate(18deg);\n  }\n  16% {\n    -webkit-transform: rotate(-22deg);\n            transform: rotate(-22deg);\n  }\n  20% {\n    -webkit-transform: rotate(22deg);\n            transform: rotate(22deg);\n  }\n  32% {\n    -webkit-transform: rotate(-12deg);\n            transform: rotate(-12deg);\n  }\n  36% {\n    -webkit-transform: rotate(12deg);\n            transform: rotate(12deg);\n  }\n  40%, 100% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n}\n@keyframes fa-shake {\n  0% {\n    -webkit-transform: rotate(-15deg);\n            transform: rotate(-15deg);\n  }\n  4% {\n    -webkit-transform: rotate(15deg);\n            transform: rotate(15deg);\n  }\n  8%, 24% {\n    -webkit-transform: rotate(-18deg);\n            transform: rotate(-18deg);\n  }\n  12%, 28% {\n    -webkit-transform: rotate(18deg);\n            transform: rotate(18deg);\n  }\n  16% {\n    -webkit-transform: rotate(-22deg);\n            transform: rotate(-22deg);\n  }\n  20% {\n    -webkit-transform: rotate(22deg);\n            transform: rotate(22deg);\n  }\n  32% {\n    -webkit-transform: rotate(-12deg);\n            transform: rotate(-12deg);\n  }\n  36% {\n    -webkit-transform: rotate(12deg);\n            transform: rotate(12deg);\n  }\n  40%, 100% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n}\n@-webkit-keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n  }\n  100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  -webkit-transform: rotate(90deg);\n          transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  -webkit-transform: rotate(270deg);\n          transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  -webkit-transform: scale(-1, 1);\n          transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  -webkit-transform: scale(1, -1);\n          transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  -webkit-transform: scale(-1, -1);\n          transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  -webkit-transform: rotate(var(--fa-rotate-angle, 0));\n          transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}\n\n.fad.fa-inverse,\n.fa-duotone.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}';
@@ -37415,15 +37826,15 @@ function domVariants(val, abstractCreator) {
   return val;
 }
 function asIcon(_ref2) {
-  var children = _ref2.children, main = _ref2.main, mask = _ref2.mask, attributes = _ref2.attributes, styles2 = _ref2.styles, transform = _ref2.transform;
-  if (transformIsMeaningful(transform) && main.found && !mask.found) {
+  var children = _ref2.children, main = _ref2.main, mask = _ref2.mask, attributes = _ref2.attributes, styles2 = _ref2.styles, transform2 = _ref2.transform;
+  if (transformIsMeaningful(transform2) && main.found && !mask.found) {
     var width = main.width, height = main.height;
     var offset = {
       x: width / height / 2,
       y: 0.5
     };
     attributes["style"] = joinStyles(_objectSpread22(_objectSpread22({}, styles2), {}, {
-      "transform-origin": "".concat(offset.x + transform.x / 16, "em ").concat(offset.y + transform.y / 16, "em")
+      "transform-origin": "".concat(offset.x + transform2.x / 16, "em ").concat(offset.y + transform2.y / 16, "em")
     }));
   }
   return [{
@@ -37450,7 +37861,7 @@ function asSymbol(_ref2) {
   }];
 }
 function makeInlineSvgAbstract(params) {
-  var _params$icons = params.icons, main = _params$icons.main, mask = _params$icons.mask, prefix3 = params.prefix, iconName = params.iconName, transform = params.transform, symbol = params.symbol, title = params.title, maskId = params.maskId, titleId = params.titleId, extra = params.extra, _params$watchable = params.watchable, watchable = _params$watchable === void 0 ? false : _params$watchable;
+  var _params$icons = params.icons, main = _params$icons.main, mask = _params$icons.mask, prefix3 = params.prefix, iconName = params.iconName, transform2 = params.transform, symbol = params.symbol, title = params.title, maskId = params.maskId, titleId = params.titleId, extra = params.extra, _params$watchable = params.watchable, watchable = _params$watchable === void 0 ? false : _params$watchable;
   var _ref2 = mask.found ? mask : main, width = _ref2.width, height = _ref2.height;
   var isUploadedIcon = prefix3 === "fak";
   var attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter(function(c2) {
@@ -37491,7 +37902,7 @@ function makeInlineSvgAbstract(params) {
     main,
     mask,
     maskId,
-    transform,
+    transform: transform2,
     symbol,
     styles: _objectSpread22(_objectSpread22({}, uploadedIconWidthStyle), extra.styles)
   });
@@ -37511,7 +37922,7 @@ function makeInlineSvgAbstract(params) {
   }
 }
 function makeLayersTextAbstract(params) {
-  var content = params.content, width = params.width, height = params.height, transform = params.transform, title = params.title, extra = params.extra, _params$watchable2 = params.watchable, watchable = _params$watchable2 === void 0 ? false : _params$watchable2;
+  var content = params.content, width = params.width, height = params.height, transform2 = params.transform, title = params.title, extra = params.extra, _params$watchable2 = params.watchable, watchable = _params$watchable2 === void 0 ? false : _params$watchable2;
   var attributes = _objectSpread22(_objectSpread22(_objectSpread22({}, extra.attributes), title ? {
     "title": title
   } : {}), {}, {
@@ -37521,9 +37932,9 @@ function makeLayersTextAbstract(params) {
     attributes[DATA_FA_I2SVG] = "";
   }
   var styles2 = _objectSpread22({}, extra.styles);
-  if (transformIsMeaningful(transform)) {
+  if (transformIsMeaningful(transform2)) {
     styles2["transform"] = transformForCss({
-      transform,
+      transform: transform2,
       startCentered: true,
       width,
       height
@@ -38072,7 +38483,7 @@ function resolveIcons(next2) {
 }
 var render = function render2(iconDefinition) {
   var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-  var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$symbol = params.symbol, symbol = _params$symbol === void 0 ? false : _params$symbol, _params$mask = params.mask, mask = _params$mask === void 0 ? null : _params$mask, _params$maskId = params.maskId, maskId = _params$maskId === void 0 ? null : _params$maskId, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$titleId = params.titleId, titleId = _params$titleId === void 0 ? null : _params$titleId, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles2 = _params$styles === void 0 ? {} : _params$styles;
+  var _params$transform = params.transform, transform2 = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$symbol = params.symbol, symbol = _params$symbol === void 0 ? false : _params$symbol, _params$mask = params.mask, mask = _params$mask === void 0 ? null : _params$mask, _params$maskId = params.maskId, maskId = _params$maskId === void 0 ? null : _params$maskId, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$titleId = params.titleId, titleId = _params$titleId === void 0 ? null : _params$titleId, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles2 = _params$styles === void 0 ? {} : _params$styles;
   if (!iconDefinition)
     return;
   var prefix3 = iconDefinition.prefix, iconName = iconDefinition.iconName, icon3 = iconDefinition.icon;
@@ -38103,7 +38514,7 @@ var render = function render2(iconDefinition) {
       },
       prefix: prefix3,
       iconName,
-      transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform),
+      transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform2),
       symbol,
       title,
       maskId,
@@ -38138,7 +38549,7 @@ var ReplaceElements = {
       return onTree(node2, callback2);
     };
     providers$$1.generateSvgReplacementMutation = function(node2, nodeMeta) {
-      var iconName = nodeMeta.iconName, title = nodeMeta.title, titleId = nodeMeta.titleId, prefix3 = nodeMeta.prefix, transform = nodeMeta.transform, symbol = nodeMeta.symbol, mask = nodeMeta.mask, maskId = nodeMeta.maskId, extra = nodeMeta.extra;
+      var iconName = nodeMeta.iconName, title = nodeMeta.title, titleId = nodeMeta.titleId, prefix3 = nodeMeta.prefix, transform2 = nodeMeta.transform, symbol = nodeMeta.symbol, mask = nodeMeta.mask, maskId = nodeMeta.maskId, extra = nodeMeta.extra;
       return new Promise(function(resolve2, reject) {
         Promise.all([findIcon(iconName, prefix3), mask.iconName ? findIcon(mask.iconName, mask.prefix) : Promise.resolve({
           found: false,
@@ -38154,7 +38565,7 @@ var ReplaceElements = {
             },
             prefix: prefix3,
             iconName,
-            transform,
+            transform: transform2,
             symbol,
             maskId,
             title,
@@ -38166,16 +38577,16 @@ var ReplaceElements = {
       });
     };
     providers$$1.generateAbstractIcon = function(_ref3) {
-      var children = _ref3.children, attributes = _ref3.attributes, main = _ref3.main, transform = _ref3.transform, styles2 = _ref3.styles;
+      var children = _ref3.children, attributes = _ref3.attributes, main = _ref3.main, transform2 = _ref3.transform, styles2 = _ref3.styles;
       var styleString = joinStyles(styles2);
       if (styleString.length > 0) {
         attributes["style"] = styleString;
       }
       var nextChild;
-      if (transformIsMeaningful(transform)) {
+      if (transformIsMeaningful(transform2)) {
         nextChild = callProvided("generateAbstractTransformGrouping", {
           main,
-          transform,
+          transform: transform2,
           containerWidth: main.width,
           iconWidth: main.width
         });
@@ -38252,7 +38663,7 @@ var LayersText = {
     return {
       text: function text2(content) {
         var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        var _params$transform = params.transform, transform = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles2 = _params$styles === void 0 ? {} : _params$styles;
+        var _params$transform = params.transform, transform2 = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$title = params.title, title = _params$title === void 0 ? null : _params$title, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles2 = _params$styles === void 0 ? {} : _params$styles;
         return domVariants({
           type: "text",
           content
@@ -38263,7 +38674,7 @@ var LayersText = {
           });
           return makeLayersTextAbstract({
             content,
-            transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform),
+            transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform2),
             title,
             extra: {
               attributes,
@@ -38277,7 +38688,7 @@ var LayersText = {
   },
   provides: function provides2(providers$$1) {
     providers$$1.generateLayersText = function(node2, nodeMeta) {
-      var title = nodeMeta.title, transform = nodeMeta.transform, extra = nodeMeta.extra;
+      var title = nodeMeta.title, transform2 = nodeMeta.transform, extra = nodeMeta.extra;
       var width = null;
       var height = null;
       if (IS_IE) {
@@ -38293,7 +38704,7 @@ var LayersText = {
         content: node2.innerHTML,
         width,
         height,
-        transform,
+        transform: transform2,
         title,
         extra,
         watchable: true
@@ -38460,7 +38871,7 @@ var MutationObserver$1 = {
   }
 };
 var parseTransformString = function parseTransformString2(transformString) {
-  var transform = {
+  var transform2 = {
     size: 16,
     x: 0,
     y: 0,
@@ -38508,13 +38919,13 @@ var parseTransformString = function parseTransformString2(transformString) {
         break;
     }
     return acc;
-  }, transform);
+  }, transform2);
 };
 var PowerTransforms = {
   mixout: function mixout7() {
     return {
       parse: {
-        transform: function transform(transformString) {
+        transform: function transform2(transformString) {
           return parseTransformString(transformString);
         }
       }
@@ -38533,13 +38944,13 @@ var PowerTransforms = {
   },
   provides: function provides4(providers2) {
     providers2.generateAbstractTransformGrouping = function(_ref2) {
-      var main = _ref2.main, transform = _ref2.transform, containerWidth = _ref2.containerWidth, iconWidth = _ref2.iconWidth;
+      var main = _ref2.main, transform2 = _ref2.transform, containerWidth = _ref2.containerWidth, iconWidth = _ref2.iconWidth;
       var outer = {
         transform: "translate(".concat(containerWidth / 2, " 256)")
       };
-      var innerTranslate = "translate(".concat(transform.x * 32, ", ").concat(transform.y * 32, ") ");
-      var innerScale = "scale(".concat(transform.size / 16 * (transform.flipX ? -1 : 1), ", ").concat(transform.size / 16 * (transform.flipY ? -1 : 1), ") ");
-      var innerRotate = "rotate(".concat(transform.rotate, " 0 0)");
+      var innerTranslate = "translate(".concat(transform2.x * 32, ", ").concat(transform2.y * 32, ") ");
+      var innerScale = "scale(".concat(transform2.size / 16 * (transform2.flipX ? -1 : 1), ", ").concat(transform2.size / 16 * (transform2.flipY ? -1 : 1), ") ");
+      var innerRotate = "rotate(".concat(transform2.rotate, " 0 0)");
       var inner = {
         transform: "".concat(innerTranslate, " ").concat(innerScale, " ").concat(innerRotate)
       };
@@ -38606,11 +39017,11 @@ var Masks = {
   },
   provides: function provides5(providers2) {
     providers2.generateAbstractMask = function(_ref2) {
-      var children = _ref2.children, attributes = _ref2.attributes, main = _ref2.main, mask = _ref2.mask, explicitMaskId = _ref2.maskId, transform = _ref2.transform;
+      var children = _ref2.children, attributes = _ref2.attributes, main = _ref2.main, mask = _ref2.mask, explicitMaskId = _ref2.maskId, transform2 = _ref2.transform;
       var mainWidth = main.width, mainPath = main.icon;
       var maskWidth = mask.width, maskPath = mask.icon;
       var trans = transformForSvg({
-        transform,
+        transform: transform2,
         containerWidth: maskWidth,
         iconWidth: mainWidth
       });
@@ -39033,9 +39444,9 @@ var FontAwesomeIcon = /* @__PURE__ */ import_react8.default.forwardRef(function(
   var iconArgs = props.icon, maskArgs = props.mask, symbol = props.symbol, className = props.className, title = props.title, titleId = props.titleId, maskId = props.maskId;
   var iconLookup = normalizeIconArgs(iconArgs);
   var classes = objectWithKey("classes", [].concat(_toConsumableArray2(classList(props)), _toConsumableArray2(className.split(" "))));
-  var transform = objectWithKey("transform", typeof props.transform === "string" ? parse$1.transform(props.transform) : props.transform);
+  var transform2 = objectWithKey("transform", typeof props.transform === "string" ? parse$1.transform(props.transform) : props.transform);
   var mask = objectWithKey("mask", normalizeIconArgs(maskArgs));
-  var renderedIcon = icon2(iconLookup, _objectSpread23(_objectSpread23(_objectSpread23(_objectSpread23({}, classes), transform), mask), {}, {
+  var renderedIcon = icon2(iconLookup, _objectSpread23(_objectSpread23(_objectSpread23(_objectSpread23({}, classes), transform2), mask), {}, {
     symbol,
     title,
     titleId,
@@ -39307,10 +39718,10 @@ var unique = (arr) => [...new Set(arr)];
 
 // scripts/components/alert.tsx
 var import_jsx_runtime4 = __toESM(require_jsx_runtime());
-var isObject = (alert) => typeof alert === "object";
-var getHasCustomMessage = (alert) => isObject && Boolean(alert.customMessage);
-var getHasMessage = (alert) => isObject && Boolean(alert.message);
-var getHasStatus = (alert) => isObject && Boolean(alert.status);
+var isObject3 = (alert) => typeof alert === "object";
+var getHasCustomMessage = (alert) => isObject3 && Boolean(alert.customMessage);
+var getHasMessage = (alert) => isObject3 && Boolean(alert.message);
+var getHasStatus = (alert) => isObject3 && Boolean(alert.status);
 var MessageContent = ({ alert }) => {
   const hasMessage = getHasMessage(alert);
   const hasStatus = getHasStatus(alert);
@@ -42252,7 +42663,7 @@ function isArray(value) {
   }
   return false;
 }
-function isObject2(value) {
+function isObject4(value) {
   return value !== null && Object.prototype.toString.call(value) === "[object Object]";
 }
 function isNumberFinite(value) {
@@ -42283,7 +42694,7 @@ function each(loopable, fn2, thisArg, reverse) {
         fn2.call(thisArg, loopable[i2], i2);
       }
     }
-  } else if (isObject2(loopable)) {
+  } else if (isObject4(loopable)) {
     keys = Object.keys(loopable);
     len = keys.length;
     for (i2 = 0; i2 < len; i2++) {
@@ -42309,7 +42720,7 @@ function clone2(source) {
   if (isArray(source)) {
     return source.map(clone2);
   }
-  if (isObject2(source)) {
+  if (isObject4(source)) {
     const target = /* @__PURE__ */ Object.create(null);
     const keys = Object.keys(source);
     const klen = keys.length;
@@ -42334,7 +42745,7 @@ function _merger(key, target, source, options2) {
   }
   const tval = target[key];
   const sval = source[key];
-  if (isObject2(tval) && isObject2(sval)) {
+  if (isObject4(tval) && isObject4(sval)) {
     merge3(tval, sval, options2);
   } else {
     target[key] = clone2(sval);
@@ -42345,7 +42756,7 @@ function merge3(target, source, options2) {
     source
   ];
   const ilen = sources.length;
-  if (!isObject2(target)) {
+  if (!isObject4(target)) {
     return target;
   }
   options2 = options2 || {};
@@ -42353,7 +42764,7 @@ function merge3(target, source, options2) {
   let current;
   for (let i2 = 0; i2 < ilen; ++i2) {
     current = sources[i2];
-    if (!isObject2(current)) {
+    if (!isObject4(current)) {
       continue;
     }
     const keys = Object.keys(current);
@@ -42374,7 +42785,7 @@ function _mergerIf(key, target, source) {
   }
   const tval = target[key];
   const sval = source[key];
-  if (isObject2(tval) && isObject2(sval)) {
+  if (isObject4(tval) && isObject4(sval)) {
     mergeIf(tval, sval);
   } else if (!Object.prototype.hasOwnProperty.call(target, key)) {
     target[key] = clone2(sval);
@@ -43134,7 +43545,7 @@ var Defaults = class {
         get() {
           const local = this[privateName];
           const target = targetScopeObject[targetName];
-          if (isObject2(local)) {
+          if (isObject4(local)) {
             return Object.assign({}, target, local);
           }
           return valueOrDefault(local, target);
@@ -43181,14 +43592,14 @@ function _measureText(ctx, data, gc, longest, string) {
   }
   return longest;
 }
-function _longestText(ctx, font, arrayOfThings, cache2) {
-  cache2 = cache2 || {};
-  let data = cache2.data = cache2.data || {};
-  let gc = cache2.garbageCollect = cache2.garbageCollect || [];
-  if (cache2.font !== font) {
-    data = cache2.data = {};
-    gc = cache2.garbageCollect = [];
-    cache2.font = font;
+function _longestText(ctx, font, arrayOfThings, cache3) {
+  cache3 = cache3 || {};
+  let data = cache3.data = cache3.data || {};
+  let gc = cache3.garbageCollect = cache3.garbageCollect || [];
+  if (cache3.font !== font) {
+    data = cache3.data = {};
+    gc = cache3.garbageCollect = [];
+    cache3.font = font;
   }
   ctx.save();
   ctx.font = font;
@@ -43487,9 +43898,9 @@ function toLineHeight(value, size) {
 var numberOrZero = (v2) => +v2 || 0;
 function _readValueToProps(value, props) {
   const ret = {};
-  const objProps = isObject2(props);
+  const objProps = isObject4(props);
   const keys = objProps ? Object.keys(props) : props;
-  const read = isObject2(value) ? objProps ? (prop) => valueOrDefault(value[prop], value[props[prop]]) : (prop) => value[prop] : () => value;
+  const read = isObject4(value) ? objProps ? (prop) => valueOrDefault(value[prop], value[props[prop]]) : (prop) => value[prop] : () => value;
   for (const prop of keys) {
     ret[prop] = numberOrZero(read(prop));
   }
@@ -43583,7 +43994,7 @@ function _createResolver(scopes, prefixes2 = [
   if (typeof fallback === "undefined") {
     fallback = _resolve("_fallback", scopes);
   }
-  const cache2 = {
+  const cache3 = {
     [Symbol.toStringTag]: "Object",
     _cacheable: true,
     _scopes: scopes,
@@ -43595,7 +44006,7 @@ function _createResolver(scopes, prefixes2 = [
       ...scopes
     ], prefixes2, finalRootScopes, fallback)
   };
-  return new Proxy(cache2, {
+  return new Proxy(cache3, {
     /**
     * A trap for the delete operator.
     */
@@ -43648,7 +44059,7 @@ function _createResolver(scopes, prefixes2 = [
   });
 }
 function _attachContext(proxy, context, subProxy, descriptorDefaults) {
-  const cache2 = {
+  const cache3 = {
     _cacheable: false,
     _proxy: proxy,
     _context: context,
@@ -43658,7 +44069,7 @@ function _attachContext(proxy, context, subProxy, descriptorDefaults) {
     setContext: (ctx) => _attachContext(proxy, ctx, subProxy, descriptorDefaults),
     override: (scope) => _attachContext(proxy.override(scope), context, subProxy, descriptorDefaults)
   };
-  return new Proxy(cache2, {
+  return new Proxy(cache3, {
     /**
     * A trap for the delete operator.
     */
@@ -43725,7 +44136,7 @@ function _descriptors(proxy, defaults2 = {
   };
 }
 var readKey = (prefix3, name) => prefix3 ? prefix3 + _capitalize(name) : name;
-var needsSubResolver = (prop, value) => isObject2(value) && prop !== "adapters" && (Object.getPrototypeOf(value) === null || value.constructor === Object);
+var needsSubResolver = (prop, value) => isObject4(value) && prop !== "adapters" && (Object.getPrototypeOf(value) === null || value.constructor === Object);
 function _cached(target, prop, resolve2) {
   if (Object.prototype.hasOwnProperty.call(target, prop)) {
     return target[prop];
@@ -43765,7 +44176,7 @@ function _resolveArray(prop, value, target, isIndexable) {
   const { _proxy, _context, _subProxy, _descriptors: descriptors2 } = target;
   if (typeof _context.index !== "undefined" && isIndexable(prop)) {
     return value[_context.index % value.length];
-  } else if (isObject2(value[0])) {
+  } else if (isObject4(value[0])) {
     const arr = value;
     const scopes = _proxy._scopes.filter((s2) => s2 !== arr);
     value = [];
@@ -43830,7 +44241,7 @@ function subGetTarget(resolver, prop, value) {
     parent[prop] = {};
   }
   const target = parent[prop];
-  if (isArray(target) && isObject2(value)) {
+  if (isArray(target) && isObject4(value)) {
     return value;
   }
   return target || {};
@@ -44569,15 +44980,15 @@ function styleChanged(style, prevStyle) {
   if (!prevStyle) {
     return false;
   }
-  const cache2 = [];
+  const cache3 = [];
   const replacer = function(key, value) {
     if (!isPatternOrGradient(value)) {
       return value;
     }
-    if (!cache2.includes(value)) {
-      cache2.push(value);
+    if (!cache3.includes(value)) {
+      cache3.push(value);
     }
-    return cache2.indexOf(value);
+    return cache3.indexOf(value);
   };
   return JSON.stringify(style, replacer) !== JSON.stringify(prevStyle, replacer);
 }
@@ -44839,14 +45250,14 @@ var Animations = class {
     this.configure(config2);
   }
   configure(config2) {
-    if (!isObject2(config2)) {
+    if (!isObject4(config2)) {
       return;
     }
     const animationOptions = Object.keys(defaults.animation);
     const animatedProps = this._properties;
     Object.getOwnPropertyNames(config2).forEach((key) => {
       const cfg = config2[key];
-      if (!isObject2(cfg)) {
+      if (!isObject4(cfg)) {
         return;
       }
       const resolved = {};
@@ -44978,7 +45389,7 @@ function defaultClip(xScale, yScale, allowedOverflow) {
 }
 function toClip(value) {
   let t2, r2, b2, l2;
-  if (isObject2(value)) {
+  if (isObject4(value)) {
     t2 = value.top;
     r2 = value.right;
     b2 = value.bottom;
@@ -45221,7 +45632,7 @@ var DatasetController = class {
     const dataset = this.getDataset();
     const data = dataset.data || (dataset.data = []);
     const _data = this._data;
-    if (isObject2(data)) {
+    if (isObject4(data)) {
       this._data = convertObjectDataToArray(data);
     } else if (_data !== data) {
       if (_data) {
@@ -45283,7 +45694,7 @@ var DatasetController = class {
     } else {
       if (isArray(data[start])) {
         parsed = this.parseArrayData(meta, data, start, count);
-      } else if (isObject2(data[start])) {
+      } else if (isObject4(data[start])) {
         parsed = this.parseObjectData(meta, data, start, count);
       } else {
         parsed = this.parsePrimitiveData(meta, data, start, count);
@@ -45508,9 +45919,9 @@ var DatasetController = class {
   }
   _resolveElementOptions(elementType, mode = "default", index) {
     const active = mode === "active";
-    const cache2 = this._cachedDataOpts;
+    const cache3 = this._cachedDataOpts;
     const cacheKey = elementType + "-" + mode;
-    const cached = cache2[cacheKey];
+    const cached = cache3[cacheKey];
     const sharing = this.enableOptionSharing && defined(index);
     if (cached) {
       return cloneIfNotShared(cached, sharing);
@@ -45532,15 +45943,15 @@ var DatasetController = class {
     const values = config2.resolveNamedOptions(scopes, names2, context, prefixes2);
     if (values.$shared) {
       values.$shared = sharing;
-      cache2[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
+      cache3[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
     }
     return values;
   }
   _resolveAnimations(index, transition, active) {
     const chart = this.chart;
-    const cache2 = this._cachedDataOpts;
+    const cache3 = this._cachedDataOpts;
     const cacheKey = `animation-${transition}`;
-    const cached = cache2[cacheKey];
+    const cached = cache3[cacheKey];
     if (cached) {
       return cached;
     }
@@ -45553,7 +45964,7 @@ var DatasetController = class {
     }
     const animations = new Animations(chart, options2 && options2.animations);
     if (options2 && options2._cacheable) {
-      cache2[cacheKey] = Object.freeze(animations);
+      cache3[cacheKey] = Object.freeze(animations);
     }
     return animations;
   }
@@ -46677,7 +47088,7 @@ function updateMaxPadding(maxPadding, boxPadding) {
 function updateDims(chartArea, params, layout, stacks) {
   const { pos, box } = layout;
   const maxPadding = chartArea.maxPadding;
-  if (!isObject2(pos)) {
+  if (!isObject4(pos)) {
     if (layout.size) {
       chartArea[pos] -= layout.size;
     }
@@ -47381,13 +47792,13 @@ function getPixelForGridLine(scale, index, offsetGridLines) {
   return lineValue;
 }
 function garbageCollect(caches, length2) {
-  each(caches, (cache2) => {
-    const gc = cache2.gc;
+  each(caches, (cache3) => {
+    const gc = cache3.gc;
     const gcLen = gc.length / 2;
     let i2;
     if (gcLen > length2) {
       for (i2 = 0; i2 < gcLen; ++i2) {
-        delete cache2.data[gc[i2]];
+        delete cache3.data[gc[i2]];
       }
       gc.splice(0, gcLen);
     }
@@ -47434,7 +47845,7 @@ function titleArgs(scale, offset, position2, align) {
   const width = right - left;
   if (scale.isHorizontal()) {
     titleX = _alignStartEnd(align, left, right);
-    if (isObject2(position2)) {
+    if (isObject4(position2)) {
       const positionAxisID = Object.keys(position2)[0];
       const value = position2[positionAxisID];
       titleY = scales[positionAxisID].getPixelForValue(value) + height - offset;
@@ -47445,7 +47856,7 @@ function titleArgs(scale, offset, position2, align) {
     }
     maxWidth = right - left;
   } else {
-    if (isObject2(position2)) {
+    if (isObject4(position2)) {
       const positionAxisID = Object.keys(position2)[0];
       const value = position2[positionAxisID];
       titleX = scales[positionAxisID].getPixelForValue(value) - width + offset;
@@ -47912,25 +48323,25 @@ var Scale = class _Scale extends Element2 {
     const increment = Math.floor(length2 / getTicksLimit(length2, maxTicksLimit));
     let widestLabelSize = 0;
     let highestLabelSize = 0;
-    let i2, j2, jlen, label, tickFont, fontString, cache2, lineHeight, width, height, nestedLabel;
+    let i2, j2, jlen, label, tickFont, fontString, cache3, lineHeight, width, height, nestedLabel;
     for (i2 = 0; i2 < length2; i2 += increment) {
       label = ticks[i2].label;
       tickFont = this._resolveTickFontOptions(i2);
       ctx.font = fontString = tickFont.string;
-      cache2 = caches[fontString] = caches[fontString] || {
+      cache3 = caches[fontString] = caches[fontString] || {
         data: {},
         gc: []
       };
       lineHeight = tickFont.lineHeight;
       width = height = 0;
       if (!isNullOrUndef(label) && !isArray(label)) {
-        width = _measureText(ctx, cache2.data, cache2.gc, width, label);
+        width = _measureText(ctx, cache3.data, cache3.gc, width, label);
         height = lineHeight;
       } else if (isArray(label)) {
         for (j2 = 0, jlen = label.length; j2 < jlen; ++j2) {
           nestedLabel = label[j2];
           if (!isNullOrUndef(nestedLabel) && !isArray(nestedLabel)) {
-            width = _measureText(ctx, cache2.data, cache2.gc, width, nestedLabel);
+            width = _measureText(ctx, cache3.data, cache3.gc, width, nestedLabel);
             height += lineHeight;
           }
         }
@@ -48061,7 +48472,7 @@ var Scale = class _Scale extends Element2 {
     } else if (axis === "x") {
       if (position2 === "center") {
         borderValue = alignBorderValue((chartArea.top + chartArea.bottom) / 2 + 0.5);
-      } else if (isObject2(position2)) {
+      } else if (isObject4(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         borderValue = alignBorderValue(this.chart.scales[positionAxisID].getPixelForValue(value));
@@ -48073,7 +48484,7 @@ var Scale = class _Scale extends Element2 {
     } else if (axis === "y") {
       if (position2 === "center") {
         borderValue = alignBorderValue((chartArea.left + chartArea.right) / 2);
-      } else if (isObject2(position2)) {
+      } else if (isObject4(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         borderValue = alignBorderValue(this.chart.scales[positionAxisID].getPixelForValue(value));
@@ -48161,7 +48572,7 @@ var Scale = class _Scale extends Element2 {
     } else if (axis === "x") {
       if (position2 === "center") {
         y2 = (chartArea.top + chartArea.bottom) / 2 + tickAndPadding;
-      } else if (isObject2(position2)) {
+      } else if (isObject4(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         y2 = this.chart.scales[positionAxisID].getPixelForValue(value) + tickAndPadding;
@@ -48170,7 +48581,7 @@ var Scale = class _Scale extends Element2 {
     } else if (axis === "y") {
       if (position2 === "center") {
         x2 = (chartArea.left + chartArea.right) / 2 - tickAndPadding;
-      } else if (isObject2(position2)) {
+      } else if (isObject4(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         x2 = this.chart.scales[positionAxisID].getPixelForValue(value);
@@ -48527,7 +48938,7 @@ var Scale = class _Scale extends Element2 {
     const padding = toPadding(title.padding);
     const align = title.align;
     let offset = font.lineHeight / 2;
-    if (position2 === "bottom" || position2 === "center" || isObject2(position2)) {
+    if (position2 === "bottom" || position2 === "center" || isObject4(position2)) {
       offset += padding.bottom;
       if (isArray(title.text)) {
         offset += font.lineHeight * (title.text.length - 1);
@@ -48981,7 +49392,7 @@ function mergeScaleConfig(config2, options2) {
   const scales = /* @__PURE__ */ Object.create(null);
   Object.keys(configScales).forEach((id) => {
     const scaleConf = configScales[id];
-    if (!isObject2(scaleConf)) {
+    if (!isObject4(scaleConf)) {
       return console.error(`Invalid scale configuration for scale: ${id}`);
     }
     if (scaleConf._proxy) {
@@ -49141,17 +49552,17 @@ var Config = class {
   }
   _cachedScopes(mainScope, resetCache) {
     const _scopeCache = this._scopeCache;
-    let cache2 = _scopeCache.get(mainScope);
-    if (!cache2 || resetCache) {
-      cache2 = /* @__PURE__ */ new Map();
-      _scopeCache.set(mainScope, cache2);
+    let cache3 = _scopeCache.get(mainScope);
+    if (!cache3 || resetCache) {
+      cache3 = /* @__PURE__ */ new Map();
+      _scopeCache.set(mainScope, cache3);
     }
-    return cache2;
+    return cache3;
   }
   getOptionScopes(mainScope, keyLists, resetCache) {
     const { options: options2, type } = this;
-    const cache2 = this._cachedScopes(mainScope, resetCache);
-    const cached = cache2.get(keyLists);
+    const cache3 = this._cachedScopes(mainScope, resetCache);
+    const cached = cache3.get(keyLists);
     if (cached) {
       return cached;
     }
@@ -49171,7 +49582,7 @@ var Config = class {
       array.push(/* @__PURE__ */ Object.create(null));
     }
     if (keysCached.has(keyLists)) {
-      cache2.set(keyLists, array);
+      cache3.set(keyLists, array);
     }
     return array;
   }
@@ -49211,28 +49622,28 @@ var Config = class {
     ""
   ], descriptorDefaults) {
     const { resolver } = getResolver(this._resolverCache, scopes, prefixes2);
-    return isObject2(context) ? _attachContext(resolver, context, void 0, descriptorDefaults) : resolver;
+    return isObject4(context) ? _attachContext(resolver, context, void 0, descriptorDefaults) : resolver;
   }
 };
 function getResolver(resolverCache, scopes, prefixes2) {
-  let cache2 = resolverCache.get(scopes);
-  if (!cache2) {
-    cache2 = /* @__PURE__ */ new Map();
-    resolverCache.set(scopes, cache2);
+  let cache3 = resolverCache.get(scopes);
+  if (!cache3) {
+    cache3 = /* @__PURE__ */ new Map();
+    resolverCache.set(scopes, cache3);
   }
   const cacheKey = prefixes2.join();
-  let cached = cache2.get(cacheKey);
+  let cached = cache3.get(cacheKey);
   if (!cached) {
     const resolver = _createResolver(scopes, prefixes2);
     cached = {
       resolver,
       subPrefixes: prefixes2.filter((p3) => !p3.toLowerCase().includes("hover"))
     };
-    cache2.set(cacheKey, cached);
+    cache3.set(cacheKey, cached);
   }
   return cached;
 }
-var hasFunction = (value) => isObject2(value) && Object.getOwnPropertyNames(value).some((key) => isFunction(value[key]));
+var hasFunction = (value) => isObject4(value) && Object.getOwnPropertyNames(value).some((key) => isFunction(value[key]));
 function needContext(proxy, names2) {
   const { isScriptable, isIndexable } = _descriptors(proxy);
   for (const prop of names2) {
@@ -50582,7 +50993,7 @@ function parseBorderRadius(bar, maxW, maxH) {
   const o2 = toTRBLCorners(value);
   const maxR = Math.min(maxW, maxH);
   const skip2 = bar.borderSkipped;
-  const enableBorder = enableBorderRadius || isObject2(value);
+  const enableBorder = enableBorderRadius || isObject4(value);
   return {
     topLeft: skipOrLimit(!enableBorder || skip2.top || skip2.left, o2.topLeft, 0, maxR),
     topRight: skipOrLimit(!enableBorder || skip2.top || skip2.right, o2.topRight, 0, maxR),
@@ -51990,7 +52401,7 @@ var Tooltip = class extends Element2 {
       ctx.fillStyle = labelColor.backgroundColor;
       drawPoint(ctx, drawOptions, centerX, centerY);
     } else {
-      ctx.lineWidth = isObject2(labelColor.borderWidth) ? Math.max(...Object.values(labelColor.borderWidth)) : labelColor.borderWidth || 1;
+      ctx.lineWidth = isObject4(labelColor.borderWidth) ? Math.max(...Object.values(labelColor.borderWidth)) : labelColor.borderWidth || 1;
       ctx.strokeStyle = labelColor.borderColor;
       ctx.setLineDash(labelColor.borderDash || []);
       ctx.lineDashOffset = labelColor.borderDashOffset || 0;

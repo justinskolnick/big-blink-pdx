@@ -2849,6 +2849,7 @@ __metadata:
     "@types/react-helmet": "npm:^6.1.11"
     "@types/react-transition-group": "npm:^4.4.10"
     autoprefixer: "npm:^10.4.19"
+    camelcase-keys: "npm:^9.1.3"
     chart.js: "npm:^4.4.2"
     debounce: "npm:^2.0.0"
     esbuild: "npm:^0.20.2"
@@ -3038,6 +3039,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"camelcase-keys@npm:^9.1.3":
+  version: 9.1.3
+  resolution: "camelcase-keys@npm:9.1.3"
+  dependencies:
+    camelcase: "npm:^8.0.0"
+    map-obj: "npm:5.0.0"
+    quick-lru: "npm:^6.1.1"
+    type-fest: "npm:^4.3.2"
+  checksum: ef227ffd81c7c24c9255551fd55207a9cd2be35eeb963ea5a5ccf0df42535aed112222a5e10951479f6468cf2e2df92f7ffcb1998b3dcad077c313d498fb6f2b
+  languageName: node
+  linkType: hard
+
 "camelcase@npm:^5.3.1":
   version: 5.3.1
   resolution: "camelcase@npm:5.3.1"
@@ -3049,6 +3062,13 @@ __metadata:
   version: 6.3.0
   resolution: "camelcase@npm:6.3.0"
   checksum: 8c96818a9076434998511251dcb2761a94817ea17dbdc37f47ac080bd088fc62c7369429a19e2178b993497132c8cbcf5cc1f44ba963e76782ba469c0474938d
+  languageName: node
+  linkType: hard
+
+"camelcase@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "camelcase@npm:8.0.0"
+  checksum: 6da7abe997af29e80052f17aa21628c7cce14af364cef9f07a2a44d59614dd6f361d405f121938e673424d673697a8c53ad17be8c4b03b0a727307c4db8b5b5e
   languageName: node
   linkType: hard
 
@@ -6460,6 +6480,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"map-obj@npm:5.0.0":
+  version: 5.0.0
+  resolution: "map-obj@npm:5.0.0"
+  checksum: c35a4e42a484eb958cb6985da1ed4cb9597a65b2e7986eb585489733533ced144acaece4a2e5d2b53d0ba9167c44c0b4475d1eaeb86dd2e889435f4204258307
+  languageName: node
+  linkType: hard
+
 "map-visit@npm:^1.0.0":
   version: 1.0.0
   resolution: "map-visit@npm:1.0.0"
@@ -7629,6 +7656,13 @@ __metadata:
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: 72900df0616e473e824202113c3df6abae59150dfb73ed13273503127235320e9c8ca4aaaaccfd58cf417c6ca92a6e68ee9a5c3182886ae949a768639b388a7b
+  languageName: node
+  linkType: hard
+
+"quick-lru@npm:^6.1.1":
+  version: 6.1.2
+  resolution: "quick-lru@npm:6.1.2"
+  checksum: 93e6f13bc038b619646792e240a8e2630be0aaeaf877bdda6e9357359314ddef04255876f981a4b6c01a22156bc40282b26f0ea5f81633423093db3c290679f1
   languageName: node
   linkType: hard
 
@@ -8829,6 +8863,13 @@ __metadata:
   version: 0.21.3
   resolution: "type-fest@npm:0.21.3"
   checksum: f4254070d9c3d83a6e573bcb95173008d73474ceadbbf620dd32d273940ca18734dff39c2b2480282df9afe5d1675ebed5499a00d791758748ea81f61a38961f
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^4.3.2":
+  version: 4.15.0
+  resolution: "type-fest@npm:4.15.0"
+  checksum: 8f897551877daa0df7bb17a21b6acd8a21ac5a0bdb14dbfd353b16013fed99f23c6d9c12a2c7685c8dededb4739ec8bfb120a914330f8b11a478a89758a11acc
   languageName: node
   linkType: hard
 
