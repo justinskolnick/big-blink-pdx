@@ -11,7 +11,7 @@
     "build": "NODE_ENV=development ./bin/scripts-development.js",
     "build-production": "NODE_ENV=production ./bin/scripts-production.js",
     "watch": "NODE_ENV=development ./bin/scripts-development-watch.js",
-    "lint": "eslint . --cache --cache-location ./tmp/.eslintcache",
+    "lint": "eslint ./scripts --cache --cache-location ./tmp/.eslintcache",
     "test": "jest"
   },
   "config": {

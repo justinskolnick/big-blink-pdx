@@ -32,7 +32,8 @@ interface Props {
 
 const WithEntityId = ({ filters, filterKey }: FiltersProps) => {
   const id = filters?.[filterKey];
-  const entity = useSelector((state: RootState) => id && entitiesSelectors.selectById(state, id));
+  const numericId = Number(id);
+  const entity = useSelector((state: RootState) => id && entitiesSelectors.selectById(state, numericId));
 
   if (!entity) return null;
 
@@ -46,7 +47,8 @@ const WithEntityId = ({ filters, filterKey }: FiltersProps) => {
 
 const WithPersonId = ({ filters, filterKey }: FiltersProps) => {
   const id = filters?.[filterKey];
-  const person = useSelector((state: RootState) => id && peopleSelectors.selectById(state, id));
+  const numericId = Number(id);
+  const person = useSelector((state: RootState) => id && peopleSelectors.selectById(state, numericId));
 
   if (!person) return null;
 

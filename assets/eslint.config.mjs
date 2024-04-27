@@ -10,10 +10,6 @@ const jest = jestPlugin.configs['flat/recommended'];
 
 export default tseslint.config(
   {
-    ignores: [
-      'bin',
-      'jest.config.ts',
-    ],
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,

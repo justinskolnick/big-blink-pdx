@@ -14,8 +14,9 @@ import StatBox from '../stat-box';
 
 const Detail = () => {
   const { id } = useParams();
+  const numericId = Number(id);
 
-  const incident = useSelector((state: RootState) => selectors.selectById(state, id));
+  const incident = useSelector((state: RootState) => selectors.selectById(state, numericId));
 
   if (!incident) return null;
 

@@ -45,13 +45,23 @@ const AffiliatedEntitiesTable = ({
                   hasLobbyist ? (
                     <>
                       <td className='cell-type'>
-                        <EntityIcon />
+                        {item.entity.isRegistered ? (
+                          <div
+                            className='icons'
+                            title={`${item.entity.name} is or was registered to lobby the City`}
+                          >
+                            <EntityIcon />
+                            <RegisteredIcon />
+                          </div>
+                        ) : (
+                          <EntityIcon />
+                        )}
                       </td>
                       <td className='cell-type'>
                         {item.isRegistered ? (
                           <div
                             className='icons'
-                            title={`${person.name} is or was registered to lobby on behalf of ${item.entity.name}`}
+                            title={`${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`}
                           >
                             <PersonIcon />
                             <RegisteredIcon />
@@ -75,6 +85,9 @@ const AffiliatedEntitiesTable = ({
                   <LinkToEntity id={item.entity.id} className='item-entity'>
                     {item.entity.name}
                   </LinkToEntity>
+                  <div className='item-description'>
+                    {item.registrations}
+                  </div>
                 </td>
                 <td className='cell-total'>
                   {hasTotal ? (

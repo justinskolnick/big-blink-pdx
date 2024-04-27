@@ -30,8 +30,9 @@ const Detail = () => {
   };
 
   const { id } = useParams();
+  const numericId = Number(id);
 
-  const source = useSelector((state: RootState) => selectors.selectById(state, id));
+  const source = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasSource = Boolean(source);
 
   const label = source ? `Q${source.quarter} ${source.year}` : null;

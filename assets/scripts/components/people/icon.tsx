@@ -24,7 +24,8 @@ const getIconName = (person?: Person) => TypeForIcon[person?.type ?? 'person'];
 
 const PeopleIcon = ({ person }: Props) => {
   const { id } = useParams();
-  const personAtId = useSelector((state: RootState) => selectors.selectById(state, id));
+  const numericId = Number(id);
+  const personAtId = useSelector((state: RootState) => selectors.selectById(state, numericId));
 
   const name = getIconName(person || personAtId);
 

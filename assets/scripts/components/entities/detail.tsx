@@ -20,8 +20,9 @@ const Detail = () => {
   };
 
   const { id } = useParams();
+  const numericId = Number(id);
 
-  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+  const entity = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasEntity = Boolean(entity);
 
   const incidents = entity?.incidents;

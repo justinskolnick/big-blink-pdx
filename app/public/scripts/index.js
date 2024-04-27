@@ -40804,7 +40804,8 @@ var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
 var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
 var PeopleIcon = ({ person }) => {
   const { id } = useParams();
-  const personAtId = useSelector((state) => selectors3.selectById(state, id));
+  const numericId = Number(id);
+  const personAtId = useSelector((state) => selectors3.selectById(state, numericId));
   const name = getIconName2(person || personAtId);
   return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(icon_default, { name });
 };
@@ -54434,7 +54435,8 @@ var incident_list_default = IncidentList;
 var import_jsx_runtime53 = __toESM(require_jsx_runtime());
 var WithEntityId = ({ filters, filterKey }) => {
   const id = filters?.[filterKey];
-  const entity = useSelector((state) => id && selectors.selectById(state, id));
+  const numericId = Number(id);
+  const entity = useSelector((state) => id && selectors.selectById(state, numericId));
   if (!entity)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
@@ -54447,7 +54449,8 @@ var WithEntityId = ({ filters, filterKey }) => {
 };
 var WithPersonId = ({ filters, filterKey }) => {
   const id = filters?.[filterKey];
-  const person = useSelector((state) => id && selectors3.selectById(state, id));
+  const numericId = Number(id);
+  const person = useSelector((state) => id && selectors3.selectById(state, numericId));
   if (!person)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
@@ -54532,7 +54535,8 @@ var Detail = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
   const { id } = useParams();
-  const entity = useSelector((state) => selectors.selectById(state, id));
+  const numericId = Number(id);
+  const entity = useSelector((state) => selectors.selectById(state, numericId));
   const hasEntity = Boolean(entity);
   const incidents = entity?.incidents;
   const hasIncidents = Boolean(incidents);
@@ -54865,7 +54869,8 @@ var incident_source_box_default = IncidentSourceBox;
 var import_jsx_runtime68 = __toESM(require_jsx_runtime());
 var Detail2 = () => {
   const { id } = useParams();
-  const incident = useSelector((state) => selectors2.selectById(state, id));
+  const numericId = Number(id);
+  const incident = useSelector((state) => selectors2.selectById(state, numericId));
   if (!incident)
     return null;
   return /* @__PURE__ */ (0, import_jsx_runtime68.jsxs)(item_detail_default, { children: [
@@ -55014,12 +55019,22 @@ var AffiliatedEntitiesTable = ({
     const hasTotal = Boolean(item.total);
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("tr", { children: [
       hasPerson ? hasLobbyist ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(import_jsx_runtime71.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
+          "div",
+          {
+            className: "icons",
+            title: `${item.entity.name} is or was registered to lobby the City`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}),
+              /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(RegisteredIcon, {})
+            ]
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
         /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(
           "div",
           {
             className: "icons",
-            title: `${person.name} is or was registered to lobby on behalf of ${item.entity.name}`,
+            title: `${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`,
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default4, {}),
               /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(RegisteredIcon, {})
@@ -55027,7 +55042,10 @@ var AffiliatedEntitiesTable = ({
           }
         ) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default4, {}) })
       ] }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default2, {}) }),
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("td", { className: "cell-name", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToEntity, { id: item.entity.id, className: "item-entity", children: item.entity.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "item-description", children: item.registrations })
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-total", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : "-" })
     ] }, i);
   }) }) }) });
@@ -55092,7 +55110,8 @@ var Detail3 = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
   const { id } = useParams();
-  const person = useSelector((state) => selectors3.selectById(state, id));
+  const numericId = Number(id);
+  const person = useSelector((state) => selectors3.selectById(state, numericId));
   const hasPerson = Boolean(person);
   const incidents = person?.incidents;
   const hasIncidents = Boolean(incidents);
@@ -55260,7 +55279,8 @@ var Detail4 = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
   const { id } = useParams();
-  const source = useSelector((state) => selectors4.selectById(state, id));
+  const numericId = Number(id);
+  const source = useSelector((state) => selectors4.selectById(state, numericId));
   const hasSource = Boolean(source);
   const label = source ? `Q${source.quarter} ${source.year}` : null;
   const isActivity = source?.type === "activity";

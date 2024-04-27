@@ -162,9 +162,10 @@ type IncidentPagination = {
 };
 
 export type Entity = Item & {
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
   domain?: string;
+  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  isRegistered?: boolean;
 }
 
 export type EntityWithIncidentRecords = Entity & {
@@ -190,8 +191,9 @@ type Interest = {
 };
 
 export type AffiliatedItem = {
-  entity?: Item;
+  entity?: Pick<Entity, 'id' | 'name' | 'isRegistered'>;
   isRegistered?: boolean;
+  registrations?: string;
   person?: Pick<Person, 'id' | 'name' | 'type'>;
   values?: Interest;
   total?: number;

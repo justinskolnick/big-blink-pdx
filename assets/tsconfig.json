@@ -14,7 +14,7 @@
     "strict": false,
     "target": "es2021"
   },
-  "include": ["**/*"],
+  "include": ["scripts"],
   "exclude": [
     "eslint.config.mjs",
     "jest.config.mjs",

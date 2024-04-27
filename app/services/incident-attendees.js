@@ -1,5 +1,9 @@
 const pluralize = require('pluralize');
 
+const {
+  getRangesByYearSet,
+  getRangeStatement,
+} = require('../helpers/quarters');
 const queryHelper = require('../helpers/query');
 const { sortTotalDescending } = require('../lib/sorting');
 const { TABLE: ENTITIES_TABLE } = require('../models/entities');
@@ -145,12 +149,24 @@ const getEntities = async (options = {}) => {
 
   if (hasPersonId && personRole === LOBBYIST_ROLE) {
     collectedResults = await Promise.all(collectedResults.map(async (result) => {
-      const registrationResult = await entityLobbyistRegistrations.getTotal({
+      const entityRegistrationResults = await entityLobbyistRegistrations.getTotal({
+        entityId: result.entity.id,
+      });
+
+      result.entity.isRegistered = entityRegistrationResults > 0;
+
+      const personRegistrationResults = await entityLobbyistRegistrations.getQuarters({
         entityId: result.entity.id,
         personId,
       });
 
-      result.isRegistered = registrationResult > 0;
+      result.isRegistered = personRegistrationResults.length > 0;
+
+      if (result.isRegistered) {
+        result.registrations = `Registered to lobby on behalf of this entity for ${getRangeStatement(getRangesByYearSet(personRegistrationResults))}`;
+      } else {
+        result.registrations = 'No record of registration was found';
+      }
 
       return result;
     }));
