@@ -78,6 +78,6 @@ describe('getRangeStatement()', () => {
   test('returns a statement describing the ranges', () => {
     const sets = getRangesByYearSet(example);
 
-    expect(getRangeStatement(sets)).toEqual('Q2 2019 – Q1 2022, Q3 2022, Q1 2023 – Q4 2024, Q2 2025');
+    expect(getRangeStatement(sets)).toEqual('Q2\xa02019\xa0–\xa0Q1\xa02022, Q3\xa02022, Q1\xa02023\xa0–\xa0Q4\xa02024, and Q2\xa02025');
   });
 });

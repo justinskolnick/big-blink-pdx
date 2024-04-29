@@ -1,3 +1,5 @@
+const { getFirst, getLast } = require('../lib/array');
+
 const QUARTERS = [1, 2, 3, 4];
 
 const getRangesByYear = data => {
@@ -49,10 +51,10 @@ const getRangesByYearSet = data => {
     const range = [];
 
     if (set.length > 1) {
-      range.push(set.at(0));
-      range.push(set.at(-1));
+      range.push(getFirst(set));
+      range.push(getLast(set));
     } else {
-      range.push(set.at(0));
+      range.push(getFirst(set));
     }
 
     return range;
@@ -62,18 +64,20 @@ const getRangesByYearSet = data => {
 const getRangeStatement = sets => {
   const clauses = [];
   const segments = [];
-
-  sets.forEach(set => {
-    const ranges = [];
-
-    set.forEach(range => {
-      ranges.push(`Q${range.quarter} ${range.year}`);
-    });
-
-    segments.push(ranges.join(' – '));
+  const formatter = new Intl.ListFormat('en', {
+    style: 'long',
+    type: 'conjunction',
   });
 
-  clauses.push(segments.join(', '));
+  sets.forEach(set => {
+    const ranges = set.map(range => (
+      `Q${range.quarter}\xa0${range.year}`
+    ));
+
+    segments.push(ranges.join('\xa0–\xa0'));
+  });
+
+  clauses.push(formatter.format(segments));
 
   return clauses.join(' ');
 };
