@@ -1,7 +1,7 @@
 name: lobby
 services:
   web:
-    image: "node:18-bullseye"
+    image: "node:20-bullseye"
     user: "node"
     working_dir: /usr/src/app
     environment:
@@ -22,10 +22,10 @@ services:
     restart: unless-stopped
     environment:
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: ok
-      MARIADB_DATABASE: $$DB_DATABASE
-      MARIADB_PASSWORD: $$DB_PASSWORD
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
       MARIADB_ROOT_HOST: "%"
-      MARIADB_ROOT_PASSWORD: $$DB_PASSWORD
-      MARIADB_USER: $$DB_USER
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MARIADB_USER: ${DB_USER}
     volumes:
       - ./config/docker/db/init:/docker-entrypoint-initdb.d

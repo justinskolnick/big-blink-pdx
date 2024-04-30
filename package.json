@@ -5,7 +5,7 @@
   "private": true,
   "engineStrict": true,
   "engines": {
-    "node": "18.17.0"
+    "node": "20.12.2"
   },
   "scripts": {
     "start": "nodemon DEBUG=app:* node ./app/bin/www",
