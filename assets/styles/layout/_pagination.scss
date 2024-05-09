@@ -32,9 +32,23 @@
     }
   }
 
+  @media screen and (min-width: 601px) {
+    .pagination-pages {
+      .pagination-page-current {
+        a {
+          &.is-active {
+            border-bottom: 2px solid currentColor;
+          }
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 600px) {
     .pagination-pages {
-      display: none;
+      .pagination-page-option {
+        display: none;
+      }
     }
 
     .pagination-direction {

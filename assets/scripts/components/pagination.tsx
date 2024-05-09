@@ -1,4 +1,5 @@
 import React from 'react';
+import { cx } from '@emotion/css';
 
 import Icon from './icon';
 import { LinkToPage } from './links';
@@ -33,7 +34,10 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
       <div className='pagination-pages'>
         <ul>
           {pages.numbered.map((numberedPage, i) => (
-            <li className='pagination-page' key={i}>
+            <li className={cx('pagination-page', {
+              'pagination-page-current': numberedPage.value === page,
+              'pagination-page-option': numberedPage.value !== page,
+            })} key={i}>
               {numberedPage === null ? (
                 '...'
               ) : (
@@ -54,7 +58,7 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
           <li>
             of
           </li>
-          <li className='pagination-page'>
+          <li className='pagination-page pagination-page-total'>
             {pageCount > 1 ? (
               <LinkToPage
                 to={pages.last.link}

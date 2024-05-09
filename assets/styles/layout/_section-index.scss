@@ -5,10 +5,6 @@
     &:hover {
       border-bottom: 1px solid var(--color-link);
     }
-
-    &.is-active {
-      border-bottom: 2px solid currentColor;
-    }
   }
 
   .item-content {
