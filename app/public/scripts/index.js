@@ -41469,10 +41469,10 @@ var Pagination = ({ pagination, onPageClick }) => {
       }
     ) : /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(icon_default, { name: "arrow-left" }) }),
     /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("div", { className: "pagination-pages", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("ul", { children: [
-      pages.numbered.map((numberedPage, i) => /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { className: cx("pagination-page", {
+      pages.numbered.map((numberedPage, i) => numberedPage === null ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { className: "pagination-page-ellipsis", children: "..." }, i) : /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { className: cx("pagination-page", {
         "pagination-page-current": numberedPage.value === page,
         "pagination-page-option": numberedPage.value !== page
-      }), children: numberedPage === null ? "..." : pageCount > 1 ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+      }), children: pageCount > 1 ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         LinkToPage,
         {
           to: numberedPage.link,
@@ -41481,7 +41481,7 @@ var Pagination = ({ pagination, onPageClick }) => {
           children: numberedPage.label
         }
       ) : numberedPage.label }, i)),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { children: "of" }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { className: "pagination-page-label", children: "of" }),
       /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("li", { className: "pagination-page pagination-page-total", children: pageCount > 1 ? /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         LinkToPage,
         {

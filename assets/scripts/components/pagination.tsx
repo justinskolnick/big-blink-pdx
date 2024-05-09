@@ -34,14 +34,14 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
       <div className='pagination-pages'>
         <ul>
           {pages.numbered.map((numberedPage, i) => (
-            <li className={cx('pagination-page', {
-              'pagination-page-current': numberedPage.value === page,
-              'pagination-page-option': numberedPage.value !== page,
-            })} key={i}>
-              {numberedPage === null ? (
-                '...'
-              ) : (
-                pageCount > 1 ? (
+            numberedPage === null ? (
+              <li className='pagination-page-ellipsis' key={i}>...</li>
+            ) : (
+              <li className={cx('pagination-page', {
+                'pagination-page-current': numberedPage.value === page,
+                'pagination-page-option': numberedPage.value !== page,
+              })} key={i}>
+                {pageCount > 1 ? (
                   <LinkToPage
                     to={numberedPage.link}
                     isCurrent={numberedPage.value === page}
@@ -51,11 +51,11 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
                   </LinkToPage>
                 ) : (
                   numberedPage.label
-                )
-              )}
-            </li>
+                )}
+              </li>
+            )
           ))}
-          <li>
+          <li className='pagination-page-label'>
             of
           </li>
           <li className='pagination-page pagination-page-total'>

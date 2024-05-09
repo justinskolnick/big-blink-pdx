@@ -9,10 +9,6 @@
       align-items: center;
       justify-content: space-between;
     }
-
-    li + li {
-      margin-left: 1rem;
-    }
   }
 
   .pagination-page {
@@ -34,6 +30,10 @@
 
   @media screen and (min-width: 601px) {
     .pagination-pages {
+      li + li {
+        margin-left: 1rem;
+      }
+
       .pagination-page-current {
         a {
           &.is-active {
@@ -46,7 +46,13 @@
 
   @media screen and (max-width: 600px) {
     .pagination-pages {
-      .pagination-page-option {
+      .pagination-page-current ~ .pagination-page-label,
+      .pagination-page-label ~ .pagination-page-total {
+        margin-left: 1rem;
+      }
+
+      .pagination-page-option,
+      .pagination-page-ellipsis {
         display: none;
       }
     }
