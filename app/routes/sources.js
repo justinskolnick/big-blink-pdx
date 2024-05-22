@@ -7,8 +7,8 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
-const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
-const { ACTIVITY_TYPE, REGISTRATION_TYPE } = require('../models/sources');
+const Incident = require('../models/incident');
+const Source = require('../models/source');
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 const sources = require('../services/sources');
@@ -40,13 +40,13 @@ router.get('/', async (req, res, next) => {
     try {
       activitySourcesResult = await sources.getAll({
         includeCount: true,
-        types: [ACTIVITY_TYPE],
+        types: [Source.types.activity],
       });
       registrationSourcesResult = await sources.getAll({
-        types: [REGISTRATION_TYPE],
+        types: [Source.types.registration],
       });
       sourceTotal = await sources.getTotal({
-        types: [ACTIVITY_TYPE, REGISTRATION_TYPE],
+        types: [Source.types.activity, Source.types.registration],
       });
 
       data = {
@@ -81,7 +81,7 @@ router.get('/:id', async (req, res, next) => {
   const withPersonId = req.query.get('with_person_id');
 
   const params = {};
-  const perPage = INCIDENTS_PER_PAGE;
+  const perPage = Incident.perPage;
   const links = linkHelper.links;
 
   let source;
@@ -104,7 +104,7 @@ router.get('/:id', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      if (source.type === ACTIVITY_TYPE) {
+      if (source.type === Source.types.activity) {
         incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
         sourceIncidents = await incidents.getAll({
           page,

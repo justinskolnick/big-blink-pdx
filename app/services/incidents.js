@@ -1,9 +1,9 @@
 const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
-const { TABLE: ENTITIES_TABLE } = require('../models/entities');
-const { TABLE, FIELDS, adaptResult } = require('../models/incidents');
-const { TABLE: INCIDENT_ATTENDEES_TABLE } = require('../models/incident-attendees');
-const { TABLE: SOURCES_TABLE } = require('../models/sources');
+const Entity = require('../models/entity');
+const Incident = require('../models/incident');
+const IncidentAttendee = require('../models/incident-attendee');
+const Source = require('../models/source');
 const db = require('../services/db');
 
 const { SORT_ASC, SORT_DESC } = paramHelper;
@@ -28,11 +28,11 @@ const getAllQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(FIELDS.map(column => [TABLE, column].join('.')).join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(Incident.fields().join(', '));
+  clauses.push(`FROM ${Incident.tableName}`);
 
   if (hasPersonId) {
-    clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
+    clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${Incident.tableName}.id = ${IncidentAttendee.tableName}.incident_id`);
   }
 
   if (sourceId || entityId || personId) {
@@ -40,7 +40,7 @@ const getAllQuery = (options = {}) => {
   }
 
   if (hasEntityId) {
-    clauses.push(`${TABLE}.entity_id = ?`);
+    clauses.push(`${Incident.tableName}.entity_id = ?`);
     params.push(entityId || withEntityId);
 
     if (hasPersonId || hasSourceId) {
@@ -49,7 +49,7 @@ const getAllQuery = (options = {}) => {
   }
 
   if (hasPersonId) {
-    clauses.push(`${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
+    clauses.push(`${IncidentAttendee.tableName}.person_id = ?`);
     params.push(personId || withPersonId);
 
     if (hasSourceId) {
@@ -58,12 +58,12 @@ const getAllQuery = (options = {}) => {
   }
 
   if (hasSourceId) {
-    clauses.push(`${TABLE}.data_source_id = ?`);
+    clauses.push(`${Incident.tableName}.data_source_id = ?`);
     params.push(sourceId || quarterSourceId);
   }
 
   clauses.push('ORDER BY');
-  clauses.push(`${TABLE}.contact_date`);
+  clauses.push(`${Incident.tableName}.contact_date`);
   clauses.push(sort);
 
   if (page && perPage) {
@@ -80,7 +80,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResult);
+  return results.map(Incident.adapt);
 };
 
 const getAtIdQuery = (id) => {
@@ -88,10 +88,10 @@ const getAtIdQuery = (id) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${FIELDS.map(column => [TABLE, column].join('.')).join(', ')}, ${ENTITIES_TABLE}.name AS entity_name`);
-  clauses.push(`FROM ${TABLE}`);
-  clauses.push(`LEFT JOIN ${ENTITIES_TABLE} ON ${ENTITIES_TABLE}.id = ${TABLE}.entity_id`);
-  clauses.push(`WHERE ${TABLE}.id = ?`);
+  clauses.push(`${Incident.fields().join(', ')}, ${Entity.tableName}.name AS entity_name`);
+  clauses.push(`FROM ${Incident.tableName}`);
+  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Entity.tableName}.id = ${Incident.tableName}.entity_id`);
+  clauses.push(`WHERE ${Incident.tableName}.id = ?`);
   clauses.push('LIMIT 1');
 
   params.push(id);
@@ -103,7 +103,7 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return adaptResult(result);
+  return Incident.adapt(result);
 };
 
 const getFirstAndLastDatesQuery = (options = {}) => {
@@ -119,9 +119,9 @@ const getFirstAndLastDatesQuery = (options = {}) => {
 
   const select = [
     'SELECT',
-    FIELDS.map(column => [TABLE, column].join('.')).join(', '),
-    `FROM ${TABLE}`,
-    `LEFT JOIN ${SOURCES_TABLE} ON ${TABLE}.data_source_id = ${SOURCES_TABLE}.id`
+    Incident.fields().join(', '),
+    `FROM ${Incident.tableName}`,
+    `LEFT JOIN ${Source.tableName} ON ${Incident.tableName}.data_source_id = ${Source.tableName}.id`
   ].join(' ');
 
   [SORT_ASC, SORT_DESC].forEach(sort => {
@@ -129,28 +129,28 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     const conditions = [];
 
     segment.push(select);
-    conditions.push(`SUBSTRING(${TABLE}.contact_date, 1, 4) = ${SOURCES_TABLE}.year`);
+    conditions.push(`SUBSTRING(${Incident.tableName}.contact_date, 1, 4) = ${Source.tableName}.year`);
 
     if (entityId) {
-      conditions.push(`${TABLE}.entity_id = ?`);
+      conditions.push(`${Incident.tableName}.entity_id = ?`);
       params.push(entityId);
     }
 
     if (personId) {
-      segment.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${INCIDENT_ATTENDEES_TABLE}.incident_id = ${TABLE}.id`);
-      conditions.push(`${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
+      segment.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.tableName}.incident_id = ${Incident.tableName}.id`);
+      conditions.push(`${IncidentAttendee.tableName}.person_id = ?`);
       params.push(personId);
     }
 
     if (sourceId) {
-      conditions.push(`${TABLE}.data_source_id = ?`);
+      conditions.push(`${Incident.tableName}.data_source_id = ?`);
       params.push(sourceId);
     }
 
     segment.push('WHERE');
     segment.push(conditions.join(' AND '));
     segment.push('ORDER BY');
-    segment.push(`${TABLE}.contact_date`);
+    segment.push(`${Incident.tableName}.contact_date`);
     segment.push(sort);
     segment.push('LIMIT 1');
 
@@ -166,7 +166,7 @@ const getFirstAndLastDates = async (options = {}) => {
   const { clauses, params } = getFirstAndLastDatesQuery(options);
   const results = await db.getAll(clauses, params);
 
-  const [first, last] = results.map(adaptResult);
+  const [first, last] = results.map(Incident.adapt);
 
   return {
     first,
@@ -183,18 +183,18 @@ const getTotalQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`COUNT(${TABLE}.id) AS total FROM ${TABLE}`);
+  clauses.push(`COUNT(${Incident.tableName}.id) AS total FROM ${Incident.tableName}`);
 
   if (hasSourceId || hasEntityId) {
     if (withPersonId) {
-      clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${TABLE}.id = ${INCIDENT_ATTENDEES_TABLE}.incident_id`);
+      clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${Incident.tableName}.id = ${IncidentAttendee.tableName}.incident_id`);
     }
 
     clauses.push('WHERE');
   }
 
   if (hasSourceId) {
-    clauses.push(`${TABLE}.data_source_id = ?`);
+    clauses.push(`${Incident.tableName}.data_source_id = ?`);
     params.push(sourceId || quarterSourceId);
   }
 
@@ -203,13 +203,13 @@ const getTotalQuery = (options = {}) => {
   }
 
   if (hasEntityId) {
-    clauses.push(`${TABLE}.entity_id = ?`);
+    clauses.push(`${Incident.tableName}.entity_id = ?`);
     params.push(entityId || withEntityId);
   }
 
   if ((hasSourceId || hasEntityId) && withPersonId) {
     clauses.push('AND');
-    clauses.push(`${INCIDENT_ATTENDEES_TABLE}.person_id = ?`);
+    clauses.push(`${IncidentAttendee.tableName}.person_id = ?`);
     params.push(withPersonId);
   }
 

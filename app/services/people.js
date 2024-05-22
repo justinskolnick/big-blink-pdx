@@ -1,7 +1,7 @@
 const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
-const { TABLE: INCIDENT_ATTENDEES_TABLE } = require('../models/incident-attendees');
-const { TABLE, FIELDS, adaptResult } = require('../models/people');
+const IncidentAttendee = require('../models/incident-attendee');
+const Person = require('../models/person');
 const db = require('../services/db');
 
 const { SORT_ASC, SORT_DESC } = paramHelper;
@@ -21,35 +21,34 @@ const getAllQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
+
+  selections.push(...Person.fields());
 
   if (includeCount) {
-    selections.push(`COUNT(${INCIDENT_ATTENDEES_TABLE}.id) AS total`);
+    selections.push(`COUNT(${IncidentAttendee.tableName}.id) AS total`);
   }
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${Person.tableName}`);
 
   if (includeCount || role) {
-    clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE}`);
-    clauses.push(`ON ${INCIDENT_ATTENDEES_TABLE}.person_id = ${TABLE}.id`);
+    clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
+    clauses.push(`ON ${IncidentAttendee.tableName}.person_id = ${Person.tableName}.id`);
 
     if (role) {
-      clauses.push(`WHERE ${INCIDENT_ATTENDEES_TABLE}.role = ?`);
+      clauses.push(`WHERE ${IncidentAttendee.tableName}.role = ?`);
       params.push(role);
     }
 
-    clauses.push(`GROUP BY ${TABLE}.id`);
+    clauses.push(`GROUP BY ${Person.tableName}.id`);
   }
 
   clauses.push('ORDER BY');
 
   if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {
-    clauses.push(`total ${sort || SORT_DESC}, ${TABLE}.family ASC, ${TABLE}.given ASC`);
+    clauses.push(`total ${sort || SORT_DESC}, ${Person.tableName}.family ASC, ${Person.tableName}.given ASC`);
   } else {
-    clauses.push(`${TABLE}.family ${sort || SORT_ASC}, ${TABLE}.given ${sort || SORT_ASC}`);
+    clauses.push(`${Person.tableName}.family ${sort || SORT_ASC}, ${Person.tableName}.given ${sort || SORT_ASC}`);
   }
 
   if (page && perPage) {
@@ -66,7 +65,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResult);
+  return results.map(Person.adapt);
 };
 
 const getAtIdQuery = (id) => {
@@ -75,15 +74,15 @@ const getAtIdQuery = (id) => {
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
-  selections.push(`GROUP_CONCAT(distinct ${INCIDENT_ATTENDEES_TABLE}.role) AS roles`);
+
+  selections.push(...Person.fields());
+  selections.push(`GROUP_CONCAT(distinct ${IncidentAttendee.tableName}.role) AS roles`);
+
   clauses.push(selections.join(', '));
 
-  clauses.push(`FROM ${TABLE}`);
-  clauses.push(`LEFT JOIN ${INCIDENT_ATTENDEES_TABLE} ON ${INCIDENT_ATTENDEES_TABLE}.person_id = ${TABLE}.id`);
-  clauses.push(`WHERE ${TABLE}.id = ?`);
+  clauses.push(`FROM ${Person.tableName}`);
+  clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.tableName}.person_id = ${Person.tableName}.id`);
+  clauses.push(`WHERE ${Person.tableName}.id = ?`);
 
   params.push(id);
 
@@ -96,10 +95,10 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return adaptResult(result);
+  return Person.adapt(result);
 };
 
-const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${TABLE}`;
+const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${Person.tableName}`;
 
 const getTotal = async () => {
   const sql = getTotalQuery();

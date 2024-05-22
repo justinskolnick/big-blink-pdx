@@ -7,8 +7,8 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { snakeCase, toSentence } = require('../lib/string');
-const { PER_PAGE } = require('../models/entities');
-const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
+const Entity = require('../models/entity');
+const Incident = require('../models/incident');
 const entities = require('../services/entities');
 const entityLobbyistLocations = require('../services/entity-lobbyist-locations');
 const incidents = require('../services/incidents');
@@ -33,7 +33,7 @@ router.get('/', async (req, res, next) => {
   const sortBy = req.query.get('sort_by');
 
   const params = {};
-  const perPage = PER_PAGE;
+  const perPage = Entity.perPage;
   const links = linkHelper.links;
   const description = metaHelper.getIndexDescription('entities');
 
@@ -105,7 +105,7 @@ router.get('/:id', async (req, res, next) => {
   const errors = [];
   const warnings = [];
   const params = {};
-  const perPage = INCIDENTS_PER_PAGE;
+  const perPage = Incident.perPage;
   const links = linkHelper.links;
 
   let quarterSourceId;

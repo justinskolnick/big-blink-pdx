@@ -6,7 +6,7 @@ const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
-const { PER_PAGE } = require('../models/incidents');
+const Incident = require('../models/incident');
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 
@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => {
   const sort = req.query.get('sort');
 
   const params = {};
-  const perPage = PER_PAGE;
+  const perPage = Incident.perPage;
   const links = linkHelper.links;
   const description = metaHelper.getIndexDescription();
 

@@ -1,4 +1,4 @@
-const { TABLE, FIELDS, adaptResult } = require('../models/entity-lobbyist-locations');
+const EntityLobbyistLocation = require('../models/entity-lobbyist-location');
 const db = require('../services/db');
 
 const getAllQuery = (options = {}) => {
@@ -7,23 +7,18 @@ const getAllQuery = (options = {}) => {
   } = options;
 
   const clauses = [];
-  const selections = [];
   const params = [];
 
   if (entityId) {
     clauses.push('SELECT');
-    FIELDS.forEach(field => {
-      selections.push(`${TABLE}.${field}`);
-    });
-
-    clauses.push(selections.join(', '));
-    clauses.push(`FROM ${TABLE}`);
+    clauses.push(EntityLobbyistLocation.fields().join(', '));
+    clauses.push(`FROM ${EntityLobbyistLocation.tableName}`);
     clauses.push('WHERE');
     clauses.push('entity_id = ?');
     params.push(entityId);
 
     clauses.push('ORDER BY');
-    clauses.push(`${TABLE}.region DESC, ${TABLE}.city ASC`);
+    clauses.push(`${EntityLobbyistLocation.tableName}.region DESC, ${EntityLobbyistLocation.tableName}.city ASC`);
   }
 
   return { clauses, params };
@@ -33,7 +28,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResult);
+  return results.map(EntityLobbyistLocation.adapt);
 };
 
 module.exports = {

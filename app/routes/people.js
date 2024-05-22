@@ -7,8 +7,8 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
-const { PER_PAGE: INCIDENTS_PER_PAGE } = require('../models/incidents');
-const { PER_PAGE } = require('../models/people');
+const Incident = require('../models/incident');
+const Person = require('../models/person');
 const incidentAttendances = require('../services/incident-attendances');
 const incidentAttendees = require('../services/incident-attendees');
 const people = require('../services/people');
@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
   const sortBy = req.query.get('sort_by');
 
   const params = {};
-  const perPage = PER_PAGE;
+  const perPage = Person.perPage;
   const links = linkHelper.links;
   const description = metaHelper.getIndexDescription('people');
 
@@ -105,7 +105,7 @@ router.get('/:id', async (req, res, next) => {
   const errors = [];
   const warnings = [];
   const params = {};
-  const perPage = INCIDENTS_PER_PAGE;
+  const perPage = Incident.perPage;
   const links = linkHelper.links;
 
   let quarterSourceId;

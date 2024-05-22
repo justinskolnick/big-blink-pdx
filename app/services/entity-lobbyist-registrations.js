@@ -1,5 +1,5 @@
-const { TABLE } = require('../models/entity-lobbyist-registrations');
-const { TABLE: SOURCES_TABLE } = require('../models/sources');
+const EntityLobbyistRegistration = require('../models/entity-lobbyist-registration');
+const Source = require('../models/source');
 const db = require('../services/db');
 
 const SOURCES_FIELDS = [
@@ -23,25 +23,25 @@ const getQuartersQuery = (options = {}) => {
   clauses.push('SELECT');
 
   SOURCES_FIELDS.forEach(field => {
-    selections.push(`${SOURCES_TABLE}.${field}`);
+    selections.push(`${Source.tableName}.${field}`);
   });
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
-  clauses.push(`LEFT JOIN ${SOURCES_TABLE} ON ${SOURCES_TABLE}.id = ${TABLE}.data_source_id`);
+  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.tableName}.id = ${EntityLobbyistRegistration.tableName}.data_source_id`);
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${TABLE}.entity_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.tableName}.entity_id = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${TABLE}.person_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.tableName}.person_id = ?`);
     params.push(personId);
   }
 
@@ -50,7 +50,7 @@ const getQuartersQuery = (options = {}) => {
   }
 
   clauses.push('ORDER BY');
-  clauses.push(`${SOURCES_TABLE}.year ASC, ${SOURCES_TABLE}.quarter ASC`);
+  clauses.push(`${Source.tableName}.year ASC, ${Source.tableName}.quarter ASC`);
 
   return { clauses, params };
 };
@@ -59,7 +59,7 @@ const getQuarters = async (options = {}) => {
   const { clauses, params } = getQuartersQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results;
+  return results.map(EntityLobbyistRegistration.adapt);
 };
 
 const getTotalQuery = (options = {}) => {
@@ -76,19 +76,19 @@ const getTotalQuery = (options = {}) => {
 
   clauses.push('SELECT');
   clauses.push('COUNT(id) AS total');
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${TABLE}.entity_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.tableName}.entity_id = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${TABLE}.person_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.tableName}.person_id = ?`);
     params.push(personId);
   }
 

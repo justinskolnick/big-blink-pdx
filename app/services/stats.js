@@ -1,7 +1,7 @@
 const { percentage } = require('../lib/number');
 const db = require('../services/db');
-const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
-const { TABLE: INCIDENT_ATTENDEES_TABLE } = require('../models/incident-attendees');
+const Incident = require('../models/incident');
+const IncidentAttendee = require('../models/incident-attendee');
 const incidents = require('../services/incidents');
 const incidentAttendances = require('../services/incident-attendances');
 
@@ -15,27 +15,27 @@ const getStatsQuery = (options = {}) => {
 
   clauses.push('SELECT');
   columns.push(
-    `${INCIDENTS_TABLE}.data_source_id`,
-    `COUNT(${INCIDENTS_TABLE}.id) AS total`,
+    `${Incident.tableName}.data_source_id`,
+    `COUNT(${Incident.tableName}.id) AS total`,
   );
 
   clauses.push(columns.join(', '));
-  clauses.push(`FROM ${INCIDENTS_TABLE}`);
+  clauses.push(`FROM ${Incident.tableName}`);
 
   if (entityId) {
     id = entityId;
 
-    clauses.push(`WHERE ${INCIDENTS_TABLE}.entity_id = ?`);
+    clauses.push(`WHERE ${Incident.tableName}.entity_id = ?`);
     params.push(entityId);
   } else if (personId) {
     id = personId;
 
-    clauses.push(`WHERE ${INCIDENTS_TABLE}.id IN (SELECT incident_id FROM ${INCIDENT_ATTENDEES_TABLE} WHERE person_id = ?)`);
+    clauses.push(`WHERE ${Incident.tableName}.id IN (SELECT incident_id FROM ${IncidentAttendee.tableName} WHERE person_id = ?)`);
     params.push(personId);
   }
 
-  clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
-  clauses.push(`ORDER BY ${INCIDENTS_TABLE}.data_source_id ASC`);
+  clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
+  clauses.push(`ORDER BY ${Incident.tableName}.data_source_id ASC`);
 
   return { clauses, params, id };
 };

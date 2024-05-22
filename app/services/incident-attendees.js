@@ -6,10 +6,10 @@ const {
 } = require('../helpers/quarters');
 const queryHelper = require('../helpers/query');
 const { sortTotalDescending } = require('../lib/sorting');
-const { TABLE: ENTITIES_TABLE } = require('../models/entities');
-const { TABLE, LOBBYIST_ROLE, OFFICIAL_ROLE, adaptJoinedResult } = require('../models/incident-attendees');
-const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
-const { TABLE: PEOPLE_TABLE } = require('../models/people');
+const Entity = require('../models/entity');
+const Incident = require('../models/incident');
+const IncidentAttendee = require('../models/incident-attendee');
+const Person = require('../models/person');
 const db = require('./db');
 const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
 
@@ -21,22 +21,22 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
   clauses.push(
-    `${TABLE}.id,`,
-    `${TABLE}.appears_as,`,
-    `${TABLE}.role,`,
-    `${PEOPLE_TABLE}.id AS person_id,`,
-    `${PEOPLE_TABLE}.name,`,
-    `${PEOPLE_TABLE}.type`
+    `${IncidentAttendee.tableName}.id,`,
+    `${IncidentAttendee.tableName}.appears_as,`,
+    `${IncidentAttendee.tableName}.role,`,
+    `${Person.tableName}.id AS person_id,`,
+    `${Person.tableName}.name,`,
+    `${Person.tableName}.type`
   );
-  clauses.push(`FROM ${TABLE}`);
-  clauses.push(`LEFT JOIN ${PEOPLE_TABLE} ON ${PEOPLE_TABLE}.id = ${TABLE}.person_id`);
+  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.tableName}.id = ${IncidentAttendee.tableName}.person_id`);
 
   if (incidentId) {
     clauses.push('WHERE incident_id = ?');
     params.push(incidentId);
   }
 
-  clauses.push(`ORDER BY ${TABLE}.role ASC, ${PEOPLE_TABLE}.family ASC`);
+  clauses.push(`ORDER BY ${IncidentAttendee.tableName}.role ASC, ${Person.tableName}.family ASC`);
 
   if (page && perPage) {
     const offset = queryHelper.getOffset(page, perPage);
@@ -59,7 +59,7 @@ const getAll = async (options = {}) => {
 
       all[key] = results
         .filter(result => result.role === role)
-        .map(adaptJoinedResult);
+        .map(IncidentAttendee.adapt);
 
       return all;
     }, {});
@@ -112,15 +112,15 @@ const getEntitiesQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${ENTITIES_TABLE}.id, ${ENTITIES_TABLE}.name`);
-  clauses.push(`FROM ${INCIDENTS_TABLE}`);
-  clauses.push(`LEFT JOIN ${ENTITIES_TABLE}`);
-  clauses.push(`ON ${ENTITIES_TABLE}.id = ${INCIDENTS_TABLE}.entity_id`);
+  clauses.push(`${Entity.tableName}.id, ${Entity.tableName}.name`);
+  clauses.push(`FROM ${Incident.tableName}`);
+  clauses.push(`LEFT JOIN ${Entity.tableName}`);
+  clauses.push(`ON ${Entity.tableName}.id = ${Incident.tableName}.entity_id`);
 
   if (personId) {
     const segments = [];
     segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${TABLE}`);
+    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
     segments.push('WHERE person_id = ?');
     params.push(personId);
 
@@ -129,11 +129,11 @@ const getEntitiesQuery = (options = {}) => {
       params.push(personRole);
     }
 
-    clauses.push(`WHERE ${INCIDENTS_TABLE}.id IN`);
+    clauses.push(`WHERE ${Incident.tableName}.id IN`);
     clauses.push('(' + segments.join(' ') + ')');
   }
 
-  clauses.push(`ORDER BY ${ENTITIES_TABLE}.name ASC`);
+  clauses.push(`ORDER BY ${Entity.tableName}.name ASC`);
 
   return { clauses, params };
 };
@@ -147,7 +147,7 @@ const getEntities = async (options = {}) => {
 
   let collectedResults = collectEntities(results);
 
-  if (hasPersonId && personRole === LOBBYIST_ROLE) {
+  if (hasPersonId && personRole === IncidentAttendee.roles.lobbyist) {
     collectedResults = await Promise.all(collectedResults.map(async (result) => {
       const entityRegistrationResults = await entityLobbyistRegistrations.getTotal({
         entityId: result.entity.id,
@@ -204,23 +204,23 @@ const getPeopleQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${PEOPLE_TABLE}.name, ${TABLE}.person_id AS id, ${PEOPLE_TABLE}.type`);
-  clauses.push(`FROM ${TABLE}`);
-  clauses.push(`LEFT JOIN ${PEOPLE_TABLE} ON ${PEOPLE_TABLE}.id = ${TABLE}.person_id`);
+  clauses.push(`${Person.tableName}.name, ${IncidentAttendee.tableName}.person_id AS id, ${Person.tableName}.type`);
+  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.tableName}.id = ${IncidentAttendee.tableName}.person_id`);
 
   if (entityId || personId || sourceId) {
-    clauses.push(`WHERE ${TABLE}.incident_id IN`);
+    clauses.push(`WHERE ${IncidentAttendee.tableName}.incident_id IN`);
   }
 
   if (entityId) {
-    clauses.push(`(SELECT id FROM ${INCIDENTS_TABLE} WHERE entity_id = ?)`);
+    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE entity_id = ?)`);
     params.push(entityId);
   }
 
   if (personId) {
     const segments = [];
     segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${TABLE}`);
+    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
     segments.push('WHERE person_id = ?');
     params.push(personId);
 
@@ -233,21 +233,21 @@ const getPeopleQuery = (options = {}) => {
   }
 
   if (personId) {
-    clauses.push(`AND ${TABLE}.person_id != ?`);
+    clauses.push(`AND ${IncidentAttendee.tableName}.person_id != ?`);
     params.push(personId);
   }
 
   if (sourceId) {
-    clauses.push(`(SELECT id FROM ${INCIDENTS_TABLE} WHERE data_source_id = ?)`);
+    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE data_source_id = ?)`);
     params.push(sourceId);
   }
 
   if (role) {
-    clauses.push(`AND ${TABLE}.role = ?`);
+    clauses.push(`AND ${IncidentAttendee.tableName}.role = ?`);
     params.push(role);
   }
 
-  clauses.push(`ORDER BY ${TABLE}.person_id ASC`);
+  clauses.push(`ORDER BY ${IncidentAttendee.tableName}.person_id ASC`);
 
   return { clauses, params };
 };
@@ -260,7 +260,7 @@ const getPeople = async (options = {}) => {
 };
 
 const getLobbyists = async (options = {}) => {
-  options.role = LOBBYIST_ROLE;
+  options.role = IncidentAttendee.roles.lobbyist;
 
   const people = await getPeople(options);
 
@@ -268,7 +268,7 @@ const getLobbyists = async (options = {}) => {
 };
 
 const getOfficials = async (options = {}) => {
-  options.role = OFFICIAL_ROLE;
+  options.role = IncidentAttendee.roles.official;
 
   const people = await getPeople(options);
 

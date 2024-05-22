@@ -1,13 +1,7 @@
 const paramHelper = require('../helpers/param');
-const { TABLE: ENTITIES_TABLE } = require('../models/entities');
-const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
-const {
-  TABLE,
-  FIELDS,
-  ACTIVITY_TYPE,
-  adaptResult,
-  adaptEntitiesResult,
-} = require('../models/sources');
+const Entity = require('../models/entity');
+const Incident = require('../models/incident');
+const Source = require('../models/source');
 const db = require('../services/db');
 
 const getAllQuery = (options = {}) => {
@@ -18,19 +12,18 @@ const getAllQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
+
+  selections.push(...Source.fields());
 
   if (includeCount) {
-    selections.push(`COUNT(${INCIDENTS_TABLE}.id) AS total`);
+    selections.push(`COUNT(${Incident.tableName}.id) AS total`);
   }
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${Source.tableName}`);
 
   if (includeCount) {
-    clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
+    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.tableName}.data_source_id = ${Source.tableName}.id`);
   }
 
   if (types.length > 0) {
@@ -46,10 +39,10 @@ const getAllQuery = (options = {}) => {
   }
 
   if (includeCount) {
-    clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
+    clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
   }
 
-  clauses.push(`ORDER BY ${TABLE}.id ASC`);
+  clauses.push(`ORDER BY ${Source.tableName}.id ASC`);
 
   return { clauses, params };
 };
@@ -58,20 +51,16 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResult);
+  return results.map(Source.adapt);
 };
 
 const getAtIdQuery = (id) => {
   const clauses = [];
-  const selections = [];
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
-  clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(Source.fields().join(', '));
+  clauses.push(`FROM ${Source.tableName}`);
   clauses.push('WHERE');
   clauses.push('id = ?');
   params.push(id);
@@ -85,7 +74,7 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return result;
+  return Source.adapt(result);
 };
 
 const getEntitiesForIdQuery = (id) => {
@@ -95,19 +84,19 @@ const getEntitiesForIdQuery = (id) => {
 
   clauses.push('SELECT');
 
-  selections.push(`${ENTITIES_TABLE}.id`);
-  selections.push(`${ENTITIES_TABLE}.name`);
-  selections.push(`COUNT(${INCIDENTS_TABLE}.entity_id) AS total`);
+  selections.push(`${Entity.tableName}.id`);
+  selections.push(`${Entity.tableName}.name`);
+  selections.push(`COUNT(${Incident.tableName}.entity_id) AS total`);
 
   clauses.push(selections.join(', '));
 
-  clauses.push(`FROM ${INCIDENTS_TABLE}`);
-  clauses.push(`LEFT JOIN ${ENTITIES_TABLE} ON ${INCIDENTS_TABLE}.entity_id = ${ENTITIES_TABLE}.id`);
+  clauses.push(`FROM ${Incident.tableName}`);
+  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Incident.tableName}.entity_id = ${Entity.tableName}.id`);
   clauses.push('WHERE');
-  clauses.push(`${INCIDENTS_TABLE}.data_source_id = ?`);
+  clauses.push(`${Incident.tableName}.data_source_id = ?`);
   params.push(id);
 
-  clauses.push(`GROUP BY ${INCIDENTS_TABLE}.entity_id`);
+  clauses.push(`GROUP BY ${Incident.tableName}.entity_id`);
   clauses.push('ORDER BY total DESC');
 
   return { clauses, params };
@@ -117,7 +106,7 @@ const getEntitiesForId = async (id) => {
   const { clauses, params } = getEntitiesForIdQuery(id);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptEntitiesResult);
+  return results.map(Source.adaptEntity);
 };
 
 const getIdForQuarterQuery = (quarter) => {
@@ -128,14 +117,14 @@ const getIdForQuarterQuery = (quarter) => {
 
   clauses.push('SELECT');
   clauses.push('id');
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${Source.tableName}`);
   clauses.push('WHERE');
   clauses.push('year = ? AND quarter = ?');
   params.push(y, q);
 
   clauses.push('AND');
   clauses.push('type = ?');
-  params.push(ACTIVITY_TYPE);
+  params.push(Source.types.activity);
 
   clauses.push('LIMIT 1');
 
@@ -156,20 +145,20 @@ const getStatsQuery = () => {
 
   clauses.push('SELECT');
   columns.push(
-    `${TABLE}.id`,
-    `${TABLE}.year`,
-    `${TABLE}.quarter`,
-    `COUNT(${INCIDENTS_TABLE}.id) AS total`
+    `${Source.tableName}.id`,
+    `${Source.tableName}.year`,
+    `${Source.tableName}.quarter`,
+    `COUNT(${Incident.tableName}.id) AS total`
   );
 
   clauses.push(columns.join(', '));
-  clauses.push(`FROM ${TABLE}`);
-  clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.data_source_id = ${TABLE}.id`);
+  clauses.push(`FROM ${Source.tableName}`);
+  clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.tableName}.data_source_id = ${Source.tableName}.id`);
   clauses.push('WHERE');
   clauses.push('type = ?');
-  params.push(ACTIVITY_TYPE);
-  clauses.push(`GROUP BY ${INCIDENTS_TABLE}.data_source_id`);
-  clauses.push(`ORDER BY ${TABLE}.id ASC`);
+  params.push(Source.types.activity);
+  clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
+  clauses.push(`ORDER BY ${Source.tableName}.id ASC`);
 
   return { clauses, params };
 };
@@ -193,7 +182,7 @@ const getTotalQuery = (options = {}) => {
 
   clauses.push('SELECT');
   clauses.push('COUNT(id) AS total');
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${Source.tableName}`);
 
   if (types.length > 0) {
     clauses.push('WHERE');

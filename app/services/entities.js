@@ -1,7 +1,7 @@
 const paramHelper = require('../helpers/param');
 const queryHelper = require('../helpers/query');
-const { TABLE, FIELDS, adaptResult } = require('../models/entities');
-const { TABLE: INCIDENTS_TABLE } = require('../models/incidents');
+const Entity = require('../models/entity');
+const Incident = require('../models/incident');
 const db = require('../services/db');
 
 const {
@@ -26,24 +26,23 @@ const getAllQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
+
+  selections.push(...Entity.fields());
 
   if (includeCount) {
-    selections.push(`COUNT(${INCIDENTS_TABLE}.id) AS total`);
+    selections.push(`COUNT(${Incident.tableName}.id) AS total`);
   }
 
   if (!sortBy || sortBy === SORT_BY_NAME) {
-    selections.push(`CASE WHEN ${TABLE}.name LIKE 'The %' THEN TRIM(SUBSTR(${TABLE}.name FROM 4)) ELSE ${TABLE}.name END AS sort_name`);
+    selections.push(`CASE WHEN ${Entity.tableName}.name LIKE 'The %' THEN TRIM(SUBSTR(${Entity.tableName}.name FROM 4)) ELSE ${Entity.tableName}.name END AS sort_name`);
   }
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(`FROM ${Entity.tableName}`);
 
   if (includeCount) {
-    clauses.push(`LEFT JOIN ${INCIDENTS_TABLE} ON ${INCIDENTS_TABLE}.entity_id = ${TABLE}.id`);
-    clauses.push(`GROUP BY ${TABLE}.id`);
+    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.tableName}.entity_id = ${Entity.tableName}.id`);
+    clauses.push(`GROUP BY ${Entity.tableName}.id`);
   }
 
   clauses.push('ORDER BY');
@@ -71,20 +70,16 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(adaptResult);
+  return results.map(Entity.adapt);
 };
 
 const getAtIdQuery = (id) => {
   const clauses = [];
-  const selections = [];
   const params = [];
 
   clauses.push('SELECT');
-  FIELDS.forEach(field => {
-    selections.push(`${TABLE}.${field}`);
-  });
-  clauses.push(selections.join(', '));
-  clauses.push(`FROM ${TABLE}`);
+  clauses.push(Entity.fields().join(', '));
+  clauses.push(`FROM ${Entity.tableName}`);
   clauses.push('WHERE id = ?');
   params.push(id);
 
@@ -97,10 +92,10 @@ const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
 
-  return adaptResult(result);
+  return Entity.adapt(result);
 };
 
-const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${TABLE}`;
+const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${Entity.tableName}`;
 
 const getTotal = async () => {
   const sql = getTotalQuery();
