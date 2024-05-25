@@ -9,11 +9,15 @@ interface Props {
 }
 
 const Attendees = ({ attendees }: Props) => {
-  const hasAttendees = attendees?.records.length > 0;
+  const hasAttendees = attendees?.records?.length > 0;
+
+  if (!hasAttendees) {
+    return 'none';
+  }
 
   return (
     <ul className='incident-attendees'>
-      {hasAttendees ? attendees.records.map(attendee => (
+      {attendees.records.map(attendee => (
         <li key={attendee.person.id} className='incident-attendee'>
           <LinkToPerson id={attendee.person.id}>{attendee.person.name}</LinkToPerson>
           {attendee.as !== attendee.person.name && (
@@ -22,7 +26,7 @@ const Attendees = ({ attendees }: Props) => {
             </span>
           )}
         </li>
-      )) : 'none'}
+      ))}
     </ul>
   );
 };

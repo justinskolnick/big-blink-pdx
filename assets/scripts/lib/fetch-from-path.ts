@@ -19,8 +19,9 @@ type Result = {
 const getPeopleFromIncidents = (incidents: Incidents) =>
   incidents.flatMap((incident: Incident) =>
     Object.values(incident.attendees)
+      .filter((group: AttendeeGroup) => 'records' in group)
       .map((group: AttendeeGroup) => group.records).flat()
-      .map(attendee => attendee.person)
+      .map(attendee => attendee?.person)
   );
 
 const getEntitiesFromPerson = (person: Person) =>

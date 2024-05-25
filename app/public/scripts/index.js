@@ -40418,7 +40418,7 @@ var get2 = (url) => fetch(url, {
 
 // scripts/lib/fetch-from-path.ts
 var getPeopleFromIncidents = (incidents) => incidents.flatMap(
-  (incident) => Object.values(incident.attendees).map((group) => group.records).flat().map((attendee) => attendee.person)
+  (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person)
 );
 var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
 var getEntitiesFromSource = (source) => source?.entities ? source.entities.flat().map((entry) => entry.entity) : [];
@@ -41136,49 +41136,49 @@ var incident_stat_group_default = IncidentStatGroup;
 // scripts/components/incident-attendees.tsx
 var import_jsx_runtime23 = __toESM(require_jsx_runtime());
 var Attendees = ({ attendees }) => {
-  const hasAttendees = attendees?.records.length > 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("ul", { className: "incident-attendees", children: hasAttendees ? attendees.records.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("li", { className: "incident-attendee", children: [
+  const hasAttendees = attendees?.records?.length > 0;
+  if (!hasAttendees) {
+    return "none";
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("ul", { className: "incident-attendees", children: attendees.records.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("li", { className: "incident-attendee", children: [
     /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(LinkToPerson, { id: attendee.person.id, children: attendee.person.name }),
     attendee.as !== attendee.person.name && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { children: attendee.as })
-  ] }, attendee.person.id)) : "none" });
+  ] }, attendee.person.id)) });
 };
 var incident_attendees_default = Attendees;
 
 // scripts/components/incident-table.tsx
 var import_jsx_runtime24 = __toESM(require_jsx_runtime());
-var IncidentTable = ({ incident }) => {
-  const hasAttendees = "attendees" in incident;
-  return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tbody", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Entity" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToEntity, { id: incident.entityId, children: incident.entity }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Date" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactDate })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Type" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactType })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Category" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.category })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Topic" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.topic })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Officials" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: hasAttendees && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Lobbyists" }),
-      /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: hasAttendees && /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
-    ] })
-  ] }) });
-};
+var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tbody", { children: [
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Entity" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToEntity, { id: incident.entityId, children: incident.entity }) })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Date" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactDate })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Type" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.contactType })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Category" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.category })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Topic" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: incident.topic })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Officials" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
+  ] }),
+  /* @__PURE__ */ (0, import_jsx_runtime24.jsxs)("tr", { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("th", { children: "Lobbyists" }),
+    /* @__PURE__ */ (0, import_jsx_runtime24.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
+  ] })
+] }) });
 var incident_table_default = IncidentTable;
 
 // scripts/components/modal.tsx
