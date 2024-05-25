@@ -15,12 +15,13 @@ import Section from './section';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
 
-import { getDescription } from '../selectors';
+import { getDescription, getPageTitle } from '../selectors';
 
 const App = () => {
   const initiated = useRef(false);
   const location = useLocation();
   const description = useSelector(getDescription);
+  const pageTitle = useSelector(getPageTitle);
   const isHome = location.pathname === '/';
   const className = ['section', location.pathname.split('/').at(1)].join('-');
 
@@ -45,6 +46,9 @@ const App = () => {
         defaultTitle='The Big Blink PDX'
         titleTemplate='%s · The Big Blink PDX'
       >
+        {pageTitle && (
+          <title>{pageTitle}</title>
+        )}
         {description && (
           <meta name='description' content={description} />
         )}

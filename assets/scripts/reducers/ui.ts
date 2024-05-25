@@ -10,6 +10,7 @@ import type {
 } from '../types';
 
 const setDescription = createAction<string>('ui/setDescription');
+const setPageTitle = createAction<string>('ui/setPageTitle');
 const clearErrors = createAction<string>('ui/clearErrors');
 const clearMessages = createAction<string>('ui/clearMessages');
 const clearWarnings = createAction<string>('ui/clearWarnings');
@@ -24,6 +25,7 @@ export const actions = {
   clearMessages,
   clearWarnings,
   setDescription,
+  setPageTitle,
   setError,
   setMessage,
   setPositionY,
@@ -33,6 +35,7 @@ export const actions = {
 
 const initialState = {
   description: null as string,
+  pageTitle: null as string,
   errors: [] as ErrorType[],
   messages: [] as MessageType[],
   positionY: 0 as number,
@@ -67,6 +70,9 @@ const uiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setDescription, (state, action: PayloadAction<string>) => {
       state.description = action.payload;
+    })
+    .addCase(setPageTitle, (state, action: PayloadAction<string>) => {
+      state.pageTitle = action.payload;
     })
     .addCase(setPositionY, (state, action: PayloadAction<number>) => {
       state.positionY = action.payload;

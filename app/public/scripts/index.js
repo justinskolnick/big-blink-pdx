@@ -33538,6 +33538,7 @@ var getPeopleChartData = createSelector(
   getIndexedTotals
 );
 var getDescription = createSelector(getUI, (ui) => ui.description);
+var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
 var getErrors = createSelector(getUI, (ui) => ui.errors);
 var getMessages = createSelector(getUI, (ui) => ui.messages);
 var getSection = createSelector(getUI, (ui) => ui.section);
@@ -34243,6 +34244,7 @@ var stats_default = statsReducer;
 
 // scripts/reducers/ui.ts
 var setDescription = createAction("ui/setDescription");
+var setPageTitle = createAction("ui/setPageTitle");
 var clearErrors = createAction("ui/clearErrors");
 var clearMessages = createAction("ui/clearMessages");
 var clearWarnings = createAction("ui/clearWarnings");
@@ -34256,6 +34258,7 @@ var actions2 = {
   clearMessages,
   clearWarnings,
   setDescription,
+  setPageTitle,
   setError,
   setMessage,
   setPositionY,
@@ -34264,6 +34267,7 @@ var actions2 = {
 };
 var initialState4 = {
   description: null,
+  pageTitle: null,
   errors: [],
   messages: [],
   positionY: 0,
@@ -34288,6 +34292,8 @@ var uiReducer = createReducer(initialState4, (builder) => {
     state.messages.push(action.payload);
   }).addCase(setDescription, (state, action) => {
     state.description = action.payload;
+  }).addCase(setPageTitle, (state, action) => {
+    state.pageTitle = action.payload;
   }).addCase(setPositionY, (state, action) => {
     state.positionY = action.payload;
   }).addCase(clearWarnings, (state) => {
@@ -40520,6 +40526,9 @@ var handleResult = (result, isPrimary) => {
       if ("description" in meta) {
         dispatch(actions2.setDescription(meta.description));
       }
+      if ("pageTitle" in meta) {
+        dispatch(actions2.setPageTitle(meta.pageTitle));
+      }
       if ("section" in meta) {
         dispatch(actions2.setSection(meta.section));
       }
@@ -41022,50 +41031,46 @@ var Header = ({
   title
 }) => {
   const section = useSelector(getSection);
-  const pageTitle = section.subtitle ? `${section.subtitle} \xB7 ${section.title}` : section.title;
   const slug = section.slug;
   const SectionLink = useGetSectionLink(slug);
   const SectionItemLink = useGetSectionItemLink(slug);
   const hasLink = Boolean(SectionLink);
   const hasSubhead = Boolean(section.subtitle);
   const hasDetails = section.details?.length > 0;
-  return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("title", { children: pageTitle }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
-      "header",
-      {
-        className: cx(
-          "header",
-          hasSubhead && "has-subheader"
-        ),
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-overview", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-identity", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "The" }),
-                " ",
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-primary", children: "Big Blink" }),
-                " ",
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "PDX" })
-              ] }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(eyes_default, {}) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: cx("header-section-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section-title", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
-                hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionItemLink, { id: section.id, children: section.subtitle }) }),
-                  hasDetails && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h4", { children: section.details.map((detail, i) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "header-section-detail", children: detail }, i)) })
-                ] })
+  return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
+    "header",
+    {
+      className: cx(
+        "header",
+        hasSubhead && "has-subheader"
+      ),
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-overview", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-identity", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "The" }),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-primary", children: "Big Blink" }),
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "text-secondary", children: "PDX" })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(eyes_default, {}) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", { className: cx("header-section-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(section_icon_default, { name: icon3, slug }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "header-section-title", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
+              hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionItemLink, { id: section.id, children: section.subtitle }) }),
+                hasDetails && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h4", { children: section.details.map((detail, i) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "header-section-detail", children: detail }, i)) })
               ] })
             ] })
-          ] }),
-          children
-        ]
-      }
-    )
-  ] });
+          ] })
+        ] }),
+        children
+      ]
+    }
+  );
 };
 var header_default = Header;
 
@@ -41400,6 +41405,7 @@ var App = () => {
   const initiated = (0, import_react16.useRef)(false);
   const location2 = useLocation();
   const description = useSelector(getDescription);
+  const pageTitle = useSelector(getPageTitle);
   const isHome = location2.pathname === "/";
   const className = ["section", location2.pathname.split("/").at(1)].join("-");
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
@@ -41413,12 +41419,15 @@ var App = () => {
     fetch_from_path_default(pathname + search, true);
   }, [initiated, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "global-layout", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+    /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
       HelmetExport,
       {
         defaultTitle: "The Big Blink PDX",
         titleTemplate: "%s \xB7 The Big Blink PDX",
-        children: description && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("meta", { name: "description", content: description })
+        children: [
+          pageTitle && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("title", { children: pageTitle }),
+          description && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("meta", { name: "description", content: description })
+        ]
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(alert_error_default, {}),

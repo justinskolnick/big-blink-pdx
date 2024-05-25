@@ -79,6 +79,7 @@ router.get('/', async (req, res, next) => {
       meta = {
         description,
         page,
+        pageTitle: metaHelper.getPageTitle(section),
         section,
         view,
       };
@@ -89,7 +90,10 @@ router.get('/', async (req, res, next) => {
       next(createError(err));
     }
   } else {
-    meta = { description };
+    meta = {
+      description,
+      pageTitle: metaHelper.getPageTitle(section),
+    };
 
     res.render(template, { title, meta, robots: headers.robots });
   }
@@ -206,6 +210,7 @@ router.get('/:id', async (req, res, next) => {
         errors,
         id,
         page,
+        pageTitle: metaHelper.getPageTitle(section),
         perPage,
         section,
         view,
@@ -218,7 +223,10 @@ router.get('/:id', async (req, res, next) => {
       next(createError(err));
     }
   } else {
-    meta = { description };
+    meta = {
+      description,
+      pageTitle: metaHelper.getPageTitle(section),
+    };
 
     res.render(template, { title, meta, robots: headers.robots });
   }

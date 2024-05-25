@@ -65,6 +65,7 @@ router.get('/', async (req, res, next) => {
       meta = {
         description,
         page,
+        pageTitle: metaHelper.getPageTitle(section),
         perPage,
         section,
         view,
@@ -117,6 +118,7 @@ router.get('/:id', async (req, res, next) => {
       meta = {
         description,
         id,
+        pageTitle: metaHelper.getPageTitle(section),
         section,
         view,
       };

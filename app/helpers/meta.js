@@ -13,7 +13,14 @@ const getIndexDescription = (type) => [
   source,
 ].filter(Boolean).join(' ');
 
+const getPageTitle = (section) => {
+  const { subtitle, title } = section;
+
+  return [...new Set([subtitle, title])].filter(Boolean).join(' · ');
+};
+
 module.exports = {
   getDetailDescription,
   getIndexDescription,
+  getPageTitle,
 };

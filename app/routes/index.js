@@ -13,13 +13,15 @@ const sources = require('../services/sources');
 
 const title = 'Remixing lobbying data published by the City of Portland, Oregon';
 const template = 'main';
-const section = {
-  title,
-};
+const section = {};
 
 router.get('/', async (req, res, next) => {
   const description = metaHelper.getIndexDescription();
-  const meta = { description, section };
+  const meta = {
+    description,
+    pageTitle: title,
+    section,
+  };
 
   if (req.get('Content-Type') === headers.json) {
     let entitiesResult;

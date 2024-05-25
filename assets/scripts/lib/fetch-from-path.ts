@@ -160,6 +160,9 @@ const handleResult = (result: Result, isPrimary: boolean) => {
       if ('description' in meta) {
         dispatch(uiActions.setDescription(meta.description));
       }
+      if ('pageTitle' in meta) {
+        dispatch(uiActions.setPageTitle(meta.pageTitle));
+      }
       if ('section' in meta) {
         dispatch(uiActions.setSection(meta.section));
       }

@@ -1,6 +1,7 @@
 const {
   getDetailDescription,
   getIndexDescription,
+  getPageTitle,
 } = require('../meta');
 
 describe('getDetailDescription()', () => {
@@ -26,5 +27,29 @@ describe('getIndexDescription()', () => {
 
   test('without a type', () => {
     expect(getIndexDescription()).toBe('Lobbying activity according to data published by the City of Portland, Oregon');
+  });
+});
+
+describe('getPageTitle()', () => {
+  test('with a subtitle', () => {
+    const section = {
+      slug: 'people',
+      title: 'People',
+      id: 2062,
+      subtitle: 'George Jetson',
+    };
+
+    expect(getPageTitle(section)).toEqual('George Jetson · People');
+  });
+
+  test('without a subtitle', () => {
+    const section = {
+      slug: 'people',
+      title: 'People',
+      id: null,
+      subtitle: null,
+    };
+
+    expect(getPageTitle(section)).toEqual('People');
   });
 });
