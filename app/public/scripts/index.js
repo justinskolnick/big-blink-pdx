@@ -976,7 +976,7 @@ var require_react_development = __commonJS({
           }
           return lazyType;
         }
-        function forwardRef4(render3) {
+        function forwardRef5(render3) {
           {
             if (render3 != null && render3.$$typeof === REACT_MEMO_TYPE2) {
               error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1101,7 +1101,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect27(create, deps) {
+        function useEffect26(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1874,7 +1874,7 @@ var require_react_development = __commonJS({
         exports.createElement = createElement$1;
         exports.createFactory = createFactory;
         exports.createRef = createRef;
-        exports.forwardRef = forwardRef4;
+        exports.forwardRef = forwardRef5;
         exports.isValidElement = isValidElement2;
         exports.lazy = lazy;
         exports.memo = memo;
@@ -1884,7 +1884,7 @@ var require_react_development = __commonJS({
         exports.useContext = useContext3;
         exports.useDebugValue = useDebugValue;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect27;
+        exports.useEffect = useEffect26;
         exports.useId = useId;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
@@ -2388,9 +2388,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React40 = require_react();
+        var React41 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React40.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React41.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3995,7 +3995,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React40.Children.forEach(props.children, function(child) {
+                React41.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -23567,13 +23567,13 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React40 = require_react();
+        var React41 = require_react();
         function is2(x, y) {
           return x === y && (x !== 0 || 1 / x === 1 / y) || x !== x && y !== y;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is2;
-        var useSyncExternalStore3 = React40.useSyncExternalStore;
-        var useRef26 = React40.useRef, useEffect27 = React40.useEffect, useMemo3 = React40.useMemo, useDebugValue = React40.useDebugValue;
+        var useSyncExternalStore3 = React41.useSyncExternalStore;
+        var useRef26 = React41.useRef, useEffect26 = React41.useEffect, useMemo3 = React41.useMemo, useDebugValue = React41.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef26(null);
           var inst;
@@ -23630,7 +23630,7 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
             return [getSnapshotWithSelector, getServerSnapshotWithSelector];
           }, [getSnapshot, getServerSnapshot, selector, isEqual2]), getSelection = _useMemo[0], getServerSelection = _useMemo[1];
           var value = useSyncExternalStore3(subscribe, getSelection, getServerSelection);
-          useEffect27(function() {
+          useEffect26(function() {
             inst.hasValue = true;
             inst.value = value;
           }, [value]);
@@ -24442,7 +24442,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React40 = require_react();
+        var React41 = require_react();
         var REACT_ELEMENT_TYPE2 = Symbol.for("react.element");
         var REACT_PORTAL_TYPE2 = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE2 = Symbol.for("react.fragment");
@@ -24468,7 +24468,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React40.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React41.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -25347,8 +25347,8 @@ var require_lib = __commonJS({
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
     }
-    var React40 = require_react();
-    var React__default = _interopDefault(React40);
+    var React41 = require_react();
+    var React__default = _interopDefault(React41);
     function _defineProperty3(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -25431,7 +25431,7 @@ var require_lib = __commonJS({
             return React__default.createElement(WrappedComponent, this.props);
           };
           return SideEffect2;
-        }(React40.PureComponent);
+        }(React41.PureComponent);
         _defineProperty3(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
         _defineProperty3(SideEffect, "canUseDOM", canUseDOM2);
         return SideEffect;
@@ -39652,7 +39652,7 @@ var AlertError = () => {
 var alert_error_default = AlertError;
 
 // scripts/components/app.tsx
-var import_react16 = __toESM(require_react());
+var import_react17 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
@@ -40564,13 +40564,12 @@ var hasModalClass = "has-modal";
 var modalRootId = "modal-root";
 var modalPortalId = "modal-root-portal";
 var Escape2 = "Escape";
-var ModalPortal = ({
+var ModalPortal = (0, import_react9.forwardRef)(({
   children,
   className,
   deactivate,
   isActive
-}) => {
-  const ref = (0, import_react9.useRef)();
+}, ref) => {
   const target = document.getElementById(modalPortalId);
   const handleOverlayClick = () => {
     deactivate();
@@ -40580,12 +40579,6 @@ var ModalPortal = ({
       deactivate();
     }
   };
-  (0, import_react9.useEffect)(() => {
-    isActive && ref.current?.focus();
-    return () => {
-      ref.current?.blur();
-    };
-  }, [ref, isActive]);
   use_fixed_body_when_has_class_default(hasModalClass);
   return (0, import_react_dom3.createPortal)(
     /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
@@ -40609,7 +40602,7 @@ var ModalPortal = ({
     ),
     target
   );
-};
+});
 var modal_portal_default = ModalPortal;
 
 // scripts/components/alert-message.tsx
@@ -41075,10 +41068,10 @@ var Header = ({
 var header_default = Header;
 
 // scripts/components/header-intro.tsx
-var import_react14 = __toESM(require_react());
+var import_react15 = __toESM(require_react());
 
 // scripts/components/incident-modal.tsx
-var import_react13 = __toESM(require_react());
+var import_react14 = __toESM(require_react());
 
 // scripts/components/item-description.tsx
 var import_jsx_runtime19 = __toESM(require_jsx_runtime());
@@ -41189,30 +41182,36 @@ var IncidentTable = ({ incident }) => {
 var incident_table_default = IncidentTable;
 
 // scripts/components/modal.tsx
+var import_react13 = __toESM(require_react());
 var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
   className,
   deactivate,
   isActive
-}) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
-  CSSTransition_default,
-  {
-    timeout: 250,
-    classNames: "modal",
-    in: isActive,
-    unmountOnExit: true,
-    children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
-      modal_portal_default,
-      {
-        className,
-        deactivate,
-        isActive,
-        children
-      }
-    )
-  }
-);
+}) => {
+  const ref = (0, import_react13.useRef)(null);
+  return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+    CSSTransition_default,
+    {
+      timeout: 250,
+      classNames: "modal",
+      in: isActive,
+      nodeRef: ref,
+      unmountOnExit: true,
+      children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
+        modal_portal_default,
+        {
+          className,
+          deactivate,
+          isActive,
+          ref,
+          children
+        }
+      )
+    }
+  );
+};
 var modal_default = Modal;
 
 // scripts/components/stat-box.tsx
@@ -41246,12 +41245,12 @@ var stat_box_default = StatBox;
 // scripts/components/incident-modal.tsx
 var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var IncidentModal = ({ deactivate, id, isActive }) => {
-  const fetched = (0, import_react13.useRef)(false);
+  const fetched = (0, import_react14.useRef)(false);
   const location2 = useLocation();
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasIncident = Boolean(incident && "attendees" in incident);
   const hasNotes = Boolean(incident?.notes);
-  (0, import_react13.useEffect)(() => {
+  (0, import_react14.useEffect)(() => {
     if (hasIncident)
       return;
     if (!fetched.current) {
@@ -41291,8 +41290,8 @@ var DateRangeNote = () => {
 };
 var HeaderIntro = () => {
   const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = (0, import_react14.useState)(pathname);
-  const [selectedId, setSelectedId] = (0, import_react14.useState)();
+  const [savedPathname, setSavedPathname] = (0, import_react15.useState)(pathname);
+  const [selectedId, setSelectedId] = (0, import_react15.useState)();
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
@@ -41307,10 +41306,10 @@ var HeaderIntro = () => {
       setSelectedId(Number(event.target.dataset.id));
     }
   };
-  (0, import_react14.useEffect)(() => {
+  (0, import_react15.useEffect)(() => {
     setSavedPathname(pathname);
   }, [setSavedPathname, pathname]);
-  (0, import_react14.useEffect)(() => {
+  (0, import_react15.useEffect)(() => {
     if (pathname !== savedPathname) {
       setSelectedId(null);
     }
@@ -41375,11 +41374,11 @@ var Section = ({
 var section_default = Section;
 
 // scripts/hooks/use-capture-scroll-position.ts
-var import_react15 = __toESM(require_react());
+var import_react16 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
   const dispatch = useDispatch();
-  const [scrollPos, setScrollPos] = (0, import_react15.useState)(0);
+  const [scrollPos, setScrollPos] = (0, import_react16.useState)(0);
   const handleScroll = () => {
     setScrollPos(Number(window.scrollY) * -1);
     if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -41387,13 +41386,13 @@ var useCaptureScrollPosition = (classNames = []) => {
     }
   };
   const debounced = (0, import_debounce.default)(handleScroll, 400);
-  (0, import_react15.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     window.addEventListener("scroll", debounced);
     return () => {
       window.removeEventListener("scroll", debounced);
     };
   }, [debounced]);
-  (0, import_react15.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     dispatch(actions2.setPositionY(scrollPos));
   }, [dispatch, scrollPos]);
 };
@@ -41402,7 +41401,7 @@ var use_capture_scroll_position_default = useCaptureScrollPosition;
 // scripts/components/app.tsx
 var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var App = () => {
-  const initiated = (0, import_react16.useRef)(false);
+  const initiated = (0, import_react17.useRef)(false);
   const location2 = useLocation();
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
@@ -41410,7 +41409,7 @@ var App = () => {
   const className = ["section", location2.pathname.split("/").at(1)].join("-");
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
-  (0, import_react16.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     const { pathname, search } = location2;
     if (!initiated.current) {
       fetch_from_path_default("/overview");
@@ -41444,11 +41443,11 @@ var app_default = App;
 var percentage = (portion, total) => (portion / total * 100).toFixed(2);
 
 // scripts/components/loading.tsx
-var import_react17 = __toESM(require_react());
+var import_react18 = __toESM(require_react());
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
 var Loading = () => {
-  const timedOut = (0, import_react17.useRef)(false);
-  (0, import_react17.useEffect)(() => {
+  const timedOut = (0, import_react18.useRef)(false);
+  (0, import_react18.useEffect)(() => {
     if (!timedOut.current) {
       setTimeout(() => {
         timedOut.current = true;
@@ -41602,13 +41601,13 @@ var Index = () => {
 var entities_default2 = Index;
 
 // scripts/components/entities/detail.tsx
-var import_react26 = __toESM(require_react());
+var import_react27 = __toESM(require_react());
 
 // scripts/components/incident-date-box.tsx
-var import_react18 = __toESM(require_react());
+var import_react19 = __toESM(require_react());
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({ incident }) => {
-  const [isActive, setIsActive] = (0, import_react18.useState)(false);
+  const [isActive, setIsActive] = (0, import_react19.useState)(false);
   const hasIncident = Boolean(incident?.value);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
@@ -41734,10 +41733,10 @@ var ActivityOverview = ({
 var incident_activity_overview_default = ActivityOverview;
 
 // scripts/components/entities/attendees.tsx
-var import_react20 = __toESM(require_react());
+var import_react21 = __toESM(require_react());
 
 // scripts/components/affiliated-item-table.tsx
-var import_react19 = __toESM(require_react());
+var import_react20 = __toESM(require_react());
 
 // scripts/components/item-table.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
@@ -41764,8 +41763,8 @@ var AffiliatedItemTable = ({
   TotalCell,
   label
 }) => {
-  const ref = (0, import_react19.useRef)();
-  const [showAll, setShowAll] = (0, import_react19.useState)(false);
+  const ref = (0, import_react20.useRef)();
+  const [showAll, setShowAll] = (0, import_react20.useState)(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
   const hasMoreToShow = affiliatedItems.length > initialCount;
@@ -41861,10 +41860,10 @@ var Attendees2 = ({
   attendees,
   entity
 }) => {
-  const fetched = (0, import_react20.useRef)(false);
+  const fetched = (0, import_react21.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = "attendees" in entity;
-  (0, import_react20.useEffect)(() => {
+  (0, import_react21.useEffect)(() => {
     if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -41893,7 +41892,7 @@ var Attendees2 = ({
 var attendees_default = Attendees2;
 
 // scripts/components/entities/chart.tsx
-var import_react23 = __toESM(require_react());
+var import_react24 = __toESM(require_react());
 
 // scripts/components/incident-activity-chart.tsx
 var import_jsx_runtime47 = __toESM(require_jsx_runtime());
@@ -41901,7 +41900,7 @@ var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_run
 var incident_activity_chart_default = IncidentActivityChart;
 
 // scripts/components/item-chart.tsx
-var import_react22 = __toESM(require_react());
+var import_react23 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
 function round(v) {
@@ -54169,7 +54168,7 @@ __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
 // node_modules/react-chartjs-2/dist/index.js
-var import_react21 = __toESM(require_react(), 1);
+var import_react22 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
   if (typeof ref === "function") {
@@ -54214,8 +54213,8 @@ function cloneData(data) {
 }
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
-  const canvasRef = (0, import_react21.useRef)(null);
-  const chartRef = (0, import_react21.useRef)();
+  const canvasRef = (0, import_react22.useRef)(null);
+  const chartRef = (0, import_react22.useRef)();
   const renderChart = () => {
     if (!canvasRef.current)
       return;
@@ -54236,7 +54235,7 @@ function ChartComponent(props, ref) {
       chartRef.current = null;
     }
   };
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current && options2) {
       setOptions(chartRef.current, options2);
     }
@@ -54244,7 +54243,7 @@ function ChartComponent(props, ref) {
     redraw,
     options2
   ]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current) {
       setLabels(chartRef.current.config.data, data.labels);
     }
@@ -54252,7 +54251,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.labels
   ]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!redraw && chartRef.current && data.datasets) {
       setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
     }
@@ -54260,7 +54259,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.datasets
   ]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!chartRef.current)
       return;
     if (redraw) {
@@ -54276,7 +54275,7 @@ function ChartComponent(props, ref) {
     data.datasets,
     updateMode
   ]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!chartRef.current)
       return;
     destroyChart();
@@ -54284,21 +54283,21 @@ function ChartComponent(props, ref) {
   }, [
     type
   ]);
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react21.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react22.default.createElement("canvas", Object.assign({
     ref: canvasRef,
     role: "img",
     height,
     width
   }, canvasProps), fallbackContent);
 }
-var Chart2 = /* @__PURE__ */ (0, import_react21.forwardRef)(ChartComponent);
+var Chart2 = /* @__PURE__ */ (0, import_react22.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react21.forwardRef)((props, ref) => /* @__PURE__ */ import_react21.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react22.forwardRef)((props, ref) => /* @__PURE__ */ import_react22.default.createElement(Chart2, Object.assign({}, props, {
     ref,
     type
   })));
@@ -54365,7 +54364,7 @@ var options = {
 var itemColorStatic = "olivedrab";
 var itemColorLink = "cornflowerblue";
 var ItemChart = ({ handleClick, label, lineProps }) => {
-  const [hasLineLabel, setHasLineLabel] = (0, import_react22.useState)(false);
+  const [hasLineLabel, setHasLineLabel] = (0, import_react23.useState)(false);
   const sources = useSelector(getSourcesDataForChart);
   const sourceData = {
     id: "sources",
@@ -54412,7 +54411,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
     };
   }
   options.plugins.legend.display = hasDatasets && hasLineLabel;
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
   return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "item-chart", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
@@ -54429,13 +54428,13 @@ var item_chart_default = ItemChart;
 // scripts/components/entities/chart.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 var Chart3 = ({ label }) => {
-  const fetched = (0, import_react23.useRef)(false);
+  const fetched = (0, import_react24.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react23.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react24.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const hasData = data?.length > 0;
@@ -54446,14 +54445,14 @@ var Chart3 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react23.useEffect)(() => {
+  (0, import_react24.useEffect)(() => {
     if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, hasData, location2]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react24.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -54466,7 +54465,7 @@ var Chart3 = ({ label }) => {
 var chart_default = Chart3;
 
 // scripts/components/detail-incidents.tsx
-var import_react25 = __toESM(require_react());
+var import_react26 = __toESM(require_react());
 
 // scripts/components/incidents-header.tsx
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
@@ -54515,10 +54514,10 @@ var IncidentsHeader = ({
 var incidents_header_default = IncidentsHeader;
 
 // scripts/components/incident-list-table.tsx
-var import_react24 = __toESM(require_react());
+var import_react25 = __toESM(require_react());
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var IncidentRow = ({ id }) => {
-  const [isSelected, setIsSelected] = (0, import_react24.useState)(false);
+  const [isSelected, setIsSelected] = (0, import_react25.useState)(false);
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
   const deactivate = () => setIsSelected(false);
@@ -54641,7 +54640,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
     }
   );
 };
-var DetailIncidents = (0, import_react25.forwardRef)(({
+var DetailIncidents = (0, import_react26.forwardRef)(({
   filters,
   hasSort,
   ids,
@@ -54651,9 +54650,9 @@ var DetailIncidents = (0, import_react25.forwardRef)(({
 }, ref) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
-  const idsRef = (0, import_react25.useRef)(null);
-  const paramsStringRef = (0, import_react25.useRef)(null);
-  (0, import_react25.useEffect)(() => {
+  const idsRef = (0, import_react26.useRef)(null);
+  const paramsStringRef = (0, import_react26.useRef)(null);
+  (0, import_react26.useEffect)(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
       idsRef.current = ids;
       if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -54696,7 +54695,7 @@ var item_detail_default = ItemDetail;
 // scripts/components/entities/detail.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var Detail = () => {
-  const ref = (0, import_react26.useRef)();
+  const ref = (0, import_react27.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -54964,7 +54963,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
 var home_default = Home;
 
 // scripts/components/incidents/index.tsx
-var import_react27 = __toESM(require_react());
+var import_react28 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { children: [
   "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -54974,7 +54973,7 @@ var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { 
   "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
 ] });
 var Index3 = () => {
-  const ref = (0, import_react27.useRef)();
+  const ref = (0, import_react28.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55001,17 +55000,17 @@ var Index3 = () => {
 var incidents_default2 = Index3;
 
 // scripts/components/incident-source-box.tsx
-var import_react28 = __toESM(require_react());
+var import_react29 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
   incident,
   title
 }) => {
-  const fetched = (0, import_react28.useRef)(false);
+  const fetched = (0, import_react29.useRef)(false);
   const location2 = useLocation();
   const id = incident?.sourceId;
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react28.useEffect)(() => {
+  (0, import_react29.useEffect)(() => {
     if (source || !id)
       return;
     if (!fetched.current) {
@@ -55059,16 +55058,16 @@ var Detail2 = () => {
 var detail_default2 = Detail2;
 
 // scripts/components/people/detail.tsx
-var import_react33 = __toESM(require_react());
+var import_react34 = __toESM(require_react());
 
 // scripts/components/people/attendees.tsx
-var import_react29 = __toESM(require_react());
+var import_react30 = __toESM(require_react());
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
   attendees,
   person
 }) => {
-  const fetched = (0, import_react29.useRef)(false);
+  const fetched = (0, import_react30.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = "attendees" in person;
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
@@ -55085,7 +55084,7 @@ var Attendees3 = ({
     roles.push("was lobbied by a number of lobbyists as a City of Portland official");
   }
   description.push(roles.join(" and "));
-  (0, import_react29.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -55127,16 +55126,16 @@ var Attendees3 = ({
 var attendees_default2 = Attendees3;
 
 // scripts/components/people/chart.tsx
-var import_react30 = __toESM(require_react());
+var import_react31 = __toESM(require_react());
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Chart5 = ({ label }) => {
-  const fetched = (0, import_react30.useRef)(false);
+  const fetched = (0, import_react31.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react30.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react31.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
   const hasData = data?.length > 0;
@@ -55147,14 +55146,14 @@ var Chart5 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react30.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, hasData, location2]);
-  (0, import_react30.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -55167,10 +55166,10 @@ var Chart5 = ({ label }) => {
 var chart_default3 = Chart5;
 
 // scripts/components/people/entities.tsx
-var import_react32 = __toESM(require_react());
+var import_react33 = __toESM(require_react());
 
 // scripts/components/affiliated-entities-table.tsx
-var import_react31 = __toESM(require_react());
+var import_react32 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
@@ -55179,7 +55178,7 @@ var AffiliatedEntitiesTable = ({
   person,
   title
 }) => {
-  const ref = (0, import_react31.useRef)();
+  const ref = (0, import_react32.useRef)();
   const hasPerson = Boolean(person);
   return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
     const hasTotal = Boolean(item.total);
@@ -55221,12 +55220,12 @@ var affiliated_entities_table_default = AffiliatedEntitiesTable;
 // scripts/components/people/entities.tsx
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
-  const fetched = (0, import_react32.useRef)(false);
+  const fetched = (0, import_react33.useRef)(false);
   const location2 = useLocation();
   const hasEntities = "entities" in person;
   const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
-  (0, import_react32.useEffect)(() => {
+  (0, import_react33.useEffect)(() => {
     if (!hasEntities || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
@@ -55271,7 +55270,7 @@ var entities_default3 = Entities;
 // scripts/components/people/detail.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
-  const ref = (0, import_react33.useRef)();
+  const ref = (0, import_react34.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55323,14 +55322,14 @@ var Detail3 = () => {
 var detail_default3 = Detail3;
 
 // scripts/components/sources/item.tsx
-var import_react34 = __toESM(require_react());
+var import_react35 = __toESM(require_react());
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
 var Source = ({ id }) => {
-  const fetched = (0, import_react34.useRef)(false);
+  const fetched = (0, import_react35.useRef)(false);
   const location2 = useLocation();
   const source = useSelector((state) => selectors4.selectById(state, id));
   const hasIncidents = Boolean(source.incidents);
-  (0, import_react34.useEffect)(() => {
+  (0, import_react35.useEffect)(() => {
     if (source)
       return;
     if (!fetched.current) {
@@ -55374,16 +55373,16 @@ var Index4 = () => {
 var sources_default2 = Index4;
 
 // scripts/components/sources/detail.tsx
-var import_react37 = __toESM(require_react());
+var import_react38 = __toESM(require_react());
 
 // scripts/components/sources/attendees.tsx
-var import_react35 = __toESM(require_react());
+var import_react36 = __toESM(require_react());
 var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var Attendees4 = ({ attendees }) => {
-  const fetched = (0, import_react35.useRef)(false);
+  const fetched = (0, import_react36.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = Boolean(attendees);
-  (0, import_react35.useEffect)(() => {
+  (0, import_react36.useEffect)(() => {
     if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -55410,12 +55409,12 @@ var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(incide
 var chart_default4 = Chart6;
 
 // scripts/components/sources/entities.tsx
-var import_react36 = __toESM(require_react());
+var import_react37 = __toESM(require_react());
 var import_jsx_runtime78 = __toESM(require_jsx_runtime());
 var Entities2 = ({ entities, source }) => {
-  const fetched = (0, import_react36.useRef)(false);
+  const fetched = (0, import_react37.useRef)(false);
   const location2 = useLocation();
-  (0, import_react36.useEffect)(() => {
+  (0, import_react37.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
@@ -55440,7 +55439,7 @@ var disclaimers = {
   registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
 };
 var Detail4 = () => {
-  const ref = (0, import_react37.useRef)();
+  const ref = (0, import_react38.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };

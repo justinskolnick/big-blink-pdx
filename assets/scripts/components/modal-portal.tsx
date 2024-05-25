@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, KeyboardEvent, ReactNode } from 'react';
+import React, { forwardRef, KeyboardEvent, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '@emotion/css';
 
@@ -17,13 +17,12 @@ interface Props {
 
 const Escape = 'Escape' as const;
 
-const ModalPortal = ({
+const ModalPortal = forwardRef<HTMLDivElement, Props>(({
   children,
   className,
   deactivate,
   isActive,
-}: Props) => {
-  const ref = useRef<HTMLDivElement>();
+}, ref) => {
   const target = document.getElementById(modalPortalId);
 
   const handleOverlayClick = (): void => {
@@ -34,14 +33,6 @@ const ModalPortal = ({
       deactivate();
     }
   };
-
-  useEffect(() => {
-    isActive && ref.current?.focus();
-
-    return () => {
-      ref.current?.blur();
-    };
-  }, [ref, isActive]);
 
   useFixedBodyWhenHasClass(hasModalClass);
 
@@ -62,6 +53,6 @@ const ModalPortal = ({
     </div>,
     target
   );
-};
+});
 
 export default ModalPortal;

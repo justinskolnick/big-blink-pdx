@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { useRef, ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import ModalPortal from './modal-portal';
@@ -15,21 +15,27 @@ const Modal = ({
   className,
   deactivate,
   isActive
-}: Props) => (
-  <CSSTransition
-    timeout={250}
-    classNames='modal'
-    in={isActive}
-    unmountOnExit
-  >
-    <ModalPortal
-      className={className}
-      deactivate={deactivate}
-      isActive={isActive}
+}: Props) => {
+  const ref = useRef(null);
+
+  return (
+    <CSSTransition
+      timeout={250}
+      classNames='modal'
+      in={isActive}
+      nodeRef={ref}
+      unmountOnExit
     >
-      {children}
-    </ModalPortal>
-  </CSSTransition>
-);
+      <ModalPortal
+        className={className}
+        deactivate={deactivate}
+        isActive={isActive}
+        ref={ref}
+      >
+        {children}
+      </ModalPortal>
+    </CSSTransition>
+  );
+};
 
 export default Modal;
