@@ -17,7 +17,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'entity_lobbyist_locations.id, entity_lobbyist_locations.entity_id, entity_lobbyist_locations.city, entity_lobbyist_locations.region',
+          'entity_lobbyist_locations.id, entity_lobbyist_locations.city, entity_lobbyist_locations.region',
           'FROM entity_lobbyist_locations',
           'WHERE',
           'entity_id = ?',

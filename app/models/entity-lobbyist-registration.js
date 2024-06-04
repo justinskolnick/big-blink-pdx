@@ -3,14 +3,12 @@ const Base = require('./base');
 class EntityLobbyistRegistration extends Base {
   static tableName = 'entity_lobbyist_registrations';
 
-  /* eslint-disable camelcase */
   static fieldNames = {
-    id: true,
-    data_source_id: true,
-    entity_id: true,
-    person_id: true,
+    id:             { select: true, },
+    data_source_id: { select: false, }, // eslint-disable-line camelcase
+    entity_id:      { select: true, }, // eslint-disable-line camelcase
+    person_id:      { select: true, }, // eslint-disable-line camelcase
   };
-  /* eslint-enable camelcase */
 
   static adapt(result) {
     return {

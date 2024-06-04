@@ -51,7 +51,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(Source.adapt);
+  return results.map(result => Source.adapt(result));
 };
 
 const getAtIdQuery = (id) => {

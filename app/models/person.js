@@ -6,28 +6,19 @@ class Person extends Base {
   static perPage = 40;
 
   static fieldNames = {
-    id: true,
-    type: true,
-    name: true,
+    id:   { select: true, },
+    type: { select: true, },
+    name: { select: true, },
   };
 
+  static adaptRoles(value) {
+    return value?.split(',') ?? [];
+  }
+
   static adapt(result) {
-    const adapted = {
-      id: result.id,
-      type: result.type,
-      name: result.name,
-      roles: result.roles?.split(',') ?? [],
-    };
-
-    if (result.total) {
-      adapted.incidents = {
-        stats: {
-          total: result.total,
-        },
-      };
-    }
-
-    return adapted;
+    return this.adaptResult(result, {
+      roles: this.adaptRoles(result.roles),
+    });
   }
 }
 

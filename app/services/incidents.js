@@ -80,7 +80,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(Incident.adapt);
+  return results.map(result => Incident.adapt(result));
 };
 
 const getAtIdQuery = (id) => {
@@ -166,7 +166,7 @@ const getFirstAndLastDates = async (options = {}) => {
   const { clauses, params } = getFirstAndLastDatesQuery(options);
   const results = await db.getAll(clauses, params);
 
-  const [first, last] = results.map(Incident.adapt);
+  const [first, last] = results.map(result => Incident.adapt(result));
 
   return {
     first,

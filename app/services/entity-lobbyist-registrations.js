@@ -59,7 +59,7 @@ const getQuarters = async (options = {}) => {
   const { clauses, params } = getQuartersQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(EntityLobbyistRegistration.adapt);
+  return results.map(result => EntityLobbyistRegistration.adapt(result));
 };
 
 const getTotalQuery = (options = {}) => {

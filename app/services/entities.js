@@ -70,7 +70,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(Entity.adapt);
+  return results.map(result => Entity.adapt(result));
 };
 
 const getAtIdQuery = (id) => {

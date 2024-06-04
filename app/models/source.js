@@ -5,46 +5,21 @@ class Source extends Base {
 
   static perPage = 40;
 
-  /* eslint-disable camelcase */
   static fieldNames = {
-    id: true,
-    type: true,
-    format: true,
-    title: true,
-    year: true,
-    quarter: true,
-    public_url: true,
-    retrieved_at: true,
+    id:           { select: true, },
+    type:         { select: true, },
+    format:       { select: true, },
+    title:        { select: true, },
+    year:         { select: true, },
+    quarter:      { select: true, },
+    public_url:   { select: true, }, // eslint-disable-line camelcase
+    retrieved_at: { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } }, // eslint-disable-line camelcase
   };
-  /* eslint-enable camelcase */
 
   static types = {
     activity: 'activity',
     registration: 'registration',
   };
-
-  static adapt(result) {
-    const adapted = {
-      id: result.id,
-      type: result.type,
-      format: result.format,
-      title: result.title,
-      year: result.year,
-      quarter: result.quarter,
-      publicUrl: result.public_url,
-      retrievedDate: super.readableDate(result.retrieved_at),
-    };
-
-    if (result.total) {
-      adapted.incidents = {
-        stats: {
-          total: result.total,
-        },
-      };
-    }
-
-    return adapted;
-  }
 
   static adaptEntity(result) {
     const adapted = {

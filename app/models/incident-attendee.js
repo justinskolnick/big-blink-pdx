@@ -5,15 +5,13 @@ class IncidentAttendee extends Base {
 
   static perPage = 20;
 
-  /* eslint-disable camelcase */
   static fieldNames = {
-    id: true,
-    incident_id: false,
-    person_id: false,
-    appears_as: true,
-    role: true,
+    id:           { select: true, },
+    incident_id:  { select: false, }, // eslint-disable-line camelcase
+    person_id:    { select: false, }, // eslint-disable-line camelcase
+    appears_as:   { select: true, adapt: { as: 'as' } }, // eslint-disable-line camelcase
+    role:         { select: true, },
   };
-  /* eslint-enable camelcase */
 
   static roles = {
     lobbyist: 'lobbyist',
@@ -21,15 +19,16 @@ class IncidentAttendee extends Base {
   };
 
   static adapt(result) {
-    return {
-      id: result.id,
-      as: result.appears_as,
+    const adapted = this.adaptResult(result, {
       person: {
         id: result.person_id,
         name: result.name,
         type: result.type,
       },
-    };
+    });
+    delete adapted.role;
+
+    return adapted;
   }
 }
 

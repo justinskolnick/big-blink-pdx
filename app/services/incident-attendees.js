@@ -59,7 +59,7 @@ const getAll = async (options = {}) => {
 
       all[key] = results
         .filter(result => result.role === role)
-        .map(IncidentAttendee.adapt);
+        .map(result => IncidentAttendee.adapt(result));
 
       return all;
     }, {});
