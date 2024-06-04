@@ -18,7 +18,7 @@ const getAllQuery = (options = {}) => {
     params.push(entityId);
 
     clauses.push('ORDER BY');
-    clauses.push(`${EntityLobbyistLocation.tableName}.region DESC, ${EntityLobbyistLocation.tableName}.city ASC`);
+    clauses.push(`${EntityLobbyistLocation.field('region')} DESC, ${EntityLobbyistLocation.field('city')} ASC`);
   }
 
   return { clauses, params };

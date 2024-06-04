@@ -81,7 +81,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery()).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(id) AS total',
+          'COUNT(entity_lobbyist_registrations.id) AS total',
           'FROM entity_lobbyist_registrations',
         ],
         params: [],
@@ -94,7 +94,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(id) AS total',
+          'COUNT(entity_lobbyist_registrations.id) AS total',
           'FROM entity_lobbyist_registrations',
           'WHERE',
           'entity_lobbyist_registrations.entity_id = ?',
@@ -109,7 +109,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ personId: 321 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(id) AS total',
+          'COUNT(entity_lobbyist_registrations.id) AS total',
           'FROM entity_lobbyist_registrations',
           'WHERE',
           'entity_lobbyist_registrations.person_id = ?',
@@ -124,7 +124,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ entityId: 123, personId: 321 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(id) AS total',
+          'COUNT(entity_lobbyist_registrations.id) AS total',
           'FROM entity_lobbyist_registrations',
           'WHERE',
           'entity_lobbyist_registrations.entity_id = ? AND entity_lobbyist_registrations.person_id = ?',

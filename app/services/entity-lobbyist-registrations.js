@@ -23,25 +23,25 @@ const getQuartersQuery = (options = {}) => {
   clauses.push('SELECT');
 
   SOURCES_FIELDS.forEach(field => {
-    selections.push(`${Source.tableName}.${field}`);
+    selections.push(Source.field(field));
   });
 
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
-  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.tableName}.id = ${EntityLobbyistRegistration.tableName}.data_source_id`);
+  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.primaryKey()} = ${EntityLobbyistRegistration.field('data_source_id')}`);
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.tableName}.entity_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field('entity_id')} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.tableName}.person_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field('person_id')} = ?`);
     params.push(personId);
   }
 
@@ -50,7 +50,7 @@ const getQuartersQuery = (options = {}) => {
   }
 
   clauses.push('ORDER BY');
-  clauses.push(`${Source.tableName}.year ASC, ${Source.tableName}.quarter ASC`);
+  clauses.push(`${Source.field('year')} ASC, ${Source.field('quarter')} ASC`);
 
   return { clauses, params };
 };
@@ -75,7 +75,7 @@ const getTotalQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push('COUNT(id) AS total');
+  clauses.push(`COUNT(${EntityLobbyistRegistration.primaryKey()}) AS total`);
   clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
   if (hasEntityId || hasPersonId) {
@@ -83,12 +83,12 @@ const getTotalQuery = (options = {}) => {
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.tableName}.entity_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field('entity_id')} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.tableName}.person_id = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field('person_id')} = ?`);
     params.push(personId);
   }
 

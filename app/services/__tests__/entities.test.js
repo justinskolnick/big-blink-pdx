@@ -145,7 +145,7 @@ describe('getAtIdQuery()', () => {
           'SELECT',
           'entities.id, entities.name, entities.domain',
           'FROM entities',
-          'WHERE id = ?',
+          'WHERE entities.id = ?',
           'LIMIT 1',
         ],
         params: [8675309],
@@ -157,7 +157,7 @@ describe('getAtIdQuery()', () => {
 describe('getTotalQuery()', () => {
   test('returns the expected SQL', () => {
     expect(getTotalQuery()).toEqual(
-      'SELECT COUNT(id) AS total FROM entities',
+      'SELECT COUNT(entities.id) AS total FROM entities',
     );
   });
 });

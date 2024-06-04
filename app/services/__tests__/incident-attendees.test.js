@@ -10,12 +10,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.id,',
-          'incident_attendees.appears_as,',
-          'incident_attendees.role,',
-          'people.id AS person_id,',
-          'people.name,',
-          'people.type',
+          'incident_attendees.id, incident_attendees.appears_as, incident_attendees.role, people.id AS person_id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON people.id = incident_attendees.person_id',
           'ORDER BY incident_attendees.role ASC, people.family ASC',
@@ -30,12 +25,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ incidentId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.id,',
-          'incident_attendees.appears_as,',
-          'incident_attendees.role,',
-          'people.id AS person_id,',
-          'people.name,',
-          'people.type',
+          'incident_attendees.id, incident_attendees.appears_as, incident_attendees.role, people.id AS person_id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON people.id = incident_attendees.person_id',
           'WHERE incident_id = ?',
@@ -51,12 +41,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.id,',
-          'incident_attendees.appears_as,',
-          'incident_attendees.role,',
-          'people.id AS person_id,',
-          'people.name,',
-          'people.type',
+          'incident_attendees.id, incident_attendees.appears_as, incident_attendees.role, people.id AS person_id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON people.id = incident_attendees.person_id',
           'ORDER BY incident_attendees.role ASC, people.family ASC',
@@ -70,12 +55,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'incident_attendees.id,',
-            'incident_attendees.appears_as,',
-            'incident_attendees.role,',
-            'people.id AS person_id,',
-            'people.name,',
-            'people.type',
+            'incident_attendees.id, incident_attendees.appears_as, incident_attendees.role, people.id AS person_id, people.name, people.type',
             'FROM incident_attendees',
             'LEFT JOIN people ON people.id = incident_attendees.person_id',
             'ORDER BY incident_attendees.role ASC, people.family ASC',

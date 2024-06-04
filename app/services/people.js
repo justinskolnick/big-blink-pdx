@@ -25,7 +25,7 @@ const getAllQuery = (options = {}) => {
   selections.push(...Person.fields());
 
   if (includeCount) {
-    selections.push(`COUNT(${IncidentAttendee.tableName}.id) AS total`);
+    selections.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
   }
 
   clauses.push(selections.join(', '));
@@ -33,22 +33,22 @@ const getAllQuery = (options = {}) => {
 
   if (includeCount || role) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
-    clauses.push(`ON ${IncidentAttendee.tableName}.person_id = ${Person.tableName}.id`);
+    clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
 
     if (role) {
-      clauses.push(`WHERE ${IncidentAttendee.tableName}.role = ?`);
+      clauses.push(`WHERE ${IncidentAttendee.field('role')} = ?`);
       params.push(role);
     }
 
-    clauses.push(`GROUP BY ${Person.tableName}.id`);
+    clauses.push(`GROUP BY ${Person.primaryKey()}`);
   }
 
   clauses.push('ORDER BY');
 
   if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {
-    clauses.push(`total ${sort || SORT_DESC}, ${Person.tableName}.family ASC, ${Person.tableName}.given ASC`);
+    clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
   } else {
-    clauses.push(`${Person.tableName}.family ${sort || SORT_ASC}, ${Person.tableName}.given ${sort || SORT_ASC}`);
+    clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
   }
 
   if (page && perPage) {
@@ -76,13 +76,13 @@ const getAtIdQuery = (id) => {
   clauses.push('SELECT');
 
   selections.push(...Person.fields());
-  selections.push(`GROUP_CONCAT(distinct ${IncidentAttendee.tableName}.role) AS roles`);
+  selections.push(`GROUP_CONCAT(distinct ${IncidentAttendee.field('role')}) AS roles`);
 
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${Person.tableName}`);
-  clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.tableName}.person_id = ${Person.tableName}.id`);
-  clauses.push(`WHERE ${Person.tableName}.id = ?`);
+  clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
+  clauses.push(`WHERE ${Person.field('id')} = ?`);
 
   params.push(id);
 
@@ -98,7 +98,7 @@ const getAtId = async (id) => {
   return Person.adapt(result);
 };
 
-const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${Person.tableName}`;
+const getTotalQuery = () => `SELECT COUNT(${Person.primaryKey()}) AS total FROM ${Person.tableName}`;
 
 const getTotal = async () => {
   const sql = getTotalQuery();

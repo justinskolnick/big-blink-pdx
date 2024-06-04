@@ -96,7 +96,7 @@ describe('getIdForQuarterQuery()', () => {
       expect(getIdForQuarterQuery('Q2-2023')).toEqual({
         clauses: [
           'SELECT',
-          'id',
+          'data_sources.id',
           'FROM data_sources',
           'WHERE',
           'year = ? AND quarter = ?',
@@ -154,7 +154,7 @@ describe('getTotalQuery()', () => {
     expect(getTotalQuery(options)).toEqual({
       clauses: [
         'SELECT',
-        'COUNT(id) AS total',
+        'COUNT(data_sources.id) AS total',
         'FROM data_sources',
         'WHERE',
         'type in (?,?)',

@@ -21,22 +21,22 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
   clauses.push(
-    `${IncidentAttendee.tableName}.id,`,
-    `${IncidentAttendee.tableName}.appears_as,`,
-    `${IncidentAttendee.tableName}.role,`,
-    `${Person.tableName}.id AS person_id,`,
-    `${Person.tableName}.name,`,
-    `${Person.tableName}.type`
+    [
+      ...IncidentAttendee.fields(),
+      `${Person.field('id')} AS person_id`,
+      Person.field('name'),
+      Person.field('type'),
+    ].join(', ')
   );
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.tableName}.id = ${IncidentAttendee.tableName}.person_id`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
 
   if (incidentId) {
     clauses.push('WHERE incident_id = ?');
     params.push(incidentId);
   }
 
-  clauses.push(`ORDER BY ${IncidentAttendee.tableName}.role ASC, ${Person.tableName}.family ASC`);
+  clauses.push(`ORDER BY ${IncidentAttendee.field('role')} ASC, ${Person.field('family')} ASC`);
 
   if (page && perPage) {
     const offset = queryHelper.getOffset(page, perPage);
@@ -112,10 +112,10 @@ const getEntitiesQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${Entity.tableName}.id, ${Entity.tableName}.name`);
+  clauses.push(`${Entity.field('id')}, ${Entity.field('name')}`);
   clauses.push(`FROM ${Incident.tableName}`);
   clauses.push(`LEFT JOIN ${Entity.tableName}`);
-  clauses.push(`ON ${Entity.tableName}.id = ${Incident.tableName}.entity_id`);
+  clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field('entity_id')}`);
 
   if (personId) {
     const segments = [];
@@ -129,11 +129,11 @@ const getEntitiesQuery = (options = {}) => {
       params.push(personRole);
     }
 
-    clauses.push(`WHERE ${Incident.tableName}.id IN`);
+    clauses.push(`WHERE ${Incident.primaryKey()} IN`);
     clauses.push('(' + segments.join(' ') + ')');
   }
 
-  clauses.push(`ORDER BY ${Entity.tableName}.name ASC`);
+  clauses.push(`ORDER BY ${Entity.field('name')} ASC`);
 
   return { clauses, params };
 };
@@ -204,12 +204,12 @@ const getPeopleQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${Person.tableName}.name, ${IncidentAttendee.tableName}.person_id AS id, ${Person.tableName}.type`);
+  clauses.push(`${Person.field('name')}, ${IncidentAttendee.field('person_id')} AS id, ${Person.field('type')}`);
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.tableName}.id = ${IncidentAttendee.tableName}.person_id`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
 
   if (entityId || personId || sourceId) {
-    clauses.push(`WHERE ${IncidentAttendee.tableName}.incident_id IN`);
+    clauses.push(`WHERE ${IncidentAttendee.field('incident_id')} IN`);
   }
 
   if (entityId) {
@@ -233,7 +233,7 @@ const getPeopleQuery = (options = {}) => {
   }
 
   if (personId) {
-    clauses.push(`AND ${IncidentAttendee.tableName}.person_id != ?`);
+    clauses.push(`AND ${IncidentAttendee.field('person_id')} != ?`);
     params.push(personId);
   }
 
@@ -243,11 +243,11 @@ const getPeopleQuery = (options = {}) => {
   }
 
   if (role) {
-    clauses.push(`AND ${IncidentAttendee.tableName}.role = ?`);
+    clauses.push(`AND ${IncidentAttendee.field('role')} = ?`);
     params.push(role);
   }
 
-  clauses.push(`ORDER BY ${IncidentAttendee.tableName}.person_id ASC`);
+  clauses.push(`ORDER BY ${IncidentAttendee.field('person_id')} ASC`);
 
   return { clauses, params };
 };

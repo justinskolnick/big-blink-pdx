@@ -15,8 +15,8 @@ const getStatsQuery = (options = {}) => {
 
   clauses.push('SELECT');
   columns.push(
-    `${Incident.tableName}.data_source_id`,
-    `COUNT(${Incident.tableName}.id) AS total`,
+    `${Incident.field('data_source_id')}`,
+    `COUNT(${Incident.primaryKey()}) AS total`,
   );
 
   clauses.push(columns.join(', '));
@@ -25,17 +25,17 @@ const getStatsQuery = (options = {}) => {
   if (entityId) {
     id = entityId;
 
-    clauses.push(`WHERE ${Incident.tableName}.entity_id = ?`);
+    clauses.push(`WHERE ${Incident.field('entity_id')} = ?`);
     params.push(entityId);
   } else if (personId) {
     id = personId;
 
-    clauses.push(`WHERE ${Incident.tableName}.id IN (SELECT incident_id FROM ${IncidentAttendee.tableName} WHERE person_id = ?)`);
+    clauses.push(`WHERE ${Incident.primaryKey()} IN (SELECT incident_id FROM ${IncidentAttendee.tableName} WHERE person_id = ?)`);
     params.push(personId);
   }
 
-  clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
-  clauses.push(`ORDER BY ${Incident.tableName}.data_source_id ASC`);
+  clauses.push(`GROUP BY ${Incident.field('data_source_id')}`);
+  clauses.push(`ORDER BY ${Incident.field('data_source_id')} ASC`);
 
   return { clauses, params, id };
 };

@@ -2,10 +2,20 @@ const camelCase = require('lodash.camelcase');
 const dateHelper = require('../helpers/date');
 
 class Base {
+  static primaryKeyField = 'id';
+
+  static field(fieldName, prefix = true) {
+    return prefix ? [this.tableName, fieldName].join('.') : fieldName;
+  }
+
+  static primaryKey(prefix = true) {
+    return this.field(this.primaryKeyField, prefix);
+  }
+
   static fields(prefix = true) {
     const fields = Object.entries(this.fieldNames)
       .filter(([, value]) => value.select)
-      .map(([key,]) => prefix ? [this.tableName, key].join('.') : key);
+      .map(([key,]) => this.field(key, prefix));
 
     return fields;
   }

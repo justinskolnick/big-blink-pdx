@@ -30,19 +30,19 @@ const getAllQuery = (options = {}) => {
   selections.push(...Entity.fields());
 
   if (includeCount) {
-    selections.push(`COUNT(${Incident.tableName}.id) AS total`);
+    selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
   }
 
   if (!sortBy || sortBy === SORT_BY_NAME) {
-    selections.push(`CASE WHEN ${Entity.tableName}.name LIKE 'The %' THEN TRIM(SUBSTR(${Entity.tableName}.name FROM 4)) ELSE ${Entity.tableName}.name END AS sort_name`);
+    selections.push(`CASE WHEN ${Entity.field('name')} LIKE 'The %' THEN TRIM(SUBSTR(${Entity.field('name')} FROM 4)) ELSE ${Entity.field('name')} END AS sort_name`);
   }
 
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${Entity.tableName}`);
 
   if (includeCount) {
-    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.tableName}.entity_id = ${Entity.tableName}.id`);
-    clauses.push(`GROUP BY ${Entity.tableName}.id`);
+    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
+    clauses.push(`GROUP BY ${Entity.primaryKey()}`);
   }
 
   clauses.push('ORDER BY');
@@ -80,7 +80,7 @@ const getAtIdQuery = (id) => {
   clauses.push('SELECT');
   clauses.push(Entity.fields().join(', '));
   clauses.push(`FROM ${Entity.tableName}`);
-  clauses.push('WHERE id = ?');
+  clauses.push(`WHERE ${Entity.field('id')} = ?`);
   params.push(id);
 
   clauses.push('LIMIT 1');
@@ -95,7 +95,7 @@ const getAtId = async (id) => {
   return Entity.adapt(result);
 };
 
-const getTotalQuery = () => `SELECT COUNT(id) AS total FROM ${Entity.tableName}`;
+const getTotalQuery = () => `SELECT COUNT(${Entity.primaryKey()}) AS total FROM ${Entity.tableName}`;
 
 const getTotal = async () => {
   const sql = getTotalQuery();

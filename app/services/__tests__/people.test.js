@@ -145,7 +145,7 @@ describe('getAtIdQuery()', () => {
 describe('getTotalQuery()', () => {
   test('returns the expected SQL', () => {
     expect(getTotalQuery()).toEqual(
-      'SELECT COUNT(id) AS total FROM people',
+      'SELECT COUNT(people.id) AS total FROM people',
     );
   });
 });
