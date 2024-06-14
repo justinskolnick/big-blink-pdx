@@ -23,4 +23,16 @@
   .activity-stat-titles + .activity-stat-value {
     margin-top: var(--gap);
   }
+
+  @media screen and (max-width: 812px) {
+    .activity-stat-titles {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .item-subsection {
+      grid-gap: calc(var(--gap) * 2);
+    }
+  }
 }

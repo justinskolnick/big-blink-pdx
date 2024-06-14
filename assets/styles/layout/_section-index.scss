@@ -12,7 +12,7 @@
       width: 100%;
 
       th, td {
-        padding: 9px;
+        padding: calc(var(--gap) / 2);
         border-bottom: 1px solid var(--color-divider);
         vertical-align: middle;
 
@@ -32,8 +32,10 @@
       td {
         &.cell-name,
         &.cell-title {
-          // font-weight: 600;
+          padding-top: calc(var(--gap) / 3);
+          padding-bottom: calc(var(--gap) / 3);
           font-size: 14px;
+          line-height: 18px;
 
           a {
             font-weight: 600;

@@ -50,6 +50,6 @@
 
   @media screen and (max-width: 600px) {
     --layout-margin-x: var(--gap);
-    --layout-margin-y: calc(var(--gap) * 3);
+    --layout-margin-y: var(--gap);
   }
 }

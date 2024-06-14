@@ -1,11 +1,7 @@
-.section-home {
-  @media screen and (max-width: 600px) {
-    .header {
-      .header-section-title {
-        h2 {
-          font-size: 24px;
-        }
-      }
+.section {
+  &.section-home {
+    .header-overview + .header-intro {
+      margin-top: calc(var(--gap) * 2);
     }
   }
 }

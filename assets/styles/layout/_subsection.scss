@@ -6,6 +6,12 @@
   }
 
   @media screen and (max-width: 812px) {
+    .item-subhead {
+      .item-description {
+        font-size: 16px;
+      }
+    }
+
     & + .leaderboard-subsection-group,
     & + .incident-activity-stat-groups-list {
       margin-top: calc(2 * var(--gap));
