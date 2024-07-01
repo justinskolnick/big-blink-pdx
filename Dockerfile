@@ -1,14 +1,8 @@
-# syntax=docker/dockerfile:1
-
 FROM node:20-bullseye
 
-WORKDIR /usr/src/app
+ENV BUILD_DIR /usr/src
+WORKDIR $BUILD_DIR
 
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
+COPY . ./
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
