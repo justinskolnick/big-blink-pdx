@@ -27,9 +27,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 
-// .yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/cjs/react.development.js
+// node_modules/react/cjs/react.development.js
 var require_react_development = __commonJS({
-  ".yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/cjs/react.development.js"(exports, module) {
+  "node_modules/react/cjs/react.development.js"(exports, module) {
     "use strict";
     if (true) {
       (function() {
@@ -1901,9 +1901,9 @@ var require_react_development = __commonJS({
   }
 });
 
-// .yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/index.js
+// node_modules/react/index.js
 var require_react = __commonJS({
-  ".yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/index.js"(exports, module) {
+  "node_modules/react/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -1913,9 +1913,9 @@ var require_react = __commonJS({
   }
 });
 
-// .yarn/cache/scheduler-npm-0.23.2-6d1dd9c2b7-e8d68b89d1.zip/node_modules/scheduler/cjs/scheduler.development.js
+// node_modules/scheduler/cjs/scheduler.development.js
 var require_scheduler_development = __commonJS({
-  ".yarn/cache/scheduler-npm-0.23.2-6d1dd9c2b7-e8d68b89d1.zip/node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+  "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -2363,9 +2363,9 @@ var require_scheduler_development = __commonJS({
   }
 });
 
-// .yarn/cache/scheduler-npm-0.23.2-6d1dd9c2b7-e8d68b89d1.zip/node_modules/scheduler/index.js
+// node_modules/scheduler/index.js
 var require_scheduler = __commonJS({
-  ".yarn/cache/scheduler-npm-0.23.2-6d1dd9c2b7-e8d68b89d1.zip/node_modules/scheduler/index.js"(exports, module) {
+  "node_modules/scheduler/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -2375,9 +2375,9 @@ var require_scheduler = __commonJS({
   }
 });
 
-// .yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/cjs/react-dom.development.js
+// node_modules/react-dom/cjs/react-dom.development.js
 var require_react_dom_development = __commonJS({
-  ".yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/cjs/react-dom.development.js"(exports) {
+  "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23481,9 +23481,9 @@ var require_react_dom_development = __commonJS({
   }
 });
 
-// .yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/index.js
+// node_modules/react-dom/index.js
 var require_react_dom = __commonJS({
-  ".yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/index.js"(exports, module) {
+  "node_modules/react-dom/index.js"(exports, module) {
     "use strict";
     if (false) {
       checkDCE();
@@ -23494,9 +23494,9 @@ var require_react_dom = __commonJS({
   }
 });
 
-// .yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/client.js
+// node_modules/react-dom/client.js
 var require_client = __commonJS({
-  ".yarn/__virtual__/react-dom-virtual-e8267bc9d4/0/cache/react-dom-npm-18.3.1-a805663f38-3f4b73a3aa.zip/node_modules/react-dom/client.js"(exports) {
+  "node_modules/react-dom/client.js"(exports) {
     "use strict";
     var m = require_react_dom();
     if (false) {
@@ -23525,9 +23525,9 @@ var require_client = __commonJS({
   }
 });
 
-// .yarn/__virtual__/use-sync-external-store-virtual-4101fd6c91/0/cache/use-sync-external-store-npm-1.2.0-44f75d2564-a676216aff.zip/node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js
+// node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js
 var require_use_sync_external_store_with_selector_development = __commonJS({
-  ".yarn/__virtual__/use-sync-external-store-virtual-4101fd6c91/0/cache/use-sync-external-store-npm-1.2.0-44f75d2564-a676216aff.zip/node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js"(exports) {
+  "node_modules/use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23614,9 +23614,9 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
   }
 });
 
-// .yarn/__virtual__/use-sync-external-store-virtual-4101fd6c91/0/cache/use-sync-external-store-npm-1.2.0-44f75d2564-a676216aff.zip/node_modules/use-sync-external-store/with-selector.js
+// node_modules/use-sync-external-store/with-selector.js
 var require_with_selector = __commonJS({
-  ".yarn/__virtual__/use-sync-external-store-virtual-4101fd6c91/0/cache/use-sync-external-store-npm-1.2.0-44f75d2564-a676216aff.zip/node_modules/use-sync-external-store/with-selector.js"(exports, module) {
+  "node_modules/use-sync-external-store/with-selector.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -23626,9 +23626,9 @@ var require_with_selector = __commonJS({
   }
 });
 
-// .yarn/cache/react-is-npm-16.13.1-a9b9382b4f-5aa564a1cd.zip/node_modules/react-is/cjs/react-is.development.js
+// node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js
 var require_react_is_development = __commonJS({
-  ".yarn/cache/react-is-npm-16.13.1-a9b9382b4f-5aa564a1cd.zip/node_modules/react-is/cjs/react-is.development.js"(exports) {
+  "node_modules/prop-types/node_modules/react-is/cjs/react-is.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23781,9 +23781,9 @@ var require_react_is_development = __commonJS({
   }
 });
 
-// .yarn/cache/react-is-npm-16.13.1-a9b9382b4f-5aa564a1cd.zip/node_modules/react-is/index.js
+// node_modules/prop-types/node_modules/react-is/index.js
 var require_react_is = __commonJS({
-  ".yarn/cache/react-is-npm-16.13.1-a9b9382b4f-5aa564a1cd.zip/node_modules/react-is/index.js"(exports, module) {
+  "node_modules/prop-types/node_modules/react-is/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -23793,9 +23793,9 @@ var require_react_is = __commonJS({
   }
 });
 
-// .yarn/cache/object-assign-npm-4.1.1-1004ad6dec-fcc6e4ea8c.zip/node_modules/object-assign/index.js
+// node_modules/object-assign/index.js
 var require_object_assign = __commonJS({
-  ".yarn/cache/object-assign-npm-4.1.1-1004ad6dec-fcc6e4ea8c.zip/node_modules/object-assign/index.js"(exports, module) {
+  "node_modules/object-assign/index.js"(exports, module) {
     "use strict";
     var getOwnPropertySymbols = Object.getOwnPropertySymbols;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -23863,25 +23863,25 @@ var require_object_assign = __commonJS({
   }
 });
 
-// .yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/lib/ReactPropTypesSecret.js
+// node_modules/prop-types/lib/ReactPropTypesSecret.js
 var require_ReactPropTypesSecret = __commonJS({
-  ".yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/lib/ReactPropTypesSecret.js"(exports, module) {
+  "node_modules/prop-types/lib/ReactPropTypesSecret.js"(exports, module) {
     "use strict";
     var ReactPropTypesSecret = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";
     module.exports = ReactPropTypesSecret;
   }
 });
 
-// .yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/lib/has.js
+// node_modules/prop-types/lib/has.js
 var require_has = __commonJS({
-  ".yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/lib/has.js"(exports, module) {
+  "node_modules/prop-types/lib/has.js"(exports, module) {
     module.exports = Function.call.bind(Object.prototype.hasOwnProperty);
   }
 });
 
-// .yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/checkPropTypes.js
+// node_modules/prop-types/checkPropTypes.js
 var require_checkPropTypes = __commonJS({
-  ".yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/checkPropTypes.js"(exports, module) {
+  "node_modules/prop-types/checkPropTypes.js"(exports, module) {
     "use strict";
     var printWarning = function() {
     };
@@ -23945,9 +23945,9 @@ var require_checkPropTypes = __commonJS({
   }
 });
 
-// .yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/factoryWithTypeCheckers.js
+// node_modules/prop-types/factoryWithTypeCheckers.js
 var require_factoryWithTypeCheckers = __commonJS({
-  ".yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/factoryWithTypeCheckers.js"(exports, module) {
+  "node_modules/prop-types/factoryWithTypeCheckers.js"(exports, module) {
     "use strict";
     var ReactIs = require_react_is();
     var assign3 = require_object_assign();
@@ -24388,9 +24388,9 @@ var require_factoryWithTypeCheckers = __commonJS({
   }
 });
 
-// .yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/index.js
+// node_modules/prop-types/index.js
 var require_prop_types = __commonJS({
-  ".yarn/cache/prop-types-npm-15.8.1-17c71ee7ee-7d959caec0.zip/node_modules/prop-types/index.js"(exports, module) {
+  "node_modules/prop-types/index.js"(exports, module) {
     if (true) {
       ReactIs = require_react_is();
       throwOnDirectAccess = true;
@@ -24403,9 +24403,9 @@ var require_prop_types = __commonJS({
   }
 });
 
-// .yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/cjs/react-jsx-runtime.development.js
+// node_modules/react/cjs/react-jsx-runtime.development.js
 var require_react_jsx_runtime_development = __commonJS({
-  ".yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+  "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -25296,9 +25296,9 @@ var require_react_jsx_runtime_development = __commonJS({
   }
 });
 
-// .yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/jsx-runtime.js
+// node_modules/react/jsx-runtime.js
 var require_jsx_runtime = __commonJS({
-  ".yarn/cache/react-npm-18.3.1-af38f3c1ae-261137d3f3.zip/node_modules/react/jsx-runtime.js"(exports, module) {
+  "node_modules/react/jsx-runtime.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -25308,9 +25308,9 @@ var require_jsx_runtime = __commonJS({
   }
 });
 
-// .yarn/__virtual__/react-side-effect-virtual-bec5e8f70c/0/cache/react-side-effect-npm-2.1.2-c18e5fd8bd-8c31aaec5b.zip/node_modules/react-side-effect/lib/index.js
+// node_modules/react-side-effect/lib/index.js
 var require_lib = __commonJS({
-  ".yarn/__virtual__/react-side-effect-virtual-bec5e8f70c/0/cache/react-side-effect-npm-2.1.2-c18e5fd8bd-8c31aaec5b.zip/node_modules/react-side-effect/lib/index.js"(exports, module) {
+  "node_modules/react-side-effect/lib/index.js"(exports, module) {
     "use strict";
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
@@ -25409,9 +25409,9 @@ var require_lib = __commonJS({
   }
 });
 
-// .yarn/cache/react-fast-compare-npm-3.2.2-45b585a872-a6826180ba.zip/node_modules/react-fast-compare/index.js
+// node_modules/react-fast-compare/index.js
 var require_react_fast_compare = __commonJS({
-  ".yarn/cache/react-fast-compare-npm-3.2.2-45b585a872-a6826180ba.zip/node_modules/react-fast-compare/index.js"(exports, module) {
+  "node_modules/react-fast-compare/index.js"(exports, module) {
     var hasElementType = typeof Element !== "undefined";
     var hasMap = typeof Map === "function";
     var hasSet = typeof Set === "function";
@@ -25486,9 +25486,9 @@ var require_react_fast_compare = __commonJS({
   }
 });
 
-// .yarn/cache/debounce-npm-2.1.0-077c423ad3-9fa12d893b.zip/node_modules/debounce/index.js
+// node_modules/debounce/index.js
 var require_debounce = __commonJS({
-  ".yarn/cache/debounce-npm-2.1.0-077c423ad3-9fa12d893b.zip/node_modules/debounce/index.js"(exports, module) {
+  "node_modules/debounce/index.js"(exports, module) {
     function debounce3(function_, wait = 100, options2 = {}) {
       if (typeof function_ !== "function") {
         throw new TypeError(`Expected the first parameter to be a function, got \`${typeof function_}\`.`);
@@ -25564,7 +25564,7 @@ var require_debounce = __commonJS({
 // scripts/index.tsx
 var import_client = __toESM(require_client());
 
-// .yarn/__virtual__/react-redux-virtual-c8a50c63b3/0/cache/react-redux-npm-9.1.2-8af4985431-319b3286f5.zip/node_modules/react-redux/dist/react-redux.mjs
+// node_modules/react-redux/dist/react-redux.mjs
 var React2 = __toESM(require_react(), 1);
 var import_with_selector = __toESM(require_with_selector(), 1);
 var ReactOriginal = __toESM(require_react(), 1);
@@ -25953,14 +25953,14 @@ var useDispatch = /* @__PURE__ */ createDispatchHook();
 initializeUseSelector(import_with_selector.useSyncExternalStoreWithSelector);
 initializeConnect(React2.useSyncExternalStore);
 
-// .yarn/__virtual__/react-router-dom-virtual-3126e5efed/0/cache/react-router-dom-npm-6.23.1-a0a4fb9537-2900417660.zip/node_modules/react-router-dom/dist/index.js
+// node_modules/react-router-dom/dist/index.js
 var React4 = __toESM(require_react());
 var ReactDOM = __toESM(require_react_dom());
 
-// .yarn/__virtual__/react-router-virtual-253d580ac3/0/cache/react-router-npm-6.23.1-793f9d0865-72747878fd.zip/node_modules/react-router/dist/index.js
+// node_modules/react-router/dist/index.js
 var React3 = __toESM(require_react());
 
-// .yarn/cache/@remix-run-router-npm-1.16.1-cfa8039af0-0bfbf2a047.zip/node_modules/@remix-run/router/dist/router.js
+// node_modules/@remix-run/router/dist/router.js
 function _extends() {
   _extends = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -26220,7 +26220,7 @@ function convertRoutesToDataRoutes(routes, mapRouteProperties2, parentPath, mani
     manifest = {};
   }
   return routes.map((route, index) => {
-    let treePath = [...parentPath, index];
+    let treePath = [...parentPath, String(index)];
     let id = typeof route.id === "string" ? route.id : treePath.join("-");
     invariant(route.index !== true || !route.children, "Cannot specify children on an index route");
     invariant(!manifest[id], 'Found a route id collision on id "' + id + `".  Route id's must be globally unique within Data Router usages`);
@@ -26247,6 +26247,9 @@ function matchRoutes(routes, locationArg, basename) {
   if (basename === void 0) {
     basename = "/";
   }
+  return matchRoutesImpl(routes, locationArg, basename, false);
+}
+function matchRoutesImpl(routes, locationArg, basename, allowPartial) {
   let location2 = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
   let pathname = stripBasename(location2.pathname || "/", basename);
   if (pathname == null) {
@@ -26257,7 +26260,7 @@ function matchRoutes(routes, locationArg, basename) {
   let matches2 = null;
   for (let i = 0; matches2 == null && i < branches.length; ++i) {
     let decoded = decodePath(pathname);
-    matches2 = matchRouteBranch(branches[i], decoded);
+    matches2 = matchRouteBranch(branches[i], decoded, allowPartial);
   }
   return matches2;
 }
@@ -26380,7 +26383,10 @@ function compareIndexes(a, b) {
     0
   );
 }
-function matchRouteBranch(branch, pathname) {
+function matchRouteBranch(branch, pathname, allowPartial) {
+  if (allowPartial === void 0) {
+    allowPartial = false;
+  }
   let {
     routesMeta
   } = branch;
@@ -26396,9 +26402,18 @@ function matchRouteBranch(branch, pathname) {
       caseSensitive: meta.caseSensitive,
       end: end3
     }, remainingPathname);
-    if (!match2) return null;
-    Object.assign(matchedParams, match2.params);
     let route = meta.route;
+    if (!match2 && end3 && allowPartial && !routesMeta[routesMeta.length - 1].route.index) {
+      match2 = matchPath({
+        path: meta.relativePath,
+        caseSensitive: meta.caseSensitive,
+        end: false
+      }, remainingPathname);
+    }
+    if (!match2) {
+      return null;
+    }
+    Object.assign(matchedParams, match2.params);
     matches2.push({
       // TODO: Can this as be avoided?
       params: matchedParams,
@@ -26659,6 +26674,7 @@ function createRouter(init) {
   let inFlightDataRoutes;
   let basename = init.basename || "/";
   let dataStrategyImpl = init.unstable_dataStrategy || defaultDataStrategy;
+  let patchRoutesOnMissImpl = init.unstable_patchRoutesOnMiss;
   let future = _extends({
     v7_fetcherPersist: false,
     v7_normalizeFormMethod: false,
@@ -26675,7 +26691,7 @@ function createRouter(init) {
   let initialScrollRestored = init.hydrationData != null;
   let initialMatches = matchRoutes(dataRoutes, init.history.location, basename);
   let initialErrors = null;
-  if (initialMatches == null) {
+  if (initialMatches == null && !patchRoutesOnMissImpl) {
     let error = getInternalRouterError(404, {
       pathname: init.history.location.pathname
     });
@@ -26689,11 +26705,12 @@ function createRouter(init) {
     };
   }
   let initialized;
-  let hasLazyRoutes = initialMatches.some((m) => m.route.lazy);
-  let hasLoaders = initialMatches.some((m) => m.route.loader);
-  if (hasLazyRoutes) {
+  if (!initialMatches) {
     initialized = false;
-  } else if (!hasLoaders) {
+    initialMatches = [];
+  } else if (initialMatches.some((m) => m.route.lazy)) {
+    initialized = false;
+  } else if (!initialMatches.some((m) => m.route.loader)) {
     initialized = true;
   } else if (future.v7_partialHydration) {
     let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
@@ -26753,6 +26770,7 @@ function createRouter(init) {
   let deletedFetchers = /* @__PURE__ */ new Set();
   let activeDeferreds = /* @__PURE__ */ new Map();
   let blockerFunctions = /* @__PURE__ */ new Map();
+  let pendingPatchRoutes = /* @__PURE__ */ new Map();
   let ignoreNextHistoryUpdate = false;
   function initialize() {
     unlistenHistory = init.history.listen((_ref2) => {
@@ -27034,15 +27052,16 @@ function createRouter(init) {
     let loadingNavigation = opts && opts.overrideNavigation;
     let matches2 = matchRoutes(routesToUse, location2, basename);
     let flushSync = (opts && opts.flushSync) === true;
+    let fogOfWar = checkFogOfWar(matches2, routesToUse, location2.pathname);
+    if (fogOfWar.active && fogOfWar.matches) {
+      matches2 = fogOfWar.matches;
+    }
     if (!matches2) {
-      let error = getInternalRouterError(404, {
-        pathname: location2.pathname
-      });
       let {
-        matches: notFoundMatches,
+        error,
+        notFoundMatches,
         route
-      } = getShortCircuitMatches(routesToUse);
-      cancelActiveDeferreds();
+      } = handleNavigational404(location2.pathname);
       completeNavigation(location2, {
         matches: notFoundMatches,
         loaderData: {},
@@ -27071,35 +27090,52 @@ function createRouter(init) {
         error: opts.pendingError
       }];
     } else if (opts && opts.submission && isMutationMethod(opts.submission.formMethod)) {
-      let actionResult = await handleAction(request, location2, opts.submission, matches2, {
+      let actionResult = await handleAction(request, location2, opts.submission, matches2, fogOfWar.active, {
         replace: opts.replace,
         flushSync
       });
       if (actionResult.shortCircuited) {
         return;
       }
+      if (actionResult.pendingActionResult) {
+        let [routeId, result] = actionResult.pendingActionResult;
+        if (isErrorResult(result) && isRouteErrorResponse(result.error) && result.error.status === 404) {
+          pendingNavigationController = null;
+          completeNavigation(location2, {
+            matches: actionResult.matches,
+            loaderData: {},
+            errors: {
+              [routeId]: result.error
+            }
+          });
+          return;
+        }
+      }
+      matches2 = actionResult.matches || matches2;
       pendingActionResult = actionResult.pendingActionResult;
       loadingNavigation = getLoadingNavigation(location2, opts.submission);
       flushSync = false;
+      fogOfWar.active = false;
       request = createClientSideRequest(init.history, request.url, request.signal);
     }
     let {
       shortCircuited,
+      matches: updatedMatches,
       loaderData,
       errors: errors2
-    } = await handleLoaders(request, location2, matches2, loadingNavigation, opts && opts.submission, opts && opts.fetcherSubmission, opts && opts.replace, opts && opts.initialHydration === true, flushSync, pendingActionResult);
+    } = await handleLoaders(request, location2, matches2, fogOfWar.active, loadingNavigation, opts && opts.submission, opts && opts.fetcherSubmission, opts && opts.replace, opts && opts.initialHydration === true, flushSync, pendingActionResult);
     if (shortCircuited) {
       return;
     }
     pendingNavigationController = null;
     completeNavigation(location2, _extends({
-      matches: matches2
+      matches: updatedMatches || matches2
     }, getActionDataForCommit(pendingActionResult), {
       loaderData,
       errors: errors2
     }));
   }
-  async function handleAction(request, location2, submission, matches2, opts) {
+  async function handleAction(request, location2, submission, matches2, isFogOfWar, opts) {
     if (opts === void 0) {
       opts = {};
     }
@@ -27110,6 +27146,42 @@ function createRouter(init) {
     }, {
       flushSync: opts.flushSync === true
     });
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(matches2, location2.pathname, request.signal);
+      if (discoverResult.type === "aborted") {
+        return {
+          shortCircuited: true
+        };
+      } else if (discoverResult.type === "error") {
+        let {
+          error,
+          notFoundMatches,
+          route
+        } = handleDiscoverRouteError(location2.pathname, discoverResult);
+        return {
+          matches: notFoundMatches,
+          pendingActionResult: [route.id, {
+            type: ResultType.error,
+            error
+          }]
+        };
+      } else if (!discoverResult.matches) {
+        let {
+          notFoundMatches,
+          error,
+          route
+        } = handleNavigational404(location2.pathname);
+        return {
+          matches: notFoundMatches,
+          pendingActionResult: [route.id, {
+            type: ResultType.error,
+            error
+          }]
+        };
+      } else {
+        matches2 = discoverResult.matches;
+      }
+    }
     let result;
     let actionMatch = getTargetMatch(matches2, location2);
     if (!actionMatch.route.action && !actionMatch.route.lazy) {
@@ -27157,16 +27229,65 @@ function createRouter(init) {
         pendingAction = Action.Push;
       }
       return {
+        matches: matches2,
         pendingActionResult: [boundaryMatch.route.id, result]
       };
     }
     return {
+      matches: matches2,
       pendingActionResult: [actionMatch.route.id, result]
     };
   }
-  async function handleLoaders(request, location2, matches2, overrideNavigation, submission, fetcherSubmission, replace4, initialHydration, flushSync, pendingActionResult) {
+  async function handleLoaders(request, location2, matches2, isFogOfWar, overrideNavigation, submission, fetcherSubmission, replace4, initialHydration, flushSync, pendingActionResult) {
     let loadingNavigation = overrideNavigation || getLoadingNavigation(location2, submission);
     let activeSubmission = submission || fetcherSubmission || getSubmissionFromNavigation(loadingNavigation);
+    let shouldUpdateNavigationState = !isUninterruptedRevalidation && (!future.v7_partialHydration || !initialHydration);
+    if (isFogOfWar) {
+      if (shouldUpdateNavigationState) {
+        let actionData = getUpdatedActionData(pendingActionResult);
+        updateState(_extends({
+          navigation: loadingNavigation
+        }, actionData !== void 0 ? {
+          actionData
+        } : {}), {
+          flushSync
+        });
+      }
+      let discoverResult = await discoverRoutes(matches2, location2.pathname, request.signal);
+      if (discoverResult.type === "aborted") {
+        return {
+          shortCircuited: true
+        };
+      } else if (discoverResult.type === "error") {
+        let {
+          error,
+          notFoundMatches,
+          route
+        } = handleDiscoverRouteError(location2.pathname, discoverResult);
+        return {
+          matches: notFoundMatches,
+          loaderData: {},
+          errors: {
+            [route.id]: error
+          }
+        };
+      } else if (!discoverResult.matches) {
+        let {
+          error,
+          notFoundMatches,
+          route
+        } = handleNavigational404(location2.pathname);
+        return {
+          matches: notFoundMatches,
+          loaderData: {},
+          errors: {
+            [route.id]: error
+          }
+        };
+      } else {
+        matches2 = discoverResult.matches;
+      }
+    }
     let routesToUse = inFlightDataRoutes || dataRoutes;
     let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(init.history, state, matches2, activeSubmission, location2, future.v7_partialHydration && initialHydration === true, future.unstable_skipActionErrorRevalidation, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, deletedFetchers, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionResult);
     cancelActiveDeferreds((routeId) => !(matches2 && matches2.some((m) => m.route.id === routeId)) || matchesToLoad && matchesToLoad.some((m) => m.route.id === routeId));
@@ -27189,31 +27310,19 @@ function createRouter(init) {
         shortCircuited: true
       };
     }
-    if (!isUninterruptedRevalidation && (!future.v7_partialHydration || !initialHydration)) {
-      revalidatingFetchers.forEach((rf) => {
-        let fetcher = state.fetchers.get(rf.key);
-        let revalidatingFetcher = getLoadingFetcher(void 0, fetcher ? fetcher.data : void 0);
-        state.fetchers.set(rf.key, revalidatingFetcher);
-      });
-      let actionData;
-      if (pendingActionResult && !isErrorResult(pendingActionResult[1])) {
-        actionData = {
-          [pendingActionResult[0]]: pendingActionResult[1].data
-        };
-      } else if (state.actionData) {
-        if (Object.keys(state.actionData).length === 0) {
-          actionData = null;
-        } else {
-          actionData = state.actionData;
+    if (shouldUpdateNavigationState) {
+      let updates = {};
+      if (!isFogOfWar) {
+        updates.navigation = loadingNavigation;
+        let actionData = getUpdatedActionData(pendingActionResult);
+        if (actionData !== void 0) {
+          updates.actionData = actionData;
         }
       }
-      updateState(_extends({
-        navigation: loadingNavigation
-      }, actionData !== void 0 ? {
-        actionData
-      } : {}, revalidatingFetchers.length > 0 ? {
-        fetchers: new Map(state.fetchers)
-      } : {}), {
+      if (revalidatingFetchers.length > 0) {
+        updates.fetchers = getUpdatedRevalidatingFetchers(revalidatingFetchers);
+      }
+      updateState(updates, {
         flushSync
       });
     }
@@ -27281,11 +27390,33 @@ function createRouter(init) {
     let didAbortFetchLoads = abortStaleFetchLoads(pendingNavigationLoadId);
     let shouldUpdateFetchers = updatedFetchers || didAbortFetchLoads || revalidatingFetchers.length > 0;
     return _extends({
+      matches: matches2,
       loaderData,
       errors: errors2
     }, shouldUpdateFetchers ? {
       fetchers: new Map(state.fetchers)
     } : {});
+  }
+  function getUpdatedActionData(pendingActionResult) {
+    if (pendingActionResult && !isErrorResult(pendingActionResult[1])) {
+      return {
+        [pendingActionResult[0]]: pendingActionResult[1].data
+      };
+    } else if (state.actionData) {
+      if (Object.keys(state.actionData).length === 0) {
+        return null;
+      } else {
+        return state.actionData;
+      }
+    }
+  }
+  function getUpdatedRevalidatingFetchers(revalidatingFetchers) {
+    revalidatingFetchers.forEach((rf) => {
+      let fetcher = state.fetchers.get(rf.key);
+      let revalidatingFetcher = getLoadingFetcher(void 0, fetcher ? fetcher.data : void 0);
+      state.fetchers.set(rf.key, revalidatingFetcher);
+    });
+    return new Map(state.fetchers);
   }
   function fetch2(key, routeId, href, opts) {
     if (isServer) {
@@ -27296,6 +27427,10 @@ function createRouter(init) {
     let routesToUse = inFlightDataRoutes || dataRoutes;
     let normalizedPath = normalizeTo(state.location, state.matches, basename, future.v7_prependBasename, href, future.v7_relativeSplatPath, routeId, opts == null ? void 0 : opts.relative);
     let matches2 = matchRoutes(routesToUse, normalizedPath, basename);
+    let fogOfWar = checkFogOfWar(matches2, routesToUse, normalizedPath);
+    if (fogOfWar.active && fogOfWar.matches) {
+      matches2 = fogOfWar.matches;
+    }
     if (!matches2) {
       setFetcherError(key, routeId, getInternalRouterError(404, {
         pathname: normalizedPath
@@ -27318,27 +27453,33 @@ function createRouter(init) {
     let match2 = getTargetMatch(matches2, path);
     pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
     if (submission && isMutationMethod(submission.formMethod)) {
-      handleFetcherAction(key, routeId, path, match2, matches2, flushSync, submission);
+      handleFetcherAction(key, routeId, path, match2, matches2, fogOfWar.active, flushSync, submission);
       return;
     }
     fetchLoadMatches.set(key, {
       routeId,
       path
     });
-    handleFetcherLoader(key, routeId, path, match2, matches2, flushSync, submission);
+    handleFetcherLoader(key, routeId, path, match2, matches2, fogOfWar.active, flushSync, submission);
   }
-  async function handleFetcherAction(key, routeId, path, match2, requestMatches, flushSync, submission) {
+  async function handleFetcherAction(key, routeId, path, match2, requestMatches, isFogOfWar, flushSync, submission) {
     interruptActiveLoads();
     fetchLoadMatches.delete(key);
-    if (!match2.route.action && !match2.route.lazy) {
-      let error = getInternalRouterError(405, {
-        method: submission.formMethod,
-        pathname: path,
-        routeId
-      });
-      setFetcherError(key, routeId, error, {
-        flushSync
-      });
+    function detectAndHandle405Error(m) {
+      if (!m.route.action && !m.route.lazy) {
+        let error = getInternalRouterError(405, {
+          method: submission.formMethod,
+          pathname: path,
+          routeId
+        });
+        setFetcherError(key, routeId, error, {
+          flushSync
+        });
+        return true;
+      }
+      return false;
+    }
+    if (!isFogOfWar && detectAndHandle405Error(match2)) {
       return;
     }
     let existingFetcher = state.fetchers.get(key);
@@ -27347,6 +27488,33 @@ function createRouter(init) {
     });
     let abortController = new AbortController();
     let fetchRequest = createClientSideRequest(init.history, path, abortController.signal, submission);
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(requestMatches, path, fetchRequest.signal);
+      if (discoverResult.type === "aborted") {
+        return;
+      } else if (discoverResult.type === "error") {
+        let {
+          error
+        } = handleDiscoverRouteError(path, discoverResult);
+        setFetcherError(key, routeId, error, {
+          flushSync
+        });
+        return;
+      } else if (!discoverResult.matches) {
+        setFetcherError(key, routeId, getInternalRouterError(404, {
+          pathname: path
+        }), {
+          flushSync
+        });
+        return;
+      } else {
+        requestMatches = discoverResult.matches;
+        match2 = getTargetMatch(requestMatches, path);
+        if (detectAndHandle405Error(match2)) {
+          return;
+        }
+      }
+    }
     fetchControllers.set(key, abortController);
     let originatingLoadId = incrementingLoadId;
     let actionResults = await callDataStrategy("action", fetchRequest, [match2], requestMatches);
@@ -27459,13 +27627,37 @@ function createRouter(init) {
       isRevalidationRequired = false;
     }
   }
-  async function handleFetcherLoader(key, routeId, path, match2, matches2, flushSync, submission) {
+  async function handleFetcherLoader(key, routeId, path, match2, matches2, isFogOfWar, flushSync, submission) {
     let existingFetcher = state.fetchers.get(key);
     updateFetcherState(key, getLoadingFetcher(submission, existingFetcher ? existingFetcher.data : void 0), {
       flushSync
     });
     let abortController = new AbortController();
     let fetchRequest = createClientSideRequest(init.history, path, abortController.signal);
+    if (isFogOfWar) {
+      let discoverResult = await discoverRoutes(matches2, path, fetchRequest.signal);
+      if (discoverResult.type === "aborted") {
+        return;
+      } else if (discoverResult.type === "error") {
+        let {
+          error
+        } = handleDiscoverRouteError(path, discoverResult);
+        setFetcherError(key, routeId, error, {
+          flushSync
+        });
+        return;
+      } else if (!discoverResult.matches) {
+        setFetcherError(key, routeId, getInternalRouterError(404, {
+          pathname: path
+        }), {
+          flushSync
+        });
+        return;
+      } else {
+        matches2 = discoverResult.matches;
+        match2 = getTargetMatch(matches2, path);
+      }
+    }
     fetchControllers.set(key, abortController);
     let originatingLoadId = incrementingLoadId;
     let results = await callDataStrategy("loader", fetchRequest, [match2], matches2);
@@ -27766,6 +27958,37 @@ function createRouter(init) {
       return blockerKey;
     }
   }
+  function handleNavigational404(pathname) {
+    let error = getInternalRouterError(404, {
+      pathname
+    });
+    let routesToUse = inFlightDataRoutes || dataRoutes;
+    let {
+      matches: matches2,
+      route
+    } = getShortCircuitMatches(routesToUse);
+    cancelActiveDeferreds();
+    return {
+      notFoundMatches: matches2,
+      route,
+      error
+    };
+  }
+  function handleDiscoverRouteError(pathname, discoverResult) {
+    let matches2 = discoverResult.partialMatches;
+    let route = matches2[matches2.length - 1].route;
+    let error = getInternalRouterError(400, {
+      type: "route-discovery",
+      routeId: route.id,
+      pathname,
+      message: discoverResult.error != null && "message" in discoverResult.error ? discoverResult.error : String(discoverResult.error)
+    });
+    return {
+      notFoundMatches: matches2,
+      route,
+      error
+    };
+  }
   function cancelActiveDeferreds(predicate) {
     let cancelledRouteIds = [];
     activeDeferreds.forEach((dfd, routeId) => {
@@ -27819,6 +28042,87 @@ function createRouter(init) {
     }
     return null;
   }
+  function checkFogOfWar(matches2, routesToUse, pathname) {
+    if (patchRoutesOnMissImpl) {
+      if (!matches2) {
+        let fogMatches = matchRoutesImpl(routesToUse, pathname, basename, true);
+        return {
+          active: true,
+          matches: fogMatches || []
+        };
+      } else {
+        let leafRoute = matches2[matches2.length - 1].route;
+        if (leafRoute.path === "*") {
+          let partialMatches = matchRoutesImpl(routesToUse, pathname, basename, true);
+          return {
+            active: true,
+            matches: partialMatches
+          };
+        }
+      }
+    }
+    return {
+      active: false,
+      matches: null
+    };
+  }
+  async function discoverRoutes(matches2, pathname, signal) {
+    let partialMatches = matches2;
+    let route = partialMatches.length > 0 ? partialMatches[partialMatches.length - 1].route : null;
+    while (true) {
+      try {
+        await loadLazyRouteChildren(patchRoutesOnMissImpl, pathname, partialMatches, dataRoutes || inFlightDataRoutes, manifest, mapRouteProperties2, pendingPatchRoutes, signal);
+      } catch (e) {
+        return {
+          type: "error",
+          error: e,
+          partialMatches
+        };
+      }
+      if (signal.aborted) {
+        return {
+          type: "aborted"
+        };
+      }
+      let routesToUse = inFlightDataRoutes || dataRoutes;
+      let newMatches = matchRoutes(routesToUse, pathname, basename);
+      let matchedSplat = false;
+      if (newMatches) {
+        let leafRoute = newMatches[newMatches.length - 1].route;
+        if (leafRoute.index) {
+          return {
+            type: "success",
+            matches: newMatches
+          };
+        }
+        if (leafRoute.path && leafRoute.path.length > 0) {
+          if (leafRoute.path === "*") {
+            matchedSplat = true;
+          } else {
+            return {
+              type: "success",
+              matches: newMatches
+            };
+          }
+        }
+      }
+      let newPartialMatches = matchRoutesImpl(routesToUse, pathname, basename, true);
+      if (!newPartialMatches || partialMatches.map((m) => m.route.id).join("-") === newPartialMatches.map((m) => m.route.id).join("-")) {
+        return {
+          type: "success",
+          matches: matchedSplat ? newMatches : null
+        };
+      }
+      partialMatches = newPartialMatches;
+      route = partialMatches[partialMatches.length - 1].route;
+      if (route.path === "*") {
+        return {
+          type: "success",
+          matches: partialMatches
+        };
+      }
+    }
+  }
   function _internalSetRoutes(newRoutes) {
     manifest = {};
     inFlightDataRoutes = convertRoutesToDataRoutes(newRoutes, mapRouteProperties2, void 0, manifest);
@@ -27854,6 +28158,9 @@ function createRouter(init) {
     dispose,
     getBlocker,
     deleteBlocker,
+    patchRoutes(routeId, children) {
+      return patchRoutes(routeId, children, dataRoutes || inFlightDataRoutes, manifest, mapRouteProperties2);
+    },
     _internalFetchControllers: fetchControllers,
     _internalActiveDeferreds: activeDeferreds,
     // TODO: Remove setRoutes, it's temporary to avoid dealing with
@@ -28142,6 +28449,45 @@ function shouldRevalidateLoader(loaderMatch, arg) {
     }
   }
   return arg.defaultShouldRevalidate;
+}
+async function loadLazyRouteChildren(patchRoutesOnMissImpl, path, matches2, routes, manifest, mapRouteProperties2, pendingRouteChildren, signal) {
+  let key = [path, ...matches2.map((m) => m.route.id)].join("-");
+  try {
+    let pending = pendingRouteChildren.get(key);
+    if (!pending) {
+      pending = patchRoutesOnMissImpl({
+        path,
+        matches: matches2,
+        patch: (routeId, children) => {
+          if (!signal.aborted) {
+            patchRoutes(routeId, children, routes, manifest, mapRouteProperties2);
+          }
+        }
+      });
+      pendingRouteChildren.set(key, pending);
+    }
+    if (pending && isPromise(pending)) {
+      await pending;
+    }
+  } finally {
+    pendingRouteChildren.delete(key);
+  }
+}
+function patchRoutes(routeId, children, routes, manifest, mapRouteProperties2) {
+  if (routeId) {
+    var _route$children;
+    let route = manifest[routeId];
+    invariant(route, "No route found to patch children into: routeId = " + routeId);
+    let dataChildren = convertRoutesToDataRoutes(children, mapRouteProperties2, [routeId, "patch", String(((_route$children = route.children) == null ? void 0 : _route$children.length) || "0")], manifest);
+    if (route.children) {
+      route.children.push(...dataChildren);
+    } else {
+      route.children = dataChildren;
+    }
+  } else {
+    let dataChildren = convertRoutesToDataRoutes(children, mapRouteProperties2, ["patch", String(routes.length || "0")], manifest);
+    routes.push(...dataChildren);
+  }
 }
 async function loadLazyRouteModule(route, mapRouteProperties2, manifest) {
   if (!route.lazy) {
@@ -28584,13 +28930,16 @@ function getInternalRouterError(status, _temp5) {
     pathname,
     routeId,
     method,
-    type
+    type,
+    message
   } = _temp5 === void 0 ? {} : _temp5;
   let statusText = "Unknown Server Error";
   let errorMessage = "Unknown @remix-run/router error";
   if (status === 400) {
     statusText = "Bad Request";
-    if (method && pathname && routeId) {
+    if (type === "route-discovery") {
+      errorMessage = 'Unable to match URL "' + pathname + '" - the `children()` function for ' + ("route `" + routeId + "` threw the following error:\n" + message);
+    } else if (method && pathname && routeId) {
       errorMessage = "You made a " + method + ' request to "' + pathname + '" but ' + ('did not provide a `loader` for route "' + routeId + '", ') + "so there is no way to handle the request.";
     } else if (type === "defer-action") {
       errorMessage = "defer() is not supported in actions";
@@ -28642,6 +28991,9 @@ function isHashChangeOnly(a, b) {
     return true;
   }
   return false;
+}
+function isPromise(val) {
+  return typeof val === "object" && val != null && "then" in val;
 }
 function isRedirectHandlerResult(result) {
   return isResponse(result.result) && redirectStatusCodes.has(result.result.status);
@@ -28887,7 +29239,7 @@ function persistAppliedTransitions(_window, transitions) {
   }
 }
 
-// .yarn/__virtual__/react-router-virtual-253d580ac3/0/cache/react-router-npm-6.23.1-793f9d0865-72747878fd.zip/node_modules/react-router/dist/index.js
+// node_modules/react-router/dist/index.js
 function _extends2() {
   _extends2 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -29541,7 +29893,7 @@ function mapRouteProperties(route) {
   return updates;
 }
 
-// .yarn/__virtual__/react-router-dom-virtual-3126e5efed/0/cache/react-router-dom-npm-6.23.1-a0a4fb9537-2900417660.zip/node_modules/react-router-dom/dist/index.js
+// node_modules/react-router-dom/dist/index.js
 function _extends3() {
   _extends3 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -29713,6 +30065,7 @@ function createBrowserRouter(routes, opts) {
     routes,
     mapRouteProperties,
     unstable_dataStrategy: opts == null ? void 0 : opts.unstable_dataStrategy,
+    unstable_patchRoutesOnMiss: opts == null ? void 0 : opts.unstable_patchRoutesOnMiss,
     window: opts == null ? void 0 : opts.window
   }).initialize();
 }
@@ -30486,7 +30839,7 @@ function useViewTransitionState(to2, opts) {
   return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
 }
 
-// .yarn/cache/redux-npm-5.0.1-f8e6b1cb23-a373f9ed65.zip/node_modules/redux/dist/redux.mjs
+// node_modules/redux/dist/redux.mjs
 var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
 var symbol_observable_default = $$observable;
 var randomString = () => Math.random().toString(36).substring(7).split("").join(".");
@@ -30823,7 +31176,7 @@ function isAction(action) {
   return isPlainObject(action) && "type" in action && typeof action.type === "string";
 }
 
-// .yarn/cache/immer-npm-10.0.4-61b3c15a3a-c1196783cf.zip/node_modules/immer/dist/immer.mjs
+// node_modules/immer/dist/immer.mjs
 var NOTHING = Symbol.for("immer-nothing");
 var DRAFTABLE = Symbol.for("immer-draftable");
 var DRAFT_STATE = Symbol.for("immer-state");
@@ -31489,7 +31842,7 @@ var applyPatches = immer.applyPatches.bind(immer);
 var createDraft = immer.createDraft.bind(immer);
 var finishDraft = immer.finishDraft.bind(immer);
 
-// .yarn/cache/reselect-npm-5.1.1-667568f51c-1fdae11a39.zip/node_modules/reselect/dist/reselect.mjs
+// node_modules/reselect/dist/reselect.mjs
 var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
   if (inputSelectorsResults.length === 1 && inputSelectorsResults[0] === outputSelectorResult) {
     let isInputSameAsOutput = false;
@@ -31803,7 +32156,7 @@ var createStructuredSelector = Object.assign(
   { withTypes: () => createStructuredSelector }
 );
 
-// .yarn/__virtual__/redux-thunk-virtual-a58f9ad5d8/0/cache/redux-thunk-npm-3.1.0-6a8fdd3211-38c563db5f.zip/node_modules/redux-thunk/dist/redux-thunk.mjs
+// node_modules/redux-thunk/dist/redux-thunk.mjs
 function createThunkMiddleware(extraArgument) {
   const middleware2 = ({ dispatch, getState }) => (next2) => (action) => {
     if (typeof action === "function") {
@@ -31816,7 +32169,7 @@ function createThunkMiddleware(extraArgument) {
 var thunk = createThunkMiddleware();
 var withExtraArgument = createThunkMiddleware;
 
-// .yarn/__virtual__/@reduxjs-toolkit-virtual-b1bfa036f9/0/cache/@reduxjs-toolkit-npm-2.2.5-cdc856b5fc-5f20196a02.zip/node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs
+// node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs
 var createDraftSafeSelectorCreator = (...args) => {
   const createSelector2 = createSelectorCreator(...args);
   const createDraftSafeSelector2 = Object.assign((...args2) => {
@@ -33159,7 +33512,7 @@ function createUnsortedStateAdapter(selectId) {
           // Spreads ignore falsy values, so this works even if there isn't
           // an existing update already at this key
           changes: {
-            ...updatesPerEntity[update.id] ? updatesPerEntity[update.id].changes : null,
+            ...updatesPerEntity[update.id]?.changes,
             ...update.changes
           }
         };
@@ -33228,7 +33581,7 @@ function createSortedStateAdapter(selectId, comparer) {
   }
   function addManyMutably(newEntities, state, existingIds) {
     newEntities = ensureEntitiesArray(newEntities);
-    const existingKeys = new Set(existingIds ?? current(state.ids));
+    const existingKeys = new Set(existingIds ?? getCurrent(state.ids));
     const models = newEntities.filter((model) => !existingKeys.has(selectIdValue(model, selectId)));
     if (models.length !== 0) {
       mergeFunction(state, models);
@@ -33294,7 +33647,7 @@ function createSortedStateAdapter(selectId, comparer) {
     if (a.length !== b.length) {
       return false;
     }
-    for (let i = 0; i < a.length && i < b.length; i++) {
+    for (let i = 0; i < a.length; i++) {
       if (a[i] === b[i]) {
         continue;
       }
@@ -33302,13 +33655,13 @@ function createSortedStateAdapter(selectId, comparer) {
     }
     return true;
   }
-  const mergeInsertion = (state, addedItems, appliedUpdates, replacedIds) => {
+  const mergeFunction = (state, addedItems, appliedUpdates, replacedIds) => {
     const currentEntities = getCurrent(state.entities);
     const currentIds = getCurrent(state.ids);
     const stateEntities = state.entities;
     let ids = currentIds;
     if (replacedIds) {
-      ids = Array.from(new Set(currentIds));
+      ids = new Set(currentIds);
     }
     let sortedEntities = [];
     for (const id of ids) {
@@ -33334,7 +33687,6 @@ function createSortedStateAdapter(selectId, comparer) {
       state.ids = newSortedIds;
     }
   };
-  const mergeFunction = mergeInsertion;
   return {
     removeOne,
     removeMany,
@@ -33732,7 +34084,7 @@ var {
 } = peopleSlice.actions;
 var people_default = peopleSlice.reducer;
 
-// .yarn/cache/map-obj-npm-5.0.0-71c70b509b-c35a4e42a4.zip/node_modules/map-obj/index.js
+// node_modules/map-obj/index.js
 var isObject = (value) => typeof value === "object" && value !== null;
 var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
 var mapObjectSkip = Symbol("mapObjectSkip");
@@ -33775,7 +34127,7 @@ function mapObject(object, mapper, options2) {
   return _mapObject(object, mapper, options2);
 }
 
-// .yarn/cache/camelcase-npm-8.0.0-a3fa03dcc3-6da7abe997.zip/node_modules/camelcase/index.js
+// node_modules/camelcase/index.js
 var UPPERCASE = /[\p{Lu}]/u;
 var LOWERCASE = /[\p{Ll}]/u;
 var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
@@ -33857,7 +34209,7 @@ function camelCase(input, options2) {
   return postProcess(input, toUpperCase);
 }
 
-// .yarn/cache/quick-lru-npm-6.1.2-1e676e863f-93e6f13bc0.zip/node_modules/quick-lru/index.js
+// node_modules/quick-lru/index.js
 var QuickLRU = class extends Map {
   constructor(options2 = {}) {
     super();
@@ -34091,7 +34443,7 @@ var QuickLRU = class extends Map {
   }
 };
 
-// .yarn/cache/camelcase-keys-npm-9.1.3-718ad4b12e-ef227ffd81.zip/node_modules/camelcase-keys/index.js
+// node_modules/camelcase-keys/index.js
 var has2 = (array, key) => array.some((element) => {
   if (typeof element === "string") {
     return element === key;
@@ -34304,7 +34656,7 @@ var store_default = store;
 // scripts/components/alert-error.tsx
 var import_react7 = __toESM(require_react());
 
-// .yarn/cache/@babel-runtime-npm-7.23.2-d013d6cf7e-abdcbdd590.zip/node_modules/@babel/runtime/helpers/esm/extends.js
+// node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends4() {
   _extends4 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -34320,7 +34672,7 @@ function _extends4() {
   return _extends4.apply(this, arguments);
 }
 
-// .yarn/cache/@babel-runtime-npm-7.23.2-d013d6cf7e-abdcbdd590.zip/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+// node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
 function _objectWithoutPropertiesLoose2(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -34334,7 +34686,7 @@ function _objectWithoutPropertiesLoose2(source, excluded) {
   return target;
 }
 
-// .yarn/cache/@babel-runtime-npm-7.23.2-d013d6cf7e-abdcbdd590.zip/node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+// node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
 function _setPrototypeOf(o, p2) {
   _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf2(o2, p3) {
     o2.__proto__ = p3;
@@ -34343,30 +34695,30 @@ function _setPrototypeOf(o, p2) {
   return _setPrototypeOf(o, p2);
 }
 
-// .yarn/cache/@babel-runtime-npm-7.23.2-d013d6cf7e-abdcbdd590.zip/node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+// node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
   _setPrototypeOf(subClass, superClass);
 }
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/CSSTransition.js
+// node_modules/react-transition-group/esm/CSSTransition.js
 var import_prop_types3 = __toESM(require_prop_types());
 
-// .yarn/cache/dom-helpers-npm-5.2.1-b38bb4470b-bed2341adf.zip/node_modules/dom-helpers/esm/hasClass.js
+// node_modules/dom-helpers/esm/hasClass.js
 function hasClass(element, className) {
   if (element.classList) return !!className && element.classList.contains(className);
   return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
 }
 
-// .yarn/cache/dom-helpers-npm-5.2.1-b38bb4470b-bed2341adf.zip/node_modules/dom-helpers/esm/addClass.js
+// node_modules/dom-helpers/esm/addClass.js
 function addClass(element, className) {
   if (element.classList) element.classList.add(className);
   else if (!hasClass(element, className)) if (typeof element.className === "string") element.className = element.className + " " + className;
   else element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
 }
 
-// .yarn/cache/dom-helpers-npm-5.2.1-b38bb4470b-bed2341adf.zip/node_modules/dom-helpers/esm/removeClass.js
+// node_modules/dom-helpers/esm/removeClass.js
 function replaceClassName(origClass, classToRemove) {
   return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
 }
@@ -34380,20 +34732,20 @@ function removeClass(element, className) {
   }
 }
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/CSSTransition.js
+// node_modules/react-transition-group/esm/CSSTransition.js
 var import_react3 = __toESM(require_react());
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/Transition.js
+// node_modules/react-transition-group/esm/Transition.js
 var import_prop_types2 = __toESM(require_prop_types());
 var import_react2 = __toESM(require_react());
 var import_react_dom = __toESM(require_react_dom());
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/config.js
+// node_modules/react-transition-group/esm/config.js
 var config_default = {
   disabled: false
 };
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/utils/PropTypes.js
+// node_modules/react-transition-group/esm/utils/PropTypes.js
 var import_prop_types = __toESM(require_prop_types());
 var timeoutsShape = true ? import_prop_types.default.oneOfType([import_prop_types.default.number, import_prop_types.default.shape({
   enter: import_prop_types.default.number,
@@ -34413,16 +34765,16 @@ var classNamesShape = true ? import_prop_types.default.oneOfType([import_prop_ty
   exitActive: import_prop_types.default.string
 })]) : null;
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/TransitionGroupContext.js
+// node_modules/react-transition-group/esm/TransitionGroupContext.js
 var import_react = __toESM(require_react());
 var TransitionGroupContext_default = import_react.default.createContext(null);
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/utils/reflow.js
+// node_modules/react-transition-group/esm/utils/reflow.js
 var forceReflow = function forceReflow2(node2) {
   return node2.scrollTop;
 };
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/Transition.js
+// node_modules/react-transition-group/esm/Transition.js
 var UNMOUNTED = "unmounted";
 var EXITED = "exited";
 var ENTERING = "entering";
@@ -34831,7 +35183,7 @@ Transition.ENTERED = ENTERED;
 Transition.EXITING = EXITING;
 var Transition_default = Transition;
 
-// .yarn/__virtual__/react-transition-group-virtual-714f26abfe/0/cache/react-transition-group-npm-4.4.5-98ea4ef96e-ca32d3fd21.zip/node_modules/react-transition-group/esm/CSSTransition.js
+// node_modules/react-transition-group/esm/CSSTransition.js
 var _addClass = function addClass2(node2, classes) {
   return node2 && classes && classes.split(" ").forEach(function(c) {
     return addClass(node2, c);
@@ -35163,7 +35515,7 @@ var AlertPortal = ({
 };
 var alert_portal_default = AlertPortal;
 
-// .yarn/cache/@emotion-sheet-npm-1.2.2-a918ac483c-cc46b20ef7.zip/node_modules/@emotion/sheet/dist/emotion-sheet.browser.esm.js
+// node_modules/@emotion/sheet/dist/emotion-sheet.browser.esm.js
 function sheetForTag(tag) {
   if (tag.sheet) {
     return tag.sheet;
@@ -35256,7 +35608,7 @@ var StyleSheet = /* @__PURE__ */ function() {
   return StyleSheet2;
 }();
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Enum.js
+// node_modules/stylis/src/Enum.js
 var MS = "-ms-";
 var MOZ = "-moz-";
 var WEBKIT = "-webkit-";
@@ -35267,7 +35619,7 @@ var IMPORT = "@import";
 var KEYFRAMES = "@keyframes";
 var LAYER = "@layer";
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Utility.js
+// node_modules/stylis/src/Utility.js
 var abs = Math.abs;
 var from = String.fromCharCode;
 var assign2 = Object.assign;
@@ -35305,7 +35657,7 @@ function combine(array, callback2) {
   return array.map(callback2).join("");
 }
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Tokenizer.js
+// node_modules/stylis/src/Tokenizer.js
 var line = 1;
 var column = 1;
 var length = 0;
@@ -35431,7 +35783,7 @@ function identifier(index) {
   return slice(index, position);
 }
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Parser.js
+// node_modules/stylis/src/Parser.js
 function compile(value) {
   return dealloc(parse("", null, null, null, [""], value = alloc(value), 0, [0], value));
 }
@@ -35563,7 +35915,7 @@ function declaration(value, root, parent, length2) {
   return node(value, root, parent, DECLARATION, substr(value, 0, length2), substr(value, length2 + 1, -1), length2);
 }
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Serializer.js
+// node_modules/stylis/src/Serializer.js
 function serialize(children, callback2) {
   var output = "";
   var length2 = sizeof(children);
@@ -35588,7 +35940,7 @@ function stringify(element, index, children, callback2) {
   return strlen(children = serialize(element.children, callback2)) ? element.return = element.value + "{" + children + "}" : "";
 }
 
-// .yarn/cache/stylis-npm-4.2.0-6b07f11c99-5835918527.zip/node_modules/stylis/src/Middleware.js
+// node_modules/stylis/src/Middleware.js
 function middleware(collection) {
   var length2 = sizeof(collection);
   return function(element, index, children, callback2) {
@@ -35599,7 +35951,7 @@ function middleware(collection) {
   };
 }
 
-// .yarn/cache/@emotion-memoize-npm-0.8.1-9b1e35ff15-a19cc01a29.zip/node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
+// node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function memoize(fn) {
   var cache3 = /* @__PURE__ */ Object.create(null);
   return function(arg) {
@@ -35608,7 +35960,7 @@ function memoize(fn) {
   };
 }
 
-// .yarn/cache/@emotion-cache-npm-11.11.0-3e6e449071-ef29756247.zip/node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js
+// node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js
 var identifierWithPointTracking = function identifierWithPointTracking2(begin3, points, index) {
   var previous = 0;
   var character2 = 0;
@@ -36002,7 +36354,7 @@ var createCache = function createCache2(options2) {
   return cache3;
 };
 
-// .yarn/cache/@emotion-hash-npm-0.9.1-650576c2b1-716e17e48b.zip/node_modules/@emotion/hash/dist/emotion-hash.esm.js
+// node_modules/@emotion/hash/dist/emotion-hash.esm.js
 function murmur2(str) {
   var h = 0;
   var k, i = 0, len = str.length;
@@ -36032,7 +36384,7 @@ function murmur2(str) {
   return ((h ^ h >>> 15) >>> 0).toString(36);
 }
 
-// .yarn/cache/@emotion-unitless-npm-0.8.1-bcf0a8f565-918f73c46a.zip/node_modules/@emotion/unitless/dist/emotion-unitless.esm.js
+// node_modules/@emotion/unitless/dist/emotion-unitless.esm.js
 var unitlessKeys = {
   animationIterationCount: 1,
   aspectRatio: 1,
@@ -36083,7 +36435,7 @@ var unitlessKeys = {
   strokeWidth: 1
 };
 
-// .yarn/cache/@emotion-serialize-npm-1.1.2-4b856d3761-71ed270ee4.zip/node_modules/@emotion/serialize/dist/emotion-serialize.browser.esm.js
+// node_modules/@emotion/serialize/dist/emotion-serialize.browser.esm.js
 var ILLEGAL_ESCAPE_SEQUENCE_ERROR = `You have illegal escape sequence in your template literal, most likely inside content's property value.
 Because you write your CSS inside a JavaScript string you actually have to do double escaping, so for example "content: '\\00d7';" should become "content: '\\\\00d7';".
 You can read more about this here:
@@ -36336,7 +36688,7 @@ var serializeStyles = function serializeStyles2(args, registered, mergedProps) {
   };
 };
 
-// .yarn/cache/@emotion-utils-npm-1.2.1-3d04f99348-472fa529c6.zip/node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
+// node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js
 var isBrowser2 = true;
 function getRegisteredStyles(registered, registeredStyles, classNames) {
   var rawClassName = "";
@@ -36378,7 +36730,7 @@ var insertStyles = function insertStyles2(cache3, serialized, isStringTag) {
   }
 };
 
-// .yarn/cache/@emotion-css-npm-11.11.2-dbfa42cf83-718f758575.zip/node_modules/@emotion/css/create-instance/dist/emotion-css-create-instance.esm.js
+// node_modules/@emotion/css/create-instance/dist/emotion-css-create-instance.esm.js
 function insertWithoutScoping(cache3, serialized) {
   if (cache3.inserted[serialized.name] === void 0) {
     return cache3.insert("", serialized, cache3.sheet, true);
@@ -36491,7 +36843,7 @@ var classnames = function classnames2(args) {
   return cls;
 };
 
-// .yarn/cache/@emotion-css-npm-11.11.2-dbfa42cf83-718f758575.zip/node_modules/@emotion/css/dist/emotion-css.esm.js
+// node_modules/@emotion/css/dist/emotion-css.esm.js
 var _createEmotion = createEmotion({
   key: "css"
 });
@@ -36506,7 +36858,7 @@ var css = _createEmotion.css;
 var sheet = _createEmotion.sheet;
 var cache2 = _createEmotion.cache;
 
-// .yarn/unplugged/@fortawesome-fontawesome-svg-core-npm-6.5.2-43d83ee9e6/node_modules/@fortawesome/fontawesome-svg-core/index.mjs
+// node_modules/@fortawesome/fontawesome-svg-core/index.mjs
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
@@ -38947,7 +39299,7 @@ var layer = api.layer;
 var text = api.text;
 var counter = api.counter;
 
-// .yarn/__virtual__/@fortawesome-react-fontawesome-virtual-092e2b9f0a/0/cache/@fortawesome-react-fontawesome-npm-0.2.2-e1863961b2-05537fd7c3.zip/node_modules/@fortawesome/react-fontawesome/index.es.js
+// node_modules/@fortawesome/react-fontawesome/index.es.js
 var import_prop_types4 = __toESM(require_prop_types());
 var import_react6 = __toESM(require_react());
 function ownKeys2(object, enumerableOnly) {
@@ -39263,7 +39615,7 @@ FontAwesomeIcon.propTypes = {
 };
 var convertCurry = convert.bind(null, import_react6.default.createElement);
 
-// .yarn/unplugged/@fortawesome-free-solid-svg-icons-npm-6.5.2-24587ff7e2/node_modules/@fortawesome/free-solid-svg-icons/index.mjs
+// node_modules/@fortawesome/free-solid-svg-icons/index.mjs
 var faFileCsv = {
   prefix: "fas",
   iconName: "file-csv",
@@ -39370,7 +39722,7 @@ var faUserLarge = {
   icon: [512, 512, ["user-alt"], "f406", "M256 288A144 144 0 1 0 256 0a144 144 0 1 0 0 288zm-94.7 32C72.2 320 0 392.2 0 481.3c0 17 13.8 30.7 30.7 30.7H481.3c17 0 30.7-13.8 30.7-30.7C512 392.2 439.8 320 350.7 320H161.3z"]
 };
 
-// .yarn/unplugged/@fortawesome-free-regular-svg-icons-npm-6.5.2-05536928ce/node_modules/@fortawesome/free-regular-svg-icons/index.mjs
+// node_modules/@fortawesome/free-regular-svg-icons/index.mjs
 var faCalendar = {
   prefix: "far",
   iconName: "calendar",
@@ -39554,7 +39906,7 @@ var alert_error_default = AlertError;
 // scripts/components/app.tsx
 var import_react17 = __toESM(require_react());
 
-// .yarn/__virtual__/react-helmet-virtual-920326e813/0/cache/react-helmet-npm-6.1.0-20fd5447ff-eff2523138.zip/node_modules/react-helmet/es/Helmet.js
+// node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
 var import_react_side_effect = __toESM(require_lib());
 var import_react_fast_compare = __toESM(require_react_fast_compare());
@@ -41788,7 +42140,7 @@ var incident_activity_chart_default = IncidentActivityChart;
 // scripts/components/item-chart.tsx
 var import_react23 = __toESM(require_react());
 
-// .yarn/cache/@kurkle-color-npm-0.3.2-98f2086013-079c4b7688.zip/node_modules/@kurkle/color/dist/color.esm.js
+// node_modules/@kurkle/color/dist/color.esm.js
 function round(v) {
   return v + 0.5 | 0;
 }
@@ -42345,7 +42697,7 @@ var Color = class _Color {
   }
 };
 
-// .yarn/cache/chart.js-npm-4.4.3-26ab2c8866-89bc1f8684.zip/node_modules/chart.js/dist/chunks/helpers.segment.js
+// node_modules/chart.js/dist/chunks/helpers.segment.js
 function noop7() {
 }
 var uid = /* @__PURE__ */ (() => {
@@ -44698,7 +45050,7 @@ function styleChanged(style, prevStyle) {
   return JSON.stringify(style, replacer) !== JSON.stringify(prevStyle, replacer);
 }
 
-// .yarn/cache/chart.js-npm-4.4.3-26ab2c8866-89bc1f8684.zip/node_modules/chart.js/dist/chart.js
+// node_modules/chart.js/dist/chart.js
 var Animator = class {
   constructor() {
     this._request = null;
@@ -54060,7 +54412,7 @@ var TimeSeriesScale = class extends TimeScale {
 __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
-// .yarn/__virtual__/react-chartjs-2-virtual-421122b759/0/cache/react-chartjs-2-npm-5.2.0-03632f5179-0a70b60e1a.zip/node_modules/react-chartjs-2/dist/index.js
+// node_modules/react-chartjs-2/dist/index.js
 var import_react22 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
@@ -55573,7 +55925,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.16.1
+   * @remix-run/router v1.17.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -55585,7 +55937,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.23.1
+   * React Router v6.24.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -55597,7 +55949,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.23.1
+   * React Router DOM v6.24.0
    *
    * Copyright (c) Remix Software Inc.
    *
