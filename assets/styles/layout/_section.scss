@@ -126,7 +126,7 @@
     }
 
     .header-section-title {
-      margin: calc(var(--gap) / 6) 0;
+      margin: calc(var(--gap) / 2) 0;
 
       h2 {
         font-family: 'Darumadrop One';
@@ -144,6 +144,8 @@
     }
 
     &.has-subheader {
+      // margin: calc(var(--gap) / 6) 0;
+
       h2 {
         font-weight: 600;
         font-size: 15px;
@@ -235,6 +237,10 @@
       .header-identity + .header-section {
         margin-top: calc(var(--gap) * 2);
       }
+
+      .header-section-title {
+        margin-top: calc(var(--gap) / 2);
+      }
     }
 
     .header + .section-main {
@@ -291,6 +297,10 @@
         h1 {
           font-size: 18px;
         }
+      }
+
+      .header-section-title {
+        margin-top: calc(var(--gap) / 6);
       }
 
       &.has-subheader {

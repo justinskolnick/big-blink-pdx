@@ -908,8 +908,8 @@ body.has-alert .alert-root {
   font-size: calc(var(--header-section-icon-size) / 9 * 4);
 }
 .section .header .header-section-title {
-  margin: calc(18px / 6) 0;
-  margin: calc(var(--gap) / 6) 0;
+  margin: calc(18px / 2) 0;
+  margin: calc(var(--gap) / 2) 0;
 }
 .section .header .header-section-title h2 {
   font-family: "Darumadrop One";
@@ -1001,6 +1001,10 @@ body.has-alert .alert-root {
     margin-top: calc(18px * 2);
     margin-top: calc(var(--gap) * 2);
   }
+  .section .header .header-section-title {
+    margin-top: calc(18px / 2);
+    margin-top: calc(var(--gap) / 2);
+  }
   .section .header + .section-main {
     margin-top: calc(18px * 2);
     margin-top: calc(var(--gap) * 2);
@@ -1042,6 +1046,10 @@ body.has-alert .alert-root {
   }
   .section .header .header-identity h1 {
     font-size: 18px;
+  }
+  .section .header .header-section-title {
+    margin-top: calc(18px / 6);
+    margin-top: calc(var(--gap) / 6);
   }
   .section .header.has-subheader .header-section-title {
     margin-top: 0;
