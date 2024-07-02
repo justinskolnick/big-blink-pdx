@@ -26,6 +26,9 @@ const getQuarterAndYear = (param) => {
   return null;
 };
 
+const getQuarterSlug = (param) =>
+  param.toLowerCase().split('-').sort().join('-');
+
 const hasSort = (param) => param in SORT;
 const hasSortBy = (param) => param in SORT_BY;
 
@@ -41,6 +44,7 @@ module.exports = {
   SORT_BY_TOTAL,
   getInvalidValueMessage,
   getQuarterAndYear,
+  getQuarterSlug,
   getSort,
   getSortBy,
   hasQuarterAndYear,

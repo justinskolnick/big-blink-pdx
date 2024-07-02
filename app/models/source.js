@@ -12,6 +12,7 @@ class Source extends Base {
     title:        { select: true, },
     year:         { select: true, },
     quarter:      { select: true, },
+    quarter_id:   { select: false, }, // eslint-disable-line camelcase
     public_url:   { select: true, }, // eslint-disable-line camelcase
     retrieved_at: { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } }, // eslint-disable-line camelcase
   };

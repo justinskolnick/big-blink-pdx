@@ -98,13 +98,14 @@ describe('getIdForQuarterQuery()', () => {
           'SELECT',
           'data_sources.id',
           'FROM data_sources',
+          'LEFT JOIN quarters ON data_sources.quarter_id = quarters.id',
           'WHERE',
-          'year = ? AND quarter = ?',
+          'quarters.slug = ?',
           'AND',
           'type = ?',
           'LIMIT 1',
         ],
-        params: [2023, 2, 'activity'],
+        params: ['2023-q2', 'activity'],
       });
     });
   });

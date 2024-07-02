@@ -2,6 +2,7 @@ const paramHelper = require('../helpers/param');
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
 const Source = require('../models/source');
+const Quarter = require('../models/quarter');
 const db = require('../services/db');
 
 const getAllQuery = (options = {}) => {
@@ -113,14 +114,15 @@ const getIdForQuarterQuery = (quarter) => {
   const clauses = [];
   const params = [];
 
-  const [q, y] = paramHelper.getQuarterAndYear(quarter);
+  const quarterSlug = paramHelper.getQuarterSlug(quarter);
 
   clauses.push('SELECT');
   clauses.push(Source.field('id'));
   clauses.push(`FROM ${Source.tableName}`);
+  clauses.push(`LEFT JOIN ${Quarter.tableName} ON ${Source.field('quarter_id')} = ${Quarter.primaryKey()}`);
   clauses.push('WHERE');
-  clauses.push('year = ? AND quarter = ?');
-  params.push(y, q);
+  clauses.push(`${Quarter.field('slug')} = ?`);
+  params.push(quarterSlug);
 
   clauses.push('AND');
   clauses.push('type = ?');
