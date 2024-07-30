@@ -19,7 +19,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16.png" />
     <link rel="shortcut icon" href="/images/icons/favicon.ico" />
+<% if (process.env.NODE_ENV === 'production') { -%>
+    <link rel="stylesheet" href="/styles/main.min.css" />
+<% } else { -%>
     <link rel="stylesheet" href="/styles/main.css" />
+<% } -%>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darumadrop+One" />
   </head>
   <body>

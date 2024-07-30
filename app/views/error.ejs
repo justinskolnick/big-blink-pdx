@@ -7,7 +7,11 @@
     <meta name="googlebot" content="<%= robots %>" />
     <title>Error</title>
     <link rel="shortcut icon" href="/images/favicon.ico" />
+<% if (process.env.NODE_ENV === 'production') { -%>
+    <link rel="stylesheet" href="/styles/error.min.css" />
+<% } else { -%>
     <link rel="stylesheet" href="/styles/error.css" />
+<% } -%>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Darumadrop+One" />
   </head>
   <body>

@@ -29,7 +29,7 @@ const defaults = {
       }
     }),
   ],
-  sourcemap: true,
+  sourcemap: false,
   target: 'es2021',
 };
 

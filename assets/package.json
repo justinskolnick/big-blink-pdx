@@ -17,9 +17,9 @@
   "config": {
     "scripts": {
       "build": [
-        "scripts/index.tsx",
-        "styles/error.scss",
-        "styles/main.scss"
+        "./scripts/index.tsx",
+        "./styles/error.scss",
+        "./styles/main.scss"
       ],
       "dist": "../app/public"
     }
