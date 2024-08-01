@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import AlertPortal from './alert-portal';
@@ -64,6 +64,8 @@ const Alert = ({
   grade,
   isActive,
 }: AlertProps) => {
+  const ref = useRef<HTMLDivElement>();
+
   const iconName = ['error', 'warning'].includes(grade) ? 'triangle-exclamation' : 'asterisk';
   const classNames = unique(['alert-message', `alert-${grade}`]).join(' ');
 
@@ -72,11 +74,13 @@ const Alert = ({
       timeout={250}
       classNames='alert'
       in={isActive}
+      nodeRef={ref}
       unmountOnExit
     >
       <AlertPortal
         deactivate={deactivate}
         isActive={isActive}
+        ref={ref}
       >
         <section className={classNames}>
           <header className='alert-header'>

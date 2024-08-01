@@ -1,9 +1,13 @@
 .global-layout {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
   padding-top: var(--layout-margin-y);
   padding-bottom: var(--layout-margin-y);
   max-width: 990px;
+  min-height: calc(100vh - var(--layout-margin-y) * 2);
   width: 100vw;
   height: 100%;
   z-index: 3;
@@ -26,9 +30,7 @@
   }
 
   .global-main + .global-footer {
-    margin-top: calc(var(--gap) * 3);
-    padding-top: calc(var(--gap) * 3);
-    border-top: 3px solid var(--color-section-divider);
+    margin-top: calc(var(--gap) * 6);
   }
 
   header {

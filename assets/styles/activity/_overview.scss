@@ -1,4 +1,8 @@
 .activity-overview {
+  .activity-stat-section + .activity-stat-section {
+    margin-top: calc(2.5 * var(--gap));
+  }
+
   .item-subhead {
     height: 27px;
 

@@ -220,7 +220,6 @@ table {
   --color-danger: var(--color-red);
   --color-warning: var(--color-yellow);
   --color-divider: var(--color-light-gray);
-  --color-section-divider: var(--color-light-brown);
   --gap: 18px;
   --grid-border: 3px solid var(--color-divider);
   --color-table-accent: var(--color-gray);

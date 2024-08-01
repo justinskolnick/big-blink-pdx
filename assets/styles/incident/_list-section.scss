@@ -1,9 +1,4 @@
 .incident-list-section {
-  .activity-stat-section + & {
-    padding-top: calc(var(--gap) * 3);
-    border-top: 3px solid var(--color-section-divider);
-  }
-
   .item-subhead + .incident-list {
     margin-top: calc(var(--gap) * 2);
   }

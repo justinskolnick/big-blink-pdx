@@ -7,9 +7,9 @@ import StatGroup from './stat-group';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
-  icon: IconName;
+  icon?: IconName;
   title?: string | ReactNode;
 }
 
@@ -18,18 +18,22 @@ export const IncidentActivityGroup = ({
   className,
   icon,
   title,
-}: Props) => (
-  <StatGroup
-    className={cx('incident-activity-stat-group', className)}
-    subtitle={
-      <>
-        <Icon name={icon} />
-        <span className='item-text'>{title}</span>
-      </>
-    }
-  >
-    <div className='item-subsection'>{children}</div>
-  </StatGroup>
-);
+}: Props) => {
+  const hasIcon = Boolean(icon);
+
+  return (
+    <StatGroup
+      className={cx('incident-activity-stat-group', className)}
+      subtitle={
+        <>
+          {hasIcon && <Icon name={icon} />}
+          <span className='item-text'>{title}</span>
+        </>
+      }
+    >
+      {children && <div className='item-subsection'>{children}</div>}
+    </StatGroup>
+  );
+};
 
 export default IncidentActivityGroup;

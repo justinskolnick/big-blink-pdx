@@ -2,6 +2,9 @@
   color: var(--color-text-lighter);
 
   .global-footer-navigation {
+    padding-top: calc(var(--gap) * 2);
+    border-top: 3px solid var(--color-divider);
+
     .global-footer-navigation-title {
       a {
         display: inline-flex;

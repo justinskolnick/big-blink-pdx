@@ -10,6 +10,7 @@ import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
+import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -26,13 +27,13 @@ const Detail = () => {
   const hasPerson = Boolean(person);
 
   const incidents = person?.incidents;
-  const hasIncidents = Boolean(incidents);
+  const hasIncidents = incidents?.stats.total > 0;
 
   if (!hasPerson) return null;
 
   return (
     <ItemDetail>
-      {hasIncidents && (
+      {hasIncidents ? (
         <>
           <ActivityOverview
             incidents={incidents}
@@ -61,6 +62,10 @@ const Detail = () => {
             ref={ref}
           />
         </>
+      ) : (
+        <IncidentActivityGroup
+          title='No associated records were found.'
+        />
       )}
     </ItemDetail>
   );

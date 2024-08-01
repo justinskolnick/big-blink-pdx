@@ -109,7 +109,7 @@ const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
               <IncidentRow key={id} id={id} />
             )) : (
               <tr className='incident-list-item'>
-                <td colSpan={5}>No results</td>
+                <td colSpan={4}>No results</td>
               </tr>
             )}
           </tbody>

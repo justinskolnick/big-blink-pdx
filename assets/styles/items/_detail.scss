@@ -14,7 +14,7 @@
   .activity-overview + .incident-activity-stat-groups {
     margin-top: calc(3 * var(--gap));
     padding-top: calc(3 * var(--gap));
-    border-top: 3px solid var(--color-section-divider);
+    border-top: 3px solid var(--color-divider);
   }
 
   .incident-activity-stat-groups + .incident-activity-stat-groups,

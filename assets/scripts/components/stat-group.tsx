@@ -5,7 +5,7 @@ import ItemDescription from './item-description';
 import ItemSubhead from './item-subhead';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   description?: string | ReactNode;
   subtitle?: string | ReactNode;

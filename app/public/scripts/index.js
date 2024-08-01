@@ -973,7 +973,7 @@ var require_react_development = __commonJS({
           }
           return lazyType;
         }
-        function forwardRef5(render2) {
+        function forwardRef6(render2) {
           {
             if (render2 != null && render2.$$typeof === REACT_MEMO_TYPE2) {
               error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1871,7 +1871,7 @@ var require_react_development = __commonJS({
         exports.createElement = createElement$1;
         exports.createFactory = createFactory;
         exports.createRef = createRef;
-        exports.forwardRef = forwardRef5;
+        exports.forwardRef = forwardRef6;
         exports.isValidElement = isValidElement2;
         exports.lazy = lazy;
         exports.memo = memo2;
@@ -2385,9 +2385,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React41 = require_react();
+        var React42 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React41.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React42.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -3992,7 +3992,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React41.Children.forEach(props.children, function(child) {
+                React42.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -23535,13 +23535,13 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React41 = require_react();
+        var React42 = require_react();
         function is2(x, y2) {
           return x === y2 && (x !== 0 || 1 / x === 1 / y2) || x !== x && y2 !== y2;
         }
         var objectIs = typeof Object.is === "function" ? Object.is : is2;
-        var useSyncExternalStore3 = React41.useSyncExternalStore;
-        var useRef26 = React41.useRef, useEffect26 = React41.useEffect, useMemo3 = React41.useMemo, useDebugValue = React41.useDebugValue;
+        var useSyncExternalStore3 = React42.useSyncExternalStore;
+        var useRef26 = React42.useRef, useEffect26 = React42.useEffect, useMemo3 = React42.useMemo, useDebugValue = React42.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef26(null);
           var inst;
@@ -24410,7 +24410,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React41 = require_react();
+        var React42 = require_react();
         var REACT_ELEMENT_TYPE2 = Symbol.for("react.element");
         var REACT_PORTAL_TYPE2 = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE2 = Symbol.for("react.fragment");
@@ -24436,7 +24436,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React41.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React42.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -25315,8 +25315,8 @@ var require_lib = __commonJS({
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
     }
-    var React41 = require_react();
-    var React__default = _interopDefault(React41);
+    var React42 = require_react();
+    var React__default = _interopDefault(React42);
     function _defineProperty2(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -25399,7 +25399,7 @@ var require_lib = __commonJS({
             return React__default.createElement(WrappedComponent, this.props);
           };
           return SideEffect2;
-        }(React41.PureComponent);
+        }(React42.PureComponent);
         _defineProperty2(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
         _defineProperty2(SideEffect, "canUseDOM", canUseDOM2);
         return SideEffect;
@@ -34600,6 +34600,9 @@ var store = configureStore({
 var store_default = store;
 
 // scripts/components/alert-error.tsx
+var import_react8 = __toESM(require_react());
+
+// scripts/components/alert.tsx
 var import_react7 = __toESM(require_react());
 
 // node_modules/@babel/runtime/helpers/esm/extends.js
@@ -35420,12 +35423,12 @@ var hasAlertClass = "has-alert";
 var alertRootId = "alert-root";
 var alertPortalId = "alert-root-portal";
 var Escape = "Escape";
-var AlertPortal = ({
+var AlertPortal = (0, import_react5.forwardRef)(({
   children,
   deactivate,
   isActive
-}) => {
-  const ref = (0, import_react5.useRef)();
+}, ref) => {
+  const elementRef = ref;
   const target = document.getElementById(alertPortalId);
   const handleClick = () => {
     deactivate();
@@ -35436,11 +35439,11 @@ var AlertPortal = ({
     }
   };
   (0, import_react5.useEffect)(() => {
-    isActive && ref.current?.focus();
+    isActive && elementRef.current?.focus();
     return () => {
-      ref.current?.blur();
+      elementRef.current?.blur();
     };
-  }, [ref, isActive]);
+  }, [elementRef, isActive]);
   use_fixed_body_when_has_class_default(hasAlertClass);
   return (0, import_react_dom2.createPortal)(
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -35448,7 +35451,7 @@ var AlertPortal = ({
       {
         className: "alert",
         onKeyUp: handleKeyUp,
-        ref,
+        ref: elementRef,
         tabIndex: 0,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "alert-overlay" }),
@@ -35458,7 +35461,7 @@ var AlertPortal = ({
     ),
     target
   );
-};
+});
 var alert_portal_default = AlertPortal;
 
 // node_modules/@emotion/sheet/dist/emotion-sheet.esm.js
@@ -39881,6 +39884,7 @@ var Alert = ({
   grade,
   isActive
 }) => {
+  const ref = (0, import_react7.useRef)();
   const iconName = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
   const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
@@ -39889,12 +39893,14 @@ var Alert = ({
       timeout: 250,
       classNames: "alert",
       in: isActive,
+      nodeRef: ref,
       unmountOnExit: true,
       children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
         alert_portal_default,
         {
           deactivate,
           isActive,
+          ref,
           children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: classNames, children: [
             /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(item_text_with_icon_default, { icon: iconName, children: [
               grade === "error" && "Error",
@@ -39914,7 +39920,7 @@ var alert_default = Alert;
 // scripts/components/alert-error.tsx
 var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var AlertError = () => {
-  const [isActive, setIsActive] = (0, import_react7.useState)(false);
+  const [isActive, setIsActive] = (0, import_react8.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -39924,7 +39930,7 @@ var AlertError = () => {
   };
   const alerts = useSelector(getErrors);
   const hasAlerts = alerts.length > 0;
-  (0, import_react7.useEffect)(() => {
+  (0, import_react8.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -39942,13 +39948,13 @@ var AlertError = () => {
 var alert_error_default = AlertError;
 
 // scripts/components/app.tsx
-var import_react17 = __toESM(require_react());
+var import_react18 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
 var import_react_side_effect = __toESM(require_lib());
 var import_react_fast_compare = __toESM(require_react_fast_compare());
-var import_react8 = __toESM(require_react());
+var import_react9 = __toESM(require_react());
 var import_object_assign = __toESM(require_object_assign());
 var ATTRIBUTE_NAMES = {
   BODY: "bodyAttributes",
@@ -40399,7 +40405,7 @@ var generateTitleAsReactComponent = function generateTitleAsReactComponent2(type
     key: title
   }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
   var props = convertElementAttributestoReactProps(attributes, initProps);
-  return [import_react8.default.createElement(TAG_NAMES.TITLE, props, title)];
+  return [import_react9.default.createElement(TAG_NAMES.TITLE, props, title)];
 };
 var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
   return tags.map(function(tag, i) {
@@ -40416,7 +40422,7 @@ var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, 
         mappedTag[mappedAttribute] = tag[attribute];
       }
     });
-    return import_react8.default.createElement(type, mappedTag);
+    return import_react9.default.createElement(type, mappedTag);
   });
 };
 var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -40544,7 +40550,7 @@ var Helmet = function Helmet2(Component2) {
     HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
       var _this2 = this;
       var arrayTypeChildren = {};
-      import_react8.default.Children.forEach(children, function(child) {
+      import_react9.default.Children.forEach(children, function(child) {
         if (!child || !child.props) {
           return;
         }
@@ -40583,7 +40589,7 @@ var Helmet = function Helmet2(Component2) {
       if (children) {
         newProps = this.mapChildrenToProps(children, newProps);
       }
-      return import_react8.default.createElement(Component2, newProps);
+      return import_react9.default.createElement(Component2, newProps);
     };
     createClass(HelmetWrapper, null, [{
       key: "canUseDOM",
@@ -40613,7 +40619,7 @@ var Helmet = function Helmet2(Component2) {
       }
     }]);
     return HelmetWrapper;
-  }(import_react8.default.Component), _class.propTypes = {
+  }(import_react9.default.Component), _class.propTypes = {
     base: import_prop_types5.default.object,
     bodyAttributes: import_prop_types5.default.object,
     children: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.node), import_prop_types5.default.node]),
@@ -40840,14 +40846,14 @@ var fetchFromPath = (path, isPrimary = false) => {
 var fetch_from_path_default = fetchFromPath;
 
 // scripts/components/modal-portal.tsx
-var import_react9 = __toESM(require_react());
+var import_react10 = __toESM(require_react());
 var import_react_dom3 = __toESM(require_react_dom());
 var import_jsx_runtime6 = __toESM(require_jsx_runtime());
 var hasModalClass = "has-modal";
 var modalRootId = "modal-root";
 var modalPortalId = "modal-root-portal";
 var Escape2 = "Escape";
-var ModalPortal = (0, import_react9.forwardRef)(({
+var ModalPortal = (0, import_react10.forwardRef)(({
   children,
   className,
   deactivate,
@@ -40889,10 +40895,10 @@ var ModalPortal = (0, import_react9.forwardRef)(({
 var modal_portal_default = ModalPortal;
 
 // scripts/components/alert-message.tsx
-var import_react10 = __toESM(require_react());
+var import_react11 = __toESM(require_react());
 var import_jsx_runtime7 = __toESM(require_jsx_runtime());
 var AlertMessage = () => {
-  const [isActive, setIsActive] = (0, import_react10.useState)(false);
+  const [isActive, setIsActive] = (0, import_react11.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -40902,7 +40908,7 @@ var AlertMessage = () => {
   };
   const alerts = useSelector(getMessages);
   const hasAlerts = alerts.length > 0;
-  (0, import_react10.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -40920,10 +40926,10 @@ var AlertMessage = () => {
 var alert_message_default = AlertMessage;
 
 // scripts/components/alert-warning.tsx
-var import_react11 = __toESM(require_react());
+var import_react12 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var AlertWarning = () => {
-  const [isActive, setIsActive] = (0, import_react11.useState)(false);
+  const [isActive, setIsActive] = (0, import_react12.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -40933,7 +40939,7 @@ var AlertWarning = () => {
   };
   const alerts = useSelector(getWarnings);
   const hasAlerts = alerts.length > 0;
-  (0, import_react11.useEffect)(() => {
+  (0, import_react12.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -40968,7 +40974,7 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { classNa
 var eyes_default = Eyes;
 
 // scripts/components/links.tsx
-var import_react12 = __toESM(require_react());
+var import_react13 = __toESM(require_react());
 
 // scripts/lib/links.ts
 var isCurrent = (location2, newSearch) => {
@@ -41026,7 +41032,7 @@ var BetterLink = ({
   onClick,
   ...rest
 }) => {
-  const ref = (0, import_react12.useRef)();
+  const ref = (0, import_react13.useRef)();
   const handleClick = (e) => {
     if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
       const customEvent = new MouseEvent("click", {
@@ -41089,7 +41095,7 @@ var SortLink = ({
   defaultSort,
   ...rest
 }) => {
-  const [nextSort, setNextSort] = (0, import_react12.useState)(defaultSort);
+  const [nextSort, setNextSort] = (0, import_react13.useState)(defaultSort);
   const [searchParams] = useSearchParams();
   const params = new Map(Object.entries(newParams));
   for (const [key, value] of searchParams.entries()) {
@@ -41101,7 +41107,7 @@ var SortLink = ({
   const isSorted = params.get("sort_by") !== null && hasSortBy;
   const hasIcon = isDefault || isSorted;
   const icon2 = getIconNameForSort(toggleSort(nextSort));
-  (0, import_react12.useEffect)(() => {
+  (0, import_react13.useEffect)(() => {
     const sortValue = searchParams.get("sort") || defaultSort;
     if (queryParams.isCurrent) {
       setNextSort(toggleSort(sortValue));
@@ -41351,10 +41357,10 @@ var Header = ({
 var header_default = Header;
 
 // scripts/components/header-intro.tsx
-var import_react15 = __toESM(require_react());
+var import_react16 = __toESM(require_react());
 
 // scripts/components/incident-modal.tsx
-var import_react14 = __toESM(require_react());
+var import_react15 = __toESM(require_react());
 
 // scripts/components/item-description.tsx
 var import_jsx_runtime19 = __toESM(require_jsx_runtime());
@@ -41465,7 +41471,7 @@ var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime24.j
 var incident_table_default = IncidentTable;
 
 // scripts/components/modal.tsx
-var import_react13 = __toESM(require_react());
+var import_react14 = __toESM(require_react());
 var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
@@ -41473,7 +41479,7 @@ var Modal = ({
   deactivate,
   isActive
 }) => {
-  const ref = (0, import_react13.useRef)(null);
+  const ref = (0, import_react14.useRef)(null);
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
     CSSTransition_default,
     {
@@ -41528,12 +41534,12 @@ var stat_box_default = StatBox;
 // scripts/components/incident-modal.tsx
 var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var IncidentModal = ({ deactivate, id, isActive }) => {
-  const fetched = (0, import_react14.useRef)(false);
+  const fetched = (0, import_react15.useRef)(false);
   const location2 = useLocation();
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasIncident = Boolean(incident && "attendees" in incident);
   const hasNotes = Boolean(incident?.notes);
-  (0, import_react14.useEffect)(() => {
+  (0, import_react15.useEffect)(() => {
     if (hasIncident) return;
     if (!fetched.current) {
       fetch_from_path_default("/incidents/" + id);
@@ -41571,8 +41577,8 @@ var DateRangeNote = () => {
 };
 var HeaderIntro = () => {
   const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = (0, import_react15.useState)(pathname);
-  const [selectedId, setSelectedId] = (0, import_react15.useState)();
+  const [savedPathname, setSavedPathname] = (0, import_react16.useState)(pathname);
+  const [selectedId, setSelectedId] = (0, import_react16.useState)();
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
@@ -41587,10 +41593,10 @@ var HeaderIntro = () => {
       setSelectedId(Number(event.target.dataset.id));
     }
   };
-  (0, import_react15.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     setSavedPathname(pathname);
   }, [setSavedPathname, pathname]);
-  (0, import_react15.useEffect)(() => {
+  (0, import_react16.useEffect)(() => {
     if (pathname !== savedPathname) {
       setSelectedId(null);
     }
@@ -41654,11 +41660,11 @@ var Section = ({
 var section_default = Section;
 
 // scripts/hooks/use-capture-scroll-position.ts
-var import_react16 = __toESM(require_react());
+var import_react17 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
   const dispatch = useDispatch();
-  const [scrollPos, setScrollPos] = (0, import_react16.useState)(0);
+  const [scrollPos, setScrollPos] = (0, import_react17.useState)(0);
   const handleScroll = () => {
     setScrollPos(Number(window.scrollY) * -1);
     if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -41666,13 +41672,13 @@ var useCaptureScrollPosition = (classNames = []) => {
     }
   };
   const debounced = (0, import_debounce.default)(handleScroll, 400);
-  (0, import_react16.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     window.addEventListener("scroll", debounced);
     return () => {
       window.removeEventListener("scroll", debounced);
     };
   }, [debounced]);
-  (0, import_react16.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     dispatch(actions2.setPositionY(scrollPos));
   }, [dispatch, scrollPos]);
 };
@@ -41681,7 +41687,7 @@ var use_capture_scroll_position_default = useCaptureScrollPosition;
 // scripts/components/app.tsx
 var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var App = () => {
-  const initiated = (0, import_react17.useRef)(false);
+  const initiated = (0, import_react18.useRef)(false);
   const location2 = useLocation();
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
@@ -41689,7 +41695,7 @@ var App = () => {
   const className = ["section", location2.pathname.split("/").at(1)].join("-");
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
-  (0, import_react17.useEffect)(() => {
+  (0, import_react18.useEffect)(() => {
     const { pathname, search } = location2;
     if (!initiated.current) {
       fetch_from_path_default("/overview");
@@ -41723,11 +41729,11 @@ var app_default = App;
 var percentage = (portion, total) => (portion / total * 100).toFixed(2);
 
 // scripts/components/loading.tsx
-var import_react18 = __toESM(require_react());
+var import_react19 = __toESM(require_react());
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
 var Loading = () => {
-  const timedOut = (0, import_react18.useRef)(false);
-  (0, import_react18.useEffect)(() => {
+  const timedOut = (0, import_react19.useRef)(false);
+  (0, import_react19.useEffect)(() => {
     if (!timedOut.current) {
       setTimeout(() => {
         timedOut.current = true;
@@ -41878,13 +41884,13 @@ var Index = () => {
 var entities_default2 = Index;
 
 // scripts/components/entities/detail.tsx
-var import_react27 = __toESM(require_react());
+var import_react28 = __toESM(require_react());
 
 // scripts/components/incident-date-box.tsx
-var import_react19 = __toESM(require_react());
+var import_react20 = __toESM(require_react());
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({ incident }) => {
-  const [isActive, setIsActive] = (0, import_react19.useState)(false);
+  const [isActive, setIsActive] = (0, import_react20.useState)(false);
   const hasIncident = Boolean(incident?.value);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
@@ -42009,10 +42015,10 @@ var ActivityOverview = ({
 var incident_activity_overview_default = ActivityOverview;
 
 // scripts/components/entities/attendees.tsx
-var import_react21 = __toESM(require_react());
+var import_react22 = __toESM(require_react());
 
 // scripts/components/affiliated-item-table.tsx
-var import_react20 = __toESM(require_react());
+var import_react21 = __toESM(require_react());
 
 // scripts/components/item-table.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
@@ -42039,8 +42045,8 @@ var AffiliatedItemTable = ({
   TotalCell,
   label
 }) => {
-  const ref = (0, import_react20.useRef)();
-  const [showAll, setShowAll] = (0, import_react20.useState)(false);
+  const ref = (0, import_react21.useRef)();
+  const [showAll, setShowAll] = (0, import_react21.useState)(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
   const hasMoreToShow = affiliatedItems.length > initialCount;
@@ -42117,17 +42123,20 @@ var IncidentActivityGroup = ({
   className,
   icon: icon2,
   title
-}) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-  stat_group_default,
-  {
-    className: cx("incident-activity-stat-group", className),
-    subtitle: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default, { name: icon2 }),
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { className: "item-text", children: title })
-    ] }),
-    children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "item-subsection", children })
-  }
-);
+}) => {
+  const hasIcon = Boolean(icon2);
+  return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+    stat_group_default,
+    {
+      className: cx("incident-activity-stat-group", className),
+      subtitle: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
+        hasIcon && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default, { name: icon2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { className: "item-text", children: title })
+      ] }),
+      children: children && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "item-subsection", children })
+    }
+  );
+};
 var incident_activity_group_default = IncidentActivityGroup;
 
 // scripts/components/entities/attendees.tsx
@@ -42136,10 +42145,10 @@ var Attendees2 = ({
   attendees,
   entity
 }) => {
-  const fetched = (0, import_react21.useRef)(false);
+  const fetched = (0, import_react22.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = "attendees" in entity;
-  (0, import_react21.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -42168,7 +42177,7 @@ var Attendees2 = ({
 var attendees_default = Attendees2;
 
 // scripts/components/entities/chart.tsx
-var import_react24 = __toESM(require_react());
+var import_react25 = __toESM(require_react());
 
 // scripts/components/incident-activity-chart.tsx
 var import_jsx_runtime47 = __toESM(require_jsx_runtime());
@@ -42176,7 +42185,7 @@ var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_run
 var incident_activity_chart_default = IncidentActivityChart;
 
 // scripts/components/item-chart.tsx
-var import_react23 = __toESM(require_react());
+var import_react24 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
 function round(v) {
@@ -54451,7 +54460,7 @@ __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
 // node_modules/react-chartjs-2/dist/index.js
-var import_react22 = __toESM(require_react(), 1);
+var import_react23 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
   if (typeof ref === "function") {
@@ -54496,8 +54505,8 @@ function cloneData(data) {
 }
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
-  const canvasRef = (0, import_react22.useRef)(null);
-  const chartRef = (0, import_react22.useRef)();
+  const canvasRef = (0, import_react23.useRef)(null);
+  const chartRef = (0, import_react23.useRef)();
   const renderChart = () => {
     if (!canvasRef.current) return;
     chartRef.current = new Chart(canvasRef.current, {
@@ -54517,7 +54526,7 @@ function ChartComponent(props, ref) {
       chartRef.current = null;
     }
   };
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     if (!redraw && chartRef.current && options2) {
       setOptions(chartRef.current, options2);
     }
@@ -54525,7 +54534,7 @@ function ChartComponent(props, ref) {
     redraw,
     options2
   ]);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     if (!redraw && chartRef.current) {
       setLabels(chartRef.current.config.data, data.labels);
     }
@@ -54533,7 +54542,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.labels
   ]);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     if (!redraw && chartRef.current && data.datasets) {
       setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
     }
@@ -54541,7 +54550,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.datasets
   ]);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     if (!chartRef.current) return;
     if (redraw) {
       destroyChart();
@@ -54556,28 +54565,28 @@ function ChartComponent(props, ref) {
     data.datasets,
     updateMode
   ]);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     if (!chartRef.current) return;
     destroyChart();
     setTimeout(renderChart);
   }, [
     type
   ]);
-  (0, import_react22.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react22.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react23.default.createElement("canvas", Object.assign({
     ref: canvasRef,
     role: "img",
     height,
     width
   }, canvasProps), fallbackContent);
 }
-var Chart2 = /* @__PURE__ */ (0, import_react22.forwardRef)(ChartComponent);
+var Chart2 = /* @__PURE__ */ (0, import_react23.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react22.forwardRef)((props, ref) => /* @__PURE__ */ import_react22.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react23.forwardRef)((props, ref) => /* @__PURE__ */ import_react23.default.createElement(Chart2, Object.assign({}, props, {
     ref,
     type
   })));
@@ -54644,7 +54653,7 @@ var options = {
 var itemColorStatic = "olivedrab";
 var itemColorLink = "cornflowerblue";
 var ItemChart = ({ handleClick, label, lineProps }) => {
-  const [hasLineLabel, setHasLineLabel] = (0, import_react23.useState)(false);
+  const [hasLineLabel, setHasLineLabel] = (0, import_react24.useState)(false);
   const sources = useSelector(getSourcesDataForChart);
   const sourceData = {
     id: "sources",
@@ -54691,7 +54700,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
     };
   }
   options.plugins.legend.display = hasDatasets && hasLineLabel;
-  (0, import_react23.useEffect)(() => {
+  (0, import_react24.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
   return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "item-chart", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
@@ -54708,13 +54717,13 @@ var item_chart_default = ItemChart;
 // scripts/components/entities/chart.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 var Chart3 = ({ label }) => {
-  const fetched = (0, import_react24.useRef)(false);
+  const fetched = (0, import_react25.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react24.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react25.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const hasData = data?.length > 0;
@@ -54725,14 +54734,14 @@ var Chart3 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react24.useEffect)(() => {
+  (0, import_react25.useEffect)(() => {
     if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, hasData, location2]);
-  (0, import_react24.useEffect)(() => {
+  (0, import_react25.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -54745,7 +54754,7 @@ var Chart3 = ({ label }) => {
 var chart_default = Chart3;
 
 // scripts/components/detail-incidents.tsx
-var import_react26 = __toESM(require_react());
+var import_react27 = __toESM(require_react());
 
 // scripts/components/incidents-header.tsx
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
@@ -54793,10 +54802,10 @@ var IncidentsHeader = ({
 var incidents_header_default = IncidentsHeader;
 
 // scripts/components/incident-list-table.tsx
-var import_react25 = __toESM(require_react());
+var import_react26 = __toESM(require_react());
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var IncidentRow = ({ id }) => {
-  const [isSelected, setIsSelected] = (0, import_react25.useState)(false);
+  const [isSelected, setIsSelected] = (0, import_react26.useState)(false);
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
   const deactivate = () => setIsSelected(false);
@@ -54855,7 +54864,7 @@ var IncidentListTable = ({ hasSort, ids }) => {
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { className: "cell-topic", children: "Topic" }),
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { className: "cell-link" })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tbody", { children: hasIds ? ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(IncidentRow, { id }, id)) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tr", { className: "incident-list-item", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { colSpan: 5, children: "No results" }) }) })
+    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tbody", { children: hasIds ? ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(IncidentRow, { id }, id)) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tr", { className: "incident-list-item", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { colSpan: 4, children: "No results" }) }) })
   ] }) }) });
 };
 var incident_list_table_default = IncidentListTable;
@@ -54914,7 +54923,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
     }
   );
 };
-var DetailIncidents = (0, import_react26.forwardRef)(({
+var DetailIncidents = (0, import_react27.forwardRef)(({
   filters,
   hasSort,
   ids,
@@ -54924,9 +54933,9 @@ var DetailIncidents = (0, import_react26.forwardRef)(({
 }, ref) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
-  const idsRef = (0, import_react26.useRef)(null);
-  const paramsStringRef = (0, import_react26.useRef)(null);
-  (0, import_react26.useEffect)(() => {
+  const idsRef = (0, import_react27.useRef)(null);
+  const paramsStringRef = (0, import_react27.useRef)(null);
+  (0, import_react27.useEffect)(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
       idsRef.current = ids;
       if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -54969,7 +54978,7 @@ var item_detail_default = ItemDetail;
 // scripts/components/entities/detail.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var Detail = () => {
-  const ref = (0, import_react27.useRef)();
+  const ref = (0, import_react28.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55234,7 +55243,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
 var home_default = Home;
 
 // scripts/components/incidents/index.tsx
-var import_react28 = __toESM(require_react());
+var import_react29 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { children: [
   "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55244,7 +55253,7 @@ var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { 
   "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
 ] });
 var Index3 = () => {
-  const ref = (0, import_react28.useRef)();
+  const ref = (0, import_react29.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55271,17 +55280,17 @@ var Index3 = () => {
 var incidents_default2 = Index3;
 
 // scripts/components/incident-source-box.tsx
-var import_react29 = __toESM(require_react());
+var import_react30 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
   incident,
   title
 }) => {
-  const fetched = (0, import_react29.useRef)(false);
+  const fetched = (0, import_react30.useRef)(false);
   const location2 = useLocation();
   const id = incident?.sourceId;
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react29.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (source || !id) return;
     if (!fetched.current) {
       fetch_from_path_default("/sources/" + id);
@@ -55326,46 +55335,49 @@ var Detail2 = () => {
 var detail_default2 = Detail2;
 
 // scripts/components/people/detail.tsx
-var import_react34 = __toESM(require_react());
+var import_react35 = __toESM(require_react());
 
 // scripts/components/people/attendees.tsx
-var import_react30 = __toESM(require_react());
+var import_react31 = __toESM(require_react());
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
   attendees,
   person
 }) => {
-  const fetched = (0, import_react30.useRef)(false);
+  const fetched = (0, import_react31.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = "attendees" in person;
-  const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
+  const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
+  const hasLobbyistRecords = isLobbyist && hasAttendees && Boolean(person.attendees.asLobbyist.lobbyists.records.length || person.attendees.asLobbyist.officials.records.length);
+  const hasOfficialRecords = isOfficial && hasAttendees && Boolean(person.attendees.asOfficial.lobbyists.records.length || person.attendees.asOfficial.officials.records.length);
+  const hasRecords = hasLobbyistRecords || hasOfficialRecords;
   const description = [
     "According to the lobbying activity reports published by the City of Portland,",
     person.name
   ];
   const roles = [];
-  if (isLobbist) {
+  if (isLobbyist) {
     roles.push("lobbied a number of City officials as a registered lobbyist");
   }
   if (isOfficial) {
     roles.push("was lobbied by a number of lobbyists as a City of Portland official");
   }
   description.push(roles.join(" and "));
-  (0, import_react30.useEffect)(() => {
-    if (!hasAttendees || !fetched.current) {
+  (0, import_react31.useEffect)(() => {
+    if (!hasRecords || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
       fetched.current = true;
     }
-  }, [fetched, hasAttendees, location2]);
+  }, [fetched, hasRecords, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
     incident_activity_groups_default,
     {
       title: "Associated Names",
       description: `${person.name} is named in lobbying reports that also include these people.`,
-      children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
-        isLobbist && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(
+      children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
+        isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(
           incident_activity_group_default,
           {
             icon: "briefcase",
@@ -55387,23 +55399,28 @@ var Attendees3 = ({
             ]
           }
         )
-      ] }) : null
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
+        incident_activity_group_default,
+        {
+          title: "No record of associated names was found."
+        }
+      )
     }
   );
 };
 var attendees_default2 = Attendees3;
 
 // scripts/components/people/chart.tsx
-var import_react31 = __toESM(require_react());
+var import_react32 = __toESM(require_react());
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Chart5 = ({ label }) => {
-  const fetched = (0, import_react31.useRef)(false);
+  const fetched = (0, import_react32.useRef)(false);
   const location2 = useLocation();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react31.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
   const hasData = data?.length > 0;
@@ -55414,14 +55431,14 @@ var Chart5 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react31.useEffect)(() => {
+  (0, import_react32.useEffect)(() => {
     if (!hasData || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/stats");
       fetched.current = true;
     }
   }, [fetched, hasData, location2]);
-  (0, import_react31.useEffect)(() => {
+  (0, import_react32.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -55434,10 +55451,10 @@ var Chart5 = ({ label }) => {
 var chart_default3 = Chart5;
 
 // scripts/components/people/entities.tsx
-var import_react33 = __toESM(require_react());
+var import_react34 = __toESM(require_react());
 
 // scripts/components/affiliated-entities-table.tsx
-var import_react32 = __toESM(require_react());
+var import_react33 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
@@ -55446,7 +55463,7 @@ var AffiliatedEntitiesTable = ({
   person,
   title
 }) => {
-  const ref = (0, import_react32.useRef)();
+  const ref = (0, import_react33.useRef)();
   const hasPerson = Boolean(person);
   return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
     const hasTotal = Boolean(item.total);
@@ -55488,25 +55505,28 @@ var affiliated_entities_table_default = AffiliatedEntitiesTable;
 // scripts/components/people/entities.tsx
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
-  const fetched = (0, import_react33.useRef)(false);
+  const fetched = (0, import_react34.useRef)(false);
   const location2 = useLocation();
   const hasEntities = "entities" in person;
-  const isLobbist = person.roles?.includes("lobbyist" /* Lobbyist */);
+  const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
-  (0, import_react33.useEffect)(() => {
-    if (!hasEntities || !fetched.current) {
+  const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
+  const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
+  const hasRecords = hasLobbyistRecords || hasOfficialRecords;
+  (0, import_react34.useEffect)(() => {
+    if (!hasRecords || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
       fetched.current = true;
     }
-  }, [fetched, hasEntities, location2]);
+  }, [fetched, hasRecords, location2]);
   return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
     incident_activity_groups_default,
     {
       title: "Associated Entities",
       description: `${person.name} is named in lobbying reports related to these entities.`,
-      children: entities ? /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(import_jsx_runtime72.Fragment, { children: [
-        isLobbist && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
+      children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(import_jsx_runtime72.Fragment, { children: [
+        isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
           incident_activity_group_default,
           {
             icon: "briefcase",
@@ -55529,7 +55549,12 @@ var Entities = ({ entities, person }) => {
             children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(affiliated_entities_table_default, { entities: entities.asOfficial })
           }
         )
-      ] }) : null
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
+        incident_activity_group_default,
+        {
+          title: "No record of associated entities was found."
+        }
+      )
     }
   );
 };
@@ -55538,7 +55563,7 @@ var entities_default3 = Entities;
 // scripts/components/people/detail.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
-  const ref = (0, import_react34.useRef)();
+  const ref = (0, import_react35.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55547,9 +55572,9 @@ var Detail3 = () => {
   const person = useSelector((state) => selectors3.selectById(state, numericId));
   const hasPerson = Boolean(person);
   const incidents = person?.incidents;
-  const hasIncidents = Boolean(incidents);
+  const hasIncidents = incidents?.stats.total > 0;
   if (!hasPerson) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(item_detail_default, { children: hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(import_jsx_runtime73.Fragment, { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(item_detail_default, { children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(import_jsx_runtime73.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
       incident_activity_overview_default,
       {
@@ -55584,19 +55609,24 @@ var Detail3 = () => {
         ref
       }
     )
-  ] }) });
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
+    incident_activity_group_default,
+    {
+      title: "No associated records were found."
+    }
+  ) });
 };
 var detail_default3 = Detail3;
 
 // scripts/components/sources/item.tsx
-var import_react35 = __toESM(require_react());
+var import_react36 = __toESM(require_react());
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
 var Source = ({ id }) => {
-  const fetched = (0, import_react35.useRef)(false);
+  const fetched = (0, import_react36.useRef)(false);
   const location2 = useLocation();
   const source = useSelector((state) => selectors4.selectById(state, id));
   const hasIncidents = Boolean(source.incidents);
-  (0, import_react35.useEffect)(() => {
+  (0, import_react36.useEffect)(() => {
     if (source) return;
     if (!fetched.current) {
       fetch_from_path_default("/sources/" + id);
@@ -55638,16 +55668,16 @@ var Index4 = () => {
 var sources_default2 = Index4;
 
 // scripts/components/sources/detail.tsx
-var import_react38 = __toESM(require_react());
+var import_react39 = __toESM(require_react());
 
 // scripts/components/sources/attendees.tsx
-var import_react36 = __toESM(require_react());
+var import_react37 = __toESM(require_react());
 var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var Attendees4 = ({ attendees }) => {
-  const fetched = (0, import_react36.useRef)(false);
+  const fetched = (0, import_react37.useRef)(false);
   const location2 = useLocation();
   const hasAttendees = Boolean(attendees);
-  (0, import_react36.useEffect)(() => {
+  (0, import_react37.useEffect)(() => {
     if (!hasAttendees || !fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/attendees");
@@ -55674,12 +55704,12 @@ var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(incide
 var chart_default4 = Chart6;
 
 // scripts/components/sources/entities.tsx
-var import_react37 = __toESM(require_react());
+var import_react38 = __toESM(require_react());
 var import_jsx_runtime78 = __toESM(require_jsx_runtime());
 var Entities2 = ({ entities, source }) => {
-  const fetched = (0, import_react37.useRef)(false);
+  const fetched = (0, import_react38.useRef)(false);
   const location2 = useLocation();
-  (0, import_react37.useEffect)(() => {
+  (0, import_react38.useEffect)(() => {
     if (!fetched.current) {
       const { pathname } = location2;
       fetch_from_path_default(pathname + "/entities");
@@ -55704,7 +55734,7 @@ var disclaimers = {
   registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
 };
 var Detail4 = () => {
-  const ref = (0, import_react38.useRef)();
+  const ref = (0, import_react39.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };

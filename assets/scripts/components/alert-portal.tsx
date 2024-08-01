@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, KeyboardEvent, ReactNode } from 'react';
+import React, { forwardRef, useEffect, KeyboardEvent, MutableRefObject, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import useFixedBodyWhenHasClass from '../hooks/use-fixed-body-when-has-class';
@@ -15,12 +15,12 @@ interface Props {
 
 const Escape = 'Escape' as const;
 
-const AlertPortal = ({
+const AlertPortal = forwardRef<HTMLDivElement, Props>(({
   children,
   deactivate,
   isActive,
-}: Props) => {
-  const ref = useRef<HTMLDivElement>();
+}, ref) => {
+  const elementRef = ref as MutableRefObject<HTMLDivElement>;
   const target = document.getElementById(alertPortalId);
 
   const handleClick = (): void => {
@@ -33,12 +33,12 @@ const AlertPortal = ({
   };
 
   useEffect(() => {
-    isActive && ref.current?.focus();
+    isActive && elementRef.current?.focus();
 
     return () => {
-      ref.current?.blur();
+      elementRef.current?.blur();
     };
-  }, [ref, isActive]);
+  }, [elementRef, isActive]);
 
   useFixedBodyWhenHasClass(hasAlertClass);
 
@@ -46,7 +46,7 @@ const AlertPortal = ({
     <div
       className='alert'
       onKeyUp={handleKeyUp}
-      ref={ref}
+      ref={elementRef}
       tabIndex={0}
     >
       <div className='alert-overlay' />
@@ -56,6 +56,6 @@ const AlertPortal = ({
     </div>,
     target
   );
-};
+});
 
 export default AlertPortal;
