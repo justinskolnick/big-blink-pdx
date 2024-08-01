@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, Outlet, ScrollRestoration } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
-
-import fetchFromPath from '../lib/fetch-from-path';
 
 import { hasAlertClass } from './alert-portal';
 import { hasModalClass } from './modal-portal';
@@ -14,11 +12,15 @@ import GlobalFooter from './global-footer';
 import Section from './section';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
+import useTriggerPrimaryQuery from '../hooks/use-trigger-primary-query';
+
+import api from '../services/api';
 
 import { getDescription, getPageTitle } from '../selectors';
 
 const App = () => {
-  const initiated = useRef(false);
+  const [trigger, result] = api.useLazyGetOverviewQuery();
+
   const location = useLocation();
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
@@ -30,15 +32,12 @@ const App = () => {
   useCaptureScrollPosition(scrollCaptureClasses);
 
   useEffect(() => {
-    const { pathname, search } = location;
-
-    if (!initiated.current) {
-      fetchFromPath('/overview');
-      initiated.current = true;
+    if (result.isUninitialized) {
+      trigger(null);
     }
+  }, [result, trigger]);
 
-    fetchFromPath(pathname + search, true);
-  }, [initiated, location]);
+  useTriggerPrimaryQuery();
 
   return (
     <div className='global-layout'>

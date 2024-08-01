@@ -1,14 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import fetchFromPath from '../lib/fetch-from-path';
 import { RootState } from '../lib/store';
 
 import { LinkToSource } from './links';
 import StatBox from './stat-box';
 
 import { selectors } from '../reducers/sources';
+import api from '../services/api';
 
 import type { Incident } from '../types';
 
@@ -21,8 +20,7 @@ const IncidentSourceBox = ({
   incident,
   title,
 }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const id = incident?.sourceId;
   const source = useSelector((state: RootState) => selectors.selectById(state, id));
@@ -30,11 +28,8 @@ const IncidentSourceBox = ({
   useEffect(() => {
     if (source || !id) return;
 
-    if (!fetched.current) {
-      fetchFromPath('/sources/' + id);
-      fetched.current = true;
-    }
-  }, [fetched, location, id, source]);
+    trigger(id);
+  }, [id, source, trigger]);
 
   if (!incident || !source) return null;
 

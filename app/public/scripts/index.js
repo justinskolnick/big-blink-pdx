@@ -512,7 +512,7 @@ var require_react_development = __commonJS({
           }
           return element;
         };
-        function createElement4(type, config2, children) {
+        function createElement5(type, config2, children) {
           var propName;
           var props = {};
           var key = null;
@@ -1072,7 +1072,7 @@ var require_react_development = __commonJS({
           }
           return dispatcher;
         }
-        function useContext3(Context) {
+        function useContext4(Context) {
           var dispatcher = resolveDispatcher();
           {
             if (Context._context !== void 0) {
@@ -1086,19 +1086,19 @@ var require_react_development = __commonJS({
           }
           return dispatcher.useContext(Context);
         }
-        function useState15(initialState5) {
+        function useState17(initialState6) {
           var dispatcher = resolveDispatcher();
-          return dispatcher.useState(initialState5);
+          return dispatcher.useState(initialState6);
         }
         function useReducer(reducer, initialArg, init) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef26(initialValue) {
+        function useRef17(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
-        function useEffect26(create, deps) {
+        function useEffect30(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useEffect(create, deps);
         }
@@ -1106,15 +1106,15 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useInsertionEffect(create, deps);
         }
-        function useLayoutEffect3(create, deps) {
+        function useLayoutEffect4(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useLayoutEffect(create, deps);
         }
-        function useCallback3(callback2, deps) {
+        function useCallback4(callback2, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useCallback(callback2, deps);
         }
-        function useMemo3(create, deps) {
+        function useMemo4(create, deps) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useMemo(create, deps);
         }
@@ -1122,7 +1122,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useImperativeHandle(ref, create, deps);
         }
-        function useDebugValue(value, formatterFn) {
+        function useDebugValue2(value, formatterFn) {
           {
             var dispatcher = resolveDispatcher();
             return dispatcher.useDebugValue(value, formatterFn);
@@ -1611,7 +1611,7 @@ var require_react_development = __commonJS({
               error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
             }
           }
-          var element = createElement4.apply(this, arguments);
+          var element = createElement5.apply(this, arguments);
           if (element == null) {
             return element;
           }
@@ -1877,19 +1877,19 @@ var require_react_development = __commonJS({
         exports.memo = memo2;
         exports.startTransition = startTransition;
         exports.unstable_act = act;
-        exports.useCallback = useCallback3;
-        exports.useContext = useContext3;
-        exports.useDebugValue = useDebugValue;
+        exports.useCallback = useCallback4;
+        exports.useContext = useContext4;
+        exports.useDebugValue = useDebugValue2;
         exports.useDeferredValue = useDeferredValue;
-        exports.useEffect = useEffect26;
+        exports.useEffect = useEffect30;
         exports.useId = useId;
         exports.useImperativeHandle = useImperativeHandle;
         exports.useInsertionEffect = useInsertionEffect;
-        exports.useLayoutEffect = useLayoutEffect3;
-        exports.useMemo = useMemo3;
+        exports.useLayoutEffect = useLayoutEffect4;
+        exports.useMemo = useMemo4;
         exports.useReducer = useReducer;
-        exports.useRef = useRef26;
-        exports.useState = useState15;
+        exports.useRef = useRef17;
+        exports.useState = useState17;
         exports.useSyncExternalStore = useSyncExternalStore3;
         exports.useTransition = useTransition;
         exports.version = ReactVersion;
@@ -2385,9 +2385,9 @@ var require_react_dom_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React42 = require_react();
+        var React43 = require_react();
         var Scheduler = require_scheduler();
-        var ReactSharedInternals = React42.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React43.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         var suppressWarning = false;
         function setSuppressWarning(newSuppressWarning) {
           {
@@ -2490,7 +2490,7 @@ var require_react_dom_development = __commonJS({
             allNativeEvents.add(dependencies[i]);
           }
         }
-        var canUseDOM2 = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
+        var canUseDOM3 = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
         var hasOwnProperty = Object.prototype.hasOwnProperty;
         function typeName(value) {
           {
@@ -2863,7 +2863,7 @@ var require_react_dom_development = __commonJS({
           );
         });
         var CAMELIZE = /[\-\:]([a-z])/g;
-        var capitalize2 = function(token2) {
+        var capitalize3 = function(token2) {
           return token2[1].toUpperCase();
         };
         [
@@ -2944,7 +2944,7 @@ var require_react_dom_development = __commonJS({
           // you'll need to set attributeName to name.toLowerCase()
           // instead in the assignment below.
         ].forEach(function(attributeName) {
-          var name = attributeName.replace(CAMELIZE, capitalize2);
+          var name = attributeName.replace(CAMELIZE, capitalize3);
           properties[name] = new PropertyInfoRecord(
             name,
             STRING,
@@ -2969,7 +2969,7 @@ var require_react_dom_development = __commonJS({
           // you'll need to set attributeName to name.toLowerCase()
           // instead in the assignment below.
         ].forEach(function(attributeName) {
-          var name = attributeName.replace(CAMELIZE, capitalize2);
+          var name = attributeName.replace(CAMELIZE, capitalize3);
           properties[name] = new PropertyInfoRecord(
             name,
             STRING,
@@ -2990,7 +2990,7 @@ var require_react_dom_development = __commonJS({
           // you'll need to set attributeName to name.toLowerCase()
           // instead in the assignment below.
         ].forEach(function(attributeName) {
-          var name = attributeName.replace(CAMELIZE, capitalize2);
+          var name = attributeName.replace(CAMELIZE, capitalize3);
           properties[name] = new PropertyInfoRecord(
             name,
             STRING,
@@ -3047,11 +3047,11 @@ var require_react_dom_development = __commonJS({
         });
         var isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i;
         var didWarn = false;
-        function sanitizeURL(url) {
+        function sanitizeURL(url2) {
           {
-            if (!didWarn && isJavaScriptProtocol.test(url)) {
+            if (!didWarn && isJavaScriptProtocol.test(url2)) {
               didWarn = true;
-              error("A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed %s.", JSON.stringify(url));
+              error("A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed %s.", JSON.stringify(url2));
             }
           }
         }
@@ -3992,7 +3992,7 @@ var require_react_dom_development = __commonJS({
           {
             if (props.value == null) {
               if (typeof props.children === "object" && props.children !== null) {
-                React42.Children.forEach(props.children, function(child) {
+                React43.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -5534,7 +5534,7 @@ var require_react_dom_development = __commonJS({
           return listener3;
         }
         var passiveBrowserEventsSupported = false;
-        if (canUseDOM2) {
+        if (canUseDOM3) {
           try {
             var options2 = {};
             Object.defineProperty(options2, "passive", {
@@ -7965,13 +7965,13 @@ var require_react_dom_development = __commonJS({
         var SyntheticWheelEvent = createSyntheticEvent(WheelEventInterface);
         var END_KEYCODES = [9, 13, 27, 32];
         var START_KEYCODE = 229;
-        var canUseCompositionEvent = canUseDOM2 && "CompositionEvent" in window;
+        var canUseCompositionEvent = canUseDOM3 && "CompositionEvent" in window;
         var documentMode = null;
-        if (canUseDOM2 && "documentMode" in document) {
+        if (canUseDOM3 && "documentMode" in document) {
           documentMode = document.documentMode;
         }
-        var canUseTextInputEvent = canUseDOM2 && "TextEvent" in window && !documentMode;
-        var useFallbackCompositionData = canUseDOM2 && (!canUseCompositionEvent || documentMode && documentMode > 8 && documentMode <= 11);
+        var canUseTextInputEvent = canUseDOM3 && "TextEvent" in window && !documentMode;
+        var useFallbackCompositionData = canUseDOM3 && (!canUseCompositionEvent || documentMode && documentMode > 8 && documentMode <= 11);
         var SPACEBAR_CODE = 32;
         var SPACEBAR_CHAR = String.fromCharCode(SPACEBAR_CODE);
         function registerEvents() {
@@ -8165,7 +8165,7 @@ var require_react_dom_development = __commonJS({
           return false;
         }
         function isEventSupported(eventNameSuffix) {
-          if (!canUseDOM2) {
+          if (!canUseDOM3) {
             return false;
           }
           var eventName = "on" + eventNameSuffix;
@@ -8217,7 +8217,7 @@ var require_react_dom_development = __commonJS({
           }
         }
         var isInputEventSupported = false;
-        if (canUseDOM2) {
+        if (canUseDOM3) {
           isInputEventSupported = isEventSupported("input") && (!document.documentMode || document.documentMode > 9);
         }
         function startWatchingForValueChange(target, targetInst) {
@@ -8381,11 +8381,11 @@ var require_react_dom_development = __commonJS({
           }
           accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from3, to2);
         }
-        function is2(x, y2) {
+        function is3(x, y2) {
           return x === y2 && (x !== 0 || 1 / x === 1 / y2) || x !== x && y2 !== y2;
         }
-        var objectIs = typeof Object.is === "function" ? Object.is : is2;
-        function shallowEqual(objA, objB) {
+        var objectIs = typeof Object.is === "function" ? Object.is : is3;
+        function shallowEqual2(objA, objB) {
           if (objectIs(objA, objB)) {
             return true;
           }
@@ -8649,7 +8649,7 @@ var require_react_dom_development = __commonJS({
             setOffsets(input, offsets);
           }
         }
-        var skipSelectionChangeEvent = canUseDOM2 && "documentMode" in document && document.documentMode <= 11;
+        var skipSelectionChangeEvent = canUseDOM3 && "documentMode" in document && document.documentMode <= 11;
         function registerEvents$3() {
           registerTwoPhaseEvent("onSelect", ["focusout", "contextmenu", "dragend", "focusin", "keydown", "keyup", "mousedown", "mouseup", "selectionchange"]);
         }
@@ -8683,7 +8683,7 @@ var require_react_dom_development = __commonJS({
             return;
           }
           var currentSelection = getSelection$1(activeElement$1);
-          if (!lastSelection || !shallowEqual(lastSelection, currentSelection)) {
+          if (!lastSelection || !shallowEqual2(lastSelection, currentSelection)) {
             lastSelection = currentSelection;
             var listeners = accumulateTwoPhaseListeners(activeElementInst$1, "onSelect");
             if (listeners.length > 0) {
@@ -8744,7 +8744,7 @@ var require_react_dom_development = __commonJS({
         };
         var prefixedEventNames = {};
         var style = {};
-        if (canUseDOM2) {
+        if (canUseDOM3) {
           style = document.createElement("div").style;
           if (!("AnimationEvent" in window)) {
             delete vendorPrefixes.animationend.animation;
@@ -9256,7 +9256,7 @@ var require_react_dom_development = __commonJS({
               possibleRegistrationNames
             });
           };
-          canDiffStyleForHydrationWarning = canUseDOM2 && !document.documentMode;
+          canDiffStyleForHydrationWarning = canUseDOM3 && !document.documentMode;
           warnForPropDifference = function(propName, serverValue, clientValue) {
             if (didWarnInvalidHydration) {
               return;
@@ -9386,7 +9386,7 @@ var require_react_dom_development = __commonJS({
             }
           }
         }
-        function createElement4(type, props, rootContainerElement, parentNamespace) {
+        function createElement5(type, props, rootContainerElement, parentNamespace) {
           var isCustomComponentTag;
           var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
           var domElement;
@@ -10241,7 +10241,7 @@ var require_react_dom_development = __commonJS({
             }
             parentNamespace = hostContextDev.namespace;
           }
-          var domElement = createElement4(type, props, rootContainerInstance, parentNamespace);
+          var domElement = createElement5(type, props, rootContainerInstance, parentNamespace);
           precacheFiberNode(internalInstanceHandle, domElement);
           updateFiberProps(domElement, props);
           return domElement;
@@ -13612,20 +13612,20 @@ var require_react_dom_development = __commonJS({
         }
         function mountReducer(reducer, initialArg, init) {
           var hook = mountWorkInProgressHook();
-          var initialState5;
+          var initialState6;
           if (init !== void 0) {
-            initialState5 = init(initialArg);
+            initialState6 = init(initialArg);
           } else {
-            initialState5 = initialArg;
+            initialState6 = initialArg;
           }
-          hook.memoizedState = hook.baseState = initialState5;
+          hook.memoizedState = hook.baseState = initialState6;
           var queue = {
             pending: null,
             interleaved: null,
             lanes: NoLanes,
             dispatch: null,
             lastRenderedReducer: reducer,
-            lastRenderedState: initialState5
+            lastRenderedState: initialState6
           };
           hook.queue = queue;
           var dispatch = queue.dispatch = dispatchReducerAction.bind(null, currentlyRenderingFiber$1, queue);
@@ -13907,28 +13907,28 @@ var require_react_dom_development = __commonJS({
             scheduleUpdateOnFiber(root2, fiber, SyncLane, NoTimestamp);
           }
         }
-        function mountState(initialState5) {
+        function mountState(initialState6) {
           var hook = mountWorkInProgressHook();
-          if (typeof initialState5 === "function") {
-            initialState5 = initialState5();
+          if (typeof initialState6 === "function") {
+            initialState6 = initialState6();
           }
-          hook.memoizedState = hook.baseState = initialState5;
+          hook.memoizedState = hook.baseState = initialState6;
           var queue = {
             pending: null,
             interleaved: null,
             lanes: NoLanes,
             dispatch: null,
             lastRenderedReducer: basicStateReducer,
-            lastRenderedState: initialState5
+            lastRenderedState: initialState6
           };
           hook.queue = queue;
           var dispatch = queue.dispatch = dispatchSetState.bind(null, currentlyRenderingFiber$1, queue);
           return [hook.memoizedState, dispatch];
         }
-        function updateState(initialState5) {
+        function updateState(initialState6) {
           return updateReducer(basicStateReducer);
         }
-        function rerenderState(initialState5) {
+        function rerenderState(initialState6) {
           return rerenderReducer(basicStateReducer);
         }
         function pushEffect(tag, create, destroy, deps) {
@@ -14187,23 +14187,23 @@ var require_react_dom_development = __commonJS({
           }
         }
         function mountTransition() {
-          var _mountState = mountState(false), isPending = _mountState[0], setPending = _mountState[1];
+          var _mountState = mountState(false), isPending2 = _mountState[0], setPending = _mountState[1];
           var start = startTransition.bind(null, setPending);
           var hook = mountWorkInProgressHook();
           hook.memoizedState = start;
-          return [isPending, start];
+          return [isPending2, start];
         }
         function updateTransition() {
-          var _updateState = updateState(), isPending = _updateState[0];
+          var _updateState = updateState(), isPending2 = _updateState[0];
           var hook = updateWorkInProgressHook();
           var start = hook.memoizedState;
-          return [isPending, start];
+          return [isPending2, start];
         }
         function rerenderTransition() {
-          var _rerenderState = rerenderState(), isPending = _rerenderState[0];
+          var _rerenderState = rerenderState(), isPending2 = _rerenderState[0];
           var hook = updateWorkInProgressHook();
           var start = hook.memoizedState;
-          return [isPending, start];
+          return [isPending2, start];
         }
         var isUpdatingOpaqueValueInRenderPhase = false;
         function getIsUpdatingOpaqueValueInRenderPhaseInDEV() {
@@ -14444,13 +14444,13 @@ var require_react_dom_development = __commonJS({
               mountHookTypesDev();
               return mountRef(initialValue);
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               mountHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
               try {
-                return mountState(initialState5);
+                return mountState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -14548,13 +14548,13 @@ var require_react_dom_development = __commonJS({
               updateHookTypesDev();
               return mountRef(initialValue);
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               updateHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
               try {
-                return mountState(initialState5);
+                return mountState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -14652,13 +14652,13 @@ var require_react_dom_development = __commonJS({
               updateHookTypesDev();
               return updateRef();
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               updateHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
               try {
-                return updateState(initialState5);
+                return updateState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -14756,13 +14756,13 @@ var require_react_dom_development = __commonJS({
               updateHookTypesDev();
               return updateRef();
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               updateHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnRerenderInDEV;
               try {
-                return rerenderState(initialState5);
+                return rerenderState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -14870,14 +14870,14 @@ var require_react_dom_development = __commonJS({
               mountHookTypesDev();
               return mountRef(initialValue);
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               warnInvalidHookAccess();
               mountHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
               try {
-                return mountState(initialState5);
+                return mountState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -14991,14 +14991,14 @@ var require_react_dom_development = __commonJS({
               updateHookTypesDev();
               return updateRef();
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               warnInvalidHookAccess();
               updateHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
               try {
-                return updateState(initialState5);
+                return updateState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -15112,14 +15112,14 @@ var require_react_dom_development = __commonJS({
               updateHookTypesDev();
               return updateRef();
             },
-            useState: function(initialState5) {
+            useState: function(initialState6) {
               currentHookNameInDev = "useState";
               warnInvalidHookAccess();
               updateHookTypesDev();
               var prevDispatcher = ReactCurrentDispatcher$1.current;
               ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
               try {
-                return rerenderState(initialState5);
+                return rerenderState(initialState6);
               } finally {
                 ReactCurrentDispatcher$1.current = prevDispatcher;
               }
@@ -15443,7 +15443,7 @@ var require_react_dom_development = __commonJS({
             return shouldUpdate;
           }
           if (ctor.prototype && ctor.prototype.isPureReactComponent) {
-            return !shallowEqual(oldProps, newProps) || !shallowEqual(oldState, newState);
+            return !shallowEqual2(oldProps, newProps) || !shallowEqual2(oldState, newState);
           }
           return true;
         }
@@ -16316,7 +16316,7 @@ var require_react_dom_development = __commonJS({
           if (!hasScheduledUpdateOrContext) {
             var prevProps = currentChild.memoizedProps;
             var compare = Component2.compare;
-            compare = compare !== null ? compare : shallowEqual;
+            compare = compare !== null ? compare : shallowEqual2;
             if (compare(prevProps, nextProps) && current3.ref === workInProgress2.ref) {
               return bailoutOnAlreadyFinishedWork(current3, workInProgress2, renderLanes2);
             }
@@ -16356,7 +16356,7 @@ var require_react_dom_development = __commonJS({
           }
           if (current3 !== null) {
             var prevProps = current3.memoizedProps;
-            if (shallowEqual(prevProps, nextProps) && current3.ref === workInProgress2.ref && // Prevent bailout if the implementation changed due to hot reload.
+            if (shallowEqual2(prevProps, nextProps) && current3.ref === workInProgress2.ref && // Prevent bailout if the implementation changed due to hot reload.
             workInProgress2.type === current3.type) {
               didReceiveUpdate = false;
               workInProgress2.pendingProps = nextProps = prevProps;
@@ -23452,7 +23452,7 @@ var require_react_dom_development = __commonJS({
           rendererPackageName: "react-dom"
         });
         {
-          if (!foundDevTools && canUseDOM2 && window.top === window.self) {
+          if (!foundDevTools && canUseDOM3 && window.top === window.self) {
             if (navigator.userAgent.indexOf("Chrome") > -1 && navigator.userAgent.indexOf("Edge") === -1 || navigator.userAgent.indexOf("Firefox") > -1) {
               var protocol = window.location.protocol;
               if (/^(https?|file):$/.test(protocol)) {
@@ -23535,15 +23535,15 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
         if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
           __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
         }
-        var React42 = require_react();
-        function is2(x, y2) {
+        var React43 = require_react();
+        function is3(x, y2) {
           return x === y2 && (x !== 0 || 1 / x === 1 / y2) || x !== x && y2 !== y2;
         }
-        var objectIs = typeof Object.is === "function" ? Object.is : is2;
-        var useSyncExternalStore3 = React42.useSyncExternalStore;
-        var useRef26 = React42.useRef, useEffect26 = React42.useEffect, useMemo3 = React42.useMemo, useDebugValue = React42.useDebugValue;
+        var objectIs = typeof Object.is === "function" ? Object.is : is3;
+        var useSyncExternalStore3 = React43.useSyncExternalStore;
+        var useRef17 = React43.useRef, useEffect30 = React43.useEffect, useMemo4 = React43.useMemo, useDebugValue2 = React43.useDebugValue;
         function useSyncExternalStoreWithSelector3(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef26(null);
+          var instRef = useRef17(null);
           var inst;
           if (instRef.current === null) {
             inst = {
@@ -23554,7 +23554,7 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
           } else {
             inst = instRef.current;
           }
-          var _useMemo = useMemo3(function() {
+          var _useMemo = useMemo4(function() {
             var hasMemo = false;
             var memoizedSnapshot;
             var memoizedSelection;
@@ -23598,11 +23598,11 @@ var require_use_sync_external_store_with_selector_development = __commonJS({
             return [getSnapshotWithSelector, getServerSnapshotWithSelector];
           }, [getSnapshot, getServerSnapshot, selector, isEqual2]), getSelection = _useMemo[0], getServerSelection = _useMemo[1];
           var value = useSyncExternalStore3(subscribe, getSelection, getServerSelection);
-          useEffect26(function() {
+          useEffect30(function() {
             inst.hasValue = true;
             inst.value = value;
           }, [value]);
-          useDebugValue(value);
+          useDebugValue2(value);
           return value;
         }
         exports.useSyncExternalStoreWithSelector = useSyncExternalStoreWithSelector3;
@@ -24002,7 +24002,7 @@ var require_factoryWithTypeCheckers = __commonJS({
         shape: createShapeTypeChecker,
         exact: createStrictShapeTypeChecker
       };
-      function is2(x, y2) {
+      function is3(x, y2) {
         if (x === y2) {
           return x !== 0 || 1 / x === 1 / y2;
         } else {
@@ -24145,7 +24145,7 @@ var require_factoryWithTypeCheckers = __commonJS({
         function validate(props, propName, componentName, location2, propFullName) {
           var propValue = props[propName];
           for (var i = 0; i < expectedValues.length; i++) {
-            if (is2(propValue, expectedValues[i])) {
+            if (is3(propValue, expectedValues[i])) {
               return null;
             }
           }
@@ -24410,7 +24410,7 @@ var require_react_jsx_runtime_development = __commonJS({
     if (true) {
       (function() {
         "use strict";
-        var React42 = require_react();
+        var React43 = require_react();
         var REACT_ELEMENT_TYPE2 = Symbol.for("react.element");
         var REACT_PORTAL_TYPE2 = Symbol.for("react.portal");
         var REACT_FRAGMENT_TYPE2 = Symbol.for("react.fragment");
@@ -24436,7 +24436,7 @@ var require_react_jsx_runtime_development = __commonJS({
           }
           return null;
         }
-        var ReactSharedInternals = React42.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        var ReactSharedInternals = React43.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
         function error(format) {
           {
             {
@@ -25315,8 +25315,8 @@ var require_lib = __commonJS({
     function _interopDefault(ex) {
       return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
     }
-    var React42 = require_react();
-    var React__default = _interopDefault(React42);
+    var React43 = require_react();
+    var React__default = _interopDefault(React43);
     function _defineProperty2(obj, key, value) {
       if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -25335,7 +25335,7 @@ var require_lib = __commonJS({
       subClass.prototype.constructor = subClass;
       subClass.__proto__ = superClass;
     }
-    var canUseDOM2 = !!(typeof window !== "undefined" && window.document && window.document.createElement);
+    var canUseDOM3 = !!(typeof window !== "undefined" && window.document && window.document.createElement);
     function withSideEffect2(reducePropsToState3, handleStateChangeOnClient, mapStateOnServer3) {
       if (typeof reducePropsToState3 !== "function") {
         throw new Error("Expected reducePropsToState to be a function.");
@@ -25399,9 +25399,9 @@ var require_lib = __commonJS({
             return React__default.createElement(WrappedComponent, this.props);
           };
           return SideEffect2;
-        }(React42.PureComponent);
+        }(React43.PureComponent);
         _defineProperty2(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
-        _defineProperty2(SideEffect, "canUseDOM", canUseDOM2);
+        _defineProperty2(SideEffect, "canUseDOM", canUseDOM3);
         return SideEffect;
       };
     }
@@ -25864,6 +25864,30 @@ function createSubscription(store2, parentSub) {
 var canUseDOM = !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
 var isReactNative = typeof navigator !== "undefined" && navigator.product === "ReactNative";
 var useIsomorphicLayoutEffect = canUseDOM || isReactNative ? React.useLayoutEffect : React.useEffect;
+function is(x, y2) {
+  if (x === y2) {
+    return x !== 0 || y2 !== 0 || 1 / x === 1 / y2;
+  } else {
+    return x !== x && y2 !== y2;
+  }
+}
+function shallowEqual(objA, objB) {
+  if (is(objA, objB))
+    return true;
+  if (typeof objA !== "object" || objA === null || typeof objB !== "object" || objB === null) {
+    return false;
+  }
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+  if (keysA.length !== keysB.length)
+    return false;
+  for (let i = 0; i < keysA.length; i++) {
+    if (!Object.prototype.hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+  return true;
+}
 var FORWARD_REF_STATICS = {
   $$typeof: true,
   render: true,
@@ -25950,6 +25974,7 @@ function createDispatchHook(context = ReactReduxContext) {
   return useDispatch2;
 }
 var useDispatch = /* @__PURE__ */ createDispatchHook();
+var batch = defaultNoopBatch;
 initializeUseSelector(import_with_selector.useSyncExternalStoreWithSelector);
 initializeConnect(React2.useSyncExternalStore);
 
@@ -26123,14 +26148,14 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options2)
     if (validateLocation) validateLocation(location2, to2);
     index = getIndex() + 1;
     let historyState = getHistoryState(location2, index);
-    let url = history.createHref(location2);
+    let url2 = history.createHref(location2);
     try {
-      globalHistory.pushState(historyState, "", url);
+      globalHistory.pushState(historyState, "", url2);
     } catch (error) {
       if (error instanceof DOMException && error.name === "DataCloneError") {
         throw error;
       }
-      window2.location.assign(url);
+      window2.location.assign(url2);
     }
     if (v5Compat && listener3) {
       listener3({
@@ -26146,8 +26171,8 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options2)
     if (validateLocation) validateLocation(location2, to2);
     index = getIndex();
     let historyState = getHistoryState(location2, index);
-    let url = history.createHref(location2);
-    globalHistory.replaceState(historyState, "", url);
+    let url2 = history.createHref(location2);
+    globalHistory.replaceState(historyState, "", url2);
     if (v5Compat && listener3) {
       listener3({
         action,
@@ -26186,11 +26211,11 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options2)
     },
     createURL,
     encodeLocation(to2) {
-      let url = createURL(to2);
+      let url2 = createURL(to2);
       return {
-        pathname: url.pathname,
-        search: url.search,
-        hash: url.hash
+        pathname: url2.pathname,
+        search: url2.search,
+        hash: url2.hash
       };
     },
     push,
@@ -27716,10 +27741,10 @@ function createRouter(init) {
       if (redirect2.response.headers.has("X-Remix-Reload-Document")) {
         isDocumentReload = true;
       } else if (ABSOLUTE_URL_REGEX.test(location2)) {
-        const url = init.history.createURL(location2);
+        const url2 = init.history.createURL(location2);
         isDocumentReload = // Hard reload if it's an absolute URL to a new origin
-        url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
-        stripBasename(url.pathname, basename) == null;
+        url2.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
+        stripBasename(url2.pathname, basename) == null;
       }
       if (isDocumentReload) {
         if (replace3) {
@@ -28617,8 +28642,8 @@ async function callLoaderOrAction(type, request, match2, manifest, mapRoutePrope
         if (handler) {
           result = await runHandler(handler);
         } else if (type === "action") {
-          let url = new URL(request.url);
-          let pathname = url.pathname + url.search;
+          let url2 = new URL(request.url);
+          let pathname = url2.pathname + url2.search;
           throw getInternalRouterError(405, {
             method: request.method,
             pathname,
@@ -28632,8 +28657,8 @@ async function callLoaderOrAction(type, request, match2, manifest, mapRoutePrope
         }
       }
     } else if (!handler) {
-      let url = new URL(request.url);
-      let pathname = url.pathname + url.search;
+      let url2 = new URL(request.url);
+      let pathname = url2.pathname + url2.search;
       throw getInternalRouterError(404, {
         pathname
       });
@@ -28728,16 +28753,16 @@ function normalizeRelativeRoutingRedirectResponse(response, request, routeId, ma
 function normalizeRedirectLocation(location2, currentUrl, basename) {
   if (ABSOLUTE_URL_REGEX.test(location2)) {
     let normalizedLocation = location2;
-    let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
-    let isSameBasename = stripBasename(url.pathname, basename) != null;
-    if (url.origin === currentUrl.origin && isSameBasename) {
-      return url.pathname + url.search + url.hash;
+    let url2 = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
+    let isSameBasename = stripBasename(url2.pathname, basename) != null;
+    if (url2.origin === currentUrl.origin && isSameBasename) {
+      return url2.pathname + url2.search + url2.hash;
     }
   }
   return location2;
 }
 function createClientSideRequest(history, location2, signal, submission) {
-  let url = history.createURL(stripHashFromPath(location2)).toString();
+  let url2 = history.createURL(stripHashFromPath(location2)).toString();
   let init = {
     signal
   };
@@ -28760,7 +28785,7 @@ function createClientSideRequest(history, location2, signal, submission) {
       init.body = submission.formData;
     }
   }
-  return new Request(url, init);
+  return new Request(url2, init);
 }
 function convertFormDataToSearchParams(formData) {
   let searchParams = new URLSearchParams();
@@ -30494,10 +30519,10 @@ var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref8, r
   }
   const endSlashPosition = toPathname !== "/" && toPathname.endsWith("/") ? toPathname.length - 1 : toPathname.length;
   let isActive = locationPathname === toPathname || !end2 && locationPathname.startsWith(toPathname) && locationPathname.charAt(endSlashPosition) === "/";
-  let isPending = nextLocationPathname != null && (nextLocationPathname === toPathname || !end2 && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+  let isPending2 = nextLocationPathname != null && (nextLocationPathname === toPathname || !end2 && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
   let renderProps = {
     isActive,
-    isPending,
+    isPending: isPending2,
     isTransitioning
   };
   let ariaCurrent = isActive ? ariaCurrentProp : void 0;
@@ -30505,7 +30530,7 @@ var NavLink = /* @__PURE__ */ React4.forwardRef(function NavLinkWithRef(_ref8, r
   if (typeof classNameProp === "function") {
     className = classNameProp(renderProps);
   } else {
-    className = [classNameProp, isActive ? "active" : null, isPending ? "pending" : null, isTransitioning ? "transitioning" : null].filter(Boolean).join(" ");
+    className = [classNameProp, isActive ? "active" : null, isPending2 ? "pending" : null, isTransitioning ? "transitioning" : null].filter(Boolean).join(" ");
   }
   let style = typeof styleProp === "function" ? styleProp(renderProps) : styleProp;
   return /* @__PURE__ */ React4.createElement(Link, _extends3({}, rest, {
@@ -31092,10 +31117,10 @@ function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, une
 function assertReducerShape(reducers) {
   Object.keys(reducers).forEach((key) => {
     const reducer = reducers[key];
-    const initialState5 = reducer(void 0, {
+    const initialState6 = reducer(void 0, {
       type: actionTypes_default.INIT
     });
-    if (typeof initialState5 === "undefined") {
+    if (typeof initialState6 === "undefined") {
       throw new Error(false ? formatProdErrorMessage(12) : `The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
     }
     if (typeof reducer(void 0, {
@@ -31256,6 +31281,11 @@ function isPlainObject2(value) {
     return true;
   return typeof Ctor == "function" && Function.toString.call(Ctor) === objectCtorString;
 }
+function original(value) {
+  if (!isDraft(value))
+    die(15, value);
+  return value[DRAFT_STATE].base_;
+}
 function each(obj, iter) {
   if (getArchtype(obj) === 0) {
     Reflect.ownKeys(obj).forEach((key) => {
@@ -31272,6 +31302,9 @@ function getArchtype(thing) {
 function has(thing, prop) {
   return getArchtype(thing) === 2 ? thing.has(prop) : Object.prototype.hasOwnProperty.call(thing, prop);
 }
+function get(thing, prop) {
+  return getArchtype(thing) === 2 ? thing.get(prop) : thing[prop];
+}
 function set(thing, propOrOldValue, value) {
   const t2 = getArchtype(thing);
   if (t2 === 2)
@@ -31281,7 +31314,7 @@ function set(thing, propOrOldValue, value) {
   } else
     thing[propOrOldValue] = value;
 }
-function is(x, y2) {
+function is2(x, y2) {
   if (x === y2) {
     return x !== 0 || 1 / x === 1 / y2;
   } else {
@@ -31358,6 +31391,10 @@ function getPlugin(pluginKey) {
     die(0, pluginKey);
   }
   return plugin;
+}
+function loadPlugin(pluginKey, implementation) {
+  if (!plugins[pluginKey])
+    plugins[pluginKey] = implementation;
 }
 var currentScope;
 function getCurrentScope() {
@@ -31580,7 +31617,7 @@ var objectTraps = {
         state.assigned_[prop] = false;
         return true;
       }
-      if (is(value, current2) && (value !== void 0 || has(state.base_, prop)))
+      if (is2(value, current2) && (value !== void 0 || has(state.base_, prop)))
         return true;
       prepareCopy(state);
       markChanged(state);
@@ -31843,6 +31880,240 @@ function currentImpl(value) {
     state.finalized_ = false;
   }
   return copy2;
+}
+function enablePatches() {
+  const errorOffset = 16;
+  if (true) {
+    errors.push(
+      'Sets cannot have "replace" patches.',
+      function(op) {
+        return "Unsupported patch operation: " + op;
+      },
+      function(path) {
+        return "Cannot apply patch, path doesn't resolve: " + path;
+      },
+      "Patching reserved attributes like __proto__, prototype and constructor is not allowed"
+    );
+  }
+  const REPLACE = "replace";
+  const ADD = "add";
+  const REMOVE = "remove";
+  function generatePatches_(state, basePath, patches, inversePatches) {
+    switch (state.type_) {
+      case 0:
+      case 2:
+        return generatePatchesFromAssigned(
+          state,
+          basePath,
+          patches,
+          inversePatches
+        );
+      case 1:
+        return generateArrayPatches(state, basePath, patches, inversePatches);
+      case 3:
+        return generateSetPatches(
+          state,
+          basePath,
+          patches,
+          inversePatches
+        );
+    }
+  }
+  function generateArrayPatches(state, basePath, patches, inversePatches) {
+    let { base_, assigned_ } = state;
+    let copy_ = state.copy_;
+    if (copy_.length < base_.length) {
+      ;
+      [base_, copy_] = [copy_, base_];
+      [patches, inversePatches] = [inversePatches, patches];
+    }
+    for (let i = 0; i < base_.length; i++) {
+      if (assigned_[i] && copy_[i] !== base_[i]) {
+        const path = basePath.concat([i]);
+        patches.push({
+          op: REPLACE,
+          path,
+          // Need to maybe clone it, as it can in fact be the original value
+          // due to the base/copy inversion at the start of this function
+          value: clonePatchValueIfNeeded(copy_[i])
+        });
+        inversePatches.push({
+          op: REPLACE,
+          path,
+          value: clonePatchValueIfNeeded(base_[i])
+        });
+      }
+    }
+    for (let i = base_.length; i < copy_.length; i++) {
+      const path = basePath.concat([i]);
+      patches.push({
+        op: ADD,
+        path,
+        // Need to maybe clone it, as it can in fact be the original value
+        // due to the base/copy inversion at the start of this function
+        value: clonePatchValueIfNeeded(copy_[i])
+      });
+    }
+    for (let i = copy_.length - 1; base_.length <= i; --i) {
+      const path = basePath.concat([i]);
+      inversePatches.push({
+        op: REMOVE,
+        path
+      });
+    }
+  }
+  function generatePatchesFromAssigned(state, basePath, patches, inversePatches) {
+    const { base_, copy_ } = state;
+    each(state.assigned_, (key, assignedValue) => {
+      const origValue = get(base_, key);
+      const value = get(copy_, key);
+      const op = !assignedValue ? REMOVE : has(base_, key) ? REPLACE : ADD;
+      if (origValue === value && op === REPLACE)
+        return;
+      const path = basePath.concat(key);
+      patches.push(op === REMOVE ? { op, path } : { op, path, value });
+      inversePatches.push(
+        op === ADD ? { op: REMOVE, path } : op === REMOVE ? { op: ADD, path, value: clonePatchValueIfNeeded(origValue) } : { op: REPLACE, path, value: clonePatchValueIfNeeded(origValue) }
+      );
+    });
+  }
+  function generateSetPatches(state, basePath, patches, inversePatches) {
+    let { base_, copy_ } = state;
+    let i = 0;
+    base_.forEach((value) => {
+      if (!copy_.has(value)) {
+        const path = basePath.concat([i]);
+        patches.push({
+          op: REMOVE,
+          path,
+          value
+        });
+        inversePatches.unshift({
+          op: ADD,
+          path,
+          value
+        });
+      }
+      i++;
+    });
+    i = 0;
+    copy_.forEach((value) => {
+      if (!base_.has(value)) {
+        const path = basePath.concat([i]);
+        patches.push({
+          op: ADD,
+          path,
+          value
+        });
+        inversePatches.unshift({
+          op: REMOVE,
+          path,
+          value
+        });
+      }
+      i++;
+    });
+  }
+  function generateReplacementPatches_(baseValue, replacement, patches, inversePatches) {
+    patches.push({
+      op: REPLACE,
+      path: [],
+      value: replacement === NOTHING ? void 0 : replacement
+    });
+    inversePatches.push({
+      op: REPLACE,
+      path: [],
+      value: baseValue
+    });
+  }
+  function applyPatches_(draft, patches) {
+    patches.forEach((patch) => {
+      const { path, op } = patch;
+      let base = draft;
+      for (let i = 0; i < path.length - 1; i++) {
+        const parentType = getArchtype(base);
+        let p = path[i];
+        if (typeof p !== "string" && typeof p !== "number") {
+          p = "" + p;
+        }
+        if ((parentType === 0 || parentType === 1) && (p === "__proto__" || p === "constructor"))
+          die(errorOffset + 3);
+        if (typeof base === "function" && p === "prototype")
+          die(errorOffset + 3);
+        base = get(base, p);
+        if (typeof base !== "object")
+          die(errorOffset + 2, path.join("/"));
+      }
+      const type = getArchtype(base);
+      const value = deepClonePatchValue(patch.value);
+      const key = path[path.length - 1];
+      switch (op) {
+        case REPLACE:
+          switch (type) {
+            case 2:
+              return base.set(key, value);
+            case 3:
+              die(errorOffset);
+            default:
+              return base[key] = value;
+          }
+        case ADD:
+          switch (type) {
+            case 1:
+              return key === "-" ? base.push(value) : base.splice(key, 0, value);
+            case 2:
+              return base.set(key, value);
+            case 3:
+              return base.add(value);
+            default:
+              return base[key] = value;
+          }
+        case REMOVE:
+          switch (type) {
+            case 1:
+              return base.splice(key, 1);
+            case 2:
+              return base.delete(key);
+            case 3:
+              return base.delete(patch.value);
+            default:
+              return delete base[key];
+          }
+        default:
+          die(errorOffset + 1, op);
+      }
+    });
+    return draft;
+  }
+  function deepClonePatchValue(obj) {
+    if (!isDraftable(obj))
+      return obj;
+    if (Array.isArray(obj))
+      return obj.map(deepClonePatchValue);
+    if (isMap(obj))
+      return new Map(
+        Array.from(obj.entries()).map(([k, v]) => [k, deepClonePatchValue(v)])
+      );
+    if (isSet(obj))
+      return new Set(Array.from(obj).map(deepClonePatchValue));
+    const cloned = Object.create(getPrototypeOf(obj));
+    for (const key in obj)
+      cloned[key] = deepClonePatchValue(obj[key]);
+    if (has(obj, DRAFTABLE))
+      cloned[DRAFTABLE] = obj[DRAFTABLE];
+    return cloned;
+  }
+  function clonePatchValueIfNeeded(obj) {
+    if (isDraft(obj)) {
+      return deepClonePatchValue(obj);
+    } else
+      return obj;
+  }
+  loadPlugin("Patches", {
+    applyPatches_,
+    generatePatches_,
+    generateReplacementPatches_
+  });
 }
 var immer = new Immer2();
 var produce = immer.produce;
@@ -32460,7 +32731,7 @@ function isPlain(val) {
   const type = typeof val;
   return val == null || type === "string" || type === "boolean" || type === "number" || Array.isArray(val) || isPlainObject(val);
 }
-function findNonSerializableValue(value, path = "", isSerializable = isPlain, getEntries, ignoredPaths = [], cache3) {
+function findNonSerializableValue(value, path = "", isSerializable = isPlain, getEntries, ignoredPaths = [], cache5) {
   let foundNestedSerializable;
   if (!isSerializable(value)) {
     return {
@@ -32471,7 +32742,7 @@ function findNonSerializableValue(value, path = "", isSerializable = isPlain, ge
   if (typeof value !== "object" || value === null) {
     return false;
   }
-  if (cache3?.has(value)) return false;
+  if (cache5?.has(value)) return false;
   const entries = getEntries != null ? getEntries(value) : Object.entries(value);
   const hasIgnoredPaths = ignoredPaths.length > 0;
   for (const [key, nestedValue] of entries) {
@@ -32494,13 +32765,13 @@ function findNonSerializableValue(value, path = "", isSerializable = isPlain, ge
       };
     }
     if (typeof nestedValue === "object") {
-      foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths, cache3);
+      foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths, cache5);
       if (foundNestedSerializable) {
         return foundNestedSerializable;
       }
     }
   }
-  if (cache3 && isNestedFrozen(value)) cache3.add(value);
+  if (cache5 && isNestedFrozen(value)) cache5.add(value);
   return false;
 }
 function isNestedFrozen(value) {
@@ -32526,7 +32797,7 @@ function createSerializableStateInvariantMiddleware(options2 = {}) {
       ignoreActions = false,
       disableCache = false
     } = options2;
-    const cache3 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
+    const cache5 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
     return (storeAPI) => (next2) => (action) => {
       if (!isAction(action)) {
         return next2(action);
@@ -32535,7 +32806,7 @@ function createSerializableStateInvariantMiddleware(options2 = {}) {
       const measureUtils = getTimeMeasureUtils(warnAfter, "SerializableStateInvariantMiddleware");
       if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) {
         measureUtils.measureTime(() => {
-          const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache3);
+          const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache5);
           if (foundActionNonSerializableValue) {
             const {
               keyPath,
@@ -32548,7 +32819,7 @@ function createSerializableStateInvariantMiddleware(options2 = {}) {
       if (!ignoreState) {
         measureUtils.measureTime(() => {
           const state = storeAPI.getState();
-          const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache3);
+          const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache5);
           if (foundStateNonSerializableValue) {
             const {
               keyPath,
@@ -32609,6 +32880,12 @@ var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options2) {
   return middlewareArray;
 };
 var SHOULD_AUTOBATCH = "RTK_autoBatch";
+var prepareAutoBatched = () => (payload) => ({
+  payload,
+  meta: {
+    [SHOULD_AUTOBATCH]: true
+  }
+});
 var createQueueWithTimer = (timeout2) => {
   return (notify) => {
     setTimeout(notify, timeout2);
@@ -32782,7 +33059,7 @@ function executeReducerBuilderCallback(builderCallback) {
 function isStateFunction(x) {
   return typeof x === "function";
 }
-function createReducer(initialState5, mapOrBuilderCallback) {
+function createReducer(initialState6, mapOrBuilderCallback) {
   if (true) {
     if (typeof mapOrBuilderCallback === "object") {
       throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
@@ -32790,10 +33067,10 @@ function createReducer(initialState5, mapOrBuilderCallback) {
   }
   let [actionsMap, finalActionMatchers, finalDefaultCaseReducer] = executeReducerBuilderCallback(mapOrBuilderCallback);
   let getInitialState;
-  if (isStateFunction(initialState5)) {
-    getInitialState = () => freezeDraftable(initialState5());
+  if (isStateFunction(initialState6)) {
+    getInitialState = () => freezeDraftable(initialState6());
   } else {
-    const frozenInitialState = freezeDraftable(initialState5);
+    const frozenInitialState = freezeDraftable(initialState6);
     getInitialState = () => frozenInitialState;
   }
   function reducer(state = getInitialState(), action) {
@@ -32846,6 +33123,68 @@ function isAnyOf(...matchers) {
   return (action) => {
     return matchers.some((matcher) => matches(matcher, action));
   };
+}
+function isAllOf(...matchers) {
+  return (action) => {
+    return matchers.every((matcher) => matches(matcher, action));
+  };
+}
+function hasExpectedRequestMetadata(action, validStatus) {
+  if (!action || !action.meta) return false;
+  const hasValidRequestId = typeof action.meta.requestId === "string";
+  const hasValidRequestStatus = validStatus.indexOf(action.meta.requestStatus) > -1;
+  return hasValidRequestId && hasValidRequestStatus;
+}
+function isAsyncThunkArray(a2) {
+  return typeof a2[0] === "function" && "pending" in a2[0] && "fulfilled" in a2[0] && "rejected" in a2[0];
+}
+function isPending(...asyncThunks) {
+  if (asyncThunks.length === 0) {
+    return (action) => hasExpectedRequestMetadata(action, ["pending"]);
+  }
+  if (!isAsyncThunkArray(asyncThunks)) {
+    return isPending()(asyncThunks[0]);
+  }
+  return isAnyOf(...asyncThunks.map((asyncThunk) => asyncThunk.pending));
+}
+function isRejected(...asyncThunks) {
+  if (asyncThunks.length === 0) {
+    return (action) => hasExpectedRequestMetadata(action, ["rejected"]);
+  }
+  if (!isAsyncThunkArray(asyncThunks)) {
+    return isRejected()(asyncThunks[0]);
+  }
+  return isAnyOf(...asyncThunks.map((asyncThunk) => asyncThunk.rejected));
+}
+function isRejectedWithValue(...asyncThunks) {
+  const hasFlag = (action) => {
+    return action && action.meta && action.meta.rejectedWithValue;
+  };
+  if (asyncThunks.length === 0) {
+    return isAllOf(isRejected(...asyncThunks), hasFlag);
+  }
+  if (!isAsyncThunkArray(asyncThunks)) {
+    return isRejectedWithValue()(asyncThunks[0]);
+  }
+  return isAllOf(isRejected(...asyncThunks), hasFlag);
+}
+function isFulfilled(...asyncThunks) {
+  if (asyncThunks.length === 0) {
+    return (action) => hasExpectedRequestMetadata(action, ["fulfilled"]);
+  }
+  if (!isAsyncThunkArray(asyncThunks)) {
+    return isFulfilled()(asyncThunks[0]);
+  }
+  return isAnyOf(...asyncThunks.map((asyncThunk) => asyncThunk.fulfilled));
+}
+function isAsyncThunkAction(...asyncThunks) {
+  if (asyncThunks.length === 0) {
+    return (action) => hasExpectedRequestMetadata(action, ["pending", "fulfilled", "rejected"]);
+  }
+  if (!isAsyncThunkArray(asyncThunks)) {
+    return isAsyncThunkAction()(asyncThunks[0]);
+  }
+  return isAnyOf(...asyncThunks.flatMap((asyncThunk) => [asyncThunk.pending, asyncThunk.rejected, asyncThunk.fulfilled]));
 }
 var urlAlphabet = "ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW";
 var nanoid = (size = 21) => {
@@ -33740,6 +34079,2779 @@ var removeListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}
 });
 var ORIGINAL_STATE = Symbol.for("rtk-state-proxy-original");
 
+// node_modules/@reduxjs/toolkit/dist/query/rtk-query.modern.mjs
+var QueryStatus = /* @__PURE__ */ ((QueryStatus2) => {
+  QueryStatus2["uninitialized"] = "uninitialized";
+  QueryStatus2["pending"] = "pending";
+  QueryStatus2["fulfilled"] = "fulfilled";
+  QueryStatus2["rejected"] = "rejected";
+  return QueryStatus2;
+})(QueryStatus || {});
+function getRequestStatusFlags(status) {
+  return {
+    status,
+    isUninitialized: status === "uninitialized",
+    isLoading: status === "pending",
+    isSuccess: status === "fulfilled",
+    isError: status === "rejected"
+    /* rejected */
+  };
+}
+var isPlainObject22 = isPlainObject;
+function copyWithStructuralSharing(oldObj, newObj) {
+  if (oldObj === newObj || !(isPlainObject22(oldObj) && isPlainObject22(newObj) || Array.isArray(oldObj) && Array.isArray(newObj))) {
+    return newObj;
+  }
+  const newKeys = Object.keys(newObj);
+  const oldKeys = Object.keys(oldObj);
+  let isSameObject = newKeys.length === oldKeys.length;
+  const mergeObj = Array.isArray(newObj) ? [] : {};
+  for (const key of newKeys) {
+    mergeObj[key] = copyWithStructuralSharing(oldObj[key], newObj[key]);
+    if (isSameObject) isSameObject = oldObj[key] === mergeObj[key];
+  }
+  return isSameObject ? oldObj : mergeObj;
+}
+function countObjectKeys(obj) {
+  let count = 0;
+  for (const _key in obj) {
+    count++;
+  }
+  return count;
+}
+var flatten = (arr) => [].concat(...arr);
+function isAbsoluteUrl(url2) {
+  return new RegExp(`(^|:)//`).test(url2);
+}
+function isDocumentVisible() {
+  if (typeof document === "undefined") {
+    return true;
+  }
+  return document.visibilityState !== "hidden";
+}
+function isNotNullish(v) {
+  return v != null;
+}
+function isOnline() {
+  return typeof navigator === "undefined" ? true : navigator.onLine === void 0 ? true : navigator.onLine;
+}
+var withoutTrailingSlash = (url2) => url2.replace(/\/$/, "");
+var withoutLeadingSlash = (url2) => url2.replace(/^\//, "");
+function joinUrls(base, url2) {
+  if (!base) {
+    return url2;
+  }
+  if (!url2) {
+    return base;
+  }
+  if (isAbsoluteUrl(url2)) {
+    return url2;
+  }
+  const delimiter2 = base.endsWith("/") || !url2.startsWith("?") ? "/" : "";
+  base = withoutTrailingSlash(base);
+  url2 = withoutLeadingSlash(url2);
+  return `${base}${delimiter2}${url2}`;
+}
+var defaultFetchFn = (...args) => fetch(...args);
+var defaultValidateStatus = (response) => response.status >= 200 && response.status <= 299;
+var defaultIsJsonContentType = (headers) => (
+  /*applicat*/
+  /ion\/(vnd\.api\+)?json/.test(headers.get("content-type") || "")
+);
+function stripUndefined(obj) {
+  if (!isPlainObject(obj)) {
+    return obj;
+  }
+  const copy2 = {
+    ...obj
+  };
+  for (const [k, v] of Object.entries(copy2)) {
+    if (v === void 0) delete copy2[k];
+  }
+  return copy2;
+}
+function fetchBaseQuery({
+  baseUrl: baseUrl2,
+  prepareHeaders = (x) => x,
+  fetchFn = defaultFetchFn,
+  paramsSerializer,
+  isJsonContentType = defaultIsJsonContentType,
+  jsonContentType = "application/json",
+  jsonReplacer,
+  timeout: defaultTimeout,
+  responseHandler: globalResponseHandler,
+  validateStatus: globalValidateStatus,
+  ...baseFetchOptions
+} = {}) {
+  if (typeof fetch === "undefined" && fetchFn === defaultFetchFn) {
+    console.warn("Warning: `fetch` is not available. Please supply a custom `fetchFn` property to use `fetchBaseQuery` on SSR environments.");
+  }
+  return async (arg, api3) => {
+    const {
+      signal,
+      getState,
+      extra,
+      endpoint,
+      forced,
+      type
+    } = api3;
+    let meta;
+    let {
+      url: url2,
+      headers = new Headers(baseFetchOptions.headers),
+      params = void 0,
+      responseHandler = globalResponseHandler ?? "json",
+      validateStatus = globalValidateStatus ?? defaultValidateStatus,
+      timeout: timeout2 = defaultTimeout,
+      ...rest
+    } = typeof arg == "string" ? {
+      url: arg
+    } : arg;
+    let config2 = {
+      ...baseFetchOptions,
+      signal,
+      ...rest
+    };
+    headers = new Headers(stripUndefined(headers));
+    config2.headers = await prepareHeaders(headers, {
+      getState,
+      extra,
+      endpoint,
+      forced,
+      type
+    }) || headers;
+    const isJsonifiable = (body) => typeof body === "object" && (isPlainObject(body) || Array.isArray(body) || typeof body.toJSON === "function");
+    if (!config2.headers.has("content-type") && isJsonifiable(config2.body)) {
+      config2.headers.set("content-type", jsonContentType);
+    }
+    if (isJsonifiable(config2.body) && isJsonContentType(config2.headers)) {
+      config2.body = JSON.stringify(config2.body, jsonReplacer);
+    }
+    if (params) {
+      const divider = ~url2.indexOf("?") ? "&" : "?";
+      const query = paramsSerializer ? paramsSerializer(params) : new URLSearchParams(stripUndefined(params));
+      url2 += divider + query;
+    }
+    url2 = joinUrls(baseUrl2, url2);
+    const request = new Request(url2, config2);
+    const requestClone = new Request(url2, config2);
+    meta = {
+      request: requestClone
+    };
+    let response, timedOut = false, timeoutId = timeout2 && setTimeout(() => {
+      timedOut = true;
+      api3.abort();
+    }, timeout2);
+    try {
+      response = await fetchFn(request);
+    } catch (e) {
+      return {
+        error: {
+          status: timedOut ? "TIMEOUT_ERROR" : "FETCH_ERROR",
+          error: String(e)
+        },
+        meta
+      };
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
+    }
+    const responseClone = response.clone();
+    meta.response = responseClone;
+    let resultData;
+    let responseText = "";
+    try {
+      let handleResponseError;
+      await Promise.all([
+        handleResponse(response, responseHandler).then((r2) => resultData = r2, (e) => handleResponseError = e),
+        // see https://github.com/node-fetch/node-fetch/issues/665#issuecomment-538995182
+        // we *have* to "use up" both streams at the same time or they will stop running in node-fetch scenarios
+        responseClone.text().then((r2) => responseText = r2, () => {
+        })
+      ]);
+      if (handleResponseError) throw handleResponseError;
+    } catch (e) {
+      return {
+        error: {
+          status: "PARSING_ERROR",
+          originalStatus: response.status,
+          data: responseText,
+          error: String(e)
+        },
+        meta
+      };
+    }
+    return validateStatus(response, resultData) ? {
+      data: resultData,
+      meta
+    } : {
+      error: {
+        status: response.status,
+        data: resultData
+      },
+      meta
+    };
+  };
+  async function handleResponse(response, responseHandler) {
+    if (typeof responseHandler === "function") {
+      return responseHandler(response);
+    }
+    if (responseHandler === "content-type") {
+      responseHandler = isJsonContentType(response.headers) ? "json" : "text";
+    }
+    if (responseHandler === "json") {
+      const text2 = await response.text();
+      return text2.length ? JSON.parse(text2) : null;
+    }
+    return response.text();
+  }
+}
+var HandledError = class {
+  constructor(value, meta = void 0) {
+    this.value = value;
+    this.meta = meta;
+  }
+};
+var onFocus = /* @__PURE__ */ createAction("__rtkq/focused");
+var onFocusLost = /* @__PURE__ */ createAction("__rtkq/unfocused");
+var onOnline = /* @__PURE__ */ createAction("__rtkq/online");
+var onOffline = /* @__PURE__ */ createAction("__rtkq/offline");
+function isQueryDefinition(e) {
+  return e.type === "query";
+}
+function isMutationDefinition(e) {
+  return e.type === "mutation";
+}
+function calculateProvidedBy(description, result, error, queryArg, meta, assertTagTypes) {
+  if (isFunction(description)) {
+    return description(result, error, queryArg, meta).map(expandTagDescription).map(assertTagTypes);
+  }
+  if (Array.isArray(description)) {
+    return description.map(expandTagDescription).map(assertTagTypes);
+  }
+  return [];
+}
+function isFunction(t2) {
+  return typeof t2 === "function";
+}
+function expandTagDescription(description) {
+  return typeof description === "string" ? {
+    type: description
+  } : description;
+}
+function asSafePromise(promise, fallback) {
+  return promise.catch(fallback);
+}
+var forceQueryFnSymbol = Symbol("forceQueryFn");
+var isUpsertQuery = (arg) => typeof arg[forceQueryFnSymbol] === "function";
+function buildInitiate({
+  serializeQueryArgs,
+  queryThunk,
+  mutationThunk,
+  api: api3,
+  context
+}) {
+  const runningQueries = /* @__PURE__ */ new Map();
+  const runningMutations = /* @__PURE__ */ new Map();
+  const {
+    unsubscribeQueryResult,
+    removeMutationResult,
+    updateSubscriptionOptions
+  } = api3.internalActions;
+  return {
+    buildInitiateQuery,
+    buildInitiateMutation,
+    getRunningQueryThunk,
+    getRunningMutationThunk,
+    getRunningQueriesThunk,
+    getRunningMutationsThunk
+  };
+  function getRunningQueryThunk(endpointName, queryArgs) {
+    return (dispatch) => {
+      const endpointDefinition = context.endpointDefinitions[endpointName];
+      const queryCacheKey = serializeQueryArgs({
+        queryArgs,
+        endpointDefinition,
+        endpointName
+      });
+      return runningQueries.get(dispatch)?.[queryCacheKey];
+    };
+  }
+  function getRunningMutationThunk(_endpointName, fixedCacheKeyOrRequestId) {
+    return (dispatch) => {
+      return runningMutations.get(dispatch)?.[fixedCacheKeyOrRequestId];
+    };
+  }
+  function getRunningQueriesThunk() {
+    return (dispatch) => Object.values(runningQueries.get(dispatch) || {}).filter(isNotNullish);
+  }
+  function getRunningMutationsThunk() {
+    return (dispatch) => Object.values(runningMutations.get(dispatch) || {}).filter(isNotNullish);
+  }
+  function middlewareWarning(dispatch) {
+    if (true) {
+      if (middlewareWarning.triggered) return;
+      const returnedValue = dispatch(api3.internalActions.internal_getRTKQSubscriptions());
+      middlewareWarning.triggered = true;
+      if (typeof returnedValue !== "object" || typeof returnedValue?.type === "string") {
+        throw new Error(false ? formatProdErrorMessage(34) : `Warning: Middleware for RTK-Query API at reducerPath "${api3.reducerPath}" has not been added to the store.
+You must add the middleware for RTK-Query to function correctly!`);
+      }
+    }
+  }
+  function buildInitiateQuery(endpointName, endpointDefinition) {
+    const queryAction = (arg, {
+      subscribe = true,
+      forceRefetch,
+      subscriptionOptions,
+      [forceQueryFnSymbol]: forceQueryFn,
+      ...rest
+    } = {}) => (dispatch, getState) => {
+      const queryCacheKey = serializeQueryArgs({
+        queryArgs: arg,
+        endpointDefinition,
+        endpointName
+      });
+      const thunk2 = queryThunk({
+        ...rest,
+        type: "query",
+        subscribe,
+        forceRefetch,
+        subscriptionOptions,
+        endpointName,
+        originalArgs: arg,
+        queryCacheKey,
+        [forceQueryFnSymbol]: forceQueryFn
+      });
+      const selector = api3.endpoints[endpointName].select(arg);
+      const thunkResult = dispatch(thunk2);
+      const stateAfter = selector(getState());
+      middlewareWarning(dispatch);
+      const {
+        requestId,
+        abort
+      } = thunkResult;
+      const skippedSynchronously = stateAfter.requestId !== requestId;
+      const runningQuery = runningQueries.get(dispatch)?.[queryCacheKey];
+      const selectFromState = () => selector(getState());
+      const statePromise = Object.assign(forceQueryFn ? (
+        // a query has been forced (upsertQueryData)
+        // -> we want to resolve it once data has been written with the data that will be written
+        thunkResult.then(selectFromState)
+      ) : skippedSynchronously && !runningQuery ? (
+        // a query has been skipped due to a condition and we do not have any currently running query
+        // -> we want to resolve it immediately with the current data
+        Promise.resolve(stateAfter)
+      ) : (
+        // query just started or one is already in flight
+        // -> wait for the running query, then resolve with data from after that
+        Promise.all([runningQuery, thunkResult]).then(selectFromState)
+      ), {
+        arg,
+        requestId,
+        subscriptionOptions,
+        queryCacheKey,
+        abort,
+        async unwrap() {
+          const result = await statePromise;
+          if (result.isError) {
+            throw result.error;
+          }
+          return result.data;
+        },
+        refetch: () => dispatch(queryAction(arg, {
+          subscribe: false,
+          forceRefetch: true
+        })),
+        unsubscribe() {
+          if (subscribe) dispatch(unsubscribeQueryResult({
+            queryCacheKey,
+            requestId
+          }));
+        },
+        updateSubscriptionOptions(options2) {
+          statePromise.subscriptionOptions = options2;
+          dispatch(updateSubscriptionOptions({
+            endpointName,
+            requestId,
+            queryCacheKey,
+            options: options2
+          }));
+        }
+      });
+      if (!runningQuery && !skippedSynchronously && !forceQueryFn) {
+        const running = runningQueries.get(dispatch) || {};
+        running[queryCacheKey] = statePromise;
+        runningQueries.set(dispatch, running);
+        statePromise.then(() => {
+          delete running[queryCacheKey];
+          if (!countObjectKeys(running)) {
+            runningQueries.delete(dispatch);
+          }
+        });
+      }
+      return statePromise;
+    };
+    return queryAction;
+  }
+  function buildInitiateMutation(endpointName) {
+    return (arg, {
+      track = true,
+      fixedCacheKey
+    } = {}) => (dispatch, getState) => {
+      const thunk2 = mutationThunk({
+        type: "mutation",
+        endpointName,
+        originalArgs: arg,
+        track,
+        fixedCacheKey
+      });
+      const thunkResult = dispatch(thunk2);
+      middlewareWarning(dispatch);
+      const {
+        requestId,
+        abort,
+        unwrap
+      } = thunkResult;
+      const returnValuePromise = asSafePromise(thunkResult.unwrap().then((data) => ({
+        data
+      })), (error) => ({
+        error
+      }));
+      const reset = () => {
+        dispatch(removeMutationResult({
+          requestId,
+          fixedCacheKey
+        }));
+      };
+      const ret = Object.assign(returnValuePromise, {
+        arg: thunkResult.arg,
+        requestId,
+        abort,
+        unwrap,
+        reset
+      });
+      const running = runningMutations.get(dispatch) || {};
+      runningMutations.set(dispatch, running);
+      running[requestId] = ret;
+      ret.then(() => {
+        delete running[requestId];
+        if (!countObjectKeys(running)) {
+          runningMutations.delete(dispatch);
+        }
+      });
+      if (fixedCacheKey) {
+        running[fixedCacheKey] = ret;
+        ret.then(() => {
+          if (running[fixedCacheKey] === ret) {
+            delete running[fixedCacheKey];
+            if (!countObjectKeys(running)) {
+              runningMutations.delete(dispatch);
+            }
+          }
+        });
+      }
+      return ret;
+    };
+  }
+}
+function defaultTransformResponse(baseQueryReturnValue) {
+  return baseQueryReturnValue;
+}
+function buildThunks({
+  reducerPath,
+  baseQuery,
+  context: {
+    endpointDefinitions
+  },
+  serializeQueryArgs,
+  api: api3,
+  assertTagType
+}) {
+  const patchQueryData = (endpointName, args, patches, updateProvided) => (dispatch, getState) => {
+    const endpointDefinition = endpointDefinitions[endpointName];
+    const queryCacheKey = serializeQueryArgs({
+      queryArgs: args,
+      endpointDefinition,
+      endpointName
+    });
+    dispatch(api3.internalActions.queryResultPatched({
+      queryCacheKey,
+      patches
+    }));
+    if (!updateProvided) {
+      return;
+    }
+    const newValue = api3.endpoints[endpointName].select(args)(
+      // Work around TS 4.1 mismatch
+      getState()
+    );
+    const providedTags = calculateProvidedBy(endpointDefinition.providesTags, newValue.data, void 0, args, {}, assertTagType);
+    dispatch(api3.internalActions.updateProvidedBy({
+      queryCacheKey,
+      providedTags
+    }));
+  };
+  const updateQueryData = (endpointName, args, updateRecipe, updateProvided = true) => (dispatch, getState) => {
+    const endpointDefinition = api3.endpoints[endpointName];
+    const currentState = endpointDefinition.select(args)(
+      // Work around TS 4.1 mismatch
+      getState()
+    );
+    const ret = {
+      patches: [],
+      inversePatches: [],
+      undo: () => dispatch(api3.util.patchQueryData(endpointName, args, ret.inversePatches, updateProvided))
+    };
+    if (currentState.status === "uninitialized") {
+      return ret;
+    }
+    let newValue;
+    if ("data" in currentState) {
+      if (isDraftable(currentState.data)) {
+        const [value, patches, inversePatches] = produceWithPatches(currentState.data, updateRecipe);
+        ret.patches.push(...patches);
+        ret.inversePatches.push(...inversePatches);
+        newValue = value;
+      } else {
+        newValue = updateRecipe(currentState.data);
+        ret.patches.push({
+          op: "replace",
+          path: [],
+          value: newValue
+        });
+        ret.inversePatches.push({
+          op: "replace",
+          path: [],
+          value: currentState.data
+        });
+      }
+    }
+    if (ret.patches.length === 0) {
+      return ret;
+    }
+    dispatch(api3.util.patchQueryData(endpointName, args, ret.patches, updateProvided));
+    return ret;
+  };
+  const upsertQueryData = (endpointName, args, value) => (dispatch) => {
+    return dispatch(api3.endpoints[endpointName].initiate(args, {
+      subscribe: false,
+      forceRefetch: true,
+      [forceQueryFnSymbol]: () => ({
+        data: value
+      })
+    }));
+  };
+  const executeEndpoint = async (arg, {
+    signal,
+    abort,
+    rejectWithValue,
+    fulfillWithValue,
+    dispatch,
+    getState,
+    extra
+  }) => {
+    const endpointDefinition = endpointDefinitions[arg.endpointName];
+    try {
+      let transformResponse = defaultTransformResponse;
+      let result;
+      const baseQueryApi = {
+        signal,
+        abort,
+        dispatch,
+        getState,
+        extra,
+        endpoint: arg.endpointName,
+        type: arg.type,
+        forced: arg.type === "query" ? isForcedQuery(arg, getState()) : void 0
+      };
+      const forceQueryFn = arg.type === "query" ? arg[forceQueryFnSymbol] : void 0;
+      if (forceQueryFn) {
+        result = forceQueryFn();
+      } else if (endpointDefinition.query) {
+        result = await baseQuery(endpointDefinition.query(arg.originalArgs), baseQueryApi, endpointDefinition.extraOptions);
+        if (endpointDefinition.transformResponse) {
+          transformResponse = endpointDefinition.transformResponse;
+        }
+      } else {
+        result = await endpointDefinition.queryFn(arg.originalArgs, baseQueryApi, endpointDefinition.extraOptions, (arg2) => baseQuery(arg2, baseQueryApi, endpointDefinition.extraOptions));
+      }
+      if (typeof process !== "undefined" && true) {
+        const what = endpointDefinition.query ? "`baseQuery`" : "`queryFn`";
+        let err;
+        if (!result) {
+          err = `${what} did not return anything.`;
+        } else if (typeof result !== "object") {
+          err = `${what} did not return an object.`;
+        } else if (result.error && result.data) {
+          err = `${what} returned an object containing both \`error\` and \`result\`.`;
+        } else if (result.error === void 0 && result.data === void 0) {
+          err = `${what} returned an object containing neither a valid \`error\` and \`result\`. At least one of them should not be \`undefined\``;
+        } else {
+          for (const key of Object.keys(result)) {
+            if (key !== "error" && key !== "data" && key !== "meta") {
+              err = `The object returned by ${what} has the unknown property ${key}.`;
+              break;
+            }
+          }
+        }
+        if (err) {
+          console.error(`Error encountered handling the endpoint ${arg.endpointName}.
+              ${err}
+              It needs to return an object with either the shape \`{ data: <value> }\` or \`{ error: <value> }\` that may contain an optional \`meta\` property.
+              Object returned was:`, result);
+        }
+      }
+      if (result.error) throw new HandledError(result.error, result.meta);
+      return fulfillWithValue(await transformResponse(result.data, result.meta, arg.originalArgs), {
+        fulfilledTimeStamp: Date.now(),
+        baseQueryMeta: result.meta,
+        [SHOULD_AUTOBATCH]: true
+      });
+    } catch (error) {
+      let catchedError = error;
+      if (catchedError instanceof HandledError) {
+        let transformErrorResponse = defaultTransformResponse;
+        if (endpointDefinition.query && endpointDefinition.transformErrorResponse) {
+          transformErrorResponse = endpointDefinition.transformErrorResponse;
+        }
+        try {
+          return rejectWithValue(await transformErrorResponse(catchedError.value, catchedError.meta, arg.originalArgs), {
+            baseQueryMeta: catchedError.meta,
+            [SHOULD_AUTOBATCH]: true
+          });
+        } catch (e) {
+          catchedError = e;
+        }
+      }
+      if (typeof process !== "undefined" && true) {
+        console.error(`An unhandled error occurred processing a request for the endpoint "${arg.endpointName}".
+In the case of an unhandled error, no tags will be "provided" or "invalidated".`, catchedError);
+      } else {
+        console.error(catchedError);
+      }
+      throw catchedError;
+    }
+  };
+  function isForcedQuery(arg, state) {
+    const requestState = state[reducerPath]?.queries?.[arg.queryCacheKey];
+    const baseFetchOnMountOrArgChange = state[reducerPath]?.config.refetchOnMountOrArgChange;
+    const fulfilledVal = requestState?.fulfilledTimeStamp;
+    const refetchVal = arg.forceRefetch ?? (arg.subscribe && baseFetchOnMountOrArgChange);
+    if (refetchVal) {
+      return refetchVal === true || (Number(/* @__PURE__ */ new Date()) - Number(fulfilledVal)) / 1e3 >= refetchVal;
+    }
+    return false;
+  }
+  const queryThunk = createAsyncThunk(`${reducerPath}/executeQuery`, executeEndpoint, {
+    getPendingMeta() {
+      return {
+        startedTimeStamp: Date.now(),
+        [SHOULD_AUTOBATCH]: true
+      };
+    },
+    condition(queryThunkArgs, {
+      getState
+    }) {
+      const state = getState();
+      const requestState = state[reducerPath]?.queries?.[queryThunkArgs.queryCacheKey];
+      const fulfilledVal = requestState?.fulfilledTimeStamp;
+      const currentArg = queryThunkArgs.originalArgs;
+      const previousArg = requestState?.originalArgs;
+      const endpointDefinition = endpointDefinitions[queryThunkArgs.endpointName];
+      if (isUpsertQuery(queryThunkArgs)) {
+        return true;
+      }
+      if (requestState?.status === "pending") {
+        return false;
+      }
+      if (isForcedQuery(queryThunkArgs, state)) {
+        return true;
+      }
+      if (isQueryDefinition(endpointDefinition) && endpointDefinition?.forceRefetch?.({
+        currentArg,
+        previousArg,
+        endpointState: requestState,
+        state
+      })) {
+        return true;
+      }
+      if (fulfilledVal) {
+        return false;
+      }
+      return true;
+    },
+    dispatchConditionRejection: true
+  });
+  const mutationThunk = createAsyncThunk(`${reducerPath}/executeMutation`, executeEndpoint, {
+    getPendingMeta() {
+      return {
+        startedTimeStamp: Date.now(),
+        [SHOULD_AUTOBATCH]: true
+      };
+    }
+  });
+  const hasTheForce = (options2) => "force" in options2;
+  const hasMaxAge = (options2) => "ifOlderThan" in options2;
+  const prefetch = (endpointName, arg, options2) => (dispatch, getState) => {
+    const force = hasTheForce(options2) && options2.force;
+    const maxAge = hasMaxAge(options2) && options2.ifOlderThan;
+    const queryAction = (force2 = true) => {
+      const options22 = {
+        forceRefetch: force2,
+        isPrefetch: true
+      };
+      return api3.endpoints[endpointName].initiate(arg, options22);
+    };
+    const latestStateValue = api3.endpoints[endpointName].select(arg)(getState());
+    if (force) {
+      dispatch(queryAction());
+    } else if (maxAge) {
+      const lastFulfilledTs = latestStateValue?.fulfilledTimeStamp;
+      if (!lastFulfilledTs) {
+        dispatch(queryAction());
+        return;
+      }
+      const shouldRetrigger = (Number(/* @__PURE__ */ new Date()) - Number(new Date(lastFulfilledTs))) / 1e3 >= maxAge;
+      if (shouldRetrigger) {
+        dispatch(queryAction());
+      }
+    } else {
+      dispatch(queryAction(false));
+    }
+  };
+  function matchesEndpoint(endpointName) {
+    return (action) => action?.meta?.arg?.endpointName === endpointName;
+  }
+  function buildMatchThunkActions(thunk2, endpointName) {
+    return {
+      matchPending: isAllOf(isPending(thunk2), matchesEndpoint(endpointName)),
+      matchFulfilled: isAllOf(isFulfilled(thunk2), matchesEndpoint(endpointName)),
+      matchRejected: isAllOf(isRejected(thunk2), matchesEndpoint(endpointName))
+    };
+  }
+  return {
+    queryThunk,
+    mutationThunk,
+    prefetch,
+    updateQueryData,
+    upsertQueryData,
+    patchQueryData,
+    buildMatchThunkActions
+  };
+}
+function calculateProvidedByThunk(action, type, endpointDefinitions, assertTagType) {
+  return calculateProvidedBy(endpointDefinitions[action.meta.arg.endpointName][type], isFulfilled(action) ? action.payload : void 0, isRejectedWithValue(action) ? action.payload : void 0, action.meta.arg.originalArgs, "baseQueryMeta" in action.meta ? action.meta.baseQueryMeta : void 0, assertTagType);
+}
+function updateQuerySubstateIfExists(state, queryCacheKey, update) {
+  const substate = state[queryCacheKey];
+  if (substate) {
+    update(substate);
+  }
+}
+function getMutationCacheKey(id) {
+  return ("arg" in id ? id.arg.fixedCacheKey : id.fixedCacheKey) ?? id.requestId;
+}
+function updateMutationSubstateIfExists(state, id, update) {
+  const substate = state[getMutationCacheKey(id)];
+  if (substate) {
+    update(substate);
+  }
+}
+var initialState = {};
+function buildSlice({
+  reducerPath,
+  queryThunk,
+  mutationThunk,
+  context: {
+    endpointDefinitions: definitions,
+    apiUid,
+    extractRehydrationInfo,
+    hasRehydrationInfo
+  },
+  assertTagType,
+  config: config2
+}) {
+  const resetApiState = createAction(`${reducerPath}/resetApiState`);
+  const querySlice = createSlice({
+    name: `${reducerPath}/queries`,
+    initialState,
+    reducers: {
+      removeQueryResult: {
+        reducer(draft, {
+          payload: {
+            queryCacheKey
+          }
+        }) {
+          delete draft[queryCacheKey];
+        },
+        prepare: prepareAutoBatched()
+      },
+      queryResultPatched: {
+        reducer(draft, {
+          payload: {
+            queryCacheKey,
+            patches
+          }
+        }) {
+          updateQuerySubstateIfExists(draft, queryCacheKey, (substate) => {
+            substate.data = applyPatches(substate.data, patches.concat());
+          });
+        },
+        prepare: prepareAutoBatched()
+      }
+    },
+    extraReducers(builder) {
+      builder.addCase(queryThunk.pending, (draft, {
+        meta,
+        meta: {
+          arg
+        }
+      }) => {
+        const upserting = isUpsertQuery(arg);
+        draft[arg.queryCacheKey] ??= {
+          status: "uninitialized",
+          endpointName: arg.endpointName
+        };
+        updateQuerySubstateIfExists(draft, arg.queryCacheKey, (substate) => {
+          substate.status = "pending";
+          substate.requestId = upserting && substate.requestId ? (
+            // for `upsertQuery` **updates**, keep the current `requestId`
+            substate.requestId
+          ) : (
+            // for normal queries or `upsertQuery` **inserts** always update the `requestId`
+            meta.requestId
+          );
+          if (arg.originalArgs !== void 0) {
+            substate.originalArgs = arg.originalArgs;
+          }
+          substate.startedTimeStamp = meta.startedTimeStamp;
+        });
+      }).addCase(queryThunk.fulfilled, (draft, {
+        meta,
+        payload
+      }) => {
+        updateQuerySubstateIfExists(draft, meta.arg.queryCacheKey, (substate) => {
+          if (substate.requestId !== meta.requestId && !isUpsertQuery(meta.arg)) return;
+          const {
+            merge: merge4
+          } = definitions[meta.arg.endpointName];
+          substate.status = "fulfilled";
+          if (merge4) {
+            if (substate.data !== void 0) {
+              const {
+                fulfilledTimeStamp,
+                arg,
+                baseQueryMeta,
+                requestId
+              } = meta;
+              let newData = produce(substate.data, (draftSubstateData) => {
+                return merge4(draftSubstateData, payload, {
+                  arg: arg.originalArgs,
+                  baseQueryMeta,
+                  fulfilledTimeStamp,
+                  requestId
+                });
+              });
+              substate.data = newData;
+            } else {
+              substate.data = payload;
+            }
+          } else {
+            substate.data = definitions[meta.arg.endpointName].structuralSharing ?? true ? copyWithStructuralSharing(isDraft(substate.data) ? original(substate.data) : substate.data, payload) : payload;
+          }
+          delete substate.error;
+          substate.fulfilledTimeStamp = meta.fulfilledTimeStamp;
+        });
+      }).addCase(queryThunk.rejected, (draft, {
+        meta: {
+          condition,
+          arg,
+          requestId
+        },
+        error,
+        payload
+      }) => {
+        updateQuerySubstateIfExists(draft, arg.queryCacheKey, (substate) => {
+          if (condition) {
+          } else {
+            if (substate.requestId !== requestId) return;
+            substate.status = "rejected";
+            substate.error = payload ?? error;
+          }
+        });
+      }).addMatcher(hasRehydrationInfo, (draft, action) => {
+        const {
+          queries
+        } = extractRehydrationInfo(action);
+        for (const [key, entry] of Object.entries(queries)) {
+          if (
+            // do not rehydrate entries that were currently in flight.
+            entry?.status === "fulfilled" || entry?.status === "rejected"
+          ) {
+            draft[key] = entry;
+          }
+        }
+      });
+    }
+  });
+  const mutationSlice = createSlice({
+    name: `${reducerPath}/mutations`,
+    initialState,
+    reducers: {
+      removeMutationResult: {
+        reducer(draft, {
+          payload
+        }) {
+          const cacheKey = getMutationCacheKey(payload);
+          if (cacheKey in draft) {
+            delete draft[cacheKey];
+          }
+        },
+        prepare: prepareAutoBatched()
+      }
+    },
+    extraReducers(builder) {
+      builder.addCase(mutationThunk.pending, (draft, {
+        meta,
+        meta: {
+          requestId,
+          arg,
+          startedTimeStamp
+        }
+      }) => {
+        if (!arg.track) return;
+        draft[getMutationCacheKey(meta)] = {
+          requestId,
+          status: "pending",
+          endpointName: arg.endpointName,
+          startedTimeStamp
+        };
+      }).addCase(mutationThunk.fulfilled, (draft, {
+        payload,
+        meta
+      }) => {
+        if (!meta.arg.track) return;
+        updateMutationSubstateIfExists(draft, meta, (substate) => {
+          if (substate.requestId !== meta.requestId) return;
+          substate.status = "fulfilled";
+          substate.data = payload;
+          substate.fulfilledTimeStamp = meta.fulfilledTimeStamp;
+        });
+      }).addCase(mutationThunk.rejected, (draft, {
+        payload,
+        error,
+        meta
+      }) => {
+        if (!meta.arg.track) return;
+        updateMutationSubstateIfExists(draft, meta, (substate) => {
+          if (substate.requestId !== meta.requestId) return;
+          substate.status = "rejected";
+          substate.error = payload ?? error;
+        });
+      }).addMatcher(hasRehydrationInfo, (draft, action) => {
+        const {
+          mutations
+        } = extractRehydrationInfo(action);
+        for (const [key, entry] of Object.entries(mutations)) {
+          if (
+            // do not rehydrate entries that were currently in flight.
+            (entry?.status === "fulfilled" || entry?.status === "rejected") && // only rehydrate endpoints that were persisted using a `fixedCacheKey`
+            key !== entry?.requestId
+          ) {
+            draft[key] = entry;
+          }
+        }
+      });
+    }
+  });
+  const invalidationSlice = createSlice({
+    name: `${reducerPath}/invalidation`,
+    initialState,
+    reducers: {
+      updateProvidedBy: {
+        reducer(draft, action) {
+          const {
+            queryCacheKey,
+            providedTags
+          } = action.payload;
+          for (const tagTypeSubscriptions of Object.values(draft)) {
+            for (const idSubscriptions of Object.values(tagTypeSubscriptions)) {
+              const foundAt = idSubscriptions.indexOf(queryCacheKey);
+              if (foundAt !== -1) {
+                idSubscriptions.splice(foundAt, 1);
+              }
+            }
+          }
+          for (const {
+            type,
+            id
+          } of providedTags) {
+            const subscribedQueries = (draft[type] ??= {})[id || "__internal_without_id"] ??= [];
+            const alreadySubscribed = subscribedQueries.includes(queryCacheKey);
+            if (!alreadySubscribed) {
+              subscribedQueries.push(queryCacheKey);
+            }
+          }
+        },
+        prepare: prepareAutoBatched()
+      }
+    },
+    extraReducers(builder) {
+      builder.addCase(querySlice.actions.removeQueryResult, (draft, {
+        payload: {
+          queryCacheKey
+        }
+      }) => {
+        for (const tagTypeSubscriptions of Object.values(draft)) {
+          for (const idSubscriptions of Object.values(tagTypeSubscriptions)) {
+            const foundAt = idSubscriptions.indexOf(queryCacheKey);
+            if (foundAt !== -1) {
+              idSubscriptions.splice(foundAt, 1);
+            }
+          }
+        }
+      }).addMatcher(hasRehydrationInfo, (draft, action) => {
+        const {
+          provided
+        } = extractRehydrationInfo(action);
+        for (const [type, incomingTags] of Object.entries(provided)) {
+          for (const [id, cacheKeys] of Object.entries(incomingTags)) {
+            const subscribedQueries = (draft[type] ??= {})[id || "__internal_without_id"] ??= [];
+            for (const queryCacheKey of cacheKeys) {
+              const alreadySubscribed = subscribedQueries.includes(queryCacheKey);
+              if (!alreadySubscribed) {
+                subscribedQueries.push(queryCacheKey);
+              }
+            }
+          }
+        }
+      }).addMatcher(isAnyOf(isFulfilled(queryThunk), isRejectedWithValue(queryThunk)), (draft, action) => {
+        const providedTags = calculateProvidedByThunk(action, "providesTags", definitions, assertTagType);
+        const {
+          queryCacheKey
+        } = action.meta.arg;
+        invalidationSlice.caseReducers.updateProvidedBy(draft, invalidationSlice.actions.updateProvidedBy({
+          queryCacheKey,
+          providedTags
+        }));
+      });
+    }
+  });
+  const subscriptionSlice = createSlice({
+    name: `${reducerPath}/subscriptions`,
+    initialState,
+    reducers: {
+      updateSubscriptionOptions(d, a2) {
+      },
+      unsubscribeQueryResult(d, a2) {
+      },
+      internal_getRTKQSubscriptions() {
+      }
+    }
+  });
+  const internalSubscriptionsSlice = createSlice({
+    name: `${reducerPath}/internalSubscriptions`,
+    initialState,
+    reducers: {
+      subscriptionsUpdated: {
+        reducer(state, action) {
+          return applyPatches(state, action.payload);
+        },
+        prepare: prepareAutoBatched()
+      }
+    }
+  });
+  const configSlice = createSlice({
+    name: `${reducerPath}/config`,
+    initialState: {
+      online: isOnline(),
+      focused: isDocumentVisible(),
+      middlewareRegistered: false,
+      ...config2
+    },
+    reducers: {
+      middlewareRegistered(state, {
+        payload
+      }) {
+        state.middlewareRegistered = state.middlewareRegistered === "conflict" || apiUid !== payload ? "conflict" : true;
+      }
+    },
+    extraReducers: (builder) => {
+      builder.addCase(onOnline, (state) => {
+        state.online = true;
+      }).addCase(onOffline, (state) => {
+        state.online = false;
+      }).addCase(onFocus, (state) => {
+        state.focused = true;
+      }).addCase(onFocusLost, (state) => {
+        state.focused = false;
+      }).addMatcher(hasRehydrationInfo, (draft) => ({
+        ...draft
+      }));
+    }
+  });
+  const combinedReducer = combineReducers({
+    queries: querySlice.reducer,
+    mutations: mutationSlice.reducer,
+    provided: invalidationSlice.reducer,
+    subscriptions: internalSubscriptionsSlice.reducer,
+    config: configSlice.reducer
+  });
+  const reducer = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
+  const actions3 = {
+    ...configSlice.actions,
+    ...querySlice.actions,
+    ...subscriptionSlice.actions,
+    ...internalSubscriptionsSlice.actions,
+    ...mutationSlice.actions,
+    ...invalidationSlice.actions,
+    resetApiState
+  };
+  return {
+    reducer,
+    actions: actions3
+  };
+}
+var skipToken = /* @__PURE__ */ Symbol.for("RTKQ/skipToken");
+var initialSubState = {
+  status: "uninitialized"
+  /* uninitialized */
+};
+var defaultQuerySubState = /* @__PURE__ */ produce(initialSubState, () => {
+});
+var defaultMutationSubState = /* @__PURE__ */ produce(initialSubState, () => {
+});
+function buildSelectors({
+  serializeQueryArgs,
+  reducerPath,
+  createSelector: createSelector2
+}) {
+  const selectSkippedQuery = (state) => defaultQuerySubState;
+  const selectSkippedMutation = (state) => defaultMutationSubState;
+  return {
+    buildQuerySelector,
+    buildMutationSelector,
+    selectInvalidatedBy,
+    selectCachedArgsForQuery
+  };
+  function withRequestFlags(substate) {
+    return {
+      ...substate,
+      ...getRequestStatusFlags(substate.status)
+    };
+  }
+  function selectInternalState(rootState) {
+    const state = rootState[reducerPath];
+    if (true) {
+      if (!state) {
+        if (selectInternalState.triggered) return state;
+        selectInternalState.triggered = true;
+        console.error(`Error: No data found at \`state.${reducerPath}\`. Did you forget to add the reducer to the store?`);
+      }
+    }
+    return state;
+  }
+  function buildQuerySelector(endpointName, endpointDefinition) {
+    return (queryArgs) => {
+      const serializedArgs = serializeQueryArgs({
+        queryArgs,
+        endpointDefinition,
+        endpointName
+      });
+      const selectQuerySubstate = (state) => selectInternalState(state)?.queries?.[serializedArgs] ?? defaultQuerySubState;
+      const finalSelectQuerySubState = queryArgs === skipToken ? selectSkippedQuery : selectQuerySubstate;
+      return createSelector2(finalSelectQuerySubState, withRequestFlags);
+    };
+  }
+  function buildMutationSelector() {
+    return (id) => {
+      let mutationId;
+      if (typeof id === "object") {
+        mutationId = getMutationCacheKey(id) ?? skipToken;
+      } else {
+        mutationId = id;
+      }
+      const selectMutationSubstate = (state) => selectInternalState(state)?.mutations?.[mutationId] ?? defaultMutationSubState;
+      const finalSelectMutationSubstate = mutationId === skipToken ? selectSkippedMutation : selectMutationSubstate;
+      return createSelector2(finalSelectMutationSubstate, withRequestFlags);
+    };
+  }
+  function selectInvalidatedBy(state, tags) {
+    const apiState = state[reducerPath];
+    const toInvalidate = /* @__PURE__ */ new Set();
+    for (const tag of tags.map(expandTagDescription)) {
+      const provided = apiState.provided[tag.type];
+      if (!provided) {
+        continue;
+      }
+      let invalidateSubscriptions = (tag.id !== void 0 ? (
+        // id given: invalidate all queries that provide this type & id
+        provided[tag.id]
+      ) : (
+        // no id: invalidate all queries that provide this type
+        flatten(Object.values(provided))
+      )) ?? [];
+      for (const invalidate of invalidateSubscriptions) {
+        toInvalidate.add(invalidate);
+      }
+    }
+    return flatten(Array.from(toInvalidate.values()).map((queryCacheKey) => {
+      const querySubState = apiState.queries[queryCacheKey];
+      return querySubState ? [{
+        queryCacheKey,
+        endpointName: querySubState.endpointName,
+        originalArgs: querySubState.originalArgs
+      }] : [];
+    }));
+  }
+  function selectCachedArgsForQuery(state, queryName) {
+    return Object.values(state[reducerPath].queries).filter(
+      (entry) => entry?.endpointName === queryName && entry.status !== "uninitialized"
+      /* uninitialized */
+    ).map((entry) => entry.originalArgs);
+  }
+}
+var cache = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
+var defaultSerializeQueryArgs = ({
+  endpointName,
+  queryArgs
+}) => {
+  let serialized = "";
+  const cached = cache?.get(queryArgs);
+  if (typeof cached === "string") {
+    serialized = cached;
+  } else {
+    const stringified = JSON.stringify(queryArgs, (key, value) => {
+      value = typeof value === "bigint" ? {
+        $bigint: value.toString()
+      } : value;
+      value = isPlainObject(value) ? Object.keys(value).sort().reduce((acc, key2) => {
+        acc[key2] = value[key2];
+        return acc;
+      }, {}) : value;
+      return value;
+    });
+    if (isPlainObject(queryArgs)) {
+      cache?.set(queryArgs, stringified);
+    }
+    serialized = stringified;
+  }
+  return `${endpointName}(${serialized})`;
+};
+function buildCreateApi(...modules) {
+  return function baseCreateApi(options2) {
+    const extractRehydrationInfo = weakMapMemoize((action) => options2.extractRehydrationInfo?.(action, {
+      reducerPath: options2.reducerPath ?? "api"
+    }));
+    const optionsWithDefaults = {
+      reducerPath: "api",
+      keepUnusedDataFor: 60,
+      refetchOnMountOrArgChange: false,
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
+      invalidationBehavior: "delayed",
+      ...options2,
+      extractRehydrationInfo,
+      serializeQueryArgs(queryArgsApi) {
+        let finalSerializeQueryArgs = defaultSerializeQueryArgs;
+        if ("serializeQueryArgs" in queryArgsApi.endpointDefinition) {
+          const endpointSQA = queryArgsApi.endpointDefinition.serializeQueryArgs;
+          finalSerializeQueryArgs = (queryArgsApi2) => {
+            const initialResult = endpointSQA(queryArgsApi2);
+            if (typeof initialResult === "string") {
+              return initialResult;
+            } else {
+              return defaultSerializeQueryArgs({
+                ...queryArgsApi2,
+                queryArgs: initialResult
+              });
+            }
+          };
+        } else if (options2.serializeQueryArgs) {
+          finalSerializeQueryArgs = options2.serializeQueryArgs;
+        }
+        return finalSerializeQueryArgs(queryArgsApi);
+      },
+      tagTypes: [...options2.tagTypes || []]
+    };
+    const context = {
+      endpointDefinitions: {},
+      batch(fn) {
+        fn();
+      },
+      apiUid: nanoid(),
+      extractRehydrationInfo,
+      hasRehydrationInfo: weakMapMemoize((action) => extractRehydrationInfo(action) != null)
+    };
+    const api3 = {
+      injectEndpoints,
+      enhanceEndpoints({
+        addTagTypes,
+        endpoints
+      }) {
+        if (addTagTypes) {
+          for (const eT of addTagTypes) {
+            if (!optionsWithDefaults.tagTypes.includes(eT)) {
+              ;
+              optionsWithDefaults.tagTypes.push(eT);
+            }
+          }
+        }
+        if (endpoints) {
+          for (const [endpointName, partialDefinition] of Object.entries(endpoints)) {
+            if (typeof partialDefinition === "function") {
+              partialDefinition(context.endpointDefinitions[endpointName]);
+            } else {
+              Object.assign(context.endpointDefinitions[endpointName] || {}, partialDefinition);
+            }
+          }
+        }
+        return api3;
+      }
+    };
+    const initializedModules = modules.map((m) => m.init(api3, optionsWithDefaults, context));
+    function injectEndpoints(inject) {
+      const evaluatedEndpoints = inject.endpoints({
+        query: (x) => ({
+          ...x,
+          type: "query"
+          /* query */
+        }),
+        mutation: (x) => ({
+          ...x,
+          type: "mutation"
+          /* mutation */
+        })
+      });
+      for (const [endpointName, definition] of Object.entries(evaluatedEndpoints)) {
+        if (inject.overrideExisting !== true && endpointName in context.endpointDefinitions) {
+          if (inject.overrideExisting === "throw") {
+            throw new Error(false ? formatProdErrorMessage(39) : `called \`injectEndpoints\` to override already-existing endpointName ${endpointName} without specifying \`overrideExisting: true\``);
+          } else if (typeof process !== "undefined" && true) {
+            console.error(`called \`injectEndpoints\` to override already-existing endpointName ${endpointName} without specifying \`overrideExisting: true\``);
+          }
+          continue;
+        }
+        context.endpointDefinitions[endpointName] = definition;
+        for (const m of initializedModules) {
+          m.injectEndpoint(endpointName, definition);
+        }
+      }
+      return api3;
+    }
+    return api3.injectEndpoints({
+      endpoints: options2.endpoints
+    });
+  };
+}
+function assertCast(v) {
+}
+function safeAssign(target, ...args) {
+  return Object.assign(target, ...args);
+}
+var buildBatchedActionsHandler = ({
+  api: api3,
+  queryThunk,
+  internalState
+}) => {
+  const subscriptionsPrefix = `${api3.reducerPath}/subscriptions`;
+  let previousSubscriptions = null;
+  let updateSyncTimer = null;
+  const {
+    updateSubscriptionOptions,
+    unsubscribeQueryResult
+  } = api3.internalActions;
+  const actuallyMutateSubscriptions = (mutableState, action) => {
+    if (updateSubscriptionOptions.match(action)) {
+      const {
+        queryCacheKey,
+        requestId,
+        options: options2
+      } = action.payload;
+      if (mutableState?.[queryCacheKey]?.[requestId]) {
+        mutableState[queryCacheKey][requestId] = options2;
+      }
+      return true;
+    }
+    if (unsubscribeQueryResult.match(action)) {
+      const {
+        queryCacheKey,
+        requestId
+      } = action.payload;
+      if (mutableState[queryCacheKey]) {
+        delete mutableState[queryCacheKey][requestId];
+      }
+      return true;
+    }
+    if (api3.internalActions.removeQueryResult.match(action)) {
+      delete mutableState[action.payload.queryCacheKey];
+      return true;
+    }
+    if (queryThunk.pending.match(action)) {
+      const {
+        meta: {
+          arg,
+          requestId
+        }
+      } = action;
+      const substate = mutableState[arg.queryCacheKey] ??= {};
+      substate[`${requestId}_running`] = {};
+      if (arg.subscribe) {
+        substate[requestId] = arg.subscriptionOptions ?? substate[requestId] ?? {};
+      }
+      return true;
+    }
+    let mutated = false;
+    if (queryThunk.fulfilled.match(action) || queryThunk.rejected.match(action)) {
+      const state = mutableState[action.meta.arg.queryCacheKey] || {};
+      const key = `${action.meta.requestId}_running`;
+      mutated ||= !!state[key];
+      delete state[key];
+    }
+    if (queryThunk.rejected.match(action)) {
+      const {
+        meta: {
+          condition,
+          arg,
+          requestId
+        }
+      } = action;
+      if (condition && arg.subscribe) {
+        const substate = mutableState[arg.queryCacheKey] ??= {};
+        substate[requestId] = arg.subscriptionOptions ?? substate[requestId] ?? {};
+        mutated = true;
+      }
+    }
+    return mutated;
+  };
+  const getSubscriptions = () => internalState.currentSubscriptions;
+  const getSubscriptionCount = (queryCacheKey) => {
+    const subscriptions = getSubscriptions();
+    const subscriptionsForQueryArg = subscriptions[queryCacheKey] ?? {};
+    return countObjectKeys(subscriptionsForQueryArg);
+  };
+  const isRequestSubscribed = (queryCacheKey, requestId) => {
+    const subscriptions = getSubscriptions();
+    return !!subscriptions?.[queryCacheKey]?.[requestId];
+  };
+  const subscriptionSelectors = {
+    getSubscriptions,
+    getSubscriptionCount,
+    isRequestSubscribed
+  };
+  return (action, mwApi) => {
+    if (!previousSubscriptions) {
+      previousSubscriptions = JSON.parse(JSON.stringify(internalState.currentSubscriptions));
+    }
+    if (api3.util.resetApiState.match(action)) {
+      previousSubscriptions = internalState.currentSubscriptions = {};
+      updateSyncTimer = null;
+      return [true, false];
+    }
+    if (api3.internalActions.internal_getRTKQSubscriptions.match(action)) {
+      return [false, subscriptionSelectors];
+    }
+    const didMutate = actuallyMutateSubscriptions(internalState.currentSubscriptions, action);
+    let actionShouldContinue = true;
+    if (didMutate) {
+      if (!updateSyncTimer) {
+        updateSyncTimer = setTimeout(() => {
+          const newSubscriptions = JSON.parse(JSON.stringify(internalState.currentSubscriptions));
+          const [, patches] = produceWithPatches(previousSubscriptions, () => newSubscriptions);
+          mwApi.next(api3.internalActions.subscriptionsUpdated(patches));
+          previousSubscriptions = newSubscriptions;
+          updateSyncTimer = null;
+        }, 500);
+      }
+      const isSubscriptionSliceAction = typeof action.type == "string" && !!action.type.startsWith(subscriptionsPrefix);
+      const isAdditionalSubscriptionAction = queryThunk.rejected.match(action) && action.meta.condition && !!action.meta.arg.subscribe;
+      actionShouldContinue = !isSubscriptionSliceAction && !isAdditionalSubscriptionAction;
+    }
+    return [actionShouldContinue, false];
+  };
+};
+function isObjectEmpty(obj) {
+  for (const k in obj) {
+    return false;
+  }
+  return true;
+}
+var THIRTY_TWO_BIT_MAX_TIMER_SECONDS = 2147483647 / 1e3 - 1;
+var buildCacheCollectionHandler = ({
+  reducerPath,
+  api: api3,
+  queryThunk,
+  context,
+  internalState
+}) => {
+  const {
+    removeQueryResult,
+    unsubscribeQueryResult
+  } = api3.internalActions;
+  const canTriggerUnsubscribe = isAnyOf(unsubscribeQueryResult.match, queryThunk.fulfilled, queryThunk.rejected);
+  function anySubscriptionsRemainingForKey(queryCacheKey) {
+    const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+    return !!subscriptions && !isObjectEmpty(subscriptions);
+  }
+  const currentRemovalTimeouts = {};
+  const handler = (action, mwApi, internalState2) => {
+    if (canTriggerUnsubscribe(action)) {
+      const state = mwApi.getState()[reducerPath];
+      const {
+        queryCacheKey
+      } = unsubscribeQueryResult.match(action) ? action.payload : action.meta.arg;
+      handleUnsubscribe(queryCacheKey, state.queries[queryCacheKey]?.endpointName, mwApi, state.config);
+    }
+    if (api3.util.resetApiState.match(action)) {
+      for (const [key, timeout2] of Object.entries(currentRemovalTimeouts)) {
+        if (timeout2) clearTimeout(timeout2);
+        delete currentRemovalTimeouts[key];
+      }
+    }
+    if (context.hasRehydrationInfo(action)) {
+      const state = mwApi.getState()[reducerPath];
+      const {
+        queries
+      } = context.extractRehydrationInfo(action);
+      for (const [queryCacheKey, queryState] of Object.entries(queries)) {
+        handleUnsubscribe(queryCacheKey, queryState?.endpointName, mwApi, state.config);
+      }
+    }
+  };
+  function handleUnsubscribe(queryCacheKey, endpointName, api22, config2) {
+    const endpointDefinition = context.endpointDefinitions[endpointName];
+    const keepUnusedDataFor = endpointDefinition?.keepUnusedDataFor ?? config2.keepUnusedDataFor;
+    if (keepUnusedDataFor === Infinity) {
+      return;
+    }
+    const finalKeepUnusedDataFor = Math.max(0, Math.min(keepUnusedDataFor, THIRTY_TWO_BIT_MAX_TIMER_SECONDS));
+    if (!anySubscriptionsRemainingForKey(queryCacheKey)) {
+      const currentTimeout = currentRemovalTimeouts[queryCacheKey];
+      if (currentTimeout) {
+        clearTimeout(currentTimeout);
+      }
+      currentRemovalTimeouts[queryCacheKey] = setTimeout(() => {
+        if (!anySubscriptionsRemainingForKey(queryCacheKey)) {
+          api22.dispatch(removeQueryResult({
+            queryCacheKey
+          }));
+        }
+        delete currentRemovalTimeouts[queryCacheKey];
+      }, finalKeepUnusedDataFor * 1e3);
+    }
+  }
+  return handler;
+};
+var neverResolvedError = new Error("Promise never resolved before cacheEntryRemoved.");
+var buildCacheLifecycleHandler = ({
+  api: api3,
+  reducerPath,
+  context,
+  queryThunk,
+  mutationThunk,
+  internalState
+}) => {
+  const isQueryThunk = isAsyncThunkAction(queryThunk);
+  const isMutationThunk = isAsyncThunkAction(mutationThunk);
+  const isFulfilledThunk = isFulfilled(queryThunk, mutationThunk);
+  const lifecycleMap = {};
+  const handler = (action, mwApi, stateBefore) => {
+    const cacheKey = getCacheKey(action);
+    if (queryThunk.pending.match(action)) {
+      const oldState = stateBefore[reducerPath].queries[cacheKey];
+      const state = mwApi.getState()[reducerPath].queries[cacheKey];
+      if (!oldState && state) {
+        handleNewKey(action.meta.arg.endpointName, action.meta.arg.originalArgs, cacheKey, mwApi, action.meta.requestId);
+      }
+    } else if (mutationThunk.pending.match(action)) {
+      const state = mwApi.getState()[reducerPath].mutations[cacheKey];
+      if (state) {
+        handleNewKey(action.meta.arg.endpointName, action.meta.arg.originalArgs, cacheKey, mwApi, action.meta.requestId);
+      }
+    } else if (isFulfilledThunk(action)) {
+      const lifecycle = lifecycleMap[cacheKey];
+      if (lifecycle?.valueResolved) {
+        lifecycle.valueResolved({
+          data: action.payload,
+          meta: action.meta.baseQueryMeta
+        });
+        delete lifecycle.valueResolved;
+      }
+    } else if (api3.internalActions.removeQueryResult.match(action) || api3.internalActions.removeMutationResult.match(action)) {
+      const lifecycle = lifecycleMap[cacheKey];
+      if (lifecycle) {
+        delete lifecycleMap[cacheKey];
+        lifecycle.cacheEntryRemoved();
+      }
+    } else if (api3.util.resetApiState.match(action)) {
+      for (const [cacheKey2, lifecycle] of Object.entries(lifecycleMap)) {
+        delete lifecycleMap[cacheKey2];
+        lifecycle.cacheEntryRemoved();
+      }
+    }
+  };
+  function getCacheKey(action) {
+    if (isQueryThunk(action)) return action.meta.arg.queryCacheKey;
+    if (isMutationThunk(action)) {
+      return action.meta.arg.fixedCacheKey ?? action.meta.requestId;
+    }
+    if (api3.internalActions.removeQueryResult.match(action)) return action.payload.queryCacheKey;
+    if (api3.internalActions.removeMutationResult.match(action)) return getMutationCacheKey(action.payload);
+    return "";
+  }
+  function handleNewKey(endpointName, originalArgs, queryCacheKey, mwApi, requestId) {
+    const endpointDefinition = context.endpointDefinitions[endpointName];
+    const onCacheEntryAdded = endpointDefinition?.onCacheEntryAdded;
+    if (!onCacheEntryAdded) return;
+    const lifecycle = {};
+    const cacheEntryRemoved = new Promise((resolve2) => {
+      lifecycle.cacheEntryRemoved = resolve2;
+    });
+    const cacheDataLoaded = Promise.race([new Promise((resolve2) => {
+      lifecycle.valueResolved = resolve2;
+    }), cacheEntryRemoved.then(() => {
+      throw neverResolvedError;
+    })]);
+    cacheDataLoaded.catch(() => {
+    });
+    lifecycleMap[queryCacheKey] = lifecycle;
+    const selector = api3.endpoints[endpointName].select(endpointDefinition.type === "query" ? originalArgs : queryCacheKey);
+    const extra = mwApi.dispatch((_, __, extra2) => extra2);
+    const lifecycleApi = {
+      ...mwApi,
+      getCacheEntry: () => selector(mwApi.getState()),
+      requestId,
+      extra,
+      updateCachedData: endpointDefinition.type === "query" ? (updateRecipe) => mwApi.dispatch(api3.util.updateQueryData(endpointName, originalArgs, updateRecipe)) : void 0,
+      cacheDataLoaded,
+      cacheEntryRemoved
+    };
+    const runningHandler = onCacheEntryAdded(originalArgs, lifecycleApi);
+    Promise.resolve(runningHandler).catch((e) => {
+      if (e === neverResolvedError) return;
+      throw e;
+    });
+  }
+  return handler;
+};
+var buildDevCheckHandler = ({
+  api: api3,
+  context: {
+    apiUid
+  },
+  reducerPath
+}) => {
+  return (action, mwApi) => {
+    if (api3.util.resetApiState.match(action)) {
+      mwApi.dispatch(api3.internalActions.middlewareRegistered(apiUid));
+    }
+    if (typeof process !== "undefined" && true) {
+      if (api3.internalActions.middlewareRegistered.match(action) && action.payload === apiUid && mwApi.getState()[reducerPath]?.config?.middlewareRegistered === "conflict") {
+        console.warn(`There is a mismatch between slice and middleware for the reducerPath "${reducerPath}".
+You can only have one api per reducer path, this will lead to crashes in various situations!${reducerPath === "api" ? `
+If you have multiple apis, you *have* to specify the reducerPath option when using createApi!` : ""}`);
+      }
+    }
+  };
+};
+var buildInvalidationByTagsHandler = ({
+  reducerPath,
+  context,
+  context: {
+    endpointDefinitions
+  },
+  mutationThunk,
+  queryThunk,
+  api: api3,
+  assertTagType,
+  refetchQuery,
+  internalState
+}) => {
+  const {
+    removeQueryResult
+  } = api3.internalActions;
+  const isThunkActionWithTags = isAnyOf(isFulfilled(mutationThunk), isRejectedWithValue(mutationThunk));
+  const isQueryEnd = isAnyOf(isFulfilled(mutationThunk, queryThunk), isRejected(mutationThunk, queryThunk));
+  let pendingTagInvalidations = [];
+  const handler = (action, mwApi) => {
+    if (isThunkActionWithTags(action)) {
+      invalidateTags(calculateProvidedByThunk(action, "invalidatesTags", endpointDefinitions, assertTagType), mwApi);
+    } else if (isQueryEnd(action)) {
+      invalidateTags([], mwApi);
+    } else if (api3.util.invalidateTags.match(action)) {
+      invalidateTags(calculateProvidedBy(action.payload, void 0, void 0, void 0, void 0, assertTagType), mwApi);
+    }
+  };
+  function hasPendingRequests(state) {
+    for (const key in state.queries) {
+      if (state.queries[key]?.status === "pending") return true;
+    }
+    for (const key in state.mutations) {
+      if (state.mutations[key]?.status === "pending") return true;
+    }
+    return false;
+  }
+  function invalidateTags(newTags, mwApi) {
+    const rootState = mwApi.getState();
+    const state = rootState[reducerPath];
+    pendingTagInvalidations.push(...newTags);
+    if (state.config.invalidationBehavior === "delayed" && hasPendingRequests(state)) {
+      return;
+    }
+    const tags = pendingTagInvalidations;
+    pendingTagInvalidations = [];
+    if (tags.length === 0) return;
+    const toInvalidate = api3.util.selectInvalidatedBy(rootState, tags);
+    context.batch(() => {
+      const valuesArray = Array.from(toInvalidate.values());
+      for (const {
+        queryCacheKey
+      } of valuesArray) {
+        const querySubState = state.queries[queryCacheKey];
+        const subscriptionSubState = internalState.currentSubscriptions[queryCacheKey] ?? {};
+        if (querySubState) {
+          if (countObjectKeys(subscriptionSubState) === 0) {
+            mwApi.dispatch(removeQueryResult({
+              queryCacheKey
+            }));
+          } else if (querySubState.status !== "uninitialized") {
+            mwApi.dispatch(refetchQuery(querySubState, queryCacheKey));
+          }
+        }
+      }
+    });
+  }
+  return handler;
+};
+var buildPollingHandler = ({
+  reducerPath,
+  queryThunk,
+  api: api3,
+  refetchQuery,
+  internalState
+}) => {
+  const currentPolls = {};
+  const handler = (action, mwApi) => {
+    if (api3.internalActions.updateSubscriptionOptions.match(action) || api3.internalActions.unsubscribeQueryResult.match(action)) {
+      updatePollingInterval(action.payload, mwApi);
+    }
+    if (queryThunk.pending.match(action) || queryThunk.rejected.match(action) && action.meta.condition) {
+      updatePollingInterval(action.meta.arg, mwApi);
+    }
+    if (queryThunk.fulfilled.match(action) || queryThunk.rejected.match(action) && !action.meta.condition) {
+      startNextPoll(action.meta.arg, mwApi);
+    }
+    if (api3.util.resetApiState.match(action)) {
+      clearPolls();
+    }
+  };
+  function startNextPoll({
+    queryCacheKey
+  }, api22) {
+    const state = api22.getState()[reducerPath];
+    const querySubState = state.queries[queryCacheKey];
+    const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+    if (!querySubState || querySubState.status === "uninitialized") return;
+    const {
+      lowestPollingInterval,
+      skipPollingIfUnfocused
+    } = findLowestPollingInterval(subscriptions);
+    if (!Number.isFinite(lowestPollingInterval)) return;
+    const currentPoll = currentPolls[queryCacheKey];
+    if (currentPoll?.timeout) {
+      clearTimeout(currentPoll.timeout);
+      currentPoll.timeout = void 0;
+    }
+    const nextPollTimestamp = Date.now() + lowestPollingInterval;
+    currentPolls[queryCacheKey] = {
+      nextPollTimestamp,
+      pollingInterval: lowestPollingInterval,
+      timeout: setTimeout(() => {
+        if (state.config.focused || !skipPollingIfUnfocused) {
+          api22.dispatch(refetchQuery(querySubState, queryCacheKey));
+        }
+        startNextPoll({
+          queryCacheKey
+        }, api22);
+      }, lowestPollingInterval)
+    };
+  }
+  function updatePollingInterval({
+    queryCacheKey
+  }, api22) {
+    const state = api22.getState()[reducerPath];
+    const querySubState = state.queries[queryCacheKey];
+    const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+    if (!querySubState || querySubState.status === "uninitialized") {
+      return;
+    }
+    const {
+      lowestPollingInterval
+    } = findLowestPollingInterval(subscriptions);
+    if (!Number.isFinite(lowestPollingInterval)) {
+      cleanupPollForKey(queryCacheKey);
+      return;
+    }
+    const currentPoll = currentPolls[queryCacheKey];
+    const nextPollTimestamp = Date.now() + lowestPollingInterval;
+    if (!currentPoll || nextPollTimestamp < currentPoll.nextPollTimestamp) {
+      startNextPoll({
+        queryCacheKey
+      }, api22);
+    }
+  }
+  function cleanupPollForKey(key) {
+    const existingPoll = currentPolls[key];
+    if (existingPoll?.timeout) {
+      clearTimeout(existingPoll.timeout);
+    }
+    delete currentPolls[key];
+  }
+  function clearPolls() {
+    for (const key of Object.keys(currentPolls)) {
+      cleanupPollForKey(key);
+    }
+  }
+  function findLowestPollingInterval(subscribers = {}) {
+    let skipPollingIfUnfocused = false;
+    let lowestPollingInterval = Number.POSITIVE_INFINITY;
+    for (let key in subscribers) {
+      if (!!subscribers[key].pollingInterval) {
+        lowestPollingInterval = Math.min(subscribers[key].pollingInterval, lowestPollingInterval);
+        skipPollingIfUnfocused = subscribers[key].skipPollingIfUnfocused || skipPollingIfUnfocused;
+      }
+    }
+    return {
+      lowestPollingInterval,
+      skipPollingIfUnfocused
+    };
+  }
+  return handler;
+};
+var buildQueryLifecycleHandler = ({
+  api: api3,
+  context,
+  queryThunk,
+  mutationThunk
+}) => {
+  const isPendingThunk = isPending(queryThunk, mutationThunk);
+  const isRejectedThunk = isRejected(queryThunk, mutationThunk);
+  const isFullfilledThunk = isFulfilled(queryThunk, mutationThunk);
+  const lifecycleMap = {};
+  const handler = (action, mwApi) => {
+    if (isPendingThunk(action)) {
+      const {
+        requestId,
+        arg: {
+          endpointName,
+          originalArgs
+        }
+      } = action.meta;
+      const endpointDefinition = context.endpointDefinitions[endpointName];
+      const onQueryStarted = endpointDefinition?.onQueryStarted;
+      if (onQueryStarted) {
+        const lifecycle = {};
+        const queryFulfilled = new Promise((resolve2, reject) => {
+          lifecycle.resolve = resolve2;
+          lifecycle.reject = reject;
+        });
+        queryFulfilled.catch(() => {
+        });
+        lifecycleMap[requestId] = lifecycle;
+        const selector = api3.endpoints[endpointName].select(endpointDefinition.type === "query" ? originalArgs : requestId);
+        const extra = mwApi.dispatch((_, __, extra2) => extra2);
+        const lifecycleApi = {
+          ...mwApi,
+          getCacheEntry: () => selector(mwApi.getState()),
+          requestId,
+          extra,
+          updateCachedData: endpointDefinition.type === "query" ? (updateRecipe) => mwApi.dispatch(api3.util.updateQueryData(endpointName, originalArgs, updateRecipe)) : void 0,
+          queryFulfilled
+        };
+        onQueryStarted(originalArgs, lifecycleApi);
+      }
+    } else if (isFullfilledThunk(action)) {
+      const {
+        requestId,
+        baseQueryMeta
+      } = action.meta;
+      lifecycleMap[requestId]?.resolve({
+        data: action.payload,
+        meta: baseQueryMeta
+      });
+      delete lifecycleMap[requestId];
+    } else if (isRejectedThunk(action)) {
+      const {
+        requestId,
+        rejectedWithValue,
+        baseQueryMeta
+      } = action.meta;
+      lifecycleMap[requestId]?.reject({
+        error: action.payload ?? action.error,
+        isUnhandledError: !rejectedWithValue,
+        meta: baseQueryMeta
+      });
+      delete lifecycleMap[requestId];
+    }
+  };
+  return handler;
+};
+var buildWindowEventHandler = ({
+  reducerPath,
+  context,
+  api: api3,
+  refetchQuery,
+  internalState
+}) => {
+  const {
+    removeQueryResult
+  } = api3.internalActions;
+  const handler = (action, mwApi) => {
+    if (onFocus.match(action)) {
+      refetchValidQueries(mwApi, "refetchOnFocus");
+    }
+    if (onOnline.match(action)) {
+      refetchValidQueries(mwApi, "refetchOnReconnect");
+    }
+  };
+  function refetchValidQueries(api22, type) {
+    const state = api22.getState()[reducerPath];
+    const queries = state.queries;
+    const subscriptions = internalState.currentSubscriptions;
+    context.batch(() => {
+      for (const queryCacheKey of Object.keys(subscriptions)) {
+        const querySubState = queries[queryCacheKey];
+        const subscriptionSubState = subscriptions[queryCacheKey];
+        if (!subscriptionSubState || !querySubState) continue;
+        const shouldRefetch = Object.values(subscriptionSubState).some((sub) => sub[type] === true) || Object.values(subscriptionSubState).every((sub) => sub[type] === void 0) && state.config[type];
+        if (shouldRefetch) {
+          if (countObjectKeys(subscriptionSubState) === 0) {
+            api22.dispatch(removeQueryResult({
+              queryCacheKey
+            }));
+          } else if (querySubState.status !== "uninitialized") {
+            api22.dispatch(refetchQuery(querySubState, queryCacheKey));
+          }
+        }
+      }
+    });
+  }
+  return handler;
+};
+function buildMiddleware(input) {
+  const {
+    reducerPath,
+    queryThunk,
+    api: api3,
+    context
+  } = input;
+  const {
+    apiUid
+  } = context;
+  const actions3 = {
+    invalidateTags: createAction(`${reducerPath}/invalidateTags`)
+  };
+  const isThisApiSliceAction = (action) => action.type.startsWith(`${reducerPath}/`);
+  const handlerBuilders = [buildDevCheckHandler, buildCacheCollectionHandler, buildInvalidationByTagsHandler, buildPollingHandler, buildCacheLifecycleHandler, buildQueryLifecycleHandler];
+  const middleware2 = (mwApi) => {
+    let initialized2 = false;
+    const internalState = {
+      currentSubscriptions: {}
+    };
+    const builderArgs = {
+      ...input,
+      internalState,
+      refetchQuery,
+      isThisApiSliceAction
+    };
+    const handlers = handlerBuilders.map((build2) => build2(builderArgs));
+    const batchedActionsHandler = buildBatchedActionsHandler(builderArgs);
+    const windowEventsHandler = buildWindowEventHandler(builderArgs);
+    return (next2) => {
+      return (action) => {
+        if (!isAction(action)) {
+          return next2(action);
+        }
+        if (!initialized2) {
+          initialized2 = true;
+          mwApi.dispatch(api3.internalActions.middlewareRegistered(apiUid));
+        }
+        const mwApiWithNext = {
+          ...mwApi,
+          next: next2
+        };
+        const stateBefore = mwApi.getState();
+        const [actionShouldContinue, internalProbeResult] = batchedActionsHandler(action, mwApiWithNext, stateBefore);
+        let res;
+        if (actionShouldContinue) {
+          res = next2(action);
+        } else {
+          res = internalProbeResult;
+        }
+        if (!!mwApi.getState()[reducerPath]) {
+          windowEventsHandler(action, mwApiWithNext, stateBefore);
+          if (isThisApiSliceAction(action) || context.hasRehydrationInfo(action)) {
+            for (const handler of handlers) {
+              handler(action, mwApiWithNext, stateBefore);
+            }
+          }
+        }
+        return res;
+      };
+    };
+  };
+  return {
+    middleware: middleware2,
+    actions: actions3
+  };
+  function refetchQuery(querySubState, queryCacheKey, override = {}) {
+    return queryThunk({
+      type: "query",
+      endpointName: querySubState.endpointName,
+      originalArgs: querySubState.originalArgs,
+      subscribe: false,
+      forceRefetch: true,
+      queryCacheKey,
+      ...override
+    });
+  }
+}
+var coreModuleName = /* @__PURE__ */ Symbol();
+var coreModule = ({
+  createSelector: createSelector2 = createSelector
+} = {}) => ({
+  name: coreModuleName,
+  init(api3, {
+    baseQuery,
+    tagTypes,
+    reducerPath,
+    serializeQueryArgs,
+    keepUnusedDataFor,
+    refetchOnMountOrArgChange,
+    refetchOnFocus,
+    refetchOnReconnect,
+    invalidationBehavior
+  }, context) {
+    enablePatches();
+    assertCast(serializeQueryArgs);
+    const assertTagType = (tag) => {
+      if (typeof process !== "undefined" && true) {
+        if (!tagTypes.includes(tag.type)) {
+          console.error(`Tag type '${tag.type}' was used, but not specified in \`tagTypes\`!`);
+        }
+      }
+      return tag;
+    };
+    Object.assign(api3, {
+      reducerPath,
+      endpoints: {},
+      internalActions: {
+        onOnline,
+        onOffline,
+        onFocus,
+        onFocusLost
+      },
+      util: {}
+    });
+    const {
+      queryThunk,
+      mutationThunk,
+      patchQueryData,
+      updateQueryData,
+      upsertQueryData,
+      prefetch,
+      buildMatchThunkActions
+    } = buildThunks({
+      baseQuery,
+      reducerPath,
+      context,
+      api: api3,
+      serializeQueryArgs,
+      assertTagType
+    });
+    const {
+      reducer,
+      actions: sliceActions
+    } = buildSlice({
+      context,
+      queryThunk,
+      mutationThunk,
+      reducerPath,
+      assertTagType,
+      config: {
+        refetchOnFocus,
+        refetchOnReconnect,
+        refetchOnMountOrArgChange,
+        keepUnusedDataFor,
+        reducerPath,
+        invalidationBehavior
+      }
+    });
+    safeAssign(api3.util, {
+      patchQueryData,
+      updateQueryData,
+      upsertQueryData,
+      prefetch,
+      resetApiState: sliceActions.resetApiState
+    });
+    safeAssign(api3.internalActions, sliceActions);
+    const {
+      middleware: middleware2,
+      actions: middlewareActions
+    } = buildMiddleware({
+      reducerPath,
+      context,
+      queryThunk,
+      mutationThunk,
+      api: api3,
+      assertTagType
+    });
+    safeAssign(api3.util, middlewareActions);
+    safeAssign(api3, {
+      reducer,
+      middleware: middleware2
+    });
+    const {
+      buildQuerySelector,
+      buildMutationSelector,
+      selectInvalidatedBy,
+      selectCachedArgsForQuery
+    } = buildSelectors({
+      serializeQueryArgs,
+      reducerPath,
+      createSelector: createSelector2
+    });
+    safeAssign(api3.util, {
+      selectInvalidatedBy,
+      selectCachedArgsForQuery
+    });
+    const {
+      buildInitiateQuery,
+      buildInitiateMutation,
+      getRunningMutationThunk,
+      getRunningMutationsThunk,
+      getRunningQueriesThunk,
+      getRunningQueryThunk
+    } = buildInitiate({
+      queryThunk,
+      mutationThunk,
+      api: api3,
+      serializeQueryArgs,
+      context
+    });
+    safeAssign(api3.util, {
+      getRunningMutationThunk,
+      getRunningMutationsThunk,
+      getRunningQueryThunk,
+      getRunningQueriesThunk
+    });
+    return {
+      name: coreModuleName,
+      injectEndpoint(endpointName, definition) {
+        const anyApi = api3;
+        anyApi.endpoints[endpointName] ??= {};
+        if (isQueryDefinition(definition)) {
+          safeAssign(anyApi.endpoints[endpointName], {
+            name: endpointName,
+            select: buildQuerySelector(endpointName, definition),
+            initiate: buildInitiateQuery(endpointName, definition)
+          }, buildMatchThunkActions(queryThunk, endpointName));
+        } else if (isMutationDefinition(definition)) {
+          safeAssign(anyApi.endpoints[endpointName], {
+            name: endpointName,
+            select: buildMutationSelector(),
+            initiate: buildInitiateMutation(endpointName)
+          }, buildMatchThunkActions(mutationThunk, endpointName));
+        }
+      }
+    };
+  }
+});
+var createApi = /* @__PURE__ */ buildCreateApi(coreModule());
+
+// node_modules/@reduxjs/toolkit/dist/query/react/rtk-query-react.modern.mjs
+var import_react = __toESM(require_react(), 1);
+var import_react2 = __toESM(require_react(), 1);
+var import_react3 = __toESM(require_react(), 1);
+var import_react4 = __toESM(require_react(), 1);
+var import_react5 = __toESM(require_react(), 1);
+var React5 = __toESM(require_react(), 1);
+function isQueryDefinition2(e) {
+  return e.type === "query";
+}
+function isMutationDefinition2(e) {
+  return e.type === "mutation";
+}
+function safeAssign2(target, ...args) {
+  return Object.assign(target, ...args);
+}
+function capitalize(str) {
+  return str.replace(str[0], str[0].toUpperCase());
+}
+function countObjectKeys2(obj) {
+  let count = 0;
+  for (const _key in obj) {
+    count++;
+  }
+  return count;
+}
+var cache2 = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
+var defaultSerializeQueryArgs2 = ({
+  endpointName,
+  queryArgs
+}) => {
+  let serialized = "";
+  const cached = cache2?.get(queryArgs);
+  if (typeof cached === "string") {
+    serialized = cached;
+  } else {
+    const stringified = JSON.stringify(queryArgs, (key, value) => {
+      value = typeof value === "bigint" ? {
+        $bigint: value.toString()
+      } : value;
+      value = isPlainObject(value) ? Object.keys(value).sort().reduce((acc, key2) => {
+        acc[key2] = value[key2];
+        return acc;
+      }, {}) : value;
+      return value;
+    });
+    if (isPlainObject(queryArgs)) {
+      cache2?.set(queryArgs, stringified);
+    }
+    serialized = stringified;
+  }
+  return `${endpointName}(${serialized})`;
+};
+var UNINITIALIZED_VALUE = Symbol();
+function useStableQueryArgs(queryArgs, serialize2, endpointDefinition, endpointName) {
+  const incoming = (0, import_react2.useMemo)(() => ({
+    queryArgs,
+    serialized: typeof queryArgs == "object" ? serialize2({
+      queryArgs,
+      endpointDefinition,
+      endpointName
+    }) : queryArgs
+  }), [queryArgs, serialize2, endpointDefinition, endpointName]);
+  const cache22 = (0, import_react2.useRef)(incoming);
+  (0, import_react2.useEffect)(() => {
+    if (cache22.current.serialized !== incoming.serialized) {
+      cache22.current = incoming;
+    }
+  }, [incoming]);
+  return cache22.current.serialized === incoming.serialized ? cache22.current.queryArgs : queryArgs;
+}
+function useShallowStableValue(value) {
+  const cache22 = (0, import_react3.useRef)(value);
+  (0, import_react3.useEffect)(() => {
+    if (!shallowEqual(cache22.current, value)) {
+      cache22.current = value;
+    }
+  }, [value]);
+  return shallowEqual(cache22.current, value) ? cache22.current : value;
+}
+var canUseDOM2 = () => !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
+var isDOM = /* @__PURE__ */ canUseDOM2();
+var isRunningInReactNative = () => typeof navigator !== "undefined" && navigator.product === "ReactNative";
+var isReactNative2 = /* @__PURE__ */ isRunningInReactNative();
+var getUseIsomorphicLayoutEffect = () => isDOM || isReactNative2 ? import_react.useLayoutEffect : import_react.useEffect;
+var useIsomorphicLayoutEffect3 = /* @__PURE__ */ getUseIsomorphicLayoutEffect();
+var noPendingQueryStateSelector = (selected) => {
+  if (selected.isUninitialized) {
+    return {
+      ...selected,
+      isUninitialized: false,
+      isFetching: true,
+      isLoading: selected.data !== void 0 ? false : true,
+      status: QueryStatus.pending
+    };
+  }
+  return selected;
+};
+function buildHooks({
+  api: api3,
+  moduleOptions: {
+    batch: batch2,
+    hooks: {
+      useDispatch: useDispatch2,
+      useSelector: useSelector2,
+      useStore: useStore2
+    },
+    unstable__sideEffectsInRender,
+    createSelector: createSelector2
+  },
+  serializeQueryArgs,
+  context
+}) {
+  const usePossiblyImmediateEffect = unstable__sideEffectsInRender ? (cb) => cb() : import_react.useEffect;
+  return {
+    buildQueryHooks,
+    buildMutationHook,
+    usePrefetch
+  };
+  function queryStatePreSelector(currentState, lastResult, queryArgs) {
+    if (lastResult?.endpointName && currentState.isUninitialized) {
+      const {
+        endpointName
+      } = lastResult;
+      const endpointDefinition = context.endpointDefinitions[endpointName];
+      if (serializeQueryArgs({
+        queryArgs: lastResult.originalArgs,
+        endpointDefinition,
+        endpointName
+      }) === serializeQueryArgs({
+        queryArgs,
+        endpointDefinition,
+        endpointName
+      })) lastResult = void 0;
+    }
+    let data = currentState.isSuccess ? currentState.data : lastResult?.data;
+    if (data === void 0) data = currentState.data;
+    const hasData = data !== void 0;
+    const isFetching = currentState.isLoading;
+    const isLoading = (!lastResult || lastResult.isLoading || lastResult.isUninitialized) && !hasData && isFetching;
+    const isSuccess = currentState.isSuccess || isFetching && hasData;
+    return {
+      ...currentState,
+      data,
+      currentData: currentState.data,
+      isFetching,
+      isLoading,
+      isSuccess
+    };
+  }
+  function usePrefetch(endpointName, defaultOptions) {
+    const dispatch = useDispatch2();
+    const stableDefaultOptions = useShallowStableValue(defaultOptions);
+    return (0, import_react.useCallback)((arg, options2) => dispatch(api3.util.prefetch(endpointName, arg, {
+      ...stableDefaultOptions,
+      ...options2
+    })), [endpointName, dispatch, stableDefaultOptions]);
+  }
+  function buildQueryHooks(name) {
+    const useQuerySubscription = (arg, {
+      refetchOnReconnect,
+      refetchOnFocus,
+      refetchOnMountOrArgChange,
+      skip: skip2 = false,
+      pollingInterval = 0,
+      skipPollingIfUnfocused = false
+    } = {}) => {
+      const {
+        initiate
+      } = api3.endpoints[name];
+      const dispatch = useDispatch2();
+      const subscriptionSelectorsRef = (0, import_react.useRef)(void 0);
+      if (!subscriptionSelectorsRef.current) {
+        const returnedValue = dispatch(api3.internalActions.internal_getRTKQSubscriptions());
+        if (true) {
+          if (typeof returnedValue !== "object" || typeof returnedValue?.type === "string") {
+            throw new Error(false ? formatProdErrorMessage(37) : `Warning: Middleware for RTK-Query API at reducerPath "${api3.reducerPath}" has not been added to the store.
+    You must add the middleware for RTK-Query to function correctly!`);
+          }
+        }
+        subscriptionSelectorsRef.current = returnedValue;
+      }
+      const stableArg = useStableQueryArgs(
+        skip2 ? skipToken : arg,
+        // Even if the user provided a per-endpoint `serializeQueryArgs` with
+        // a consistent return value, _here_ we want to use the default behavior
+        // so we can tell if _anything_ actually changed. Otherwise, we can end up
+        // with a case where the query args did change but the serialization doesn't,
+        // and then we never try to initiate a refetch.
+        defaultSerializeQueryArgs2,
+        context.endpointDefinitions[name],
+        name
+      );
+      const stableSubscriptionOptions = useShallowStableValue({
+        refetchOnReconnect,
+        refetchOnFocus,
+        pollingInterval,
+        skipPollingIfUnfocused
+      });
+      const lastRenderHadSubscription = (0, import_react.useRef)(false);
+      const promiseRef = (0, import_react.useRef)(void 0);
+      let {
+        queryCacheKey,
+        requestId
+      } = promiseRef.current || {};
+      let currentRenderHasSubscription = false;
+      if (queryCacheKey && requestId) {
+        currentRenderHasSubscription = subscriptionSelectorsRef.current.isRequestSubscribed(queryCacheKey, requestId);
+      }
+      const subscriptionRemoved = !currentRenderHasSubscription && lastRenderHadSubscription.current;
+      usePossiblyImmediateEffect(() => {
+        lastRenderHadSubscription.current = currentRenderHasSubscription;
+      });
+      usePossiblyImmediateEffect(() => {
+        if (subscriptionRemoved) {
+          promiseRef.current = void 0;
+        }
+      }, [subscriptionRemoved]);
+      usePossiblyImmediateEffect(() => {
+        const lastPromise = promiseRef.current;
+        if (typeof process !== "undefined" && false) {
+          console.log(subscriptionRemoved);
+        }
+        if (stableArg === skipToken) {
+          lastPromise?.unsubscribe();
+          promiseRef.current = void 0;
+          return;
+        }
+        const lastSubscriptionOptions = promiseRef.current?.subscriptionOptions;
+        if (!lastPromise || lastPromise.arg !== stableArg) {
+          lastPromise?.unsubscribe();
+          const promise = dispatch(initiate(stableArg, {
+            subscriptionOptions: stableSubscriptionOptions,
+            forceRefetch: refetchOnMountOrArgChange
+          }));
+          promiseRef.current = promise;
+        } else if (stableSubscriptionOptions !== lastSubscriptionOptions) {
+          lastPromise.updateSubscriptionOptions(stableSubscriptionOptions);
+        }
+      }, [dispatch, initiate, refetchOnMountOrArgChange, stableArg, stableSubscriptionOptions, subscriptionRemoved]);
+      (0, import_react.useEffect)(() => {
+        return () => {
+          promiseRef.current?.unsubscribe();
+          promiseRef.current = void 0;
+        };
+      }, []);
+      return (0, import_react.useMemo)(() => ({
+        /**
+         * A method to manually refetch data for the query
+         */
+        refetch: () => {
+          if (!promiseRef.current) throw new Error(false ? formatProdErrorMessage(38) : "Cannot refetch a query that has not been started yet.");
+          return promiseRef.current?.refetch();
+        }
+      }), []);
+    };
+    const useLazyQuerySubscription = ({
+      refetchOnReconnect,
+      refetchOnFocus,
+      pollingInterval = 0,
+      skipPollingIfUnfocused = false
+    } = {}) => {
+      const {
+        initiate
+      } = api3.endpoints[name];
+      const dispatch = useDispatch2();
+      const [arg, setArg] = (0, import_react.useState)(UNINITIALIZED_VALUE);
+      const promiseRef = (0, import_react.useRef)(void 0);
+      const stableSubscriptionOptions = useShallowStableValue({
+        refetchOnReconnect,
+        refetchOnFocus,
+        pollingInterval,
+        skipPollingIfUnfocused
+      });
+      usePossiblyImmediateEffect(() => {
+        const lastSubscriptionOptions = promiseRef.current?.subscriptionOptions;
+        if (stableSubscriptionOptions !== lastSubscriptionOptions) {
+          promiseRef.current?.updateSubscriptionOptions(stableSubscriptionOptions);
+        }
+      }, [stableSubscriptionOptions]);
+      const subscriptionOptionsRef = (0, import_react.useRef)(stableSubscriptionOptions);
+      usePossiblyImmediateEffect(() => {
+        subscriptionOptionsRef.current = stableSubscriptionOptions;
+      }, [stableSubscriptionOptions]);
+      const trigger = (0, import_react.useCallback)(function(arg2, preferCacheValue = false) {
+        let promise;
+        batch2(() => {
+          promiseRef.current?.unsubscribe();
+          promiseRef.current = promise = dispatch(initiate(arg2, {
+            subscriptionOptions: subscriptionOptionsRef.current,
+            forceRefetch: !preferCacheValue
+          }));
+          setArg(arg2);
+        });
+        return promise;
+      }, [dispatch, initiate]);
+      (0, import_react.useEffect)(() => {
+        return () => {
+          promiseRef?.current?.unsubscribe();
+        };
+      }, []);
+      (0, import_react.useEffect)(() => {
+        if (arg !== UNINITIALIZED_VALUE && !promiseRef.current) {
+          trigger(arg, true);
+        }
+      }, [arg, trigger]);
+      return (0, import_react.useMemo)(() => [trigger, arg], [trigger, arg]);
+    };
+    const useQueryState = (arg, {
+      skip: skip2 = false,
+      selectFromResult
+    } = {}) => {
+      const {
+        select
+      } = api3.endpoints[name];
+      const stableArg = useStableQueryArgs(skip2 ? skipToken : arg, serializeQueryArgs, context.endpointDefinitions[name], name);
+      const lastValue = (0, import_react.useRef)(void 0);
+      const selectDefaultResult = (0, import_react.useMemo)(() => createSelector2([select(stableArg), (_, lastResult) => lastResult, (_) => stableArg], queryStatePreSelector, {
+        memoizeOptions: {
+          resultEqualityCheck: shallowEqual
+        }
+      }), [select, stableArg]);
+      const querySelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult, {
+        devModeChecks: {
+          identityFunctionCheck: "never"
+        }
+      }) : selectDefaultResult, [selectDefaultResult, selectFromResult]);
+      const currentState = useSelector2((state) => querySelector(state, lastValue.current), shallowEqual);
+      const store2 = useStore2();
+      const newLastValue = selectDefaultResult(store2.getState(), lastValue.current);
+      useIsomorphicLayoutEffect3(() => {
+        lastValue.current = newLastValue;
+      }, [newLastValue]);
+      return currentState;
+    };
+    return {
+      useQueryState,
+      useQuerySubscription,
+      useLazyQuerySubscription,
+      useLazyQuery(options2) {
+        const [trigger, arg] = useLazyQuerySubscription(options2);
+        const queryStateResults = useQueryState(arg, {
+          ...options2,
+          skip: arg === UNINITIALIZED_VALUE
+        });
+        const info = (0, import_react.useMemo)(() => ({
+          lastArg: arg
+        }), [arg]);
+        return (0, import_react.useMemo)(() => [trigger, queryStateResults, info], [trigger, queryStateResults, info]);
+      },
+      useQuery(arg, options2) {
+        const querySubscriptionResults = useQuerySubscription(arg, options2);
+        const queryStateResults = useQueryState(arg, {
+          selectFromResult: arg === skipToken || options2?.skip ? void 0 : noPendingQueryStateSelector,
+          ...options2
+        });
+        const {
+          data,
+          status,
+          isLoading,
+          isSuccess,
+          isError: isError2,
+          error
+        } = queryStateResults;
+        (0, import_react.useDebugValue)({
+          data,
+          status,
+          isLoading,
+          isSuccess,
+          isError: isError2,
+          error
+        });
+        return (0, import_react.useMemo)(() => ({
+          ...queryStateResults,
+          ...querySubscriptionResults
+        }), [queryStateResults, querySubscriptionResults]);
+      }
+    };
+  }
+  function buildMutationHook(name) {
+    return ({
+      selectFromResult,
+      fixedCacheKey
+    } = {}) => {
+      const {
+        select,
+        initiate
+      } = api3.endpoints[name];
+      const dispatch = useDispatch2();
+      const [promise, setPromise] = (0, import_react.useState)();
+      (0, import_react.useEffect)(() => () => {
+        if (!promise?.arg.fixedCacheKey) {
+          promise?.reset();
+        }
+      }, [promise]);
+      const triggerMutation = (0, import_react.useCallback)(function(arg) {
+        const promise2 = dispatch(initiate(arg, {
+          fixedCacheKey
+        }));
+        setPromise(promise2);
+        return promise2;
+      }, [dispatch, initiate, fixedCacheKey]);
+      const {
+        requestId
+      } = promise || {};
+      const selectDefaultResult = (0, import_react.useMemo)(() => select({
+        fixedCacheKey,
+        requestId: promise?.requestId
+      }), [fixedCacheKey, promise, select]);
+      const mutationSelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult) : selectDefaultResult, [selectFromResult, selectDefaultResult]);
+      const currentState = useSelector2(mutationSelector, shallowEqual);
+      const originalArgs = fixedCacheKey == null ? promise?.arg.originalArgs : void 0;
+      const reset = (0, import_react.useCallback)(() => {
+        batch2(() => {
+          if (promise) {
+            setPromise(void 0);
+          }
+          if (fixedCacheKey) {
+            dispatch(api3.internalActions.removeMutationResult({
+              requestId,
+              fixedCacheKey
+            }));
+          }
+        });
+      }, [dispatch, fixedCacheKey, promise, requestId]);
+      const {
+        endpointName,
+        data,
+        status,
+        isLoading,
+        isSuccess,
+        isError: isError2,
+        error
+      } = currentState;
+      (0, import_react.useDebugValue)({
+        endpointName,
+        data,
+        status,
+        isLoading,
+        isSuccess,
+        isError: isError2,
+        error
+      });
+      const finalState = (0, import_react.useMemo)(() => ({
+        ...currentState,
+        originalArgs,
+        reset
+      }), [currentState, originalArgs, reset]);
+      return (0, import_react.useMemo)(() => [triggerMutation, finalState], [triggerMutation, finalState]);
+    };
+  }
+}
+var reactHooksModuleName = /* @__PURE__ */ Symbol();
+var reactHooksModule = ({
+  batch: batch2 = batch,
+  hooks = {
+    useDispatch,
+    useSelector,
+    useStore
+  },
+  createSelector: createSelector2 = createSelector,
+  unstable__sideEffectsInRender = false,
+  ...rest
+} = {}) => {
+  if (true) {
+    const hookNames = ["useDispatch", "useSelector", "useStore"];
+    let warned = false;
+    for (const hookName of hookNames) {
+      if (countObjectKeys2(rest) > 0) {
+        if (rest[hookName]) {
+          if (!warned) {
+            console.warn("As of RTK 2.0, the hooks now need to be specified as one object, provided under a `hooks` key:\n`reactHooksModule({ hooks: { useDispatch, useSelector, useStore } })`");
+            warned = true;
+          }
+        }
+        hooks[hookName] = rest[hookName];
+      }
+      if (typeof hooks[hookName] !== "function") {
+        throw new Error(false ? formatProdErrorMessage(36) : `When using custom hooks for context, all ${hookNames.length} hooks need to be provided: ${hookNames.join(", ")}.
+Hook ${hookName} was either not provided or not a function.`);
+      }
+    }
+  }
+  return {
+    name: reactHooksModuleName,
+    init(api3, {
+      serializeQueryArgs
+    }, context) {
+      const anyApi = api3;
+      const {
+        buildQueryHooks,
+        buildMutationHook,
+        usePrefetch
+      } = buildHooks({
+        api: api3,
+        moduleOptions: {
+          batch: batch2,
+          hooks,
+          unstable__sideEffectsInRender,
+          createSelector: createSelector2
+        },
+        serializeQueryArgs,
+        context
+      });
+      safeAssign2(anyApi, {
+        usePrefetch
+      });
+      safeAssign2(context, {
+        batch: batch2
+      });
+      return {
+        injectEndpoint(endpointName, definition) {
+          if (isQueryDefinition2(definition)) {
+            const {
+              useQuery,
+              useLazyQuery,
+              useLazyQuerySubscription,
+              useQueryState,
+              useQuerySubscription
+            } = buildQueryHooks(endpointName);
+            safeAssign2(anyApi.endpoints[endpointName], {
+              useQuery,
+              useLazyQuery,
+              useLazyQuerySubscription,
+              useQueryState,
+              useQuerySubscription
+            });
+            api3[`use${capitalize(endpointName)}Query`] = useQuery;
+            api3[`useLazy${capitalize(endpointName)}Query`] = useLazyQuery;
+          } else if (isMutationDefinition2(definition)) {
+            const useMutation = buildMutationHook(endpointName);
+            safeAssign2(anyApi.endpoints[endpointName], {
+              useMutation
+            });
+            api3[`use${capitalize(endpointName)}Mutation`] = useMutation;
+          }
+        }
+      };
+    }
+  };
+};
+var createApi2 = /* @__PURE__ */ buildCreateApi(coreModule(), reactHooksModule());
+
+// scripts/lib/error.ts
+var networkError = "It looks like you lost your internet connection. Please reload this page and try again.";
+var notFoundError = "Some data requested by this page could not be loaded.";
+var serverError = "Something went wrong on the server.";
+var isErrorWithMessage = (error) => typeof error === "object" && error !== null && "message" in error && typeof error.message === "string";
+var toErrorWithMessage = (maybeError) => {
+  if (isErrorWithMessage(maybeError)) return maybeError;
+  try {
+    return new Error(JSON.stringify(maybeError));
+  } catch (e) {
+    return new Error(String(maybeError));
+  }
+};
+var toErrorObject = (error) => JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
+var looksLikeJSON = (message) => message.startsWith('{"');
+var getError = (maybeError) => {
+  const errorObject = toErrorObject(toErrorWithMessage(maybeError));
+  const error = {
+    message: errorObject.message,
+    status: errorObject.status
+  };
+  if (!error.status && "originalStatus" in maybeError) {
+    error.status = maybeError.originalStatus;
+  }
+  if (looksLikeJSON(error.message)) {
+    const messageObject = JSON.parse(error.message);
+    if ("error" in messageObject) {
+      error.message = messageObject.error;
+    }
+  }
+  if (error.message.includes("NetworkError")) {
+    error.customMessage = networkError;
+  } else if (error.status === 500) {
+    error.customMessage = serverError;
+  } else if (error.status === 404) {
+    error.customMessage = notFoundError;
+  }
+  return error;
+};
+
 // scripts/lib/sorting.ts
 var sortQuarterAscendingTypeDecending = (a2, b) => a2.quarter - b.quarter || b.type.localeCompare(a2.type);
 
@@ -33861,7 +36973,7 @@ var leaderboardSet = {
     title: ""
   }
 };
-var initialState = {
+var initialState2 = {
   leaderboard: {
     all: leaderboardSet
   },
@@ -33870,7 +36982,7 @@ var initialState = {
 };
 var entitiesSlice = createSlice({
   name: "entities",
-  initialState: adapter.getInitialState(initialState),
+  initialState: adapter.getInitialState(initialState2),
   reducers: {
     set: (state, action) => {
       adapter.upsertOne(state, action.payload);
@@ -33992,7 +37104,7 @@ var leaderboardSet2 = {
     title: ""
   }
 };
-var initialState2 = {
+var initialState3 = {
   leaderboard: {
     lobbyists: leaderboardSet2,
     officials: leaderboardSet2
@@ -34002,7 +37114,7 @@ var initialState2 = {
 };
 var peopleSlice = createSlice({
   name: "people",
-  initialState: adapter3.getInitialState(initialState2),
+  initialState: adapter3.getInitialState(initialState3),
   reducers: {
     set: (state, action) => {
       adapter3.upsertOne(state, action.payload);
@@ -34173,11 +37285,11 @@ var QuickLRU = class extends Map {
     this._size = 0;
   }
   // TODO: Use private class methods when targeting Node.js 16.
-  _emitEvictions(cache3) {
+  _emitEvictions(cache5) {
     if (typeof this.onEviction !== "function") {
       return;
     }
-    for (const [key, item] of cache3) {
+    for (const [key, item] of cache5) {
       this.onEviction(key, item.value);
     }
   }
@@ -34199,8 +37311,8 @@ var QuickLRU = class extends Map {
   _getItemValue(key, item) {
     return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
   }
-  _peek(key, cache3) {
-    const item = cache3.get(key);
+  _peek(key, cache5) {
+    const item = cache5.get(key);
     return this._getItemValue(key, item);
   }
   _set(key, value) {
@@ -34397,7 +37509,7 @@ var has2 = (array, key) => array.some((element) => {
   element.lastIndex = 0;
   return element.test(key);
 });
-var cache = new QuickLRU({ maxSize: 1e5 });
+var cache3 = new QuickLRU({ maxSize: 1e5 });
 var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
 var transform = (input, options2 = {}) => {
   if (!isObject2(input)) {
@@ -34420,12 +37532,12 @@ var transform = (input, options2 = {}) => {
     }
     if (!(exclude && has2(exclude, key))) {
       const cacheKey = pascalCase ? `${key}_` : key;
-      if (cache.has(cacheKey)) {
-        key = cache.get(cacheKey);
+      if (cache3.has(cacheKey)) {
+        key = cache3.get(cacheKey);
       } else {
         const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
         if (key.length < 100) {
-          cache.set(cacheKey, returnValue);
+          cache3.set(cacheKey, returnValue);
         }
         key = returnValue;
       }
@@ -34502,12 +37614,12 @@ var actions = {
   setPerson,
   setSources
 };
-var initialState3 = {
+var initialState4 = {
   entities: [],
   people: [],
   sources: []
 };
-var statsReducer = createReducer(initialState3, (builder) => {
+var statsReducer = createReducer(initialState4, (builder) => {
   builder.addCase(setSources, (state, action) => {
     state.sources = action.payload;
   }).addCase(setEntity, (state, action) => {
@@ -34541,7 +37653,7 @@ var actions2 = {
   setSection,
   setWarning
 };
-var initialState4 = {
+var initialState5 = {
   description: null,
   pageTitle: null,
   errors: [],
@@ -34551,16 +37663,16 @@ var initialState4 = {
   warnings: []
 };
 var customMessageExists = (alerts, customMessage) => customMessage && alerts.some((alert) => alert.customMessage === customMessage);
-var uiReducer = createReducer(initialState4, (builder) => {
+var uiReducer = createReducer(initialState5, (builder) => {
   builder.addCase(clearErrors, (state) => {
-    state.errors = initialState4.errors;
+    state.errors = initialState5.errors;
   }).addCase(setError, (state, action) => {
     if (customMessageExists(state.errors, action.payload.customMessage)) {
       return;
     }
     state.errors.push(action.payload);
   }).addCase(clearMessages, (state) => {
-    state.messages = initialState4.messages;
+    state.messages = initialState5.messages;
   }).addCase(setMessage, (state, action) => {
     if (customMessageExists(state.messages, action.payload.customMessage)) {
       return;
@@ -34573,7 +37685,7 @@ var uiReducer = createReducer(initialState4, (builder) => {
   }).addCase(setPositionY, (state, action) => {
     state.positionY = action.payload;
   }).addCase(clearWarnings, (state) => {
-    state.warnings = initialState4.warnings;
+    state.warnings = initialState5.warnings;
   }).addCase(setSection, (state, action) => {
     state.section = action.payload;
   }).addCase(setWarning, (state, action) => {
@@ -34585,9 +37697,212 @@ var uiReducer = createReducer(initialState4, (builder) => {
 });
 var ui_default = uiReducer;
 
+// scripts/lib/fetch-from-path.ts
+var getPeopleFromIncidents = (incidents) => incidents.flatMap(
+  (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person)
+);
+var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
+var getEntitiesFromSource = (source) => source?.entities ? source.entities.flat().map((entry) => entry.entity) : [];
+var handleResult = (result, isPrimary) => {
+  const dispatch = store_default.dispatch;
+  const { data, meta } = result;
+  if (data) {
+    if ("stats" in data) {
+      if ("sources" in data.stats) {
+        dispatch(actions.setSources(data.stats.sources));
+      }
+      if ("entity" in data.stats) {
+        dispatch(actions.setEntity(data.stats.entity));
+      }
+      if ("person" in data.stats) {
+        dispatch(actions.setPerson(data.stats.person));
+      }
+    }
+    if ("entity" in data) {
+      const entity = adapters.adaptOne(data.entity.record);
+      const incidents = adapters.getIncidents(data.entity.record);
+      const people = getPeopleFromIncidents(incidents);
+      dispatch(set2(entity));
+      dispatch(setAll2(incidents));
+      dispatch(setAll3(people));
+    }
+    if ("entities" in data) {
+      dispatch(setAll(data.entities.records));
+      if ("pagination" in data.entities) {
+        const ids = adapters.getIds(data.entities.records);
+        dispatch(setPageIds(ids));
+        dispatch(setPagination(data.entities.pagination));
+      }
+      if ("leaderboard" in data.entities) {
+        dispatch(setLeaderboard(data.entities.leaderboard));
+      }
+    }
+    if ("incident" in data) {
+      const incident = adapters2.adaptOne(data.incident.record);
+      const people = getPeopleFromIncidents([incident]);
+      dispatch(set3(incident));
+      dispatch(setAll3(people));
+    }
+    if ("incidents" in data) {
+      if ("first" in data.incidents) {
+        dispatch(setFirst(data.incidents.first));
+      }
+      if ("last" in data.incidents) {
+        dispatch(setLast(data.incidents.last));
+      }
+      if ("total" in data.incidents) {
+        dispatch(setTotal(data.incidents.total));
+      }
+      if ("records" in data.incidents) {
+        dispatch(setAll2(data.incidents.records));
+        if ("pagination" in data.incidents) {
+          const ids = adapters2.getIds(data.incidents.records);
+          dispatch(setPageIds2(ids));
+          dispatch(setPagination2(data.incidents.pagination));
+        }
+      }
+    }
+    if ("person" in data) {
+      const person = adapters3.adaptOne(data.person.record);
+      const incidents = adapters3.getIncidents(data.person.record);
+      const people = getPeopleFromIncidents(incidents);
+      const entities = getEntitiesFromPerson(person);
+      dispatch(set4(person));
+      dispatch(setAll2(incidents));
+      dispatch(setAll3(people));
+      dispatch(setAll(entities));
+    }
+    if ("people" in data) {
+      dispatch(setAll3(data.people.records));
+      if ("pagination" in data.people) {
+        const ids = adapters3.getIds(data.people.records);
+        dispatch(setPageIds3(ids));
+        dispatch(setPagination3(data.people.pagination));
+      }
+      if ("leaderboard" in data.people) {
+        dispatch(setLeaderboard2(data.people.leaderboard));
+      }
+    }
+    if ("source" in data) {
+      const source = adapters4.adaptOne(data.source.record);
+      const incidents = adapters4.getIncidents(data.source.record);
+      const people = getPeopleFromIncidents(incidents);
+      const entities = getEntitiesFromSource(data.source.record);
+      dispatch(set5(source));
+      dispatch(setAll2(incidents));
+      dispatch(setAll3(people));
+      dispatch(setAll(entities));
+    }
+    if ("sources" in data) {
+      dispatch(setAll4(data.sources.records));
+      if ("pagination" in data.sources) {
+        const ids = adapters4.getIds(data.sources.records);
+        dispatch(setPageIds4(ids));
+        dispatch(setPagination4(data.sources.pagination));
+      }
+    }
+  }
+  if (meta) {
+    if (isPrimary) {
+      if ("description" in meta) {
+        dispatch(actions2.setDescription(meta.description));
+      }
+      if ("pageTitle" in meta) {
+        dispatch(actions2.setPageTitle(meta.pageTitle));
+      }
+      if ("section" in meta) {
+        dispatch(actions2.setSection(meta.section));
+      }
+    }
+    if ("errors" in meta) {
+      meta.errors.forEach((error) => {
+        dispatch(actions2.setError(error));
+      });
+    }
+    if ("warnings" in meta) {
+      meta.warnings.forEach((warning3) => {
+        dispatch(actions2.setWarning(warning3));
+      });
+    }
+  }
+};
+var handleError = (error) => {
+  const dispatch = store_default.dispatch;
+  dispatch(actions2.setError(getError(error)));
+};
+
+// scripts/services/api.ts
+var url = new URL("/", window.location.toString());
+var baseUrl = url.origin;
+var getQueryPath = (location2) => {
+  const url2 = new URL(location2.pathname, baseUrl);
+  return url2.pathname + location2.search;
+};
+var getPrimaryRoute = () => ({
+  query: getQueryPath,
+  transformResponse: (result) => {
+    handleResult(result, true);
+  },
+  transformErrorResponse: handleError
+});
+var getAncillaryRoute = (query) => ({
+  query,
+  transformResponse: (result) => {
+    handleResult(result);
+  },
+  transformErrorResponse: handleError
+});
+var api = createApi2({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({
+    baseUrl,
+    credentials: "same-origin",
+    prepareHeaders: (headers) => {
+      headers.set("Accept", "application/json");
+      headers.set("Content-Type", "application/json");
+      return headers;
+    }
+  }),
+  endpoints: (builder) => ({
+    getOverview: builder.query(getAncillaryRoute(
+      () => "overview"
+    )),
+    getPrimary: builder.query(getPrimaryRoute()),
+    getEntityAttendeesById: builder.query(getAncillaryRoute(
+      (id) => `entities/${id}/attendees`
+    )),
+    getEntityStatsById: builder.query(getAncillaryRoute(
+      (id) => `entities/${id}/stats`
+    )),
+    getIncidentById: builder.query(getAncillaryRoute(
+      (id) => `incidents/${id}`
+    )),
+    getPersonAttendeesById: builder.query(getAncillaryRoute(
+      (id) => `people/${id}/attendees`
+    )),
+    getPersonEntitiesById: builder.query(getAncillaryRoute(
+      (id) => `people/${id}/entities`
+    )),
+    getPersonStatsById: builder.query(getAncillaryRoute(
+      (id) => `people/${id}/stats`
+    )),
+    getSourceAttendeesById: builder.query(getAncillaryRoute(
+      (id) => `sources/${id}/attendees`
+    )),
+    getSourceEntitiesById: builder.query(getAncillaryRoute(
+      (id) => `sources/${id}/entities`
+    )),
+    getSourceById: builder.query(getAncillaryRoute(
+      (id) => `sources/${id}`
+    ))
+  })
+});
+var api_default = api;
+
 // scripts/lib/store.ts
 var store = configureStore({
   reducer: {
+    api: api_default.reducer,
     entities: entities_default,
     incidents: incidents_default,
     people: people_default,
@@ -34595,15 +37910,16 @@ var store = configureStore({
     stats: stats_default,
     ui: ui_default
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api_default.middleware),
   devTools: true
 });
 var store_default = store;
 
 // scripts/components/alert-error.tsx
-var import_react8 = __toESM(require_react());
+var import_react14 = __toESM(require_react());
 
 // scripts/components/alert.tsx
-var import_react7 = __toESM(require_react());
+var import_react13 = __toESM(require_react());
 
 // node_modules/@babel/runtime/helpers/esm/extends.js
 function _extends4() {
@@ -34682,11 +37998,11 @@ function removeClass(element, className) {
 }
 
 // node_modules/react-transition-group/esm/CSSTransition.js
-var import_react3 = __toESM(require_react());
+var import_react9 = __toESM(require_react());
 
 // node_modules/react-transition-group/esm/Transition.js
 var import_prop_types2 = __toESM(require_prop_types());
-var import_react2 = __toESM(require_react());
+var import_react8 = __toESM(require_react());
 var import_react_dom = __toESM(require_react_dom());
 
 // node_modules/react-transition-group/esm/config.js
@@ -34715,8 +38031,8 @@ var classNamesShape = true ? import_prop_types.default.oneOfType([import_prop_ty
 })]) : null;
 
 // node_modules/react-transition-group/esm/TransitionGroupContext.js
-var import_react = __toESM(require_react());
-var TransitionGroupContext_default = import_react.default.createContext(null);
+var import_react7 = __toESM(require_react());
+var TransitionGroupContext_default = import_react7.default.createContext(null);
 
 // node_modules/react-transition-group/esm/utils/reflow.js
 var forceReflow = function forceReflow2(node2) {
@@ -34931,13 +38247,13 @@ var Transition = /* @__PURE__ */ function(_React$Component) {
     var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose2(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
     return (
       // allows for nested Transitions
-      /* @__PURE__ */ import_react2.default.createElement(TransitionGroupContext_default.Provider, {
+      /* @__PURE__ */ import_react8.default.createElement(TransitionGroupContext_default.Provider, {
         value: null
-      }, typeof children === "function" ? children(status, childProps) : import_react2.default.cloneElement(import_react2.default.Children.only(children), childProps))
+      }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps))
     );
   };
   return Transition2;
-}(import_react2.default.Component);
+}(import_react8.default.Component);
 Transition.contextType = TransitionGroupContext_default;
 Transition.propTypes = true ? {
   /**
@@ -35253,7 +38569,7 @@ var CSSTransition = /* @__PURE__ */ function(_React$Component) {
   };
   _proto.render = function render2() {
     var _this$props = this.props, _ = _this$props.classNames, props = _objectWithoutPropertiesLoose2(_this$props, ["classNames"]);
-    return /* @__PURE__ */ import_react3.default.createElement(Transition_default, _extends4({}, props, {
+    return /* @__PURE__ */ import_react9.default.createElement(Transition_default, _extends4({}, props, {
       onEnter: this.onEnter,
       onEntered: this.onEntered,
       onEntering: this.onEntering,
@@ -35263,7 +38579,7 @@ var CSSTransition = /* @__PURE__ */ function(_React$Component) {
     }));
   };
   return CSSTransition2;
-}(import_react3.default.Component);
+}(import_react9.default.Component);
 CSSTransition.defaultProps = {
   classNames: ""
 };
@@ -35394,14 +38710,14 @@ CSSTransition.propTypes = true ? _extends4({}, Transition_default.propTypes, {
 var CSSTransition_default = CSSTransition;
 
 // scripts/components/alert-portal.tsx
-var import_react5 = __toESM(require_react());
+var import_react11 = __toESM(require_react());
 var import_react_dom2 = __toESM(require_react_dom());
 
 // scripts/hooks/use-fixed-body-when-has-class.ts
-var import_react4 = __toESM(require_react());
+var import_react10 = __toESM(require_react());
 var useFixedBodyWhenHasClass = (className) => {
   const { positionY } = useSelector(getUI);
-  (0, import_react4.useEffect)(() => {
+  (0, import_react10.useEffect)(() => {
     document.body.classList.add(className);
     document.body.style.position = "fixed";
     if (positionY !== 0) {
@@ -35423,7 +38739,7 @@ var hasAlertClass = "has-alert";
 var alertRootId = "alert-root";
 var alertPortalId = "alert-root-portal";
 var Escape = "Escape";
-var AlertPortal = (0, import_react5.forwardRef)(({
+var AlertPortal = (0, import_react11.forwardRef)(({
   children,
   deactivate,
   isActive
@@ -35438,7 +38754,7 @@ var AlertPortal = (0, import_react5.forwardRef)(({
       deactivate();
     }
   };
-  (0, import_react5.useEffect)(() => {
+  (0, import_react11.useEffect)(() => {
     isActive && elementRef.current?.focus();
     return () => {
       elementRef.current?.blur();
@@ -35900,10 +39216,10 @@ function rulesheet(callback2) {
 
 // node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
 function memoize(fn) {
-  var cache3 = /* @__PURE__ */ Object.create(null);
+  var cache5 = /* @__PURE__ */ Object.create(null);
   return function(arg) {
-    if (cache3[arg] === void 0) cache3[arg] = fn(arg);
-    return cache3[arg];
+    if (cache5[arg] === void 0) cache5[arg] = fn(arg);
+    return cache5[arg];
   };
 }
 
@@ -36186,11 +39502,11 @@ var createCache = function createCache2(options2) {
       currentSheet = sheet2;
       stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles);
       if (shouldCache) {
-        cache3.inserted[serialized.name] = true;
+        cache5.inserted[serialized.name] = true;
       }
     };
   }
-  var cache3 = {
+  var cache5 = {
     key,
     sheet: new StyleSheet({
       key,
@@ -36205,8 +39521,8 @@ var createCache = function createCache2(options2) {
     registered: {},
     insert: _insert
   };
-  cache3.sheet.hydrate(nodesToHydrate);
-  return cache3;
+  cache5.sheet.hydrate(nodesToHydrate);
+  return cache5;
 };
 
 // node_modules/@emotion/hash/dist/emotion-hash.esm.js
@@ -36477,8 +39793,8 @@ function getRegisteredStyles(registered, registeredStyles, classNames) {
   });
   return rawClassName;
 }
-var registerStyles = function registerStyles2(cache3, serialized, isStringTag) {
-  var className = cache3.key + "-" + serialized.name;
+var registerStyles = function registerStyles2(cache5, serialized, isStringTag) {
+  var className = cache5.key + "-" + serialized.name;
   if (
     // we only need to add the styles to the registered cache if the
     // class name could be used further down
@@ -36489,27 +39805,27 @@ var registerStyles = function registerStyles2(cache3, serialized, isStringTag) {
     // in node since emotion-server relies on whether a style is in
     // the registered cache to know whether a style is global or not
     // also, note that this check will be dead code eliminated in the browser
-    isBrowser2 === false) && cache3.registered[className] === void 0
+    isBrowser2 === false) && cache5.registered[className] === void 0
   ) {
-    cache3.registered[className] = serialized.styles;
+    cache5.registered[className] = serialized.styles;
   }
 };
-var insertStyles = function insertStyles2(cache3, serialized, isStringTag) {
-  registerStyles(cache3, serialized, isStringTag);
-  var className = cache3.key + "-" + serialized.name;
-  if (cache3.inserted[serialized.name] === void 0) {
+var insertStyles = function insertStyles2(cache5, serialized, isStringTag) {
+  registerStyles(cache5, serialized, isStringTag);
+  var className = cache5.key + "-" + serialized.name;
+  if (cache5.inserted[serialized.name] === void 0) {
     var current2 = serialized;
     do {
-      cache3.insert(serialized === current2 ? "." + className : "", current2, cache3.sheet, true);
+      cache5.insert(serialized === current2 ? "." + className : "", current2, cache5.sheet, true);
       current2 = current2.next;
     } while (current2 !== void 0);
   }
 };
 
 // node_modules/@emotion/css/create-instance/dist/emotion-css-create-instance.esm.js
-function insertWithoutScoping(cache3, serialized) {
-  if (cache3.inserted[serialized.name] === void 0) {
-    return cache3.insert("", serialized, cache3.sheet, true);
+function insertWithoutScoping(cache5, serialized) {
+  if (cache5.inserted[serialized.name] === void 0) {
+    return cache5.insert("", serialized, cache5.sheet, true);
   }
 }
 function merge(registered, css3, className) {
@@ -36521,26 +39837,26 @@ function merge(registered, css3, className) {
   return rawClassName + css3(registeredStyles);
 }
 var createEmotion = function createEmotion2(options2) {
-  var cache3 = createCache(options2);
-  cache3.sheet.speedy = function(value) {
+  var cache5 = createCache(options2);
+  cache5.sheet.speedy = function(value) {
     this.isSpeedy = value;
   };
-  cache3.compat = true;
+  cache5.compat = true;
   var css3 = function css4() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    var serialized = serializeStyles(args, cache3.registered, void 0);
-    insertStyles(cache3, serialized, false);
-    return cache3.key + "-" + serialized.name;
+    var serialized = serializeStyles(args, cache5.registered, void 0);
+    insertStyles(cache5, serialized, false);
+    return cache5.key + "-" + serialized.name;
   };
   var keyframes2 = function keyframes3() {
     for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-    var serialized = serializeStyles(args, cache3.registered);
+    var serialized = serializeStyles(args, cache5.registered);
     var animation = "animation-" + serialized.name;
-    insertWithoutScoping(cache3, {
+    insertWithoutScoping(cache5, {
       name: serialized.name,
       styles: "@keyframes " + animation + "{" + serialized.styles + "}"
     });
@@ -36550,14 +39866,14 @@ var createEmotion = function createEmotion2(options2) {
     for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
       args[_key3] = arguments[_key3];
     }
-    var serialized = serializeStyles(args, cache3.registered);
-    insertWithoutScoping(cache3, serialized);
+    var serialized = serializeStyles(args, cache5.registered);
+    insertWithoutScoping(cache5, serialized);
   };
   var cx2 = function cx3() {
     for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
       args[_key4] = arguments[_key4];
     }
-    return merge(cache3.registered, css3, classnames(args));
+    return merge(cache5.registered, css3, classnames(args));
   };
   return {
     css: css3,
@@ -36566,18 +39882,18 @@ var createEmotion = function createEmotion2(options2) {
     keyframes: keyframes2,
     hydrate: function hydrate2(ids) {
       ids.forEach(function(key) {
-        cache3.inserted[key] = true;
+        cache5.inserted[key] = true;
       });
     },
     flush: function flush2() {
-      cache3.registered = {};
-      cache3.inserted = {};
-      cache3.sheet.flush();
+      cache5.registered = {};
+      cache5.inserted = {};
+      cache5.sheet.flush();
     },
-    sheet: cache3.sheet,
-    cache: cache3,
-    getRegisteredStyles: getRegisteredStyles.bind(null, cache3.registered),
-    merge: merge.bind(null, cache3.registered, css3)
+    sheet: cache5.sheet,
+    cache: cache5,
+    getRegisteredStyles: getRegisteredStyles.bind(null, cache5.registered),
+    merge: merge.bind(null, cache5.registered, css3)
   };
 };
 var classnames = function classnames2(args) {
@@ -36628,7 +39944,7 @@ var injectGlobal = _createEmotion.injectGlobal;
 var keyframes = _createEmotion.keyframes;
 var css = _createEmotion.css;
 var sheet = _createEmotion.sheet;
-var cache2 = _createEmotion.cache;
+var cache4 = _createEmotion.cache;
 
 // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
 var noop3 = () => {
@@ -37743,7 +41059,7 @@ var parse2 = {
     }
   }
 };
-var api = {
+var api2 = {
   noAuto,
   config,
   dom,
@@ -37757,7 +41073,7 @@ var autoReplace = function() {
   const {
     autoReplaceSvgRoot = DOCUMENT
   } = params;
-  if ((Object.keys(namespace.styles).length > 0 || config.autoFetchSvg) && IS_DOM && config.autoReplaceSvg) api.dom.i2svg({
+  if ((Object.keys(namespace.styles).length > 0 || config.autoFetchSvg) && IS_DOM && config.autoReplaceSvg) api2.dom.i2svg({
     node: autoReplaceSvgRoot
   });
 };
@@ -38123,13 +41439,13 @@ function getMutator() {
 function createElementNS(tag) {
   return DOCUMENT.createElementNS("http://www.w3.org/2000/svg", tag);
 }
-function createElement3(tag) {
+function createElement4(tag) {
   return DOCUMENT.createElement(tag);
 }
 function convertSVG(abstractObj) {
   let params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
   const {
-    ceFn = abstractObj.tag === "svg" ? createElementNS : createElement3
+    ceFn = abstractObj.tag === "svg" ? createElementNS : createElement4
   } = params;
   if (typeof abstractObj === "string") {
     return DOCUMENT.createTextNode(abstractObj);
@@ -39326,23 +42642,23 @@ var SvgSymbols = {
 };
 var plugins2 = [InjectCSS, ReplaceElements, Layers, LayersCounter, LayersText, PseudoElements, MutationObserver$1, PowerTransforms, Masks, MissingIconIndicator, SvgSymbols];
 registerPlugins(plugins2, {
-  mixoutsTo: api
+  mixoutsTo: api2
 });
-var noAuto$1 = api.noAuto;
-var config$1 = api.config;
-var library$1 = api.library;
-var dom$1 = api.dom;
-var parse$1 = api.parse;
-var findIconDefinition$1 = api.findIconDefinition;
-var toHtml$1 = api.toHtml;
-var icon = api.icon;
-var layer = api.layer;
-var text = api.text;
-var counter = api.counter;
+var noAuto$1 = api2.noAuto;
+var config$1 = api2.config;
+var library$1 = api2.library;
+var dom$1 = api2.dom;
+var parse$1 = api2.parse;
+var findIconDefinition$1 = api2.findIconDefinition;
+var toHtml$1 = api2.toHtml;
+var icon = api2.icon;
+var layer = api2.layer;
+var text = api2.text;
+var counter = api2.counter;
 
 // node_modules/@fortawesome/react-fontawesome/index.es.js
 var import_prop_types4 = __toESM(require_prop_types());
-var import_react6 = __toESM(require_react());
+var import_react12 = __toESM(require_react());
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
   if (Object.getOwnPropertySymbols) {
@@ -39479,7 +42795,7 @@ function camelize(string) {
   return string.substr(0, 1).toLowerCase() + string.substr(1);
 }
 var _excluded4 = ["style"];
-function capitalize(val) {
+function capitalize2(val) {
   return val.charAt(0).toUpperCase() + val.slice(1);
 }
 function styleToObject(style) {
@@ -39491,17 +42807,17 @@ function styleToObject(style) {
     var i = pair.indexOf(":");
     var prop = camelize(pair.slice(0, i));
     var value = pair.slice(i + 1).trim();
-    prop.startsWith("webkit") ? acc[capitalize(prop)] = value : acc[prop] = value;
+    prop.startsWith("webkit") ? acc[capitalize2(prop)] = value : acc[prop] = value;
     return acc;
   }, {});
 }
-function convert(createElement4, element) {
+function convert(createElement5, element) {
   var extraProps = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
   if (typeof element === "string") {
     return element;
   }
   var children = (element.children || []).map(function(child) {
-    return convert(createElement4, child);
+    return convert(createElement5, child);
   });
   var mixins = Object.keys(element.attributes || {}).reduce(function(acc, key) {
     var val = element.attributes[key];
@@ -39526,7 +42842,7 @@ function convert(createElement4, element) {
   });
   var _extraProps$style = extraProps.style, existingStyle = _extraProps$style === void 0 ? {} : _extraProps$style, remaining = _objectWithoutProperties(extraProps, _excluded4);
   mixins.attrs["style"] = _objectSpread2(_objectSpread2({}, mixins.attrs["style"]), existingStyle);
-  return createElement4.apply(void 0, [element.tag, _objectSpread2(_objectSpread2({}, mixins.attrs), remaining)].concat(_toConsumableArray(children)));
+  return createElement5.apply(void 0, [element.tag, _objectSpread2(_objectSpread2({}, mixins.attrs), remaining)].concat(_toConsumableArray(children)));
 }
 var PRODUCTION2 = false;
 try {
@@ -39596,7 +42912,7 @@ var defaultProps = {
   transform: null,
   swapOpacity: false
 };
-var FontAwesomeIcon = /* @__PURE__ */ import_react6.default.forwardRef(function(props, ref) {
+var FontAwesomeIcon = /* @__PURE__ */ import_react12.default.forwardRef(function(props, ref) {
   var allProps = _objectSpread2(_objectSpread2({}, defaultProps), props);
   var iconArgs = allProps.icon, maskArgs = allProps.mask, symbol = allProps.symbol, className = allProps.className, title = allProps.title, titleId = allProps.titleId, maskId = allProps.maskId;
   var iconLookup = normalizeIconArgs(iconArgs);
@@ -39654,7 +42970,7 @@ FontAwesomeIcon.propTypes = {
   transform: import_prop_types4.default.oneOfType([import_prop_types4.default.string, import_prop_types4.default.object]),
   swapOpacity: import_prop_types4.default.bool
 };
-var convertCurry = convert.bind(null, import_react6.default.createElement);
+var convertCurry = convert.bind(null, import_react12.default.createElement);
 
 // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
 var faFileCsv = {
@@ -39884,7 +43200,7 @@ var Alert = ({
   grade,
   isActive
 }) => {
-  const ref = (0, import_react7.useRef)();
+  const ref = (0, import_react13.useRef)();
   const iconName = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
   const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
@@ -39920,7 +43236,7 @@ var alert_default = Alert;
 // scripts/components/alert-error.tsx
 var import_jsx_runtime5 = __toESM(require_jsx_runtime());
 var AlertError = () => {
-  const [isActive, setIsActive] = (0, import_react8.useState)(false);
+  const [isActive, setIsActive] = (0, import_react14.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -39930,7 +43246,7 @@ var AlertError = () => {
   };
   const alerts = useSelector(getErrors);
   const hasAlerts = alerts.length > 0;
-  (0, import_react8.useEffect)(() => {
+  (0, import_react14.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -39948,13 +43264,13 @@ var AlertError = () => {
 var alert_error_default = AlertError;
 
 // scripts/components/app.tsx
-var import_react18 = __toESM(require_react());
+var import_react25 = __toESM(require_react());
 
 // node_modules/react-helmet/es/Helmet.js
 var import_prop_types5 = __toESM(require_prop_types());
 var import_react_side_effect = __toESM(require_lib());
 var import_react_fast_compare = __toESM(require_react_fast_compare());
-var import_react9 = __toESM(require_react());
+var import_react15 = __toESM(require_react());
 var import_object_assign = __toESM(require_object_assign());
 var ATTRIBUTE_NAMES = {
   BODY: "bodyAttributes",
@@ -40405,7 +43721,7 @@ var generateTitleAsReactComponent = function generateTitleAsReactComponent2(type
     key: title
   }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
   var props = convertElementAttributestoReactProps(attributes, initProps);
-  return [import_react9.default.createElement(TAG_NAMES.TITLE, props, title)];
+  return [import_react15.default.createElement(TAG_NAMES.TITLE, props, title)];
 };
 var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
   return tags.map(function(tag, i) {
@@ -40422,7 +43738,7 @@ var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, 
         mappedTag[mappedAttribute] = tag[attribute];
       }
     });
-    return import_react9.default.createElement(type, mappedTag);
+    return import_react15.default.createElement(type, mappedTag);
   });
 };
 var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -40550,7 +43866,7 @@ var Helmet = function Helmet2(Component2) {
     HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
       var _this2 = this;
       var arrayTypeChildren = {};
-      import_react9.default.Children.forEach(children, function(child) {
+      import_react15.default.Children.forEach(children, function(child) {
         if (!child || !child.props) {
           return;
         }
@@ -40589,7 +43905,7 @@ var Helmet = function Helmet2(Component2) {
       if (children) {
         newProps = this.mapChildrenToProps(children, newProps);
       }
-      return import_react9.default.createElement(Component2, newProps);
+      return import_react15.default.createElement(Component2, newProps);
     };
     createClass(HelmetWrapper, null, [{
       key: "canUseDOM",
@@ -40614,12 +43930,12 @@ var Helmet = function Helmet2(Component2) {
        * @param {Object} titleAttributes: {"itemprop": "name"}
        * @param {String} titleTemplate: "MySite.com - %s"
        */
-      set: function set$$1(canUseDOM2) {
-        Component2.canUseDOM = canUseDOM2;
+      set: function set$$1(canUseDOM3) {
+        Component2.canUseDOM = canUseDOM3;
       }
     }]);
     return HelmetWrapper;
-  }(import_react9.default.Component), _class.propTypes = {
+  }(import_react15.default.Component), _class.propTypes = {
     base: import_prop_types5.default.object,
     bodyAttributes: import_prop_types5.default.object,
     children: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.node), import_prop_types5.default.node]),
@@ -40666,194 +43982,15 @@ var HelmetSideEffects = (0, import_react_side_effect.default)(reducePropsToState
 var HelmetExport = Helmet(HelmetSideEffects);
 HelmetExport.renderStatic = HelmetExport.rewind;
 
-// scripts/lib/error.ts
-var networkError = "It looks like you lost your internet connection. Please reload this page and try again.";
-var notFoundError = "Some data requested by this page could not be loaded.";
-var isErrorWithMessage = (error) => typeof error === "object" && error !== null && "message" in error && typeof error.message === "string";
-var toErrorWithMessage = (maybeError) => {
-  if (isErrorWithMessage(maybeError)) return maybeError;
-  try {
-    return new Error(JSON.stringify(maybeError));
-  } catch (e) {
-    return new Error(String(maybeError));
-  }
-};
-var toErrorObject = (error) => JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
-var getError = (maybeError) => {
-  const errorObject = toErrorObject(toErrorWithMessage(maybeError));
-  let error = {
-    message: errorObject.message,
-    status: errorObject.status
-  };
-  if (error.message.includes("NetworkError")) {
-    error = { ...error, customMessage: networkError };
-  } else if (error.status === 404) {
-    error = { ...error, customMessage: notFoundError };
-  }
-  return error;
-};
-
-// scripts/lib/request.ts
-var handleResponse = (response) => response.json().then(
-  (json2) => response.ok ? json2 : Promise.reject(json2)
-);
-var get = (url) => fetch(url, {
-  credentials: "same-origin",
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  }
-}).then(handleResponse);
-
-// scripts/lib/fetch-from-path.ts
-var getPeopleFromIncidents = (incidents) => incidents.flatMap(
-  (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person)
-);
-var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
-var getEntitiesFromSource = (source) => source?.entities ? source.entities.flat().map((entry) => entry.entity) : [];
-var handleResult = (result, isPrimary) => {
-  const dispatch = store_default.dispatch;
-  const { data, meta } = result;
-  if (data) {
-    if ("stats" in data) {
-      if ("sources" in data.stats) {
-        dispatch(actions.setSources(data.stats.sources));
-      }
-      if ("entity" in data.stats) {
-        dispatch(actions.setEntity(data.stats.entity));
-      }
-      if ("person" in data.stats) {
-        dispatch(actions.setPerson(data.stats.person));
-      }
-    }
-    if ("entity" in data) {
-      const entity = adapters.adaptOne(data.entity.record);
-      const incidents = adapters.getIncidents(data.entity.record);
-      const people = getPeopleFromIncidents(incidents);
-      dispatch(set2(entity));
-      dispatch(setAll2(incidents));
-      dispatch(setAll3(people));
-    }
-    if ("entities" in data) {
-      dispatch(setAll(data.entities.records));
-      if ("pagination" in data.entities) {
-        const ids = adapters.getIds(data.entities.records);
-        dispatch(setPageIds(ids));
-        dispatch(setPagination(data.entities.pagination));
-      }
-      if ("leaderboard" in data.entities) {
-        dispatch(setLeaderboard(data.entities.leaderboard));
-      }
-    }
-    if ("incident" in data) {
-      const incident = adapters2.adaptOne(data.incident.record);
-      const people = getPeopleFromIncidents([incident]);
-      dispatch(set3(incident));
-      dispatch(setAll3(people));
-    }
-    if ("incidents" in data) {
-      if ("first" in data.incidents) {
-        dispatch(setFirst(data.incidents.first));
-      }
-      if ("last" in data.incidents) {
-        dispatch(setLast(data.incidents.last));
-      }
-      if ("total" in data.incidents) {
-        dispatch(setTotal(data.incidents.total));
-      }
-      if ("records" in data.incidents) {
-        dispatch(setAll2(data.incidents.records));
-        if ("pagination" in data.incidents) {
-          const ids = adapters2.getIds(data.incidents.records);
-          dispatch(setPageIds2(ids));
-          dispatch(setPagination2(data.incidents.pagination));
-        }
-      }
-    }
-    if ("person" in data) {
-      const person = adapters3.adaptOne(data.person.record);
-      const incidents = adapters3.getIncidents(data.person.record);
-      const people = getPeopleFromIncidents(incidents);
-      const entities = getEntitiesFromPerson(person);
-      dispatch(set4(person));
-      dispatch(setAll2(incidents));
-      dispatch(setAll3(people));
-      dispatch(setAll(entities));
-    }
-    if ("people" in data) {
-      dispatch(setAll3(data.people.records));
-      if ("pagination" in data.people) {
-        const ids = adapters3.getIds(data.people.records);
-        dispatch(setPageIds3(ids));
-        dispatch(setPagination3(data.people.pagination));
-      }
-      if ("leaderboard" in data.people) {
-        dispatch(setLeaderboard2(data.people.leaderboard));
-      }
-    }
-    if ("source" in data) {
-      const source = adapters4.adaptOne(data.source.record);
-      const incidents = adapters4.getIncidents(data.source.record);
-      const people = getPeopleFromIncidents(incidents);
-      const entities = getEntitiesFromSource(data.source.record);
-      dispatch(set5(source));
-      dispatch(setAll2(incidents));
-      dispatch(setAll3(people));
-      dispatch(setAll(entities));
-    }
-    if ("sources" in data) {
-      dispatch(setAll4(data.sources.records));
-      if ("pagination" in data.sources) {
-        const ids = adapters4.getIds(data.sources.records);
-        dispatch(setPageIds4(ids));
-        dispatch(setPagination4(data.sources.pagination));
-      }
-    }
-  }
-  if (meta) {
-    if (isPrimary) {
-      if ("description" in meta) {
-        dispatch(actions2.setDescription(meta.description));
-      }
-      if ("pageTitle" in meta) {
-        dispatch(actions2.setPageTitle(meta.pageTitle));
-      }
-      if ("section" in meta) {
-        dispatch(actions2.setSection(meta.section));
-      }
-    }
-    if ("errors" in meta) {
-      meta.errors.forEach((error) => {
-        dispatch(actions2.setError(error));
-      });
-    }
-    if ("warnings" in meta) {
-      meta.warnings.forEach((warning3) => {
-        dispatch(actions2.setWarning(warning3));
-      });
-    }
-  }
-};
-var handleError = (error) => {
-  const dispatch = store_default.dispatch;
-  dispatch(actions2.setError(getError(error)));
-};
-var fetchFromPath = (path, isPrimary = false) => {
-  const url = new URL(path, window.location.toString());
-  const endpoint = url.pathname + url.search;
-  return get(endpoint).then((result) => handleResult(result, isPrimary)).catch(handleError);
-};
-var fetch_from_path_default = fetchFromPath;
-
 // scripts/components/modal-portal.tsx
-var import_react10 = __toESM(require_react());
+var import_react16 = __toESM(require_react());
 var import_react_dom3 = __toESM(require_react_dom());
 var import_jsx_runtime6 = __toESM(require_jsx_runtime());
 var hasModalClass = "has-modal";
 var modalRootId = "modal-root";
 var modalPortalId = "modal-root-portal";
 var Escape2 = "Escape";
-var ModalPortal = (0, import_react10.forwardRef)(({
+var ModalPortal = (0, import_react16.forwardRef)(({
   children,
   className,
   deactivate,
@@ -40895,10 +44032,10 @@ var ModalPortal = (0, import_react10.forwardRef)(({
 var modal_portal_default = ModalPortal;
 
 // scripts/components/alert-message.tsx
-var import_react11 = __toESM(require_react());
+var import_react17 = __toESM(require_react());
 var import_jsx_runtime7 = __toESM(require_jsx_runtime());
 var AlertMessage = () => {
-  const [isActive, setIsActive] = (0, import_react11.useState)(false);
+  const [isActive, setIsActive] = (0, import_react17.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -40908,7 +44045,7 @@ var AlertMessage = () => {
   };
   const alerts = useSelector(getMessages);
   const hasAlerts = alerts.length > 0;
-  (0, import_react11.useEffect)(() => {
+  (0, import_react17.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -40926,10 +44063,10 @@ var AlertMessage = () => {
 var alert_message_default = AlertMessage;
 
 // scripts/components/alert-warning.tsx
-var import_react12 = __toESM(require_react());
+var import_react18 = __toESM(require_react());
 var import_jsx_runtime8 = __toESM(require_jsx_runtime());
 var AlertWarning = () => {
-  const [isActive, setIsActive] = (0, import_react12.useState)(false);
+  const [isActive, setIsActive] = (0, import_react18.useState)(false);
   const dispatch = useDispatch();
   const deactivate = () => {
     setIsActive(false);
@@ -40939,7 +44076,7 @@ var AlertWarning = () => {
   };
   const alerts = useSelector(getWarnings);
   const hasAlerts = alerts.length > 0;
-  (0, import_react12.useEffect)(() => {
+  (0, import_react18.useEffect)(() => {
     if (hasAlerts) {
       setIsActive(true);
     }
@@ -40974,7 +44111,7 @@ var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { classNa
 var eyes_default = Eyes;
 
 // scripts/components/links.tsx
-var import_react13 = __toESM(require_react());
+var import_react19 = __toESM(require_react());
 
 // scripts/lib/links.ts
 var isCurrent = (location2, newSearch) => {
@@ -41032,7 +44169,7 @@ var BetterLink = ({
   onClick,
   ...rest
 }) => {
-  const ref = (0, import_react13.useRef)();
+  const ref = (0, import_react19.useRef)();
   const handleClick = (e) => {
     if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
       const customEvent = new MouseEvent("click", {
@@ -41095,7 +44232,7 @@ var SortLink = ({
   defaultSort,
   ...rest
 }) => {
-  const [nextSort, setNextSort] = (0, import_react13.useState)(defaultSort);
+  const [nextSort, setNextSort] = (0, import_react19.useState)(defaultSort);
   const [searchParams] = useSearchParams();
   const params = new Map(Object.entries(newParams));
   for (const [key, value] of searchParams.entries()) {
@@ -41107,7 +44244,7 @@ var SortLink = ({
   const isSorted = params.get("sort_by") !== null && hasSortBy;
   const hasIcon = isDefault || isSorted;
   const icon2 = getIconNameForSort(toggleSort(nextSort));
-  (0, import_react13.useEffect)(() => {
+  (0, import_react19.useEffect)(() => {
     const sortValue = searchParams.get("sort") || defaultSort;
     if (queryParams.isCurrent) {
       setNextSort(toggleSort(sortValue));
@@ -41357,10 +44494,10 @@ var Header = ({
 var header_default = Header;
 
 // scripts/components/header-intro.tsx
-var import_react16 = __toESM(require_react());
+var import_react22 = __toESM(require_react());
 
 // scripts/components/incident-modal.tsx
-var import_react15 = __toESM(require_react());
+var import_react21 = __toESM(require_react());
 
 // scripts/components/item-description.tsx
 var import_jsx_runtime19 = __toESM(require_jsx_runtime());
@@ -41471,7 +44608,7 @@ var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime24.j
 var incident_table_default = IncidentTable;
 
 // scripts/components/modal.tsx
-var import_react14 = __toESM(require_react());
+var import_react20 = __toESM(require_react());
 var import_jsx_runtime25 = __toESM(require_jsx_runtime());
 var Modal = ({
   children,
@@ -41479,7 +44616,7 @@ var Modal = ({
   deactivate,
   isActive
 }) => {
-  const ref = (0, import_react14.useRef)(null);
+  const ref = (0, import_react20.useRef)(null);
   return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
     CSSTransition_default,
     {
@@ -41534,18 +44671,14 @@ var stat_box_default = StatBox;
 // scripts/components/incident-modal.tsx
 var import_jsx_runtime27 = __toESM(require_jsx_runtime());
 var IncidentModal = ({ deactivate, id, isActive }) => {
-  const fetched = (0, import_react15.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetIncidentByIdQuery();
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasIncident = Boolean(incident && "attendees" in incident);
   const hasNotes = Boolean(incident?.notes);
-  (0, import_react15.useEffect)(() => {
+  (0, import_react21.useEffect)(() => {
     if (hasIncident) return;
-    if (!fetched.current) {
-      fetch_from_path_default("/incidents/" + id);
-      fetched.current = true;
-    }
-  }, [fetched, location2, hasIncident, id]);
+    trigger(id);
+  }, [hasIncident, id, trigger]);
   if (!incident) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(modal_default, { className: "incident-modal", deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("section", { className: "modal-incident", children: [
     /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_subhead_default, { title: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(import_jsx_runtime27.Fragment, { children: [
@@ -41577,8 +44710,8 @@ var DateRangeNote = () => {
 };
 var HeaderIntro = () => {
   const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = (0, import_react16.useState)(pathname);
-  const [selectedId, setSelectedId] = (0, import_react16.useState)();
+  const [savedPathname, setSavedPathname] = (0, import_react22.useState)(pathname);
+  const [selectedId, setSelectedId] = (0, import_react22.useState)();
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
@@ -41593,10 +44726,10 @@ var HeaderIntro = () => {
       setSelectedId(Number(event.target.dataset.id));
     }
   };
-  (0, import_react16.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     setSavedPathname(pathname);
   }, [setSavedPathname, pathname]);
-  (0, import_react16.useEffect)(() => {
+  (0, import_react22.useEffect)(() => {
     if (pathname !== savedPathname) {
       setSelectedId(null);
     }
@@ -41660,11 +44793,11 @@ var Section = ({
 var section_default = Section;
 
 // scripts/hooks/use-capture-scroll-position.ts
-var import_react17 = __toESM(require_react());
+var import_react23 = __toESM(require_react());
 var import_debounce = __toESM(require_debounce());
 var useCaptureScrollPosition = (classNames = []) => {
   const dispatch = useDispatch();
-  const [scrollPos, setScrollPos] = (0, import_react17.useState)(0);
+  const [scrollPos, setScrollPos] = (0, import_react23.useState)(0);
   const handleScroll = () => {
     setScrollPos(Number(window.scrollY) * -1);
     if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -41672,22 +44805,34 @@ var useCaptureScrollPosition = (classNames = []) => {
     }
   };
   const debounced = (0, import_debounce.default)(handleScroll, 400);
-  (0, import_react17.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     window.addEventListener("scroll", debounced);
     return () => {
       window.removeEventListener("scroll", debounced);
     };
   }, [debounced]);
-  (0, import_react17.useEffect)(() => {
+  (0, import_react23.useEffect)(() => {
     dispatch(actions2.setPositionY(scrollPos));
   }, [dispatch, scrollPos]);
 };
 var use_capture_scroll_position_default = useCaptureScrollPosition;
 
+// scripts/hooks/use-trigger-primary-query.ts
+var import_react24 = __toESM(require_react());
+var useTriggerPrimaryQuery = () => {
+  const [trigger] = api_default.useLazyGetPrimaryQuery();
+  const location2 = useLocation();
+  (0, import_react24.useEffect)(() => {
+    const { pathname, search } = location2;
+    trigger({ pathname, search });
+  }, [location2, trigger]);
+};
+var use_trigger_primary_query_default = useTriggerPrimaryQuery;
+
 // scripts/components/app.tsx
 var import_jsx_runtime30 = __toESM(require_jsx_runtime());
 var App = () => {
-  const initiated = (0, import_react18.useRef)(false);
+  const [trigger, result] = api_default.useLazyGetOverviewQuery();
   const location2 = useLocation();
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
@@ -41695,14 +44840,12 @@ var App = () => {
   const className = ["section", location2.pathname.split("/").at(1)].join("-");
   const scrollCaptureClasses = [hasAlertClass, hasModalClass];
   use_capture_scroll_position_default(scrollCaptureClasses);
-  (0, import_react18.useEffect)(() => {
-    const { pathname, search } = location2;
-    if (!initiated.current) {
-      fetch_from_path_default("/overview");
-      initiated.current = true;
+  (0, import_react25.useEffect)(() => {
+    if (result.isUninitialized) {
+      trigger(null);
     }
-    fetch_from_path_default(pathname + search, true);
-  }, [initiated, location2]);
+  }, [result, trigger]);
+  use_trigger_primary_query_default();
   return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "global-layout", children: [
     /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
       HelmetExport,
@@ -41729,11 +44872,11 @@ var app_default = App;
 var percentage = (portion, total) => (portion / total * 100).toFixed(2);
 
 // scripts/components/loading.tsx
-var import_react19 = __toESM(require_react());
+var import_react26 = __toESM(require_react());
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
 var Loading = () => {
-  const timedOut = (0, import_react19.useRef)(false);
-  (0, import_react19.useEffect)(() => {
+  const timedOut = (0, import_react26.useRef)(false);
+  (0, import_react26.useEffect)(() => {
     if (!timedOut.current) {
       setTimeout(() => {
         timedOut.current = true;
@@ -41884,13 +45027,13 @@ var Index = () => {
 var entities_default2 = Index;
 
 // scripts/components/entities/detail.tsx
-var import_react28 = __toESM(require_react());
+var import_react35 = __toESM(require_react());
 
 // scripts/components/incident-date-box.tsx
-var import_react20 = __toESM(require_react());
+var import_react27 = __toESM(require_react());
 var import_jsx_runtime35 = __toESM(require_jsx_runtime());
 var IncidentDateBox = ({ incident }) => {
-  const [isActive, setIsActive] = (0, import_react20.useState)(false);
+  const [isActive, setIsActive] = (0, import_react27.useState)(false);
   const hasIncident = Boolean(incident?.value);
   const deactivate = () => setIsActive(false);
   const handleLinkClick = (event) => {
@@ -42015,10 +45158,10 @@ var ActivityOverview = ({
 var incident_activity_overview_default = ActivityOverview;
 
 // scripts/components/entities/attendees.tsx
-var import_react22 = __toESM(require_react());
+var import_react29 = __toESM(require_react());
 
 // scripts/components/affiliated-item-table.tsx
-var import_react21 = __toESM(require_react());
+var import_react28 = __toESM(require_react());
 
 // scripts/components/item-table.tsx
 var import_jsx_runtime41 = __toESM(require_jsx_runtime());
@@ -42045,8 +45188,8 @@ var AffiliatedItemTable = ({
   TotalCell,
   label
 }) => {
-  const ref = (0, import_react21.useRef)();
-  const [showAll, setShowAll] = (0, import_react21.useState)(false);
+  const ref = (0, import_react28.useRef)();
+  const [showAll, setShowAll] = (0, import_react28.useState)(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
   const hasMoreToShow = affiliatedItems.length > initialCount;
@@ -42145,16 +45288,13 @@ var Attendees2 = ({
   attendees,
   entity
 }) => {
-  const fetched = (0, import_react22.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetEntityAttendeesByIdQuery();
   const hasAttendees = "attendees" in entity;
-  (0, import_react22.useEffect)(() => {
-    if (!hasAttendees || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/attendees");
-      fetched.current = true;
+  (0, import_react29.useEffect)(() => {
+    if (!hasAttendees) {
+      trigger(entity.id);
     }
-  }, [fetched, hasAttendees, location2]);
+  }, [entity, hasAttendees, trigger]);
   return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     incident_activity_groups_default,
     {
@@ -42177,7 +45317,7 @@ var Attendees2 = ({
 var attendees_default = Attendees2;
 
 // scripts/components/entities/chart.tsx
-var import_react25 = __toESM(require_react());
+var import_react32 = __toESM(require_react());
 
 // scripts/components/incident-activity-chart.tsx
 var import_jsx_runtime47 = __toESM(require_jsx_runtime());
@@ -42185,7 +45325,7 @@ var IncidentActivityChart = ({ children }) => /* @__PURE__ */ (0, import_jsx_run
 var incident_activity_chart_default = IncidentActivityChart;
 
 // scripts/components/item-chart.tsx
-var import_react24 = __toESM(require_react());
+var import_react31 = __toESM(require_react());
 
 // node_modules/@kurkle/color/dist/color.esm.js
 function round(v) {
@@ -42934,7 +46074,7 @@ function _capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 var defined = (value) => typeof value !== "undefined";
-var isFunction = (value) => typeof value === "function";
+var isFunction2 = (value) => typeof value === "function";
 var setsEqual = (a2, b) => {
   if (a2.size !== b.size) {
     return false;
@@ -43693,14 +46833,14 @@ function _measureText(ctx, data, gc, longest, string) {
   }
   return longest;
 }
-function _longestText(ctx, font, arrayOfThings, cache3) {
-  cache3 = cache3 || {};
-  let data = cache3.data = cache3.data || {};
-  let gc = cache3.garbageCollect = cache3.garbageCollect || [];
-  if (cache3.font !== font) {
-    data = cache3.data = {};
-    gc = cache3.garbageCollect = [];
-    cache3.font = font;
+function _longestText(ctx, font, arrayOfThings, cache5) {
+  cache5 = cache5 || {};
+  let data = cache5.data = cache5.data || {};
+  let gc = cache5.garbageCollect = cache5.garbageCollect || [];
+  if (cache5.font !== font) {
+    data = cache5.data = {};
+    gc = cache5.garbageCollect = [];
+    cache5.font = font;
   }
   ctx.save();
   ctx.font = font;
@@ -44098,7 +47238,7 @@ function _createResolver(scopes, prefixes2 = [
   if (typeof fallback === "undefined") {
     fallback = _resolve("_fallback", scopes);
   }
-  const cache3 = {
+  const cache5 = {
     [Symbol.toStringTag]: "Object",
     _cacheable: true,
     _scopes: scopes,
@@ -44110,7 +47250,7 @@ function _createResolver(scopes, prefixes2 = [
       ...scopes
     ], prefixes2, finalRootScopes, fallback)
   };
-  return new Proxy(cache3, {
+  return new Proxy(cache5, {
     /**
     * A trap for the delete operator.
     */
@@ -44163,7 +47303,7 @@ function _createResolver(scopes, prefixes2 = [
   });
 }
 function _attachContext(proxy, context, subProxy, descriptorDefaults) {
-  const cache3 = {
+  const cache5 = {
     _cacheable: false,
     _proxy: proxy,
     _context: context,
@@ -44173,7 +47313,7 @@ function _attachContext(proxy, context, subProxy, descriptorDefaults) {
     setContext: (ctx) => _attachContext(proxy, ctx, subProxy, descriptorDefaults),
     override: (scope) => _attachContext(proxy.override(scope), context, subProxy, descriptorDefaults)
   };
-  return new Proxy(cache3, {
+  return new Proxy(cache5, {
     /**
     * A trap for the delete operator.
     */
@@ -44235,8 +47375,8 @@ function _descriptors(proxy, defaults2 = {
     allKeys: _allKeys,
     scriptable: _scriptable,
     indexable: _indexable,
-    isScriptable: isFunction(_scriptable) ? _scriptable : () => _scriptable,
-    isIndexable: isFunction(_indexable) ? _indexable : () => _indexable
+    isScriptable: isFunction2(_scriptable) ? _scriptable : () => _scriptable,
+    isIndexable: isFunction2(_indexable) ? _indexable : () => _indexable
   };
 }
 var readKey = (prefix2, name) => prefix2 ? prefix2 + _capitalize(name) : name;
@@ -44252,7 +47392,7 @@ function _cached(target, prop, resolve2) {
 function _resolveWithContext(target, prop, receiver) {
   const { _proxy, _context, _subProxy, _descriptors: descriptors2 } = target;
   let value = _proxy[prop];
-  if (isFunction(value) && descriptors2.isScriptable(prop)) {
+  if (isFunction2(value) && descriptors2.isScriptable(prop)) {
     value = _resolveScriptable(prop, value, target, receiver);
   }
   if (isArray(value) && value.length) {
@@ -44292,7 +47432,7 @@ function _resolveArray(prop, value, target, isIndexable) {
   return value;
 }
 function resolveFallback(fallback, prop, value) {
-  return isFunction(fallback) ? fallback(prop, value) : fallback;
+  return isFunction2(fallback) ? fallback(prop, value) : fallback;
 }
 var getScope = (key, parent) => key === true ? parent : typeof key === "string" ? resolveObjectKey(parent, key) : void 0;
 function addScopes(set7, parentScopes, key, parentFallback, value) {
@@ -44790,21 +47930,21 @@ function getRtlAdapter(rtl, rectX, width) {
   return rtl ? getRightToLeftAdapter(rectX, width) : getLeftToRightAdapter();
 }
 function overrideTextDirection(ctx, direction) {
-  let style, original;
+  let style, original2;
   if (direction === "ltr" || direction === "rtl") {
     style = ctx.canvas.style;
-    original = [
+    original2 = [
       style.getPropertyValue("direction"),
       style.getPropertyPriority("direction")
     ];
     style.setProperty("direction", direction, "important");
-    ctx.prevTextDirection = original;
+    ctx.prevTextDirection = original2;
   }
 }
-function restoreTextDirection(ctx, original) {
-  if (original !== void 0) {
+function restoreTextDirection(ctx, original2) {
+  if (original2 !== void 0) {
     delete ctx.prevTextDirection;
-    ctx.canvas.style.setProperty("direction", original[0], original[1]);
+    ctx.canvas.style.setProperty("direction", original2[0], original2[1]);
   }
 }
 function propertyFn(property) {
@@ -45084,15 +48224,15 @@ function styleChanged(style, prevStyle) {
   if (!prevStyle) {
     return false;
   }
-  const cache3 = [];
+  const cache5 = [];
   const replacer = function(key, value) {
     if (!isPatternOrGradient(value)) {
       return value;
     }
-    if (!cache3.includes(value)) {
-      cache3.push(value);
+    if (!cache5.includes(value)) {
+      cache5.push(value);
     }
-    return cache3.indexOf(value);
+    return cache5.indexOf(value);
   };
   return JSON.stringify(style, replacer) !== JSON.stringify(prevStyle, replacer);
 }
@@ -46027,9 +49167,9 @@ var DatasetController = class {
   }
   _resolveElementOptions(elementType, mode = "default", index) {
     const active = mode === "active";
-    const cache3 = this._cachedDataOpts;
+    const cache5 = this._cachedDataOpts;
     const cacheKey = elementType + "-" + mode;
-    const cached = cache3[cacheKey];
+    const cached = cache5[cacheKey];
     const sharing = this.enableOptionSharing && defined(index);
     if (cached) {
       return cloneIfNotShared(cached, sharing);
@@ -46051,15 +49191,15 @@ var DatasetController = class {
     const values = config2.resolveNamedOptions(scopes, names2, context, prefixes2);
     if (values.$shared) {
       values.$shared = sharing;
-      cache3[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
+      cache5[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
     }
     return values;
   }
   _resolveAnimations(index, transition, active) {
     const chart = this.chart;
-    const cache3 = this._cachedDataOpts;
+    const cache5 = this._cachedDataOpts;
     const cacheKey = `animation-${transition}`;
-    const cached = cache3[cacheKey];
+    const cached = cache5[cacheKey];
     if (cached) {
       return cached;
     }
@@ -46072,7 +49212,7 @@ var DatasetController = class {
     }
     const animations = new Animations(chart, options2 && options2.animations);
     if (options2 && options2._cacheable) {
-      cache3[cacheKey] = Object.freeze(animations);
+      cache5[cacheKey] = Object.freeze(animations);
     }
     return animations;
   }
@@ -47900,13 +51040,13 @@ function getPixelForGridLine(scale, index, offsetGridLines) {
   return lineValue;
 }
 function garbageCollect(caches, length2) {
-  each2(caches, (cache3) => {
-    const gc = cache3.gc;
+  each2(caches, (cache5) => {
+    const gc = cache5.gc;
     const gcLen = gc.length / 2;
     let i;
     if (gcLen > length2) {
       for (i = 0; i < gcLen; ++i) {
-        delete cache3.data[gc[i]];
+        delete cache5.data[gc[i]];
       }
       gc.splice(0, gcLen);
     }
@@ -48431,25 +51571,25 @@ var Scale = class _Scale extends Element2 {
     const increment = Math.floor(length2 / getTicksLimit(length2, maxTicksLimit));
     let widestLabelSize = 0;
     let highestLabelSize = 0;
-    let i, j, jlen, label, tickFont, fontString, cache3, lineHeight, width, height, nestedLabel;
+    let i, j, jlen, label, tickFont, fontString, cache5, lineHeight, width, height, nestedLabel;
     for (i = 0; i < length2; i += increment) {
       label = ticks[i].label;
       tickFont = this._resolveTickFontOptions(i);
       ctx.font = fontString = tickFont.string;
-      cache3 = caches[fontString] = caches[fontString] || {
+      cache5 = caches[fontString] = caches[fontString] || {
         data: {},
         gc: []
       };
       lineHeight = tickFont.lineHeight;
       width = height = 0;
       if (!isNullOrUndef(label) && !isArray(label)) {
-        width = _measureText(ctx, cache3.data, cache3.gc, width, label);
+        width = _measureText(ctx, cache5.data, cache5.gc, width, label);
         height = lineHeight;
       } else if (isArray(label)) {
         for (j = 0, jlen = label.length; j < jlen; ++j) {
           nestedLabel = label[j];
           if (!isNullOrUndef(nestedLabel) && !isArray(nestedLabel)) {
-            width = _measureText(ctx, cache3.data, cache3.gc, width, nestedLabel);
+            width = _measureText(ctx, cache5.data, cache5.gc, width, nestedLabel);
             height += lineHeight;
           }
         }
@@ -49660,17 +52800,17 @@ var Config = class {
   }
   _cachedScopes(mainScope, resetCache) {
     const _scopeCache = this._scopeCache;
-    let cache3 = _scopeCache.get(mainScope);
-    if (!cache3 || resetCache) {
-      cache3 = /* @__PURE__ */ new Map();
-      _scopeCache.set(mainScope, cache3);
+    let cache5 = _scopeCache.get(mainScope);
+    if (!cache5 || resetCache) {
+      cache5 = /* @__PURE__ */ new Map();
+      _scopeCache.set(mainScope, cache5);
     }
-    return cache3;
+    return cache5;
   }
   getOptionScopes(mainScope, keyLists, resetCache) {
     const { options: options2, type } = this;
-    const cache3 = this._cachedScopes(mainScope, resetCache);
-    const cached = cache3.get(keyLists);
+    const cache5 = this._cachedScopes(mainScope, resetCache);
+    const cached = cache5.get(keyLists);
     if (cached) {
       return cached;
     }
@@ -49690,7 +52830,7 @@ var Config = class {
       array.push(/* @__PURE__ */ Object.create(null));
     }
     if (keysCached.has(keyLists)) {
-      cache3.set(keyLists, array);
+      cache5.set(keyLists, array);
     }
     return array;
   }
@@ -49717,7 +52857,7 @@ var Config = class {
     let options2 = resolver;
     if (needContext(resolver, names2)) {
       result.$shared = false;
-      context = isFunction(context) ? context() : context;
+      context = isFunction2(context) ? context() : context;
       const subResolver = this.createResolver(scopes, context, subPrefixes);
       options2 = _attachContext(resolver, context, subResolver);
     }
@@ -49734,31 +52874,31 @@ var Config = class {
   }
 };
 function getResolver(resolverCache, scopes, prefixes2) {
-  let cache3 = resolverCache.get(scopes);
-  if (!cache3) {
-    cache3 = /* @__PURE__ */ new Map();
-    resolverCache.set(scopes, cache3);
+  let cache5 = resolverCache.get(scopes);
+  if (!cache5) {
+    cache5 = /* @__PURE__ */ new Map();
+    resolverCache.set(scopes, cache5);
   }
   const cacheKey = prefixes2.join();
-  let cached = cache3.get(cacheKey);
+  let cached = cache5.get(cacheKey);
   if (!cached) {
     const resolver = _createResolver(scopes, prefixes2);
     cached = {
       resolver,
       subPrefixes: prefixes2.filter((p) => !p.toLowerCase().includes("hover"))
     };
-    cache3.set(cacheKey, cached);
+    cache5.set(cacheKey, cached);
   }
   return cached;
 }
-var hasFunction = (value) => isObject4(value) && Object.getOwnPropertyNames(value).some((key) => isFunction(value[key]));
+var hasFunction = (value) => isObject4(value) && Object.getOwnPropertyNames(value).some((key) => isFunction2(value[key]));
 function needContext(proxy, names2) {
   const { isScriptable, isIndexable } = _descriptors(proxy);
   for (const prop of names2) {
     const scriptable = isScriptable(prop);
     const indexable = isIndexable(prop);
     const value = (indexable || scriptable) && proxy[prop];
-    if (scriptable && (isFunction(value) || hasFunction(value)) || indexable && isArray(value)) {
+    if (scriptable && (isFunction2(value) || hasFunction(value)) || indexable && isArray(value)) {
       return true;
     }
   }
@@ -50245,7 +53385,7 @@ var Chart = class {
       this.getDatasetMeta(i).controller.configure();
     }
     for (let i = 0, ilen = this.data.datasets.length; i < ilen; ++i) {
-      this._updateDataset(i, isFunction(mode) ? mode({
+      this._updateDataset(i, isFunction2(mode) ? mode({
         datasetIndex: i
       }) : mode);
     }
@@ -54460,7 +57600,7 @@ __publicField(TimeSeriesScale, "id", "timeseries");
 __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
 // node_modules/react-chartjs-2/dist/index.js
-var import_react23 = __toESM(require_react(), 1);
+var import_react30 = __toESM(require_react(), 1);
 var defaultDatasetIdKey = "label";
 function reforwardRef(ref, value) {
   if (typeof ref === "function") {
@@ -54505,8 +57645,8 @@ function cloneData(data) {
 }
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
-  const canvasRef = (0, import_react23.useRef)(null);
-  const chartRef = (0, import_react23.useRef)();
+  const canvasRef = (0, import_react30.useRef)(null);
+  const chartRef = (0, import_react30.useRef)();
   const renderChart = () => {
     if (!canvasRef.current) return;
     chartRef.current = new Chart(canvasRef.current, {
@@ -54526,7 +57666,7 @@ function ChartComponent(props, ref) {
       chartRef.current = null;
     }
   };
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!redraw && chartRef.current && options2) {
       setOptions(chartRef.current, options2);
     }
@@ -54534,7 +57674,7 @@ function ChartComponent(props, ref) {
     redraw,
     options2
   ]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!redraw && chartRef.current) {
       setLabels(chartRef.current.config.data, data.labels);
     }
@@ -54542,7 +57682,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.labels
   ]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!redraw && chartRef.current && data.datasets) {
       setDatasets(chartRef.current.config.data, data.datasets, datasetIdKey);
     }
@@ -54550,7 +57690,7 @@ function ChartComponent(props, ref) {
     redraw,
     data.datasets
   ]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!chartRef.current) return;
     if (redraw) {
       destroyChart();
@@ -54565,28 +57705,28 @@ function ChartComponent(props, ref) {
     data.datasets,
     updateMode
   ]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     if (!chartRef.current) return;
     destroyChart();
     setTimeout(renderChart);
   }, [
     type
   ]);
-  (0, import_react23.useEffect)(() => {
+  (0, import_react30.useEffect)(() => {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react23.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react30.default.createElement("canvas", Object.assign({
     ref: canvasRef,
     role: "img",
     height,
     width
   }, canvasProps), fallbackContent);
 }
-var Chart2 = /* @__PURE__ */ (0, import_react23.forwardRef)(ChartComponent);
+var Chart2 = /* @__PURE__ */ (0, import_react30.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react23.forwardRef)((props, ref) => /* @__PURE__ */ import_react23.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react30.forwardRef)((props, ref) => /* @__PURE__ */ import_react30.default.createElement(Chart2, Object.assign({}, props, {
     ref,
     type
   })));
@@ -54653,7 +57793,7 @@ var options = {
 var itemColorStatic = "olivedrab";
 var itemColorLink = "cornflowerblue";
 var ItemChart = ({ handleClick, label, lineProps }) => {
-  const [hasLineLabel, setHasLineLabel] = (0, import_react24.useState)(false);
+  const [hasLineLabel, setHasLineLabel] = (0, import_react31.useState)(false);
   const sources = useSelector(getSourcesDataForChart);
   const sourceData = {
     id: "sources",
@@ -54700,7 +57840,7 @@ var ItemChart = ({ handleClick, label, lineProps }) => {
     };
   }
   options.plugins.legend.display = hasDatasets && hasLineLabel;
-  (0, import_react24.useEffect)(() => {
+  (0, import_react31.useEffect)(() => {
     setHasLineLabel(Boolean(lineProps?.label));
   }, [lineProps, setHasLineLabel]);
   return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "item-chart", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
@@ -54717,13 +57857,12 @@ var item_chart_default = ItemChart;
 // scripts/components/entities/chart.tsx
 var import_jsx_runtime49 = __toESM(require_jsx_runtime());
 var Chart3 = ({ label }) => {
-  const fetched = (0, import_react25.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetEntityStatsByIdQuery();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react25.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const hasData = data?.length > 0;
@@ -54734,14 +57873,12 @@ var Chart3 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react25.useEffect)(() => {
-    if (!hasData || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/stats");
-      fetched.current = true;
+  (0, import_react32.useEffect)(() => {
+    if (!hasData) {
+      trigger(numericId);
     }
-  }, [fetched, hasData, location2]);
-  (0, import_react25.useEffect)(() => {
+  }, [hasData, numericId, trigger]);
+  (0, import_react32.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -54754,7 +57891,7 @@ var Chart3 = ({ label }) => {
 var chart_default = Chart3;
 
 // scripts/components/detail-incidents.tsx
-var import_react27 = __toESM(require_react());
+var import_react34 = __toESM(require_react());
 
 // scripts/components/incidents-header.tsx
 var import_jsx_runtime50 = __toESM(require_jsx_runtime());
@@ -54802,10 +57939,10 @@ var IncidentsHeader = ({
 var incidents_header_default = IncidentsHeader;
 
 // scripts/components/incident-list-table.tsx
-var import_react26 = __toESM(require_react());
+var import_react33 = __toESM(require_react());
 var import_jsx_runtime51 = __toESM(require_jsx_runtime());
 var IncidentRow = ({ id }) => {
-  const [isSelected, setIsSelected] = (0, import_react26.useState)(false);
+  const [isSelected, setIsSelected] = (0, import_react33.useState)(false);
   const incident = useSelector((state) => selectors2.selectById(state, id));
   const hasNotes = Boolean(incident?.notes);
   const deactivate = () => setIsSelected(false);
@@ -54923,7 +58060,7 @@ var DuringQuarter = ({ filters, filterKey }) => {
     }
   );
 };
-var DetailIncidents = (0, import_react27.forwardRef)(({
+var DetailIncidents = (0, import_react34.forwardRef)(({
   filters,
   hasSort,
   ids,
@@ -54933,9 +58070,9 @@ var DetailIncidents = (0, import_react27.forwardRef)(({
 }, ref) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
-  const idsRef = (0, import_react27.useRef)(null);
-  const paramsStringRef = (0, import_react27.useRef)(null);
-  (0, import_react27.useEffect)(() => {
+  const idsRef = (0, import_react34.useRef)(null);
+  const paramsStringRef = (0, import_react34.useRef)(null);
+  (0, import_react34.useEffect)(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
       idsRef.current = ids;
       if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -54978,7 +58115,7 @@ var item_detail_default = ItemDetail;
 // scripts/components/entities/detail.tsx
 var import_jsx_runtime55 = __toESM(require_jsx_runtime());
 var Detail = () => {
-  const ref = (0, import_react28.useRef)();
+  const ref = (0, import_react35.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55243,7 +58380,7 @@ var Home = () => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(
 var home_default = Home;
 
 // scripts/components/incidents/index.tsx
-var import_react29 = __toESM(require_react());
+var import_react36 = __toESM(require_react());
 var import_jsx_runtime66 = __toESM(require_jsx_runtime());
 var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { children: [
   "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55253,7 +58390,7 @@ var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("p", { 
   "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
 ] });
 var Index3 = () => {
-  const ref = (0, import_react29.useRef)();
+  const ref = (0, import_react36.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55280,23 +58417,19 @@ var Index3 = () => {
 var incidents_default2 = Index3;
 
 // scripts/components/incident-source-box.tsx
-var import_react30 = __toESM(require_react());
+var import_react37 = __toESM(require_react());
 var import_jsx_runtime67 = __toESM(require_jsx_runtime());
 var IncidentSourceBox = ({
   incident,
   title
 }) => {
-  const fetched = (0, import_react30.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetSourceByIdQuery();
   const id = incident?.sourceId;
   const source = useSelector((state) => selectors4.selectById(state, id));
-  (0, import_react30.useEffect)(() => {
+  (0, import_react37.useEffect)(() => {
     if (source || !id) return;
-    if (!fetched.current) {
-      fetch_from_path_default("/sources/" + id);
-      fetched.current = true;
-    }
-  }, [fetched, location2, id, source]);
+    trigger(id);
+  }, [id, source, trigger]);
   if (!incident || !source) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(stat_box_default, { className: "activity-stat-details", title, icon: "database", children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(
     LinkToSource,
@@ -55335,17 +58468,16 @@ var Detail2 = () => {
 var detail_default2 = Detail2;
 
 // scripts/components/people/detail.tsx
-var import_react35 = __toESM(require_react());
+var import_react42 = __toESM(require_react());
 
 // scripts/components/people/attendees.tsx
-var import_react31 = __toESM(require_react());
+var import_react38 = __toESM(require_react());
 var import_jsx_runtime69 = __toESM(require_jsx_runtime());
 var Attendees3 = ({
   attendees,
   person
 }) => {
-  const fetched = (0, import_react31.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetPersonAttendeesByIdQuery();
   const hasAttendees = "attendees" in person;
   const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
@@ -55364,13 +58496,11 @@ var Attendees3 = ({
     roles.push("was lobbied by a number of lobbyists as a City of Portland official");
   }
   description.push(roles.join(" and "));
-  (0, import_react31.useEffect)(() => {
-    if (!hasRecords || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/attendees");
-      fetched.current = true;
+  (0, import_react38.useEffect)(() => {
+    if (!hasRecords) {
+      trigger(person.id);
     }
-  }, [fetched, hasRecords, location2]);
+  }, [hasRecords, person, trigger]);
   return /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
     incident_activity_groups_default,
     {
@@ -55411,16 +58541,15 @@ var Attendees3 = ({
 var attendees_default2 = Attendees3;
 
 // scripts/components/people/chart.tsx
-var import_react32 = __toESM(require_react());
+var import_react39 = __toESM(require_react());
 var import_jsx_runtime70 = __toESM(require_jsx_runtime());
 var Chart5 = ({ label }) => {
-  const fetched = (0, import_react32.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
   const { id } = useParams();
   const numericId = Number(id);
   const [searchParams, setSearchParams] = useSearchParams();
   const quarterParam2 = searchParams.get("quarter");
-  const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
+  const [quarter, setQuarter] = (0, import_react39.useState)(quarterParam2);
   const peopleData = useSelector(getPeopleChartData);
   const data = peopleData?.[numericId];
   const hasData = data?.length > 0;
@@ -55431,14 +58560,12 @@ var Chart5 = ({ label }) => {
   const handleClick = (value) => {
     setQuarter(value.replace(" ", "-"));
   };
-  (0, import_react32.useEffect)(() => {
-    if (!hasData || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/stats");
-      fetched.current = true;
+  (0, import_react39.useEffect)(() => {
+    if (!hasData) {
+      trigger(numericId);
     }
-  }, [fetched, hasData, location2]);
-  (0, import_react32.useEffect)(() => {
+  }, [hasData, numericId, trigger]);
+  (0, import_react39.useEffect)(() => {
     if (quarter) {
       if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
         setSearchParams({ quarter });
@@ -55451,10 +58578,10 @@ var Chart5 = ({ label }) => {
 var chart_default3 = Chart5;
 
 // scripts/components/people/entities.tsx
-var import_react34 = __toESM(require_react());
+var import_react41 = __toESM(require_react());
 
 // scripts/components/affiliated-entities-table.tsx
-var import_react33 = __toESM(require_react());
+var import_react40 = __toESM(require_react());
 var import_jsx_runtime71 = __toESM(require_jsx_runtime());
 var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "check", className: "icon-registered" });
 var AffiliatedEntitiesTable = ({
@@ -55463,7 +58590,7 @@ var AffiliatedEntitiesTable = ({
   person,
   title
 }) => {
-  const ref = (0, import_react33.useRef)();
+  const ref = (0, import_react40.useRef)();
   const hasPerson = Boolean(person);
   return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
     const hasTotal = Boolean(item.total);
@@ -55505,21 +58632,18 @@ var affiliated_entities_table_default = AffiliatedEntitiesTable;
 // scripts/components/people/entities.tsx
 var import_jsx_runtime72 = __toESM(require_jsx_runtime());
 var Entities = ({ entities, person }) => {
-  const fetched = (0, import_react34.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetPersonEntitiesByIdQuery();
   const hasEntities = "entities" in person;
   const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
   const isOfficial = person.roles?.includes("official" /* Official */);
   const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
   const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
   const hasRecords = hasLobbyistRecords || hasOfficialRecords;
-  (0, import_react34.useEffect)(() => {
-    if (!hasRecords || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/entities");
-      fetched.current = true;
+  (0, import_react41.useEffect)(() => {
+    if (!hasRecords) {
+      trigger(person.id);
     }
-  }, [fetched, hasRecords, location2]);
+  }, [hasRecords, person, trigger]);
   return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
     incident_activity_groups_default,
     {
@@ -55563,7 +58687,7 @@ var entities_default3 = Entities;
 // scripts/components/people/detail.tsx
 var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var Detail3 = () => {
-  const ref = (0, import_react35.useRef)();
+  const ref = (0, import_react42.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -55619,20 +58743,16 @@ var Detail3 = () => {
 var detail_default3 = Detail3;
 
 // scripts/components/sources/item.tsx
-var import_react36 = __toESM(require_react());
+var import_react43 = __toESM(require_react());
 var import_jsx_runtime74 = __toESM(require_jsx_runtime());
 var Source = ({ id }) => {
-  const fetched = (0, import_react36.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetSourceByIdQuery();
   const source = useSelector((state) => selectors4.selectById(state, id));
   const hasIncidents = Boolean(source.incidents);
-  (0, import_react36.useEffect)(() => {
+  (0, import_react43.useEffect)(() => {
     if (source) return;
-    if (!fetched.current) {
-      fetch_from_path_default("/sources/" + id);
-      fetched.current = true;
-    }
-  }, [fetched, location2, id, source]);
+    trigger(id);
+  }, [id, source, trigger]);
   if (!source) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
     LinkToSource,
@@ -55668,22 +58788,21 @@ var Index4 = () => {
 var sources_default2 = Index4;
 
 // scripts/components/sources/detail.tsx
-var import_react39 = __toESM(require_react());
+var import_react46 = __toESM(require_react());
 
 // scripts/components/sources/attendees.tsx
-var import_react37 = __toESM(require_react());
+var import_react44 = __toESM(require_react());
 var import_jsx_runtime76 = __toESM(require_jsx_runtime());
 var Attendees4 = ({ attendees }) => {
-  const fetched = (0, import_react37.useRef)(false);
-  const location2 = useLocation();
+  const [trigger] = api_default.useLazyGetSourceAttendeesByIdQuery();
+  const { id } = useParams();
+  const numericId = Number(id);
   const hasAttendees = Boolean(attendees);
-  (0, import_react37.useEffect)(() => {
-    if (!hasAttendees || !fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/attendees");
-      fetched.current = true;
+  (0, import_react44.useEffect)(() => {
+    if (!hasAttendees) {
+      trigger(numericId);
     }
-  }, [fetched, hasAttendees, location2]);
+  }, [hasAttendees, numericId, trigger]);
   return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(
     incident_activity_group_default,
     {
@@ -55704,18 +58823,16 @@ var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(incide
 var chart_default4 = Chart6;
 
 // scripts/components/sources/entities.tsx
-var import_react38 = __toESM(require_react());
+var import_react45 = __toESM(require_react());
 var import_jsx_runtime78 = __toESM(require_jsx_runtime());
 var Entities2 = ({ entities, source }) => {
-  const fetched = (0, import_react38.useRef)(false);
-  const location2 = useLocation();
-  (0, import_react38.useEffect)(() => {
-    if (!fetched.current) {
-      const { pathname } = location2;
-      fetch_from_path_default(pathname + "/entities");
-      fetched.current = true;
+  const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
+  const hasEntities = entities?.length > 0;
+  (0, import_react45.useEffect)(() => {
+    if (!hasEntities) {
+      trigger(source.id);
     }
-  }, [fetched, location2]);
+  }, [hasEntities, source, trigger]);
   return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
     incident_activity_group_default,
     {
@@ -55734,7 +58851,7 @@ var disclaimers = {
   registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
 };
 var Detail4 = () => {
-  const ref = (0, import_react39.useRef)();
+  const ref = (0, import_react46.useRef)();
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   };

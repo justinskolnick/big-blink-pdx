@@ -1,14 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import fetchFromPath from '../../lib/fetch-from-path';
 import { RootState } from '../../lib/store';
 
 import Icon from '../icon';
 import { LinkToSource } from '../links';
 
 import { selectors } from '../../reducers/sources';
+import api from '../../services/api';
 
 import type { Id } from '../../types';
 
@@ -17,8 +16,7 @@ interface Props {
 }
 
 const Source = ({ id }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const source = useSelector((state: RootState) => selectors.selectById(state, id));
   const hasIncidents = Boolean(source.incidents);
@@ -26,11 +24,8 @@ const Source = ({ id }: Props) => {
   useEffect(() => {
     if (source) return;
 
-    if (!fetched.current) {
-      fetchFromPath('/sources/' + id);
-      fetched.current = true;
-    }
-  }, [fetched, location, id, source]);
+    trigger(id);
+  }, [id, source, trigger]);
 
   if (!source) return null;
 

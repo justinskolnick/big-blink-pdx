@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import fetchFromPath from '../../lib/fetch-from-path';
+import React, { useEffect } from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+
+import api from '../../services/api';
 
 import type { AffiliatedItem, Source } from '../../types';
 
@@ -15,17 +14,15 @@ interface Props {
 }
 
 const Entities = ({ entities, source }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetSourceEntitiesByIdQuery();
+
+  const hasEntities = entities?.length > 0;
 
   useEffect(() => {
-    if (!fetched.current) {
-      const { pathname } = location;
-
-      fetchFromPath(pathname + '/entities');
-      fetched.current = true;
+    if (!hasEntities) {
+      trigger(source.id);
     }
-  }, [fetched, location]);
+  }, [hasEntities, source, trigger]);
 
   return (
     <IncidentActivityGroups title='Associated Entities'>

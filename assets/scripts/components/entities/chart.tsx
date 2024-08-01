@@ -1,21 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation, useParams, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-import fetchFromPath from '../../lib/fetch-from-path';
 
 import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 
 import { getEntitiesChartData } from '../../selectors';
 
+import api from '../../services/api';
+
 interface Props {
   label: string;
 }
 
 const Chart = ({ label }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetEntityStatsByIdQuery();
 
   const { id } = useParams();
   const numericId = Number(id);
@@ -38,13 +37,10 @@ const Chart = ({ label }: Props) => {
   };
 
   useEffect(() => {
-    if (!hasData || !fetched.current) {
-      const { pathname } = location;
-
-      fetchFromPath(pathname + '/stats');
-      fetched.current = true;
+    if (!hasData) {
+      trigger(numericId);
     }
-  }, [fetched, hasData, location]);
+  }, [hasData, numericId, trigger]);
 
   useEffect(() => {
     if (quarter) {

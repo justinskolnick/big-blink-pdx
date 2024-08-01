@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import fetchFromPath from '../../lib/fetch-from-path';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+
+import api from '../../services/api';
 
 import type { Attendees as AttendeesType } from '../../types';
 
@@ -14,19 +14,18 @@ interface Props {
 }
 
 const Attendees = ({ attendees }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetSourceAttendeesByIdQuery();
+
+  const { id } = useParams();
+  const numericId = Number(id);
 
   const hasAttendees = Boolean(attendees);
 
   useEffect(() => {
-    if (!hasAttendees || !fetched.current) {
-      const { pathname } = location;
-
-      fetchFromPath(pathname + '/attendees');
-      fetched.current = true;
+    if (!hasAttendees) {
+      trigger(numericId);
     }
-  }, [fetched, hasAttendees, location]);
+  }, [hasAttendees, numericId, trigger]);
 
   return (
     <IncidentActivityGroups title='Associated Names'>

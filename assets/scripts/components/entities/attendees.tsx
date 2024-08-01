@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import fetchFromPath from '../../lib/fetch-from-path';
+import React, { useEffect } from 'react';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+
+import api from '../../services/api';
 
 import type { Attendees as AttendeesType, Entity } from '../../types';
 
@@ -18,19 +17,15 @@ const Attendees = ({
   attendees,
   entity,
 }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetEntityAttendeesByIdQuery();
 
   const hasAttendees = 'attendees' in entity;
 
   useEffect(() => {
-    if (!hasAttendees || !fetched.current) {
-      const { pathname } = location;
-
-      fetchFromPath(pathname + '/attendees');
-      fetched.current = true;
+    if (!hasAttendees) {
+      trigger(entity.id);
     }
-  }, [fetched, hasAttendees, location]);
+  }, [entity, hasAttendees, trigger]);
 
   return (
     <IncidentActivityGroups

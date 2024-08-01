@@ -1,7 +1,15 @@
 import type { ErrorType } from '../types';
 
+type MaybeError = {
+  data?: string;
+  error?: string;
+  originalStatus?: number;
+  status?: string;
+};
+
 const networkError = 'It looks like you lost your internet connection. Please reload this page and try again.';
 const notFoundError = 'Some data requested by this page could not be loaded.';
+const serverError = 'Something went wrong on the server.';
 
 // adapted from https://kentcdodds.com/blog/get-a-catch-block-error-message-with-typescript
 
@@ -27,17 +35,33 @@ const toErrorWithMessage = (maybeError: unknown): ErrorType => {
 const toErrorObject = (error: unknown): ErrorType =>
   JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-export const getError = (maybeError: unknown): ErrorType => {
+const looksLikeJSON = (message: string): boolean => message.startsWith('{"');
+
+export const getError = (maybeError: MaybeError): ErrorType => {
   const errorObject = toErrorObject(toErrorWithMessage(maybeError));
-  let error: ErrorType = {
+  const error: ErrorType = {
     message: errorObject.message,
     status: errorObject.status,
   };
 
+  if (!error.status && 'originalStatus' in maybeError) {
+    error.status = maybeError.originalStatus;
+  }
+
+  if (looksLikeJSON(error.message)) {
+    const messageObject = JSON.parse(error.message);
+
+    if ('error' in messageObject) {
+      error.message = messageObject.error;
+    }
+  }
+
   if (error.message.includes('NetworkError')) {
-    error = { ...error, customMessage: networkError };
+    error.customMessage = networkError;
+  } else if (error.status === 500) {
+    error.customMessage = serverError;
   } else if (error.status === 404) {
-    error = { ...error, customMessage: notFoundError };
+    error.customMessage = notFoundError;
   }
 
   return error;

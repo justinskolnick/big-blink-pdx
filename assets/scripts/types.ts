@@ -153,6 +153,23 @@ export type IncidentsOverview = {
   stats: IncidentsStats;
 };
 
+type SourceStat = {
+  id: Id;
+  label: string;
+  total: number;
+};
+
+export type Overview = {
+  incidents: {
+    first: IncidentFirstOrLast;
+    last: IncidentFirstOrLast;
+    total: number;
+  };
+  stats: {
+    sources: SourceStat[]
+  }
+};
+
 export type IncidentRecords = {
   records: Incidents;
 };
@@ -268,6 +285,18 @@ export type WarningType = {
 }
 
 export type AlertType = ErrorType | MessageType | WarningType;
+
+export type MetaType = {
+  description?: string;
+  errors?: ErrorType[];
+  page?: number;
+  pageTitle?: string;
+  section?: SectionType;
+  warnings?: WarningType[];
+  view?: {
+    section: string;
+  };
+};
 
 export interface OutletContext {
   className?: string;

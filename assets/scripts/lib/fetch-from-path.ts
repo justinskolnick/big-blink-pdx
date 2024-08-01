@@ -1,5 +1,4 @@
 import { getError } from './error';
-import { get } from './request';
 import store from './store';
 
 import * as entityActions from '../reducers/entities';
@@ -9,11 +8,23 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
-import type { AttendeeGroup, ErrorType, Incident, Incidents, Person, Source, WarningType } from '../types';
+import type {
+  AttendeeGroup,
+  ErrorType,
+  Incident,
+  Incidents,
+  MetaType,
+  Person,
+  Source,
+  WarningType
+} from '../types';
 
-type Result = {
-  data: any;
-  meta: any;
+type DataType = any;
+
+export type Result = {
+  data: DataType;
+  meta?: MetaType;
+  title?: string;
 };
 
 const getPeopleFromIncidents = (incidents: Incidents) =>
@@ -30,7 +41,7 @@ const getEntitiesFromPerson = (person: Person) =>
 const getEntitiesFromSource = (source: Source) =>
   source?.entities ? source.entities.flat().map(entry => entry.entity) : [];
 
-const handleResult = (result: Result, isPrimary: boolean) => {
+export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
   const { data, meta } = result;
 
@@ -183,19 +194,8 @@ const handleResult = (result: Result, isPrimary: boolean) => {
   }
 };
 
-const handleError = (error: unknown) => {
+export const handleError = (error: unknown) => {
   const dispatch = store.dispatch;
 
   dispatch(uiActions.setError(getError(error)));
 };
-
-const fetchFromPath = (path: string, isPrimary: boolean = false) => {
-  const url = new URL(path, window.location.toString());
-  const endpoint = url.pathname + url.search;
-
-  return get(endpoint)
-    .then((result) => handleResult(result, isPrimary))
-    .catch(handleError);
-};
-
-export default fetchFromPath;

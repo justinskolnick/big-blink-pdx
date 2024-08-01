@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import api from '../services/api';
 import entities from '../reducers/entities';
 import incidents from '../reducers/incidents';
 import people from '../reducers/people';
@@ -9,6 +10,7 @@ import ui from '../reducers/ui';
 
 export const store = configureStore({
   reducer: {
+    api: api.reducer,
     entities,
     incidents,
     people,
@@ -16,6 +18,8 @@ export const store = configureStore({
     stats,
     ui,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

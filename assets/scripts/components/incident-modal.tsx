@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import fetchFromPath from '../lib/fetch-from-path';
 import { RootState } from '../lib/store';
 import { selectors } from '../reducers/incidents';
+import api from '../services/api';
 
 import Icon from './icon';
 import IncidentStatGroup from './incident-stat-group';
@@ -24,8 +23,7 @@ interface Props {
 }
 
 const IncidentModal = ({ deactivate, id, isActive }: Props) => {
-  const fetched = useRef(false);
-  const location = useLocation();
+  const [trigger] = api.useLazyGetIncidentByIdQuery();
 
   const incident = useSelector((state: RootState) => selectors.selectById(state, id));
   const hasIncident = Boolean(incident && 'attendees' in incident);
@@ -34,11 +32,8 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   useEffect(() => {
     if (hasIncident) return;
 
-    if (!fetched.current) {
-      fetchFromPath('/incidents/' + id);
-      fetched.current = true;
-    }
-  }, [fetched, location, hasIncident, id]);
+    trigger(id);
+  }, [hasIncident, id, trigger]);
 
   if (!incident) return null;
 
