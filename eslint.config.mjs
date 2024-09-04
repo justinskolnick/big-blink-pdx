@@ -3,6 +3,7 @@
 import eslint from '@eslint/js';
 import globals from 'globals';
 import jestPlugin from 'eslint-plugin-jest';
+import reactPlugin from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
 
 const jest = jestPlugin.configs['flat/recommended'];
@@ -19,16 +20,19 @@ export default tseslint.config(
     files: [
       '**/*.js',
       '**/*.ts',
+      '**/*.tsx',
     ],
     plugins: {
       '@typescript-eslint': tseslint.plugin,
       jest: jestPlugin,
+      react: reactPlugin,
     },
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
         ...jest.languageOptions.globals,
+        JSX: 'readonly',
       },
       parser: tseslint.parser,
       parserOptions: {
@@ -37,6 +41,7 @@ export default tseslint.config(
     },
     rules: {
       '@typescript-eslint/no-explicit-any': 1,
+      '@typescript-eslint/no-require-imports': 0,
       '@typescript-eslint/no-var-requires': 0,
       'arrow-body-style': [
         'error',
@@ -59,6 +64,10 @@ export default tseslint.config(
         {
           'allowArrowFunctions': true,
         },
+      ],
+      'jsx-quotes': [
+        'error',
+        'prefer-single',
       ],
       'keyword-spacing': [
         'error',
@@ -135,6 +144,7 @@ export default tseslint.config(
         'error',
         {
           'allowShortCircuit': true,
+          "enforceForJSX": true,
         },
       ],
       'no-useless-computed-key': 'error',

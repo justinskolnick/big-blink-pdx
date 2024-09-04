@@ -1,4 +1,4 @@
-const pkg = require('../package.json');
+const pkg = require('../../package.json');
 
 const { sassPlugin } = require('esbuild-sass-plugin');
 const postcss = require('postcss');

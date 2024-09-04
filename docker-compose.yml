@@ -1,22 +1,26 @@
 name: lobby
 services:
   web:
-    image: "node:20-bullseye"
+    container_name: web
     user: "node"
     working_dir: /usr/src
     environment:
       - NODE_ENV=development
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - ./:/usr/src/
+      - .:/usr/src
+      - /usr/src/node_modules
     links:
       - db
     ports:
       - "3000:3000"
     restart: unless-stopped
-    command: "yarn start"
+    command: sh -c "yarn install && yarn start:dev "
   db:
+    container_name: db
     image: mariadb
-    command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3307:3306"
     restart: unless-stopped
@@ -29,3 +33,4 @@ services:
       MARIADB_USER: ${DB_USER}
     volumes:
       - ./config/docker/db/init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
