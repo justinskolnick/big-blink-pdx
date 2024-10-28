@@ -43289,6 +43289,11 @@ var faFilter = {
   iconName: "filter",
   icon: [512, 512, [], "f0b0", "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"]
 };
+var faChartLine = {
+  prefix: "fas",
+  iconName: "chart-line",
+  icon: [512, 512, ["line-chart"], "f201", "M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64L0 400c0 44.2 35.8 80 80 80l400 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 416c-8.8 0-16-7.2-16-16L64 64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z"]
+};
 var faArrowRight = {
   prefix: "fas",
   iconName: "arrow-right",
@@ -43328,6 +43333,11 @@ var faChevronRight = {
   prefix: "fas",
   iconName: "chevron-right",
   icon: [320, 512, [9002], "f054", "M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"]
+};
+var faThumbtack = {
+  prefix: "fas",
+  iconName: "thumbtack",
+  icon: [384, 512, [128204, 128392, "thumb-tack"], "f08d", "M32 32C32 14.3 46.3 0 64 0L320 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-29.5 0 11.4 148.2c36.7 19.9 65.7 53.2 79.5 94.7l1 3c3.3 9.8 1.6 20.5-4.4 28.8s-15.7 13.3-26 13.3L32 352c-10.3 0-19.9-4.9-26-13.3s-7.7-19.1-4.4-28.8l1-3c13.8-41.5 42.8-74.8 79.5-94.7L93.5 64 64 64C46.3 64 32 49.7 32 32zM160 384l64 0 0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96z"]
 };
 var faTrophy = {
   prefix: "fas",
@@ -43383,6 +43393,7 @@ library$1.add(
   faBriefcase,
   faBuilding,
   faCalendar,
+  faChartLine,
   faChartSimple,
   faCheck,
   faChevronRight,
@@ -43393,6 +43404,7 @@ library$1.add(
   faHandshake,
   faLandmark,
   faLink,
+  faThumbtack,
   faTriangleExclamation,
   faTrophy,
   faUserGroup,
@@ -43407,6 +43419,7 @@ var SetForIcon = /* @__PURE__ */ ((SetForIcon2) => {
   SetForIcon2["briefcase"] = "fas" /* Solid */;
   SetForIcon2["building"] = "fas" /* Solid */;
   SetForIcon2["calendar"] = "far" /* Regular */;
+  SetForIcon2["chart-line"] = "fas" /* Solid */;
   SetForIcon2["chart-simple"] = "fas" /* Solid */;
   SetForIcon2["check"] = "fas" /* Solid */;
   SetForIcon2["chevron-right"] = "fas" /* Solid */;
@@ -43417,6 +43430,7 @@ var SetForIcon = /* @__PURE__ */ ((SetForIcon2) => {
   SetForIcon2["handshake"] = "fas" /* Solid */;
   SetForIcon2["landmark"] = "fas" /* Solid */;
   SetForIcon2["link"] = "fas" /* Solid */;
+  SetForIcon2["thumbtack"] = "fas" /* Solid */;
   SetForIcon2["triangle-exclamation"] = "fas" /* Solid */;
   SetForIcon2["trophy"] = "fas" /* Solid */;
   SetForIcon2["user-group"] = "fas" /* Solid */;
@@ -44658,7 +44672,7 @@ var icon_default2 = EntitiesIcon;
 
 // assets/scripts/components/incidents/icon.tsx
 var import_jsx_runtime14 = __toESM(require_jsx_runtime());
-var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(icon_default, { name: "handshake" });
+var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(icon_default, { name: "thumbtack" });
 var icon_default3 = EntitiesIcon2;
 
 // assets/scripts/components/people/icon.tsx
@@ -44796,23 +44810,31 @@ var ItemSubhead = ({
   children,
   className,
   hasBorder,
+  icon: icon2,
   title,
   subtitle
-}) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
-  "header",
-  {
-    className: cx(
-      "item-subhead",
-      hasBorder && "has-border",
-      className
-    ),
-    children: [
-      title && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h4", { children: title }),
-      subtitle && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h5", { children: subtitle }),
-      children
-    ]
-  }
-);
+}) => {
+  const hasIcon = Boolean(icon2);
+  return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
+    "header",
+    {
+      className: cx(
+        "item-subhead",
+        hasBorder && "has-border",
+        hasIcon && "has-icon",
+        className
+      ),
+      children: [
+        hasIcon && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default, { name: icon2 }),
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "item-subhead-content", children: [
+          title && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h4", { children: title }),
+          subtitle && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h5", { children: subtitle }),
+          children
+        ] })
+      ]
+    }
+  );
+};
 var item_subhead_default = ItemSubhead;
 
 // assets/scripts/components/stat-group.tsx
@@ -44942,12 +44964,18 @@ var StatBox = ({
       className,
       icon2 && "has-icon"
     ),
-    onClick,
     children: [
       icon2 && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(icon_default, { name: icon2 }),
       /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "activity-stat-content", children: [
         title && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { className: "activity-stat-title", children: title }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { className: "activity-stat-value", children })
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+          "div",
+          {
+            className: "activity-stat-value",
+            onClick,
+            children
+          }
+        )
       ] })
     ]
   }
@@ -44968,7 +44996,7 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
   if (!incident) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(modal_default, { className: "incident-modal", deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("section", { className: "modal-incident", children: [
     /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(item_subhead_default, { title: /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)(import_jsx_runtime27.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default, { name: "handshake" }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(icon_default, { name: "thumbtack" }),
       /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("span", { className: "item-text", children: "Lobbying Incident" })
     ] }) }) }),
     /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("main", { className: "incident-main", children: [
@@ -45332,7 +45360,7 @@ var IncidentDateBox = ({ incident }) => {
     }
   };
   if (!hasIncident) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(stat_box_default, { className: "activity-stat-details", title: incident.label, icon: "calendar", children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(stat_box_default, { className: "activity-stat-details", title: incident.label, children: [
     /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(
       LinkToIncident,
       {
@@ -45358,18 +45386,19 @@ var import_jsx_runtime36 = __toESM(require_jsx_runtime());
 var IncidentCountBox = ({
   children,
   className,
+  icon: icon2,
   onClick,
   title
 }) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
   stat_box_default,
   {
     className: cx(
-      "activity-stat-incident-count",
       onClick && "is-interactive",
       className
     ),
     onClick,
     title,
+    icon: icon2,
     children
   }
 );
@@ -45420,21 +45449,22 @@ var ActivityOverview = ({
 }) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "activity-overview", children: [
   /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(stat_section_default, { title: "Overview", stylized: false, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(stat_group_numbers_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(stat_box_incident_count_default, { title: "Percent of total", children: [
-        incidents.stats.percentage,
-        "%"
-      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(item_subhead_default, { subtitle: "Totals", icon: "chart-line" }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
         stat_box_incident_count_default,
         {
           onClick: scrollToRef,
-          title: "Incidents",
-          className: "activity-stat-action",
+          title: "Incident count",
           children: incidents.stats.total
         }
-      )
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(stat_box_incident_count_default, { title: "Share of total", children: [
+        incidents.stats.percentage,
+        "%"
+      ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(item_subhead_default, { subtitle: "Appearances", icon: "calendar" }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(incident_date_box_default, { incident: incidents.stats.first }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(incident_date_box_default, { incident: incidents.stats.last })
     ] })

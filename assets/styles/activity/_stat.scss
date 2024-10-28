@@ -1,11 +1,17 @@
 .activity-stat {
   &.has-icon {
     display: flex;
+    align-items: baseline;
     align-items: center;
 
     .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-right: 1ch;
-      width: 30px;
+      width: 27px;
+      height: 27px;
+      flex-shrink: 0;
       color: var(--color-text-light);
       font-size: 27px;
 
@@ -17,5 +23,9 @@
 
   .activity-stat-content {
     width: 100%;
+  }
+
+  .activity-stat-value {
+    white-space: nowrap;
   }
 }

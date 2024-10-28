@@ -1,23 +1,30 @@
 .activity-stat-details {
-  &.has-icon {
-    align-items: flex-start;
+  &.activity-stat {
+    padding: calc(var(--gap) / 2) 0;
+  }
 
-    .icon {
-      color: var(--color-accent-alt-lighter);
-    }
+  .activity-stat-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
   }
 
   .activity-stat-titles {
+    font-weight: 400;
     font-size: 13px;
     line-height: 21px;
   }
 
   .activity-stat-value {
     font-size: 13px;
-    line-height: 18px;
+    line-height: 21px;
+  }
+
+  .activity-stat-titles + .activity-stat-value {
+    margin-left: calc(var(--gap) / 2);
   }
 }
 
 .activity-stat-details + .activity-stat-details {
-  margin-top: calc(var(--gap) / 2);
+  border-top: 1px solid var(--color-divider);
 }

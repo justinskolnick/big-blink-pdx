@@ -3,11 +3,16 @@
 
   width: 100%;
 
+  tr {
+    vertical-align: top;
+  }
+
   th, td {
     padding-top: 3px;
     padding-bottom: 3px;
     line-height: 18px;
     text-align: left;
+    height: 100%;
   }
 
   tr {
@@ -17,6 +22,8 @@
   }
 
   th {
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: var(--color-table-accent);
 
     &::after {

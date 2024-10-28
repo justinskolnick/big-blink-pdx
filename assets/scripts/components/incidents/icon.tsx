@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from '../icon';
 
 const EntitiesIcon = () => (
-  <Icon name='handshake' />
+  <Icon name='thumbtack' />
 );
 
 export default EntitiesIcon;

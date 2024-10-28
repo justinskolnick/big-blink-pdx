@@ -144,8 +144,6 @@
     }
 
     &.has-subheader {
-      // margin: calc(var(--gap) / 6) 0;
-
       h2 {
         font-weight: 600;
         font-size: 15px;
@@ -274,12 +272,12 @@
       .header-section-icon {
         &.has-link {
           .icon {
-            transition: transform 1s ease-in-out;
+            transition: transform 250ms ease-in-out;
           }
 
           &:hover {
             .icon {
-              transform: rotate(720deg) scale(1.5);
+              transform: scale(1.15);
             }
           }
         }

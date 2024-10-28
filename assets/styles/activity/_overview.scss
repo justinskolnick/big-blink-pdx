@@ -3,16 +3,18 @@
     margin-top: calc(2.5 * var(--gap));
   }
 
-  .item-subhead {
-    height: 27px;
+  .activity-stat-section {
+    & > .item-subhead {
+      height: 27px;
 
-    h4 {
-      color: var(--color-accent);
+      h4 {
+        color: var(--color-accent);
+      }
     }
-  }
 
-  .item-subhead + .activity-stat-group {
-    margin-top: var(--gap);
+    .item-subhead + .activity-stat-group {
+      margin-top: var(--gap);
+    }
   }
 
   .activity-numbers-and-dates {
@@ -20,33 +22,46 @@
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% - 27px - var(--gap));
-  }
 
-  .activity-stat-action {
-    cursor: pointer;
-    transition: box-shadow 250ms ease,
-                transform 250ms ease;
-
-    &:hover {
-      box-shadow: 0 1px 4px var(--color-accent-alt-lighter);
-      transform: scale(1.05);
-      transition-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
-    }
-
-    &:active {
-      transform: scale(0.95);
+    .item-subhead {
+      h5 {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+      }
     }
   }
 
-  .activity-stat-details {
-    .activity-stat-titles {
-      color: var(--color-stat-label);
-      font-size: 12px;
+  .activity-stat-group {
+    .item-subhead {
+      color: var(--color-accent-alt);
+
+      &.has-icon {
+        .icon {
+          width: 18px;
+          height: 18px;
+          background: initial;
+          color: var(--color-accent-alt);
+        }
+      }
+    }
+
+    .item-subhead + .activity-stat {
+      margin-top: calc(var(--gap) / 2);
     }
   }
 
-  .activity-numbers + .activity-dates {
-    margin-top: var(--gap);
+  .activity-stat-group + .activity-stat-group {
+    margin-top: calc(var(--gap) * 2);
+  }
+
+  .activity-stat {
+    &.has-icon {
+      .icon {
+        color: var(--color-accent);
+        font-size: 14px;
+      }
+    }
   }
 
   @media screen and (min-width: 813px) {
@@ -62,7 +77,7 @@
     }
 
     .activity-stat-section + .activity-stat-section {
-      margin-top: var(--gap);
+      margin-top: calc(var(--gap) * 2);
     }
   }
 }

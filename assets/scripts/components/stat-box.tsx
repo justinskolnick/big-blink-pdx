@@ -25,7 +25,6 @@ const StatBox = ({
       className,
       icon && 'has-icon',
     )}
-    onClick={onClick}
   >
     {icon && <Icon name={icon} />}
     <div className='activity-stat-content'>
@@ -38,7 +37,10 @@ const StatBox = ({
           )}
         </h6>
       )}
-      <div className='activity-stat-value'>
+      <div
+        className='activity-stat-value'
+        onClick={onClick}
+      >
         {children}
       </div>
     </div>

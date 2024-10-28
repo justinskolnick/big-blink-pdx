@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import DateBox from './incident-date-box';
 import IncidentStatGroup from './incident-stat-group';
 import IncidentCountBox from './stat-box-incident-count';
+import ItemSubhead from './item-subhead';
 import NumbersGroup from './stat-group-numbers';
 import StatGroup from './stat-group';
 import StatSection from './stat-section';
@@ -24,19 +25,22 @@ const ActivityOverview = ({
     <StatSection title='Overview' stylized={false}>
       <StatGroup className='activity-numbers-and-dates'>
         <NumbersGroup>
-          <IncidentCountBox title='Percent of total'>
-            {incidents.stats.percentage}%
-          </IncidentCountBox>
+          <ItemSubhead subtitle='Totals' icon='chart-line' />
+
           <IncidentCountBox
             onClick={scrollToRef}
-            title='Incidents'
-            className='activity-stat-action'
+            title='Incident count'
           >
             {incidents.stats.total}
+          </IncidentCountBox>
+          <IncidentCountBox title='Share of total'>
+            {incidents.stats.percentage}%
           </IncidentCountBox>
         </NumbersGroup>
 
         <IncidentStatGroup className='activity-dates'>
+          <ItemSubhead subtitle='Appearances' icon='calendar' />
+
           <DateBox incident={incidents.stats.first} />
           <DateBox incident={incidents.stats.last} />
         </IncidentStatGroup>

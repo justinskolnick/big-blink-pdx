@@ -11,6 +11,15 @@
     border-top: 3px solid var(--color-divider);
   }
 
+  &.has-icon {
+    display: flex;
+    align-items: flex-start;
+
+    .icon + .item-subhead-content {
+      margin-left: calc(var(--gap) / 2);
+    }
+  }
+
   .icon {
     display: flex;
     align-items: center;

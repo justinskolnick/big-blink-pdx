@@ -43,7 +43,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
         <header className='incident-header'>
           <ItemSubhead title={(
             <>
-              <Icon name='handshake' />
+              <Icon name='thumbtack' />
               <span className='item-text'>
                 Lobbying Incident
               </span>
