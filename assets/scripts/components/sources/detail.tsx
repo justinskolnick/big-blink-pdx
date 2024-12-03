@@ -11,6 +11,7 @@ import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
 import Icon from '../icon';
+import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 
 import { selectors } from '../../reducers/sources';
@@ -39,7 +40,7 @@ const Detail = () => {
 
   const isActivity = source?.type === 'activity';
   const incidents = source?.incidents;
-  const hasIncidents = isActivity && Boolean(incidents);
+  const hasIncidents = isActivity && incidents?.stats.totals?.values.length > 0;
 
   if (!hasSource) return null;
 
@@ -72,7 +73,7 @@ const Detail = () => {
         </div>
       </section>
 
-      {hasIncidents && (
+      {hasIncidents ? (
         <>
           <ActivityOverview
             incidents={incidents}
@@ -98,6 +99,10 @@ const Detail = () => {
             ref={ref}
           />
         </>
+      ) : (
+        <IncidentActivityGroup
+          title='No associated records were found.'
+        />
       )}
     </ItemDetail>
   );

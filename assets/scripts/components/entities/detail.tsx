@@ -10,6 +10,7 @@ import ActivityOverview from '../incident-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
+import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -26,7 +27,7 @@ const Detail = () => {
   const hasEntity = Boolean(entity);
 
   const incidents = entity?.incidents;
-  const hasIncidents = Boolean(incidents);
+  const hasIncidents = incidents?.stats.totals?.values.length > 0;
 
   if (!hasEntity) return null;
 
@@ -38,7 +39,7 @@ const Detail = () => {
           content={`Lobbying activity involving ${entity.name} according to data published by the City of Portland, Oregon`}
         />
       </Helmet>
-      {hasIncidents && (
+      {hasIncidents ? (
         <>
           <ActivityOverview
             incidents={incidents}
@@ -62,6 +63,10 @@ const Detail = () => {
             ref={ref}
           />
         </>
+      ) : (
+        <IncidentActivityGroup
+          title='No associated records were found.'
+        />
       )}
     </ItemDetail>
   );

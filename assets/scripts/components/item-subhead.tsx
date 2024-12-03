@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
+import { IconName } from '@fortawesome/fontawesome-svg-core';
+
 import Icon from './icon';
 
 interface Props {

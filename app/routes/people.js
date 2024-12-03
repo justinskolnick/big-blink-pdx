@@ -73,7 +73,14 @@ router.get('/', async (req, res, next) => {
             path: links.people(),
           }),
           total: personTotal,
-        }
+          totals: {
+            values: [
+              {
+                value: personTotal,
+              }
+            ],
+          },
+        },
       };
       meta = {
         description,
@@ -177,16 +184,37 @@ router.get('/:id', async (req, res, next) => {
                 params,
               }),
               stats: {
-                first: {
-                  label: 'First appearance',
-                  value: incidentsStats.first,
+                label: 'Overview',
+                appearances: {
+                  label: 'Appearances',
+                  values: [
+                    {
+                      key: 'first',
+                      label: 'First appearance',
+                      value: incidentsStats.first,
+                    },
+                    {
+                      key: 'last',
+                      label: 'Most recent appearance',
+                      value: incidentsStats.last,
+                    },
+                  ],
                 },
-                last: {
-                  label: 'Most recent appearance',
-                  value: incidentsStats.last,
+                totals: {
+                  label: 'Totals',
+                  values: [
+                    {
+                      key: 'total',
+                      label: 'Incident count',
+                      value: incidentsStats.total,
+                    },
+                    {
+                      key: 'percentage',
+                      label: 'Share of total',
+                      value: `${incidentsStats.percentage}%`,
+                    },
+                  ],
                 },
-                percentage: incidentsStats.percentage,
-                total: incidentsStats.total,
               },
             },
           },

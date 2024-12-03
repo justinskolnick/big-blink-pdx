@@ -145,16 +145,37 @@ router.get('/:id', async (req, res, next) => {
                   total: incidentsStats.paginationTotal,
                 }),
                 stats: {
-                  first: {
-                    label: `First reported incident of Q${source.quarter} ${source.year}`,
-                    value: incidentsStats.first,
+                  label: 'Overview',
+                  appearances: {
+                    label: 'Appearances',
+                    values: [
+                      {
+                        key: 'first',
+                        label: 'First reported incident',
+                        value: incidentsStats.first,
+                      },
+                      {
+                        key: 'last',
+                        label: 'Last reported incident',
+                        value: incidentsStats.last,
+                      },
+                    ],
                   },
-                  last: {
-                    label: `Last reported incident of Q${source.quarter} ${source.year}`,
-                    value: incidentsStats.last,
+                  totals: {
+                    label: 'Totals',
+                    values: [
+                      {
+                        key: 'total',
+                        label: 'Incident count',
+                        value: incidentsStats.total,
+                      },
+                      {
+                        key: 'percentage',
+                        label: 'Share of total',
+                        value: `${incidentsStats.percentage}%`,
+                      },
+                    ],
                   },
-                  percentage: incidentsStats.percentage,
-                  total: incidentsStats.total,
                 },
               },
             },

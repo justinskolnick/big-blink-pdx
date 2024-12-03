@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react';
 
 import DateBox from './incident-date-box';
 import IncidentStatGroup from './incident-stat-group';
-import IncidentCountBox from './stat-box-incident-count';
 import ItemSubhead from './item-subhead';
 import NumbersGroup from './stat-group-numbers';
+import StatBox from './stat-box';
 import StatGroup from './stat-group';
 import StatSection from './stat-section';
 
@@ -22,27 +22,39 @@ const ActivityOverview = ({
   scrollToRef,
 }: Props) => (
   <div className='activity-overview'>
-    <StatSection title='Overview' stylized={false}>
+    <StatSection title={incidents.stats.label} stylized={false}>
       <StatGroup className='activity-numbers-and-dates'>
         <NumbersGroup>
-          <ItemSubhead subtitle='Totals' icon='chart-line' />
+          <ItemSubhead
+            subtitle={incidents.stats.totals.label}
+            icon='chart-line'
+          />
 
-          <IncidentCountBox
-            onClick={scrollToRef}
-            title='Incident count'
-          >
-            {incidents.stats.total}
-          </IncidentCountBox>
-          <IncidentCountBox title='Share of total'>
-            {incidents.stats.percentage}%
-          </IncidentCountBox>
+          {incidents.stats.totals.values.map(item => {
+            const isInteractive = item.key === 'total';
+
+            return (
+              <StatBox
+                key={item.key}
+                className={isInteractive && 'is-interactive'}
+                onClick={isInteractive ? scrollToRef : undefined}
+                title={item.label}
+              >
+                {item.value}
+              </StatBox>
+            );
+          })}
         </NumbersGroup>
 
         <IncidentStatGroup className='activity-dates'>
-          <ItemSubhead subtitle='Appearances' icon='calendar' />
+          <ItemSubhead
+            subtitle={incidents.stats.appearances.label}
+            icon='calendar'
+          />
 
-          <DateBox incident={incidents.stats.first} />
-          <DateBox incident={incidents.stats.last} />
+          {incidents.stats.appearances.values.map(item => (
+            <DateBox key={item.key} incident={item} />
+          ))}
         </IncidentStatGroup>
       </StatGroup>
     </StatSection>

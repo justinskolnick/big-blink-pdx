@@ -87,11 +87,6 @@ export type Incident = {
 
 export type Incidents = Incident[];
 
-export type IncidentFirstOrLast = {
-  label: string;
-  value: Incident;
-};
-
 export type IncidentsFilters = {
   quarter?: string;
   with_entity_id?: Id;
@@ -141,11 +136,32 @@ export type LeaderboardSet = {
   labels: LeaderboardLabels;
 };
 
+export type IncidentsStatsValue = {
+  key: string;
+  label: string;
+  value: Incident;
+};
+
+type IncidentsTotalsValue = IncidentsStatsValue & {
+  value: number | string;
+};
+
+type IncidentStatsAppearances = {
+  key: string;
+  label: string;
+  values: IncidentsStatsValue[];
+};
+
+type IncidentStatsTotals = {
+  label: string;
+  values: IncidentsTotalsValue[];
+};
+
 type IncidentsStats = {
-  first?: IncidentFirstOrLast;
-  last?: IncidentFirstOrLast;
-  percentage: string;
-  total: number;
+  appearances: IncidentStatsAppearances;
+  label: string;
+  total?: number;
+  totals: IncidentStatsTotals;
 };
 
 export type IncidentsOverview = {
@@ -157,17 +173,6 @@ type SourceStat = {
   id: Id;
   label: string;
   total: number;
-};
-
-export type Overview = {
-  incidents: {
-    first: IncidentFirstOrLast;
-    last: IncidentFirstOrLast;
-    total: number;
-  };
-  stats: {
-    sources: SourceStat[]
-  }
 };
 
 export type IncidentRecords = {

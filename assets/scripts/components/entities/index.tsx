@@ -28,7 +28,7 @@ interface ItemProps {
 
 export const EntityItem = ({ id }: ItemProps) => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasTotal = Boolean(entity.incidents?.stats.total);
+  const hasIncidents = Boolean(entity?.incidents);
   const incidentTotal = useSelector(getIncidentTotal);
 
   if (!entity) return null;
@@ -39,16 +39,16 @@ export const EntityItem = ({ id }: ItemProps) => {
     <tr>
       <td className='cell-type'><EntityIcon /></td>
       <td className='cell-name'>
-        {hasTotal ? (
+        {hasIncidents ? (
           <LinkToEntity id={entity.id}>{entity.name}</LinkToEntity>
         ) : (
           entity.name
         )}
       </td>
-      {hasTotal ? (
+      {hasIncidents ? (
         <>
-          <td className='cell-total'>{entity.incidents.stats.total}</td>
-          <td className='cell-percent'>{percentage(entity.incidents.stats.total, incidentTotal)}%</td>
+          <td className='cell-total'>{entity?.incidents.stats.total}</td>
+          <td className='cell-percent'>{percentage(entity?.incidents.stats.total, incidentTotal)}%</td>
         </>
       ) : (
         <>

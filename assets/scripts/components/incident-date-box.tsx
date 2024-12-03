@@ -4,10 +4,10 @@ import IncidentModal from './incident-modal';
 import { LinkToIncident } from './links';
 import StatBox from './stat-box';
 
-import type { IncidentFirstOrLast } from '../types';
+import type { IncidentsStatsValue } from '../types';
 
 interface Props {
-  incident: IncidentFirstOrLast;
+  incident: IncidentsStatsValue;
 }
 
 const IncidentDateBox = ({ incident }: Props) => {
