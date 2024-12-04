@@ -142,8 +142,12 @@ export type IncidentsStatsValue = {
   value: Incident;
 };
 
-type IncidentsTotalsValue = IncidentsStatsValue & {
-  value: number | string;
+type IncidentsPercentageValue = IncidentsStatsValue & {
+  value: string;
+};
+
+type IncidentsTotalValue = IncidentsStatsValue & {
+  value: number;
 };
 
 type IncidentStatsAppearances = {
@@ -154,25 +158,21 @@ type IncidentStatsAppearances = {
 
 type IncidentStatsTotals = {
   label: string;
-  values: IncidentsTotalsValue[];
+  values: {
+    percentage?: IncidentsPercentageValue;
+    total: IncidentsTotalValue;
+  };
 };
 
 type IncidentsStats = {
-  appearances: IncidentStatsAppearances;
+  appearances?: IncidentStatsAppearances;
   label: string;
-  total?: number;
   totals: IncidentStatsTotals;
 };
 
 export type IncidentsOverview = {
   filters?: IncidentsFilters;
   stats: IncidentsStats;
-};
-
-type SourceStat = {
-  id: Id;
-  label: string;
-  total: number;
 };
 
 export type IncidentRecords = {

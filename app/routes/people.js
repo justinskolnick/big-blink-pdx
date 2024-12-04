@@ -5,12 +5,16 @@ const router = express.Router();
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
+
 const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
+
 const Incident = require('../models/incident');
 const Person = require('../models/person');
+
 const incidentAttendances = require('../services/incident-attendances');
 const incidentAttendees = require('../services/incident-attendees');
+const incidents = require('../services/incidents');
 const people = require('../services/people');
 const sources = require('../services/sources');
 const stats = require('../services/stats');
@@ -38,6 +42,7 @@ router.get('/', async (req, res, next) => {
 
   let peopleResult;
   let personTotal;
+  let incidentCountResult;
   let data;
   let meta;
 
@@ -54,6 +59,7 @@ router.get('/', async (req, res, next) => {
         sortBy,
       });
       personTotal = await people.getTotal();
+      incidentCountResult = await incidents.getTotal();
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
@@ -64,7 +70,9 @@ router.get('/', async (req, res, next) => {
 
       data = {
         people: {
-          records: peopleResult,
+          records: peopleResult.map(result =>
+            Person.appendIncidentsPercentageIfTotal(result, incidentCountResult)
+          ),
           pagination: linkHelper.getPagination({
             total: personTotal,
             perPage,
@@ -73,13 +81,6 @@ router.get('/', async (req, res, next) => {
             path: links.people(),
           }),
           total: personTotal,
-          totals: {
-            values: [
-              {
-                value: personTotal,
-              }
-            ],
-          },
         },
       };
       meta = {
@@ -169,55 +170,46 @@ router.get('/:id', async (req, res, next) => {
         params[snakeCase('withPersonId')] = Number(withPersonId);
       }
 
-      data = {
-        person: {
-          record: {
-            ...person,
-            incidents: {
-              records,
-              filters: params,
-              pagination: linkHelper.getPagination({
-                total: incidentsStats.paginationTotal,
-                perPage,
-                page,
-                path: links.person(id),
-                params,
-              }),
-              stats: {
-                label: 'Overview',
-                appearances: {
-                  label: 'Appearances',
-                  values: [
-                    {
-                      key: 'first',
-                      label: 'First appearance',
-                      value: incidentsStats.first,
-                    },
-                    {
-                      key: 'last',
-                      label: 'Most recent appearance',
-                      value: incidentsStats.last,
-                    },
-                  ],
+      const record = {
+        ...person,
+        incidents: {
+          records,
+          filters: params,
+          pagination: linkHelper.getPagination({
+            total: incidentsStats.paginationTotal,
+            perPage,
+            page,
+            path: links.person(id),
+            params,
+          }),
+          stats: {
+            label: 'Overview',
+            appearances: {
+              label: 'Appearances',
+              values: [
+                {
+                  key: 'first',
+                  label: 'First appearance',
+                  value: incidentsStats.first,
                 },
-                totals: {
-                  label: 'Totals',
-                  values: [
-                    {
-                      key: 'total',
-                      label: 'Incident count',
-                      value: incidentsStats.total,
-                    },
-                    {
-                      key: 'percentage',
-                      label: 'Share of total',
-                      value: `${incidentsStats.percentage}%`,
-                    },
-                  ],
+                {
+                  key: 'last',
+                  label: 'Most recent appearance',
+                  value: incidentsStats.last,
                 },
-              },
+              ],
             },
           },
+        },
+      };
+
+      record.incidents.stats.totals = Person.getIncidentStatsObject().totals;
+      record.incidents.stats.totals.values.percentage = Person.getIncidentStatsPercentageObject(incidentsStats.percentage);
+      record.incidents.stats.totals.values.total = Person.getIncidentStatsTotalObject(incidentsStats.total);
+
+      data = {
+        person: {
+          record,
         },
       };
       meta = {

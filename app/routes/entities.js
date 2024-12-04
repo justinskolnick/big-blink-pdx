@@ -5,10 +5,13 @@ const router = express.Router();
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
+
 const headers = require('../lib/headers');
 const { snakeCase, toSentence } = require('../lib/string');
+
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
+
 const entities = require('../services/entities');
 const entityLobbyistLocations = require('../services/entity-lobbyist-locations');
 const incidents = require('../services/incidents');
@@ -39,6 +42,7 @@ router.get('/', async (req, res, next) => {
 
   let allEntities;
   let entityTotal;
+  let incidentCountResult;
   let data;
   let meta;
 
@@ -55,6 +59,7 @@ router.get('/', async (req, res, next) => {
         sortBy,
       });
       entityTotal = await entities.getTotal();
+      incidentCountResult = await incidents.getTotal();
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
@@ -65,7 +70,9 @@ router.get('/', async (req, res, next) => {
 
       data = {
         entities: {
-          records: allEntities,
+          records: allEntities.map(result =>
+            Entity.appendIncidentsPercentageIfTotal(result, incidentCountResult)
+          ),
           pagination: linkHelper.getPagination({
             total: entityTotal,
             perPage,
@@ -175,54 +182,45 @@ router.get('/:id', async (req, res, next) => {
         params[snakeCase('withPersonId')] = Number(withPersonId);
       }
 
-      data = {
-        entity: {
-          record: {
-            ...entity,
-            incidents: {
-              records,
-              filters: params,
-              pagination: linkHelper.getPagination({
-                page,
-                params,
-                path: links.entity(id),
-                perPage,
-                total: incidentsStats.paginationTotal,
-              }),
-              stats: {
-                appearances: {
-                  label: 'Appearances',
-                  values: [
-                    {
-                      key: 'first',
-                      label: 'First appearance',
-                      value: incidentsStats.first,
-                    },
-                    {
-                      key: 'last',
-                      label: 'Most recent appearance',
-                      value: incidentsStats.last,
-                    },
-                  ],
+      const record = {
+        ...entity,
+        incidents: {
+          records,
+          filters: params,
+          pagination: linkHelper.getPagination({
+            page,
+            params,
+            path: links.entity(id),
+            perPage,
+            total: incidentsStats.paginationTotal,
+          }),
+          stats: {
+            appearances: {
+              label: 'Appearances',
+              values: [
+                {
+                  key: 'first',
+                  label: 'First appearance',
+                  value: incidentsStats.first,
                 },
-                totals: {
-                  label: 'Totals',
-                  values: [
-                    {
-                      key: 'total',
-                      label: 'Incident count',
-                      value: incidentsStats.total,
-                    },
-                    {
-                      key: 'percentage',
-                      label: 'Share of total',
-                      value: `${incidentsStats.percentage}%`,
-                    },
-                  ],
+                {
+                  key: 'last',
+                  label: 'Most recent appearance',
+                  value: incidentsStats.last,
                 },
-              },
+              ],
             },
           },
+        },
+      };
+
+      record.incidents.stats.totals = Entity.getIncidentStatsObject().totals;
+      record.incidents.stats.totals.values.percentage = Entity.getIncidentStatsPercentageObject(incidentsStats.percentage);
+      record.incidents.stats.totals.values.total = Entity.getIncidentStatsTotalObject(incidentsStats.total);
+
+      data = {
+        entity: {
+          record,
         },
       };
       meta = {

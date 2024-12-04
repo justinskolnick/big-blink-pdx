@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { percentage } from '../../lib/number';
 import { RootState } from '../../lib/store';
 
 import {
@@ -16,7 +15,6 @@ import { selectors } from '../../reducers/people';
 import {
   getPeoplePageIds,
   getPeoplePagination,
-  getIncidentTotal
 } from '../../selectors';
 
 import { SortByValues, SortValues } from '../../types';
@@ -27,34 +25,22 @@ interface PersonItemProps {
 
 export const PersonItem = ({ id }: PersonItemProps) => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasTotal = Boolean(person?.incidents?.stats.total);
-  const incidentTotal = useSelector(getIncidentTotal);
+  const hasIncidents = Boolean(person?.incidents);
 
   if (!person) return null;
-
-  // todo: move percent into the response
 
   return (
     <tr>
       <td className='cell-type'><Icon person={person} /></td>
       <td className='cell-name'>
-        {hasTotal ? (
+        {hasIncidents ? (
           <LinkToPerson id={person.id}>{person.name}</LinkToPerson>
         ) : (
           person.name
         )}
       </td>
-      {hasTotal ? (
-        <>
-          <td className='cell-total'>{person.incidents.stats.total}</td>
-          <td className='cell-percent'>{percentage(person.incidents.stats.total, incidentTotal)}%</td>
-        </>
-      ) : (
-        <>
-          <td className='cell-total'>-</td>
-          <td className='cell-percent'>-</td>
-        </>
-      )}
+      <td className='cell-total'>{person.incidents?.stats.totals.values.total.value ?? '-'}</td>
+      <td className='cell-percent'>{person.incidents?.stats.totals.values.percentage.value ?? '-'}</td>
     </tr>
   );
 };

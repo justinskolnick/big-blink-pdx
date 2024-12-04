@@ -27,7 +27,7 @@ const Detail = () => {
   const hasPerson = Boolean(person);
 
   const incidents = person?.incidents;
-  const hasIncidents = incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
 
   if (!hasPerson) return null;
 

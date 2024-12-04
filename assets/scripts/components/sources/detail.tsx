@@ -40,7 +40,7 @@ const Detail = () => {
 
   const isActivity = source?.type === 'activity';
   const incidents = source?.incidents;
-  const hasIncidents = isActivity && incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = isActivity && Boolean(incidents?.stats.totals?.values.total.value);
 
   if (!hasSource) return null;
 

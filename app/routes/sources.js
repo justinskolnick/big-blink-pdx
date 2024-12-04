@@ -5,10 +5,13 @@ const router = express.Router();
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
+
 const headers = require('../lib/headers');
 const { snakeCase } = require('../lib/string');
+
 const Incident = require('../models/incident');
 const Source = require('../models/source');
+
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 const sources = require('../services/sources');
@@ -130,55 +133,46 @@ router.get('/:id', async (req, res, next) => {
           params[snakeCase('withPersonId')] = Number(withPersonId);
         }
 
-        data = {
-          source: {
-            record: {
-              ...source,
-              incidents: {
-                records,
-                filters: params,
-                pagination: linkHelper.getPagination({
-                  page,
-                  params,
-                  path: links.source(id),
-                  perPage,
-                  total: incidentsStats.paginationTotal,
-                }),
-                stats: {
-                  label: 'Overview',
-                  appearances: {
-                    label: 'Appearances',
-                    values: [
-                      {
-                        key: 'first',
-                        label: 'First reported incident',
-                        value: incidentsStats.first,
-                      },
-                      {
-                        key: 'last',
-                        label: 'Last reported incident',
-                        value: incidentsStats.last,
-                      },
-                    ],
+        const record = {
+          ...source,
+          incidents: {
+            records,
+            filters: params,
+            pagination: linkHelper.getPagination({
+              page,
+              params,
+              path: links.source(id),
+              perPage,
+              total: incidentsStats.paginationTotal,
+            }),
+            stats: {
+              label: 'Overview',
+              appearances: {
+                label: 'Appearances',
+                values: [
+                  {
+                    key: 'first',
+                    label: 'First reported incident',
+                    value: incidentsStats.first,
                   },
-                  totals: {
-                    label: 'Totals',
-                    values: [
-                      {
-                        key: 'total',
-                        label: 'Incident count',
-                        value: incidentsStats.total,
-                      },
-                      {
-                        key: 'percentage',
-                        label: 'Share of total',
-                        value: `${incidentsStats.percentage}%`,
-                      },
-                    ],
+                  {
+                    key: 'last',
+                    label: 'Last reported incident',
+                    value: incidentsStats.last,
                   },
-                },
+                ],
               },
             },
+          },
+        };
+
+        record.incidents.stats.totals = Source.getIncidentStatsObject().totals;
+        record.incidents.stats.totals.values.percentage = Source.getIncidentStatsPercentageObject(incidentsStats.percentage);
+        record.incidents.stats.totals.values.total = Source.getIncidentStatsTotalObject(incidentsStats.total);
+
+        data = {
+          source: {
+            record,
           },
         };
         meta = {

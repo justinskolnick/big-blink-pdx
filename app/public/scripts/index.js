@@ -45182,9 +45182,6 @@ var App = () => {
 };
 var app_default = App;
 
-// assets/scripts/lib/number.ts
-var percentage = (portion, total) => (portion / total * 100).toFixed(2);
-
 // assets/scripts/components/loading.tsx
 var import_react26 = __toESM(require_react());
 var import_jsx_runtime31 = __toESM(require_jsx_runtime());
@@ -45276,21 +45273,12 @@ var import_jsx_runtime34 = __toESM(require_jsx_runtime());
 var EntityItem = ({ id }) => {
   const entity = useSelector((state) => selectors.selectById(state, id));
   const hasIncidents = Boolean(entity?.incidents);
-  const incidentTotal = useSelector(getIncidentTotal);
   if (!entity) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("tr", { children: [
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(icon_default2, {}) }),
     /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-name", children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(LinkToEntity, { id: entity.id, children: entity.name }) : entity.name }),
-    hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(import_jsx_runtime34.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-total", children: entity?.incidents.stats.total }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("td", { className: "cell-percent", children: [
-        percentage(entity?.incidents.stats.total, incidentTotal),
-        "%"
-      ] })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(import_jsx_runtime34.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-total", children: "-" }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-percent", children: "-" })
-    ] })
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-total", children: entity.incidents?.stats.totals.values.total.value ?? "-" }),
+    /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("td", { className: "cell-percent", children: entity.incidents?.stats.totals.values.percentage.value ?? "-" })
   ] });
 };
 var Introduction = () => /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(import_jsx_runtime34.Fragment, { children: [
@@ -45423,43 +45411,46 @@ var ActivityOverview = ({
   children,
   incidents,
   scrollToRef
-}) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "activity-overview", children: [
-  /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(stat_section_default, { title: incidents.stats.label, stylized: false, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(stat_group_numbers_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        item_subhead_default,
-        {
-          subtitle: incidents.stats.totals.label,
-          icon: "chart-line"
-        }
-      ),
-      incidents.stats.totals.values.map((item) => {
-        const isInteractive = item.key === "total";
-        return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-          stat_box_default,
+}) => {
+  const hasAppearances = Boolean(incidents.stats.appearances);
+  return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "activity-overview", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(stat_section_default, { title: incidents.stats.label, stylized: false, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(stat_group_numbers_default, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          item_subhead_default,
           {
-            className: isInteractive && "is-interactive",
-            onClick: isInteractive ? scrollToRef : void 0,
-            title: item.label,
-            children: item.value
-          },
-          item.key
-        );
-      })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
-        item_subhead_default,
-        {
-          subtitle: incidents.stats.appearances.label,
-          icon: "calendar"
-        }
-      ),
-      incidents.stats.appearances.values.map((item) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(incident_date_box_default, { incident: item }, item.key))
-    ] })
-  ] }) }),
-  /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(stat_section_default, { stylized: false, children })
-] });
+            subtitle: incidents.stats.totals.label,
+            icon: "chart-line"
+          }
+        ),
+        Object.values(incidents.stats.totals.values).map((item) => {
+          const isInteractive = item.key === "total";
+          return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+            stat_box_default,
+            {
+              className: isInteractive && "is-interactive",
+              onClick: isInteractive ? scrollToRef : void 0,
+              title: item.label,
+              children: item.value
+            },
+            item.key
+          );
+        })
+      ] }),
+      hasAppearances && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+          item_subhead_default,
+          {
+            subtitle: incidents.stats.appearances.label,
+            icon: "calendar"
+          }
+        ),
+        incidents.stats.appearances.values.map((item) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(incident_date_box_default, { incident: item }, item.key))
+      ] })
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(stat_section_default, { stylized: false, children })
+  ] });
+};
 var incident_activity_overview_default = ActivityOverview;
 
 // assets/scripts/components/entities/attendees.tsx
@@ -58438,7 +58429,7 @@ var Detail = () => {
   const entity = useSelector((state) => selectors.selectById(state, numericId));
   const hasEntity = Boolean(entity);
   const incidents = entity?.incidents;
-  const hasIncidents = incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasEntity) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(item_detail_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
@@ -58526,22 +58517,13 @@ var more_default = LeaderboardSubsectionGroup2;
 var import_jsx_runtime59 = __toESM(require_jsx_runtime());
 var PersonItem = ({ id }) => {
   const person = useSelector((state) => selectors3.selectById(state, id));
-  const hasTotal = Boolean(person?.incidents?.stats.total);
-  const incidentTotal = useSelector(getIncidentTotal);
+  const hasIncidents = Boolean(person?.incidents);
   if (!person) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("tr", { children: [
     /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(icon_default4, { person }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-name", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(LinkToPerson, { id: person.id, children: person.name }) : person.name }),
-    hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-total", children: person.incidents.stats.total }),
-      /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("td", { className: "cell-percent", children: [
-        percentage(person.incidents.stats.total, incidentTotal),
-        "%"
-      ] })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-total", children: "-" }),
-      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-percent", children: "-" })
-    ] })
+    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-name", children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(LinkToPerson, { id: person.id, children: person.name }) : person.name }),
+    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-total", children: person.incidents?.stats.totals.values.total.value ?? "-" }),
+    /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { className: "cell-percent", children: person.incidents?.stats.totals.values.percentage.value ?? "-" })
   ] });
 };
 var Introduction2 = () => /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
@@ -59015,7 +58997,7 @@ var Detail3 = () => {
   const person = useSelector((state) => selectors3.selectById(state, numericId));
   const hasPerson = Boolean(person);
   const incidents = person?.incidents;
-  const hasIncidents = incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasPerson) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(item_detail_default, { children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(import_jsx_runtime72.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
@@ -59067,7 +59049,8 @@ var import_jsx_runtime73 = __toESM(require_jsx_runtime());
 var Source = ({ id }) => {
   const [trigger] = api_default.useLazyGetSourceByIdQuery();
   const source = useSelector((state) => selectors4.selectById(state, id));
-  const hasIncidents = Boolean(source.incidents);
+  const hasIncidents = Boolean(source?.incidents);
+  const hasTotals = Boolean(source?.incidents?.stats.totals);
   (0, import_react43.useEffect)(() => {
     if (source) return;
     trigger(id);
@@ -59082,8 +59065,8 @@ var Source = ({ id }) => {
         /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(icon_default, { name: "database" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)("div", { className: "item-source-quarter-description", children: [
           /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("h6", { children: source.title }),
-          hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)("p", { children: [
-            source.incidents?.stats.total,
+          hasIncidents && hasTotals && /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)("p", { children: [
+            source.incidents?.stats.totals.values.total.value,
             " incidents"
           ] })
         ] })
@@ -59181,7 +59164,7 @@ var Detail4 = () => {
   const label = source ? `Q${source.quarter} ${source.year}` : null;
   const isActivity = source?.type === "activity";
   const incidents = source?.incidents;
-  const hasIncidents = isActivity && incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = isActivity && Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasSource) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(item_detail_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)("section", { className: "activity-meta-section item-source-file", children: [

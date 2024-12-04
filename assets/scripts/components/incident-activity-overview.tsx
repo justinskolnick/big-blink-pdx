@@ -20,49 +20,55 @@ const ActivityOverview = ({
   children,
   incidents,
   scrollToRef,
-}: Props) => (
-  <div className='activity-overview'>
-    <StatSection title={incidents.stats.label} stylized={false}>
-      <StatGroup className='activity-numbers-and-dates'>
-        <NumbersGroup>
-          <ItemSubhead
-            subtitle={incidents.stats.totals.label}
-            icon='chart-line'
-          />
+}: Props) => {
+  const hasAppearances = Boolean(incidents.stats.appearances);
 
-          {incidents.stats.totals.values.map(item => {
-            const isInteractive = item.key === 'total';
+  return (
+    <div className='activity-overview'>
+      <StatSection title={incidents.stats.label} stylized={false}>
+        <StatGroup className='activity-numbers-and-dates'>
+          <NumbersGroup>
+            <ItemSubhead
+              subtitle={incidents.stats.totals.label}
+              icon='chart-line'
+            />
 
-            return (
-              <StatBox
-                key={item.key}
-                className={isInteractive && 'is-interactive'}
-                onClick={isInteractive ? scrollToRef : undefined}
-                title={item.label}
-              >
-                {item.value}
-              </StatBox>
-            );
-          })}
-        </NumbersGroup>
+            {Object.values(incidents.stats.totals.values).map(item => {
+              const isInteractive = item.key === 'total';
 
-        <IncidentStatGroup className='activity-dates'>
-          <ItemSubhead
-            subtitle={incidents.stats.appearances.label}
-            icon='calendar'
-          />
+              return (
+                <StatBox
+                  key={item.key}
+                  className={isInteractive && 'is-interactive'}
+                  onClick={isInteractive ? scrollToRef : undefined}
+                  title={item.label}
+                >
+                  {item.value}
+                </StatBox>
+              );
+            })}
+          </NumbersGroup>
 
-          {incidents.stats.appearances.values.map(item => (
-            <DateBox key={item.key} incident={item} />
-          ))}
-        </IncidentStatGroup>
-      </StatGroup>
-    </StatSection>
+          {hasAppearances && (
+            <IncidentStatGroup className='activity-dates'>
+              <ItemSubhead
+                subtitle={incidents.stats.appearances.label}
+                icon='calendar'
+              />
 
-    <StatSection stylized={false}>
-      {children}
-    </StatSection>
-  </div>
-);
+              {incidents.stats.appearances.values.map(item => (
+                <DateBox key={item.key} incident={item} />
+              ))}
+            </IncidentStatGroup>
+          )}
+        </StatGroup>
+      </StatSection>
+
+      <StatSection stylized={false}>
+        {children}
+      </StatSection>
+    </div>
+  );
+};
 
 export default ActivityOverview;

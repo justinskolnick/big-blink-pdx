@@ -27,7 +27,7 @@ const Detail = () => {
   const hasEntity = Boolean(entity);
 
   const incidents = entity?.incidents;
-  const hasIncidents = incidents?.stats.totals?.values.length > 0;
+  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
 
   if (!hasEntity) return null;
 

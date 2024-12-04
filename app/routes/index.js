@@ -6,6 +6,10 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+
+const Entity = require('../models/entity');
+const Person = require('../models/person');
+
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
 const people = require('../services/people');
@@ -28,6 +32,7 @@ router.get('/', async (req, res, next) => {
     let lobbyistsResult;
     let peopleResult;
     let officialsResult;
+    let incidentCountResult;
     let data;
 
     try {
@@ -56,9 +61,13 @@ router.get('/', async (req, res, next) => {
 
       peopleResult = [].concat(lobbyistsResult, officialsResult);
 
+      incidentCountResult = await incidents.getTotal();
+
       data = {
         entities: {
-          records: entitiesResult,
+          records: entitiesResult.map(result =>
+            Entity.appendIncidentsPercentageIfTotal(result, incidentCountResult)
+          ),
           leaderboard: {
             all: {
               labels: {
@@ -76,7 +85,9 @@ router.get('/', async (req, res, next) => {
           }
         },
         people: {
-          records: peopleResult,
+          records: peopleResult.map(result =>
+            Person.appendIncidentsPercentageIfTotal(result, incidentCountResult)
+          ),
           leaderboard: {
             lobbyists: {
               labels: {

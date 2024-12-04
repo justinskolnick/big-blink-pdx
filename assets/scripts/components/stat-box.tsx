@@ -5,7 +5,7 @@ import { cx } from '@emotion/css';
 import Icon from './icon';
 
 interface Props {
-  children: ReactNode;
+  children: string | number | ReactNode;
   className?: string;
   icon?: IconName;
   onClick?: () => void;

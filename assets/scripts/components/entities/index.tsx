@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { percentage } from '../../lib/number';
 import { RootState } from '../../lib/store';
 
 import EntityIcon from './icon';
@@ -17,7 +16,6 @@ import { selectors } from '../../reducers/entities';
 import {
   getEntitiesPageIds,
   getEntitiesPagination,
-  getIncidentTotal
 } from '../../selectors';
 
 import { SortByValues, SortValues } from '../../types';
@@ -29,11 +27,8 @@ interface ItemProps {
 export const EntityItem = ({ id }: ItemProps) => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
   const hasIncidents = Boolean(entity?.incidents);
-  const incidentTotal = useSelector(getIncidentTotal);
 
   if (!entity) return null;
-
-  // todo: move percent into the response
 
   return (
     <tr>
@@ -45,17 +40,8 @@ export const EntityItem = ({ id }: ItemProps) => {
           entity.name
         )}
       </td>
-      {hasIncidents ? (
-        <>
-          <td className='cell-total'>{entity?.incidents.stats.total}</td>
-          <td className='cell-percent'>{percentage(entity?.incidents.stats.total, incidentTotal)}%</td>
-        </>
-      ) : (
-        <>
-          <td className='cell-total'>-</td>
-          <td className='cell-percent'>-</td>
-        </>
-      )}
+      <td className='cell-total'>{entity.incidents?.stats.totals.values.total.value ?? '-'}</td>
+      <td className='cell-percent'>{entity.incidents?.stats.totals.values.percentage.value ?? '-'}</td>
     </tr>
   );
 };

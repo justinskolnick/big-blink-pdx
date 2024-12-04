@@ -1,5 +1,13 @@
 const Source = require('../source');
 
+describe('getLabel()', () => {
+  test('returns the expected labels', () => {
+    expect(Source.getLabel('incident_percentage')).toBe('Share of total');
+    expect(Source.getLabel('incident_total')).toBe('Incident count');
+    expect(Source.getLabel('totals')).toBe('Totals');
+  });
+});
+
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(Source.fields()).toEqual([
@@ -40,7 +48,7 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total', () => {
-    expect(Source.adapt({
+    const adapted = Source.adapt({
       id: 1,
       type: 'activity',
       format: 'csv',
@@ -50,7 +58,9 @@ describe('adapt()', () => {
       public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrieved_at: '2023-03-28 02:19:00',
       total: 114,
-    })).toEqual({
+    });
+
+    expect(adapted).toEqual({
       id: 1,
       type: 'activity',
       format: 'csv',
@@ -61,7 +71,16 @@ describe('adapt()', () => {
       retrievedDate: 'March 28, 2023',
       incidents: {
         stats: {
-          total: 114,
+          totals: {
+            label: 'Totals',
+            values: {
+              total: {
+                key: 'total',
+                label: 'Incident count',
+                value: 114,
+              },
+            },
+          },
         },
       },
     });

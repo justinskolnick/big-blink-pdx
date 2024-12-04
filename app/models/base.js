@@ -1,8 +1,30 @@
 const camelCase = require('lodash.camelcase');
+
 const dateHelper = require('../helpers/date');
+
+const { percentage } = require('../lib/number');
 
 class Base {
   static primaryKeyField = 'id';
+
+  static baseLabels = {
+    /* eslint-disable camelcase */
+    incident_percentage: 'Share of total',
+    incident_total: 'Incident count',
+    totals: 'Totals',
+    /* eslint-enable camelcase */
+  };
+
+  static labels = {};
+
+  static getLabel(key) {
+    const labels = {
+      ...this.baseLabels,
+      ...this.labels,
+    };
+
+    return labels[key];
+  }
 
   static field(fieldName, prefix = true) {
     return prefix ? [this.tableName, fieldName].join('.') : fieldName;
@@ -72,7 +94,8 @@ class Base {
     return dateHelper.formatDateString(str);
   }
 
-  static adaptResult(result, others) {
+  static adaptResult(result, otherValues) {
+    const hasTotal = Boolean(result.total);
     const fields = this.fields(false);
     const adapted = fields.reduce((obj, field) => {
       const key = this.fieldKey(field);
@@ -83,25 +106,95 @@ class Base {
       return obj;
     }, {});
 
-    return {
+    let adaptedWithOtherValues = {
       ...adapted,
-      ...this.adaptTotal(result),
-      ...others,
+      ...otherValues,
+    };
+
+    if (hasTotal) {
+      adaptedWithOtherValues = this.handleTotal(adaptedWithOtherValues, result.total);
+    }
+
+    return adaptedWithOtherValues;
+  }
+
+  static hasIncidents(result) {
+    return result && 'incidents' in result;
+  }
+
+  static hasIncidentStats(result) {
+    return result && 'incidents' in result && 'stats' in result.incidents;
+  }
+
+  static getIncidentStatsObject() {
+    return {
+      totals: this.getIncidentStatsTotalsObject(),
     };
   }
 
-  static adaptTotal(result) {
-    if (result.total) {
-      return {
-        incidents: {
-          stats: {
-            total: result.total,
-          },
-        },
-      };
+  static getIncidentStatsTotalsObject() {
+    return {
+      label: this.getLabel('totals'),
+      values: {},
+    };
+  }
+
+  static getIncidentStatsPercentageObject(value) {
+    return {
+      key: 'percentage',
+      label: this.getLabel('incident_percentage'),
+      value: `${value}%`,
+    };
+  }
+
+  static getIncidentStatsTotalObject(value) {
+    return {
+      key: 'total',
+      label: this.getLabel('incident_total'),
+      value,
+    };
+  }
+
+  static appendStatsToIncidents(result) {
+    if (!this.hasIncidents(result)) {
+      result.incidents = {};
     }
 
-    return undefined;
+    result.incidents.stats = this.getIncidentStatsObject();
+
+    return result;
+  }
+
+  static appendIncidentsPercentage(result, value) {
+    const percentageValue = percentage(result.incidents.stats.totals.values.total.value, value);
+
+    result.incidents.stats.totals.values.percentage = this.getIncidentStatsPercentageObject(percentageValue);
+
+    return result;
+  }
+
+  static appendIncidentsTotal(result, value) {
+    result.incidents.stats.totals.values.total = this.getIncidentStatsTotalObject(value);
+
+    return result;
+  }
+
+  static appendIncidentsPercentageIfTotal(result, value) {
+    if (this.hasIncidentStats(result)) {
+      return this.appendIncidentsPercentage(result, value);
+    }
+
+    return result;
+  }
+
+  static handleTotal(result, value) {
+    let adapted = result;
+
+    if (!this.hasIncidentStats(result)) {
+      adapted = this.appendStatsToIncidents(result);
+    }
+
+    return this.appendIncidentsTotal(adapted, value);
   }
 
   static adapt(result) {
