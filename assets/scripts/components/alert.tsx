@@ -33,7 +33,7 @@ const MessageContent = ({ alert }: MessageContentProps) => {
       {hasStatus && <strong>{alert.status}</strong>}
       {hasStatus && hasMessage && ' '}
       {hasMessage && <span dangerouslySetInnerHTML={{ __html: alert.message }} />}
-      {!hasStatus && !hasMessage && <>{alert}</>}
+      {!hasStatus && !hasMessage && <span>Something went wrong</span>}
     </>
   );
 };
