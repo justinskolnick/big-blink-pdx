@@ -55,10 +55,6 @@
       }
     }
 
-    .incident-table + .activity-stat-group {
-      margin-top: 18px;
-    }
-
     .incident-footer {
       .item-text-with-icon {
         align-items: center;
@@ -97,10 +93,8 @@
     }
   }
 
-  .incident-stat-group {
-    padding: 18px;
-    border-radius: 9px;
-    background-color: var(--color-off-white);
+  .incident-table + .meta-section {
+    margin-top: var(--gap);
   }
 
   @media screen and (max-width: 600px) {

@@ -1,0 +1,23 @@
+.incident-notes-box {
+  border-color: var(--color-light-brown);
+
+  .meta-section-box-icon {
+    background-color: var(--color-light-brown);
+
+    .icon {
+      color: var(--color-background);
+    }
+  }
+}
+
+.incident-source-box {
+  border-color: var(--color-blue);
+
+  .meta-section-box-icon {
+    background-color: var(--color-blue);
+
+    .icon {
+      color: var(--color-background);
+    }
+  }
+}

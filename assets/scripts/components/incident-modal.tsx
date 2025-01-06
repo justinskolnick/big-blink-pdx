@@ -6,13 +6,13 @@ import { selectors } from '../reducers/incidents';
 import api from '../services/api';
 
 import Icon from './icon';
-import IncidentStatGroup from './incident-stat-group';
+import IncidentNotesBox from './incident-notes-box';
 import IncidentTable from './incident-table';
 import ItemSubhead from './item-subhead';
 import ItemTextWithIcon from './item-text-with-icon';
 import { LinkToIncident } from './links';
+import MetaSection from './meta-section';
 import Modal from './modal';
-import StatBox from './stat-box';
 
 import type { Id } from '../types';
 
@@ -55,11 +55,12 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
           <IncidentTable incident={incident} />
 
           {hasNotes && (
-            <IncidentStatGroup>
-              <StatBox className='activity-stat-details' title='Notes regarding this incident' icon='asterisk'>
-                {incident.notes || 'None'}
-              </StatBox>
-            </IncidentStatGroup>
+            <MetaSection>
+              <IncidentNotesBox
+                title='Notes regarding this incident'
+                incident={incident}
+              />
+            </MetaSection>
           )}
         </main>
 

@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../lib/store';
 
+import { MetaSectionBox } from './meta-section';
 import { LinkToSource } from './links';
-import StatBox from './stat-box';
 
 import { selectors } from '../reducers/sources';
 import api from '../services/api';
@@ -16,10 +16,7 @@ interface Props {
   title: string;
 }
 
-const IncidentSourceBox = ({
-  incident,
-  title,
-}: Props) => {
+const IncidentSourceBox = ({ incident, title }: Props) => {
   const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const id = incident?.sourceId;
@@ -31,16 +28,20 @@ const IncidentSourceBox = ({
     trigger(id);
   }, [id, source, trigger]);
 
-  if (!incident || !source) return null;
+  if (!source) return null;
 
   return (
-    <StatBox className='activity-stat-details' title={title} icon='database'>
+    <MetaSectionBox
+      className='incident-source-box'
+      icon='database'
+      title={title}
+    >
       <LinkToSource
         id={source.id}
       >
         {source.title}
       </LinkToSource>
-    </StatBox>
+    </MetaSectionBox>
   );
 };
 

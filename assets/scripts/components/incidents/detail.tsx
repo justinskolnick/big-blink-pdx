@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { selectors } from '../../reducers/incidents';
 
+import IncidentNotesBox from '../incident-notes-box';
 import IncidentSourceBox from '../incident-source-box';
-import IncidentStatGroup from '../incident-stat-group';
+import MetaSection from '../meta-section';
 import IncidentTable from '../incident-table';
 import ItemDetail from '../item-detail';
 import ItemSubhead from '../item-subhead';
-import StatBox from '../stat-box';
+
 
 const Detail = () => {
   const { id } = useParams();
@@ -30,16 +31,17 @@ const Detail = () => {
       </div>
 
       <div className='item-content-section item-content-section-secondary'>
-        <IncidentStatGroup>
-          <IncidentSourceBox
+        <MetaSection>
+          <IncidentNotesBox
+            title='Notes regarding this incident'
             incident={incident}
-            title='Data source'
           />
 
-          <StatBox className='activity-stat-details' title='Notes regarding this incident' icon='asterisk'>
-            {incident.notes || 'None'}
-          </StatBox>
-        </IncidentStatGroup>
+          <IncidentSourceBox
+            title='Data source'
+            incident={incident}
+          />
+        </MetaSection>
       </div>
     </ItemDetail>
   );

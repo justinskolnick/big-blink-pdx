@@ -33,7 +33,9 @@ const AlertPortal = forwardRef<HTMLDivElement, Props>(({
   };
 
   useEffect(() => {
-    isActive && elementRef.current?.focus();
+    if (isActive) {
+      elementRef.current?.focus();
+    }
 
     return () => {
       elementRef.current?.blur();
