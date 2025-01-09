@@ -57,7 +57,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
           {hasNotes && (
             <MetaSection>
               <IncidentNotesBox
-                title='Notes regarding this incident'
+                title='Notes about this incident'
                 incident={incident}
               />
             </MetaSection>

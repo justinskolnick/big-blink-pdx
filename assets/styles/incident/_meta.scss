@@ -1,23 +1,23 @@
 .incident-notes-box {
-  border-color: var(--color-light-brown);
+  border-color: var(--color-brown);
 
   .meta-section-box-icon {
-    background-color: var(--color-light-brown);
+    background-color: var(--color-lightest-brown);
 
     .icon {
-      color: var(--color-background);
+      color: var(--color-brown);
     }
   }
 }
 
-.incident-source-box {
+.source-information-box {
   border-color: var(--color-blue);
 
   .meta-section-box-icon {
-    background-color: var(--color-blue);
+    background-color: var(--color-light-blue);
 
     .icon {
-      color: var(--color-background);
+      color: var(--color-blue);
     }
   }
 }

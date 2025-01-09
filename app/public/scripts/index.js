@@ -25322,11 +25322,11 @@ var require_react_jsx_runtime_development = __commonJS({
             return jsxWithValidation(type, props, key, false);
           }
         }
-        var jsx82 = jsxWithValidationDynamic;
-        var jsxs48 = jsxWithValidationStatic;
+        var jsx83 = jsxWithValidationDynamic;
+        var jsxs49 = jsxWithValidationStatic;
         exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = jsx82;
-        exports.jsxs = jsxs48;
+        exports.jsx = jsx83;
+        exports.jsxs = jsxs49;
       })();
     }
   }
@@ -45044,7 +45044,7 @@ var IncidentModal = ({ deactivate, id, isActive }) => {
       hasNotes && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(
         incident_notes_box_default,
         {
-          title: "Notes regarding this incident",
+          title: "Notes about this incident",
           incident
         }
       ) })
@@ -58854,7 +58854,7 @@ var IncidentSourceBox = ({ incident, title }) => {
   return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
     MetaSectionBox,
     {
-      className: "incident-source-box",
+      className: "source-information-box",
       icon: "database",
       title,
       children: /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
@@ -58885,7 +58885,7 @@ var Detail2 = () => {
       /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(
         incident_notes_box_default,
         {
-          title: "Notes regarding this incident",
+          title: "Notes about this incident",
           incident
         }
       ),
@@ -59279,12 +59279,55 @@ var Entities2 = ({ entities, source }) => {
 };
 var entities_default4 = Entities2;
 
-// assets/scripts/components/sources/detail.tsx
+// assets/scripts/components/source-information-box.tsx
 var import_jsx_runtime80 = __toESM(require_jsx_runtime());
-var disclaimers = {
-  activity: "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
-  registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
+var DataFormatIcon = /* @__PURE__ */ ((DataFormatIcon2) => {
+  DataFormatIcon2["csv"] = "file-csv";
+  return DataFormatIcon2;
+})(DataFormatIcon || {});
+var SourceDisclaimers = /* @__PURE__ */ ((SourceDisclaimers2) => {
+  SourceDisclaimers2["activity"] = "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.";
+  SourceDisclaimers2["registration"] = "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.";
+  return SourceDisclaimers2;
+})(SourceDisclaimers || {});
+var SourceInformationBox = ({ source, title }) => {
+  const disclaimers = SourceDisclaimers[source.type];
+  const format = DataFormat[source.format];
+  const icon2 = DataFormatIcon[source.format];
+  return /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(
+    MetaSectionBox,
+    {
+      className: "source-information-box",
+      icon: icon2,
+      title,
+      children: [
+        "Data was retrieved on",
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: source.retrievedDate }),
+        " ",
+        "in",
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: format }),
+        " format",
+        " ",
+        "from",
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: source.publicUrl, target: "_blank", rel: "noreferrer", children: source.publicUrl }) }),
+        " ",
+        "as published by the City of Portland\u2019s Auditor\u2019s Office in accordance with the City\u2019s",
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
+        ".",
+        " ",
+        disclaimers
+      ]
+    }
+  );
 };
+var source_information_box_default = SourceInformationBox;
+
+// assets/scripts/components/sources/detail.tsx
+var import_jsx_runtime81 = __toESM(require_jsx_runtime());
 var Detail4 = () => {
   const ref = (0, import_react46.useRef)();
   const scrollToRef = () => {
@@ -59299,51 +59342,32 @@ var Detail4 = () => {
   const incidents = source?.incidents;
   const hasIncidents = isActivity && Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasSource) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(item_detail_default, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("section", { className: "activity-meta-section item-source-file", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("div", { className: cx("activity-meta-section-icon", {
-        "icon-csv": source.format === "csv"
-      }), children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(icon_default, { name: "file-csv" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "activity-meta-section-description", children: [
-        "Data was retrieved on",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: source.retrievedDate }),
-        " ",
-        "in",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: DataFormat[source.format] }),
-        " format",
-        " ",
-        "from",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: source.publicUrl, target: "_blank", rel: "noreferrer", children: source.publicUrl }) }),
-        " ",
-        "as published by the City of Portland\u2019s Auditor\u2019s Office in accordance with the City\u2019s",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
-        ".",
-        " ",
-        disclaimers[source.type]
-      ] })
-    ] }),
-    hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(import_jsx_runtime80.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+  return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(item_detail_default, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+      source_information_box_default,
+      {
+        title: "Source Information",
+        source
+      }
+    ) }),
+    hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
         incident_activity_overview_default,
         {
           incidents,
           scrollToRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(chart_default4, { label })
+          children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(chart_default4, { label })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
         entities_default4,
         {
           entities: source.entities,
           source
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(attendees_default3, { attendees: source.attendees }),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(attendees_default3, { attendees: source.attendees }),
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
         detail_incidents_default,
         {
           ids: source.incidents?.ids,
@@ -59355,7 +59379,7 @@ var Detail4 = () => {
           ref
         }
       )
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
       incident_activity_group_default,
       {
         title: "No associated records were found."
@@ -59366,28 +59390,28 @@ var Detail4 = () => {
 var detail_default4 = Detail4;
 
 // assets/scripts/index.tsx
-var import_jsx_runtime81 = __toESM(require_jsx_runtime());
+var import_jsx_runtime82 = __toESM(require_jsx_runtime());
 var rootTarget = document.getElementById("root");
 var router = createBrowserRouter([
   {
     path: "/",
-    element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(app_default, {}),
-    errorElement: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(alert_error_default, {}),
+    element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(app_default, {}),
+    errorElement: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(alert_error_default, {}),
     children: [
       {
         path: "",
-        element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(home_default, {})
+        element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(home_default, {})
       },
       {
         path: "entities/*",
         children: [
           {
             path: "",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(entities_default2, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(entities_default2, {})
           },
           {
             path: ":id",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(detail_default, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(detail_default, {})
           }
         ]
       },
@@ -59396,11 +59420,11 @@ var router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(incidents_default2, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incidents_default2, {})
           },
           {
             path: ":id",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(detail_default2, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(detail_default2, {})
           }
         ]
       },
@@ -59409,11 +59433,11 @@ var router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(people_default2, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(people_default2, {})
           },
           {
             path: ":id",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(detail_default3, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(detail_default3, {})
           }
         ]
       },
@@ -59422,11 +59446,11 @@ var router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(sources_default2, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(sources_default2, {})
           },
           {
             path: ":id",
-            element: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(detail_default4, {})
+            element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(detail_default4, {})
           }
         ]
       }
@@ -59449,13 +59473,13 @@ if (rootTarget) {
     appendTarget(modal);
     appendTarget(alert);
     (0, import_client.createRoot)(modal).render(
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { id: modalPortalId }) })
+      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)("div", { id: modalPortalId }) })
     );
     (0, import_client.createRoot)(alert).render(
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { id: alertPortalId }) })
+      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)("div", { id: alertPortalId }) })
     );
     (0, import_client.createRoot)(rootTarget).render(
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RouterProvider, { router }) })
+      /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(RouterProvider, { router }) })
     );
   } catch (error) {
     console.log(error);

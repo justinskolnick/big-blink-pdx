@@ -33,7 +33,7 @@ const Detail = () => {
       <div className='item-content-section item-content-section-secondary'>
         <MetaSection>
           <IncidentNotesBox
-            title='Notes regarding this incident'
+            title='Notes about this incident'
             incident={incident}
           />
 

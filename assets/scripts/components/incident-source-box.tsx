@@ -32,7 +32,7 @@ const IncidentSourceBox = ({ incident, title }: Props) => {
 
   return (
     <MetaSectionBox
-      className='incident-source-box'
+      className='source-information-box'
       icon='database'
       title={title}
     >
