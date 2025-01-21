@@ -26898,6 +26898,11 @@ function createRouter(init) {
         }
       });
     }
+    deletedFetchers.forEach((key) => {
+      if (!state.fetchers.has(key) && !fetchControllers.has(key)) {
+        deletedFetchersKeys.push(key);
+      }
+    });
     [...subscribers].forEach((subscriber) => subscriber(state, {
       deletedFetchers: deletedFetchersKeys,
       viewTransitionOpts: opts.viewTransitionOpts,
@@ -26906,6 +26911,8 @@ function createRouter(init) {
     if (future.v7_fetcherPersist) {
       completedFetchers.forEach((key) => state.fetchers.delete(key));
       deletedFetchersKeys.forEach((key) => deleteFetcher(key));
+    } else {
+      deletedFetchersKeys.forEach((key) => deletedFetchers.delete(key));
     }
   }
   function completeNavigation(location2, newState, _temp) {
@@ -27876,11 +27883,9 @@ function createRouter(init) {
     });
   }
   function getFetcher(key) {
-    if (future.v7_fetcherPersist) {
-      activeFetchers.set(key, (activeFetchers.get(key) || 0) + 1);
-      if (deletedFetchers.has(key)) {
-        deletedFetchers.delete(key);
-      }
+    activeFetchers.set(key, (activeFetchers.get(key) || 0) + 1);
+    if (deletedFetchers.has(key)) {
+      deletedFetchers.delete(key);
     }
     return state.fetchers.get(key) || IDLE_FETCHER;
   }
@@ -27892,21 +27897,22 @@ function createRouter(init) {
     fetchLoadMatches.delete(key);
     fetchReloadIds.delete(key);
     fetchRedirectIds.delete(key);
-    deletedFetchers.delete(key);
+    if (future.v7_fetcherPersist) {
+      deletedFetchers.delete(key);
+    }
     cancelledFetcherLoads.delete(key);
     state.fetchers.delete(key);
   }
   function deleteFetcherAndUpdateState(key) {
-    if (future.v7_fetcherPersist) {
-      let count = (activeFetchers.get(key) || 0) - 1;
-      if (count <= 0) {
-        activeFetchers.delete(key);
-        deletedFetchers.add(key);
-      } else {
-        activeFetchers.set(key, count);
+    let count = (activeFetchers.get(key) || 0) - 1;
+    if (count <= 0) {
+      activeFetchers.delete(key);
+      deletedFetchers.add(key);
+      if (!future.v7_fetcherPersist) {
+        deleteFetcher(key);
       }
     } else {
-      deleteFetcher(key);
+      activeFetchers.set(key, count);
     }
     updateState({
       fetchers: new Map(state.fetchers)
@@ -29906,23 +29912,23 @@ function warnOnce(key, message) {
 }
 var logDeprecation = (flag, msg, link) => warnOnce(flag, "\u26A0\uFE0F React Router Future Flag Warning: " + msg + ". " + ("You can use the `" + flag + "` future flag to opt-in early. ") + ("For more information, see " + link + "."));
 function logV6DeprecationWarnings(renderFuture, routerFuture) {
-  if (!(renderFuture != null && renderFuture.v7_startTransition)) {
+  if ((renderFuture == null ? void 0 : renderFuture.v7_startTransition) === void 0) {
     logDeprecation("v7_startTransition", "React Router will begin wrapping state updates in `React.startTransition` in v7", "https://reactrouter.com/v6/upgrading/future#v7_starttransition");
   }
-  if (!(renderFuture != null && renderFuture.v7_relativeSplatPath) && (!routerFuture || !routerFuture.v7_relativeSplatPath)) {
+  if ((renderFuture == null ? void 0 : renderFuture.v7_relativeSplatPath) === void 0 && (!routerFuture || !routerFuture.v7_relativeSplatPath)) {
     logDeprecation("v7_relativeSplatPath", "Relative route resolution within Splat routes is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath");
   }
   if (routerFuture) {
-    if (!routerFuture.v7_fetcherPersist) {
+    if (routerFuture.v7_fetcherPersist === void 0) {
       logDeprecation("v7_fetcherPersist", "The persistence behavior of fetchers is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_fetcherpersist");
     }
-    if (!routerFuture.v7_normalizeFormMethod) {
+    if (routerFuture.v7_normalizeFormMethod === void 0) {
       logDeprecation("v7_normalizeFormMethod", "Casing of `formMethod` fields is being normalized to uppercase in v7", "https://reactrouter.com/v6/upgrading/future#v7_normalizeformmethod");
     }
-    if (!routerFuture.v7_partialHydration) {
+    if (routerFuture.v7_partialHydration === void 0) {
       logDeprecation("v7_partialHydration", "`RouterProvider` hydration behavior is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_partialhydration");
     }
-    if (!routerFuture.v7_skipActionErrorRevalidation) {
+    if (routerFuture.v7_skipActionErrorRevalidation === void 0) {
       logDeprecation("v7_skipActionErrorRevalidation", "The revalidation behavior after 4xx/5xx `action` responses is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_skipactionerrorrevalidation");
     }
   }
@@ -30329,12 +30335,12 @@ function RouterProvider(_ref) {
       flushSync,
       viewTransitionOpts
     } = _ref2;
-    deletedFetchers.forEach((key) => fetcherData.current.delete(key));
     newState.fetchers.forEach((fetcher, key) => {
       if (fetcher.data !== void 0) {
         fetcherData.current.set(key, fetcher.data);
       }
     });
+    deletedFetchers.forEach((key) => fetcherData.current.delete(key));
     let isViewTransitionUnavailable = router2.window == null || router2.window.document == null || typeof router2.window.document.startViewTransition !== "function";
     if (!viewTransitionOpts || isViewTransitionUnavailable) {
       if (flushSync) {
@@ -40522,7 +40528,7 @@ var Yt = {
     normal: "fakd"
   }
 };
-var po = {
+var ua = {
   classic: {
     "fa-brands": "fab",
     "fa-duotone": "fad",
@@ -40555,7 +40561,7 @@ var I$1 = {
   sharp: ["fass", "fasr", "fasl", "fast"],
   "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"]
 };
-var co = {
+var ga = {
   classic: {
     fab: "fa-brands",
     fad: "fa-duotone",
@@ -40583,12 +40589,12 @@ var co = {
   }
 };
 var x = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands"];
-var xo = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x];
+var Ia = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x];
 var m$1 = ["solid", "regular", "light", "thin", "duotone", "brands"];
 var c$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 var F$1 = c$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
-var Fo = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map((o2) => "".concat(o2, "x"))).concat(F$1.map((o2) => "w-".concat(o2)));
-var ko = {
+var ma = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map((a) => "".concat(a, "x"))).concat(F$1.map((a) => "w-".concat(a)));
+var wa = {
   "Font Awesome 5 Free": {
     900: "fas",
     400: "far"
@@ -40643,10 +40649,10 @@ _STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread
   duotone: "fad"
 }), _STYLE_TO_PREFIX[s]), Et["kit"]), Et["kit-duotone"]);
 var STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-var _PREFIX_TO_LONG_STYLE = _objectSpread2({}, co);
+var _PREFIX_TO_LONG_STYLE = _objectSpread2({}, ga);
 _PREFIX_TO_LONG_STYLE[s] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[s]), Wt["kit"]);
 var PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-var _LONG_STYLE_TO_PREFIX = _objectSpread2({}, po);
+var _LONG_STYLE_TO_PREFIX = _objectSpread2({}, ua);
 _LONG_STYLE_TO_PREFIX[s] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[s]), Ct["kit"]);
 var LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
 var ICON_SELECTION_SYNTAX_PATTERN = p;
@@ -40656,7 +40662,7 @@ var _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, G);
 var FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
 var ATTRIBUTES_WATCHED_FOR_MUTATION = ["class", "data-prefix", "data-icon", "data-fa-transform", "data-fa-mask"];
 var DUOTONE_CLASSES = A;
-var RESERVED_CLASSES = [...At, ...Fo];
+var RESERVED_CLASSES = [...At, ...ma];
 var initial = WINDOW.FontAwesomeConfig || {};
 function getAttrConfig(attr) {
   var element = DOCUMENT.querySelector("script[" + attr + "]");
@@ -41204,9 +41210,9 @@ function getCanonicalIcon(values) {
     skipLookups = false
   } = params;
   let givenPrefix = null;
-  const faCombinedClasses = xo.concat(bt$1);
+  const faCombinedClasses = Ia.concat(bt$1);
   const faStyleOrFamilyClasses = sortedUniqueValues(values.filter((cls) => faCombinedClasses.includes(cls)));
-  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter((cls) => !xo.includes(cls)));
+  const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter((cls) => !Ia.includes(cls)));
   const faStyles = faStyleOrFamilyClasses.filter((cls) => {
     givenPrefix = cls;
     return !P.includes(cls);
@@ -41253,7 +41259,7 @@ function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
 var newCanonicalFamilies = L.filter((familyId) => {
   return familyId !== s || familyId !== t;
 });
-var newCanonicalStyles = Object.keys(co).filter((key) => key !== s).map((key) => Object.keys(co[key])).flat();
+var newCanonicalStyles = Object.keys(ga).filter((key) => key !== s).map((key) => Object.keys(ga[key])).flat();
 function getDefaultCanonicalPrefix(prefixOptions) {
   const {
     values,
@@ -41812,7 +41818,7 @@ var p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFOR
   mark: noop$1,
   measure: noop$1
 };
-var preamble = 'FA "6.7.1"';
+var preamble = 'FA "6.7.2"';
 var begin = (name) => {
   p$2.mark("".concat(preamble, " ").concat(name, " begins"));
   return () => end(name);
@@ -41952,7 +41958,7 @@ function disableObservation() {
 function enableObservation() {
   disabled = false;
 }
-var mo$1 = null;
+var mo = null;
 function observe(options2) {
   if (!MUTATION_OBSERVER) {
     return;
@@ -41966,7 +41972,7 @@ function observe(options2) {
     pseudoElementsCallback = noop$2,
     observeMutationsRoot = DOCUMENT
   } = options2;
-  mo$1 = new MUTATION_OBSERVER((objects) => {
+  mo = new MUTATION_OBSERVER((objects) => {
     if (disabled) return;
     const defaultPrefix = getDefaultUsablePrefix();
     toArray(objects).forEach((mutationRecord) => {
@@ -41994,7 +42000,7 @@ function observe(options2) {
     });
   });
   if (!IS_DOM) return;
-  mo$1.observe(observeMutationsRoot, {
+  mo.observe(observeMutationsRoot, {
     childList: true,
     attributes: true,
     characterData: true,
@@ -42002,8 +42008,8 @@ function observe(options2) {
   });
 }
 function disconnect() {
-  if (!mo$1) return;
-  mo$1.disconnect();
+  if (!mo) return;
+  mo.disconnect();
 }
 function styleParser(node2) {
   const style = node2.getAttribute("style");
@@ -42130,7 +42136,7 @@ function generateMutation(node2) {
   }
 }
 function getKnownPrefixes() {
-  return [...Ft, ...xo];
+  return [...Ft, ...Ia];
 }
 function onTree(root) {
   let callback2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
@@ -42499,7 +42505,7 @@ var _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread2(_objectSpread2(_objectSpread2
     normal: "fas",
     400: "fas"
   }
-}), lt), ko), Yt);
+}), lt), wa), Yt);
 var FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, key) => {
   acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
   return acc;
@@ -58074,7 +58080,7 @@ function cloneData(data) {
 function ChartComponent(props, ref) {
   const { height = 150, width = 300, redraw = false, datasetIdKey, type, data, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
   const canvasRef = (0, import_react30.useRef)(null);
-  const chartRef = (0, import_react30.useRef)();
+  const chartRef = (0, import_react30.useRef)(null);
   const renderChart = () => {
     if (!canvasRef.current) return;
     chartRef.current = new Chart(canvasRef.current, {
@@ -58144,20 +58150,22 @@ function ChartComponent(props, ref) {
     renderChart();
     return () => destroyChart();
   }, []);
-  return /* @__PURE__ */ import_react30.default.createElement("canvas", Object.assign({
+  return /* @__PURE__ */ import_react30.default.createElement("canvas", {
     ref: canvasRef,
     role: "img",
     height,
-    width
-  }, canvasProps), fallbackContent);
+    width,
+    ...canvasProps
+  }, fallbackContent);
 }
 var Chart2 = /* @__PURE__ */ (0, import_react30.forwardRef)(ChartComponent);
 function createTypedChart(type, registerables) {
   Chart.register(registerables);
-  return /* @__PURE__ */ (0, import_react30.forwardRef)((props, ref) => /* @__PURE__ */ import_react30.default.createElement(Chart2, Object.assign({}, props, {
+  return /* @__PURE__ */ (0, import_react30.forwardRef)((props, ref) => /* @__PURE__ */ import_react30.default.createElement(Chart2, {
+    ...props,
     ref,
     type
-  })));
+  }));
 }
 var Bar = /* @__PURE__ */ createTypedChart("bar", BarController);
 
@@ -59555,7 +59563,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 @remix-run/router/dist/router.js:
   (**
-   * @remix-run/router v1.21.0
+   * @remix-run/router v1.21.1
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -59567,7 +59575,7 @@ react/cjs/react-jsx-runtime.development.js:
 
 react-router/dist/index.js:
   (**
-   * React Router v6.28.0
+   * React Router v6.28.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -59579,7 +59587,7 @@ react-router/dist/index.js:
 
 react-router-dom/dist/index.js:
   (**
-   * React Router DOM v6.28.0
+   * React Router DOM v6.28.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -59591,21 +59599,21 @@ react-router-dom/dist/index.js:
 
 @fortawesome/fontawesome-svg-core/index.mjs:
   (*!
-   * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2024 Fonticons, Inc.
    *)
 
 @fortawesome/free-solid-svg-icons/index.mjs:
   (*!
-   * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2024 Fonticons, Inc.
    *)
 
 @fortawesome/free-regular-svg-icons/index.mjs:
   (*!
-   * Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2024 Fonticons, Inc.
    *)
