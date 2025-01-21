@@ -45529,9 +45529,10 @@ var ActivityOverview = ({
   incidents,
   scrollToRef
 }) => {
-  const hasAppearances = Boolean(incidents.stats.appearances);
+  const hasIncidents = Boolean(incidents);
+  const hasAppearances = Boolean(incidents?.stats.appearances);
   return /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "activity-overview", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(stat_section_default, { title: incidents.stats.label, stylized: false, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(stat_section_default, { title: incidents.stats.label, stylized: false, children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
       /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)(stat_group_numbers_default, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
           item_subhead_default,
@@ -58554,22 +58555,15 @@ var Detail = () => {
   const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasEntity) return null;
   return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(item_detail_default, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(HelmetExport, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-      "meta",
+    /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+      incident_activity_overview_default,
       {
-        name: "description",
-        content: `Lobbying activity involving ${entity.name} according to data published by the City of Portland, Oregon`
+        incidents,
+        scrollToRef,
+        children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(chart_default, { label: entity.name }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(import_jsx_runtime56.Fragment, { children: "No associated records are available to display." })
       }
-    ) }),
-    hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-        incident_activity_overview_default,
-        {
-          incidents,
-          scrollToRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(chart_default, { label: entity.name })
-        }
-      ),
+    ),
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
         attendees_default,
         {
@@ -58589,12 +58583,7 @@ var Detail = () => {
           ref
         }
       )
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-      incident_activity_group_default,
-      {
-        title: "No associated records were found."
-      }
-    )
+    ] })
   ] });
 };
 var detail_default = Detail;
@@ -59132,47 +59121,44 @@ var Detail3 = () => {
   const incidents = person?.incidents;
   const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
   if (!hasPerson) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(item_detail_default, { children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(import_jsx_runtime74.Fragment, { children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(item_detail_default, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
       incident_activity_overview_default,
       {
         incidents,
         scrollToRef,
-        children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default3, { label: person.name })
+        children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default3, { label: person.name }) : /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(import_jsx_runtime74.Fragment, { children: "No associated records are available to display." })
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-      entities_default3,
-      {
-        entities: person.entities,
-        person
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-      attendees_default2,
-      {
-        attendees: person.attendees,
-        person
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-      detail_incidents_default,
-      {
-        ids: person.incidents?.ids,
-        filters: person.incidents?.filters,
-        hasSort: true,
-        label: person.name,
-        pagination: person.incidents?.pagination,
-        scrollToRef,
-        ref
-      }
-    )
-  ] }) : /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-    incident_activity_group_default,
-    {
-      title: "No associated records were found."
-    }
-  ) });
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(import_jsx_runtime74.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        entities_default3,
+        {
+          entities: person.entities,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        attendees_default2,
+        {
+          attendees: person.attendees,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        detail_incidents_default,
+        {
+          ids: person.incidents?.ids,
+          filters: person.incidents?.filters,
+          hasSort: true,
+          label: person.name,
+          pagination: person.incidents?.pagination,
+          scrollToRef,
+          ref
+        }
+      )
+    ] })
+  ] });
 };
 var detail_default3 = Detail3;
 
@@ -59350,15 +59336,15 @@ var Detail4 = () => {
         source
       }
     ) }),
-    hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-        incident_activity_overview_default,
-        {
-          incidents,
-          scrollToRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(chart_default4, { label })
-        }
-      ),
+    /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+      incident_activity_overview_default,
+      {
+        incidents,
+        scrollToRef,
+        children: hasIncidents ? /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(chart_default4, { label }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_jsx_runtime81.Fragment, { children: "No associated records are available to display." })
+      }
+    ),
+    hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
         entities_default4,
         {
@@ -59379,12 +59365,7 @@ var Detail4 = () => {
           ref
         }
       )
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-      incident_activity_group_default,
-      {
-        title: "No associated records were found."
-      }
-    )
+    ] })
   ] });
 };
 var detail_default4 = Detail4;

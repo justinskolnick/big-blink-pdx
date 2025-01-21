@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet';
 
 import { RootState } from '../../lib/store';
 import { selectors } from '../../reducers/entities';
@@ -10,7 +9,6 @@ import ActivityOverview from '../incident-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
-import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -33,21 +31,19 @@ const Detail = () => {
 
   return (
     <ItemDetail>
-      <Helmet>
-        <meta
-          name='description'
-          content={`Lobbying activity involving ${entity.name} according to data published by the City of Portland, Oregon`}
-        />
-      </Helmet>
-      {hasIncidents ? (
-        <>
-          <ActivityOverview
-            incidents={incidents}
-            scrollToRef={scrollToRef}
-          >
-            <Chart label={entity.name} />
-          </ActivityOverview>
+      <ActivityOverview
+        incidents={incidents}
+        scrollToRef={scrollToRef}
+      >
+        {hasIncidents ? (
+          <Chart label={entity.name} />
+        ) : (
+          <>No associated records are available to display.</>
+        )}
+      </ActivityOverview>
 
+      {hasIncidents && (
+        <>
           <Attendees
             attendees={entity.attendees}
             entity={entity}
@@ -63,10 +59,6 @@ const Detail = () => {
             ref={ref}
           />
         </>
-      ) : (
-        <IncidentActivityGroup
-          title='No associated records were found.'
-        />
       )}
     </ItemDetail>
   );

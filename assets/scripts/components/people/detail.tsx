@@ -10,7 +10,6 @@ import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
-import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -33,15 +32,19 @@ const Detail = () => {
 
   return (
     <ItemDetail>
-      {hasIncidents ? (
-        <>
-          <ActivityOverview
-            incidents={incidents}
-            scrollToRef={scrollToRef}
-          >
-            <Chart label={person.name} />
-          </ActivityOverview>
+      <ActivityOverview
+        incidents={incidents}
+        scrollToRef={scrollToRef}
+      >
+        {hasIncidents ? (
+          <Chart label={person.name} />
+        ) : (
+          <>No associated records are available to display.</>
+        )}
+      </ActivityOverview>
 
+      {hasIncidents && (
+        <>
           <Entities
             entities={person.entities}
             person={person}
@@ -62,10 +65,6 @@ const Detail = () => {
             ref={ref}
           />
         </>
-      ) : (
-        <IncidentActivityGroup
-          title='No associated records were found.'
-        />
       )}
     </ItemDetail>
   );

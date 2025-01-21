@@ -9,7 +9,6 @@ import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
-import IncidentActivityGroup from '../incident-activity-group';
 import ItemDetail from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
@@ -46,15 +45,19 @@ const Detail = () => {
         />
       </MetaSection>
 
-      {hasIncidents ? (
-        <>
-          <ActivityOverview
-            incidents={incidents}
-            scrollToRef={scrollToRef}
-          >
-            <Chart label={label} />
-          </ActivityOverview>
+      <ActivityOverview
+        incidents={incidents}
+        scrollToRef={scrollToRef}
+      >
+        {hasIncidents ? (
+          <Chart label={label} />
+        ) : (
+          <>No associated records are available to display.</>
+        )}
+      </ActivityOverview>
 
+      {hasIncidents && (
+        <>
           <Entities
             entities={source.entities}
             source={source}
@@ -72,10 +75,6 @@ const Detail = () => {
             ref={ref}
           />
         </>
-      ) : (
-        <IncidentActivityGroup
-          title='No associated records were found.'
-        />
       )}
     </ItemDetail>
   );
