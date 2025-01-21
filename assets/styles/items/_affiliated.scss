@@ -75,6 +75,12 @@
         }
       }
 
+      &.cell-name {
+        a {
+          white-space: wrap;
+        }
+      }
+
       &.cell-total {
         vertical-align: top;
         font-weight: 600;

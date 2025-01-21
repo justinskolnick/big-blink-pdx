@@ -1920,6 +1920,9 @@ body.has-alert .alert-root {
   color: var(--color-white);
   font-size: 6px;
 }
+.affiliated-items table td.cell-name a {
+  white-space: wrap;
+}
 .affiliated-items table td.cell-total {
   vertical-align: top;
   font-weight: 600;
