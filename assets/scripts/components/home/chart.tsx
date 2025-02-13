@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import Icon from '../icon';
+import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 import ItemSubhead from '../item-subhead';
 import LeaderboardSubsection from '../leaderboard/subsection';
@@ -28,7 +29,9 @@ const Chart = () => {
           </>
         )} />
 
-        <ItemChart lineProps={lineProps} />
+        <IncidentActivityChart>
+          <ItemChart lineProps={lineProps} />
+        </IncidentActivityChart>
       </LeaderboardSubsectionGroup>
     </LeaderboardSubsection>
   );

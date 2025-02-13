@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 
 import { getEntitiesChartData } from '../../selectors';
@@ -53,9 +52,7 @@ const Chart = ({ label }: Props) => {
   }, [quarterParam, quarter, setSearchParams]);
 
   return (
-    <IncidentActivityChart>
-      <ItemChart lineProps={lineProps} handleClick={handleClick} />
-    </IncidentActivityChart>
+    <ItemChart lineProps={lineProps} handleClick={handleClick} />
   );
 };
 

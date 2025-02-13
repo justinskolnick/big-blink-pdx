@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, forwardRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../lib/store';
@@ -27,7 +27,7 @@ interface Props {
   ids: Ids;
   label: string;
   pagination: Pagination;
-  scrollToRef: () => void;
+  ref: React.RefObject<HTMLElement>;
 }
 
 const WithEntityId = ({ filters, filterKey }: FiltersProps) => {
@@ -76,19 +76,23 @@ const DuringQuarter = ({ filters, filterKey }: FiltersProps) => {
   );
 };
 
-const DetailIncidents = forwardRef<HTMLDivElement, Props>(({
+const DetailIncidents = (({
   filters,
   hasSort,
   ids,
   label,
   pagination,
-  scrollToRef,
-}, ref) => {
+  ref,
+}: Props) => {
   const params = new URLSearchParams(location.search);
   const paramsString = params.toString();
 
   const idsRef = useRef(null);
   const paramsStringRef = useRef(null);
+
+  const scrollToRef = () => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
@@ -124,7 +128,5 @@ const DetailIncidents = forwardRef<HTMLDivElement, Props>(({
     </section>
   );
 });
-
-DetailIncidents.displayName = 'DetailIncidents';
 
 export default DetailIncidents;

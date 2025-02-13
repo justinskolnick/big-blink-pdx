@@ -5,7 +5,7 @@ interface Props {
 }
 
 const IncidentActivityChart = ({ children }: Props) => (
-  <div className='activity-stat activity-chart'>
+  <div className='activity-stat item-chart'>
     {children}
   </div>
 );

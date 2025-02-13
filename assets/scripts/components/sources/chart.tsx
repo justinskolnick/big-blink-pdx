@@ -1,6 +1,5 @@
 import React from 'react';
 
-import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 
 interface Props {
@@ -8,9 +7,7 @@ interface Props {
 }
 
 const Chart = ({ label }: Props) => (
-  <IncidentActivityChart>
-    <ItemChart label={label} />
-  </IncidentActivityChart>
+  <ItemChart label={label} />
 );
 
 export default Chart;

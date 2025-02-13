@@ -2009,10 +2009,20 @@ body.has-alert .alert-root {
   margin-top: calc(3 * var(--gap));
 }
 .item-detail .item-chart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 18px;
+  min-height: calc(5 * 18px);
+  min-height: calc(5 * var(--gap));
   border-radius: 9px;
   background-color: linen;
   background-color: var(--color-stat-light);
+}
+.item-detail .item-chart p {
+  color: darkolivegreen;
+  color: var(--color-dark-green);
+  font-size: 12px;
 }
 .item-subhead {
   line-height: 27px;

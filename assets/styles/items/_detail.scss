@@ -23,8 +23,17 @@
   }
 
   .item-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 18px;
+    min-height: calc(5 * var(--gap));
     border-radius: 9px;
     background-color: var(--color-stat-light);
+
+    p {
+      color: var(--color-dark-green);
+      font-size: 12px;
+    }
   }
 }

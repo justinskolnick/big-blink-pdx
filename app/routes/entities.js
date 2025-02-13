@@ -195,6 +195,7 @@ router.get('/:id', async (req, res, next) => {
             total: incidentsStats.paginationTotal,
           }),
           stats: {
+            label: 'Overview',
             appearances: {
               label: 'Appearances',
               values: [

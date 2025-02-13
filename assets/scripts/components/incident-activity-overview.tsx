@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import DateBox from './incident-date-box';
+import IncidentActivityChart from './incident-activity-chart';
 import IncidentStatGroup from './incident-stat-group';
 import ItemSubhead from './item-subhead';
 import NumbersGroup from './stat-group-numbers';
@@ -13,29 +14,35 @@ import type { IncidentsOverview } from '../types';
 interface Props {
   children: ReactNode;
   incidents?: IncidentsOverview;
-  scrollToRef: () => void;
+  ref: React.RefObject<HTMLElement>;
 }
 
 const ActivityOverview = ({
   children,
   incidents,
-  scrollToRef,
+  ref,
 }: Props) => {
-  const hasIncidents = Boolean(incidents);
-  const hasAppearances = Boolean(incidents?.stats.appearances);
+  const stats = incidents?.stats;
+  const hasStats = Boolean(stats);
+  const hasAppearances = stats?.appearances?.values.some(value => value.value);
+  const hasIncidents = Boolean(stats?.totals?.values.total.value);
+
+  const scrollToRef = () => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className='activity-overview'>
-      {hasIncidents && (
-        <StatSection title={incidents.stats.label} stylized={false}>
+      {hasStats && (
+        <StatSection title={stats.label} stylized={false}>
           <StatGroup className='activity-numbers-and-dates'>
             <NumbersGroup>
               <ItemSubhead
-                subtitle={incidents.stats.totals.label}
+                subtitle={stats.totals.label}
                 icon='chart-line'
               />
 
-              {Object.values(incidents.stats.totals.values).map(item => {
+              {Object.values(stats.totals.values).map(item => {
                 const isInteractive = item.key === 'total';
 
                 return (
@@ -54,11 +61,11 @@ const ActivityOverview = ({
             {hasAppearances && (
               <IncidentStatGroup className='activity-dates'>
                 <ItemSubhead
-                  subtitle={incidents.stats.appearances.label}
+                  subtitle={stats.appearances.label}
                   icon='calendar'
                 />
 
-                {incidents.stats.appearances.values.map(item => (
+                {stats.appearances.values.map(item => (
                   <DateBox key={item.key} incident={item} />
                 ))}
               </IncidentStatGroup>
@@ -68,7 +75,13 @@ const ActivityOverview = ({
       )}
 
       <StatSection stylized={false}>
-        {children}
+        {hasStats && (
+          <IncidentActivityChart>
+            {hasIncidents ? children : (
+              <p>No data is available to display.</p>
+            )}
+          </IncidentActivityChart>
+        )}
       </StatSection>
     </div>
   );

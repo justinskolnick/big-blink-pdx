@@ -14,10 +14,6 @@ import ItemDetail from '../item-detail';
 const Detail = () => {
   const ref = useRef<HTMLDivElement>();
 
-  const scrollToRef = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const { id } = useParams();
   const numericId = Number(id);
 
@@ -33,13 +29,9 @@ const Detail = () => {
     <ItemDetail>
       <ActivityOverview
         incidents={incidents}
-        scrollToRef={scrollToRef}
+        ref={ref}
       >
-        {hasIncidents ? (
-          <Chart label={entity.name} />
-        ) : (
-          <>No associated records are available to display.</>
-        )}
+        <Chart label={entity.name} />
       </ActivityOverview>
 
       {hasIncidents && (
@@ -55,7 +47,6 @@ const Detail = () => {
             hasSort
             label={entity.name}
             pagination={entity.incidents?.pagination}
-            scrollToRef={scrollToRef}
             ref={ref}
           />
         </>

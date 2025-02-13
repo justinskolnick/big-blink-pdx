@@ -18,10 +18,6 @@ import { selectors } from '../../reducers/sources';
 const Detail = () => {
   const ref = useRef<HTMLDivElement>();
 
-  const scrollToRef = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const { id } = useParams();
   const numericId = Number(id);
 
@@ -47,13 +43,9 @@ const Detail = () => {
 
       <ActivityOverview
         incidents={incidents}
-        scrollToRef={scrollToRef}
+        ref={ref}
       >
-        {hasIncidents ? (
-          <Chart label={label} />
-        ) : (
-          <>No associated records are available to display.</>
-        )}
+        <Chart label={label} />
       </ActivityOverview>
 
       {hasIncidents && (
@@ -71,7 +63,6 @@ const Detail = () => {
             hasSort
             label={source.title}
             pagination={source.incidents?.pagination}
-            scrollToRef={scrollToRef}
             ref={ref}
           />
         </>
