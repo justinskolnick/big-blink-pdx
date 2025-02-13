@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 import IncidentActivityChart from '../incident-activity-chart';

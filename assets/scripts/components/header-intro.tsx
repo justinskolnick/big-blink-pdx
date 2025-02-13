@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 
 import { LinkToIncidents, LinkToIncident } from './links';
 import Icon from './icon';

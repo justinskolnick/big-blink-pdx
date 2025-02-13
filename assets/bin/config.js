@@ -8,7 +8,7 @@ const autoprefixer = require('autoprefixer');
 const defaults = {
   bundle: true,
   entryPoints: pkg.config.scripts.build,
-  format: 'esm',
+  format: 'iife',
   jsx: 'automatic',
   logLevel: 'info',
   outdir: pkg.config.scripts.dist,

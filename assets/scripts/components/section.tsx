@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 

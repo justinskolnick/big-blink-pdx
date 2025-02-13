@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
-import { useLocation, useSearchParams, Link, NavLink } from 'react-router-dom';
+import { useLocation, useSearchParams, Link, NavLink } from 'react-router';
 import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';

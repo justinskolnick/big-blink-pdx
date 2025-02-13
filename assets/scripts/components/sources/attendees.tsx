@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, Outlet, ScrollRestoration } from 'react-router-dom';
+import { useLocation, Outlet, ScrollRestoration } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 
