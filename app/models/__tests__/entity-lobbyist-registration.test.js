@@ -20,4 +20,21 @@ describe('adapt()', () => {
       year: 2024,
     });
   });
+
+  test('sets data', () => {
+    const registration = new EntityLobbyistRegistration({
+      x: 'y',
+    });
+
+    registration.setData('z', 'abc');
+
+    expect(registration.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(registration.adapted).toEqual({
+      // ???
+    });
+  });
 });

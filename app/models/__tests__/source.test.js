@@ -114,4 +114,32 @@ describe('adaptEntity()', () => {
       total: 22,
     });
   });
+
+  test('sets data', () => {
+    const source = new Source({
+      x: 'y',
+    });
+
+    source.setData('z', 'abc');
+    source.setData('retrieved_at', '2025-02-14');
+
+    /* eslint-disable camelcase */
+    expect(source.data).toEqual({
+      retrieved_at: '2025-02-14',
+      x: 'y',
+      z: 'abc',
+    });
+    /* eslint-enable camelcase */
+
+    expect(source.adapted).toEqual({
+      format: undefined,
+      id: undefined,
+      publicUrl: undefined,
+      quarter: undefined,
+      retrievedDate: 'February 14, 2025',
+      title: undefined,
+      type: undefined,
+      year: undefined,
+    });
+  });
 });

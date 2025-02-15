@@ -31,4 +31,27 @@ describe('adapt()', () => {
     });
   });
   /* eslint-enable camelcase */
+
+  test('sets data', () => {
+    const incidentAttendee = new IncidentAttendee({
+      x: 'y',
+    });
+
+    incidentAttendee.setData('z', 'abc');
+
+    expect(incidentAttendee.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(incidentAttendee.adapted).toEqual({
+      as: undefined,
+      id: undefined,
+      person: {
+        id: undefined,
+        name: undefined,
+        type: undefined,
+      },
+    });
+  });
 });

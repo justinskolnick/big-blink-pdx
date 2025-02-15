@@ -200,6 +200,20 @@ class Base {
   static adapt(result) {
     return this.adaptResult(result);
   }
+
+  data = {};
+
+  constructor(data = {}) {
+    this.data = data;
+  }
+
+  setData(key, value) {
+    this.data[key] = value;
+  }
+
+  get adapted() {
+    return this.constructor.adapt(this.data);
+  }
 }
 
 module.exports = Base;

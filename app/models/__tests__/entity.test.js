@@ -106,4 +106,23 @@ describe('adapt()', () => {
       },
     });
   });
+
+  test('sets data', () => {
+    const entity = new Entity({
+      x: 'y',
+    });
+
+    entity.setData('z', 'abc');
+
+    expect(entity.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(entity.adapted).toEqual({
+      domain: undefined,
+      id: undefined,
+      name: undefined,
+    });
+  });
 });

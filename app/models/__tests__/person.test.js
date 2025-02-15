@@ -127,4 +127,24 @@ describe('adapt()', () => {
       },
     });
   });
+
+  test('sets data', () => {
+    const person = new Person({
+      x: 'y',
+    });
+
+    person.setData('z', 'abc');
+
+    expect(person.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(person.adapted).toEqual({
+      id: undefined,
+      name: undefined,
+      roles: [],
+      type: undefined,
+    });
+  });
 });

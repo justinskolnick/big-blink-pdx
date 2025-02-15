@@ -25,4 +25,24 @@ describe('adapt()', () => {
       slug: '2014-q2',
     });
   });
+
+  test('sets data', () => {
+    const quarter = new Quarter({
+      x: 'y',
+    });
+
+    quarter.setData('z', 'abc');
+
+    expect(quarter.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(quarter.adapted).toEqual({
+      id: undefined,
+      quarter: undefined,
+      slug: undefined,
+      year: undefined,
+    });
+  });
 });

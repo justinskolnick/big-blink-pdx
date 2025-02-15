@@ -28,7 +28,11 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(result => EntityLobbyistLocation.adapt(result));
+  return results.map(result => {
+    const location = new EntityLobbyistLocation(result);
+
+    return location.adapted;
+  });
 };
 
 module.exports = {

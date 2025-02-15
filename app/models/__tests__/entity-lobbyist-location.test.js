@@ -22,4 +22,21 @@ describe('adapt()', () => {
       region: 'WA',
     });
   });
+
+  test('sets data', () => {
+    const location = new EntityLobbyistLocation({
+      x: 'y',
+    });
+
+    location.setData('z', 'abc');
+
+    expect(location.data).toEqual({
+      x: 'y',
+      z: 'abc',
+    });
+
+    expect(location.adapted).toEqual({
+      // ???
+    });
+  });
 });

@@ -59,7 +59,11 @@ const getAll = async (options = {}) => {
 
       all[key] = results
         .filter(result => result.role === role)
-        .map(result => IncidentAttendee.adapt(result));
+        .map(result => {
+          const attendee = new IncidentAttendee(result);
+
+          return attendee.adapted;
+        });
 
       return all;
     }, {});

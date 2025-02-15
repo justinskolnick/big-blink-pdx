@@ -53,4 +53,40 @@ describe('adapt()', () => {
     });
   });
   /* eslint-enable camelcase */
+
+  test('sets data', () => {
+    const incident = new Incident({
+      x: 'y',
+    });
+
+    incident.setData('z', 'abc');
+    incident.setData('contact_date', '2025-02-14');
+
+    /* eslint-disable camelcase */
+    expect(incident.data).toEqual({
+      contact_date: '2025-02-14',
+      x: 'y',
+      z: 'abc',
+    });
+    /* eslint-enable camelcase */
+
+    expect(incident.adapted).toEqual({
+      category: undefined,
+      contactDate: 'February 14, 2025',
+      contactType: undefined,
+      entity: undefined,
+      entityId: undefined,
+      entityName: undefined,
+      id: undefined,
+      lobbyists: undefined,
+      notes: undefined,
+      officials: undefined,
+      raw: {
+        lobbyists: undefined,
+        officials: undefined,
+      },
+      sourceId: undefined,
+      topic: undefined,
+    });
+  });
 });

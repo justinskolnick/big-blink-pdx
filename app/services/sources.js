@@ -52,7 +52,11 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(result => Source.adapt(result));
+  return results.map(result => {
+    const source = new Source(result);
+
+    return source.adapted;
+  });
 };
 
 const getAtIdQuery = (id) => {
@@ -74,8 +78,9 @@ const getAtIdQuery = (id) => {
 const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
+  const source = new Source(result);
 
-  return Source.adapt(result);
+  return source.adapted;
 };
 
 const getEntitiesForIdQuery = (id) => {
