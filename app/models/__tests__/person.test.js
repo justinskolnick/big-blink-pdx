@@ -1,5 +1,7 @@
 const Person = require('../person');
 
+const { percentage } = require('../../lib/number');
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('incident_percentage')).toBe('Share of total');
@@ -19,12 +21,24 @@ describe('fields()', () => {
 });
 
 describe('adapt()', () => {
+  const result = {
+    id: 1,
+    type: 'person',
+    name: 'John Doe',
+  };
+  const resultWithRoles = {
+    ...result,
+    roles: 'official,lobbyist',
+  };
+  const resultWithTotal = {
+    ...result,
+    total: 123,
+  };
+
   test('adapts a result', () => {
-    expect(Person.adapt({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-    })).toEqual({
+    const person = new Person(result);
+
+    expect(person.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
@@ -33,12 +47,9 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with roles', () => {
-    expect(Person.adapt({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-      roles: 'official,lobbyist',
-    })).toEqual({
+    const person = new Person(resultWithRoles);
+
+    expect(person.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
@@ -50,20 +61,20 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total', () => {
-    const adapted = Person.adapt({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-      total: 123,
+    const person = new Person(resultWithTotal);
+
+    person.setIncidentStats({
+      total: person.data.total,
     });
 
-    expect(adapted).toEqual({
+    expect(person.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
       roles: [],
       incidents: {
         stats: {
+          label: 'Overview',
           totals: {
             label: 'Totals',
             values: {
@@ -80,34 +91,31 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total and a percentage', () => {
-    const adapted = Person.adapt({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-    });
-    const adaptedWithTotal = Person.adapt({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-      total: 123,
-    });
-    const adaptedWithPercentage = Person.appendIncidentsPercentageIfTotal(adapted, 246);
-    const adaptedWithTotalAndPercentage = Person.appendIncidentsPercentageIfTotal(adaptedWithTotal, 246);
+    const person = new Person(result);
+    const personWithTotal = new Person(resultWithTotal);
 
-    expect(adaptedWithPercentage).toEqual({
+    const incidentCountResult = 246;
+
+    personWithTotal.setIncidentStats({
+      percentage: percentage(personWithTotal.data.total, incidentCountResult),
+      total: personWithTotal.data.total,
+    });
+
+    expect(person.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
       roles: [],
     });
 
-    expect(adaptedWithTotalAndPercentage).toEqual({
+    expect(personWithTotal.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
       roles: [],
       incidents: {
         stats: {
+          label: 'Overview',
           totals: {
             label: 'Totals',
             values: {
@@ -127,24 +135,32 @@ describe('adapt()', () => {
       },
     });
   });
+});
 
+describe('setData()', () => {
   test('sets data', () => {
     const person = new Person({
+      id: 1,
+      type: 'person',
+      name: 'John Doe',
       x: 'y',
     });
 
     person.setData('z', 'abc');
 
     expect(person.data).toEqual({
+      id: 1,
+      name: 'John Doe',
+      type: 'person',
       x: 'y',
       z: 'abc',
     });
 
     expect(person.adapted).toEqual({
-      id: undefined,
-      name: undefined,
+      id: 1,
+      name: 'John Doe',
       roles: [],
-      type: undefined,
+      type: 'person',
     });
   });
 });

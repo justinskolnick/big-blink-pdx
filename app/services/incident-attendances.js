@@ -80,11 +80,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(result => {
-    const incident = new Incident(result);
-
-    return incident.adapted;
-  });
+  return results.map(result => new Incident(result));
 };
 
 const getTotalQuery = (options = {}) => {

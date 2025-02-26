@@ -6,9 +6,7 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-
-const Entity = require('../models/entity');
-const Person = require('../models/person');
+const { percentage } = require('../lib/number');
 
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
@@ -30,17 +28,26 @@ router.get('/', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     let entitiesResult;
     let lobbyistsResult;
-    let peopleResult;
     let officialsResult;
     let incidentCountResult;
     let data;
 
     try {
+      incidentCountResult = await incidents.getTotal();
+
       entitiesResult = await entities.getAll({
         page: 1,
         perPage: 5,
         includeCount: true,
         sortBy: paramHelper.SORT_BY_TOTAL,
+      });
+      entitiesResult = entitiesResult.map(entity => {
+        entity.setIncidentStats({
+          percentage: percentage(entity.data.total, incidentCountResult),
+          total: entity.data.total,
+        });
+
+        return entity.adapted;
       });
 
       lobbyistsResult = await people.getAll({
@@ -50,6 +57,14 @@ router.get('/', async (req, res, next) => {
         role: 'lobbyist',
         sortBy: paramHelper.SORT_BY_TOTAL,
       });
+      lobbyistsResult = lobbyistsResult.map(person => {
+        person.setIncidentStats({
+          percentage: percentage(person.data.total, incidentCountResult),
+          total: person.data.total,
+        });
+
+        return person.adapted;
+      });
 
       officialsResult = await people.getAll({
         page: 1,
@@ -58,16 +73,18 @@ router.get('/', async (req, res, next) => {
         role: 'official',
         sortBy: paramHelper.SORT_BY_TOTAL,
       });
+      officialsResult = officialsResult.map(person => {
+        person.setIncidentStats({
+          percentage: percentage(person.data.total, incidentCountResult),
+          total: person.data.total,
+        });
 
-      peopleResult = [].concat(lobbyistsResult, officialsResult);
-
-      incidentCountResult = await incidents.getTotal();
+        return person.adapted;
+      });
 
       data = {
         entities: {
-          records: entitiesResult.map(result =>
-            Entity.appendIncidentsPercentageIfTotal(result, incidentCountResult)
-          ),
+          records: entitiesResult,
           leaderboard: {
             all: {
               labels: {
@@ -85,9 +102,7 @@ router.get('/', async (req, res, next) => {
           }
         },
         people: {
-          records: peopleResult.map(result =>
-            Person.appendIncidentsPercentageIfTotal(result, incidentCountResult)
-          ),
+          records: [].concat(lobbyistsResult, officialsResult),
           leaderboard: {
             lobbyists: {
               labels: {

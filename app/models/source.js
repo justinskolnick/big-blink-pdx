@@ -1,6 +1,6 @@
-const Base = require('./base');
+const IncidentedObject = require('./incidented-object');
 
-class Source extends Base {
+class Source extends IncidentedObject {
   static tableName = 'data_sources';
 
   static perPage = 40;

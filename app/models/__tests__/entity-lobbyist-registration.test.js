@@ -23,18 +23,21 @@ describe('adapt()', () => {
 
   test('sets data', () => {
     const registration = new EntityLobbyistRegistration({
-      x: 'y',
+      quarter: 1,
+      year: 2024,
     });
 
     registration.setData('z', 'abc');
 
     expect(registration.data).toEqual({
-      x: 'y',
+      quarter: 1,
+      year: 2024,
       z: 'abc',
     });
 
     expect(registration.adapted).toEqual({
-      // ???
+      quarter: 1,
+      year: 2024,
     });
   });
 });

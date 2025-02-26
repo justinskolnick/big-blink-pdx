@@ -42,6 +42,8 @@ router.get('/', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       incidentsResult = await incidents.getAll({ page, perPage, sort });
+      incidentsResult = incidentsResult.map(incident => incident.adapted);
+
       incidentCountResult = await incidents.getTotal();
       records = await incidentAttendees.getAllForIncidents(incidentsResult);
 
@@ -95,6 +97,8 @@ router.get('/:id', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       incidentResult = await incidents.getAtId(id);
+      incidentResult = incidentResult.adapted;
+
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
 
       section.id = incidentResult.id;

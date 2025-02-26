@@ -65,11 +65,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(result => {
-    const person = new Person(result);
-
-    return person.adapted;
-  });
+  return results.map(result => new Person(result));
 };
 
 const getAtIdQuery = (id) => {
@@ -98,9 +94,8 @@ const getAtIdQuery = (id) => {
 const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
-  const person = new Person(result);
 
-  return person.adapted;
+  return new Person(result);
 };
 
 const getTotalQuery = () => `SELECT COUNT(${Person.primaryKey()}) AS total FROM ${Person.tableName}`;

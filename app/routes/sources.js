@@ -45,9 +45,19 @@ router.get('/', async (req, res, next) => {
         includeCount: true,
         types: [Source.types.activity],
       });
+      activitySourcesResult = activitySourcesResult.map(source => {
+        source.setIncidentStats({
+          total: source.data.total,
+        });
+
+        return source.adapted;
+      });
+
       registrationSourcesResult = await sources.getAll({
         types: [Source.types.registration],
       });
+      registrationSourcesResult = registrationSourcesResult.map(source => source.adapted);
+
       sourceTotal = await sources.getTotal({
         types: [Source.types.activity, Source.types.registration],
       });
@@ -92,6 +102,7 @@ router.get('/:id', async (req, res, next) => {
   const links = linkHelper.links;
 
   let source;
+  let record;
   let description = metaHelper.getDetailDescription();
   let incidentsStats;
   let sourceIncidents;
@@ -101,9 +112,11 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     source = await sources.getAtId(id);
-    description = metaHelper.getDetailDescription(source.title, 'from');
-    section.id = source.id;
-    section.subtitle = source.title;
+    adapted = source.adapted;
+
+    description = metaHelper.getDetailDescription(adapted.title, 'from');
+    section.id = adapted.id;
+    section.subtitle = adapted.title;
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -111,8 +124,10 @@ router.get('/:id', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      if (source.type === Source.types.activity) {
+      if (source.data.type === Source.types.activity) {
         incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
+        source.setIncidentStats(incidentsStats);
+
         sourceIncidents = await incidents.getAll({
           page,
           perPage,
@@ -121,6 +136,8 @@ router.get('/:id', async (req, res, next) => {
           withEntityId,
           withPersonId,
         });
+        sourceIncidents = sourceIncidents.map(incident => incident.adapted);
+
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
         if (paramHelper.hasSort(sort)) {
@@ -133,46 +150,25 @@ router.get('/:id', async (req, res, next) => {
           params[snakeCase('withPersonId')] = Number(withPersonId);
         }
 
-        const record = {
-          ...source,
-          incidents: {
-            records,
-            filters: params,
-            pagination: linkHelper.getPagination({
-              page,
-              params,
-              path: links.source(id),
-              perPage,
-              total: incidentsStats.paginationTotal,
-            }),
-            stats: {
-              label: 'Overview',
-              appearances: {
-                label: 'Appearances',
-                values: [
-                  {
-                    key: 'first',
-                    label: 'First reported incident',
-                    value: incidentsStats.first,
-                  },
-                  {
-                    key: 'last',
-                    label: 'Last reported incident',
-                    value: incidentsStats.last,
-                  },
-                ],
-              },
-            },
-          },
-        };
-
-        record.incidents.stats.totals = Source.getIncidentStatsObject().totals;
-        record.incidents.stats.totals.values.percentage = Source.getIncidentStatsPercentageObject(incidentsStats.percentage);
-        record.incidents.stats.totals.values.total = Source.getIncidentStatsTotalObject(incidentsStats.total);
+        record = source.adapted;
 
         data = {
           source: {
-            record,
+            record: {
+              ...record,
+              incidents: {
+                ...record.incidents,
+                records,
+                filters: params,
+                pagination: linkHelper.getPagination({
+                  page,
+                  params,
+                  path: links.source(id),
+                  perPage,
+                  total: incidentsStats.paginationTotal,
+                }),
+              },
+            },
           },
         };
         meta = {
@@ -185,10 +181,12 @@ router.get('/:id', async (req, res, next) => {
           view,
         };
       } else {
+        record = source.adapted;
+
         data = {
           source: {
-            record: source,
-          }
+            record,
+          },
         };
         meta = {
           description,
@@ -222,14 +220,15 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       source = await sources.getAtId(id);
+      record = source.adapted;
       attendees = await incidentAttendees.getAttendees({ sourceId: id });
 
       data = {
         source: {
           record: {
-            ...source,
+            ...record,
             attendees: {
-              label: `These people appear in ${source.title}`,
+              label: `These people appear in ${record.title}`,
               lobbyists: {
                 label: 'Lobbyists',
                 records: attendees.lobbyists.records,
@@ -259,6 +258,7 @@ router.get('/:id/entities', async (req, res, next) => {
     const id = req.params.id;
 
     let source;
+    let record;
     let entities;
     let data;
     let meta;
@@ -267,10 +267,12 @@ router.get('/:id/entities', async (req, res, next) => {
       source = await sources.getAtId(id);
       entities = await sources.getEntitiesForId(id);
 
+      record = source.adapted;
+
       data = {
         source: {
           record: {
-            ...source,
+            ...record,
             entities,
           },
         },

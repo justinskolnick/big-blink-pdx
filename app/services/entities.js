@@ -70,11 +70,7 @@ const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
   const results = await db.getAll(clauses, params);
 
-  return results.map(result => {
-    const entity = new Entity(result);
-
-    return entity.adapted;
-  });
+  return results.map(result => new Entity(result));
 };
 
 const getAtIdQuery = (id) => {
@@ -95,9 +91,8 @@ const getAtIdQuery = (id) => {
 const getAtId = async (id) => {
   const { clauses, params } = getAtIdQuery(id);
   const result = await db.get(clauses, params);
-  const entity = new Entity(result);
 
-  return entity.adapted;
+  return new Entity(result);
 };
 
 const getTotalQuery = () => `SELECT COUNT(${Entity.primaryKey()}) AS total FROM ${Entity.tableName}`;

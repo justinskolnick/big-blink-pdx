@@ -1,5 +1,7 @@
 const Entity = require('../entity');
 
+const { percentage } = require('../../lib/number');
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Entity.getLabel('incident_percentage')).toBe('Share of total');
@@ -19,12 +21,20 @@ describe('fields()', () => {
 });
 
 describe('adapt()', () => {
+  const result = {
+    id: 1,
+    name: 'Spacely Sprockets',
+    domain: 'https://example.com',
+  };
+  const resultWithTotal = {
+    ...result,
+    total: 123,
+  };
+
   test('adapts a result', () => {
-    expect(Entity.adapt({
-      id: 1,
-      name: 'Spacely Sprockets',
-      domain: 'https://example.com',
-    })).toEqual({
+    const entity = new Entity(result);
+
+    expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
@@ -32,19 +42,19 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total', () => {
-    const adapted = Entity.adapt({
-      id: 1,
-      name: 'Spacely Sprockets',
-      domain: 'https://example.com',
-      total: 123,
+    const entity = new Entity(resultWithTotal);
+
+    entity.setIncidentStats({
+      total: entity.data.total,
     });
 
-    expect(adapted).toEqual({
+    expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
       incidents: {
         stats: {
+          label: 'Overview',
           totals: {
             label: 'Totals',
             values: {
@@ -61,32 +71,29 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total and a percentage', () => {
-    const adapted = Entity.adapt({
-      id: 1,
-      name: 'Spacely Sprockets',
-      domain: 'https://example.com',
-    });
-    const adaptedWithTotal = Entity.adapt({
-      id: 1,
-      name: 'Spacely Sprockets',
-      domain: 'https://example.com',
-      total: 123,
-    });
-    const adaptedWithPercentage = Entity.appendIncidentsPercentageIfTotal(adapted, 246);
-    const adaptedWithTotalAndPercentage = Entity.appendIncidentsPercentageIfTotal(adaptedWithTotal, 246);
+    const entity = new Entity(result);
+    const entityWithTotal = new Entity(resultWithTotal);
 
-    expect(adaptedWithPercentage).toEqual({
+    const incidentCountResult = 246;
+
+    entityWithTotal.setIncidentStats({
+      percentage: percentage(entityWithTotal.data.total, incidentCountResult),
+      total: entityWithTotal.data.total,
+    });
+
+    expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
     });
 
-    expect(adaptedWithTotalAndPercentage).toEqual({
+    expect(entityWithTotal.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
       incidents: {
         stats: {
+          label: 'Overview',
           totals: {
             label: 'Totals',
             values: {
@@ -106,23 +113,31 @@ describe('adapt()', () => {
       },
     });
   });
+});
 
+describe('setData()', () => {
   test('sets data', () => {
     const entity = new Entity({
+      id: 1,
+      name: 'Spacely Sprockets',
+      domain: 'https://example.com',
       x: 'y',
     });
 
     entity.setData('z', 'abc');
 
     expect(entity.data).toEqual({
+      domain: 'https://example.com',
+      id: 1,
+      name: 'Spacely Sprockets',
       x: 'y',
       z: 'abc',
     });
 
     expect(entity.adapted).toEqual({
-      domain: undefined,
-      id: undefined,
-      name: undefined,
+      domain: 'https://example.com',
+      id: 1,
+      name: 'Spacely Sprockets',
     });
   });
 });

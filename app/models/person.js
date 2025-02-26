@@ -1,6 +1,6 @@
-const Base = require('./base');
+const IncidentedObject = require('./incidented-object');
 
-class Person extends Base {
+class Person extends IncidentedObject {
   static tableName = 'people';
 
   static perPage = 40;

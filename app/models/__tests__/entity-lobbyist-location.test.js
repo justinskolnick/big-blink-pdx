@@ -24,19 +24,33 @@ describe('adapt()', () => {
   });
 
   test('sets data', () => {
+    /* eslint-disable camelcase */
     const location = new EntityLobbyistLocation({
-      x: 'y',
+      id: 1,
+      data_source_id: 2,
+      entity_id: 4,
+      city: 'Orbit City',
+      region: 'WA',
     });
+    /* eslint-enable camelcase */
 
     location.setData('z', 'abc');
 
+    /* eslint-disable camelcase */
     expect(location.data).toEqual({
-      x: 'y',
+      id: 1,
+      data_source_id: 2,
+      entity_id: 4,
+      city: 'Orbit City',
+      region: 'WA',
       z: 'abc',
     });
+    /* eslint-enable camelcase */
 
     expect(location.adapted).toEqual({
-      // ???
+      id: 1,
+      city: 'Orbit City',
+      region: 'WA',
     });
   });
 });

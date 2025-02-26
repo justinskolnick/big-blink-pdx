@@ -7,6 +7,7 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+const { percentage } = require('../lib/number');
 const { snakeCase, toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
@@ -40,7 +41,7 @@ router.get('/', async (req, res, next) => {
   const links = linkHelper.links;
   const description = metaHelper.getIndexDescription('entities');
 
-  let allEntities;
+  let entitiesResult;
   let entityTotal;
   let incidentCountResult;
   let data;
@@ -51,15 +52,25 @@ router.get('/', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      allEntities = await entities.getAll({
+      incidentCountResult = await incidents.getTotal();
+
+      entitiesResult = await entities.getAll({
         page,
         perPage,
         includeCount: true,
         sort,
         sortBy,
       });
+      entitiesResult = entitiesResult.map(entity => {
+        entity.setIncidentStats({
+          percentage: percentage(entity.data.total, incidentCountResult),
+          total: entity.data.total,
+        });
+
+        return entity.adapted;
+      });
+
       entityTotal = await entities.getTotal();
-      incidentCountResult = await incidents.getTotal();
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
@@ -70,9 +81,7 @@ router.get('/', async (req, res, next) => {
 
       data = {
         entities: {
-          records: allEntities.map(result =>
-            Entity.appendIncidentsPercentageIfTotal(result, incidentCountResult)
-          ),
+          records: entitiesResult,
           pagination: linkHelper.getPagination({
             total: entityTotal,
             perPage,
@@ -121,6 +130,7 @@ router.get('/:id', async (req, res, next) => {
 
   let quarterSourceId;
   let entity;
+  let record;
   let description;
   let incidentsStats;
   let entityIncidents;
@@ -131,9 +141,11 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     entity = await entities.getAtId(id);
-    description = metaHelper.getDetailDescription(entity.name);
-    section.id = entity.id;
-    section.subtitle = entity.name;
+    adapted = entity.adapted;
+
+    description = metaHelper.getDetailDescription(adapted.name);
+    section.id = adapted.id;
+    section.subtitle = adapted.name;
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -147,6 +159,8 @@ router.get('/:id', async (req, res, next) => {
     try {
       entityLocations = await entityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({ entityId: id, quarterSourceId, withPersonId });
+      entity.setIncidentStats(incidentsStats);
+
       entityIncidents = await incidents.getAll({
         page,
         perPage,
@@ -155,9 +169,11 @@ router.get('/:id', async (req, res, next) => {
         sort,
         withPersonId,
       });
+      entityIncidents = entityIncidents.map(incident => incident.adapted);
+
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
-      const hasDomain = Boolean(entity.domain);
+      const hasDomain = Boolean(adapted.domain);
       const hasLocations = entityLocations.length;
 
       if (hasLocations || hasDomain) {
@@ -168,7 +184,7 @@ router.get('/:id', async (req, res, next) => {
         }
 
         if (hasDomain) {
-          section.details.push(entity.domain);
+          section.details.push(adapted.domain);
         }
       }
 
@@ -182,46 +198,25 @@ router.get('/:id', async (req, res, next) => {
         params[snakeCase('withPersonId')] = Number(withPersonId);
       }
 
-      const record = {
-        ...entity,
-        incidents: {
-          records,
-          filters: params,
-          pagination: linkHelper.getPagination({
-            page,
-            params,
-            path: links.entity(id),
-            perPage,
-            total: incidentsStats.paginationTotal,
-          }),
-          stats: {
-            label: 'Overview',
-            appearances: {
-              label: 'Appearances',
-              values: [
-                {
-                  key: 'first',
-                  label: 'First appearance',
-                  value: incidentsStats.first,
-                },
-                {
-                  key: 'last',
-                  label: 'Most recent appearance',
-                  value: incidentsStats.last,
-                },
-              ],
-            },
-          },
-        },
-      };
-
-      record.incidents.stats.totals = Entity.getIncidentStatsObject().totals;
-      record.incidents.stats.totals.values.percentage = Entity.getIncidentStatsPercentageObject(incidentsStats.percentage);
-      record.incidents.stats.totals.values.total = Entity.getIncidentStatsTotalObject(incidentsStats.total);
+      record = entity.adapted;
 
       data = {
         entity: {
-          record,
+          record: {
+            ...record,
+            incidents: {
+              ...record.incidents,
+              records,
+              filters: params,
+              pagination: linkHelper.getPagination({
+                page,
+                params,
+                path: links.entity(id),
+                perPage,
+                total: incidentsStats.paginationTotal,
+              }),
+            },
+          },
         },
       };
       meta = {
@@ -262,14 +257,15 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       entity = await entities.getAtId(id);
+      record = entity.adapted;
       attendees = await incidentAttendees.getAttendees({ entityId: id });
 
       data = {
         entity: {
           record: {
-            ...entity,
+            ...record,
             attendees: {
-              label: `As an entity, ${entity.name} ...`,
+              label: `As an entity, ${record.name} ...`,
               lobbyists: {
                 label: 'Through these lobbyists',
                 records: attendees.lobbyists.records,

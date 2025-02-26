@@ -7,6 +7,7 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+const { percentage } = require('../lib/number');
 const { snakeCase } = require('../lib/string');
 
 const Incident = require('../models/incident');
@@ -51,6 +52,8 @@ router.get('/', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
+      incidentCountResult = await incidents.getTotal();
+
       peopleResult = await people.getAll({
         page,
         perPage,
@@ -58,8 +61,16 @@ router.get('/', async (req, res, next) => {
         sort,
         sortBy,
       });
+      peopleResult = peopleResult.map(person => {
+        person.setIncidentStats({
+          percentage: percentage(person.data.total, incidentCountResult),
+          total: person.data.total,
+        });
+
+        return person.adapted;
+      });
+
       personTotal = await people.getTotal();
-      incidentCountResult = await incidents.getTotal();
 
       if (paramHelper.hasSort(sort)) {
         params.sort = paramHelper.getSort(sort);
@@ -70,9 +81,7 @@ router.get('/', async (req, res, next) => {
 
       data = {
         people: {
-          records: peopleResult.map(result =>
-            Person.appendIncidentsPercentageIfTotal(result, incidentCountResult)
-          ),
+          records: peopleResult,
           pagination: linkHelper.getPagination({
             total: personTotal,
             perPage,
@@ -122,6 +131,8 @@ router.get('/:id', async (req, res, next) => {
 
   let quarterSourceId;
   let person;
+  let record;
+  let adapted;
   let description;
   let incidentsStats;
   let personIncidents;
@@ -131,9 +142,11 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     person = await people.getAtId(id);
-    description = metaHelper.getDetailDescription(person.name);
-    section.id = person.id;
-    section.subtitle = person.name;
+    adapted = person.adapted;
+
+    description = metaHelper.getDetailDescription(adapted.name);
+    section.id = adapted.id;
+    section.subtitle = adapted.name;
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -146,6 +159,8 @@ router.get('/:id', async (req, res, next) => {
 
     try {
       incidentsStats = await stats.getIncidentsStats({ personId: id, quarterSourceId, withEntityId, withPersonId });
+      person.setIncidentStats(incidentsStats);
+
       personIncidents = await incidentAttendances.getAll({
         page,
         perPage,
@@ -155,6 +170,8 @@ router.get('/:id', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
+      personIncidents = personIncidents.map(incident => incident.adapted);
+
       records = await incidentAttendees.getAllForIncidents(personIncidents);
 
       if (paramHelper.hasSort(sort)) {
@@ -170,46 +187,25 @@ router.get('/:id', async (req, res, next) => {
         params[snakeCase('withPersonId')] = Number(withPersonId);
       }
 
-      const record = {
-        ...person,
-        incidents: {
-          records,
-          filters: params,
-          pagination: linkHelper.getPagination({
-            total: incidentsStats.paginationTotal,
-            perPage,
-            page,
-            path: links.person(id),
-            params,
-          }),
-          stats: {
-            label: 'Overview',
-            appearances: {
-              label: 'Appearances',
-              values: [
-                {
-                  key: 'first',
-                  label: 'First appearance',
-                  value: incidentsStats.first,
-                },
-                {
-                  key: 'last',
-                  label: 'Most recent appearance',
-                  value: incidentsStats.last,
-                },
-              ],
-            },
-          },
-        },
-      };
-
-      record.incidents.stats.totals = Person.getIncidentStatsObject().totals;
-      record.incidents.stats.totals.values.percentage = Person.getIncidentStatsPercentageObject(incidentsStats.percentage);
-      record.incidents.stats.totals.values.total = Person.getIncidentStatsTotalObject(incidentsStats.total);
+      record = person.adapted;
 
       data = {
         person: {
-          record,
+          record: {
+            ...record,
+            incidents: {
+              ...record.incidents,
+              records,
+              filters: params,
+              pagination: linkHelper.getPagination({
+                page,
+                params,
+                path: links.person(id),
+                perPage,
+                total: incidentsStats.paginationTotal,
+              }),
+            }
+          },
         },
       };
       meta = {
@@ -244,6 +240,7 @@ router.get('/:id/attendees', async (req, res, next) => {
     const id = req.params.id;
 
     let person;
+    let record;
     let asLobbyist;
     let asOfficial;
     let data;
@@ -251,16 +248,18 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
+      record = person.adapted;
+
       asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: 'lobbyist' });
       asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: 'official' });
 
       data = {
         person: {
           record: {
-            ...person,
+            ...record,
             attendees: {
               asLobbyist: {
-                label: `As a lobbyist, ${person.name} ...`,
+                label: `As a lobbyist, ${record.name} ...`,
                 lobbyists: {
                   label: 'Alongside these lobbyists',
                   records: asLobbyist.lobbyists.records,
@@ -271,7 +270,7 @@ router.get('/:id/attendees', async (req, res, next) => {
                 },
               },
               asOfficial: {
-                label: `As a City official, ${person.name} ...`,
+                label: `As a City official, ${record.name} ...`,
                 lobbyists: {
                   label: 'Was lobbied by these lobbyists',
                   records: asOfficial.lobbyists.records,
@@ -302,6 +301,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     let person;
+    let record;
     let asLobbyist;
     let asOfficial;
     let data;
@@ -309,13 +309,14 @@ router.get('/:id/entities', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
+      record = person.adapted;
       asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: 'lobbyist' });
       asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: 'official' });
 
       data = {
         person: {
           record: {
-            ...person,
+            ...record,
             entities: {
               asLobbyist,
               asOfficial,
