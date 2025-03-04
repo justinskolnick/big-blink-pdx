@@ -1,5 +1,11 @@
 const Source = require('../source');
 
+describe('tableName', () => {
+  test('returns the expected tableName', () => {
+    expect(Source.tableName).toBe('data_sources');
+  });
+});
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Source.getLabel('incident_percentage')).toBe('Share of total');

@@ -1,5 +1,11 @@
 const Entity = require('../entity');
 
+describe('tableName', () => {
+  test('returns the expected tableName', () => {
+    expect(Entity.tableName).toBe('entities');
+  });
+});
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Entity.getLabel('incident_percentage')).toBe('Share of total');

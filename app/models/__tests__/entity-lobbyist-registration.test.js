@@ -1,5 +1,11 @@
 const EntityLobbyistRegistration = require('../entity-lobbyist-registration');
 
+describe('tableName', () => {
+  test('returns the expected tableName', () => {
+    expect(EntityLobbyistRegistration.tableName).toBe('entity_lobbyist_registrations');
+  });
+});
+
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(EntityLobbyistRegistration.fields()).toEqual([
@@ -12,15 +18,21 @@ describe('fields()', () => {
 
 describe('adapt()', () => {
   test('adapts a result', () => {
-    expect(EntityLobbyistRegistration.adapt({
+    const result = {
       quarter: 1,
       year: 2024,
-    })).toEqual({
+    };
+
+    const registration = new EntityLobbyistRegistration(result);
+
+    expect(registration.adapted).toEqual({
       quarter: 1,
       year: 2024,
     });
   });
+});
 
+describe('setData()', () => {
   test('sets data', () => {
     const registration = new EntityLobbyistRegistration({
       quarter: 1,

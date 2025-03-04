@@ -1,5 +1,11 @@
 const EntityLobbyistLocation = require('../entity-lobbyist-location');
 
+describe('tableName', () => {
+  test('returns the expected tableName', () => {
+    expect(EntityLobbyistLocation.tableName).toBe('entity_lobbyist_locations');
+  });
+});
+
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(EntityLobbyistLocation.fields()).toEqual([
@@ -12,13 +18,17 @@ describe('fields()', () => {
 
 describe('adapt()', () => {
   test('adapts a result', () => {
-    expect(EntityLobbyistLocation.adapt({
+    const result = {
       id: 1,
       city: 'Orbit City',
       region: 'WA',
-    })).toEqual({
-      id: 1,
+    };
+
+    const location = new EntityLobbyistLocation(result);
+
+    expect(location.adapted).toEqual({
       city: 'Orbit City',
+      id: 1,
       region: 'WA',
     });
   });
@@ -48,8 +58,8 @@ describe('adapt()', () => {
     /* eslint-enable camelcase */
 
     expect(location.adapted).toEqual({
-      id: 1,
       city: 'Orbit City',
+      id: 1,
       region: 'WA',
     });
   });

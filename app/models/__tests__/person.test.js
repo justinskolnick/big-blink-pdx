@@ -1,5 +1,11 @@
 const Person = require('../person');
 
+describe('tableName', () => {
+  test('returns the expected tableName', () => {
+    expect(Person.tableName).toBe('people');
+  });
+});
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('incident_percentage')).toBe('Share of total');
