@@ -6,7 +6,6 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-const { percentage } = require('../lib/number');
 
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
@@ -42,10 +41,8 @@ router.get('/', async (req, res, next) => {
         sortBy: paramHelper.SORT_BY_TOTAL,
       });
       entitiesResult = entitiesResult.map(entity => {
-        entity.setIncidentStats({
-          percentage: percentage(entity.data.total, incidentCountResult),
-          total: entity.data.total,
-        });
+        entity.setGlobalIncidentCount(incidentCountResult);
+        entity.setIncidentStats();
 
         return entity.adapted;
       });
@@ -58,10 +55,8 @@ router.get('/', async (req, res, next) => {
         sortBy: paramHelper.SORT_BY_TOTAL,
       });
       lobbyistsResult = lobbyistsResult.map(person => {
-        person.setIncidentStats({
-          percentage: percentage(person.data.total, incidentCountResult),
-          total: person.data.total,
-        });
+        person.setGlobalIncidentCount(incidentCountResult);
+        person.setIncidentStats();
 
         return person.adapted;
       });
@@ -74,10 +69,8 @@ router.get('/', async (req, res, next) => {
         sortBy: paramHelper.SORT_BY_TOTAL,
       });
       officialsResult = officialsResult.map(person => {
-        person.setIncidentStats({
-          percentage: percentage(person.data.total, incidentCountResult),
-          total: person.data.total,
-        });
+        person.setGlobalIncidentCount(incidentCountResult);
+        person.setIncidentStats();
 
         return person.adapted;
       });

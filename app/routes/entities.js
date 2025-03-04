@@ -7,7 +7,6 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-const { percentage } = require('../lib/number');
 const { snakeCase, toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
@@ -62,10 +61,8 @@ router.get('/', async (req, res, next) => {
         sortBy,
       });
       entitiesResult = entitiesResult.map(entity => {
-        entity.setIncidentStats({
-          percentage: percentage(entity.data.total, incidentCountResult),
-          total: entity.data.total,
-        });
+        entity.setGlobalIncidentCount(incidentCountResult);
+        entity.setIncidentStats();
 
         return entity.adapted;
       });

@@ -1,7 +1,5 @@
 const Person = require('../person');
 
-const { percentage } = require('../../lib/number');
-
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('incident_percentage')).toBe('Share of total');
@@ -63,9 +61,7 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const person = new Person(resultWithTotal);
 
-    person.setIncidentStats({
-      total: person.data.total,
-    });
+    person.setIncidentStats();
 
     expect(person.adapted).toEqual({
       id: 1,
@@ -96,10 +92,8 @@ describe('adapt()', () => {
 
     const incidentCountResult = 246;
 
-    personWithTotal.setIncidentStats({
-      percentage: percentage(personWithTotal.data.total, incidentCountResult),
-      total: personWithTotal.data.total,
-    });
+    personWithTotal.setGlobalIncidentCount(incidentCountResult);
+    personWithTotal.setIncidentStats();
 
     expect(person.adapted).toEqual({
       id: 1,

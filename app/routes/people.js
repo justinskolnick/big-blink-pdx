@@ -7,7 +7,6 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-const { percentage } = require('../lib/number');
 const { snakeCase } = require('../lib/string');
 
 const Incident = require('../models/incident');
@@ -62,10 +61,8 @@ router.get('/', async (req, res, next) => {
         sortBy,
       });
       peopleResult = peopleResult.map(person => {
-        person.setIncidentStats({
-          percentage: percentage(person.data.total, incidentCountResult),
-          total: person.data.total,
-        });
+        person.setGlobalIncidentCount(incidentCountResult);
+        person.setIncidentStats();
 
         return person.adapted;
       });

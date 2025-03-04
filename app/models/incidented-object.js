@@ -1,6 +1,27 @@
 const Base = require('./base');
 
+const { percentage } = require('../lib/number');
+
 class IncidentedObject extends Base {
+
+  globalIncidentCount = null;
+  globalIncidentPercentage = null;
+
+  setGlobalIncidentCount(value) {
+    this.globalIncidentCount = value;
+  }
+
+  setGlobalIncidentPercentage(value) {
+    this.globalIncidentPercentage = value;
+  }
+
+  hasGlobalIncidentCount() {
+    return this.globalIncidentCount !== null && typeof this.globalIncidentCount === 'number';
+  }
+
+  hasGlobalIncidentPercentage() {
+    return this.globalIncidentPercentage !== null && !isNaN(this.globalIncidentPercentage);
+  }
 
   hasIncidentsData() {
     return this.data && 'incidents' in this.data;
@@ -34,7 +55,11 @@ class IncidentedObject extends Base {
     return 'total' in stats;
   }
 
-  appendStatsToIncidentsData() {
+  dataHasTotal() {
+    return 'total' in this.data && typeof this.data.total === 'number';
+  }
+
+  setStatsOnIncidents() {
     if (!this.hasIncidentsData()) {
       this.data.incidents = {};
     }
@@ -46,23 +71,23 @@ class IncidentedObject extends Base {
     }
   }
 
-  appendAppearancesToIncidentStatsData() {
+  setAppearancesOnIncidentStats() {
     this.data.incidents.stats.appearances = {
       label: this.constructor.getLabel('appearances'),
       values: [],
     };
   }
 
-  appendTotalsToIncidentStatsData() {
+  setTotalsOnIncidentStats() {
     this.data.incidents.stats.totals = {
       label: this.constructor.getLabel('totals'),
       values: {},
     };
   }
 
-  appendAppearanceToIncidentStatsAppearancesData(key, value) {
+  setAppearanceOnIncidentStatsAppearances(key, value) {
     if (!this.hasDataIncidentStatsAppearances()) {
-      this.appendAppearancesToIncidentStatsData();
+      this.setAppearancesOnIncidentStats();
     }
 
     this.data.incidents.stats.appearances.values.push({
@@ -72,49 +97,71 @@ class IncidentedObject extends Base {
     });
   }
 
-  appendPercentageToIncidentsStatsTotalsData(stats) {
-    if (!this.hasDataIncidentStatsTotals()) {
-      this.appendTotalsToIncidentStatsData();
-    }
+  setPercentageOnIncidentsStatsTotals() {
+    if (this.dataHasTotal()) {
+      let value;
 
-    this.data.incidents.stats.totals.values.percentage = {
-      key: 'percentage',
-      label: this.constructor.getLabel('incident_percentage'),
-      value: `${stats.percentage}%`,
-    };
+      if (!this.hasDataIncidentStatsTotals()) {
+        this.setTotalsOnIncidentStats();
+      }
+
+      if (this.hasGlobalIncidentCount()) {
+        value = percentage(this.data.total, this.globalIncidentCount);
+      } else if (this.hasGlobalIncidentPercentage()) {
+        value = this.globalIncidentPercentage;
+      }
+
+      if (value) {
+        this.data.incidents.stats.totals.values.percentage = {
+          key: 'percentage',
+          label: this.constructor.getLabel('incident_percentage'),
+          value: `${value}%`,
+        };
+      }
+    }
   }
 
-  appendTotalToIncidentsStatsTotalsData(stats) {
-    if (!this.hasDataIncidentStatsTotals()) {
-      this.appendTotalsToIncidentStatsData();
-    }
+  setTotalOnIncidentsStatsTotals() {
+    if (this.dataHasTotal()) {
+      if (!this.hasDataIncidentStatsTotals()) {
+        this.setTotalsOnIncidentStats();
+      }
 
-    this.data.incidents.stats.totals.values.total = {
-      key: 'total',
-      label: this.constructor.getLabel('incident_total'),
-      value: stats.total,
-    };
+      this.data.incidents.stats.totals.values.total = {
+        key: 'total',
+        label: this.constructor.getLabel('incident_total'),
+        value: this.data.total,
+      };
+    }
   }
 
-  setIncidentStats(stats) {
+  setIncidentStats(stats = {}) {
     if (!this.hasDataIncidentStats()) {
-      this.appendStatsToIncidentsData();
+      this.setStatsOnIncidents();
     }
 
     if (this.statsHasFirstIncident(stats)) {
-      this.appendAppearanceToIncidentStatsAppearancesData('first', stats.first);
+      this.setAppearanceOnIncidentStatsAppearances('first', stats.first);
     }
 
     if (this.statsHasLastIncident(stats)) {
-      this.appendAppearanceToIncidentStatsAppearancesData('last', stats.last);
-    }
-
-    if (this.statsHasPercentage(stats)) {
-      this.appendPercentageToIncidentsStatsTotalsData(stats);
+      this.setAppearanceOnIncidentStatsAppearances('last', stats.last);
     }
 
     if (this.statsHasTotal(stats)) {
-      this.appendTotalToIncidentsStatsTotalsData(stats);
+      this.setData('total', stats.total);
+    }
+
+    if (this.statsHasPercentage(stats)) {
+      this.setGlobalIncidentPercentage(stats.percentage);
+    }
+
+    if (this.dataHasTotal()) {
+      this.setTotalOnIncidentsStatsTotals();
+    }
+
+    if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
+      this.setPercentageOnIncidentsStatsTotals();
     }
   }
 

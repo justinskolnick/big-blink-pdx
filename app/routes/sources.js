@@ -46,9 +46,7 @@ router.get('/', async (req, res, next) => {
         types: [Source.types.activity],
       });
       activitySourcesResult = activitySourcesResult.map(source => {
-        source.setIncidentStats({
-          total: source.data.total,
-        });
+        source.setIncidentStats();
 
         return source.adapted;
       });
