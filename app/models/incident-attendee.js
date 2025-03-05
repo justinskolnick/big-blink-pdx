@@ -18,7 +18,7 @@ class IncidentAttendee extends Base {
     official: 'official',
   };
 
-  static adapt(result) {
+  adapt(result) {
     const adapted = this.adaptResult(result, {
       person: {
         id: result.person_id,

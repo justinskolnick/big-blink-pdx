@@ -96,11 +96,21 @@ class Base {
     return dateHelper.formatDateString(str);
   }
 
-  static adaptResult(result, otherValues) {
-    const fields = this.fields(false);
+  data = {};
+
+  constructor(data = {}) {
+    this.data = data;
+  }
+
+  setData(key, value) {
+    this.data[key] = value;
+  }
+
+  adaptResult(result, otherValues) {
+    const fields = this.constructor.fields(false);
     let adapted = fields.reduce((obj, field) => {
-      const key = this.fieldKey(field);
-      const value = this.fieldValue(field, result);
+      const key = this.constructor.fieldKey(field);
+      const value = this.constructor.fieldValue(field, result);
 
       obj[key] = value;
 
@@ -117,22 +127,12 @@ class Base {
     };
   }
 
-  static adapt(result) {
+  adapt(result) {
     return this.adaptResult(result);
   }
 
-  data = {};
-
-  constructor(data = {}) {
-    this.data = data;
-  }
-
-  setData(key, value) {
-    this.data[key] = value;
-  }
-
   get adapted() {
-    return this.constructor.adapt(this.data);
+    return this.adapt(this.data);
   }
 }
 

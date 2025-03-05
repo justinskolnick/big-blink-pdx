@@ -165,7 +165,7 @@ class IncidentedObject extends Base {
     }
   }
 
-  static adaptOtherValues(result, adapted) {
+  adaptOtherValues(result, adapted) {
     if (result.incidents) {
       adapted.incidents = result.incidents;
     }

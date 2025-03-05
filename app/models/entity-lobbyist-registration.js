@@ -10,7 +10,7 @@ class EntityLobbyistRegistration extends Base {
     person_id:      { select: true, }, // eslint-disable-line camelcase
   };
 
-  static adapt(result) {
+  adapt(result) {
     return {
       quarter: result.quarter,
       year: result.year,

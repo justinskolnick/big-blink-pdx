@@ -19,7 +19,7 @@ class Incident extends Base {
     notes:          { select: true, },
   };
 
-  static adapt(result) {
+  adapt(result) {
     return this.adaptResult(result, {
       entityName: result.entity,
       raw: {

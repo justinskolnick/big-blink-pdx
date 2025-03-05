@@ -11,11 +11,11 @@ class Person extends IncidentedObject {
     name: { select: true, },
   };
 
-  static adaptRoles(value) {
+  adaptRoles(value) {
     return value?.split(',') ?? [];
   }
 
-  static adapt(result) {
+  adapt(result) {
     return this.adaptResult(result, {
       roles: this.adaptRoles(result.roles),
     });
