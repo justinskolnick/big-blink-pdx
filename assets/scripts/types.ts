@@ -87,10 +87,27 @@ export type Incident = {
 
 export type Incidents = Incident[];
 
+type IncidentFilterString = string;
+type IncidentFilterNumber = number;
+export type IncidentFilterLabel = IncidentFilterString | IncidentFilterNumber;
+
+type IncidentFilterStringObject = {
+  key: string;
+  label: IncidentFilterString;
+  value: IncidentFilterString;
+};
+
+type IncidentFilterNumberObject = {
+  key: string;
+  label: IncidentFilterNumber;
+  value: IncidentFilterNumber;
+};
+
 export type IncidentsFilters = {
-  quarter?: string;
-  with_entity_id?: Id;
-  with_person_id?: Id;
+  date_on?: IncidentFilterStringObject;
+  quarter?: IncidentFilterStringObject;
+  with_entity_id?: IncidentFilterNumberObject;
+  with_person_id?: IncidentFilterNumberObject;
 };
 
 export enum SortValues {
@@ -114,7 +131,14 @@ type ListParams = {
   sort_by?: SortByValue;
 };
 
-export type NewParams = IncidentsFilters & ListParams;
+export type IncidentParams = {
+  date_on?: string;
+  quarter?: string;
+  with_entity_id?: number;
+  with_person_id?: number;
+};
+
+export type NewParams = IncidentParams & ListParams;
 
 type LeaderboardLinkLabels = {
   more: string;

@@ -3,10 +3,12 @@ import React, { ReactNode } from 'react';
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
 
+import type { IncidentFilterLabel } from '../types';
+
 interface AssociationProps {
   filterKey?: string;
   intro?: string;
-  label: string;
+  label: IncidentFilterLabel;
 }
 
 interface IncidentsHeaderProps {
@@ -42,6 +44,7 @@ export const Association = ({
         <LinkToQueryParams
           className='incidents-association-remove'
           newParams={{ [filterKey]: null }}
+          replace={false}
           title='Remove this association'
         >
           &times;

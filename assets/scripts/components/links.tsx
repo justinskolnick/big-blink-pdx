@@ -42,6 +42,7 @@ interface BetterLinkProps extends LinkProps {
 interface FilterLinkProps extends LinkProps {
   hasIcon?: boolean;
   newParams?: NewParams;
+  replace?: boolean;
 }
 
 interface SortLinkProps extends LinkProps {
@@ -53,6 +54,7 @@ interface LinkIdProps extends LinkProps {
   id: Id;
 }
 
+export const dateOnParam = 'date_on';
 export const quarterParam = 'quarter';
 export const sortParam = 'sort';
 export const sortByParam = 'sort_by';
@@ -102,9 +104,10 @@ export const LinkToQueryParams = ({
   children,
   className,
   newParams,
+  replace,
   ...rest
 }: FilterLinkProps) => {
-  const queryParams = useQueryParams(newParams);
+  const queryParams = useQueryParams(newParams, replace);
 
   return (
     <Link

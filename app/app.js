@@ -5,9 +5,9 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 
-const paramHelper = require('./helpers/param');
-
 const headers = require('./lib/headers');
+
+const validateParams = require('./middleware/validate-params');
 
 const indexRouter = require('./routes/index');
 const entitiesRouter = require('./routes/entities');
@@ -45,47 +45,7 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use('/', (req, res, next) => {
-  ['page', 'with_entity_id', 'with_person_id'].forEach(param => {
-    if (req.query.has(param)) {
-      const value = req.query.get(param);
-
-      if (isNaN(value)) {
-        req.query.delete(param);
-        next(createError(422, paramHelper.getInvalidValueMessage(param, value)));
-      }
-    }
-  });
-
-  if (req.query.has('quarter')) {
-    const value = req.query.get('quarter');
-
-    if (!paramHelper.hasQuarterAndYear(value)) {
-      req.query.delete('quarter');
-      next(createError(422, paramHelper.getInvalidValueMessage('quarter', value)));
-    }
-  }
-
-  if (req.query.has('sort')) {
-    const value = req.query.get('sort');
-
-    if (!paramHelper.hasSort(value)) {
-      req.query.delete('sort');
-      next(createError(422, paramHelper.getInvalidValueMessage('sort', value)));
-    }
-  }
-
-  if (req.query.has('sort_by')) {
-    const value = req.query.get('sort_by');
-
-    if (!paramHelper.hasSortBy(value)) {
-      req.query.delete('sort_by');
-      next(createError(422, paramHelper.getInvalidValueMessage('sort_by', value)));
-    }
-  }
-
-  next();
-});
+app.use('/', validateParams);
 
 app.use('/', indexRouter);
 app.use('/entities', entitiesRouter);

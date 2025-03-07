@@ -10,6 +10,7 @@ const { SORT_ASC, SORT_DESC } = paramHelper;
 
 const getAllQuery = (options = {}) => {
   const {
+    dateOn,
     page,
     perPage,
     sourceId,
@@ -20,6 +21,7 @@ const getAllQuery = (options = {}) => {
     withEntityId,
     withPersonId,
   } = options;
+  const hasDateOn = Boolean(dateOn);
   const hasEntityId = Boolean(entityId || withEntityId);
   const hasPersonId = Boolean(personId || withPersonId);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
@@ -35,8 +37,17 @@ const getAllQuery = (options = {}) => {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
 
-  if (sourceId || entityId || personId) {
+  if (dateOn || sourceId || entityId || personId) {
     clauses.push('WHERE');
+  }
+
+  if (hasDateOn) {
+    clauses.push(`${Incident.field('contact_date')} = ?`);
+    params.push(dateOn);
+
+    if (hasEntityId || hasPersonId || hasSourceId) {
+      clauses.push('AND');
+    }
   }
 
   if (hasEntityId) {
@@ -179,7 +190,8 @@ const getFirstAndLastDates = async (options = {}) => {
 };
 
 const getTotalQuery = (options = {}) => {
-  const { sourceId, entityId, quarterSourceId, withEntityId, withPersonId } = options;
+  const { sourceId, dateOn, entityId, quarterSourceId, withEntityId, withPersonId } = options;
+  const hasDateOn = Boolean(dateOn);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
   const hasEntityId = Boolean(entityId || withEntityId);
 
@@ -215,6 +227,15 @@ const getTotalQuery = (options = {}) => {
     clauses.push('AND');
     clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
     params.push(withPersonId);
+  }
+
+  if (hasDateOn) {
+    if (hasSourceId || hasEntityId || withPersonId) {
+      clauses.push('AND');
+    }
+
+    clauses.push(`${Incident.field('contact_date')} = ?`);
+    params.push(dateOn);
   }
 
   return { clauses, params };

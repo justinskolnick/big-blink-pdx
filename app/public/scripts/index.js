@@ -40361,6 +40361,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+  var dateOnParam = "date_on";
   var quarterParam = "quarter";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
@@ -40401,9 +40402,10 @@ Hook ${hookName} was either not provided or not a function.`);
     children,
     className,
     newParams,
+    replace: replace4,
     ...rest
   }) => {
-    const queryParams = useQueryParams(newParams);
+    const queryParams = useQueryParams(newParams, replace4);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       Link,
       {
@@ -54186,6 +54188,7 @@ Hook ${hookName} was either not provided or not a function.`);
         {
           className: "incidents-association-remove",
           newParams: { [filterKey]: null },
+          replace: false,
           title: "Remove this association",
           children: "\xD7"
         }
@@ -54290,9 +54293,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/detail-incidents.tsx
   var import_jsx_runtime54 = __toESM(require_jsx_runtime());
   var WithEntityId = ({ filters, filterKey }) => {
-    const id = filters?.[filterKey];
-    const numericId = Number(id);
-    const entity = useSelector((state) => id && selectors.selectById(state, numericId));
+    const filter = filters?.[filterKey];
+    const hasValue = Boolean(filter?.value);
+    const value = hasValue && Number(filter.value);
+    const entity = useSelector((state) => hasValue && selectors.selectById(state, value));
     if (!entity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Association,
@@ -54303,9 +54307,10 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var WithPersonId = ({ filters, filterKey }) => {
-    const id = filters?.[filterKey];
-    const numericId = Number(id);
-    const person = useSelector((state) => id && selectors3.selectById(state, numericId));
+    const filter = filters?.[filterKey];
+    const hasValue = Boolean(filter?.value);
+    const value = hasValue && Number(filter.value);
+    const person = useSelector((state) => hasValue && selectors3.selectById(state, value));
     if (!person) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Association,
@@ -54316,15 +54321,27 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var DuringQuarter = ({ filters, filterKey }) => {
-    const quarterParam2 = filters?.[filterKey];
-    if (!quarterParam2) return null;
-    const label = String(quarterParam2).match(/(Q[1-4])-(20[1-2][0-9])/).slice(1, 3).join(" of ");
+    const quarterFilter = filters?.[filterKey];
+    if (!quarterFilter) return null;
+    const label = String(quarterFilter).match(/(Q[1-4])-(20[1-2][0-9])/).slice(1, 3).join(" of ");
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Association,
       {
         filterKey,
         intro: "during",
         label
+      }
+    );
+  };
+  var OnDate = ({ filters, filterKey }) => {
+    const filter = filters?.[filterKey];
+    if (!filter) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      Association,
+      {
+        filterKey,
+        intro: "on",
+        label: filter.label
       }
     );
   };
@@ -54362,7 +54379,8 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(incidents_header_default, { label, children: [
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam })
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         incident_list_default,

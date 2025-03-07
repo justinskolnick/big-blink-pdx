@@ -7,7 +7,6 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-const { snakeCase } = require('../lib/string');
 
 const Incident = require('../models/incident');
 const Source = require('../models/source');
@@ -91,11 +90,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   const page = req.query.get('page') || 1;
+  const dateOn = req.query.get('date_on');
   const sort = req.query.get('sort');
   const withEntityId = req.query.get('with_entity_id');
   const withPersonId = req.query.get('with_person_id');
 
-  const params = {};
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
@@ -105,6 +104,8 @@ router.get('/:id', async (req, res, next) => {
   let incidentsStats;
   let sourceIncidents;
   let records;
+  let filters;
+  let params;
   let data;
   let meta;
 
@@ -123,14 +124,15 @@ router.get('/:id', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       if (source.data.type === Source.types.activity) {
-        incidentsStats = await stats.getIncidentsStats({ sourceId: id, withEntityId, withPersonId });
+        incidentsStats = await stats.getIncidentsStats({ sourceId: id, dateOn, withEntityId, withPersonId });
         source.setIncidentStats(incidentsStats);
 
         sourceIncidents = await incidents.getAll({
+          dateOn,
           page,
           perPage,
-          sourceId: id,
           sort,
+          sourceId: id,
           withEntityId,
           withPersonId,
         });
@@ -138,15 +140,8 @@ router.get('/:id', async (req, res, next) => {
 
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
-        if (paramHelper.hasSort(sort)) {
-          params.sort = paramHelper.getSort(sort);
-        }
-        if (withEntityId) {
-          params[snakeCase('withEntityId')] = Number(withEntityId);
-        }
-        if (withPersonId) {
-          params[snakeCase('withPersonId')] = Number(withPersonId);
-        }
+        filters = paramHelper.getFilters(req.query);
+        params = paramHelper.getParamsFromFilters(filters);
 
         record = source.adapted;
 
@@ -157,7 +152,7 @@ router.get('/:id', async (req, res, next) => {
               incidents: {
                 ...record.incidents,
                 records,
-                filters: params,
+                filters,
                 pagination: linkHelper.getPagination({
                   page,
                   params,

@@ -11,6 +11,7 @@ const getAllQuery = (options = {}) => {
     page,
     perPage,
     personId,
+    dateOn,
     quarterSourceId,
     sort = SORT_ASC,
     withEntityId,
@@ -26,18 +27,27 @@ const getAllQuery = (options = {}) => {
   clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
   clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
 
-  if (personId || withEntityId || withPersonId) {
+  if (dateOn || personId || withEntityId || withPersonId) {
     clauses.push('WHERE');
 
     if (personId) {
       clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
       params.push(personId);
+
+      if (quarterSourceId) {
+        clauses.push('AND');
+        clauses.push(`${Incident.field('data_source_id')} = ?`);
+        params.push(quarterSourceId);
+      }
     }
 
-    if (personId && quarterSourceId) {
-      clauses.push('AND');
-      clauses.push(`${Incident.field('data_source_id')} = ?`);
-      params.push(quarterSourceId);
+    if (dateOn) {
+      if (personId || quarterSourceId) {
+        clauses.push('AND');
+      }
+
+      clauses.push(`${Incident.field('contact_date')} = ?`);
+      params.push(dateOn);
     }
 
     if (personId && (withEntityId || withPersonId)) {
@@ -84,7 +94,7 @@ const getAll = async (options = {}) => {
 };
 
 const getTotalQuery = (options = {}) => {
-  const { personId, quarterSourceId, withEntityId, withPersonId } = options;
+  const { dateOn, personId, quarterSourceId, withEntityId, withPersonId } = options;
 
   const clauses = [];
   const params = [];
@@ -95,40 +105,49 @@ const getTotalQuery = (options = {}) => {
 
       clauses.push('SELECT');
       clauses.push('COUNT(id) AS total');
-      clauses.push(`FROM ((${statement}) INTERSECT (${statement})) AS total`);
-      params.push(personId, withPersonId);
-    } else if (withEntityId) {
-      clauses.push('SELECT');
-      clauses.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
-      clauses.push(`FROM ${IncidentAttendee.tableName}`);
-      clauses.push(`LEFT JOIN ${Incident.tableName}`);
-      clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
-      clauses.push('WHERE');
-      clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
-      params.push(personId);
+      clauses.push('FROM');
 
-      clauses.push('AND');
-      clauses.push(`${Incident.field('entity_id')} = ?`);
-      params.push(withEntityId);
+      if (dateOn) {
+        const dateStatement = 'SELECT id FROM incidents WHERE contact_date = ?';
+
+        clauses.push(`(((${statement}) INTERSECT (${statement})) INTERSECT (${dateStatement}))`);
+        params.push(personId, withPersonId, dateOn);
+      } else {
+        clauses.push(`((${statement}) INTERSECT (${statement}))`);
+        params.push(personId, withPersonId);
+      }
+
+      clauses.push('AS total');
     } else {
       clauses.push('SELECT');
       clauses.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
       clauses.push(`FROM ${IncidentAttendee.tableName}`);
 
-      if (quarterSourceId) {
+      if (dateOn || quarterSourceId || withEntityId) {
         clauses.push(`LEFT JOIN ${Incident.tableName}`);
         clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
-        clauses.push('WHERE');
+      }
+
+      clauses.push('WHERE');
+      clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+      params.push(personId);
+
+      if (quarterSourceId || withEntityId) {
+        clauses.push('AND');
+      }
+
+      if (quarterSourceId) {
         clauses.push(`${Incident.field('data_source_id')} = ?`);
         params.push(quarterSourceId);
+      } else if (withEntityId) {
+        clauses.push(`${Incident.field('entity_id')} = ?`);
+        params.push(withEntityId);
+      }
 
+      if (dateOn) {
         clauses.push('AND');
-        clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
-        params.push(personId);
-      } else {
-        clauses.push('WHERE');
-        clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
-        params.push(personId);
+        clauses.push(`${Incident.field('contact_date')} = ?`);
+        params.push(dateOn);
       }
     }
   }

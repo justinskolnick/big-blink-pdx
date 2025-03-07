@@ -44,6 +44,28 @@ describe('getAllQuery()', () => {
       });
     });
 
+    describe('and a dateOn', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, dateOn: '2019-02-20' })).toEqual({
+          clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'LEFT JOIN incident_attendees',
+          'ON incidents.id = incident_attendees.incident_id',
+          'WHERE',
+          'incident_attendees.person_id = ?',
+          'AND',
+          'incidents.contact_date = ?',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
+          ],
+          params: [123, '2019-02-20'],
+        });
+      });
+    });
+
     describe('and a quarterSourceId', () => {
       test('returns the expected SQL', () => {
         expect(getAllQuery({ personId: 123, quarterSourceId: 321 })).toEqual({
@@ -201,15 +223,51 @@ describe('getTotalQuery()', () => {
       });
     });
 
+    describe('and a dateOn', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ personId: 123, dateOn: '2019-02-20' })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incident_attendees.id) AS total',
+            'FROM incident_attendees',
+            'LEFT JOIN incidents',
+            'ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
+            'incidents.contact_date = ?',
+          ],
+          params: [123, '2019-02-20'],
+        });
+      });
+    });
+
     describe('and a withPersonId', () => {
       test('returns the expected SQL', () => {
         expect(getTotalQuery({ personId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
             'COUNT(id) AS total',
-            'FROM ((SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?)) AS total',
+            'FROM',
+            '((SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?))',
+            'AS total',
           ],
           params: [123, 321],
+        });
+      });
+
+      describe('and a dateOn', () => {
+        test('returns the expected SQL', () => {
+          expect(getTotalQuery({ personId: 123, withPersonId: 321, dateOn: '2019-02-20' })).toEqual({
+            clauses: [
+              'SELECT',
+              'COUNT(id) AS total',
+              'FROM',
+              '(((SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?)) INTERSECT (SELECT id FROM incidents WHERE contact_date = ?))',
+              'AS total',
+            ],
+            params: [123, 321, '2019-02-20'],
+          });
         });
       });
     });
@@ -231,6 +289,27 @@ describe('getTotalQuery()', () => {
           params: [123, 321],
         });
       });
+
+      describe('and a dateOn', () => {
+        test('returns the expected SQL', () => {
+          expect(getTotalQuery({ personId: 123, withEntityId: 321, dateOn: '2019-02-20' })).toEqual({
+            clauses: [
+              'SELECT',
+              'COUNT(incident_attendees.id) AS total',
+              'FROM incident_attendees',
+              'LEFT JOIN incidents',
+              'ON incidents.id = incident_attendees.incident_id',
+              'WHERE',
+              'incident_attendees.person_id = ?',
+              'AND',
+              'incidents.entity_id = ?',
+              'AND',
+              'incidents.contact_date = ?',
+            ],
+            params: [123, 321, '2019-02-20'],
+          });
+        });
+      });
     });
 
     describe('and a quarterSourceId', () => {
@@ -243,11 +322,32 @@ describe('getTotalQuery()', () => {
             'LEFT JOIN incidents',
             'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            'incidents.data_source_id = ?',
-            'AND',
             'incident_attendees.person_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
           ],
-          params: [321, 123],
+          params: [123, 321],
+        });
+      });
+
+      describe('and a dateOn', () => {
+        test('returns the expected SQL', () => {
+          expect(getTotalQuery({ personId: 123, quarterSourceId: 321, dateOn: '2019-02-20' })).toEqual({
+            clauses: [
+              'SELECT',
+              'COUNT(incident_attendees.id) AS total',
+              'FROM incident_attendees',
+              'LEFT JOIN incidents',
+              'ON incidents.id = incident_attendees.incident_id',
+              'WHERE',
+              'incident_attendees.person_id = ?',
+              'AND',
+              'incidents.data_source_id = ?',
+              'AND',
+              'incidents.contact_date = ?',
+            ],
+            params: [123, 321, '2019-02-20'],
+          });
         });
       });
     });

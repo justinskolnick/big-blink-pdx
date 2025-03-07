@@ -7,7 +7,7 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
-const { snakeCase, toSentence } = require('../lib/string');
+const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -115,13 +115,13 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   const page = req.query.get('page') || 1;
+  const dateOn = req.query.get('date_on');
   const quarter = req.query.get('quarter');
   const sort = req.query.get('sort');
   const withPersonId = req.query.get('with_person_id');
 
   const errors = [];
   const warnings = [];
-  const params = {};
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
@@ -133,6 +133,8 @@ router.get('/:id', async (req, res, next) => {
   let entityIncidents;
   let entityLocations;
   let records;
+  let filters;
+  let params;
   let data;
   let meta;
 
@@ -162,6 +164,7 @@ router.get('/:id', async (req, res, next) => {
         page,
         perPage,
         entityId: id,
+        dateOn,
         quarterSourceId,
         sort,
         withPersonId,
@@ -185,15 +188,8 @@ router.get('/:id', async (req, res, next) => {
         }
       }
 
-      if (paramHelper.hasSort(sort)) {
-        params.sort = paramHelper.getSort(sort);
-      }
-      if (quarterSourceId) {
-        params[snakeCase('quarter')] = quarter;
-      }
-      if (withPersonId) {
-        params[snakeCase('withPersonId')] = Number(withPersonId);
-      }
+      filters = paramHelper.getFilters(req.query);
+      params = paramHelper.getParamsFromFilters(filters);
 
       record = entity.adapted;
 
@@ -204,7 +200,7 @@ router.get('/:id', async (req, res, next) => {
             incidents: {
               ...record.incidents,
               records,
-              filters: params,
+              filters,
               pagination: linkHelper.getPagination({
                 page,
                 params,

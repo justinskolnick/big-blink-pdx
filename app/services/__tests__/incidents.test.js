@@ -25,6 +25,45 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a dateOn', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ dateOn: '2019-02-20' })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'WHERE',
+          'incidents.contact_date = ?',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
+        ],
+        params: ['2019-02-20'],
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ dateOn: '2019-02-20', withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incidents.contact_date = ?',
+            'AND',
+            'incident_attendees.person_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: ['2019-02-20', 321],
+        });
+      });
+    });
+  });
+
   describe('with a sourceId', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({ sourceId: 123 })).toEqual({
