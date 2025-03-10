@@ -1283,6 +1283,7 @@ body.has-alert .alert-root {
   font-weight: 200;
   font-size: 13px;
   line-height: 21px;
+  white-space: wrap;
 }
 .affiliated-items table td.cell-type {
   padding: 0;
