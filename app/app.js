@@ -59,13 +59,14 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => { // eslint-disable-line @typescript-eslint/no-unused-vars
   const isDevelopment = req.app.get('env') === 'development';
   const error = {};
 
   if (err.status && err.status in errorCodes) {
     error.customMessage = err.message;
     error.message = errorCodes[err.status];
+    error.stack = err.stack;
     error.status = err.status;
   }
 
