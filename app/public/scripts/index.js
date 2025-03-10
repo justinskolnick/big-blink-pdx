@@ -54165,6 +54165,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/incidents-header.tsx
   var import_jsx_runtime51 = __toESM(require_jsx_runtime());
+  var PAGE_PARAM_KEY = "page";
   var PrimaryAssociation = ({ label }) => {
     if (!label) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
@@ -54177,24 +54178,30 @@ Hook ${hookName} was either not provided or not a function.`);
     filterKey,
     intro = "and",
     label
-  }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("h5", { children: [
-    intro,
-    " ",
-    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label }),
-    filterKey && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+  }) => {
+    const newParams = {
+      [filterKey]: null,
+      [PAGE_PARAM_KEY]: null
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("h5", { children: [
+      intro,
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
-        LinkToQueryParams,
-        {
-          className: "incidents-association-remove",
-          newParams: { [filterKey]: null },
-          replace: false,
-          title: "Remove this association",
-          children: "\xD7"
-        }
-      )
-    ] })
-  ] });
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label }),
+      filterKey && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+          LinkToQueryParams,
+          {
+            className: "incidents-association-remove",
+            newParams,
+            replace: false,
+            title: "Remove this association",
+            children: "\xD7"
+          }
+        )
+      ] })
+    ] });
+  };
   var IncidentsHeader = ({
     children,
     label

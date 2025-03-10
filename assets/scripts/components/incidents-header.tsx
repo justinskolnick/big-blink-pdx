@@ -16,6 +16,8 @@ interface IncidentsHeaderProps {
   label?: string;
 }
 
+const PAGE_PARAM_KEY = 'page';
+
 const PrimaryAssociation = ({ label }: AssociationProps) => {
   if (!label) return null;
 
@@ -31,28 +33,35 @@ export const Association = ({
   filterKey,
   intro = 'and',
   label,
-}: AssociationProps) => (
-  <h5>
-    {intro}
-    {' '}
-    <span className='incidents-association'>
-      {label}
-    </span>
-    {filterKey && (
-      <>
-        {' '}
-        <LinkToQueryParams
-          className='incidents-association-remove'
-          newParams={{ [filterKey]: null }}
-          replace={false}
-          title='Remove this association'
-        >
-          &times;
-        </LinkToQueryParams>
-      </>
-    )}
-  </h5>
-);
+}: AssociationProps) => {
+  const newParams = {
+    [filterKey]: null,
+    [PAGE_PARAM_KEY]: null,
+  };
+
+  return (
+    <h5>
+      {intro}
+      {' '}
+      <span className='incidents-association'>
+        {label}
+      </span>
+      {filterKey && (
+        <>
+          {' '}
+          <LinkToQueryParams
+            className='incidents-association-remove'
+            newParams={newParams}
+            replace={false}
+            title='Remove this association'
+          >
+            &times;
+          </LinkToQueryParams>
+        </>
+      )}
+    </h5>
+  );
+};
 
 const IncidentsHeader = ({
   children,
