@@ -40550,7 +40550,7 @@ Hook ${hookName} was either not provided or not a function.`);
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h6", { children: "License" }),
       /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("p", { children: [
-        "Copyright \xA9 2023 by ",
+        "Copyright \xA9 2023\u20132025 by ",
         /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("a", { href: "https://justinskolnick.com", children: "Justin Skolnick" }),
         "."
       ] }),

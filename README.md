@@ -80,8 +80,7 @@ yarn build
 
 Items on the UI wishlist include date range filters, localization, and better visualizations. Improvements to data fetching and transitions between routes are nearish-term goals.
 
-Longish-term back-end development goals include a move away from the current model implementation, which makes heavy use of static methods (with some pretty obvious limitations); increased test coverage; and a TypeScript rebuild.
-
+Longish-term back-end development goals include ~a move away from the current model implementation, which makes heavy use of static methods (with some pretty obvious limitations)~ ✔︎; increased test coverage; and a TypeScript rebuild.
 
 ## Contributing
 
@@ -89,4 +88,4 @@ Issues and PRs are welcome. And spot fixes are more welcome than overhauls. If y
 
 ## License
 
-Copyright (c) 2023-2024 Justin Skolnick. [MIT License](/LICENSE).
+Copyright (c) 2023-2025 Justin Skolnick. [MIT License](/LICENSE).
