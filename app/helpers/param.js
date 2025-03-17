@@ -1,5 +1,7 @@
 const {
   PARAM_DATE_ON,
+  PARAM_DATE_RANGE_FROM,
+  PARAM_DATE_RANGE_TO,
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
@@ -49,6 +51,14 @@ const getParams = searchParams => {
     }
   }
 
+  if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p))) {
+    if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => hasDate(searchParams.get(p)))) {
+      [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
+        values[p] = searchParams.get(p);
+      });
+    }
+  }
+
   if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
       values[PARAM_WITH_ENTITY_ID] = Number(searchParams.get(PARAM_WITH_ENTITY_ID));
@@ -78,6 +88,18 @@ const getFilters = searchParams => {
         label: dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON)),
         value: searchParams.get(PARAM_DATE_ON),
       };
+    }
+  }
+
+  if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p))) {
+    if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => hasDate(searchParams.get(p)))) {
+      [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
+        values[p] = {
+          key: p,
+          label: dateHelper.formatDateString(searchParams.get(p)),
+          value: searchParams.get(p),
+        };
+      });
     }
   }
 

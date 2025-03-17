@@ -1,6 +1,8 @@
 const LOCALE = 'en-US';
 
 const PARAM_DATE_ON = 'date_on';
+const PARAM_DATE_RANGE_FROM = 'date_range_from';
+const PARAM_DATE_RANGE_TO = 'date_range_to';
 const PARAM_PAGE = 'page';
 const PARAM_QUARTER = 'quarter';
 const PARAM_SORT = 'sort';
@@ -10,6 +12,12 @@ const PARAM_WITH_PERSON_ID = 'with_person_id';
 
 const PARAM_OPTIONS = {
   [PARAM_DATE_ON]: {
+    validate: 'hasDate',
+  },
+  [PARAM_DATE_RANGE_FROM]: {
+    validate: 'hasDate',
+  },
+  [PARAM_DATE_RANGE_TO]: {
     validate: 'hasDate',
   },
   [PARAM_PAGE]: {
@@ -54,6 +62,8 @@ const TIME_ZONE = 'America/Los_Angeles';
 module.exports = {
   LOCALE,
   PARAM_DATE_ON,
+  PARAM_DATE_RANGE_FROM,
+  PARAM_DATE_RANGE_TO,
   PARAM_OPTIONS,
   PARAM_PAGE,
   PARAM_QUARTER,
