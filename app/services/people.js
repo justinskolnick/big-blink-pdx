@@ -1,10 +1,9 @@
-const paramHelper = require('../helpers/param');
+const { SORT_ASC, SORT_BY_TOTAL, SORT_DESC } = require('../config/constants');
+
 const queryHelper = require('../helpers/query');
 const IncidentAttendee = require('../models/incident-attendee');
 const Person = require('../models/person');
 const db = require('../services/db');
-
-const { SORT_ASC, SORT_DESC } = paramHelper;
 
 const getAllQuery = (options = {}) => {
   const {
@@ -45,7 +44,7 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('ORDER BY');
 
-  if (includeCount && sortBy === paramHelper.SORT_BY_TOTAL) {
+  if (includeCount && sortBy === SORT_BY_TOTAL) {
     clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
   } else {
     clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);

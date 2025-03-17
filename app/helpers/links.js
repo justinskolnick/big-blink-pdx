@@ -1,3 +1,5 @@
+const { PARAM_PAGE } = require('../config/constants');
+
 const getPath = (...rest) => [...rest]
   .map(segment => {
     if (typeof segment === 'string' && segment.startsWith('/')) {
@@ -24,7 +26,7 @@ const toPageLink = (pathname, page, params = {}) => {
   const queryParams = new URLSearchParams(params);
 
   if (page > 1) {
-    queryParams.set('page', page);
+    queryParams.set(PARAM_PAGE, page);
   }
 
   return {

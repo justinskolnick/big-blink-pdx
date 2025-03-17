@@ -1,10 +1,9 @@
-const paramHelper = require('../helpers/param');
+const { SORT_ASC } = require('../config/constants');
+
 const queryHelper = require('../helpers/query');
 const Incident = require('../models/incident');
 const IncidentAttendee = require('../models/incident-attendee');
 const db = require('../services/db');
-
-const { SORT_ASC } = paramHelper;
 
 const getAllQuery = (options = {}) => {
   const {

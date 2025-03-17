@@ -1,12 +1,11 @@
-const paramHelper = require('../../helpers/param');
+const { SORT_ASC, SORT_DESC, SORT_BY_TOTAL } = require('../../config/constants');
+
 const {
   getAllQuery,
   getAtIdQuery,
   getFirstAndLastDatesQuery,
   getTotalQuery,
 } = require('../incidents');
-
-const { SORT_ASC, SORT_DESC, SORT_BY_TOTAL } = paramHelper;
 
 describe('getAllQuery()', () => {
   describe('with default options', () => {

@@ -2,6 +2,16 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
+const {
+  PARAM_DATE_ON,
+  PARAM_PAGE,
+  PARAM_QUARTER,
+  PARAM_SORT,
+  PARAM_SORT_BY,
+  PARAM_WITH_ENTITY_ID,
+  PARAM_WITH_PERSON_ID,
+} = require('../config/constants');
+
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
@@ -30,9 +40,9 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
-  const page = req.query.get('page') || 1;
-  const sort = req.query.get('sort');
-  const sortBy = req.query.get('sort_by');
+  const page = req.query.get(PARAM_PAGE) || 1;
+  const sort = req.query.get(PARAM_SORT);
+  const sortBy = req.query.get(PARAM_SORT_BY);
 
   const params = {};
   const perPage = Person.perPage;
@@ -113,12 +123,12 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
-  const page = req.query.get('page') || 1;
-  const dateOn = req.query.get('date_on');
-  const quarter = req.query.get('quarter');
-  const sort = req.query.get('sort');
-  const withEntityId = req.query.get('with_entity_id');
-  const withPersonId = req.query.get('with_person_id');
+  const page = req.query.get(PARAM_PAGE) || 1;
+  const dateOn = req.query.get(PARAM_DATE_ON);
+  const quarter = req.query.get(PARAM_QUARTER);
+  const sort = req.query.get(PARAM_SORT);
+  const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
+  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
 
   const errors = [];
   const warnings = [];

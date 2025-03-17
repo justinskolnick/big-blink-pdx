@@ -1,12 +1,11 @@
-const paramHelper = require('../helpers/param');
+const { SORT_ASC, SORT_DESC } = require('../config/constants');
+
 const queryHelper = require('../helpers/query');
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
 const IncidentAttendee = require('../models/incident-attendee');
 const Source = require('../models/source');
 const db = require('../services/db');
-
-const { SORT_ASC, SORT_DESC } = paramHelper;
 
 const getAllQuery = (options = {}) => {
   const {
