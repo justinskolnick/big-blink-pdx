@@ -40362,6 +40362,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   var dateOnParam = "date_on";
+  var dateRangeFromParam = "date_range_from";
+  var dateRangeToParam = "date_range_to";
   var quarterParam = "quarter";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
@@ -54174,20 +54176,36 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label })
     ] });
   };
+  var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label });
+  var AssociationLabels = ({ labels }) => labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: l }, i)).reduce((prev2, curr) => [prev2, " and ", curr]);
   var Association = ({
     filterKey,
+    filterKeys,
     intro = "and",
-    label
+    label,
+    labels
   }) => {
-    const newParams = {
-      [filterKey]: null,
-      [PAGE_PARAM_KEY]: null
-    };
+    const hasFilterKeys = filterKeys?.length > 0;
+    const hasLabels = labels?.length > 0;
+    const hasFilterKey = Boolean(filterKey);
+    const newParamKeys = [];
+    if (hasFilterKeys) {
+      filterKeys.forEach((key) => {
+        newParamKeys.push(key);
+      });
+    } else if (hasFilterKey) {
+      newParamKeys.push(filterKey);
+    }
+    newParamKeys.push(PAGE_PARAM_KEY);
+    const newParams = newParamKeys.reduce((all, key) => {
+      all[key] = null;
+      return all;
+    }, {});
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("h5", { children: [
       intro,
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label }),
-      filterKey && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+      hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabels, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }),
+      (hasFilterKeys || hasFilterKey) && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
         " ",
         /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
           LinkToQueryParams,
@@ -54315,7 +54333,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var WithPersonId = ({ filters, filterKey }) => {
     const filter = filters?.[filterKey];
-    const hasValue = Boolean(filter?.value);
+    const hasValue = typeof filter === "object" && Boolean(filter?.value);
     const value = hasValue && Number(filter.value);
     const person = useSelector((state) => hasValue && selectors3.selectById(state, value));
     if (!person) return null;
@@ -54342,13 +54360,31 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var OnDate = ({ filters, filterKey }) => {
     const filter = filters?.[filterKey];
-    if (!filter) return null;
+    const hasValue = Boolean(filter?.value);
+    if (!hasValue) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Association,
       {
         filterKey,
         intro: "on",
         label: filter.label
+      }
+    );
+  };
+  var BetweenDates = ({ filters, filterKeys }) => {
+    const filterKeyPair = [];
+    const filterLabelPair = [];
+    filterKeys.filter((key) => key in filters).forEach((key) => {
+      filterKeyPair.push(filters[key].key);
+      filterLabelPair.push(filters[key].label);
+    });
+    if (filterKeyPair.length < filterKeys.length) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      Association,
+      {
+        filterKeys: filterKeyPair,
+        intro: "between",
+        labels: filterLabelPair
       }
     );
   };
@@ -54387,7 +54423,8 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam })
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         incident_list_default,

@@ -53,6 +53,21 @@ export type Pagination = {
   total: number;
 }
 
+export enum SortValues {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+export type SortValue = keyof typeof SortValues;
+
+export enum SortByValues {
+  Date = 'date',
+  Name = 'name',
+  Total = 'total',
+}
+
+export type SortByValue = Extract<SortByValues, string>;
+
 export type Attendee = {
   as?: string;
   person: Person;
@@ -87,58 +102,77 @@ export type Incident = {
 
 export type Incidents = Incident[];
 
-type IncidentFilterString = string;
+export type IncidentFilterString = string;
 type IncidentFilterNumber = number;
 export type IncidentFilterLabel = IncidentFilterString | IncidentFilterNumber;
 
-type IncidentFilterStringObject = {
-  key: string;
+type IncidentFilterNumberLabelValue = {
   label: IncidentFilterString;
   value: IncidentFilterString;
 };
 
-type IncidentFilterNumberObject = {
-  key: string;
-  label: IncidentFilterNumber;
-  value: IncidentFilterNumber;
+type IncidentFilterStringLabelValue = {
+  label: IncidentFilterString;
+  value: IncidentFilterString;
 };
 
-export type IncidentsFilters = {
-  date_on?: IncidentFilterStringObject;
-  quarter?: IncidentFilterStringObject;
-  with_entity_id?: IncidentFilterNumberObject;
-  with_person_id?: IncidentFilterNumberObject;
+type IncidentFilterQuarterObject = {
+  key: 'quarter';
+} & IncidentFilterStringLabelValue;
+
+type IncidentFilterIdObject = {
+  key: 'with_entity_id' | 'with_person_id';
+} & IncidentFilterNumberLabelValue;
+
+type IncidentDateFilterObject = {
+  key: 'date_on' | 'date_range_from' | 'date_range_to';
+} & IncidentFilterStringLabelValue;
+
+export type DateFilters = {
+  date_on?: IncidentDateFilterObject;
+  date_range_from?: IncidentDateFilterObject;
+  date_range_to?: IncidentDateFilterObject;
 };
 
-export enum SortValues {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+export type IncidentFilters = {
+  quarter?: IncidentFilterQuarterObject;
+  with_entity_id?: IncidentFilterIdObject;
+  with_person_id?: IncidentFilterIdObject;
+};
 
-export type SortValue = keyof typeof SortValues;
-
-export enum SortByValues {
-  Date = 'date',
-  Name = 'name',
-  Total = 'total',
-}
-
-export type SortByValue = Extract<SortByValues, string>;
-
-type ListParams = {
+type PaginationFilters = {
   page?: string | number;
+};
+
+type SortFilters = {
   sort?: SortValue;
   sort_by?: SortByValue;
 };
 
-export type IncidentParams = {
+export type IncidentsFilters = DateFilters & IncidentFilters & PaginationFilters & SortFilters;
+
+type DateParams = {
   date_on?: string;
+  date_range_from?: string;
+  date_range_to?: string;
+};
+
+export type IncidentParams = {
   quarter?: string;
   with_entity_id?: number;
   with_person_id?: number;
 };
 
-export type NewParams = IncidentParams & ListParams;
+type PaginationParams = {
+  page?: string | number;
+};
+
+type SortParams = {
+  sort?: SortValue;
+  sort_by?: SortByValue;
+};
+
+export type NewParams = DateParams & IncidentParams & PaginationParams & SortParams;
 
 type LeaderboardLinkLabels = {
   more: string;

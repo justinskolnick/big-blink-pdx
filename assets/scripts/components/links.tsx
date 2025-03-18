@@ -55,6 +55,8 @@ interface LinkIdProps extends LinkProps {
 }
 
 export const dateOnParam = 'date_on';
+export const dateRangeFromParam = 'date_range_from';
+export const dateRangeToParam = 'date_range_to';
 export const quarterParam = 'quarter';
 export const sortParam = 'sort';
 export const sortByParam = 'sort_by';
