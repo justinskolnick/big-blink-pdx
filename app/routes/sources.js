@@ -4,6 +4,8 @@ const router = express.Router();
 
 const {
   PARAM_DATE_ON,
+  PARAM_DATE_RANGE_FROM,
+  PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
@@ -99,6 +101,8 @@ router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   const page = req.query.get(PARAM_PAGE) || 1;
   const dateOn = req.query.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
   const sort = req.query.get(PARAM_SORT);
   const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
   const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
@@ -132,11 +136,20 @@ router.get('/:id', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       if (source.data.type === Source.types.activity) {
-        incidentsStats = await stats.getIncidentsStats({ sourceId: id, dateOn, withEntityId, withPersonId });
+        incidentsStats = await stats.getIncidentsStats({
+          dateOn,
+          dateRangeFrom,
+          dateRangeTo,
+          sourceId: id,
+          withEntityId,
+          withPersonId,
+        });
         source.setIncidentStats(incidentsStats);
 
         sourceIncidents = await incidents.getAll({
           dateOn,
+          dateRangeFrom,
+          dateRangeTo,
           page,
           perPage,
           sort,
