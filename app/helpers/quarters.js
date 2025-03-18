@@ -1,6 +1,6 @@
-const { getFirst, getLast } = require('../lib/array');
+const { LOCALE, QUARTERS } = require('../config/constants');
 
-const QUARTERS = [1, 2, 3, 4];
+const { getFirst, getLast } = require('../lib/array');
 
 const getRangesByYear = data => {
   const byYear = data.reduce((all, entry) => {
@@ -64,7 +64,7 @@ const getRangesByYearSet = data => {
 const getRangeStatement = sets => {
   const clauses = [];
   const segments = [];
-  const formatter = new Intl.ListFormat('en', {
+  const formatter = new Intl.ListFormat(LOCALE, {
     style: 'long',
     type: 'conjunction',
   });

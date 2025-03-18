@@ -1,12 +1,11 @@
-const paramHelper = require('../../helpers/param');
+const { SORT_ASC, SORT_DESC, SORT_BY_TOTAL } = require('../../config/constants');
+
 const {
   getAllQuery,
   getAtIdQuery,
   getFirstAndLastDatesQuery,
   getTotalQuery,
 } = require('../incidents');
-
-const { SORT_ASC, SORT_DESC, SORT_BY_TOTAL } = paramHelper;
 
 describe('getAllQuery()', () => {
   describe('with default options', () => {
@@ -64,6 +63,45 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a date range', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'WHERE',
+          'incidents.contact_date BETWEEN ? AND ?',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
+        ],
+        params: ['2019-02-20', '2019-02-28'],
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28', withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incidents.contact_date BETWEEN ? AND ?',
+            'AND',
+            'incident_attendees.person_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: ['2019-02-20', '2019-02-28', 321],
+        });
+      });
+    });
+  });
+
   describe('with a sourceId', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({ sourceId: 123 })).toEqual({
@@ -78,6 +116,30 @@ describe('getAllQuery()', () => {
           'ASC',
         ],
         params: [123],
+      });
+    });
+
+    describe('and a date range', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ sourceId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'WHERE',
+            'incidents.contact_date BETWEEN ? AND ?',
+            'AND',
+            'incidents.data_source_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: [
+            '2019-02-20',
+            '2019-02-28',
+            123,
+          ],
+        });
       });
     });
 
@@ -121,6 +183,27 @@ describe('getAllQuery()', () => {
       });
     });
 
+    describe('and a date range', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incidents.contact_date BETWEEN ? AND ?',
+            'AND',
+            'incident_attendees.person_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: ['2019-02-20', '2019-02-28', 123],
+        });
+      });
+    });
+
     describe('and a withEntityId', () => {
       test('returns the expected SQL', () => {
         expect(getAllQuery({ personId: 123, withEntityId: 321 })).toEqual({
@@ -157,6 +240,26 @@ describe('getAllQuery()', () => {
           'ASC',
         ],
         params: [123],
+      });
+    });
+
+    describe('and a date range', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ entityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'WHERE',
+            'incidents.contact_date BETWEEN ? AND ?',
+            'AND',
+            'incidents.entity_id = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: ['2019-02-20', '2019-02-28', 123],
+        });
       });
     });
 
@@ -422,6 +525,74 @@ describe('getTotalQuery()', () => {
             'incidents.entity_id = ?',
           ],
           params: [3, 123],
+        });
+      });
+    });
+  });
+
+  describe('with a dateOn', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ sourceId: 3, dateOn: '2019-02-20' })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+          'WHERE',
+          'incidents.data_source_id = ?',
+          'AND',
+          'incidents.contact_date = ?',
+        ],
+        params: [3, '2019-02-20'],
+      });
+    });
+
+    describe('and a withEntityId', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateOn: '2019-02-20' })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total FROM incidents',
+            'WHERE',
+            'incidents.data_source_id = ?',
+            'AND',
+            'incidents.entity_id = ?',
+            'AND',
+            'incidents.contact_date = ?',
+          ],
+          params: [3, 123, '2019-02-20'],
+        });
+      });
+    });
+  });
+
+  describe('with a date range', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ sourceId: 3, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total FROM incidents',
+          'WHERE',
+          'incidents.data_source_id = ?',
+          'AND',
+          'incidents.contact_date BETWEEN ? AND ?',
+        ],
+        params: [3, '2019-02-20', '2019-02-28'],
+      });
+    });
+
+    describe('and a withEntityId', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total FROM incidents',
+            'WHERE',
+            'incidents.data_source_id = ?',
+            'AND',
+            'incidents.entity_id = ?',
+            'AND',
+            'incidents.contact_date BETWEEN ? AND ?',
+          ],
+          params: [3, 123, '2019-02-20', '2019-02-28'],
         });
       });
     });

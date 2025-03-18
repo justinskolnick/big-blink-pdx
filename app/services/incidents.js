@@ -1,4 +1,5 @@
-const paramHelper = require('../helpers/param');
+const { SORT_ASC, SORT_DESC } = require('../config/constants');
+
 const queryHelper = require('../helpers/query');
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -6,11 +7,11 @@ const IncidentAttendee = require('../models/incident-attendee');
 const Source = require('../models/source');
 const db = require('../services/db');
 
-const { SORT_ASC, SORT_DESC } = paramHelper;
-
 const getAllQuery = (options = {}) => {
   const {
     dateOn,
+    dateRangeFrom,
+    dateRangeTo,
     page,
     perPage,
     sourceId,
@@ -22,6 +23,7 @@ const getAllQuery = (options = {}) => {
     withPersonId,
   } = options;
   const hasDateOn = Boolean(dateOn);
+  const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasEntityId = Boolean(entityId || withEntityId);
   const hasPersonId = Boolean(personId || withPersonId);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
@@ -37,13 +39,18 @@ const getAllQuery = (options = {}) => {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
 
-  if (dateOn || sourceId || entityId || personId) {
+  if (hasDateOn || hasDateRange || hasEntityId || hasPersonId || hasSourceId) {
     clauses.push('WHERE');
   }
 
-  if (hasDateOn) {
-    clauses.push(`${Incident.field('contact_date')} = ?`);
-    params.push(dateOn);
+  if (hasDateOn || hasDateRange) {
+    if (hasDateOn) {
+      clauses.push(`${Incident.field('contact_date')} = ?`);
+      params.push(dateOn);
+    } else if (hasDateRange) {
+      clauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
+      params.push(dateRangeFrom, dateRangeTo);
+    }
 
     if (hasEntityId || hasPersonId || hasSourceId) {
       clauses.push('AND');
@@ -190,8 +197,18 @@ const getFirstAndLastDates = async (options = {}) => {
 };
 
 const getTotalQuery = (options = {}) => {
-  const { sourceId, dateOn, entityId, quarterSourceId, withEntityId, withPersonId } = options;
+  const {
+    dateOn,
+    dateRangeFrom,
+    dateRangeTo,
+    entityId,
+    quarterSourceId,
+    sourceId,
+    withEntityId,
+    withPersonId,
+  } = options;
   const hasDateOn = Boolean(dateOn);
+  const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
   const hasEntityId = Boolean(entityId || withEntityId);
 
@@ -229,13 +246,18 @@ const getTotalQuery = (options = {}) => {
     params.push(withPersonId);
   }
 
-  if (hasDateOn) {
+  if (hasDateOn || hasDateRange) {
     if (hasSourceId || hasEntityId || withPersonId) {
       clauses.push('AND');
     }
 
-    clauses.push(`${Incident.field('contact_date')} = ?`);
-    params.push(dateOn);
+    if (hasDateOn) {
+      clauses.push(`${Incident.field('contact_date')} = ?`);
+      params.push(dateOn);
+    } else if (hasDateRange) {
+      clauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
+      params.push(dateRangeFrom, dateRangeTo);
+    }
   }
 
   return { clauses, params };

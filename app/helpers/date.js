@@ -1,5 +1,7 @@
-const locale = 'en-US';
-const timeZone = 'America/Los_Angeles';
+const {
+  LOCALE,
+  TIME_ZONE,
+} = require('../config/constants');
 
 // todo: handle YYYY-MM-DD as local
 
@@ -31,10 +33,10 @@ const formatDateString = (dateString, setTimeZone = false) => {
   };
 
   if (setTimeZone) {
-    options.timeZone = timeZone;
+    options.timeZone = TIME_ZONE;
   }
 
-  return new Intl.DateTimeFormat(locale, options).format(date);
+  return new Intl.DateTimeFormat(LOCALE, options).format(date);
 };
 
 module.exports = {

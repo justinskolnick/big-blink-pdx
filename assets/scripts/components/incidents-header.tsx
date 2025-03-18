@@ -3,12 +3,24 @@ import React, { ReactNode } from 'react';
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
 
-import type { IncidentFilterLabel } from '../types';
+import type { IncidentFilterLabel, NewParams } from '../types';
+
+type NewParamsKey = keyof NewParams;
+
+interface AssociationLabelProps {
+  label: IncidentFilterLabel;
+}
+
+interface AssociationLabelsProps {
+  labels: IncidentFilterLabel[];
+}
 
 interface AssociationProps {
-  filterKey?: string;
+  filterKey?: NewParamsKey;
+  filterKeys?: NewParamsKey[];
   intro?: string;
-  label: IncidentFilterLabel;
+  label?: IncidentFilterLabel;
+  labels?: IncidentFilterLabel[];
 }
 
 interface IncidentsHeaderProps {
@@ -29,24 +41,55 @@ const PrimaryAssociation = ({ label }: AssociationProps) => {
   );
 };
 
+const AssociationLabel = ({ label }: AssociationLabelProps) => (
+  <span className='incidents-association'>
+    {label}
+  </span>
+);
+
+const AssociationLabels = ({ labels }: AssociationLabelsProps) =>
+  labels.map<ReactNode>((l, i) => (
+    <AssociationLabel key={i} label={l} />
+  )).reduce((prev, curr) => [prev, ' and ', curr]);
+
 export const Association = ({
   filterKey,
+  filterKeys,
   intro = 'and',
   label,
+  labels,
 }: AssociationProps) => {
-  const newParams = {
-    [filterKey]: null,
-    [PAGE_PARAM_KEY]: null,
-  };
+  const hasFilterKeys = filterKeys?.length > 0;
+  const hasLabels = labels?.length > 0;
+  const hasFilterKey = Boolean(filterKey);
+  const newParamKeys: NewParamsKey[] = [];
+
+  if (hasFilterKeys) {
+    filterKeys.forEach(key => {
+      newParamKeys.push(key);
+    });
+  } else if (hasFilterKey) {
+    newParamKeys.push(filterKey);
+  }
+
+  newParamKeys.push(PAGE_PARAM_KEY);
+
+  const newParams = newParamKeys.reduce((all, key) => {
+    all[key] = null;
+
+    return all;
+  }, {} as Record<NewParamsKey, null>);
 
   return (
     <h5>
       {intro}
       {' '}
-      <span className='incidents-association'>
-        {label}
-      </span>
-      {filterKey && (
+      {hasLabels ? (
+        <AssociationLabels labels={labels} />
+      ) : (
+        <AssociationLabel label={label} />
+      )}
+      {(hasFilterKeys || hasFilterKey) && (
         <>
           {' '}
           <LinkToQueryParams

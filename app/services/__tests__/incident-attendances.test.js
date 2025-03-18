@@ -1,10 +1,9 @@
-const paramHelper = require('../../helpers/param');
+const { SORT_ASC, SORT_DESC } = require('../../config/constants');
+
 const {
   getAllQuery,
   getTotalQuery,
 } = require('../incident-attendances');
-
-const { SORT_ASC, SORT_DESC } = paramHelper;
 
 describe('getAllQuery()', () => {
   describe('with default options', () => {
@@ -62,6 +61,28 @@ describe('getAllQuery()', () => {
           'ASC',
           ],
           params: [123, '2019-02-20'],
+        });
+      });
+    });
+
+    describe('and a date range', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
+          clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'LEFT JOIN incident_attendees',
+          'ON incidents.id = incident_attendees.incident_id',
+          'WHERE',
+          'incident_attendees.person_id = ?',
+          'AND',
+          'incidents.contact_date BETWEEN ? AND ?',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
+          ],
+          params: [123, '2019-02-20', '2019-02-28'],
         });
       });
     });
@@ -249,7 +270,7 @@ describe('getTotalQuery()', () => {
             'SELECT',
             'COUNT(id) AS total',
             'FROM',
-            '((SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?))',
+            '((SELECT incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?))',
             'AS total',
           ],
           params: [123, 321],
@@ -263,7 +284,7 @@ describe('getTotalQuery()', () => {
               'SELECT',
               'COUNT(id) AS total',
               'FROM',
-              '(((SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE person_id = ?)) INTERSECT (SELECT id FROM incidents WHERE contact_date = ?))',
+              '(((SELECT incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?) INTERSECT (SELECT incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?)) INTERSECT (SELECT incidents.id FROM incidents WHERE incidents.contact_date = ?))',
               'AS total',
             ],
             params: [123, 321, '2019-02-20'],

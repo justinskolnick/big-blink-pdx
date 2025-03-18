@@ -55,6 +55,8 @@ const getStats = async (options = {}) => {
 const getIncidentsStats = async (options = {}) => {
   const {
     dateOn,
+    dateRangeFrom,
+    dateRangeTo,
     entityId,
     personId,
     sourceId,
@@ -70,19 +72,42 @@ const getIncidentsStats = async (options = {}) => {
 
   if (entityId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ entityId });
-    paginationTotal = await incidents.getTotal({ entityId, dateOn, quarterSourceId, withEntityId, withPersonId });
+    paginationTotal = await incidents.getTotal({
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
+      entityId,
+      quarterSourceId,
+      withEntityId,
+      withPersonId,
+    });
     total = await incidents.getTotal({ entityId });
   }
 
   if (personId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ personId });
-    paginationTotal = await incidentAttendances.getTotal({ personId, dateOn, quarterSourceId, withEntityId, withPersonId });
+    paginationTotal = await incidentAttendances.getTotal({
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
+      personId,
+      quarterSourceId,
+      withEntityId,
+      withPersonId,
+    });
     total = await incidentAttendances.getTotal({ personId });
   }
 
   if (sourceId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ sourceId });
-    paginationTotal = await incidents.getTotal({ sourceId, dateOn, withEntityId, withPersonId });
+    paginationTotal = await incidents.getTotal({
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
+      sourceId,
+      withEntityId,
+      withPersonId,
+    });
     total = await incidents.getTotal({ sourceId });
   }
 

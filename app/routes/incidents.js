@@ -2,6 +2,11 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
+const {
+  PARAM_PAGE,
+  PARAM_SORT,
+} = require('../config/constants');
+
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
@@ -22,8 +27,8 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
-  const page = req.query.get('page') || 1;
-  const sort = req.query.get('sort');
+  const page = req.query.get(PARAM_PAGE) || 1;
+  const sort = req.query.get(PARAM_SORT);
 
   const params = {};
   const perPage = Incident.perPage;

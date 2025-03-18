@@ -2,8 +2,9 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
+const { SORT_BY_TOTAL } = require('../config/constants');
+
 const metaHelper = require('../helpers/meta');
-const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 
@@ -38,7 +39,7 @@ router.get('/', async (req, res, next) => {
         page: 1,
         perPage: 5,
         includeCount: true,
-        sortBy: paramHelper.SORT_BY_TOTAL,
+        sortBy: SORT_BY_TOTAL,
       });
       entitiesResult = entitiesResult.map(entity => {
         entity.setGlobalIncidentCount(incidentCountResult);
@@ -52,7 +53,7 @@ router.get('/', async (req, res, next) => {
         perPage: 5,
         includeCount: true,
         role: 'lobbyist',
-        sortBy: paramHelper.SORT_BY_TOTAL,
+        sortBy: SORT_BY_TOTAL,
       });
       lobbyistsResult = lobbyistsResult.map(person => {
         person.setGlobalIncidentCount(incidentCountResult);
@@ -66,7 +67,7 @@ router.get('/', async (req, res, next) => {
         perPage: 5,
         includeCount: true,
         role: 'official',
-        sortBy: paramHelper.SORT_BY_TOTAL,
+        sortBy: SORT_BY_TOTAL,
       });
       officialsResult = officialsResult.map(person => {
         person.setGlobalIncidentCount(incidentCountResult);
