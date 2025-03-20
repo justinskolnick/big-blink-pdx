@@ -54374,6 +54374,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var BetweenDates = ({ filters, filterKeys }) => {
     const filterKeyPair = [];
     const filterLabelPair = [];
+    if (!filters) return null;
     filterKeys.filter((key) => key in filters).forEach((key) => {
       filterKeyPair.push(filters[key].key);
       filterLabelPair.push(filters[key].label);

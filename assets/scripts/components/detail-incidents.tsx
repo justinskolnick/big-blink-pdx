@@ -117,6 +117,8 @@ const BetweenDates = ({ filters, filterKeys }: DateFiltersProps) => {
   const filterKeyPair: DateFiltersKey[] = [];
   const filterLabelPair: IncidentFilterString[] = [];
 
+  if (!filters) return null;
+
   filterKeys
     .filter(key => key in filters)
     .forEach(key => {
