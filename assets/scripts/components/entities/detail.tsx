@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { selectors } from '../../reducers/entities';
 
-import ActivityOverview from '../incident-activity-overview';
+import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
@@ -19,16 +19,14 @@ const Detail = () => {
 
   const entity = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasEntity = Boolean(entity);
-
-  const incidents = entity?.incidents;
-  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
+  const hasIncidents = Boolean(entity?.incidents?.ids?.length);
 
   if (!hasEntity) return null;
 
   return (
     <ItemDetail>
       <ActivityOverview
-        incidents={incidents}
+        overview={entity.overview}
         ref={ref}
       >
         <Chart label={entity.name} />

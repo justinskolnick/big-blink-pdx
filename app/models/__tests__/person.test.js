@@ -67,24 +67,22 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const person = new Person(resultWithTotal);
 
-    person.setIncidentStats();
+    person.setOverview();
 
     expect(person.adapted).toEqual({
       id: 1,
       type: 'person',
       name: 'John Doe',
       roles: [],
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 123,
-              },
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 123,
             },
           },
         },
@@ -99,7 +97,7 @@ describe('adapt()', () => {
     const incidentCountResult = 246;
 
     personWithTotal.setGlobalIncidentCount(incidentCountResult);
-    personWithTotal.setIncidentStats();
+    personWithTotal.setOverview();
 
     expect(person.adapted).toEqual({
       id: 1,
@@ -113,22 +111,20 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       roles: [],
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              percentage: {
-                key: 'percentage',
-                label: 'Share of total',
-                value: '50.00%',
-              },
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 123,
-              },
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            percentage: {
+              key: 'percentage',
+              label: 'Share of total',
+              value: '50.00%',
+            },
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 123,
             },
           },
         },

@@ -55,7 +55,7 @@ router.get('/', async (req, res, next) => {
         types: [Source.types.activity],
       });
       activitySourcesResult = activitySourcesResult.map(source => {
-        source.setIncidentStats();
+        source.setOverview();
 
         return source.adapted;
       });
@@ -144,7 +144,7 @@ router.get('/:id', async (req, res, next) => {
           withEntityId,
           withPersonId,
         });
-        source.setIncidentStats(incidentsStats);
+        source.setOverview(incidentsStats);
 
         sourceIncidents = await incidents.getAll({
           dateOn,

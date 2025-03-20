@@ -4,6 +4,13 @@ const { percentage } = require('../lib/number');
 
 class IncidentedObject extends Base {
 
+  overviewProps = [
+    'first',
+    'last',
+    'percentage',
+    'total',
+  ];
+
   globalIncidentCount = null;
   globalIncidentPercentage = null;
 
@@ -23,28 +30,16 @@ class IncidentedObject extends Base {
     return this.globalIncidentPercentage !== null && !isNaN(this.globalIncidentPercentage);
   }
 
-  hasIncidentsData() {
-    return this.data && 'incidents' in this.data;
-  }
-
-  hasDataIncidentStats() {
-    return this.hasIncidentsData() && 'stats' in this.data.incidents;
-  }
-
-  hasDataIncidentStatsAppearances() {
-    return this.hasDataIncidentStats() && 'appearances' in this.data.incidents.stats;
-  }
-
-  hasDataIncidentStatsTotals() {
-    return this.hasDataIncidentStats() && 'totals' in this.data.incidents.stats;
-  }
-
   statsHasFirstIncident(stats) {
     return 'first' in stats;
   }
 
   statsHasLastIncident(stats) {
     return 'last' in stats;
+  }
+
+  statsHasFirstOrLastIncident(stats) {
+    return 'first' in stats || 'last' in stats;
   }
 
   statsHasPercentage(stats) {
@@ -59,51 +54,45 @@ class IncidentedObject extends Base {
     return 'total' in this.data && typeof this.data.total === 'number';
   }
 
-  setStatsOnIncidents() {
-    if (!this.hasIncidentsData()) {
-      this.data.incidents = {};
-    }
-
-    if (!this.hasDataIncidentStats()) {
-      this.data.incidents.stats = {
-        label: this.constructor.getLabel('overview'),
-      };
-    }
-  }
-
-  setAppearancesOnIncidentStats() {
-    this.data.incidents.stats.appearances = {
-      label: this.constructor.getLabel('appearances'),
-      values: [],
-    };
-  }
-
-  setTotalsOnIncidentStats() {
-    this.data.incidents.stats.totals = {
-      label: this.constructor.getLabel('totals'),
-      values: {},
-    };
-  }
-
-  setAppearanceOnIncidentStatsAppearances(key, value) {
-    if (!this.hasDataIncidentStatsAppearances()) {
-      this.setAppearancesOnIncidentStats();
-    }
-
-    this.data.incidents.stats.appearances.values.push({
-      key,
-      label: this.constructor.getLabel(`incident_${key}`),
-      value,
+  setOverviewObject() {
+    this.setData('overview', {
+      label: this.constructor.getLabel('overview'),
     });
   }
 
-  setPercentageOnIncidentsStatsTotals() {
-    if (this.dataHasTotal()) {
-      let value;
+  setOverviewAppearances(stats) {
+    this.data.overview.appearances = {
+      label: this.constructor.getLabel('appearances'),
+      values: {},
+    };
 
-      if (!this.hasDataIncidentStatsTotals()) {
-        this.setTotalsOnIncidentStats();
-      }
+    if (this.statsHasFirstIncident(stats)) {
+      this.setOverviewAppearanceValue('first', stats.first);
+    }
+
+    if (this.statsHasLastIncident(stats)) {
+      this.setOverviewAppearanceValue('last', stats.last);
+    }
+  }
+
+  setOverviewAppearanceValue(key, value) {
+    this.data.overview.appearances.values[key] = {
+      key,
+      label: this.constructor.getLabel(`incident_${key}`),
+      value,
+    };
+  }
+
+  setOverviewTotals() {
+    this.data.overview.totals = {
+      label: this.constructor.getLabel('totals'),
+      values: {},
+    };
+
+    this.setOverviewTotalValue(this.data.total);
+
+    if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
+      let value;
 
       if (this.hasGlobalIncidentCount()) {
         value = percentage(this.data.total, this.globalIncidentCount);
@@ -112,62 +101,59 @@ class IncidentedObject extends Base {
       }
 
       if (value) {
-        this.data.incidents.stats.totals.values.percentage = {
-          key: 'percentage',
-          label: this.constructor.getLabel('incident_percentage'),
-          value: `${value}%`,
-        };
+        this.setOverviewPercentageValue(value);
       }
     }
   }
 
-  setTotalOnIncidentsStatsTotals() {
-    if (this.dataHasTotal()) {
-      if (!this.hasDataIncidentStatsTotals()) {
-        this.setTotalsOnIncidentStats();
-      }
-
-      this.data.incidents.stats.totals.values.total = {
-        key: 'total',
-        label: this.constructor.getLabel('incident_total'),
-        value: this.data.total,
-      };
-    }
+  setOverviewTotalValue(value) {
+    this.data.overview.totals.values.total = {
+      key: 'total',
+      label: this.constructor.getLabel('incident_total'),
+      value,
+    };
   }
 
-  setIncidentStats(stats = {}) {
-    if (!this.hasDataIncidentStats()) {
-      this.setStatsOnIncidents();
+  setOverviewPercentageValue(value) {
+    this.data.overview.totals.values.percentage = {
+      key: 'percentage',
+      label: this.constructor.getLabel('incident_percentage'),
+      value: `${value}%`,
+    };
+  }
+
+  setOverview(stats = {}) {
+    if (this.dataHasTotal() || this.overviewProps.some(prop => prop in stats)) {
+      this.setOverviewObject();
+
+      if (this.statsHasTotal(stats)) {
+        this.setData('total', stats.total);
+      }
+
+      if (this.statsHasPercentage(stats)) {
+        this.setGlobalIncidentPercentage(stats.percentage);
+        this.setData('percentage', stats.total);
+      }
+    } else {
+      return;
     }
 
-    if (this.statsHasFirstIncident(stats)) {
-      this.setAppearanceOnIncidentStatsAppearances('first', stats.first);
-    }
-
-    if (this.statsHasLastIncident(stats)) {
-      this.setAppearanceOnIncidentStatsAppearances('last', stats.last);
-    }
-
-    if (this.statsHasTotal(stats)) {
-      this.setData('total', stats.total);
-    }
-
-    if (this.statsHasPercentage(stats)) {
-      this.setGlobalIncidentPercentage(stats.percentage);
+    if (this.statsHasFirstOrLastIncident(stats)) {
+      this.setOverviewAppearances(stats);
     }
 
     if (this.dataHasTotal()) {
-      this.setTotalOnIncidentsStatsTotals();
-    }
-
-    if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
-      this.setPercentageOnIncidentsStatsTotals();
+      this.setOverviewTotals();
     }
   }
 
   adaptOtherValues(result, adapted) {
     if (result.incidents) {
       adapted.incidents = result.incidents;
+    }
+
+    if (result.overview) {
+      adapted.overview = result.overview;
     }
 
     return adapted;

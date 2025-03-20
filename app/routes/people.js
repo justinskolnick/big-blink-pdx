@@ -73,7 +73,7 @@ router.get('/', async (req, res, next) => {
       });
       peopleResult = peopleResult.map(person => {
         person.setGlobalIncidentCount(incidentCountResult);
-        person.setIncidentStats();
+        person.setOverview();
 
         return person.adapted;
       });
@@ -179,7 +179,7 @@ router.get('/:id', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
-      person.setIncidentStats(incidentsStats);
+      person.setOverview(incidentsStats);
 
       personIncidents = await incidentAttendances.getAll({
         dateOn,

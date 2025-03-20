@@ -48,23 +48,21 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const entity = new Entity(resultWithTotal);
 
-    entity.setIncidentStats();
+    entity.setOverview();
 
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 123,
-              },
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 123,
             },
           },
         },
@@ -79,7 +77,7 @@ describe('adapt()', () => {
     const incidentCountResult = 246;
 
     entityWithTotal.setGlobalIncidentCount(incidentCountResult);
-    entityWithTotal.setIncidentStats();
+    entityWithTotal.setOverview();
 
     expect(entity.adapted).toEqual({
       id: 1,
@@ -91,22 +89,97 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              percentage: {
-                key: 'percentage',
-                label: 'Share of total',
-                value: '50.00%',
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            percentage: {
+              key: 'percentage',
+              label: 'Share of total',
+              value: '50.00%',
+            },
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 123,
+            },
+          },
+        },
+      },
+    });
+  });
+
+  test('adapts a result with stats', () => {
+    const entity = new Entity(result);
+
+    /* eslint-disable camelcase */
+    const incident = {
+      id: 6,
+      data_source_id: 1,
+      entity: 'Spacely Sprockets',
+      entity_id: 3,
+      contact_date: '2014-01-14',
+      contact_type: 'Email',
+      category: 'Business and Economic Development',
+      topic: 'Office Space',
+      officials: 'Mayor Mercury; Orbit, Henry',
+      lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
+      notes: 'None',
+    };
+    /* eslint-enable camelcase */
+    const incidentCountResult = 246;
+
+    const stats = {
+      first: incident,
+      total: 123,
+    };
+
+    entity.setGlobalIncidentCount(incidentCountResult);
+    entity.setOverview(stats);
+
+    expect(entity.adapted).toEqual({
+      id: 1,
+      name: 'Spacely Sprockets',
+      domain: 'https://example.com',
+      overview: {
+        label: 'Overview',
+        appearances: {
+          label: 'Appearances',
+          values: {
+            first: {
+              key: 'first',
+              label: 'First appearance',
+              value: {
+                /* eslint-disable camelcase */
+                id: 6,
+                data_source_id: 1,
+                entity: 'Spacely Sprockets',
+                entity_id: 3,
+                contact_date: '2014-01-14',
+                contact_type: 'Email',
+                category: 'Business and Economic Development',
+                topic: 'Office Space',
+                officials: 'Mayor Mercury; Orbit, Henry',
+                lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
+                notes: 'None',
+                /* eslint-enable camelcase */
               },
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 123,
-              },
+            },
+          },
+        },
+        totals: {
+          label: 'Totals',
+          values: {
+            percentage: {
+              key: 'percentage',
+              label: 'Share of total',
+              value: '50.00%',
+            },
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 123,
             },
           },
         },

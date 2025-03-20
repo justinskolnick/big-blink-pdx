@@ -19,8 +19,7 @@ const Source = ({ id }: Props) => {
   const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const source = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasIncidents = Boolean(source?.incidents);
-  const hasTotals = Boolean(source?.incidents?.stats.totals);
+  const hasTotals = Boolean(source?.overview?.totals.values.total.value);
 
   useEffect(() => {
     if (source) return;
@@ -42,8 +41,8 @@ const Source = ({ id }: Props) => {
 
       <div className='item-source-quarter-description'>
         <h6>{source.title}</h6>
-        {hasIncidents && hasTotals && (
-          <p>{source.incidents?.stats.totals.values.total.value} incidents</p>
+        {hasTotals && (
+          <p>{source?.overview?.totals.values.total.value} incidents</p>
         )}
       </div>
     </LinkToSource>

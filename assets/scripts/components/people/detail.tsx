@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
 import { selectors } from '../../reducers/people';
 
-import ActivityOverview from '../incident-activity-overview';
+import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
@@ -20,16 +20,14 @@ const Detail = () => {
 
   const person = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasPerson = Boolean(person);
-
-  const incidents = person?.incidents;
-  const hasIncidents = Boolean(incidents?.stats.totals?.values.total.value);
+  const hasIncidents = Boolean(person?.incidents?.ids?.length);
 
   if (!hasPerson) return null;
 
   return (
     <ItemDetail>
       <ActivityOverview
-        incidents={incidents}
+        overview={person.overview}
         ref={ref}
       >
         <Chart label={person.name} />

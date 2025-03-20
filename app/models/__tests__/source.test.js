@@ -65,7 +65,7 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const source = new Source(resultWithTotal);
 
-    source.setIncidentStats();
+    source.setOverview();
 
     expect(source.adapted).toEqual({
       id: 1,
@@ -76,17 +76,15 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 114,
-              },
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 114,
             },
           },
         },
@@ -101,7 +99,7 @@ describe('adapt()', () => {
     const incidentCountResult = 246;
 
     sourceWithTotal.setGlobalIncidentCount(incidentCountResult);
-    sourceWithTotal.setIncidentStats();
+    sourceWithTotal.setOverview();
 
     expect(source.adapted).toEqual({
       id: 1,
@@ -123,22 +121,20 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
-      incidents: {
-        stats: {
-          label: 'Overview',
-          totals: {
-            label: 'Totals',
-            values: {
-              percentage: {
-                key: 'percentage',
-                label: 'Share of total',
-                value: '46.34%',
-              },
-              total: {
-                key: 'total',
-                label: 'Incident count',
-                value: 114,
-              },
+      overview: {
+        label: 'Overview',
+        totals: {
+          label: 'Totals',
+          values: {
+            percentage: {
+              key: 'percentage',
+              label: 'Share of total',
+              value: '46.34%',
+            },
+            total: {
+              key: 'total',
+              label: 'Incident count',
+              value: 114,
             },
           },
         },

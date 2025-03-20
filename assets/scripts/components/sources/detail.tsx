@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../lib/store';
 
-import ActivityOverview from '../incident-activity-overview';
+import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import DetailIncidents from '../detail-incidents';
@@ -27,8 +27,7 @@ const Detail = () => {
   const label = source ? `Q${source.quarter} ${source.year}` : null;
 
   const isActivity = source?.type === 'activity';
-  const incidents = source?.incidents;
-  const hasIncidents = isActivity && Boolean(incidents?.stats.totals?.values.total.value);
+  const hasIncidents = isActivity && Boolean(source?.incidents?.ids?.length);
 
   if (!hasSource) return null;
 
@@ -42,7 +41,7 @@ const Detail = () => {
       </MetaSection>
 
       <ActivityOverview
-        incidents={incidents}
+        overview={source.overview}
         ref={ref}
       >
         <Chart label={label} />

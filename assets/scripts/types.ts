@@ -241,11 +241,30 @@ type IncidentPagination = {
   pagination: Pagination;
 };
 
+export type ItemOverview = {
+  label: string;
+  appearances?: {
+    label: string;
+    values?: {
+      first?: IncidentsStatsValue;
+      last?: IncidentsStatsValue;
+    };
+  };
+  totals?: {
+    label: string;
+    values?: {
+      percentage?: IncidentsPercentageValue;
+      total?: IncidentsTotalValue;
+    };
+  };
+};
+
 export type Entity = Item & {
   attendees?: Attendees;
   domain?: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   isRegistered?: boolean;
+  overview?: ItemOverview;
 }
 
 export type EntityWithIncidentRecords = Entity & {
@@ -295,6 +314,7 @@ export type Person = Item & {
   attendees?: PersonAttendees;
   entities?: PersonEntities;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  overview?: ItemOverview;
 }
 
 export type PersonWithIncidentRecords = Person & {
@@ -321,6 +341,7 @@ export type Source = {
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
   entities?: AffiliatedItem[];
+  overview?: ItemOverview;
 }
 
 export type SourceWithIncidentRecords = Source & {

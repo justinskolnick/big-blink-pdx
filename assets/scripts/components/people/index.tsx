@@ -25,7 +25,7 @@ interface PersonItemProps {
 
 export const PersonItem = ({ id }: PersonItemProps) => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasIncidents = Boolean(person?.incidents);
+  const hasTotal = Boolean(person?.overview?.totals?.values.total.value);
 
   if (!person) return null;
 
@@ -33,14 +33,14 @@ export const PersonItem = ({ id }: PersonItemProps) => {
     <tr>
       <td className='cell-type'><Icon person={person} /></td>
       <td className='cell-name'>
-        {hasIncidents ? (
+        {hasTotal ? (
           <LinkToPerson id={person.id}>{person.name}</LinkToPerson>
         ) : (
           person.name
         )}
       </td>
-      <td className='cell-total'>{person.incidents?.stats.totals.values.total.value ?? '-'}</td>
-      <td className='cell-percent'>{person.incidents?.stats.totals.values.percentage.value ?? '-'}</td>
+      <td className='cell-total'>{person.overview?.totals.values.total.value ?? '-'}</td>
+      <td className='cell-percent'>{person.overview?.totals.values.percentage.value ?? '-'}</td>
     </tr>
   );
 };

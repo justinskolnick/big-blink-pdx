@@ -43,7 +43,7 @@ router.get('/', async (req, res, next) => {
       });
       entitiesResult = entitiesResult.map(entity => {
         entity.setGlobalIncidentCount(incidentCountResult);
-        entity.setIncidentStats();
+        entity.setOverview();
 
         return entity.adapted;
       });
@@ -57,7 +57,7 @@ router.get('/', async (req, res, next) => {
       });
       lobbyistsResult = lobbyistsResult.map(person => {
         person.setGlobalIncidentCount(incidentCountResult);
-        person.setIncidentStats();
+        person.setOverview();
 
         return person.adapted;
       });
@@ -71,7 +71,7 @@ router.get('/', async (req, res, next) => {
       });
       officialsResult = officialsResult.map(person => {
         person.setGlobalIncidentCount(incidentCountResult);
-        person.setIncidentStats();
+        person.setOverview();
 
         return person.adapted;
       });

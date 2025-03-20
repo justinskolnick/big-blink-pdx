@@ -73,7 +73,7 @@ router.get('/', async (req, res, next) => {
       });
       entitiesResult = entitiesResult.map(entity => {
         entity.setGlobalIncidentCount(incidentCountResult);
-        entity.setIncidentStats();
+        entity.setOverview();
 
         return entity.adapted;
       });
@@ -178,7 +178,7 @@ router.get('/:id', async (req, res, next) => {
         quarterSourceId,
         withPersonId,
       });
-      entity.setIncidentStats(incidentsStats);
+      entity.setOverview(incidentsStats);
 
       entityIncidents = await incidents.getAll({
         page,
