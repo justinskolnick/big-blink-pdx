@@ -1516,8 +1516,8 @@
             );
           }
         };
-        exports.preconnect = function(href, options2) {
-          "string" === typeof href && href ? null != options2 && "object" !== typeof options2 ? console.error(
+        exports.preconnect = function(href2, options2) {
+          "string" === typeof href2 && href2 ? null != options2 && "object" !== typeof options2 ? console.error(
             "ReactDOM.preconnect(): Expected the `options` argument (second) to be an object but encountered %s instead. The only supported option at this time is `crossOrigin` which accepts a string.",
             getValueDescriptorExpectingEnumForWarning(options2)
           ) : null != options2 && "string" !== typeof options2.crossOrigin && console.error(
@@ -1525,15 +1525,15 @@
             getValueDescriptorExpectingObjectForWarning(options2.crossOrigin)
           ) : console.error(
             "ReactDOM.preconnect(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.",
-            getValueDescriptorExpectingObjectForWarning(href)
+            getValueDescriptorExpectingObjectForWarning(href2)
           );
-          "string" === typeof href && (options2 ? (options2 = options2.crossOrigin, options2 = "string" === typeof options2 ? "use-credentials" === options2 ? options2 : "" : void 0) : options2 = null, Internals.d.C(href, options2));
+          "string" === typeof href2 && (options2 ? (options2 = options2.crossOrigin, options2 = "string" === typeof options2 ? "use-credentials" === options2 ? options2 : "" : void 0) : options2 = null, Internals.d.C(href2, options2));
         };
-        exports.prefetchDNS = function(href) {
-          if ("string" !== typeof href || !href)
+        exports.prefetchDNS = function(href2) {
+          if ("string" !== typeof href2 || !href2)
             console.error(
               "ReactDOM.prefetchDNS(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.",
-              getValueDescriptorExpectingObjectForWarning(href)
+              getValueDescriptorExpectingObjectForWarning(href2)
             );
           else if (1 < arguments.length) {
             var options2 = arguments[1];
@@ -1545,10 +1545,10 @@
               getValueDescriptorExpectingEnumForWarning(options2)
             );
           }
-          "string" === typeof href && Internals.d.D(href);
+          "string" === typeof href2 && Internals.d.D(href2);
         };
-        exports.preinit = function(href, options2) {
-          "string" === typeof href && href ? null == options2 || "object" !== typeof options2 ? console.error(
+        exports.preinit = function(href2, options2) {
+          "string" === typeof href2 && href2 ? null == options2 || "object" !== typeof options2 ? console.error(
             "ReactDOM.preinit(): Expected the `options` argument (second) to be an object with an `as` property describing the type of resource to be preinitialized but encountered %s instead.",
             getValueDescriptorExpectingEnumForWarning(options2)
           ) : "style" !== options2.as && "script" !== options2.as && console.error(
@@ -1556,19 +1556,19 @@
             getValueDescriptorExpectingEnumForWarning(options2.as)
           ) : console.error(
             "ReactDOM.preinit(): Expected the `href` argument (first) to be a non-empty string but encountered %s instead.",
-            getValueDescriptorExpectingObjectForWarning(href)
+            getValueDescriptorExpectingObjectForWarning(href2)
           );
-          if ("string" === typeof href && options2 && "string" === typeof options2.as) {
+          if ("string" === typeof href2 && options2 && "string" === typeof options2.as) {
             var as = options2.as, crossOrigin = getCrossOriginStringAs(as, options2.crossOrigin), integrity = "string" === typeof options2.integrity ? options2.integrity : void 0, fetchPriority = "string" === typeof options2.fetchPriority ? options2.fetchPriority : void 0;
             "style" === as ? Internals.d.S(
-              href,
+              href2,
               "string" === typeof options2.precedence ? options2.precedence : void 0,
               {
                 crossOrigin,
                 integrity,
                 fetchPriority
               }
-            ) : "script" === as && Internals.d.X(href, {
+            ) : "script" === as && Internals.d.X(href2, {
               crossOrigin,
               integrity,
               fetchPriority,
@@ -1576,9 +1576,9 @@
             });
           }
         };
-        exports.preinitModule = function(href, options2) {
+        exports.preinitModule = function(href2, options2) {
           var encountered = "";
-          "string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
+          "string" === typeof href2 && href2 || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href2) + ".");
           void 0 !== options2 && "object" !== typeof options2 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options2) + "." : options2 && "as" in options2 && "script" !== options2.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingEnumForWarning(options2.as) + ".");
           if (encountered)
             console.error(
@@ -1593,37 +1593,37 @@
                 encountered = getValueDescriptorExpectingEnumForWarning(encountered), console.error(
                   'ReactDOM.preinitModule(): Currently the only supported "as" type for this function is "script" but received "%s" instead. This warning was generated for `href` "%s". In the future other module types will be supported, aligning with the import-attributes proposal. Learn more here: (https://github.com/tc39/proposal-import-attributes)',
                   encountered,
-                  href
+                  href2
                 );
             }
-          if ("string" === typeof href)
+          if ("string" === typeof href2)
             if ("object" === typeof options2 && null !== options2) {
               if (null == options2.as || "script" === options2.as)
                 encountered = getCrossOriginStringAs(
                   options2.as,
                   options2.crossOrigin
-                ), Internals.d.M(href, {
+                ), Internals.d.M(href2, {
                   crossOrigin: encountered,
                   integrity: "string" === typeof options2.integrity ? options2.integrity : void 0,
                   nonce: "string" === typeof options2.nonce ? options2.nonce : void 0
                 });
-            } else null == options2 && Internals.d.M(href);
+            } else null == options2 && Internals.d.M(href2);
         };
-        exports.preload = function(href, options2) {
+        exports.preload = function(href2, options2) {
           var encountered = "";
-          "string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
+          "string" === typeof href2 && href2 || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href2) + ".");
           null == options2 || "object" !== typeof options2 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options2) + "." : "string" === typeof options2.as && options2.as || (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options2.as) + ".");
           encountered && console.error(
             'ReactDOM.preload(): Expected two arguments, a non-empty `href` string and an `options` object with an `as` property valid for a `<link rel="preload" as="..." />` tag.%s',
             encountered
           );
-          if ("string" === typeof href && "object" === typeof options2 && null !== options2 && "string" === typeof options2.as) {
+          if ("string" === typeof href2 && "object" === typeof options2 && null !== options2 && "string" === typeof options2.as) {
             encountered = options2.as;
             var crossOrigin = getCrossOriginStringAs(
               encountered,
               options2.crossOrigin
             );
-            Internals.d.L(href, encountered, {
+            Internals.d.L(href2, encountered, {
               crossOrigin,
               integrity: "string" === typeof options2.integrity ? options2.integrity : void 0,
               nonce: "string" === typeof options2.nonce ? options2.nonce : void 0,
@@ -1636,22 +1636,22 @@
             });
           }
         };
-        exports.preloadModule = function(href, options2) {
+        exports.preloadModule = function(href2, options2) {
           var encountered = "";
-          "string" === typeof href && href || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href) + ".");
+          "string" === typeof href2 && href2 || (encountered += " The `href` argument encountered was " + getValueDescriptorExpectingObjectForWarning(href2) + ".");
           void 0 !== options2 && "object" !== typeof options2 ? encountered += " The `options` argument encountered was " + getValueDescriptorExpectingObjectForWarning(options2) + "." : options2 && "as" in options2 && "string" !== typeof options2.as && (encountered += " The `as` option encountered was " + getValueDescriptorExpectingObjectForWarning(options2.as) + ".");
           encountered && console.error(
             'ReactDOM.preloadModule(): Expected two arguments, a non-empty `href` string and, optionally, an `options` object with an `as` property valid for a `<link rel="modulepreload" as="..." />` tag.%s',
             encountered
           );
-          "string" === typeof href && (options2 ? (encountered = getCrossOriginStringAs(
+          "string" === typeof href2 && (options2 ? (encountered = getCrossOriginStringAs(
             options2.as,
             options2.crossOrigin
-          ), Internals.d.m(href, {
+          ), Internals.d.m(href2, {
             as: "string" === typeof options2.as && "script" !== options2.as ? options2.as : void 0,
             crossOrigin: encountered,
             integrity: "string" === typeof options2.integrity ? options2.integrity : void 0
-          })) : Internals.d.m(href));
+          })) : Internals.d.m(href2));
         };
         exports.requestFormReset = function(form) {
           Internals.d.r(form);
@@ -5543,19 +5543,19 @@
             refCount: 0
           };
         }
-        function retainCache(cache5) {
-          cache5.controller.signal.aborted && console.warn(
+        function retainCache(cache4) {
+          cache4.controller.signal.aborted && console.warn(
             "A cache instance was retained after it was already freed. This likely indicates a bug in React."
           );
-          cache5.refCount++;
+          cache4.refCount++;
         }
-        function releaseCache(cache5) {
-          cache5.refCount--;
-          0 > cache5.refCount && console.warn(
+        function releaseCache(cache4) {
+          cache4.refCount--;
+          0 > cache4.refCount && console.warn(
             "A cache instance was released after it was already freed. This likely indicates a bug in React."
           );
-          0 === cache5.refCount && scheduleCallback$2(NormalPriority, function() {
-            cache5.controller.abort();
+          0 === cache4.refCount && scheduleCallback$2(NormalPriority, function() {
+            cache4.controller.abort();
           });
         }
         function entangleAsyncAction(transition, thenable) {
@@ -15404,13 +15404,13 @@
         function getHoistableRoot(container) {
           return "function" === typeof container.getRootNode ? container.getRootNode() : container.ownerDocument;
         }
-        function preconnectAs(rel, href, crossOrigin) {
+        function preconnectAs(rel, href2, crossOrigin) {
           var ownerDocument = globalDocument;
-          if (ownerDocument && "string" === typeof href && href) {
-            var limitedEscapedHref = escapeSelectorAttributeValueInsideDoubleQuotes(href);
+          if (ownerDocument && "string" === typeof href2 && href2) {
+            var limitedEscapedHref = escapeSelectorAttributeValueInsideDoubleQuotes(href2);
             limitedEscapedHref = 'link[rel="' + rel + '"][href="' + limitedEscapedHref + '"]';
             "string" === typeof crossOrigin && (limitedEscapedHref += '[crossorigin="' + crossOrigin + '"]');
-            preconnectsSet.has(limitedEscapedHref) || (preconnectsSet.add(limitedEscapedHref), rel = { rel, crossOrigin, href }, null === ownerDocument.querySelector(limitedEscapedHref) && (href = ownerDocument.createElement("link"), setInitialProperties(href, "link", rel), markNodeAsHoistable(href), ownerDocument.head.appendChild(href)));
+            preconnectsSet.has(limitedEscapedHref) || (preconnectsSet.add(limitedEscapedHref), rel = { rel, crossOrigin, href: href2 }, null === ownerDocument.querySelector(limitedEscapedHref) && (href2 = ownerDocument.createElement("link"), setInitialProperties(href2, "link", rel), markNodeAsHoistable(href2), ownerDocument.head.appendChild(href2)));
           }
         }
         function getResource(type, currentProps, pendingProps, currentResource) {
@@ -15492,8 +15492,8 @@
           Object.getOwnPropertyNames(props).length > describedProps && (description += " ...");
           return description + " />";
         }
-        function getStyleKey(href) {
-          return 'href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href) + '"';
+        function getStyleKey(href2) {
+          return 'href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href2) + '"';
         }
         function getStylesheetSelectorFromKey(key) {
           return 'link[rel="stylesheet"][' + key + "]";
@@ -15608,24 +15608,24 @@
         }
         function getHydratableHoistableCache(type, keyAttribute, ownerDocument) {
           if (null === tagCaches) {
-            var cache5 = /* @__PURE__ */ new Map();
+            var cache4 = /* @__PURE__ */ new Map();
             var caches = tagCaches = /* @__PURE__ */ new Map();
-            caches.set(ownerDocument, cache5);
+            caches.set(ownerDocument, cache4);
           } else
-            caches = tagCaches, cache5 = caches.get(ownerDocument), cache5 || (cache5 = /* @__PURE__ */ new Map(), caches.set(ownerDocument, cache5));
-          if (cache5.has(type)) return cache5;
-          cache5.set(type, null);
+            caches = tagCaches, cache4 = caches.get(ownerDocument), cache4 || (cache4 = /* @__PURE__ */ new Map(), caches.set(ownerDocument, cache4));
+          if (cache4.has(type)) return cache4;
+          cache4.set(type, null);
           ownerDocument = ownerDocument.getElementsByTagName(type);
           for (caches = 0; caches < ownerDocument.length; caches++) {
             var node2 = ownerDocument[caches];
             if (!(node2[internalHoistableMarker] || node2[internalInstanceKey] || "link" === type && "stylesheet" === node2.getAttribute("rel")) && node2.namespaceURI !== SVG_NAMESPACE) {
               var nodeKey = node2.getAttribute(keyAttribute) || "";
               nodeKey = type + nodeKey;
-              var existing = cache5.get(nodeKey);
-              existing ? existing.push(node2) : cache5.set(nodeKey, [node2]);
+              var existing = cache4.get(nodeKey);
+              existing ? existing.push(node2) : cache4.set(nodeKey, [node2]);
             }
           }
-          return cache5;
+          return cache4;
         }
         function mountHoistable(hoistableRoot, type, instance) {
           hoistableRoot = hoistableRoot.ownerDocument || hoistableRoot;
@@ -18798,8 +18798,8 @@
         }
         var DefaultAsyncDispatcher = {
           getCacheForType: function(resourceType) {
-            var cache5 = readContext(CacheContext), cacheForType = cache5.data.get(resourceType);
-            void 0 === cacheForType && (cacheForType = resourceType(), cache5.data.set(resourceType, cacheForType));
+            var cache4 = readContext(CacheContext), cacheForType = cache4.data.get(resourceType);
+            void 0 === cacheForType && (cacheForType = resourceType(), cache4.data.set(resourceType, cacheForType));
             return cacheForType;
           },
           getOwner: function() {
@@ -18887,49 +18887,49 @@
             var formInst = getInstanceFromNode(form);
             null !== formInst && 5 === formInst.tag && "form" === formInst.type ? requestFormReset$1(formInst) : previousDispatcher.r(form);
           },
-          D: function(href) {
-            previousDispatcher.D(href);
-            preconnectAs("dns-prefetch", href, null);
+          D: function(href2) {
+            previousDispatcher.D(href2);
+            preconnectAs("dns-prefetch", href2, null);
           },
-          C: function(href, crossOrigin) {
-            previousDispatcher.C(href, crossOrigin);
-            preconnectAs("preconnect", href, crossOrigin);
+          C: function(href2, crossOrigin) {
+            previousDispatcher.C(href2, crossOrigin);
+            preconnectAs("preconnect", href2, crossOrigin);
           },
-          L: function(href, as, options2) {
-            previousDispatcher.L(href, as, options2);
+          L: function(href2, as, options2) {
+            previousDispatcher.L(href2, as, options2);
             var ownerDocument = globalDocument;
-            if (ownerDocument && href && as) {
+            if (ownerDocument && href2 && as) {
               var preloadSelector = 'link[rel="preload"][as="' + escapeSelectorAttributeValueInsideDoubleQuotes(as) + '"]';
               "image" === as ? options2 && options2.imageSrcSet ? (preloadSelector += '[imagesrcset="' + escapeSelectorAttributeValueInsideDoubleQuotes(
                 options2.imageSrcSet
               ) + '"]', "string" === typeof options2.imageSizes && (preloadSelector += '[imagesizes="' + escapeSelectorAttributeValueInsideDoubleQuotes(
                 options2.imageSizes
-              ) + '"]')) : preloadSelector += '[href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href) + '"]' : preloadSelector += '[href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href) + '"]';
+              ) + '"]')) : preloadSelector += '[href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href2) + '"]' : preloadSelector += '[href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href2) + '"]';
               var key = preloadSelector;
               switch (as) {
                 case "style":
-                  key = getStyleKey(href);
+                  key = getStyleKey(href2);
                   break;
                 case "script":
-                  key = getScriptKey(href);
+                  key = getScriptKey(href2);
               }
-              preloadPropsMap.has(key) || (href = assign3(
+              preloadPropsMap.has(key) || (href2 = assign3(
                 {
                   rel: "preload",
-                  href: "image" === as && options2 && options2.imageSrcSet ? void 0 : href,
+                  href: "image" === as && options2 && options2.imageSrcSet ? void 0 : href2,
                   as
                 },
                 options2
-              ), preloadPropsMap.set(key, href), null !== ownerDocument.querySelector(preloadSelector) || "style" === as && ownerDocument.querySelector(
+              ), preloadPropsMap.set(key, href2), null !== ownerDocument.querySelector(preloadSelector) || "style" === as && ownerDocument.querySelector(
                 getStylesheetSelectorFromKey(key)
-              ) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key)) || (as = ownerDocument.createElement("link"), setInitialProperties(as, "link", href), markNodeAsHoistable(as), ownerDocument.head.appendChild(as)));
+              ) || "script" === as && ownerDocument.querySelector(getScriptSelectorFromKey(key)) || (as = ownerDocument.createElement("link"), setInitialProperties(as, "link", href2), markNodeAsHoistable(as), ownerDocument.head.appendChild(as)));
             }
           },
-          m: function(href, options2) {
-            previousDispatcher.m(href, options2);
+          m: function(href2, options2) {
+            previousDispatcher.m(href2, options2);
             var ownerDocument = globalDocument;
-            if (ownerDocument && href) {
-              var as = options2 && "string" === typeof options2.as ? options2.as : "script", preloadSelector = 'link[rel="modulepreload"][as="' + escapeSelectorAttributeValueInsideDoubleQuotes(as) + '"][href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href) + '"]', key = preloadSelector;
+            if (ownerDocument && href2) {
+              var as = options2 && "string" === typeof options2.as ? options2.as : "script", preloadSelector = 'link[rel="modulepreload"][as="' + escapeSelectorAttributeValueInsideDoubleQuotes(as) + '"][href="' + escapeSelectorAttributeValueInsideDoubleQuotes(href2) + '"]', key = preloadSelector;
               switch (as) {
                 case "audioworklet":
                 case "paintworklet":
@@ -18937,9 +18937,9 @@
                 case "sharedworker":
                 case "worker":
                 case "script":
-                  key = getScriptKey(href);
+                  key = getScriptKey(href2);
               }
-              if (!preloadPropsMap.has(key) && (href = assign3({ rel: "modulepreload", href }, options2), preloadPropsMap.set(key, href), null === ownerDocument.querySelector(preloadSelector))) {
+              if (!preloadPropsMap.has(key) && (href2 = assign3({ rel: "modulepreload", href: href2 }, options2), preloadPropsMap.set(key, href2), null === ownerDocument.querySelector(preloadSelector))) {
                 switch (as) {
                   case "audioworklet":
                   case "paintworklet":
@@ -18951,7 +18951,7 @@
                       return;
                 }
                 as = ownerDocument.createElement("link");
-                setInitialProperties(as, "link", href);
+                setInitialProperties(as, "link", href2);
                 markNodeAsHoistable(as);
                 ownerDocument.head.appendChild(as);
               }
@@ -18972,11 +18972,11 @@
               }, scripts.set(key, resource));
             }
           },
-          S: function(href, precedence, options2) {
-            previousDispatcher.S(href, precedence, options2);
+          S: function(href2, precedence, options2) {
+            previousDispatcher.S(href2, precedence, options2);
             var ownerDocument = globalDocument;
-            if (ownerDocument && href) {
-              var styles2 = getResourcesFromRoot(ownerDocument).hoistableStyles, key = getStyleKey(href);
+            if (ownerDocument && href2) {
+              var styles2 = getResourcesFromRoot(ownerDocument).hoistableStyles, key = getStyleKey(href2);
               precedence = precedence || "default";
               var resource = styles2.get(key);
               if (!resource) {
@@ -18986,18 +18986,18 @@
                 ))
                   state.loading = Loaded | Inserted;
                 else {
-                  href = assign3(
+                  href2 = assign3(
                     {
                       rel: "stylesheet",
-                      href,
+                      href: href2,
                       "data-precedence": precedence
                     },
                     options2
                   );
-                  (options2 = preloadPropsMap.get(key)) && adoptPreloadPropsForStylesheet(href, options2);
+                  (options2 = preloadPropsMap.get(key)) && adoptPreloadPropsForStylesheet(href2, options2);
                   var link = resource = ownerDocument.createElement("link");
                   markNodeAsHoistable(link);
-                  setInitialProperties(link, "link", href);
+                  setInitialProperties(link, "link", href2);
                   link._p = new Promise(function(resolve2, reject) {
                     link.onload = resolve2;
                     link.onerror = reject;
@@ -21394,7 +21394,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-IR6S3I6Y.mjs
+  // node_modules/react-router/dist/development/chunk-GNGMS2XR.mjs
   var React3 = __toESM(require_react(), 1);
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
@@ -21410,6 +21410,12 @@
   var React13 = __toESM(require_react(), 1);
   var import_cookie = __toESM(require_dist(), 1);
   var import_meta = {};
+  var __typeError = (msg) => {
+    throw TypeError(msg);
+  };
+  var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+  var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+  var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
   var PopStateEventType = "popstate";
   function createBrowserHistory(options2 = {}) {
     function createBrowserLocation(window2, globalHistory) {
@@ -21557,13 +21563,13 @@
     }
     function createURL(to2) {
       let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
-      let href = typeof to2 === "string" ? to2 : createPath(to2);
-      href = href.replace(/ $/, "%20");
+      let href2 = typeof to2 === "string" ? to2 : createPath(to2);
+      href2 = href2.replace(/ $/, "%20");
       invariant(
         base,
-        `No window.location.(origin|href) available to create URL for href: ${href}`
+        `No window.location.(origin|href) available to create URL for href: ${href2}`
       );
-      return new URL(href, base);
+      return new URL(href2, base);
     }
     let history = {
       get action() {
@@ -21603,6 +21609,30 @@
     };
     return history;
   }
+  var _map;
+  var unstable_RouterContextProvider = class {
+    constructor(init) {
+      __privateAdd(this, _map, /* @__PURE__ */ new Map());
+      if (init) {
+        for (let [context, value] of init) {
+          this.set(context, value);
+        }
+      }
+    }
+    get(context) {
+      if (__privateGet(this, _map).has(context)) {
+        return __privateGet(this, _map).get(context);
+      }
+      if (context.defaultValue !== void 0) {
+        return context.defaultValue;
+      }
+      throw new Error("No value found for context");
+    }
+    set(context, value) {
+      __privateGet(this, _map).set(context, value);
+    }
+  };
+  _map = /* @__PURE__ */ new WeakMap();
   var immutableRouteKeys = /* @__PURE__ */ new Set([
     "lazy",
     "caseSensitive",
@@ -22096,9 +22126,9 @@
     );
     let inFlightDataRoutes;
     let basename = init.basename || "/";
-    let dataStrategyImpl = init.dataStrategy || defaultDataStrategy;
-    let patchRoutesOnNavigationImpl = init.patchRoutesOnNavigation;
+    let dataStrategyImpl = init.dataStrategy || defaultDataStrategyWithMiddleware;
     let future = {
+      unstable_middleware: false,
       ...init.future
     };
     let unlistenHistory = null;
@@ -22110,7 +22140,7 @@
     let initialMatches = matchRoutes(dataRoutes, init.history.location, basename);
     let initialMatchesIsFOW = false;
     let initialErrors = null;
-    if (initialMatches == null && !patchRoutesOnNavigationImpl) {
+    if (initialMatches == null && !init.patchRoutesOnNavigation) {
       let error = getInternalRouterError(404, {
         pathname: init.history.location.pathname
       });
@@ -22541,6 +22571,9 @@
         pendingNavigationController.signal,
         opts && opts.submission
       );
+      let scopedContext = new unstable_RouterContextProvider(
+        init.unstable_getContext ? await init.unstable_getContext() : void 0
+      );
       let pendingActionResult;
       if (opts && opts.pendingError) {
         pendingActionResult = [
@@ -22553,6 +22586,7 @@
           location2,
           opts.submission,
           matches2,
+          scopedContext,
           fogOfWar.active,
           { replace: opts.replace, flushSync }
         );
@@ -22593,6 +22627,7 @@
         request,
         location2,
         matches2,
+        scopedContext,
         fogOfWar.active,
         loadingNavigation,
         opts && opts.submission,
@@ -22613,7 +22648,7 @@
         errors: errors2
       });
     }
-    async function handleAction(request, location2, submission, matches2, isFogOfWar, opts = {}) {
+    async function handleAction(request, location2, submission, matches2, scopedContext, isFogOfWar, opts = {}) {
       interruptActiveLoads();
       let navigation = getSubmittingNavigation(location2, submission);
       updateState({ navigation }, { flushSync: opts.flushSync === true });
@@ -22669,13 +22704,21 @@
       } else {
         let results = await callDataStrategy(
           "action",
-          state,
           request,
           [actionMatch],
           matches2,
+          scopedContext,
           null
         );
         result = results[actionMatch.route.id];
+        if (!result) {
+          for (let match2 of matches2) {
+            if (results[match2.route.id]) {
+              result = results[match2.route.id];
+              break;
+            }
+          }
+        }
         if (request.signal.aborted) {
           return { shortCircuited: true };
         }
@@ -22713,7 +22756,7 @@
         pendingActionResult: [actionMatch.route.id, result]
       };
     }
-    async function handleLoaders(request, location2, matches2, isFogOfWar, overrideNavigation, submission, fetcherSubmission, replace22, initialHydration, flushSync, pendingActionResult) {
+    async function handleLoaders(request, location2, matches2, scopedContext, isFogOfWar, overrideNavigation, submission, fetcherSubmission, replace22, initialHydration, flushSync, pendingActionResult) {
       let loadingNavigation = overrideNavigation || getLoadingNavigation(location2, submission);
       let activeSubmission = submission || fetcherSubmission || getSubmissionFromNavigation(loadingNavigation);
       let shouldUpdateNavigationState = !isUninterruptedRevalidation && !initialHydration;
@@ -22823,11 +22866,11 @@
         );
       }
       let { loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(
-        state,
         matches2,
         matchesToLoad,
         revalidatingFetchers,
-        request
+        request,
+        scopedContext
       );
       if (request.signal.aborted) {
         return { shortCircuited: true };
@@ -22899,7 +22942,7 @@
       });
       return new Map(state.fetchers);
     }
-    async function fetch2(key, routeId, href, opts) {
+    async function fetch2(key, routeId, href2, opts) {
       abortFetcher(key);
       let flushSync = (opts && opts.flushSync) === true;
       let routesToUse = inFlightDataRoutes || dataRoutes;
@@ -22907,7 +22950,7 @@
         state.location,
         state.matches,
         basename,
-        href,
+        href2,
         routeId,
         opts?.relative
       );
@@ -22935,6 +22978,9 @@
         return;
       }
       let match2 = getTargetMatch(matches2, path);
+      let scopedContext = new unstable_RouterContextProvider(
+        init.unstable_getContext ? await init.unstable_getContext() : void 0
+      );
       let preventScrollReset = (opts && opts.preventScrollReset) === true;
       if (submission && isMutationMethod(submission.formMethod)) {
         await handleFetcherAction(
@@ -22943,6 +22989,7 @@
           path,
           match2,
           matches2,
+          scopedContext,
           fogOfWar.active,
           flushSync,
           preventScrollReset,
@@ -22957,13 +23004,14 @@
         path,
         match2,
         matches2,
+        scopedContext,
         fogOfWar.active,
         flushSync,
         preventScrollReset,
         submission
       );
     }
-    async function handleFetcherAction(key, routeId, path, match2, requestMatches, isFogOfWar, flushSync, preventScrollReset, submission) {
+    async function handleFetcherAction(key, routeId, path, match2, requestMatches, scopedContext, isFogOfWar, flushSync, preventScrollReset, submission) {
       interruptActiveLoads();
       fetchLoadMatches.delete(key);
       function detectAndHandle405Error(m) {
@@ -22996,7 +23044,8 @@
         let discoverResult = await discoverRoutes(
           requestMatches,
           path,
-          fetchRequest.signal
+          fetchRequest.signal,
+          key
         );
         if (discoverResult.type === "aborted") {
           return;
@@ -23023,10 +23072,10 @@
       let originatingLoadId = incrementingLoadId;
       let actionResults = await callDataStrategy(
         "action",
-        state,
         fetchRequest,
         [match2],
         requestMatches,
+        scopedContext,
         key
       );
       let actionResult = actionResults[match2.route.id];
@@ -23110,11 +23159,11 @@
         abortPendingFetchRevalidations
       );
       let { loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(
-        state,
         matches2,
         matchesToLoad,
         revalidatingFetchers,
-        revalidationRequest
+        revalidationRequest,
+        scopedContext
       );
       if (abortController.signal.aborted) {
         return;
@@ -23181,7 +23230,7 @@
         isRevalidationRequired = false;
       }
     }
-    async function handleFetcherLoader(key, routeId, path, match2, matches2, isFogOfWar, flushSync, preventScrollReset, submission) {
+    async function handleFetcherLoader(key, routeId, path, match2, matches2, scopedContext, isFogOfWar, flushSync, preventScrollReset, submission) {
       let existingFetcher = state.fetchers.get(key);
       updateFetcherState(
         key,
@@ -23201,7 +23250,8 @@
         let discoverResult = await discoverRoutes(
           matches2,
           path,
-          fetchRequest.signal
+          fetchRequest.signal,
+          key
         );
         if (discoverResult.type === "aborted") {
           return;
@@ -23225,10 +23275,10 @@
       let originatingLoadId = incrementingLoadId;
       let results = await callDataStrategy(
         "loader",
-        state,
         fetchRequest,
         [match2],
         matches2,
+        scopedContext,
         key
       );
       let result = results[match2.route.id];
@@ -23330,20 +23380,21 @@
         });
       }
     }
-    async function callDataStrategy(type, state2, request, matchesToLoad, matches2, fetcherKey) {
+    async function callDataStrategy(type, request, matchesToLoad, matches2, scopedContext, fetcherKey) {
       let results;
       let dataResults = {};
       try {
         results = await callDataStrategyImpl(
           dataStrategyImpl,
           type,
-          state2,
           request,
           matchesToLoad,
           matches2,
           fetcherKey,
           manifest,
-          mapRouteProperties2
+          mapRouteProperties2,
+          scopedContext,
+          future.unstable_middleware
         );
       } catch (e) {
         matchesToLoad.forEach((m) => {
@@ -23375,13 +23426,13 @@
       }
       return dataResults;
     }
-    async function callLoadersAndMaybeResolveData(state2, matches2, matchesToLoad, fetchersToLoad, request) {
+    async function callLoadersAndMaybeResolveData(matches2, matchesToLoad, fetchersToLoad, request, scopedContext) {
       let loaderResultsPromise = callDataStrategy(
         "loader",
-        state2,
         request,
         matchesToLoad,
         matches2,
+        scopedContext,
         null
       );
       let fetcherResultsPromise = Promise.all(
@@ -23389,10 +23440,10 @@
           if (f.matches && f.match && f.controller) {
             let results = await callDataStrategy(
               "loader",
-              state2,
               createClientSideRequest(init.history, f.path, f.controller.signal),
               [f.match],
               f.matches,
+              scopedContext,
               f.key
             );
             let result = results[f.match.route.id];
@@ -23614,7 +23665,7 @@
       return null;
     }
     function checkFogOfWar(matches2, routesToUse, pathname) {
-      if (patchRoutesOnNavigationImpl) {
+      if (init.patchRoutesOnNavigation) {
         if (!matches2) {
           let fogMatches = matchRoutesImpl(
             routesToUse,
@@ -23637,8 +23688,8 @@
       }
       return { active: false, matches: null };
     }
-    async function discoverRoutes(matches2, pathname, signal) {
-      if (!patchRoutesOnNavigationImpl) {
+    async function discoverRoutes(matches2, pathname, signal, fetcherKey) {
+      if (!init.patchRoutesOnNavigation) {
         return { type: "success", matches: matches2 };
       }
       let partialMatches = matches2;
@@ -23647,9 +23698,11 @@
         let routesToUse = inFlightDataRoutes || dataRoutes;
         let localManifest = manifest;
         try {
-          await patchRoutesOnNavigationImpl({
+          await init.patchRoutesOnNavigation({
+            signal,
             path: pathname,
             matches: partialMatches,
+            fetcherKey,
             patch: (routeId, children) => {
               if (signal.aborted) return;
               patchRoutesImpl(
@@ -24134,20 +24187,127 @@
       lazy: void 0
     });
   }
-  async function defaultDataStrategy({
-    matches: matches2
-  }) {
-    let matchesToLoad = matches2.filter((m) => m.shouldLoad);
+  async function defaultDataStrategy(args) {
+    let matchesToLoad = args.matches.filter((m) => m.shouldLoad);
+    let keyedResults = {};
     let results = await Promise.all(matchesToLoad.map((m) => m.resolve()));
-    return results.reduce(
-      (acc, result, i) => Object.assign(acc, { [matchesToLoad[i].route.id]: result }),
-      {}
+    results.forEach((result, i) => {
+      keyedResults[matchesToLoad[i].route.id] = result;
+    });
+    return keyedResults;
+  }
+  async function defaultDataStrategyWithMiddleware(args) {
+    if (!args.matches.some((m) => m.route.unstable_middleware)) {
+      return defaultDataStrategy(args);
+    }
+    return runMiddlewarePipeline(
+      args,
+      false,
+      () => defaultDataStrategy(args),
+      (error, routeId) => ({ [routeId]: { type: "error", result: error } })
     );
   }
-  async function callDataStrategyImpl(dataStrategyImpl, type, state, request, matchesToLoad, matches2, fetcherKey, manifest, mapRouteProperties2, requestContext) {
+  async function runMiddlewarePipeline(args, propagateResult, handler, errorHandler) {
+    let { matches: matches2, request, params, context } = args;
+    let middlewareState = {
+      handlerResult: void 0
+    };
+    try {
+      let tuples = matches2.flatMap(
+        (m) => m.route.unstable_middleware ? m.route.unstable_middleware.map((fn) => [m.route.id, fn]) : []
+      );
+      let result = await callRouteMiddleware(
+        { request, params, context },
+        tuples,
+        propagateResult,
+        middlewareState,
+        handler
+      );
+      return propagateResult ? result : middlewareState.handlerResult;
+    } catch (e) {
+      if (!middlewareState.middlewareError) {
+        throw e;
+      }
+      let result = await errorHandler(
+        middlewareState.middlewareError.error,
+        middlewareState.middlewareError.routeId
+      );
+      if (propagateResult || !middlewareState.handlerResult) {
+        return result;
+      }
+      return Object.assign(middlewareState.handlerResult, result);
+    }
+  }
+  async function callRouteMiddleware(args, middlewares, propagateResult, middlewareState, handler, idx = 0) {
+    let { request } = args;
+    if (request.signal.aborted) {
+      if (request.signal.reason) {
+        throw request.signal.reason;
+      }
+      throw new Error(
+        `Request aborted without an \`AbortSignal.reason\`: ${request.method} ${request.url}`
+      );
+    }
+    let tuple = middlewares[idx];
+    if (!tuple) {
+      middlewareState.handlerResult = await handler();
+      return middlewareState.handlerResult;
+    }
+    let [routeId, middleware2] = tuple;
+    let nextCalled = false;
+    let nextResult = void 0;
+    let next2 = async () => {
+      if (nextCalled) {
+        throw new Error("You may only call `next()` once per middleware");
+      }
+      nextCalled = true;
+      let result = await callRouteMiddleware(
+        args,
+        middlewares,
+        propagateResult,
+        middlewareState,
+        handler,
+        idx + 1
+      );
+      if (propagateResult) {
+        nextResult = result;
+        return nextResult;
+      }
+    };
+    try {
+      let result = await middleware2(
+        {
+          request: args.request,
+          params: args.params,
+          context: args.context
+        },
+        next2
+      );
+      if (nextCalled) {
+        if (result === void 0) {
+          return nextResult;
+        } else {
+          return result;
+        }
+      } else {
+        return next2();
+      }
+    } catch (error) {
+      if (!middlewareState.middlewareError) {
+        middlewareState.middlewareError = { routeId, error };
+      } else if (middlewareState.middlewareError.error !== error) {
+        middlewareState.middlewareError = { routeId, error };
+      }
+      throw error;
+    }
+  }
+  async function callDataStrategyImpl(dataStrategyImpl, type, request, matchesToLoad, matches2, fetcherKey, manifest, mapRouteProperties2, scopedContext, enableMiddleware) {
     let loadRouteDefinitionsPromises = matches2.map(
       (m) => m.route.lazy ? loadLazyRouteModule(m.route, mapRouteProperties2, manifest) : void 0
     );
+    if (enableMiddleware) {
+      await Promise.all(loadRouteDefinitionsPromises);
+    }
     let dsMatches = matches2.map((match2, i) => {
       let loadRoutePromise = loadRouteDefinitionsPromises[i];
       let shouldLoad = matchesToLoad.some((m) => m.route.id === match2.route.id);
@@ -24161,7 +24321,7 @@
           match2,
           loadRoutePromise,
           handlerOverride,
-          requestContext
+          scopedContext
         ) : Promise.resolve({ type: "data", result: void 0 });
       };
       return {
@@ -24175,7 +24335,7 @@
       request,
       params: matches2[0].params,
       fetcherKey,
-      context: requestContext
+      context: scopedContext
     });
     try {
       await Promise.all(loadRouteDefinitionsPromises);
@@ -24183,7 +24343,7 @@
     }
     return results;
   }
-  async function callLoaderOrAction(type, request, match2, loadRoutePromise, handlerOverride, staticContext) {
+  async function callLoaderOrAction(type, request, match2, loadRoutePromise, handlerOverride, scopedContext) {
     let result;
     let onReject;
     let runHandler = (handler) => {
@@ -24203,7 +24363,7 @@
           {
             request,
             params: match2.params,
-            context: staticContext
+            context: scopedContext
           },
           ...ctx !== void 0 ? [ctx] : []
         );
@@ -25903,12 +26063,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     return [];
   }
-  function getModuleLinkHrefs(matches2, manifestPatch) {
+  function getModuleLinkHrefs(matches2, manifest, { includeHydrateFallback } = {}) {
     return dedupeHrefs(
       matches2.map((match2) => {
-        let route = manifestPatch.routes[match2.route.id];
+        let route = manifest.routes[match2.route.id];
         if (!route) return [];
         let hrefs = [route.module];
+        if (route.clientActionModule) {
+          hrefs = hrefs.concat(route.clientActionModule);
+        }
+        if (route.clientLoaderModule) {
+          hrefs = hrefs.concat(route.clientLoaderModule);
+        }
+        if (includeHydrateFallback && route.hydrateFallbackModule) {
+          hrefs = hrefs.concat(route.hydrateFallbackModule);
+        }
         if (route.imports) {
           hrefs = hrefs.concat(route.imports);
         }
@@ -25944,7 +26113,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, []);
   }
   var SingleFetchRedirectSymbol = Symbol("SingleFetchRedirect");
-  function singleFetchUrl(reqUrl) {
+  function singleFetchUrl(reqUrl, basename) {
     let url2 = typeof reqUrl === "string" ? new URL(
       reqUrl,
       // This can be called during the SSR flow via PrefetchPageLinksImpl so
@@ -25953,6 +26122,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     ) : reqUrl;
     if (url2.pathname === "/") {
       url2.pathname = "_root.data";
+    } else if (basename && stripBasename(url2.pathname, basename) === "/") {
+      url2.pathname = `${basename.replace(/\/$/, "")}/_root.data`;
     } else {
       url2.pathname = `${url2.pathname.replace(/\/$/, "")}.data`;
     }
@@ -26089,6 +26260,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }) {
     let location2 = useLocation();
     let { manifest, routeModules } = useFrameworkContext();
+    let { basename } = useDataRouterContext2();
     let { loaderData, matches: matches2 } = useDataRouterStateContext();
     let newMatchesForData = React9.useMemo(
       () => getNewMatchesForLinks(
@@ -26134,7 +26306,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (routesParams.size === 0) {
         return [];
       }
-      let url2 = singleFetchUrl(page);
+      let url2 = singleFetchUrl(page, basename);
       if (foundOptOutRoute && routesParams.size > 0) {
         url2.searchParams.set(
           "_routes",
@@ -26143,6 +26315,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
       return [url2.pathname + url2.search];
     }, [
+      basename,
       loaderData,
       location2,
       manifest,
@@ -26156,7 +26329,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       [newMatchesForAssets, manifest]
     );
     let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
-    return /* @__PURE__ */ React9.createElement(React9.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ React9.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })), moduleHrefs.map((href) => /* @__PURE__ */ React9.createElement("link", { key: href, rel: "modulepreload", href, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
+    return /* @__PURE__ */ React9.createElement(React9.Fragment, null, dataHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "prefetch", as: "fetch", href: href2, ...linkProps })), moduleHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "modulepreload", href: href2, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
       // these don't spread `linkProps` because they are full link descriptors
       // already with their own props
       /* @__PURE__ */ React9.createElement("link", { key, ...link })
@@ -26176,13 +26349,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   try {
     if (isBrowser) {
-      window.__reactRouterVersion = "7.1.5";
+      window.__reactRouterVersion = "7.4.0";
     }
   } catch (e) {
   }
   function createBrowserRouter(routes, opts) {
     return createRouter({
       basename: opts?.basename,
+      unstable_getContext: opts?.unstable_getContext,
       future: opts?.future,
       history: createBrowserHistory({ window: opts?.window }),
       hydrationData: opts?.hydrationData || parseHydrationData(),
@@ -26306,7 +26480,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           }
         }
       }
-      let href = useHref(to2, { relative });
+      let href2 = useHref(to2, { relative });
       let [shouldPrefetch, prefetchRef, prefetchHandlers] = usePrefetchBehavior(
         prefetch,
         rest
@@ -26332,7 +26506,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           {
             ...rest,
             ...prefetchHandlers,
-            href: absoluteHref || href,
+            href: absoluteHref || href2,
             onClick: isExternal || reloadDocument ? onClick : handleClick,
             ref: mergeRefs(forwardedRef, prefetchRef),
             target,
@@ -26340,7 +26514,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           }
         )
       );
-      return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ React10.createElement(React10.Fragment, null, link, /* @__PURE__ */ React10.createElement(PrefetchPageLinks, { page: href })) : link;
+      return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ React10.createElement(React10.Fragment, null, link, /* @__PURE__ */ React10.createElement(PrefetchPageLinks, { page: href2 })) : link;
     }
   );
   Link.displayName = "Link";
@@ -28660,7 +28834,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
     const type = typeof val;
     return val == null || type === "string" || type === "boolean" || type === "number" || Array.isArray(val) || isPlainObject(val);
   }
-  function findNonSerializableValue(value, path = "", isSerializable = isPlain, getEntries, ignoredPaths = [], cache5) {
+  function findNonSerializableValue(value, path = "", isSerializable = isPlain, getEntries, ignoredPaths = [], cache4) {
     let foundNestedSerializable;
     if (!isSerializable(value)) {
       return {
@@ -28671,7 +28845,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
     if (typeof value !== "object" || value === null) {
       return false;
     }
-    if (cache5?.has(value)) return false;
+    if (cache4?.has(value)) return false;
     const entries = getEntries != null ? getEntries(value) : Object.entries(value);
     const hasIgnoredPaths = ignoredPaths.length > 0;
     for (const [key, nestedValue] of entries) {
@@ -28694,13 +28868,13 @@ It is disabled in production builds, so you don't need to worry about that.`);
         };
       }
       if (typeof nestedValue === "object") {
-        foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths, cache5);
+        foundNestedSerializable = findNonSerializableValue(nestedValue, nestedPath, isSerializable, getEntries, ignoredPaths, cache4);
         if (foundNestedSerializable) {
           return foundNestedSerializable;
         }
       }
     }
-    if (cache5 && isNestedFrozen(value)) cache5.add(value);
+    if (cache4 && isNestedFrozen(value)) cache4.add(value);
     return false;
   }
   function isNestedFrozen(value) {
@@ -28726,7 +28900,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
         ignoreActions = false,
         disableCache = false
       } = options2;
-      const cache5 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
+      const cache4 = !disableCache && WeakSet ? /* @__PURE__ */ new WeakSet() : void 0;
       return (storeAPI) => (next2) => (action) => {
         if (!isAction(action)) {
           return next2(action);
@@ -28735,7 +28909,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
         const measureUtils = getTimeMeasureUtils(warnAfter, "SerializableStateInvariantMiddleware");
         if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) {
           measureUtils.measureTime(() => {
-            const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache5);
+            const foundActionNonSerializableValue = findNonSerializableValue(action, "", isSerializable, getEntries, ignoredActionPaths, cache4);
             if (foundActionNonSerializableValue) {
               const {
                 keyPath,
@@ -28748,7 +28922,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
         if (!ignoreState) {
           measureUtils.measureTime(() => {
             const state = storeAPI.getState();
-            const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache5);
+            const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache4);
             if (foundStateNonSerializableValue) {
               const {
                 keyPath,
@@ -29163,6 +29337,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       message: String(value)
     };
   };
+  var externalAbortMessage = "External signal was aborted";
   var createAsyncThunk = /* @__PURE__ */ (() => {
     function createAsyncThunk2(typePrefix, payloadCreator, options2) {
       const fulfilled = createAction(typePrefix + "/fulfilled", (payload, requestId, arg, meta) => ({
@@ -29196,7 +29371,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           condition: error?.name === "ConditionError"
         }
       }));
-      function actionCreator(arg) {
+      function actionCreator(arg, {
+        signal
+      } = {}) {
         return (dispatch, getState, extra) => {
           const requestId = options2?.idGenerator ? options2.idGenerator(arg) : nanoid();
           const abortController = new AbortController();
@@ -29205,6 +29382,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           function abort(reason) {
             abortReason = reason;
             abortController.abort();
+          }
+          if (signal) {
+            if (signal.aborted) {
+              abort(externalAbortMessage);
+            } else {
+              signal.addEventListener("abort", () => abort(externalAbortMessage), {
+                once: true
+              });
+            }
           }
           const promise = async function() {
             let finalAction;
@@ -30260,6 +30446,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isMutationDefinition(e) {
     return e.type === "mutation";
   }
+  function isInfiniteQueryDefinition(e) {
+    return e.type === "infinitequery";
+  }
   function calculateProvidedBy(description, result, error, queryArg, meta, assertTagTypes) {
     if (isFunction(description)) {
       return description(result, error, queryArg, meta).filter(isNotNullish).map(expandTagDescription).map(assertTagTypes);
@@ -30285,6 +30474,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function buildInitiate({
     serializeQueryArgs,
     queryThunk,
+    infiniteQueryThunk,
     mutationThunk,
     api: api3,
     context
@@ -30298,6 +30488,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } = api3.internalActions;
     return {
       buildInitiateQuery,
+      buildInitiateInfiniteQuery,
       buildInitiateMutation,
       getRunningQueryThunk,
       getRunningMutationThunk,
@@ -30337,7 +30528,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         }
       }
     }
-    function buildInitiateQuery(endpointName, endpointDefinition) {
+    function buildInitiateAnyQuery(endpointName, endpointDefinition) {
       const queryAction = (arg, {
         subscribe = true,
         forceRefetch,
@@ -30350,7 +30541,8 @@ You must add the middleware for RTK-Query to function correctly!`);
           endpointDefinition,
           endpointName
         });
-        const thunk2 = queryThunk({
+        let thunk2;
+        const commonThunkArgs = {
           ...rest,
           type: "query",
           subscribe,
@@ -30360,7 +30552,22 @@ You must add the middleware for RTK-Query to function correctly!`);
           originalArgs: arg,
           queryCacheKey,
           [forceQueryFnSymbol]: forceQueryFn
-        });
+        };
+        if (isQueryDefinition(endpointDefinition)) {
+          thunk2 = queryThunk(commonThunkArgs);
+        } else {
+          const {
+            direction,
+            initialPageParam
+          } = rest;
+          thunk2 = infiniteQueryThunk({
+            ...commonThunkArgs,
+            // Supply these even if undefined. This helps with a field existence
+            // check over in `buildSlice.ts`
+            direction,
+            initialPageParam
+          });
+        }
         const selector = api3.endpoints[endpointName].select(arg);
         const thunkResult = dispatch(thunk2);
         const stateAfter = selector(getState());
@@ -30431,6 +30638,14 @@ You must add the middleware for RTK-Query to function correctly!`);
       };
       return queryAction;
     }
+    function buildInitiateQuery(endpointName, endpointDefinition) {
+      const queryAction = buildInitiateAnyQuery(endpointName, endpointDefinition);
+      return queryAction;
+    }
+    function buildInitiateInfiniteQuery(endpointName, endpointDefinition) {
+      const infiniteQueryAction = buildInitiateAnyQuery(endpointName, endpointDefinition);
+      return infiniteQueryAction;
+    }
     function buildInitiateMutation(endpointName) {
       return (arg, {
         track = true,
@@ -30495,6 +30710,12 @@ You must add the middleware for RTK-Query to function correctly!`);
   function defaultTransformResponse(baseQueryReturnValue) {
     return baseQueryReturnValue;
   }
+  var addShouldAutoBatch = (arg = {}) => {
+    return {
+      ...arg,
+      [SHOULD_AUTOBATCH]: true
+    };
+  };
   function buildThunks({
     reducerPath,
     baseQuery,
@@ -30503,7 +30724,8 @@ You must add the middleware for RTK-Query to function correctly!`);
     },
     serializeQueryArgs,
     api: api3,
-    assertTagType
+    assertTagType,
+    selectors: selectors5
   }) {
     const patchQueryData = (endpointName, arg, patches, updateProvided) => (dispatch, getState) => {
       const endpointDefinition = endpointDefinitions[endpointName];
@@ -30529,6 +30751,14 @@ You must add the middleware for RTK-Query to function correctly!`);
         providedTags
       }));
     };
+    function addToStart(items, item, max = 0) {
+      const newItems = [item, ...items];
+      return max && newItems.length > max ? newItems.slice(0, -1) : newItems;
+    }
+    function addToEnd(items, item, max = 0) {
+      const newItems = [...items, item];
+      return max && newItems.length > max ? newItems.slice(1) : newItems;
+    }
     const updateQueryData = (endpointName, arg, updateRecipe, updateProvided = true) => (dispatch, getState) => {
       const endpointDefinition = api3.endpoints[endpointName];
       const currentState = endpointDefinition.select(arg)(
@@ -30571,13 +30801,17 @@ You must add the middleware for RTK-Query to function correctly!`);
       return ret;
     };
     const upsertQueryData = (endpointName, arg, value) => (dispatch) => {
-      return dispatch(api3.endpoints[endpointName].initiate(arg, {
+      const res = dispatch(api3.endpoints[endpointName].initiate(arg, {
         subscribe: false,
         forceRefetch: true,
         [forceQueryFnSymbol]: () => ({
           data: value
         })
       }));
+      return res;
+    };
+    const getTransformCallbackForEndpoint = (endpointDefinition, transformFieldName) => {
+      return endpointDefinition.query && endpointDefinition[transformFieldName] ? endpointDefinition[transformFieldName] : defaultTransformResponse;
     };
     const executeEndpoint = async (arg, {
       signal,
@@ -30590,8 +30824,7 @@ You must add the middleware for RTK-Query to function correctly!`);
     }) => {
       const endpointDefinition = endpointDefinitions[arg.endpointName];
       try {
-        let transformResponse = defaultTransformResponse;
-        let result;
+        let transformResponse = getTransformCallbackForEndpoint(endpointDefinition, "transformResponse");
         const baseQueryApi = {
           signal,
           abort,
@@ -30604,60 +30837,128 @@ You must add the middleware for RTK-Query to function correctly!`);
           queryCacheKey: arg.type === "query" ? arg.queryCacheKey : void 0
         };
         const forceQueryFn = arg.type === "query" ? arg[forceQueryFnSymbol] : void 0;
-        if (forceQueryFn) {
-          result = forceQueryFn();
-        } else if (endpointDefinition.query) {
-          result = await baseQuery(endpointDefinition.query(arg.originalArgs), baseQueryApi, endpointDefinition.extraOptions);
-          if (endpointDefinition.transformResponse) {
-            transformResponse = endpointDefinition.transformResponse;
+        let finalQueryReturnValue;
+        const fetchPage = async (data2, param, maxPages, previous) => {
+          if (param == null && data2.pages.length) {
+            return Promise.resolve({
+              data: data2
+            });
           }
-        } else {
-          result = await endpointDefinition.queryFn(arg.originalArgs, baseQueryApi, endpointDefinition.extraOptions, (arg2) => baseQuery(arg2, baseQueryApi, endpointDefinition.extraOptions));
-        }
-        if (typeof process !== "undefined" && true) {
-          const what = endpointDefinition.query ? "`baseQuery`" : "`queryFn`";
-          let err;
-          if (!result) {
-            err = `${what} did not return anything.`;
-          } else if (typeof result !== "object") {
-            err = `${what} did not return an object.`;
-          } else if (result.error && result.data) {
-            err = `${what} returned an object containing both \`error\` and \`result\`.`;
-          } else if (result.error === void 0 && result.data === void 0) {
-            err = `${what} returned an object containing neither a valid \`error\` and \`result\`. At least one of them should not be \`undefined\``;
+          const finalQueryArg = {
+            queryArg: arg.originalArgs,
+            pageParam: param
+          };
+          const pageResponse = await executeRequest(finalQueryArg);
+          const addTo = previous ? addToStart : addToEnd;
+          return {
+            data: {
+              pages: addTo(data2.pages, pageResponse.data, maxPages),
+              pageParams: addTo(data2.pageParams, param, maxPages)
+            }
+          };
+        };
+        async function executeRequest(finalQueryArg) {
+          let result;
+          const {
+            extraOptions
+          } = endpointDefinition;
+          if (forceQueryFn) {
+            result = forceQueryFn();
+          } else if (endpointDefinition.query) {
+            result = await baseQuery(endpointDefinition.query(finalQueryArg), baseQueryApi, extraOptions);
           } else {
-            for (const key of Object.keys(result)) {
-              if (key !== "error" && key !== "data" && key !== "meta") {
-                err = `The object returned by ${what} has the unknown property ${key}.`;
-                break;
+            result = await endpointDefinition.queryFn(finalQueryArg, baseQueryApi, extraOptions, (arg2) => baseQuery(arg2, baseQueryApi, extraOptions));
+          }
+          if (typeof process !== "undefined" && true) {
+            const what = endpointDefinition.query ? "`baseQuery`" : "`queryFn`";
+            let err;
+            if (!result) {
+              err = `${what} did not return anything.`;
+            } else if (typeof result !== "object") {
+              err = `${what} did not return an object.`;
+            } else if (result.error && result.data) {
+              err = `${what} returned an object containing both \`error\` and \`result\`.`;
+            } else if (result.error === void 0 && result.data === void 0) {
+              err = `${what} returned an object containing neither a valid \`error\` and \`result\`. At least one of them should not be \`undefined\``;
+            } else {
+              for (const key of Object.keys(result)) {
+                if (key !== "error" && key !== "data" && key !== "meta") {
+                  err = `The object returned by ${what} has the unknown property ${key}.`;
+                  break;
+                }
               }
             }
+            if (err) {
+              console.error(`Error encountered handling the endpoint ${arg.endpointName}.
+                  ${err}
+                  It needs to return an object with either the shape \`{ data: <value> }\` or \`{ error: <value> }\` that may contain an optional \`meta\` property.
+                  Object returned was:`, result);
+            }
           }
-          if (err) {
-            console.error(`Error encountered handling the endpoint ${arg.endpointName}.
-              ${err}
-              It needs to return an object with either the shape \`{ data: <value> }\` or \`{ error: <value> }\` that may contain an optional \`meta\` property.
-              Object returned was:`, result);
-          }
+          if (result.error) throw new HandledError(result.error, result.meta);
+          const transformedResponse = await transformResponse(result.data, result.meta, finalQueryArg);
+          return {
+            ...result,
+            data: transformedResponse
+          };
         }
-        if (result.error) throw new HandledError(result.error, result.meta);
-        return fulfillWithValue(await transformResponse(result.data, result.meta, arg.originalArgs), {
+        if (arg.type === "query" && "infiniteQueryOptions" in endpointDefinition) {
+          const {
+            infiniteQueryOptions
+          } = endpointDefinition;
+          const {
+            maxPages = Infinity
+          } = infiniteQueryOptions;
+          let result;
+          const blankData = {
+            pages: [],
+            pageParams: []
+          };
+          const cachedData = selectors5.selectQueryEntry(getState(), arg.queryCacheKey)?.data;
+          const isForcedQueryNeedingRefetch = (
+            // arg.forceRefetch
+            isForcedQuery(arg, getState()) && !arg.direction
+          );
+          const existingData = isForcedQueryNeedingRefetch || !cachedData ? blankData : cachedData;
+          if ("direction" in arg && arg.direction && existingData.pages.length) {
+            const previous = arg.direction === "backward";
+            const pageParamFn = previous ? getPreviousPageParam : getNextPageParam;
+            const param = pageParamFn(infiniteQueryOptions, existingData);
+            result = await fetchPage(existingData, param, maxPages, previous);
+          } else {
+            const {
+              initialPageParam = infiniteQueryOptions.initialPageParam
+            } = arg;
+            const cachedPageParams = cachedData?.pageParams ?? [];
+            const firstPageParam = cachedPageParams[0] ?? initialPageParam;
+            const totalPages = cachedPageParams.length;
+            result = await fetchPage(existingData, firstPageParam, maxPages);
+            if (forceQueryFn) {
+              result = {
+                data: result.data.pages[0]
+              };
+            }
+            for (let i = 1; i < totalPages; i++) {
+              const param = getNextPageParam(infiniteQueryOptions, result.data);
+              result = await fetchPage(result.data, param, maxPages);
+            }
+          }
+          finalQueryReturnValue = result;
+        } else {
+          finalQueryReturnValue = await executeRequest(arg.originalArgs);
+        }
+        return fulfillWithValue(finalQueryReturnValue.data, addShouldAutoBatch({
           fulfilledTimeStamp: Date.now(),
-          baseQueryMeta: result.meta,
-          [SHOULD_AUTOBATCH]: true
-        });
+          baseQueryMeta: finalQueryReturnValue.meta
+        }));
       } catch (error) {
         let catchedError = error;
         if (catchedError instanceof HandledError) {
-          let transformErrorResponse = defaultTransformResponse;
-          if (endpointDefinition.query && endpointDefinition.transformErrorResponse) {
-            transformErrorResponse = endpointDefinition.transformErrorResponse;
-          }
+          let transformErrorResponse = getTransformCallbackForEndpoint(endpointDefinition, "transformErrorResponse");
           try {
-            return rejectWithValue(await transformErrorResponse(catchedError.value, catchedError.meta, arg.originalArgs), {
-              baseQueryMeta: catchedError.meta,
-              [SHOULD_AUTOBATCH]: true
-            });
+            return rejectWithValue(await transformErrorResponse(catchedError.value, catchedError.meta, arg.originalArgs), addShouldAutoBatch({
+              baseQueryMeta: catchedError.meta
+            }));
           } catch (e) {
             catchedError = e;
           }
@@ -30672,8 +30973,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }
     };
     function isForcedQuery(arg, state) {
-      const requestState = state[reducerPath]?.queries?.[arg.queryCacheKey];
-      const baseFetchOnMountOrArgChange = state[reducerPath]?.config.refetchOnMountOrArgChange;
+      const requestState = selectors5.selectQueryEntry(state, arg.queryCacheKey);
+      const baseFetchOnMountOrArgChange = selectors5.selectConfig(state).refetchOnMountOrArgChange;
       const fulfilledVal = requestState?.fulfilledTimeStamp;
       const refetchVal = arg.forceRefetch ?? (arg.subscribe && baseFetchOnMountOrArgChange);
       if (refetchVal) {
@@ -30681,52 +30982,62 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }
       return false;
     }
-    const queryThunk = createAsyncThunk(`${reducerPath}/executeQuery`, executeEndpoint, {
-      getPendingMeta() {
-        return {
-          startedTimeStamp: Date.now(),
-          [SHOULD_AUTOBATCH]: true
-        };
-      },
-      condition(queryThunkArgs, {
-        getState
-      }) {
-        const state = getState();
-        const requestState = state[reducerPath]?.queries?.[queryThunkArgs.queryCacheKey];
-        const fulfilledVal = requestState?.fulfilledTimeStamp;
-        const currentArg = queryThunkArgs.originalArgs;
-        const previousArg = requestState?.originalArgs;
-        const endpointDefinition = endpointDefinitions[queryThunkArgs.endpointName];
-        if (isUpsertQuery(queryThunkArgs)) {
+    const createQueryThunk = () => {
+      const generatedQueryThunk = createAsyncThunk(`${reducerPath}/executeQuery`, executeEndpoint, {
+        getPendingMeta({
+          arg
+        }) {
+          const endpointDefinition = endpointDefinitions[arg.endpointName];
+          return addShouldAutoBatch({
+            startedTimeStamp: Date.now(),
+            ...isInfiniteQueryDefinition(endpointDefinition) ? {
+              direction: arg.direction
+            } : {}
+          });
+        },
+        condition(queryThunkArg, {
+          getState
+        }) {
+          const state = getState();
+          const requestState = selectors5.selectQueryEntry(state, queryThunkArg.queryCacheKey);
+          const fulfilledVal = requestState?.fulfilledTimeStamp;
+          const currentArg = queryThunkArg.originalArgs;
+          const previousArg = requestState?.originalArgs;
+          const endpointDefinition = endpointDefinitions[queryThunkArg.endpointName];
+          const direction = queryThunkArg.direction;
+          if (isUpsertQuery(queryThunkArg)) {
+            return true;
+          }
+          if (requestState?.status === "pending") {
+            return false;
+          }
+          if (isForcedQuery(queryThunkArg, state)) {
+            return true;
+          }
+          if (isQueryDefinition(endpointDefinition) && endpointDefinition?.forceRefetch?.({
+            currentArg,
+            previousArg,
+            endpointState: requestState,
+            state
+          })) {
+            return true;
+          }
+          if (fulfilledVal && !direction) {
+            return false;
+          }
           return true;
-        }
-        if (requestState?.status === "pending") {
-          return false;
-        }
-        if (isForcedQuery(queryThunkArgs, state)) {
-          return true;
-        }
-        if (isQueryDefinition(endpointDefinition) && endpointDefinition?.forceRefetch?.({
-          currentArg,
-          previousArg,
-          endpointState: requestState,
-          state
-        })) {
-          return true;
-        }
-        if (fulfilledVal) {
-          return false;
-        }
-        return true;
-      },
-      dispatchConditionRejection: true
-    });
+        },
+        dispatchConditionRejection: true
+      });
+      return generatedQueryThunk;
+    };
+    const queryThunk = createQueryThunk();
+    const infiniteQueryThunk = createQueryThunk();
     const mutationThunk = createAsyncThunk(`${reducerPath}/executeMutation`, executeEndpoint, {
       getPendingMeta() {
-        return {
-          startedTimeStamp: Date.now(),
-          [SHOULD_AUTOBATCH]: true
-        };
+        return addShouldAutoBatch({
+          startedTimeStamp: Date.now()
+        });
       }
     });
     const hasTheForce = (options2) => "force" in options2;
@@ -30771,12 +31082,26 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     return {
       queryThunk,
       mutationThunk,
+      infiniteQueryThunk,
       prefetch,
       updateQueryData,
       upsertQueryData,
       patchQueryData,
       buildMatchThunkActions
     };
+  }
+  function getNextPageParam(options2, {
+    pages,
+    pageParams
+  }) {
+    const lastIndex = pages.length - 1;
+    return options2.getNextPageParam(pages[lastIndex], pages, pageParams[lastIndex], pageParams);
+  }
+  function getPreviousPageParam(options2, {
+    pages,
+    pageParams
+  }) {
+    return options2.getPreviousPageParam?.(pages[0], pages, pageParams[0], pageParams);
   }
   function calculateProvidedByThunk(action, type, endpointDefinitions, assertTagType) {
     return calculateProvidedBy(endpointDefinitions[action.meta.arg.endpointName][type], isFulfilled(action) ? action.payload : void 0, isRejectedWithValue(action) ? action.payload : void 0, action.meta.arg.originalArgs, "baseQueryMeta" in action.meta ? action.meta.baseQueryMeta : void 0, assertTagType);
@@ -30830,6 +31155,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           substate.originalArgs = arg.originalArgs;
         }
         substate.startedTimeStamp = meta.startedTimeStamp;
+        const endpointDefinition = definitions[meta.arg.endpointName];
+        if (isInfiniteQueryDefinition(endpointDefinition) && "direction" in arg) {
+          ;
+          substate.direction = arg.direction;
+        }
       });
     }
     function writeFulfilledCacheEntry(draft, meta, payload, upserting) {
@@ -31133,17 +31463,36 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
             }
           }
         }).addMatcher(isAnyOf(isFulfilled(queryThunk), isRejectedWithValue(queryThunk)), (draft, action) => {
-          const providedTags = calculateProvidedByThunk(action, "providesTags", definitions, assertTagType);
-          const {
-            queryCacheKey
-          } = action.meta.arg;
-          invalidationSlice.caseReducers.updateProvidedBy(draft, invalidationSlice.actions.updateProvidedBy({
-            queryCacheKey,
-            providedTags
-          }));
+          writeProvidedTagsForQuery(draft, action);
+        }).addMatcher(querySlice.actions.cacheEntriesUpserted.match, (draft, action) => {
+          for (const {
+            queryDescription: arg,
+            value
+          } of action.payload) {
+            const action2 = {
+              type: "UNKNOWN",
+              payload: value,
+              meta: {
+                requestStatus: "fulfilled",
+                requestId: "UNKNOWN",
+                arg
+              }
+            };
+            writeProvidedTagsForQuery(draft, action2);
+          }
         });
       }
     });
+    function writeProvidedTagsForQuery(draft, action) {
+      const providedTags = calculateProvidedByThunk(action, "providesTags", definitions, assertTagType);
+      const {
+        queryCacheKey
+      } = action.meta.arg;
+      invalidationSlice.caseReducers.updateProvidedBy(draft, invalidationSlice.actions.updateProvidedBy({
+        queryCacheKey,
+        providedTags
+      }));
+    }
     const subscriptionSlice = createSlice({
       name: `${reducerPath}/subscriptions`,
       initialState,
@@ -31237,9 +31586,15 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     const selectSkippedMutation = (state) => defaultMutationSubState;
     return {
       buildQuerySelector,
+      buildInfiniteQuerySelector,
       buildMutationSelector,
       selectInvalidatedBy,
-      selectCachedArgsForQuery
+      selectCachedArgsForQuery,
+      selectApiState,
+      selectQueries,
+      selectMutations,
+      selectQueryEntry,
+      selectConfig
     };
     function withRequestFlags(substate) {
       return {
@@ -31247,30 +31602,73 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         ...getRequestStatusFlags(substate.status)
       };
     }
-    function selectInternalState(rootState) {
+    function selectApiState(rootState) {
       const state = rootState[reducerPath];
       if (true) {
         if (!state) {
-          if (selectInternalState.triggered) return state;
-          selectInternalState.triggered = true;
+          if (selectApiState.triggered) return state;
+          selectApiState.triggered = true;
           console.error(`Error: No data found at \`state.${reducerPath}\`. Did you forget to add the reducer to the store?`);
         }
       }
       return state;
     }
-    function buildQuerySelector(endpointName, endpointDefinition) {
+    function selectQueries(rootState) {
+      return selectApiState(rootState)?.queries;
+    }
+    function selectQueryEntry(rootState, cacheKey) {
+      return selectQueries(rootState)?.[cacheKey];
+    }
+    function selectMutations(rootState) {
+      return selectApiState(rootState)?.mutations;
+    }
+    function selectConfig(rootState) {
+      return selectApiState(rootState)?.config;
+    }
+    function buildAnyQuerySelector(endpointName, endpointDefinition, combiner) {
       return (queryArgs) => {
         if (queryArgs === skipToken) {
-          return createSelector2(selectSkippedQuery, withRequestFlags);
+          return createSelector2(selectSkippedQuery, combiner);
         }
         const serializedArgs = serializeQueryArgs({
           queryArgs,
           endpointDefinition,
           endpointName
         });
-        const selectQuerySubstate = (state) => selectInternalState(state)?.queries?.[serializedArgs] ?? defaultQuerySubState;
-        return createSelector2(selectQuerySubstate, withRequestFlags);
+        const selectQuerySubstate = (state) => selectQueryEntry(state, serializedArgs) ?? defaultQuerySubState;
+        return createSelector2(selectQuerySubstate, combiner);
       };
+    }
+    function buildQuerySelector(endpointName, endpointDefinition) {
+      return buildAnyQuerySelector(endpointName, endpointDefinition, withRequestFlags);
+    }
+    function buildInfiniteQuerySelector(endpointName, endpointDefinition) {
+      const {
+        infiniteQueryOptions
+      } = endpointDefinition;
+      function withInfiniteQueryResultFlags(substate) {
+        const stateWithRequestFlags = {
+          ...substate,
+          ...getRequestStatusFlags(substate.status)
+        };
+        const {
+          isLoading,
+          isError: isError2,
+          direction
+        } = stateWithRequestFlags;
+        const isForward = direction === "forward";
+        const isBackward = direction === "backward";
+        return {
+          ...stateWithRequestFlags,
+          hasNextPage: getHasNextPage(infiniteQueryOptions, stateWithRequestFlags.data),
+          hasPreviousPage: getHasPreviousPage(infiniteQueryOptions, stateWithRequestFlags.data),
+          isFetchingNextPage: isLoading && isForward,
+          isFetchingPreviousPage: isLoading && isBackward,
+          isFetchNextPageError: isError2 && isForward,
+          isFetchPreviousPageError: isError2 && isBackward
+        };
+      }
+      return buildAnyQuerySelector(endpointName, endpointDefinition, withInfiniteQueryResultFlags);
     }
     function buildMutationSelector() {
       return (id) => {
@@ -31280,7 +31678,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         } else {
           mutationId = id;
         }
-        const selectMutationSubstate = (state) => selectInternalState(state)?.mutations?.[mutationId] ?? defaultMutationSubState;
+        const selectMutationSubstate = (state) => selectApiState(state)?.mutations?.[mutationId] ?? defaultMutationSubState;
         const finalSelectMutationSubstate = mutationId === skipToken ? selectSkippedMutation : selectMutationSubstate;
         return createSelector2(finalSelectMutationSubstate, withRequestFlags);
       };
@@ -31314,10 +31712,18 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }));
     }
     function selectCachedArgsForQuery(state, queryName) {
-      return Object.values(state[reducerPath].queries).filter(
+      return Object.values(selectQueries(state)).filter(
         (entry) => entry?.endpointName === queryName && entry.status !== "uninitialized"
         /* uninitialized */
       ).map((entry) => entry.originalArgs);
+    }
+    function getHasNextPage(options2, data2) {
+      if (!data2) return false;
+      return getNextPageParam(options2, data2) != null;
+    }
+    function getHasPreviousPage(options2, data2) {
+      if (!data2 || !options2.getPreviousPageParam) return false;
+      return getPreviousPageParam(options2, data2) != null;
     }
   }
   var cache = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
@@ -31430,6 +31836,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
             ...x2,
             type: "mutation"
             /* mutation */
+          }),
+          infiniteQuery: (x2) => ({
+            ...x2,
+            type: "infinitequery"
+            /* infinitequery */
           })
         });
         for (const [endpointName, definition] of Object.entries(evaluatedEndpoints)) {
@@ -31440,6 +31851,25 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
               console.error(`called \`injectEndpoints\` to override already-existing endpointName ${endpointName} without specifying \`overrideExisting: true\``);
             }
             continue;
+          }
+          if (typeof process !== "undefined" && true) {
+            if (isInfiniteQueryDefinition(definition)) {
+              const {
+                infiniteQueryOptions
+              } = definition;
+              const {
+                maxPages,
+                getPreviousPageParam: getPreviousPageParam2
+              } = infiniteQueryOptions;
+              if (typeof maxPages === "number") {
+                if (maxPages < 1) {
+                  throw new Error(false ? formatProdErrorMessage(40) : `maxPages for endpoint '${endpointName}' must be a number greater than 0`);
+                }
+                if (typeof getPreviousPageParam2 !== "function") {
+                  throw new Error(false ? formatProdErrorMessage(41) : `getPreviousPageParam for endpoint '${endpointName}' must be a function if maxPages is used`);
+                }
+              }
+            }
           }
           context.endpointDefinitions[endpointName] = definition;
           for (const m of initializedModules) {
@@ -31591,7 +32021,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     api: api3,
     queryThunk,
     context,
-    internalState
+    internalState,
+    selectors: {
+      selectQueryEntry,
+      selectConfig
+    }
   }) => {
     const {
       removeQueryResult,
@@ -31605,8 +32039,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     }
     const currentRemovalTimeouts = {};
     const handler = (action, mwApi, internalState2) => {
+      const state = mwApi.getState();
+      const config2 = selectConfig(state);
       if (canTriggerUnsubscribe(action)) {
-        const state = mwApi.getState()[reducerPath];
         let queryCacheKeys;
         if (cacheEntriesUpserted.match(action)) {
           queryCacheKeys = action.payload.map((entry) => entry.queryDescription.queryCacheKey);
@@ -31616,9 +32051,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           } = unsubscribeQueryResult.match(action) ? action.payload : action.meta.arg;
           queryCacheKeys = [queryCacheKey];
         }
-        for (const queryCacheKey of queryCacheKeys) {
-          handleUnsubscribe(queryCacheKey, state.queries[queryCacheKey]?.endpointName, mwApi, state.config);
-        }
+        handleUnsubscribeMany(queryCacheKeys, mwApi, config2);
       }
       if (api3.util.resetApiState.match(action)) {
         for (const [key, timeout2] of Object.entries(currentRemovalTimeouts)) {
@@ -31627,15 +32060,19 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         }
       }
       if (context.hasRehydrationInfo(action)) {
-        const state = mwApi.getState()[reducerPath];
         const {
           queries
         } = context.extractRehydrationInfo(action);
-        for (const [queryCacheKey, queryState] of Object.entries(queries)) {
-          handleUnsubscribe(queryCacheKey, queryState?.endpointName, mwApi, state.config);
-        }
+        handleUnsubscribeMany(Object.keys(queries), mwApi, config2);
       }
     };
+    function handleUnsubscribeMany(cacheKeys, api22, config2) {
+      const state = api22.getState();
+      for (const queryCacheKey of cacheKeys) {
+        const entry = selectQueryEntry(state, queryCacheKey);
+        handleUnsubscribe(queryCacheKey, entry?.endpointName, api22, config2);
+      }
+    }
     function handleUnsubscribe(queryCacheKey, endpointName, api22, config2) {
       const endpointDefinition = context.endpointDefinitions[endpointName];
       const keepUnusedDataFor = endpointDefinition?.keepUnusedDataFor ?? config2.keepUnusedDataFor;
@@ -31667,7 +32104,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     context,
     queryThunk,
     mutationThunk,
-    internalState
+    internalState,
+    selectors: {
+      selectQueryEntry,
+      selectApiState
+    }
   }) => {
     const isQueryThunk = isAsyncThunkAction(queryThunk);
     const isMutationThunk = isAsyncThunkAction(mutationThunk);
@@ -31693,9 +32134,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     const handler = (action, mwApi, stateBefore) => {
       const cacheKey = getCacheKey(action);
       function checkForNewCacheKey(endpointName, cacheKey2, requestId, originalArgs) {
-        const oldState = stateBefore[reducerPath].queries[cacheKey2];
-        const state = mwApi.getState()[reducerPath].queries[cacheKey2];
-        if (!oldState && state) {
+        const oldEntry = selectQueryEntry(stateBefore, cacheKey2);
+        const newEntry = selectQueryEntry(mwApi.getState(), cacheKey2);
+        if (!oldEntry && newEntry) {
           handleNewKey(endpointName, originalArgs, cacheKey2, mwApi, requestId);
         }
       }
@@ -31822,11 +32263,14 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       }
     };
     function hasPendingRequests(state) {
-      for (const key in state.queries) {
-        if (state.queries[key]?.status === "pending") return true;
-      }
-      for (const key in state.mutations) {
-        if (state.mutations[key]?.status === "pending") return true;
+      const {
+        queries,
+        mutations
+      } = state;
+      for (const cacheRecord of [queries, mutations]) {
+        for (const key in cacheRecord) {
+          if (cacheRecord[key]?.status === "pending") return true;
+        }
       }
       return false;
     }
@@ -31884,6 +32328,13 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         clearPolls();
       }
     };
+    function getCacheEntrySubscriptions(queryCacheKey, api22) {
+      const state = api22.getState()[reducerPath];
+      const querySubState = state.queries[queryCacheKey];
+      const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+      if (!querySubState || querySubState.status === "uninitialized") return;
+      return subscriptions;
+    }
     function startNextPoll({
       queryCacheKey
     }, api22) {
@@ -32187,8 +32638,25 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         },
         util: {}
       });
+      const selectors5 = buildSelectors({
+        serializeQueryArgs,
+        reducerPath,
+        createSelector: createSelector2
+      });
+      const {
+        selectInvalidatedBy,
+        selectCachedArgsForQuery,
+        buildQuerySelector,
+        buildInfiniteQuerySelector,
+        buildMutationSelector
+      } = selectors5;
+      safeAssign(api3.util, {
+        selectInvalidatedBy,
+        selectCachedArgsForQuery
+      });
       const {
         queryThunk,
+        infiniteQueryThunk,
         mutationThunk,
         patchQueryData,
         updateQueryData,
@@ -32201,7 +32669,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         context,
         api: api3,
         serializeQueryArgs,
-        assertTagType
+        assertTagType,
+        selectors: selectors5
       });
       const {
         reducer,
@@ -32209,6 +32678,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       } = buildSlice({
         context,
         queryThunk,
+        infiniteQueryThunk,
         mutationThunk,
         serializeQueryArgs,
         reducerPath,
@@ -32239,8 +32709,10 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         context,
         queryThunk,
         mutationThunk,
+        infiniteQueryThunk,
         api: api3,
-        assertTagType
+        assertTagType,
+        selectors: selectors5
       });
       safeAssign(api3.util, middlewareActions);
       safeAssign(api3, {
@@ -32248,21 +32720,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         middleware: middleware2
       });
       const {
-        buildQuerySelector,
-        buildMutationSelector,
-        selectInvalidatedBy,
-        selectCachedArgsForQuery
-      } = buildSelectors({
-        serializeQueryArgs,
-        reducerPath,
-        createSelector: createSelector2
-      });
-      safeAssign(api3.util, {
-        selectInvalidatedBy,
-        selectCachedArgsForQuery
-      });
-      const {
         buildInitiateQuery,
+        buildInitiateInfiniteQuery,
         buildInitiateMutation,
         getRunningMutationThunk,
         getRunningMutationsThunk,
@@ -32271,6 +32730,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       } = buildInitiate({
         queryThunk,
         mutationThunk,
+        infiniteQueryThunk,
         api: api3,
         serializeQueryArgs,
         context
@@ -32285,19 +32745,27 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         name: coreModuleName,
         injectEndpoint(endpointName, definition) {
           const anyApi = api3;
-          anyApi.endpoints[endpointName] ??= {};
+          const endpoint = anyApi.endpoints[endpointName] ??= {};
           if (isQueryDefinition(definition)) {
-            safeAssign(anyApi.endpoints[endpointName], {
+            safeAssign(endpoint, {
               name: endpointName,
               select: buildQuerySelector(endpointName, definition),
               initiate: buildInitiateQuery(endpointName, definition)
             }, buildMatchThunkActions(queryThunk, endpointName));
-          } else if (isMutationDefinition(definition)) {
-            safeAssign(anyApi.endpoints[endpointName], {
+          }
+          if (isMutationDefinition(definition)) {
+            safeAssign(endpoint, {
               name: endpointName,
               select: buildMutationSelector(),
               initiate: buildInitiateMutation(endpointName)
             }, buildMatchThunkActions(mutationThunk, endpointName));
+          }
+          if (isInfiniteQueryDefinition(definition)) {
+            safeAssign(endpoint, {
+              name: endpointName,
+              select: buildInfiniteQuerySelector(endpointName, definition),
+              initiate: buildInitiateInfiniteQuery(endpointName, definition)
+            }, buildMatchThunkActions(queryThunk, endpointName));
           }
         }
       };
@@ -32328,36 +32796,12 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
   function isMutationDefinition2(e) {
     return e.type === "mutation";
   }
+  function isInfiniteQueryDefinition2(e) {
+    return e.type === "infinitequery";
+  }
   function safeAssign2(target, ...args) {
     return Object.assign(target, ...args);
   }
-  var cache2 = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
-  var defaultSerializeQueryArgs2 = ({
-    endpointName,
-    queryArgs
-  }) => {
-    let serialized = "";
-    const cached = cache2?.get(queryArgs);
-    if (typeof cached === "string") {
-      serialized = cached;
-    } else {
-      const stringified = JSON.stringify(queryArgs, (key, value) => {
-        value = typeof value === "bigint" ? {
-          $bigint: value.toString()
-        } : value;
-        value = isPlainObject(value) ? Object.keys(value).sort().reduce((acc, key2) => {
-          acc[key2] = value[key2];
-          return acc;
-        }, {}) : value;
-        return value;
-      });
-      if (isPlainObject(queryArgs)) {
-        cache2?.set(queryArgs, stringified);
-      }
-      serialized = stringified;
-    }
-    return `${endpointName}(${serialized})`;
-  };
   var UNINITIALIZED_VALUE = Symbol();
   function useStableQueryArgs(queryArgs, serialize3, endpointDefinition, endpointName) {
     const incoming = (0, import_react2.useMemo)(() => ({
@@ -32368,22 +32812,22 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         endpointName
       }) : queryArgs
     }), [queryArgs, serialize3, endpointDefinition, endpointName]);
-    const cache22 = (0, import_react2.useRef)(incoming);
+    const cache4 = (0, import_react2.useRef)(incoming);
     (0, import_react2.useEffect)(() => {
-      if (cache22.current.serialized !== incoming.serialized) {
-        cache22.current = incoming;
+      if (cache4.current.serialized !== incoming.serialized) {
+        cache4.current = incoming;
       }
     }, [incoming]);
-    return cache22.current.serialized === incoming.serialized ? cache22.current.queryArgs : queryArgs;
+    return cache4.current.serialized === incoming.serialized ? cache4.current.queryArgs : queryArgs;
   }
   function useShallowStableValue(value) {
-    const cache22 = (0, import_react3.useRef)(value);
+    const cache4 = (0, import_react3.useRef)(value);
     (0, import_react3.useEffect)(() => {
-      if (!shallowEqual(cache22.current, value)) {
-        cache22.current = value;
+      if (!shallowEqual(cache4.current, value)) {
+        cache4.current = value;
       }
     }, [value]);
-    return shallowEqual(cache22.current, value) ? cache22.current : value;
+    return shallowEqual(cache4.current, value) ? cache4.current : value;
   }
   var canUseDOM2 = () => !!(typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined");
   var isDOM2 = /* @__PURE__ */ canUseDOM2();
@@ -32403,6 +32847,14 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     }
     return selected;
   };
+  function pick(obj, ...keys) {
+    const ret = {};
+    keys.forEach((key) => {
+      ret[key] = obj[key];
+    });
+    return ret;
+  }
+  var COMMON_HOOK_DEBUG_FIELDS = ["data", "status", "isLoading", "isSuccess", "isError", "error"];
   function buildHooks({
     api: api3,
     moduleOptions: {
@@ -32421,6 +32873,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     const usePossiblyImmediateEffect = unstable__sideEffectsInRender ? (cb) => cb() : import_react.useEffect;
     return {
       buildQueryHooks,
+      buildInfiniteQueryHooks,
       buildMutationHook,
       usePrefetch
     };
@@ -32455,6 +32908,37 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         isSuccess
       };
     }
+    function infiniteQueryStatePreSelector(currentState, lastResult, queryArgs) {
+      if (lastResult?.endpointName && currentState.isUninitialized) {
+        const {
+          endpointName
+        } = lastResult;
+        const endpointDefinition = context.endpointDefinitions[endpointName];
+        if (serializeQueryArgs({
+          queryArgs: lastResult.originalArgs,
+          endpointDefinition,
+          endpointName
+        }) === serializeQueryArgs({
+          queryArgs,
+          endpointDefinition,
+          endpointName
+        })) lastResult = void 0;
+      }
+      let data2 = currentState.isSuccess ? currentState.data : lastResult?.data;
+      if (data2 === void 0) data2 = currentState.data;
+      const hasData = data2 !== void 0;
+      const isFetching = currentState.isLoading;
+      const isLoading = (!lastResult || lastResult.isLoading || lastResult.isUninitialized) && !hasData && isFetching;
+      const isSuccess = currentState.isSuccess || isFetching && hasData;
+      return {
+        ...currentState,
+        data: data2,
+        currentData: currentState.data,
+        isFetching,
+        isLoading,
+        isSuccess
+      };
+    }
     function usePrefetch(endpointName, defaultOptions) {
       const dispatch = useDispatch2();
       const stableDefaultOptions = useShallowStableValue(defaultOptions);
@@ -32463,103 +32947,158 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         ...options2
       })), [endpointName, dispatch, stableDefaultOptions]);
     }
-    function buildQueryHooks(name) {
-      const useQuerySubscription = (arg, {
+    function useQuerySubscriptionCommonImpl(endpointName, arg, {
+      refetchOnReconnect,
+      refetchOnFocus,
+      refetchOnMountOrArgChange,
+      skip: skip2 = false,
+      pollingInterval = 0,
+      skipPollingIfUnfocused = false,
+      ...rest
+    } = {}) {
+      const {
+        initiate
+      } = api3.endpoints[endpointName];
+      const dispatch = useDispatch2();
+      const subscriptionSelectorsRef = (0, import_react.useRef)(void 0);
+      if (!subscriptionSelectorsRef.current) {
+        const returnedValue = dispatch(api3.internalActions.internal_getRTKQSubscriptions());
+        if (true) {
+          if (typeof returnedValue !== "object" || typeof returnedValue?.type === "string") {
+            throw new Error(false ? formatProdErrorMessage(37) : `Warning: Middleware for RTK-Query API at reducerPath "${api3.reducerPath}" has not been added to the store.
+    You must add the middleware for RTK-Query to function correctly!`);
+          }
+        }
+        subscriptionSelectorsRef.current = returnedValue;
+      }
+      const stableArg = useStableQueryArgs(
+        skip2 ? skipToken : arg,
+        // Even if the user provided a per-endpoint `serializeQueryArgs` with
+        // a consistent return value, _here_ we want to use the default behavior
+        // so we can tell if _anything_ actually changed. Otherwise, we can end up
+        // with a case where the query args did change but the serialization doesn't,
+        // and then we never try to initiate a refetch.
+        defaultSerializeQueryArgs,
+        context.endpointDefinitions[endpointName],
+        endpointName
+      );
+      const stableSubscriptionOptions = useShallowStableValue({
         refetchOnReconnect,
         refetchOnFocus,
-        refetchOnMountOrArgChange,
+        pollingInterval,
+        skipPollingIfUnfocused
+      });
+      const lastRenderHadSubscription = (0, import_react.useRef)(false);
+      const initialPageParam = rest.initialPageParam;
+      const stableInitialPageParam = useShallowStableValue(initialPageParam);
+      const promiseRef = (0, import_react.useRef)(void 0);
+      let {
+        queryCacheKey,
+        requestId
+      } = promiseRef.current || {};
+      let currentRenderHasSubscription = false;
+      if (queryCacheKey && requestId) {
+        currentRenderHasSubscription = subscriptionSelectorsRef.current.isRequestSubscribed(queryCacheKey, requestId);
+      }
+      const subscriptionRemoved = !currentRenderHasSubscription && lastRenderHadSubscription.current;
+      usePossiblyImmediateEffect(() => {
+        lastRenderHadSubscription.current = currentRenderHasSubscription;
+      });
+      usePossiblyImmediateEffect(() => {
+        if (subscriptionRemoved) {
+          promiseRef.current = void 0;
+        }
+      }, [subscriptionRemoved]);
+      usePossiblyImmediateEffect(() => {
+        const lastPromise = promiseRef.current;
+        if (typeof process !== "undefined" && false) {
+          console.log(subscriptionRemoved);
+        }
+        if (stableArg === skipToken) {
+          lastPromise?.unsubscribe();
+          promiseRef.current = void 0;
+          return;
+        }
+        const lastSubscriptionOptions = promiseRef.current?.subscriptionOptions;
+        if (!lastPromise || lastPromise.arg !== stableArg) {
+          lastPromise?.unsubscribe();
+          const promise = dispatch(initiate(stableArg, {
+            subscriptionOptions: stableSubscriptionOptions,
+            forceRefetch: refetchOnMountOrArgChange,
+            ...isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
+              initialPageParam: stableInitialPageParam
+            } : {}
+          }));
+          promiseRef.current = promise;
+        } else if (stableSubscriptionOptions !== lastSubscriptionOptions) {
+          lastPromise.updateSubscriptionOptions(stableSubscriptionOptions);
+        }
+      }, [dispatch, initiate, refetchOnMountOrArgChange, stableArg, stableSubscriptionOptions, subscriptionRemoved, stableInitialPageParam, endpointName]);
+      return [promiseRef, dispatch, initiate, stableSubscriptionOptions];
+    }
+    function buildUseQueryState(endpointName, preSelector) {
+      const useQueryState = (arg, {
         skip: skip2 = false,
-        pollingInterval = 0,
-        skipPollingIfUnfocused = false
+        selectFromResult
       } = {}) => {
         const {
-          initiate
-        } = api3.endpoints[name];
-        const dispatch = useDispatch2();
-        const subscriptionSelectorsRef = (0, import_react.useRef)(void 0);
-        if (!subscriptionSelectorsRef.current) {
-          const returnedValue = dispatch(api3.internalActions.internal_getRTKQSubscriptions());
-          if (true) {
-            if (typeof returnedValue !== "object" || typeof returnedValue?.type === "string") {
-              throw new Error(false ? formatProdErrorMessage(37) : `Warning: Middleware for RTK-Query API at reducerPath "${api3.reducerPath}" has not been added to the store.
-    You must add the middleware for RTK-Query to function correctly!`);
+          select
+        } = api3.endpoints[endpointName];
+        const stableArg = useStableQueryArgs(skip2 ? skipToken : arg, serializeQueryArgs, context.endpointDefinitions[endpointName], endpointName);
+        const lastValue = (0, import_react.useRef)(void 0);
+        const selectDefaultResult = (0, import_react.useMemo)(() => (
+          // Normally ts-ignores are bad and should be avoided, but we're
+          // already casting this selector to be `Selector<any>` anyway,
+          // so the inconsistencies don't matter here
+          // @ts-ignore
+          createSelector2([
+            // @ts-ignore
+            select(stableArg),
+            (_, lastResult) => lastResult,
+            (_) => stableArg
+          ], preSelector, {
+            memoizeOptions: {
+              resultEqualityCheck: shallowEqual
             }
+          })
+        ), [select, stableArg]);
+        const querySelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult, {
+          devModeChecks: {
+            identityFunctionCheck: "never"
           }
-          subscriptionSelectorsRef.current = returnedValue;
-        }
-        const stableArg = useStableQueryArgs(
-          skip2 ? skipToken : arg,
-          // Even if the user provided a per-endpoint `serializeQueryArgs` with
-          // a consistent return value, _here_ we want to use the default behavior
-          // so we can tell if _anything_ actually changed. Otherwise, we can end up
-          // with a case where the query args did change but the serialization doesn't,
-          // and then we never try to initiate a refetch.
-          defaultSerializeQueryArgs2,
-          context.endpointDefinitions[name],
-          name
-        );
-        const stableSubscriptionOptions = useShallowStableValue({
-          refetchOnReconnect,
-          refetchOnFocus,
-          pollingInterval,
-          skipPollingIfUnfocused
-        });
-        const lastRenderHadSubscription = (0, import_react.useRef)(false);
-        const promiseRef = (0, import_react.useRef)(void 0);
-        let {
-          queryCacheKey,
-          requestId
-        } = promiseRef.current || {};
-        let currentRenderHasSubscription = false;
-        if (queryCacheKey && requestId) {
-          currentRenderHasSubscription = subscriptionSelectorsRef.current.isRequestSubscribed(queryCacheKey, requestId);
-        }
-        const subscriptionRemoved = !currentRenderHasSubscription && lastRenderHadSubscription.current;
-        usePossiblyImmediateEffect(() => {
-          lastRenderHadSubscription.current = currentRenderHasSubscription;
-        });
-        usePossiblyImmediateEffect(() => {
-          if (subscriptionRemoved) {
-            promiseRef.current = void 0;
-          }
-        }, [subscriptionRemoved]);
-        usePossiblyImmediateEffect(() => {
-          const lastPromise = promiseRef.current;
-          if (typeof process !== "undefined" && false) {
-            console.log(subscriptionRemoved);
-          }
-          if (stableArg === skipToken) {
-            lastPromise?.unsubscribe();
-            promiseRef.current = void 0;
-            return;
-          }
-          const lastSubscriptionOptions = promiseRef.current?.subscriptionOptions;
-          if (!lastPromise || lastPromise.arg !== stableArg) {
-            lastPromise?.unsubscribe();
-            const promise = dispatch(initiate(stableArg, {
-              subscriptionOptions: stableSubscriptionOptions,
-              forceRefetch: refetchOnMountOrArgChange
-            }));
-            promiseRef.current = promise;
-          } else if (stableSubscriptionOptions !== lastSubscriptionOptions) {
-            lastPromise.updateSubscriptionOptions(stableSubscriptionOptions);
-          }
-        }, [dispatch, initiate, refetchOnMountOrArgChange, stableArg, stableSubscriptionOptions, subscriptionRemoved]);
-        (0, import_react.useEffect)(() => {
-          return () => {
-            promiseRef.current?.unsubscribe();
-            promiseRef.current = void 0;
-          };
-        }, []);
+        }) : selectDefaultResult, [selectDefaultResult, selectFromResult]);
+        const currentState = useSelector2((state) => querySelector(state, lastValue.current), shallowEqual);
+        const store2 = useStore2();
+        const newLastValue = selectDefaultResult(store2.getState(), lastValue.current);
+        useIsomorphicLayoutEffect3(() => {
+          lastValue.current = newLastValue;
+        }, [newLastValue]);
+        return currentState;
+      };
+      return useQueryState;
+    }
+    function usePromiseRefUnsubscribeOnUnmount(promiseRef) {
+      (0, import_react.useEffect)(() => {
+        return () => {
+          promiseRef.current?.unsubscribe?.();
+          promiseRef.current = void 0;
+        };
+      }, [promiseRef]);
+    }
+    function refetchOrErrorIfUnmounted(promiseRef) {
+      if (!promiseRef.current) throw new Error(false ? formatProdErrorMessage(38) : "Cannot refetch a query that has not been started yet.");
+      return promiseRef.current.refetch();
+    }
+    function buildQueryHooks(endpointName) {
+      const useQuerySubscription = (arg, options2 = {}) => {
+        const [promiseRef] = useQuerySubscriptionCommonImpl(endpointName, arg, options2);
+        usePromiseRefUnsubscribeOnUnmount(promiseRef);
         return (0, import_react.useMemo)(() => ({
           /**
            * A method to manually refetch data for the query
            */
-          refetch: () => {
-            if (!promiseRef.current) throw new Error(false ? formatProdErrorMessage(38) : "Cannot refetch a query that has not been started yet.");
-            return promiseRef.current?.refetch();
-          }
-        }), []);
+          refetch: () => refetchOrErrorIfUnmounted(promiseRef)
+        }), [promiseRef]);
       };
       const useLazyQuerySubscription = ({
         refetchOnReconnect,
@@ -32569,7 +33108,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       } = {}) => {
         const {
           initiate
-        } = api3.endpoints[name];
+        } = api3.endpoints[endpointName];
         const dispatch = useDispatch2();
         const [arg, setArg] = (0, import_react.useState)(UNINITIALIZED_VALUE);
         const promiseRef = (0, import_react.useRef)(void 0);
@@ -32622,33 +33161,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           reset
         }], [trigger, arg, reset]);
       };
-      const useQueryState = (arg, {
-        skip: skip2 = false,
-        selectFromResult
-      } = {}) => {
-        const {
-          select
-        } = api3.endpoints[name];
-        const stableArg = useStableQueryArgs(skip2 ? skipToken : arg, serializeQueryArgs, context.endpointDefinitions[name], name);
-        const lastValue = (0, import_react.useRef)(void 0);
-        const selectDefaultResult = (0, import_react.useMemo)(() => createSelector2([select(stableArg), (_, lastResult) => lastResult, (_) => stableArg], queryStatePreSelector, {
-          memoizeOptions: {
-            resultEqualityCheck: shallowEqual
-          }
-        }), [select, stableArg]);
-        const querySelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult, {
-          devModeChecks: {
-            identityFunctionCheck: "never"
-          }
-        }) : selectDefaultResult, [selectDefaultResult, selectFromResult]);
-        const currentState = useSelector2((state) => querySelector(state, lastValue.current), shallowEqual);
-        const store2 = useStore2();
-        const newLastValue = selectDefaultResult(store2.getState(), lastValue.current);
-        useIsomorphicLayoutEffect3(() => {
-          lastValue.current = newLastValue;
-        }, [newLastValue]);
-        return currentState;
-      };
+      const useQueryState = buildUseQueryState(endpointName, queryStatePreSelector);
       return {
         useQueryState,
         useQuerySubscription,
@@ -32675,26 +33188,74 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             selectFromResult: arg === skipToken || options2?.skip ? void 0 : noPendingQueryStateSelector,
             ...options2
           });
-          const {
-            data: data2,
-            status,
-            isLoading,
-            isSuccess,
-            isError: isError2,
-            error
-          } = queryStateResults;
-          (0, import_react.useDebugValue)({
-            data: data2,
-            status,
-            isLoading,
-            isSuccess,
-            isError: isError2,
-            error
-          });
+          const debugValue = pick(queryStateResults, ...COMMON_HOOK_DEBUG_FIELDS);
+          (0, import_react.useDebugValue)(debugValue);
           return (0, import_react.useMemo)(() => ({
             ...queryStateResults,
             ...querySubscriptionResults
           }), [queryStateResults, querySubscriptionResults]);
+        }
+      };
+    }
+    function buildInfiniteQueryHooks(endpointName) {
+      const useInfiniteQuerySubscription = (arg, options2 = {}) => {
+        const [promiseRef, dispatch, initiate, stableSubscriptionOptions] = useQuerySubscriptionCommonImpl(endpointName, arg, options2);
+        const subscriptionOptionsRef = (0, import_react.useRef)(stableSubscriptionOptions);
+        usePossiblyImmediateEffect(() => {
+          subscriptionOptionsRef.current = stableSubscriptionOptions;
+        }, [stableSubscriptionOptions]);
+        const trigger = (0, import_react.useCallback)(function(arg2, direction) {
+          let promise;
+          batch2(() => {
+            promiseRef.current?.unsubscribe();
+            promiseRef.current = promise = dispatch(initiate(arg2, {
+              subscriptionOptions: subscriptionOptionsRef.current,
+              direction
+            }));
+          });
+          return promise;
+        }, [promiseRef, dispatch, initiate]);
+        usePromiseRefUnsubscribeOnUnmount(promiseRef);
+        return (0, import_react.useMemo)(() => {
+          const fetchNextPage = () => {
+            return trigger(arg, "forward");
+          };
+          const fetchPreviousPage = () => {
+            return trigger(arg, "backward");
+          };
+          return {
+            trigger,
+            /**
+             * A method to manually refetch data for the query
+             */
+            refetch: () => refetchOrErrorIfUnmounted(promiseRef),
+            fetchNextPage,
+            fetchPreviousPage
+          };
+        }, [promiseRef, trigger, arg]);
+      };
+      const useInfiniteQueryState = buildUseQueryState(endpointName, infiniteQueryStatePreSelector);
+      return {
+        useInfiniteQueryState,
+        useInfiniteQuerySubscription,
+        useInfiniteQuery(arg, options2) {
+          const {
+            refetch,
+            fetchNextPage,
+            fetchPreviousPage
+          } = useInfiniteQuerySubscription(arg, options2);
+          const queryStateResults = useInfiniteQueryState(arg, {
+            selectFromResult: arg === skipToken || options2?.skip ? void 0 : noPendingQueryStateSelector,
+            ...options2
+          });
+          const debugValue = pick(queryStateResults, ...COMMON_HOOK_DEBUG_FIELDS, "hasNextPage", "hasPreviousPage");
+          (0, import_react.useDebugValue)(debugValue);
+          return (0, import_react.useMemo)(() => ({
+            ...queryStateResults,
+            fetchNextPage,
+            fetchPreviousPage,
+            refetch
+          }), [queryStateResults, fetchNextPage, fetchPreviousPage, refetch]);
         }
       };
     }
@@ -32744,24 +33305,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             }
           });
         }, [dispatch, fixedCacheKey, promise, requestId]);
-        const {
-          endpointName,
-          data: data2,
-          status,
-          isLoading,
-          isSuccess,
-          isError: isError2,
-          error
-        } = currentState;
-        (0, import_react.useDebugValue)({
-          endpointName,
-          data: data2,
-          status,
-          isLoading,
-          isSuccess,
-          isError: isError2,
-          error
-        });
+        const debugValue = pick(currentState, ...COMMON_HOOK_DEBUG_FIELDS, "endpointName");
+        (0, import_react.useDebugValue)(debugValue);
         const finalState = (0, import_react.useMemo)(() => ({
           ...currentState,
           originalArgs,
@@ -32810,6 +33355,7 @@ Hook ${hookName} was either not provided or not a function.`);
         const anyApi = api3;
         const {
           buildQueryHooks,
+          buildInfiniteQueryHooks,
           buildMutationHook,
           usePrefetch
         } = buildHooks({
@@ -32848,12 +33394,25 @@ Hook ${hookName} was either not provided or not a function.`);
               });
               api3[`use${capitalize(endpointName)}Query`] = useQuery;
               api3[`useLazy${capitalize(endpointName)}Query`] = useLazyQuery;
-            } else if (isMutationDefinition2(definition)) {
+            }
+            if (isMutationDefinition2(definition)) {
               const useMutation = buildMutationHook(endpointName);
               safeAssign2(anyApi.endpoints[endpointName], {
                 useMutation
               });
               api3[`use${capitalize(endpointName)}Mutation`] = useMutation;
+            } else if (isInfiniteQueryDefinition2(definition)) {
+              const {
+                useInfiniteQuery,
+                useInfiniteQuerySubscription,
+                useInfiniteQueryState
+              } = buildInfiniteQueryHooks(endpointName);
+              safeAssign2(anyApi.endpoints[endpointName], {
+                useInfiniteQuery,
+                useInfiniteQuerySubscription,
+                useInfiniteQueryState
+              });
+              api3[`use${capitalize(endpointName)}InfiniteQuery`] = useInfiniteQuery;
             }
           }
         };
@@ -33336,11 +33895,11 @@ Hook ${hookName} was either not provided or not a function.`);
       this._size = 0;
     }
     // TODO: Use private class methods when targeting Node.js 16.
-    _emitEvictions(cache5) {
+    _emitEvictions(cache4) {
       if (typeof this.onEviction !== "function") {
         return;
       }
-      for (const [key, item] of cache5) {
+      for (const [key, item] of cache4) {
         this.onEviction(key, item.value);
       }
     }
@@ -33362,8 +33921,8 @@ Hook ${hookName} was either not provided or not a function.`);
     _getItemValue(key, item) {
       return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
     }
-    _peek(key, cache5) {
-      const item = cache5.get(key);
+    _peek(key, cache4) {
+      const item = cache4.get(key);
       return this._getItemValue(key, item);
     }
     _set(key, value) {
@@ -33560,7 +34119,7 @@ Hook ${hookName} was either not provided or not a function.`);
     element.lastIndex = 0;
     return element.test(key);
   });
-  var cache3 = new QuickLRU({ maxSize: 1e5 });
+  var cache2 = new QuickLRU({ maxSize: 1e5 });
   var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
   var transform = (input, options2 = {}) => {
     if (!isObject2(input)) {
@@ -33583,12 +34142,12 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       if (!(exclude && has2(exclude, key))) {
         const cacheKey = pascalCase ? `${key}_` : key;
-        if (cache3.has(cacheKey)) {
-          key = cache3.get(cacheKey);
+        if (cache2.has(cacheKey)) {
+          key = cache2.get(cacheKey);
         } else {
           const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
           if (key.length < 100) {
-            cache3.set(cacheKey, returnValue);
+            cache2.set(cacheKey, returnValue);
           }
           key = returnValue;
         }
@@ -35284,10 +35843,10 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // node_modules/@emotion/memoize/dist/emotion-memoize.esm.js
   function memoize(fn) {
-    var cache5 = /* @__PURE__ */ Object.create(null);
+    var cache4 = /* @__PURE__ */ Object.create(null);
     return function(arg) {
-      if (cache5[arg] === void 0) cache5[arg] = fn(arg);
-      return cache5[arg];
+      if (cache4[arg] === void 0) cache4[arg] = fn(arg);
+      return cache4[arg];
     };
   }
 
@@ -35605,11 +36164,11 @@ Hook ${hookName} was either not provided or not a function.`);
         currentSheet = sheet2;
         stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles);
         if (shouldCache) {
-          cache5.inserted[serialized.name] = true;
+          cache4.inserted[serialized.name] = true;
         }
       };
     }
-    var cache5 = {
+    var cache4 = {
       key,
       sheet: new StyleSheet({
         key,
@@ -35624,8 +36183,8 @@ Hook ${hookName} was either not provided or not a function.`);
       registered: {},
       insert: _insert
     };
-    cache5.sheet.hydrate(nodesToHydrate);
-    return cache5;
+    cache4.sheet.hydrate(nodesToHydrate);
+    return cache4;
   };
 
   // node_modules/@emotion/hash/dist/emotion-hash.esm.js
@@ -35897,8 +36456,8 @@ Hook ${hookName} was either not provided or not a function.`);
     });
     return rawClassName;
   }
-  var registerStyles = function registerStyles2(cache5, serialized, isStringTag) {
-    var className = cache5.key + "-" + serialized.name;
+  var registerStyles = function registerStyles2(cache4, serialized, isStringTag) {
+    var className = cache4.key + "-" + serialized.name;
     if (
       // we only need to add the styles to the registered cache if the
       // class name could be used further down
@@ -35909,27 +36468,27 @@ Hook ${hookName} was either not provided or not a function.`);
       // in node since emotion-server relies on whether a style is in
       // the registered cache to know whether a style is global or not
       // also, note that this check will be dead code eliminated in the browser
-      isBrowser2 === false) && cache5.registered[className] === void 0
+      isBrowser2 === false) && cache4.registered[className] === void 0
     ) {
-      cache5.registered[className] = serialized.styles;
+      cache4.registered[className] = serialized.styles;
     }
   };
-  var insertStyles = function insertStyles2(cache5, serialized, isStringTag) {
-    registerStyles(cache5, serialized, isStringTag);
-    var className = cache5.key + "-" + serialized.name;
-    if (cache5.inserted[serialized.name] === void 0) {
+  var insertStyles = function insertStyles2(cache4, serialized, isStringTag) {
+    registerStyles(cache4, serialized, isStringTag);
+    var className = cache4.key + "-" + serialized.name;
+    if (cache4.inserted[serialized.name] === void 0) {
       var current2 = serialized;
       do {
-        cache5.insert(serialized === current2 ? "." + className : "", current2, cache5.sheet, true);
+        cache4.insert(serialized === current2 ? "." + className : "", current2, cache4.sheet, true);
         current2 = current2.next;
       } while (current2 !== void 0);
     }
   };
 
   // node_modules/@emotion/css/create-instance/dist/emotion-css-create-instance.esm.js
-  function insertWithoutScoping(cache5, serialized) {
-    if (cache5.inserted[serialized.name] === void 0) {
-      return cache5.insert("", serialized, cache5.sheet, true);
+  function insertWithoutScoping(cache4, serialized) {
+    if (cache4.inserted[serialized.name] === void 0) {
+      return cache4.insert("", serialized, cache4.sheet, true);
     }
   }
   function merge(registered, css3, className) {
@@ -35941,26 +36500,26 @@ Hook ${hookName} was either not provided or not a function.`);
     return rawClassName + css3(registeredStyles);
   }
   var createEmotion = function createEmotion2(options2) {
-    var cache5 = createCache(options2);
-    cache5.sheet.speedy = function(value) {
+    var cache4 = createCache(options2);
+    cache4.sheet.speedy = function(value) {
       this.isSpeedy = value;
     };
-    cache5.compat = true;
+    cache4.compat = true;
     var css3 = function css4() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-      var serialized = serializeStyles(args, cache5.registered, void 0);
-      insertStyles(cache5, serialized, false);
-      return cache5.key + "-" + serialized.name;
+      var serialized = serializeStyles(args, cache4.registered, void 0);
+      insertStyles(cache4, serialized, false);
+      return cache4.key + "-" + serialized.name;
     };
     var keyframes2 = function keyframes3() {
       for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
-      var serialized = serializeStyles(args, cache5.registered);
+      var serialized = serializeStyles(args, cache4.registered);
       var animation = "animation-" + serialized.name;
-      insertWithoutScoping(cache5, {
+      insertWithoutScoping(cache4, {
         name: serialized.name,
         styles: "@keyframes " + animation + "{" + serialized.styles + "}"
       });
@@ -35970,14 +36529,14 @@ Hook ${hookName} was either not provided or not a function.`);
       for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
         args[_key3] = arguments[_key3];
       }
-      var serialized = serializeStyles(args, cache5.registered);
-      insertWithoutScoping(cache5, serialized);
+      var serialized = serializeStyles(args, cache4.registered);
+      insertWithoutScoping(cache4, serialized);
     };
     var cx2 = function cx3() {
       for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
         args[_key4] = arguments[_key4];
       }
-      return merge(cache5.registered, css3, classnames(args));
+      return merge(cache4.registered, css3, classnames(args));
     };
     return {
       css: css3,
@@ -35986,18 +36545,18 @@ Hook ${hookName} was either not provided or not a function.`);
       keyframes: keyframes2,
       hydrate: function hydrate2(ids) {
         ids.forEach(function(key) {
-          cache5.inserted[key] = true;
+          cache4.inserted[key] = true;
         });
       },
       flush: function flush2() {
-        cache5.registered = {};
-        cache5.inserted = {};
-        cache5.sheet.flush();
+        cache4.registered = {};
+        cache4.inserted = {};
+        cache4.sheet.flush();
       },
-      sheet: cache5.sheet,
-      cache: cache5,
-      getRegisteredStyles: getRegisteredStyles.bind(null, cache5.registered),
-      merge: merge.bind(null, cache5.registered, css3)
+      sheet: cache4.sheet,
+      cache: cache4,
+      getRegisteredStyles: getRegisteredStyles.bind(null, cache4.registered),
+      merge: merge.bind(null, cache4.registered, css3)
     };
   };
   var classnames = function classnames2(args) {
@@ -36048,7 +36607,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var keyframes = _createEmotion.keyframes;
   var css = _createEmotion.css;
   var sheet = _createEmotion.sheet;
-  var cache4 = _createEmotion.cache;
+  var cache3 = _createEmotion.cache;
 
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
   function _defineProperty(e, r2, t2) {
@@ -42382,8 +42941,11 @@ Hook ${hookName} was either not provided or not a function.`);
     result.sort((a, b) => a - b).pop();
     return result;
   }
+  function isNonPrimitive(n) {
+    return typeof n === "symbol" || typeof n === "object" && n !== null && !(Symbol.toPrimitive in n || "toString" in n || "valueOf" in n);
+  }
   function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNonPrimitive(n) && !isNaN(parseFloat(n)) && isFinite(n);
   }
   function almostWhole(x2, epsilon) {
     const rounded = Math.round(x2);
@@ -42601,24 +43163,35 @@ Hook ${hookName} was either not provided or not a function.`);
     let start = 0;
     let count = pointCount;
     if (meta._sorted) {
-      const { iScale, _parsed } = meta;
+      const { iScale, vScale, _parsed } = meta;
+      const spanGaps = meta.dataset ? meta.dataset.options ? meta.dataset.options.spanGaps : null : null;
       const axis = iScale.axis;
       const { min, max, minDefined, maxDefined } = iScale.getUserBounds();
       if (minDefined) {
-        start = _limitValue(Math.min(
+        start = Math.min(
           // @ts-expect-error Need to type _parsed
           _lookupByKey(_parsed, axis, min).lo,
           // @ts-expect-error Need to fix types on _lookupByKey
           animationsDisabled ? pointCount : _lookupByKey(points, axis, iScale.getPixelForValue(min)).lo
-        ), 0, pointCount - 1);
+        );
+        if (spanGaps) {
+          const distanceToDefinedLo = _parsed.slice(0, start + 1).reverse().findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+          start -= Math.max(0, distanceToDefinedLo);
+        }
+        start = _limitValue(start, 0, pointCount - 1);
       }
       if (maxDefined) {
-        count = _limitValue(Math.max(
+        let end2 = Math.max(
           // @ts-expect-error Need to type _parsed
           _lookupByKey(_parsed, iScale.axis, max, true).hi + 1,
           // @ts-expect-error Need to fix types on _lookupByKey
           animationsDisabled ? 0 : _lookupByKey(points, axis, iScale.getPixelForValue(max), true).hi + 1
-        ), start, pointCount) - start;
+        );
+        if (spanGaps) {
+          const distanceToDefinedHi = _parsed.slice(end2 - 1).findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+          end2 += Math.max(0, distanceToDefinedHi);
+        }
+        count = _limitValue(end2, start, pointCount) - start;
       } else {
         count = pointCount - start;
       }
@@ -43089,14 +43662,14 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return longest;
   }
-  function _longestText(ctx, font, arrayOfThings, cache5) {
-    cache5 = cache5 || {};
-    let data2 = cache5.data = cache5.data || {};
-    let gc = cache5.garbageCollect = cache5.garbageCollect || [];
-    if (cache5.font !== font) {
-      data2 = cache5.data = {};
-      gc = cache5.garbageCollect = [];
-      cache5.font = font;
+  function _longestText(ctx, font, arrayOfThings, cache4) {
+    cache4 = cache4 || {};
+    let data2 = cache4.data = cache4.data || {};
+    let gc = cache4.garbageCollect = cache4.garbageCollect || [];
+    if (cache4.font !== font) {
+      data2 = cache4.data = {};
+      gc = cache4.garbageCollect = [];
+      cache4.font = font;
     }
     ctx.save();
     ctx.font = font;
@@ -43497,7 +44070,7 @@ Hook ${hookName} was either not provided or not a function.`);
     if (typeof fallback === "undefined") {
       fallback = _resolve("_fallback", scopes);
     }
-    const cache5 = {
+    const cache4 = {
       [Symbol.toStringTag]: "Object",
       _cacheable: true,
       _scopes: scopes,
@@ -43509,7 +44082,7 @@ Hook ${hookName} was either not provided or not a function.`);
         ...scopes
       ], prefixes, finalRootScopes, fallback)
     };
-    return new Proxy(cache5, {
+    return new Proxy(cache4, {
       /**
       * A trap for the delete operator.
       */
@@ -43562,7 +44135,7 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   }
   function _attachContext(proxy, context, subProxy, descriptorDefaults) {
-    const cache5 = {
+    const cache4 = {
       _cacheable: false,
       _proxy: proxy,
       _context: context,
@@ -43572,7 +44145,7 @@ Hook ${hookName} was either not provided or not a function.`);
       setContext: (ctx) => _attachContext(proxy, ctx, subProxy, descriptorDefaults),
       override: (scope) => _attachContext(proxy.override(scope), context, subProxy, descriptorDefaults)
     };
-    return new Proxy(cache5, {
+    return new Proxy(cache4, {
       /**
       * A trap for the delete operator.
       */
@@ -44483,15 +45056,15 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!prevStyle) {
       return false;
     }
-    const cache5 = [];
+    const cache4 = [];
     const replacer = function(key, value) {
       if (!isPatternOrGradient(value)) {
         return value;
       }
-      if (!cache5.includes(value)) {
-        cache5.push(value);
+      if (!cache4.includes(value)) {
+        cache4.push(value);
       }
-      return cache5.indexOf(value);
+      return cache4.indexOf(value);
     };
     return JSON.stringify(style, replacer) !== JSON.stringify(prevStyle, replacer);
   }
@@ -45432,9 +46005,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     _resolveElementOptions(elementType, mode = "default", index) {
       const active = mode === "active";
-      const cache5 = this._cachedDataOpts;
+      const cache4 = this._cachedDataOpts;
       const cacheKey = elementType + "-" + mode;
-      const cached = cache5[cacheKey];
+      const cached = cache4[cacheKey];
       const sharing = this.enableOptionSharing && defined(index);
       if (cached) {
         return cloneIfNotShared(cached, sharing);
@@ -45456,15 +46029,15 @@ Hook ${hookName} was either not provided or not a function.`);
       const values = config2.resolveNamedOptions(scopes, names2, context, prefixes);
       if (values.$shared) {
         values.$shared = sharing;
-        cache5[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
+        cache4[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing));
       }
       return values;
     }
     _resolveAnimations(index, transition, active) {
       const chart = this.chart;
-      const cache5 = this._cachedDataOpts;
+      const cache4 = this._cachedDataOpts;
       const cacheKey = `animation-${transition}`;
-      const cached = cache5[cacheKey];
+      const cached = cache4[cacheKey];
       if (cached) {
         return cached;
       }
@@ -45477,7 +46050,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       const animations = new Animations(chart, options2 && options2.animations);
       if (options2 && options2._cacheable) {
-        cache5[cacheKey] = Object.freeze(animations);
+        cache4[cacheKey] = Object.freeze(animations);
       }
       return animations;
     }
@@ -46286,10 +46859,20 @@ Hook ${hookName} was either not provided or not a function.`);
   function binarySearch(metaset, axis, value, intersect) {
     const { controller, data: data2, _sorted } = metaset;
     const iScale = controller._cachedMeta.iScale;
+    const spanGaps = metaset.dataset ? metaset.dataset.options ? metaset.dataset.options.spanGaps : null : null;
     if (iScale && axis === iScale.axis && axis !== "r" && _sorted && data2.length) {
       const lookupMethod = iScale._reversePixels ? _rlookupByKey : _lookupByKey;
       if (!intersect) {
-        return lookupMethod(data2, axis, value);
+        const result = lookupMethod(data2, axis, value);
+        if (spanGaps) {
+          const { vScale } = controller._cachedMeta;
+          const { _parsed } = metaset;
+          const distanceToDefinedLo = _parsed.slice(0, result.lo + 1).reverse().findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+          result.lo -= Math.max(0, distanceToDefinedLo);
+          const distanceToDefinedHi = _parsed.slice(result.hi).findIndex((point) => !isNullOrUndef(point[vScale.axis]));
+          result.hi += Math.max(0, distanceToDefinedHi);
+        }
+        return result;
       } else if (controller._sharedOptions) {
         const el = data2[0];
         const range = typeof el.getRange === "function" && el.getRange(axis);
@@ -47307,13 +47890,13 @@ Hook ${hookName} was either not provided or not a function.`);
     return lineValue;
   }
   function garbageCollect(caches, length2) {
-    each2(caches, (cache5) => {
-      const gc = cache5.gc;
+    each2(caches, (cache4) => {
+      const gc = cache4.gc;
       const gcLen = gc.length / 2;
       let i;
       if (gcLen > length2) {
         for (i = 0; i < gcLen; ++i) {
-          delete cache5.data[gc[i]];
+          delete cache4.data[gc[i]];
         }
         gc.splice(0, gcLen);
       }
@@ -47838,25 +48421,25 @@ Hook ${hookName} was either not provided or not a function.`);
       const increment = Math.floor(length2 / getTicksLimit(length2, maxTicksLimit));
       let widestLabelSize = 0;
       let highestLabelSize = 0;
-      let i, j, jlen, label, tickFont, fontString, cache5, lineHeight, width, height, nestedLabel;
+      let i, j, jlen, label, tickFont, fontString, cache4, lineHeight, width, height, nestedLabel;
       for (i = 0; i < length2; i += increment) {
         label = ticks[i].label;
         tickFont = this._resolveTickFontOptions(i);
         ctx.font = fontString = tickFont.string;
-        cache5 = caches[fontString] = caches[fontString] || {
+        cache4 = caches[fontString] = caches[fontString] || {
           data: {},
           gc: []
         };
         lineHeight = tickFont.lineHeight;
         width = height = 0;
         if (!isNullOrUndef(label) && !isArray(label)) {
-          width = _measureText(ctx, cache5.data, cache5.gc, width, label);
+          width = _measureText(ctx, cache4.data, cache4.gc, width, label);
           height = lineHeight;
         } else if (isArray(label)) {
           for (j = 0, jlen = label.length; j < jlen; ++j) {
             nestedLabel = label[j];
             if (!isNullOrUndef(nestedLabel) && !isArray(nestedLabel)) {
-              width = _measureText(ctx, cache5.data, cache5.gc, width, nestedLabel);
+              width = _measureText(ctx, cache4.data, cache4.gc, width, nestedLabel);
               height += lineHeight;
             }
           }
@@ -49067,17 +49650,17 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     _cachedScopes(mainScope, resetCache) {
       const _scopeCache = this._scopeCache;
-      let cache5 = _scopeCache.get(mainScope);
-      if (!cache5 || resetCache) {
-        cache5 = /* @__PURE__ */ new Map();
-        _scopeCache.set(mainScope, cache5);
+      let cache4 = _scopeCache.get(mainScope);
+      if (!cache4 || resetCache) {
+        cache4 = /* @__PURE__ */ new Map();
+        _scopeCache.set(mainScope, cache4);
       }
-      return cache5;
+      return cache4;
     }
     getOptionScopes(mainScope, keyLists, resetCache) {
       const { options: options2, type } = this;
-      const cache5 = this._cachedScopes(mainScope, resetCache);
-      const cached = cache5.get(keyLists);
+      const cache4 = this._cachedScopes(mainScope, resetCache);
+      const cached = cache4.get(keyLists);
       if (cached) {
         return cached;
       }
@@ -49097,7 +49680,7 @@ Hook ${hookName} was either not provided or not a function.`);
         array.push(/* @__PURE__ */ Object.create(null));
       }
       if (keysCached.has(keyLists)) {
-        cache5.set(keyLists, array);
+        cache4.set(keyLists, array);
       }
       return array;
     }
@@ -49141,20 +49724,20 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   };
   function getResolver(resolverCache, scopes, prefixes) {
-    let cache5 = resolverCache.get(scopes);
-    if (!cache5) {
-      cache5 = /* @__PURE__ */ new Map();
-      resolverCache.set(scopes, cache5);
+    let cache4 = resolverCache.get(scopes);
+    if (!cache4) {
+      cache4 = /* @__PURE__ */ new Map();
+      resolverCache.set(scopes, cache4);
     }
     const cacheKey = prefixes.join();
-    let cached = cache5.get(cacheKey);
+    let cached = cache4.get(cacheKey);
     if (!cached) {
       const resolver = _createResolver(scopes, prefixes);
       cached = {
         resolver,
         subPrefixes: prefixes.filter((p2) => !p2.toLowerCase().includes("hover"))
       };
-      cache5.set(cacheKey, cached);
+      cache4.set(cacheKey, cached);
     }
     return cached;
   }
@@ -49171,7 +49754,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return false;
   }
-  var version2 = "4.4.7";
+  var version2 = "4.4.8";
   var KNOWN_POSITIONS = [
     "top",
     "bottom",
@@ -55441,9 +56024,9 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-IR6S3I6Y.mjs:
+react-router/dist/development/chunk-GNGMS2XR.mjs:
   (**
-   * react-router v7.1.5
+   * react-router v7.4.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -55455,7 +56038,7 @@ react-router/dist/development/chunk-IR6S3I6Y.mjs:
 
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.1.5
+   * react-router v7.4.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -55496,17 +56079,17 @@ react-router/dist/development/index.mjs:
 
 chart.js/dist/chunks/helpers.segment.js:
   (*!
-   * Chart.js v4.4.7
+   * Chart.js v4.4.8
    * https://www.chartjs.org
-   * (c) 2024 Chart.js Contributors
+   * (c) 2025 Chart.js Contributors
    * Released under the MIT License
    *)
 
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.4.7
+   * Chart.js v4.4.8
    * https://www.chartjs.org
-   * (c) 2024 Chart.js Contributors
+   * (c) 2025 Chart.js Contributors
    * Released under the MIT License
    *)
 */
