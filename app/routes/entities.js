@@ -143,6 +143,7 @@ router.get('/:id', async (req, res, next) => {
   let record;
   let description;
   let incidentsStats;
+  let paginationTotal;
   let entityIncidents;
   let entityLocations;
   let records;
@@ -171,6 +172,9 @@ router.get('/:id', async (req, res, next) => {
     try {
       entityLocations = await entityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({
+        entityId: id,
+      });
+      paginationTotal = await stats.getPaginationStats({
         dateOn,
         dateRangeFrom,
         dateRangeTo,
@@ -178,8 +182,6 @@ router.get('/:id', async (req, res, next) => {
         quarterSourceId,
         withPersonId,
       });
-      entity.setOverview(incidentsStats);
-
       entityIncidents = await incidents.getAll({
         page,
         perPage,
@@ -192,6 +194,8 @@ router.get('/:id', async (req, res, next) => {
         withPersonId,
       });
       entityIncidents = entityIncidents.map(incident => incident.adapted);
+
+      entity.setOverview(incidentsStats);
 
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
@@ -228,7 +232,7 @@ router.get('/:id', async (req, res, next) => {
                 params,
                 path: links.entity(id),
                 perPage,
-                total: incidentsStats.paginationTotal,
+                total: paginationTotal,
               }),
             },
           },

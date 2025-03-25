@@ -145,6 +145,7 @@ router.get('/:id', async (req, res, next) => {
   let adapted;
   let description;
   let incidentsStats;
+  let paginationTotal;
   let personIncidents;
   let records;
   let filters;
@@ -171,6 +172,9 @@ router.get('/:id', async (req, res, next) => {
 
     try {
       incidentsStats = await stats.getIncidentsStats({
+        personId: id,
+      });
+      paginationTotal = await stats.getPaginationStats({
         dateOn,
         dateRangeFrom,
         dateRangeTo,
@@ -179,8 +183,6 @@ router.get('/:id', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
-      person.setOverview(incidentsStats);
-
       personIncidents = await incidentAttendances.getAll({
         dateOn,
         dateRangeFrom,
@@ -194,6 +196,8 @@ router.get('/:id', async (req, res, next) => {
         withPersonId,
       });
       personIncidents = personIncidents.map(incident => incident.adapted);
+
+      person.setOverview(incidentsStats);
 
       records = await incidentAttendees.getAllForIncidents(personIncidents);
 
@@ -215,7 +219,7 @@ router.get('/:id', async (req, res, next) => {
                 params,
                 path: links.person(id),
                 perPage,
-                total: incidentsStats.paginationTotal,
+                total: paginationTotal,
               }),
             }
           },

@@ -114,6 +114,7 @@ router.get('/:id', async (req, res, next) => {
   let record;
   let description = metaHelper.getDetailDescription();
   let incidentsStats;
+  let paginationTotal;
   let sourceIncidents;
   let records;
   let filters;
@@ -137,6 +138,9 @@ router.get('/:id', async (req, res, next) => {
     try {
       if (source.data.type === Source.types.activity) {
         incidentsStats = await stats.getIncidentsStats({
+          sourceId: id,
+        });
+        paginationTotal = await stats.getPaginationStats({
           dateOn,
           dateRangeFrom,
           dateRangeTo,
@@ -144,8 +148,6 @@ router.get('/:id', async (req, res, next) => {
           withEntityId,
           withPersonId,
         });
-        source.setOverview(incidentsStats);
-
         sourceIncidents = await incidents.getAll({
           dateOn,
           dateRangeFrom,
@@ -158,6 +160,8 @@ router.get('/:id', async (req, res, next) => {
           withPersonId,
         });
         sourceIncidents = sourceIncidents.map(incident => incident.adapted);
+
+        source.setOverview(incidentsStats);
 
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
@@ -179,7 +183,7 @@ router.get('/:id', async (req, res, next) => {
                   params,
                   path: links.source(id),
                   perPage,
-                  total: incidentsStats.paginationTotal,
+                  total: paginationTotal,
                 }),
               },
             },
