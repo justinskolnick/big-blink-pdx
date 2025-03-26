@@ -15,11 +15,22 @@ type Query = (id?: Id) => string;
 const url = new URL('/', window.location.toString());
 const baseUrl = url.origin;
 
-const getQueryPath = (location: LocationType) => {
-  const url = new URL(location.pathname, baseUrl);
+const getPathWithSearch = (pathname: string, appendSearch: boolean = false) => {
+  const newUrl = new URL(pathname, baseUrl);
 
-  return url.pathname + location.search;
+  if (appendSearch) {
+    const currentUrl = new URL(window.location.toString());
+
+    currentUrl.searchParams.forEach((value, key) => {
+      newUrl.searchParams.append(key, value);
+    });
+  }
+
+  return newUrl.pathname.replace(/^\//, '') + newUrl.search;
 };
+
+const getQueryPath = (location: LocationType) =>
+  getPathWithSearch(location.pathname, true);
 
 const getPrimaryRoute = () => ({
   query: getQueryPath,

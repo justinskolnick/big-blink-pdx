@@ -34444,10 +34444,17 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/services/api.ts
   var url = new URL("/", window.location.toString());
   var baseUrl = url.origin;
-  var getQueryPath = (location2) => {
-    const url2 = new URL(location2.pathname, baseUrl);
-    return url2.pathname + location2.search;
+  var getPathWithSearch = (pathname, appendSearch = false) => {
+    const newUrl = new URL(pathname, baseUrl);
+    if (appendSearch) {
+      const currentUrl = new URL(window.location.toString());
+      currentUrl.searchParams.forEach((value, key) => {
+        newUrl.searchParams.append(key, value);
+      });
+    }
+    return newUrl.pathname.replace(/^\//, "") + newUrl.search;
   };
+  var getQueryPath = (location2) => getPathWithSearch(location2.pathname, true);
   var getPrimaryRoute = () => ({
     query: getQueryPath,
     transformResponse: (result) => {
