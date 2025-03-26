@@ -34444,17 +34444,14 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/services/api.ts
   var url = new URL("/", window.location.toString());
   var baseUrl = url.origin;
-  var getPathWithSearch = (pathname, appendSearch = false) => {
-    const newUrl = new URL(pathname, baseUrl);
-    if (appendSearch) {
-      const currentUrl = new URL(window.location.toString());
-      currentUrl.searchParams.forEach((value, key) => {
-        newUrl.searchParams.append(key, value);
-      });
-    }
+  var getQueryPath = (location2) => {
+    const newUrl = new URL(location2.pathname, baseUrl);
+    const currentUrl = new URL(window.location.toString());
+    currentUrl.searchParams.forEach((value, key) => {
+      newUrl.searchParams.append(key, value);
+    });
     return newUrl.pathname.replace(/^\//, "") + newUrl.search;
   };
-  var getQueryPath = (location2) => getPathWithSearch(location2.pathname, true);
   var getPrimaryRoute = () => ({
     query: getQueryPath,
     transformResponse: (result) => {
@@ -34486,40 +34483,40 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityAttendeesById: builder.query(getAncillaryRoute(
-        (id) => `entities/${id}/attendees`
+        ({ id }) => `entities/${id}/attendees`
       )),
       getEntityIncidentsById: builder.query(getAncillaryRoute(
-        (id) => getPathWithSearch(`entities/${id}/incidents`, true)
+        ({ id, search }) => `entities/${id}/incidents${search}`
       )),
       getEntityStatsById: builder.query(getAncillaryRoute(
-        (id) => `entities/${id}/stats`
+        ({ id }) => `entities/${id}/stats`
       )),
       getIncidentById: builder.query(getAncillaryRoute(
-        (id) => `incidents/${id}`
+        ({ id }) => `incidents/${id}`
       )),
       getPersonAttendeesById: builder.query(getAncillaryRoute(
-        (id) => `people/${id}/attendees`
+        ({ id }) => `people/${id}/attendees`
       )),
       getPersonEntitiesById: builder.query(getAncillaryRoute(
-        (id) => `people/${id}/entities`
+        ({ id }) => `people/${id}/entities`
       )),
       getPersonIncidentsById: builder.query(getAncillaryRoute(
-        (id) => getPathWithSearch(`people/${id}/incidents`, true)
+        ({ id, search }) => `people/${id}/incidents${search}`
       )),
       getPersonStatsById: builder.query(getAncillaryRoute(
-        (id) => `people/${id}/stats`
+        ({ id }) => `people/${id}/stats`
       )),
       getSourceAttendeesById: builder.query(getAncillaryRoute(
-        (id) => `sources/${id}/attendees`
+        ({ id }) => `sources/${id}/attendees`
       )),
       getSourceEntitiesById: builder.query(getAncillaryRoute(
-        (id) => `sources/${id}/entities`
+        ({ id }) => `sources/${id}/entities`
       )),
       getSourceIncidentsById: builder.query(getAncillaryRoute(
-        (id) => getPathWithSearch(`sources/${id}/incidents`, true)
+        ({ id, search }) => `sources/${id}/incidents${search}`
       )),
       getSourceById: builder.query(getAncillaryRoute(
-        (id) => `sources/${id}`
+        ({ id }) => `sources/${id}`
       ))
     })
   });
@@ -41443,7 +41440,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasNotes = Boolean(incident?.notes);
     (0, import_react21.useEffect)(() => {
       if (hasIncident) return;
-      trigger(id);
+      trigger({ id });
     }, [hasIncident, id, trigger]);
     if (!incident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(modal_default, { className: "incident-modal", deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("section", { className: "modal-incident", children: [
@@ -42128,7 +42125,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasAttendees = "attendees" in entity;
     (0, import_react29.useEffect)(() => {
       if (!hasAttendees) {
-        trigger(entity.id);
+        trigger({ id: entity.id });
       }
     }, [entity, hasAttendees, trigger]);
     return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
@@ -54746,7 +54743,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     (0, import_react32.useEffect)(() => {
       if (!hasData) {
-        trigger(numericId);
+        trigger({ id: numericId });
       }
     }, [hasData, numericId, trigger]);
     (0, import_react32.useEffect)(() => {
@@ -55051,9 +55048,17 @@ Hook ${hookName} was either not provided or not a function.`);
       if (!hasFetched || search !== currentSearch) {
         setHasFetched(true);
         setSearch(currentSearch);
-        trigger(entity.id);
+        trigger({ id: entity.id, search: currentSearch });
       }
-    }, [entity, hasFetched, location2, search, setHasFetched, setSearch, trigger]);
+    }, [
+      entity,
+      hasFetched,
+      location2,
+      search,
+      setHasFetched,
+      setSearch,
+      trigger
+    ]);
     return children;
   };
   var incidents_default2 = Incidents;
@@ -55352,7 +55357,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const source = useSelector((state) => selectors4.selectById(state, id));
     (0, import_react38.useEffect)(() => {
       if (source || !id) return;
-      trigger(id);
+      trigger({ id });
     }, [id, source, trigger]);
     if (!source) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
@@ -55436,7 +55441,7 @@ Hook ${hookName} was either not provided or not a function.`);
     description.push(roles.join(" and "));
     (0, import_react39.useEffect)(() => {
       if (!hasRecords) {
-        trigger(person.id);
+        trigger({ id: person.id });
       }
     }, [hasRecords, person, trigger]);
     return /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
@@ -55500,7 +55505,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     (0, import_react40.useEffect)(() => {
       if (!hasData) {
-        trigger(numericId);
+        trigger({ id: numericId });
       }
     }, [hasData, numericId, trigger]);
     (0, import_react40.useEffect)(() => {
@@ -55579,7 +55584,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasRecords = hasLobbyistRecords || hasOfficialRecords;
     (0, import_react42.useEffect)(() => {
       if (!hasRecords) {
-        trigger(person.id);
+        trigger({ id: person.id });
       }
     }, [hasRecords, person, trigger]);
     return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
@@ -55681,7 +55686,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
     (0, import_react44.useEffect)(() => {
       if (source) return;
-      trigger(id);
+      trigger({ id });
     }, [id, source, trigger]);
     if (!source) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(
@@ -55730,7 +55735,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasAttendees = Boolean(attendees);
     (0, import_react45.useEffect)(() => {
       if (!hasAttendees) {
-        trigger(numericId);
+        trigger({ id: numericId });
       }
     }, [hasAttendees, numericId, trigger]);
     return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(
@@ -55760,7 +55765,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasEntities = entities?.length > 0;
     (0, import_react46.useEffect)(() => {
       if (!hasEntities) {
-        trigger(source.id);
+        trigger({ id: source.id });
       }
     }, [hasEntities, source, trigger]);
     return /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(

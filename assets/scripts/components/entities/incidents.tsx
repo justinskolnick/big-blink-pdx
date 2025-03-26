@@ -22,9 +22,17 @@ const Incidents = ({ children, entity }: Props) => {
     if (!hasFetched || search !== currentSearch) {
       setHasFetched(true);
       setSearch(currentSearch);
-      trigger(entity.id);
+      trigger({ id: entity.id, search: currentSearch });
     }
-  }, [entity, hasFetched, location, search, setHasFetched, setSearch, trigger]);
+  }, [
+    entity,
+    hasFetched,
+    location,
+    search,
+    setHasFetched,
+    setSearch,
+    trigger,
+  ]);
 
   return children;
 };

@@ -20,7 +20,7 @@ const Entities = ({ entities, source }: Props) => {
 
   useEffect(() => {
     if (!hasEntities) {
-      trigger(source.id);
+      trigger({ id: source.id });
     }
   }, [hasEntities, source, trigger]);
 

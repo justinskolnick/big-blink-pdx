@@ -32,7 +32,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   useEffect(() => {
     if (hasIncident) return;
 
-    trigger(id);
+    trigger({ id });
   }, [hasIncident, id, trigger]);
 
   if (!incident) return null;

@@ -37,7 +37,7 @@ const Chart = ({ label }: Props) => {
 
   useEffect(() => {
     if (!hasData) {
-      trigger(numericId);
+      trigger({ id: numericId });
     }
   }, [hasData, numericId, trigger]);
 

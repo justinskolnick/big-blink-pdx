@@ -10,27 +10,26 @@ type LocationType = {
   search: string;
 };
 
-type Query = (id?: Id) => string;
+type QueryFnObject = {
+  id: Id;
+  search?: string;
+};
+
+type QueryFn = (obj?: QueryFnObject) => string;
 
 const url = new URL('/', window.location.toString());
 const baseUrl = url.origin;
 
-const getPathWithSearch = (pathname: string, appendSearch: boolean = false) => {
-  const newUrl = new URL(pathname, baseUrl);
+const getQueryPath = (location: LocationType) => {
+  const newUrl = new URL(location.pathname, baseUrl);
+  const currentUrl = new URL(window.location.toString());
 
-  if (appendSearch) {
-    const currentUrl = new URL(window.location.toString());
-
-    currentUrl.searchParams.forEach((value, key) => {
-      newUrl.searchParams.append(key, value);
-    });
-  }
+  currentUrl.searchParams.forEach((value, key) => {
+    newUrl.searchParams.append(key, value);
+  });
 
   return newUrl.pathname.replace(/^\//, '') + newUrl.search;
 };
-
-const getQueryPath = (location: LocationType) =>
-  getPathWithSearch(location.pathname, true);
 
 const getPrimaryRoute = () => ({
   query: getQueryPath,
@@ -40,7 +39,7 @@ const getPrimaryRoute = () => ({
   transformErrorResponse: handleError,
 });
 
-const getAncillaryRoute = (query: Query) => ({
+const getAncillaryRoute = (query: QueryFn) => ({
   query,
   transformResponse: (result: Result) => {
     handleResult(result);
@@ -67,43 +66,43 @@ const api = createApi({
     getPrimary: builder.query(getPrimaryRoute()),
 
     getEntityAttendeesById: builder.query(getAncillaryRoute(
-      id => `entities/${id}/attendees`
+      ({ id }) => `entities/${id}/attendees`
     )),
     getEntityIncidentsById: builder.query(getAncillaryRoute(
-      id => getPathWithSearch(`entities/${id}/incidents`, true)
+      ({ id, search }) => `entities/${id}/incidents${search}`
     )),
     getEntityStatsById: builder.query(getAncillaryRoute(
-      id => `entities/${id}/stats`
+      ({ id }) => `entities/${id}/stats`
     )),
 
     getIncidentById: builder.query(getAncillaryRoute(
-      id => `incidents/${id}`
+      ({ id }) => `incidents/${id}`
     )),
 
     getPersonAttendeesById: builder.query(getAncillaryRoute(
-      id => `people/${id}/attendees`
+      ({ id }) => `people/${id}/attendees`
     )),
     getPersonEntitiesById: builder.query(getAncillaryRoute(
-      id => `people/${id}/entities`
+      ({ id }) => `people/${id}/entities`
     )),
     getPersonIncidentsById: builder.query(getAncillaryRoute(
-      id => getPathWithSearch(`people/${id}/incidents`, true)
+      ({ id, search }) => `people/${id}/incidents${search}`
     )),
     getPersonStatsById: builder.query(getAncillaryRoute(
-      id => `people/${id}/stats`
+      ({ id }) => `people/${id}/stats`
     )),
 
     getSourceAttendeesById: builder.query(getAncillaryRoute(
-      id => `sources/${id}/attendees`
+      ({ id }) => `sources/${id}/attendees`
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
-      id => `sources/${id}/entities`
+      ({ id }) => `sources/${id}/entities`
     )),
     getSourceIncidentsById: builder.query(getAncillaryRoute(
-      id => getPathWithSearch(`sources/${id}/incidents`, true)
+      ({ id, search }) => `sources/${id}/incidents${search}`
     )),
     getSourceById: builder.query(getAncillaryRoute(
-      id => `sources/${id}`
+      ({ id }) => `sources/${id}`
     )),
   }),
 });

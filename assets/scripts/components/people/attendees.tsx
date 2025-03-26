@@ -44,7 +44,7 @@ const Attendees = ({
 
   useEffect(() => {
     if (!hasRecords) {
-      trigger(person.id);
+      trigger({ id: person.id });
     }
   }, [hasRecords, person, trigger]);
 
