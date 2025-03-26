@@ -19296,7 +19296,7 @@
           return x2 === y && (0 !== x2 || 1 / x2 === 1 / y) || x2 !== x2 && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef20 = React53.useRef, useEffect34 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
+        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef20 = React53.useRef, useEffect35 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef20(null);
           if (null === instRef.current) {
@@ -19339,7 +19339,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect35(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -19594,7 +19594,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment26 = REACT_FRAGMENT_TYPE;
+          var Fragment25 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19653,7 +19653,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment26;
+          exports.Fragment = Fragment25;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -34488,6 +34488,9 @@ Hook ${hookName} was either not provided or not a function.`);
       getEntityAttendeesById: builder.query(getAncillaryRoute(
         (id) => `entities/${id}/attendees`
       )),
+      getEntityIncidentsById: builder.query(getAncillaryRoute(
+        (id) => getPathWithSearch(`entities/${id}/incidents`, true)
+      )),
       getEntityStatsById: builder.query(getAncillaryRoute(
         (id) => `entities/${id}/stats`
       )),
@@ -34500,6 +34503,9 @@ Hook ${hookName} was either not provided or not a function.`);
       getPersonEntitiesById: builder.query(getAncillaryRoute(
         (id) => `people/${id}/entities`
       )),
+      getPersonIncidentsById: builder.query(getAncillaryRoute(
+        (id) => getPathWithSearch(`people/${id}/incidents`, true)
+      )),
       getPersonStatsById: builder.query(getAncillaryRoute(
         (id) => `people/${id}/stats`
       )),
@@ -34508,6 +34514,9 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getSourceEntitiesById: builder.query(getAncillaryRoute(
         (id) => `sources/${id}/entities`
+      )),
+      getSourceIncidentsById: builder.query(getAncillaryRoute(
+        (id) => getPathWithSearch(`sources/${id}/incidents`, true)
       )),
       getSourceById: builder.query(getAncillaryRoute(
         (id) => `sources/${id}`
@@ -41778,7 +41787,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var entities_default2 = Index;
 
   // assets/scripts/components/entities/detail.tsx
-  var import_react35 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
 
   // assets/scripts/components/incident-date-box.tsx
   var import_react27 = __toESM(require_react());
@@ -55030,6 +55039,25 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var detail_incidents_default = DetailIncidents;
 
+  // assets/scripts/components/entities/incidents.tsx
+  var import_react35 = __toESM(require_react());
+  var Incidents = ({ children, entity }) => {
+    const location2 = useLocation();
+    const [hasFetched, setHasFetched] = (0, import_react35.useState)(false);
+    const [search, setSearch] = (0, import_react35.useState)(location2.search);
+    const [trigger] = api_default.useLazyGetEntityIncidentsByIdQuery();
+    (0, import_react35.useEffect)(() => {
+      const currentSearch = location2.search;
+      if (!hasFetched || search !== currentSearch) {
+        setHasFetched(true);
+        setSearch(currentSearch);
+        trigger(entity.id);
+      }
+    }, [entity, hasFetched, location2, search, setHasFetched, setSearch, trigger]);
+    return children;
+  };
+  var incidents_default2 = Incidents;
+
   // assets/scripts/components/item-detail.tsx
   var import_jsx_runtime55 = __toESM(require_jsx_runtime());
   var ItemDetail = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("section", { className: cx("item-detail", className), children });
@@ -55038,12 +55066,11 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/detail.tsx
   var import_jsx_runtime56 = __toESM(require_jsx_runtime());
   var Detail = () => {
-    const ref = (0, import_react35.useRef)();
+    const ref = (0, import_react36.useRef)();
     const { id } = useParams();
     const numericId = Number(id);
     const entity = useSelector((state) => selectors.selectById(state, numericId));
     const hasEntity = Boolean(entity);
-    const hasIncidents = Boolean(entity?.incidents?.ids?.length);
     if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
@@ -55054,26 +55081,24 @@ Hook ${hookName} was either not provided or not a function.`);
           children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(chart_default, { label: entity.name })
         }
       ),
-      hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-          attendees_default,
-          {
-            attendees: entity.attendees,
-            entity
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-          detail_incidents_default,
-          {
-            ids: entity.incidents?.ids,
-            filters: entity.incidents?.filters,
-            hasSort: true,
-            label: entity.name,
-            pagination: entity.incidents?.pagination,
-            ref
-          }
-        )
-      ] })
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+        attendees_default,
+        {
+          attendees: entity.attendees,
+          entity
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(incidents_default2, { entity, children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+        detail_incidents_default,
+        {
+          ids: entity.incidents?.ids,
+          filters: entity.incidents?.filters,
+          hasSort: true,
+          label: entity.name,
+          pagination: entity.incidents?.pagination,
+          ref
+        }
+      ) })
     ] });
   };
   var detail_default = Detail;
@@ -55282,7 +55307,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var home_default = Home;
 
   // assets/scripts/components/incidents/index.tsx
-  var import_react36 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
   var import_jsx_runtime67 = __toESM(require_jsx_runtime());
   var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime67.jsxs)("p", { children: [
     "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55292,7 +55317,7 @@ Hook ${hookName} was either not provided or not a function.`);
     "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
   ] });
   var Index3 = () => {
-    const ref = (0, import_react36.useRef)();
+    const ref = (0, import_react37.useRef)();
     const scrollToRef = () => {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -55316,16 +55341,16 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var incidents_default2 = Index3;
+  var incidents_default3 = Index3;
 
   // assets/scripts/components/incident-source-box.tsx
-  var import_react37 = __toESM(require_react());
+  var import_react38 = __toESM(require_react());
   var import_jsx_runtime68 = __toESM(require_jsx_runtime());
   var IncidentSourceBox = ({ incident, title }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const id = incident?.sourceId;
     const source = useSelector((state) => selectors4.selectById(state, id));
-    (0, import_react37.useEffect)(() => {
+    (0, import_react38.useEffect)(() => {
       if (source || !id) return;
       trigger(id);
     }, [id, source, trigger]);
@@ -55381,10 +55406,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default2 = Detail2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
 
   // assets/scripts/components/people/attendees.tsx
-  var import_react38 = __toESM(require_react());
+  var import_react39 = __toESM(require_react());
   var import_jsx_runtime70 = __toESM(require_jsx_runtime());
   var Attendees3 = ({
     attendees,
@@ -55409,7 +55434,7 @@ Hook ${hookName} was either not provided or not a function.`);
       roles.push("was lobbied by a number of lobbyists as a City of Portland official");
     }
     description.push(roles.join(" and "));
-    (0, import_react38.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       if (!hasRecords) {
         trigger(person.id);
       }
@@ -55454,7 +55479,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var attendees_default2 = Attendees3;
 
   // assets/scripts/components/people/chart.tsx
-  var import_react39 = __toESM(require_react());
+  var import_react40 = __toESM(require_react());
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var Chart5 = ({ label }) => {
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
@@ -55462,7 +55487,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
     const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react39.useState)(quarterParam2);
+    const [quarter, setQuarter] = (0, import_react40.useState)(quarterParam2);
     const peopleData = useSelector(getPeopleChartData);
     const data2 = peopleData?.[numericId];
     const hasData = data2?.length > 0;
@@ -55473,12 +55498,12 @@ Hook ${hookName} was either not provided or not a function.`);
     const handleClick = (value) => {
       setQuarter(value.replace(" ", "-"));
     };
-    (0, import_react39.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       if (!hasData) {
         trigger(numericId);
       }
     }, [hasData, numericId, trigger]);
-    (0, import_react39.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       if (quarter) {
         if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
           setSearchParams({ quarter });
@@ -55491,10 +55516,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default3 = Chart5;
 
   // assets/scripts/components/people/entities.tsx
-  var import_react41 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
 
   // assets/scripts/components/affiliated-entities-table.tsx
-  var import_react40 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
   var import_jsx_runtime72 = __toESM(require_jsx_runtime());
   var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(icon_default, { name: "check", className: "icon-registered" });
   var AffiliatedEntitiesTable = ({
@@ -55503,7 +55528,7 @@ Hook ${hookName} was either not provided or not a function.`);
     person,
     title
   }) => {
-    const ref = (0, import_react40.useRef)();
+    const ref = (0, import_react41.useRef)();
     const hasPerson = Boolean(person);
     return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
       const hasTotal = Boolean(item.total);
@@ -55552,7 +55577,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
     const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
     const hasRecords = hasLobbyistRecords || hasOfficialRecords;
-    (0, import_react41.useEffect)(() => {
+    (0, import_react42.useEffect)(() => {
       if (!hasRecords) {
         trigger(person.id);
       }
@@ -55600,7 +55625,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
-    const ref = (0, import_react42.useRef)();
+    const ref = (0, import_react43.useRef)();
     const { id } = useParams();
     const numericId = Number(id);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
@@ -55648,13 +55673,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default3 = Detail3;
 
   // assets/scripts/components/sources/item.tsx
-  var import_react43 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
   var import_jsx_runtime75 = __toESM(require_jsx_runtime());
   var Source = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useSelector((state) => selectors4.selectById(state, id));
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
-    (0, import_react43.useEffect)(() => {
+    (0, import_react44.useEffect)(() => {
       if (source) return;
       trigger(id);
     }, [id, source, trigger]);
@@ -55693,17 +55718,17 @@ Hook ${hookName} was either not provided or not a function.`);
   var sources_default2 = Index4;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_react46 = __toESM(require_react());
+  var import_react47 = __toESM(require_react());
 
   // assets/scripts/components/sources/attendees.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
   var import_jsx_runtime77 = __toESM(require_jsx_runtime());
   var Attendees4 = ({ attendees }) => {
     const [trigger] = api_default.useLazyGetSourceAttendeesByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
     const hasAttendees = Boolean(attendees);
-    (0, import_react44.useEffect)(() => {
+    (0, import_react45.useEffect)(() => {
       if (!hasAttendees) {
         trigger(numericId);
       }
@@ -55728,12 +55753,12 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default4 = Chart6;
 
   // assets/scripts/components/sources/entities.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react46 = __toESM(require_react());
   var import_jsx_runtime79 = __toESM(require_jsx_runtime());
   var Entities2 = ({ entities, source }) => {
     const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
     const hasEntities = entities?.length > 0;
-    (0, import_react45.useEffect)(() => {
+    (0, import_react46.useEffect)(() => {
       if (!hasEntities) {
         trigger(source.id);
       }
@@ -55799,7 +55824,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/detail.tsx
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var Detail4 = () => {
-    const ref = (0, import_react46.useRef)();
+    const ref = (0, import_react47.useRef)();
     const { id } = useParams();
     const numericId = Number(id);
     const source = useSelector((state) => selectors4.selectById(state, numericId));
@@ -55880,7 +55905,7 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incidents_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incidents_default3, {})
             },
             {
               path: ":id",

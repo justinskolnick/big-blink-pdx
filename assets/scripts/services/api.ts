@@ -69,6 +69,9 @@ const api = createApi({
     getEntityAttendeesById: builder.query(getAncillaryRoute(
       id => `entities/${id}/attendees`
     )),
+    getEntityIncidentsById: builder.query(getAncillaryRoute(
+      id => getPathWithSearch(`entities/${id}/incidents`, true)
+    )),
     getEntityStatsById: builder.query(getAncillaryRoute(
       id => `entities/${id}/stats`
     )),
@@ -83,6 +86,9 @@ const api = createApi({
     getPersonEntitiesById: builder.query(getAncillaryRoute(
       id => `people/${id}/entities`
     )),
+    getPersonIncidentsById: builder.query(getAncillaryRoute(
+      id => getPathWithSearch(`people/${id}/incidents`, true)
+    )),
     getPersonStatsById: builder.query(getAncillaryRoute(
       id => `people/${id}/stats`
     )),
@@ -92,6 +98,9 @@ const api = createApi({
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
       id => `sources/${id}/entities`
+    )),
+    getSourceIncidentsById: builder.query(getAncillaryRoute(
+      id => getPathWithSearch(`sources/${id}/incidents`, true)
     )),
     getSourceById: builder.query(getAncillaryRoute(
       id => `sources/${id}`
