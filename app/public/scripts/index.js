@@ -55803,6 +55803,13 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var entities_default4 = Entities2;
 
+  // assets/scripts/components/sources/detail-incidents-trigger.tsx
+  var IncidentsTrigger3 = ({ children }) => {
+    const [trigger] = api_default.useLazyGetSourceIncidentsByIdQuery();
+    return children(trigger);
+  };
+  var detail_incidents_trigger_default3 = IncidentsTrigger3;
+
   // assets/scripts/components/source-information-box.tsx
   var import_jsx_runtime80 = __toESM(require_jsx_runtime());
   var DataFormatIcon = /* @__PURE__ */ ((DataFormatIcon2) => {
@@ -55860,7 +55867,6 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasSource = Boolean(source);
     const label = source ? `Q${source.quarter} ${source.year}` : null;
     const isActivity = source?.type === "activity";
-    const hasIncidents = isActivity && Boolean(source?.incidents?.ids?.length);
     if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
@@ -55878,7 +55884,7 @@ Hook ${hookName} was either not provided or not a function.`);
           children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(chart_default4, { label })
         }
       ),
-      hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
+      isActivity && /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
           entities_default4,
           {
@@ -55887,17 +55893,24 @@ Hook ${hookName} was either not provided or not a function.`);
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(attendees_default3, { attendees: source.attendees }),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-          detail_incidents_default,
+        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+          detail_incidents_fetcher_default,
           {
-            ids: source.incidents?.ids,
-            filters: source.incidents?.filters,
-            hasSort: true,
-            label: source.title,
-            pagination: source.incidents?.pagination,
-            ref
+            id: source.id,
+            trigger,
+            children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+              detail_incidents_default,
+              {
+                ids: source.incidents?.ids,
+                filters: source.incidents?.filters,
+                hasSort: true,
+                label: source.title,
+                pagination: source.incidents?.pagination,
+                ref
+              }
+            )
           }
-        )
+        ) })
       ] })
     ] });
   };
