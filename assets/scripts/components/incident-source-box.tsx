@@ -25,7 +25,7 @@ const IncidentSourceBox = ({ incident, title }: Props) => {
   useEffect(() => {
     if (source || !id) return;
 
-    trigger(id);
+    trigger({ id });
   }, [id, source, trigger]);
 
   if (!source) return null;

@@ -8,7 +8,9 @@ import { selectors } from '../../reducers/entities';
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DetailIncidents from '../detail-incidents';
+import Incidents from '../detail-incidents';
+import IncidentsFetcher from '../detail-incidents-fetcher';
+import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -19,7 +21,6 @@ const Detail = () => {
 
   const entity = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasEntity = Boolean(entity);
-  const hasIncidents = Boolean(entity?.incidents?.ids?.length);
 
   if (!hasEntity) return null;
 
@@ -32,23 +33,28 @@ const Detail = () => {
         <Chart label={entity.name} />
       </ActivityOverview>
 
-      {hasIncidents && (
-        <>
-          <Attendees
-            attendees={entity.attendees}
-            entity={entity}
-          />
+      <Attendees
+        attendees={entity.attendees}
+        entity={entity}
+      />
 
-          <DetailIncidents
-            ids={entity.incidents?.ids}
-            filters={entity.incidents?.filters}
-            hasSort
-            label={entity.name}
-            pagination={entity.incidents?.pagination}
-            ref={ref}
-          />
-        </>
-      )}
+      <IncidentsTrigger>
+        {trigger => (
+          <IncidentsFetcher
+            id={entity.id}
+            trigger={trigger}
+          >
+            <Incidents
+              ids={entity.incidents?.ids}
+              filters={entity.incidents?.filters}
+              hasSort
+              label={entity.name}
+              pagination={entity.incidents?.pagination}
+              ref={ref}
+            />
+          </IncidentsFetcher>
+        )}
+      </IncidentsTrigger>
     </ItemDetail>
   );
 };

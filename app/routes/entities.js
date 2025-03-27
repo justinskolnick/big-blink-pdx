@@ -124,31 +124,17 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  const id = req.params.id;
-  const page = req.query.get(PARAM_PAGE) || 1;
-  const dateOn = req.query.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
-  const quarter = req.query.get(PARAM_QUARTER);
-  const sort = req.query.get(PARAM_SORT);
-  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
+  const id = Number(req.params.id);
+  const page = Number(req.query.get(PARAM_PAGE) || 1);
 
   const errors = [];
   const warnings = [];
   const perPage = Incident.perPage;
-  const links = linkHelper.links;
 
-  let quarterSourceId;
   let entity;
-  let record;
   let description;
   let incidentsStats;
-  let paginationTotal;
-  let entityIncidents;
   let entityLocations;
-  let records;
-  let filters;
-  let params;
   let data;
   let meta;
 
@@ -165,39 +151,13 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (req.get('Content-Type') === headers.json) {
-    if (paramHelper.hasQuarterAndYear(quarter)) {
-      quarterSourceId = await sources.getIdForQuarter(quarter);
-    }
-
     try {
       entityLocations = await entityLobbyistLocations.getAll({ entityId: id });
       incidentsStats = await stats.getIncidentsStats({
         entityId: id,
       });
-      paginationTotal = await stats.getPaginationStats({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        entityId: id,
-        quarterSourceId,
-        withPersonId,
-      });
-      entityIncidents = await incidents.getAll({
-        page,
-        perPage,
-        entityId: id,
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        quarterSourceId,
-        sort,
-        withPersonId,
-      });
-      entityIncidents = entityIncidents.map(incident => incident.adapted);
 
       entity.setOverview(incidentsStats);
-
-      records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
       const hasDomain = Boolean(adapted.domain);
       const hasLocations = entityLocations.length;
@@ -214,28 +174,9 @@ router.get('/:id', async (req, res, next) => {
         }
       }
 
-      filters = paramHelper.getFilters(req.query);
-      params = paramHelper.getParamsFromFilters(filters);
-
-      record = entity.adapted;
-
       data = {
         entity: {
-          record: {
-            ...record,
-            incidents: {
-              ...record.incidents,
-              records,
-              filters,
-              pagination: linkHelper.getPagination({
-                page,
-                params,
-                path: links.entity(id),
-                perPage,
-                total: paginationTotal,
-              }),
-            },
-          },
+          record: entity.adapted,
         },
       };
       meta = {
@@ -302,6 +243,98 @@ router.get('/:id/attendees', async (req, res, next) => {
       res.json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting entity attendees:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.render(template, { title, robots: headers.robots });
+  }
+});
+
+router.get('/:id/incidents', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const page = Number(req.query.get(PARAM_PAGE) || 1);
+  const dateOn = req.query.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
+  const quarter = req.query.get(PARAM_QUARTER);
+  const sort = req.query.get(PARAM_SORT);
+  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
+
+  const errors = [];
+  const warnings = [];
+  const perPage = Incident.perPage;
+  const links = linkHelper.links;
+
+  let quarterSourceId;
+  let paginationTotal;
+  let entityIncidents;
+  let records;
+  let filters;
+  let params;
+  let data;
+  let meta;
+
+  if (req.get('Content-Type') === headers.json) {
+    if (paramHelper.hasQuarterAndYear(quarter)) {
+      quarterSourceId = await sources.getIdForQuarter(quarter);
+    }
+
+    try {
+      paginationTotal = await stats.getPaginationStats({
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+        entityId: id,
+        quarterSourceId,
+        withPersonId,
+      });
+      entityIncidents = await incidents.getAll({
+        page,
+        perPage,
+        entityId: id,
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+        quarterSourceId,
+        sort,
+        withPersonId,
+      });
+      entityIncidents = entityIncidents.map(incident => incident.adapted);
+
+      records = await incidentAttendees.getAllForIncidents(entityIncidents);
+
+      filters = paramHelper.getFilters(req.query);
+      params = paramHelper.getParamsFromFilters(filters);
+
+      data = {
+        entity: {
+          record: {
+            id,
+            incidents: {
+              records,
+              filters,
+              pagination: linkHelper.getPagination({
+                page,
+                params,
+                path: links.entity(id),
+                perPage,
+                total: paginationTotal,
+              }),
+            },
+          },
+        },
+      };
+      meta = {
+        errors,
+        id,
+        page,
+        perPage,
+        warnings,
+      };
+
+      res.json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {

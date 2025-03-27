@@ -23,7 +23,7 @@ const Attendees = ({ attendees }: Props) => {
 
   useEffect(() => {
     if (!hasAttendees) {
-      trigger(numericId);
+      trigger({ id: numericId });
     }
   }, [hasAttendees, numericId, trigger]);
 

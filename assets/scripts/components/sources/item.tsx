@@ -24,7 +24,7 @@ const Source = ({ id }: Props) => {
   useEffect(() => {
     if (source) return;
 
-    trigger(id);
+    trigger({ id });
   }, [id, source, trigger]);
 
   if (!source) return null;

@@ -7,8 +7,10 @@ import { RootState } from '../../lib/store';
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
+import Incidents from '../detail-incidents';
+import IncidentsFetcher from '../detail-incidents-fetcher';
+import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
@@ -27,7 +29,6 @@ const Detail = () => {
   const label = source ? `Q${source.quarter} ${source.year}` : null;
 
   const isActivity = source?.type === 'activity';
-  const hasIncidents = isActivity && Boolean(source?.incidents?.ids?.length);
 
   if (!hasSource) return null;
 
@@ -47,7 +48,7 @@ const Detail = () => {
         <Chart label={label} />
       </ActivityOverview>
 
-      {hasIncidents && (
+      {isActivity && (
         <>
           <Entities
             entities={source.entities}
@@ -56,14 +57,23 @@ const Detail = () => {
 
           <Attendees attendees={source.attendees} />
 
-          <DetailIncidents
-            ids={source.incidents?.ids}
-            filters={source.incidents?.filters}
-            hasSort
-            label={source.title}
-            pagination={source.incidents?.pagination}
-            ref={ref}
-          />
+          <IncidentsTrigger>
+            {trigger => (
+              <IncidentsFetcher
+                id={source.id}
+                trigger={trigger}
+              >
+                <Incidents
+                  ids={source.incidents?.ids}
+                  filters={source.incidents?.filters}
+                  hasSort
+                  label={source.title}
+                  pagination={source.incidents?.pagination}
+                  ref={ref}
+                />
+              </IncidentsFetcher>
+            )}
+          </IncidentsTrigger>
         </>
       )}
     </ItemDetail>

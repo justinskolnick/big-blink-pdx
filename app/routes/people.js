@@ -124,8 +124,8 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  const id = req.params.id;
-  const page = req.query.get(PARAM_PAGE) || 1;
+  const id = Number(req.params.id);
+  const page = Number(req.query.get(PARAM_PAGE) || 1);
   const dateOn = req.query.get(PARAM_DATE_ON);
   const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
   const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
@@ -137,19 +137,12 @@ router.get('/:id', async (req, res, next) => {
   const errors = [];
   const warnings = [];
   const perPage = Incident.perPage;
-  const links = linkHelper.links;
 
   let quarterSourceId;
   let person;
-  let record;
   let adapted;
   let description;
   let incidentsStats;
-  let paginationTotal;
-  let personIncidents;
-  let records;
-  let filters;
-  let params;
   let data;
   let meta;
 
@@ -174,15 +167,6 @@ router.get('/:id', async (req, res, next) => {
       incidentsStats = await stats.getIncidentsStats({
         personId: id,
       });
-      paginationTotal = await stats.getPaginationStats({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        personId: id,
-        quarterSourceId,
-        withEntityId,
-        withPersonId,
-      });
       personIncidents = await incidentAttendances.getAll({
         dateOn,
         dateRangeFrom,
@@ -195,34 +179,12 @@ router.get('/:id', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
-      personIncidents = personIncidents.map(incident => incident.adapted);
 
       person.setOverview(incidentsStats);
 
-      records = await incidentAttendees.getAllForIncidents(personIncidents);
-
-      filters = paramHelper.getFilters(req.query);
-      params = paramHelper.getParamsFromFilters(filters);
-
-      record = person.adapted;
-
       data = {
         person: {
-          record: {
-            ...record,
-            incidents: {
-              ...record.incidents,
-              records,
-              filters,
-              pagination: linkHelper.getPagination({
-                page,
-                params,
-                path: links.person(id),
-                perPage,
-                total: paginationTotal,
-              }),
-            }
-          },
+          record: person.adapted,
         },
       };
       meta = {
@@ -350,6 +312,101 @@ router.get('/:id/entities', async (req, res, next) => {
     }
   } else {
     res.redirect(`/people/${id}`);
+  }
+});
+
+router.get('/:id/incidents', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const page = Number(req.query.get(PARAM_PAGE) || 1);
+  const dateOn = req.query.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
+  const quarter = req.query.get(PARAM_QUARTER);
+  const sort = req.query.get(PARAM_SORT);
+  const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
+  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
+
+  const errors = [];
+  const warnings = [];
+  const perPage = Incident.perPage;
+  const links = linkHelper.links;
+
+  let quarterSourceId;
+  let paginationTotal;
+  let personIncidents;
+  let records;
+  let filters;
+  let params;
+  let data;
+  let meta;
+
+  if (req.get('Content-Type') === headers.json) {
+    if (paramHelper.hasQuarterAndYear(quarter)) {
+      quarterSourceId = await sources.getIdForQuarter(quarter);
+    }
+
+    try {
+      paginationTotal = await stats.getPaginationStats({
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+        personId: id,
+        quarterSourceId,
+        withEntityId,
+        withPersonId,
+      });
+      personIncidents = await incidentAttendances.getAll({
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+        page,
+        perPage,
+        personId: id,
+        quarterSourceId,
+        sort,
+        withEntityId,
+        withPersonId,
+      });
+      personIncidents = personIncidents.map(incident => incident.adapted);
+
+      records = await incidentAttendees.getAllForIncidents(personIncidents);
+
+      filters = paramHelper.getFilters(req.query);
+      params = paramHelper.getParamsFromFilters(filters);
+
+      data = {
+        person: {
+          record: {
+            id,
+            incidents: {
+              records,
+              filters,
+              pagination: linkHelper.getPagination({
+                page,
+                params,
+                path: links.person(id),
+                perPage,
+                total: paginationTotal,
+              }),
+            },
+          },
+        },
+      };
+      meta = {
+        errors,
+        id,
+        page,
+        perPage,
+        warnings,
+      };
+
+      res.json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting person:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.render(template, { title, robots: headers.robots });
   }
 });
 

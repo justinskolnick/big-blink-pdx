@@ -23,7 +23,7 @@ const Attendees = ({
 
   useEffect(() => {
     if (!hasAttendees) {
-      trigger(entity.id);
+      trigger({ id: entity.id });
     }
   }, [entity, hasAttendees, trigger]);
 
