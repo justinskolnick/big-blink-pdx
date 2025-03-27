@@ -3863,8 +3863,8 @@
             type
           );
         }
-        function sanitizeURL(url2) {
-          return isJavaScriptProtocol.test("" + url2) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url2;
+        function sanitizeURL(url) {
+          return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
         }
         function getEventTarget(nativeEvent) {
           nativeEvent = nativeEvent.target || nativeEvent.srcElement || window;
@@ -21536,14 +21536,14 @@
       if (validateLocation) validateLocation(location2, to2);
       index = getIndex() + 1;
       let historyState = getHistoryState(location2, index);
-      let url2 = history.createHref(location2);
+      let url = history.createHref(location2);
       try {
-        globalHistory.pushState(historyState, "", url2);
+        globalHistory.pushState(historyState, "", url);
       } catch (error) {
         if (error instanceof DOMException && error.name === "DataCloneError") {
           throw error;
         }
-        window2.location.assign(url2);
+        window2.location.assign(url);
       }
       if (v5Compat && listener3) {
         listener3({ action, location: history.location, delta: 1 });
@@ -21555,8 +21555,8 @@
       if (validateLocation) validateLocation(location2, to2);
       index = getIndex();
       let historyState = getHistoryState(location2, index);
-      let url2 = history.createHref(location2);
-      globalHistory.replaceState(historyState, "", url2);
+      let url = history.createHref(location2);
+      globalHistory.replaceState(historyState, "", url);
       if (v5Compat && listener3) {
         listener3({ action, location: history.location, delta: 0 });
       }
@@ -21594,11 +21594,11 @@
       },
       createURL,
       encodeLocation(to2) {
-        let url2 = createURL(to2);
+        let url = createURL(to2);
         return {
-          pathname: url2.pathname,
-          search: url2.search,
-          hash: url2.hash
+          pathname: url.pathname,
+          search: url.search,
+          hash: url.hash
         };
       },
       push,
@@ -23334,10 +23334,10 @@
         if (redirect2.response.headers.has("X-Remix-Reload-Document")) {
           isDocumentReload = true;
         } else if (ABSOLUTE_URL_REGEX.test(location2)) {
-          const url2 = init.history.createURL(location2);
+          const url = init.history.createURL(location2);
           isDocumentReload = // Hard reload if it's an absolute URL to a new origin
-          url2.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
-          stripBasename(url2.pathname, basename) == null;
+          url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
+          stripBasename(url.pathname, basename) == null;
         }
         if (isDocumentReload) {
           if (replace22) {
@@ -24402,8 +24402,8 @@
           if (handler) {
             result = await runHandler(handler);
           } else if (type === "action") {
-            let url2 = new URL(request.url);
-            let pathname = url2.pathname + url2.search;
+            let url = new URL(request.url);
+            let pathname = url.pathname + url.search;
             throw getInternalRouterError(405, {
               method: request.method,
               pathname,
@@ -24414,8 +24414,8 @@
           }
         }
       } else if (!handler) {
-        let url2 = new URL(request.url);
-        let pathname = url2.pathname + url2.search;
+        let url = new URL(request.url);
+        let pathname = url.pathname + url.search;
         throw getInternalRouterError(404, {
           pathname
         });
@@ -24525,16 +24525,16 @@
   function normalizeRedirectLocation(location2, currentUrl, basename) {
     if (ABSOLUTE_URL_REGEX.test(location2)) {
       let normalizedLocation = location2;
-      let url2 = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
-      let isSameBasename = stripBasename(url2.pathname, basename) != null;
-      if (url2.origin === currentUrl.origin && isSameBasename) {
-        return url2.pathname + url2.search + url2.hash;
+      let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
+      let isSameBasename = stripBasename(url.pathname, basename) != null;
+      if (url.origin === currentUrl.origin && isSameBasename) {
+        return url.pathname + url.search + url.hash;
       }
     }
     return location2;
   }
   function createClientSideRequest(history, location2, signal, submission) {
-    let url2 = history.createURL(stripHashFromPath(location2)).toString();
+    let url = history.createURL(stripHashFromPath(location2)).toString();
     let init = { signal };
     if (submission && isMutationMethod(submission.formMethod)) {
       let { formMethod, formEncType } = submission;
@@ -24550,7 +24550,7 @@
         init.body = submission.formData;
       }
     }
-    return new Request(url2, init);
+    return new Request(url, init);
   }
   function convertFormDataToSearchParams(formData) {
     let searchParams = new URLSearchParams();
@@ -26114,20 +26114,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   var SingleFetchRedirectSymbol = Symbol("SingleFetchRedirect");
   function singleFetchUrl(reqUrl, basename) {
-    let url2 = typeof reqUrl === "string" ? new URL(
+    let url = typeof reqUrl === "string" ? new URL(
       reqUrl,
       // This can be called during the SSR flow via PrefetchPageLinksImpl so
       // don't assume window is available
       typeof window === "undefined" ? "server://singlefetch/" : window.location.origin
     ) : reqUrl;
-    if (url2.pathname === "/") {
-      url2.pathname = "_root.data";
-    } else if (basename && stripBasename(url2.pathname, basename) === "/") {
-      url2.pathname = `${basename.replace(/\/$/, "")}/_root.data`;
+    if (url.pathname === "/") {
+      url.pathname = "_root.data";
+    } else if (basename && stripBasename(url.pathname, basename) === "/") {
+      url.pathname = `${basename.replace(/\/$/, "")}/_root.data`;
     } else {
-      url2.pathname = `${url2.pathname.replace(/\/$/, "")}.data`;
+      url.pathname = `${url.pathname.replace(/\/$/, "")}.data`;
     }
-    return url2;
+    return url;
   }
   function useDataRouterContext2() {
     let context = React9.useContext(DataRouterContext);
@@ -26306,14 +26306,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (routesParams.size === 0) {
         return [];
       }
-      let url2 = singleFetchUrl(page, basename);
+      let url = singleFetchUrl(page, basename);
       if (foundOptOutRoute && routesParams.size > 0) {
-        url2.searchParams.set(
+        url.searchParams.set(
           "_routes",
           nextMatches.filter((m) => routesParams.has(m.route.id)).map((m) => m.route.id).join(",")
         );
       }
-      return [url2.pathname + url2.search];
+      return [url.pathname + url.search];
     }, [
       basename,
       loaderData,
@@ -30233,8 +30233,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return count;
   }
   var flatten = (arr) => [].concat(...arr);
-  function isAbsoluteUrl(url2) {
-    return new RegExp(`(^|:)//`).test(url2);
+  function isAbsoluteUrl(url) {
+    return new RegExp(`(^|:)//`).test(url);
   }
   function isDocumentVisible() {
     if (typeof document === "undefined") {
@@ -30248,22 +30248,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isOnline() {
     return typeof navigator === "undefined" ? true : navigator.onLine === void 0 ? true : navigator.onLine;
   }
-  var withoutTrailingSlash = (url2) => url2.replace(/\/$/, "");
-  var withoutLeadingSlash = (url2) => url2.replace(/^\//, "");
-  function joinUrls(base, url2) {
+  var withoutTrailingSlash = (url) => url.replace(/\/$/, "");
+  var withoutLeadingSlash = (url) => url.replace(/^\//, "");
+  function joinUrls(base, url) {
     if (!base) {
-      return url2;
+      return url;
     }
-    if (!url2) {
+    if (!url) {
       return base;
     }
-    if (isAbsoluteUrl(url2)) {
-      return url2;
+    if (isAbsoluteUrl(url)) {
+      return url;
     }
-    const delimiter2 = base.endsWith("/") || !url2.startsWith("?") ? "/" : "";
+    const delimiter2 = base.endsWith("/") || !url.startsWith("?") ? "/" : "";
     base = withoutTrailingSlash(base);
-    url2 = withoutLeadingSlash(url2);
-    return `${base}${delimiter2}${url2}`;
+    url = withoutLeadingSlash(url);
+    return `${base}${delimiter2}${url}`;
   }
   function getOrInsert(map2, key, value) {
     if (map2.has(key)) return map2.get(key);
@@ -30313,7 +30313,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       } = api3;
       let meta;
       let {
-        url: url2,
+        url,
         headers = new Headers(baseFetchOptions.headers),
         params = void 0,
         responseHandler = globalResponseHandler ?? "json",
@@ -30352,13 +30352,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         config2.body = JSON.stringify(config2.body, jsonReplacer);
       }
       if (params) {
-        const divider = ~url2.indexOf("?") ? "&" : "?";
+        const divider = ~url.indexOf("?") ? "&" : "?";
         const query = paramsSerializer ? paramsSerializer(params) : new URLSearchParams(stripUndefined(params));
-        url2 += divider + query;
+        url += divider + query;
       }
-      url2 = joinUrls(baseUrl2, url2);
-      const request = new Request(url2, config2);
-      const requestClone = new Request(url2, config2);
+      url = joinUrls(baseUrl2, url);
+      const request = new Request(url, config2);
+      const requestClone = new Request(url, config2);
       meta = {
         request: requestClone
       };
@@ -34442,8 +34442,8 @@ Hook ${hookName} was either not provided or not a function.`);
   };
 
   // assets/scripts/services/api.ts
-  var url = new URL("/", window.location.toString());
-  var baseUrl = url.origin;
+  var getUrl = (url) => new URL(url, window.location.toString());
+  var baseUrl = getUrl("/").origin;
   var getQueryPath = (location2) => {
     const newUrl = new URL(location2.pathname, baseUrl);
     const currentUrl = new URL(window.location.toString());
@@ -55036,23 +55036,22 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var detail_incidents_default = DetailIncidents;
 
-  // assets/scripts/components/entities/incidents.tsx
+  // assets/scripts/components/detail-incidents-fetcher.tsx
   var import_react35 = __toESM(require_react());
-  var Incidents = ({ children, entity }) => {
+  var IncidentsFetcher = ({ children, id, trigger }) => {
     const location2 = useLocation();
     const [hasFetched, setHasFetched] = (0, import_react35.useState)(false);
     const [search, setSearch] = (0, import_react35.useState)(location2.search);
-    const [trigger] = api_default.useLazyGetEntityIncidentsByIdQuery();
     (0, import_react35.useEffect)(() => {
       const currentSearch = location2.search;
       if (!hasFetched || search !== currentSearch) {
         setHasFetched(true);
         setSearch(currentSearch);
-        trigger({ id: entity.id, search: currentSearch });
+        trigger({ id, search: currentSearch });
       }
     }, [
-      entity,
       hasFetched,
+      id,
       location2,
       search,
       setHasFetched,
@@ -55061,7 +55060,14 @@ Hook ${hookName} was either not provided or not a function.`);
     ]);
     return children;
   };
-  var incidents_default2 = Incidents;
+  var detail_incidents_fetcher_default = IncidentsFetcher;
+
+  // assets/scripts/components/entities/detail-incidents-trigger.tsx
+  var IncidentsTrigger = ({ children }) => {
+    const [trigger] = api_default.useLazyGetEntityIncidentsByIdQuery();
+    return children(trigger);
+  };
+  var detail_incidents_trigger_default = IncidentsTrigger;
 
   // assets/scripts/components/item-detail.tsx
   var import_jsx_runtime55 = __toESM(require_jsx_runtime());
@@ -55093,15 +55099,22 @@ Hook ${hookName} was either not provided or not a function.`);
           entity
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(incidents_default2, { entity, children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
-        detail_incidents_default,
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(detail_incidents_trigger_default, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+        detail_incidents_fetcher_default,
         {
-          ids: entity.incidents?.ids,
-          filters: entity.incidents?.filters,
-          hasSort: true,
-          label: entity.name,
-          pagination: entity.incidents?.pagination,
-          ref
+          id: entity.id,
+          trigger,
+          children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+            detail_incidents_default,
+            {
+              ids: entity.incidents?.ids,
+              filters: entity.incidents?.filters,
+              hasSort: true,
+              label: entity.name,
+              pagination: entity.incidents?.pagination,
+              ref
+            }
+          )
         }
       ) })
     ] });
@@ -55346,7 +55359,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var incidents_default3 = Index3;
+  var incidents_default2 = Index3;
 
   // assets/scripts/components/incident-source-box.tsx
   var import_react38 = __toESM(require_react());
@@ -55910,7 +55923,7 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incidents_default3, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incidents_default2, {})
             },
             {
               path: ":id",

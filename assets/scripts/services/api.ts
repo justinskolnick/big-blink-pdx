@@ -17,8 +17,11 @@ type QueryFnObject = {
 
 type QueryFn = (obj?: QueryFnObject) => string;
 
-const url = new URL('/', window.location.toString());
-const baseUrl = url.origin;
+export type TriggerFn = (obj?: QueryFnObject) => void;
+
+const getUrl = (url: string) => new URL(url, window.location.toString());
+
+const baseUrl = getUrl('/').origin;
 
 const getQueryPath = (location: LocationType) => {
   const newUrl = new URL(location.pathname, baseUrl);

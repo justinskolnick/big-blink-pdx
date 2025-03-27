@@ -1,20 +1,19 @@
 import { useEffect, useState, ReactNode } from 'react';
 import { useLocation } from 'react-router';
 
-import api from '../../services/api';
-
-import type { Entity } from '../../types';
+import type { TriggerFn } from '../services/api';
+import type { Id } from '../types';
 
 interface Props {
   children: ReactNode;
-  entity: Entity;
+  id: Id;
+  trigger?: TriggerFn;
 }
 
-const Incidents = ({ children, entity }: Props) => {
+const IncidentsFetcher = ({ children, id, trigger }: Props) => {
   const location = useLocation();
   const [hasFetched, setHasFetched] = useState(false);
   const [search, setSearch] = useState(location.search);
-  const [trigger] = api.useLazyGetEntityIncidentsByIdQuery();
 
   useEffect(() => {
     const currentSearch = location.search;
@@ -22,11 +21,11 @@ const Incidents = ({ children, entity }: Props) => {
     if (!hasFetched || search !== currentSearch) {
       setHasFetched(true);
       setSearch(currentSearch);
-      trigger({ id: entity.id, search: currentSearch });
+      trigger({ id, search: currentSearch });
     }
   }, [
-    entity,
     hasFetched,
+    id,
     location,
     search,
     setHasFetched,
@@ -37,4 +36,4 @@ const Incidents = ({ children, entity }: Props) => {
   return children;
 };
 
-export default Incidents;
+export default IncidentsFetcher;

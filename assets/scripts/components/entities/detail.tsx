@@ -8,8 +8,9 @@ import { selectors } from '../../reducers/entities';
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DetailIncidents from '../detail-incidents';
-import Incidents from './incidents';
+import Incidents from '../detail-incidents';
+import IncidentsFetcher from '../detail-incidents-fetcher';
+import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -37,16 +38,23 @@ const Detail = () => {
         entity={entity}
       />
 
-      <Incidents entity={entity}>
-        <DetailIncidents
-          ids={entity.incidents?.ids}
-          filters={entity.incidents?.filters}
-          hasSort
-          label={entity.name}
-          pagination={entity.incidents?.pagination}
-          ref={ref}
-        />
-      </Incidents>
+      <IncidentsTrigger>
+        {trigger => (
+          <IncidentsFetcher
+            id={entity.id}
+            trigger={trigger}
+          >
+            <Incidents
+              ids={entity.incidents?.ids}
+              filters={entity.incidents?.filters}
+              hasSort
+              label={entity.name}
+              pagination={entity.incidents?.pagination}
+              ref={ref}
+            />
+          </IncidentsFetcher>
+        )}
+      </IncidentsTrigger>
     </ItemDetail>
   );
 };
