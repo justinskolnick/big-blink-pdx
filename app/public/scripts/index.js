@@ -55041,20 +55041,27 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentsFetcher = ({ children, id, trigger }) => {
     const location2 = useLocation();
     const [hasFetched, setHasFetched] = (0, import_react35.useState)(false);
+    const [lastId, setLastId] = (0, import_react35.useState)(id);
     const [search, setSearch] = (0, import_react35.useState)(location2.search);
     (0, import_react35.useEffect)(() => {
       const currentSearch = location2.search;
-      if (!hasFetched || search !== currentSearch) {
-        setHasFetched(true);
+      if (id !== lastId || search !== currentSearch) {
+        setHasFetched(false);
+        setLastId(id);
         setSearch(currentSearch);
+      }
+      if (!hasFetched) {
+        setHasFetched(true);
         trigger({ id, search: currentSearch });
       }
     }, [
       hasFetched,
       id,
+      lastId,
       location2,
       search,
       setHasFetched,
+      setLastId,
       setSearch,
       trigger
     ]);

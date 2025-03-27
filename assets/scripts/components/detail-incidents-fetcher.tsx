@@ -13,22 +13,30 @@ interface Props {
 const IncidentsFetcher = ({ children, id, trigger }: Props) => {
   const location = useLocation();
   const [hasFetched, setHasFetched] = useState(false);
+  const [lastId, setLastId] = useState(id);
   const [search, setSearch] = useState(location.search);
 
   useEffect(() => {
     const currentSearch = location.search;
 
-    if (!hasFetched || search !== currentSearch) {
-      setHasFetched(true);
+    if (id !== lastId || search !== currentSearch) {
+      setHasFetched(false);
+      setLastId(id);
       setSearch(currentSearch);
+    }
+
+    if (!hasFetched) {
+      setHasFetched(true);
       trigger({ id, search: currentSearch });
     }
   }, [
     hasFetched,
     id,
+    lastId,
     location,
     search,
     setHasFetched,
+    setLastId,
     setSearch,
     trigger,
   ]);
