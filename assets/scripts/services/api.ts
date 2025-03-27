@@ -5,25 +5,25 @@ import type { Result } from '../lib/fetch-from-path';
 
 import type { Id } from '../types';
 
-type LocationType = {
+interface LocationOptions {
   pathname: string;
   search: string;
-};
+}
 
-type QueryFnObject = {
+interface QueryFnOptions {
   id: Id;
   search?: string;
-};
+}
 
-type QueryFn = (obj?: QueryFnObject) => string;
+type QueryFn = (options?: QueryFnOptions) => string;
 
-export type TriggerFn = (obj?: QueryFnObject) => void;
+export type TriggerFn = (options?: QueryFnOptions) => void;
 
 const getUrl = (url: string) => new URL(url, window.location.toString());
 
 const baseUrl = getUrl('/').origin;
 
-const getQueryPath = (location: LocationType) => {
+const getQueryPath = (location: LocationOptions) => {
   const newUrl = new URL(location.pathname, baseUrl);
   const currentUrl = new URL(window.location.toString());
 

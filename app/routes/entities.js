@@ -132,7 +132,6 @@ router.get('/:id', async (req, res, next) => {
   const perPage = Incident.perPage;
 
   let entity;
-  let record;
   let description;
   let incidentsStats;
   let entityLocations;
@@ -175,11 +174,9 @@ router.get('/:id', async (req, res, next) => {
         }
       }
 
-      record = entity.adapted;
-
       data = {
         entity: {
-          record,
+          record: entity.adapted,
         },
       };
       meta = {

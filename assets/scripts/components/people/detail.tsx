@@ -8,8 +8,10 @@ import { selectors } from '../../reducers/people';
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
-import DetailIncidents from '../detail-incidents';
 import Entities from './entities';
+import Incidents from '../detail-incidents';
+import IncidentsFetcher from '../detail-incidents-fetcher';
+import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
@@ -20,7 +22,6 @@ const Detail = () => {
 
   const person = useSelector((state: RootState) => selectors.selectById(state, numericId));
   const hasPerson = Boolean(person);
-  const hasIncidents = Boolean(person?.incidents?.ids?.length);
 
   if (!hasPerson) return null;
 
@@ -33,28 +34,33 @@ const Detail = () => {
         <Chart label={person.name} />
       </ActivityOverview>
 
-      {hasIncidents && (
-        <>
-          <Entities
-            entities={person.entities}
-            person={person}
-          />
+      <Entities
+        entities={person.entities}
+        person={person}
+      />
 
-          <Attendees
-            attendees={person.attendees}
-            person={person}
-          />
+      <Attendees
+        attendees={person.attendees}
+        person={person}
+      />
 
-          <DetailIncidents
-            ids={person.incidents?.ids}
-            filters={person.incidents?.filters}
-            hasSort
-            label={person.name}
-            pagination={person.incidents?.pagination}
-            ref={ref}
-          />
-        </>
-      )}
+      <IncidentsTrigger>
+        {trigger => (
+          <IncidentsFetcher
+            id={person.id}
+            trigger={trigger}
+          >
+            <Incidents
+              ids={person.incidents?.ids}
+              filters={person.incidents?.filters}
+              hasSort
+              label={person.name}
+              pagination={person.incidents?.pagination}
+              ref={ref}
+            />
+          </IncidentsFetcher>
+        )}
+      </IncidentsTrigger>
     </ItemDetail>
   );
 };

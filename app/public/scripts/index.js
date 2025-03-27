@@ -19594,7 +19594,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment25 = REACT_FRAGMENT_TYPE;
+          var Fragment24 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19653,7 +19653,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment25;
+          exports.Fragment = Fragment24;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -55640,6 +55640,13 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var entities_default3 = Entities;
 
+  // assets/scripts/components/people/detail-incidents-trigger.tsx
+  var IncidentsTrigger2 = ({ children }) => {
+    const [trigger] = api_default.useLazyGetPersonIncidentsByIdQuery();
+    return children(trigger);
+  };
+  var detail_incidents_trigger_default2 = IncidentsTrigger2;
+
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
@@ -55648,7 +55655,6 @@ Hook ${hookName} was either not provided or not a function.`);
     const numericId = Number(id);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
     const hasPerson = Boolean(person);
-    const hasIncidents = Boolean(person?.incidents?.ids?.length);
     if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
@@ -55659,33 +55665,38 @@ Hook ${hookName} was either not provided or not a function.`);
           children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default3, { label: person.name })
         }
       ),
-      hasIncidents && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(import_jsx_runtime74.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-          entities_default3,
-          {
-            entities: person.entities,
-            person
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-          attendees_default2,
-          {
-            attendees: person.attendees,
-            person
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
-          detail_incidents_default,
-          {
-            ids: person.incidents?.ids,
-            filters: person.incidents?.filters,
-            hasSort: true,
-            label: person.name,
-            pagination: person.incidents?.pagination,
-            ref
-          }
-        )
-      ] })
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        entities_default3,
+        {
+          entities: person.entities,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        attendees_default2,
+        {
+          attendees: person.attendees,
+          person
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(detail_incidents_trigger_default2, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        detail_incidents_fetcher_default,
+        {
+          id: person.id,
+          trigger,
+          children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+            detail_incidents_default,
+            {
+              ids: person.incidents?.ids,
+              filters: person.incidents?.filters,
+              hasSort: true,
+              label: person.name,
+              pagination: person.incidents?.pagination,
+              ref
+            }
+          )
+        }
+      ) })
     ] });
   };
   var detail_default3 = Detail3;
