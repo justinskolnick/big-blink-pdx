@@ -12,32 +12,29 @@ interface Props {
 
 const IncidentsFetcher = ({ children, id, trigger }: Props) => {
   const location = useLocation();
+  const route = location.pathname + location.search;
+  const [lastRoute, setLastRoute] = useState(route);
   const [hasFetched, setHasFetched] = useState(false);
-  const [lastId, setLastId] = useState(id);
-  const [search, setSearch] = useState(location.search);
 
   useEffect(() => {
-    const currentSearch = location.search;
+    const currentRoute = location.pathname + location.search;
 
-    if (id !== lastId || search !== currentSearch) {
+    if (lastRoute !== currentRoute) {
       setHasFetched(false);
-      setLastId(id);
-      setSearch(currentSearch);
+      setLastRoute(currentRoute);
     }
 
     if (!hasFetched) {
       setHasFetched(true);
-      trigger({ id, search: currentSearch });
+      trigger({ id, search: location.search });
     }
   }, [
     hasFetched,
     id,
-    lastId,
+    lastRoute,
     location,
-    search,
     setHasFetched,
-    setLastId,
-    setSearch,
+    setLastRoute,
     trigger,
   ]);
 

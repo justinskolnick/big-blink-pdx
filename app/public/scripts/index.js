@@ -55035,29 +55035,26 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react35 = __toESM(require_react());
   var IncidentsFetcher = ({ children, id, trigger }) => {
     const location2 = useLocation();
+    const route = location2.pathname + location2.search;
+    const [lastRoute, setLastRoute] = (0, import_react35.useState)(route);
     const [hasFetched, setHasFetched] = (0, import_react35.useState)(false);
-    const [lastId, setLastId] = (0, import_react35.useState)(id);
-    const [search, setSearch] = (0, import_react35.useState)(location2.search);
     (0, import_react35.useEffect)(() => {
-      const currentSearch = location2.search;
-      if (id !== lastId || search !== currentSearch) {
+      const currentRoute = location2.pathname + location2.search;
+      if (lastRoute !== currentRoute) {
         setHasFetched(false);
-        setLastId(id);
-        setSearch(currentSearch);
+        setLastRoute(currentRoute);
       }
       if (!hasFetched) {
         setHasFetched(true);
-        trigger({ id, search: currentSearch });
+        trigger({ id, search: location2.search });
       }
     }, [
       hasFetched,
       id,
-      lastId,
+      lastRoute,
       location2,
-      search,
       setHasFetched,
-      setLastId,
-      setSearch,
+      setLastRoute,
       trigger
     ]);
     return children;
