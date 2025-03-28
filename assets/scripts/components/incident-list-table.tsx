@@ -7,7 +7,6 @@ import { RootState } from '../lib/store';
 import Icon from './icon';
 import IncidentModal from './incident-modal';
 import {
-  getSortByParam,
   LinkToIncident,
   SortLink,
 } from './links';
@@ -91,8 +90,9 @@ const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
               <th className='cell-date'>
                 {hasSort ? (
                   <SortLink
-                    newParams={getSortByParam(SortByValues.Date, true)}
                     defaultSort={SortValues.ASC}
+                    isDefault
+                    name={SortByValues.Date}
                     title='Sort this list by date'
                   >
                     Date

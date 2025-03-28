@@ -5,7 +5,6 @@ import { RootState } from '../../lib/store';
 
 import EntityIcon from './icon';
 import {
-  getSortByParam,
   LinkToEntity,
   SortLink,
 } from '../links';
@@ -73,8 +72,9 @@ const Index = () => {
           <tr>
             <th className='cell-name' colSpan={2}>
               <SortLink
-                newParams={getSortByParam(SortByValues.Name, true)}
                 defaultSort={SortValues.ASC}
+                isDefault
+                name={SortByValues.Name}
                 title='Sort this list by name'
               >
                 Name
@@ -82,8 +82,8 @@ const Index = () => {
             </th>
             <th className='cell-total'>
               <SortLink
-                newParams={getSortByParam(SortByValues.Total)}
                 defaultSort={SortValues.DESC}
+                name={SortByValues.Total}
                 title='Sort this list by total'
               >
                 Total

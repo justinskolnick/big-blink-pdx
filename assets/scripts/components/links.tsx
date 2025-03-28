@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
+import React, { useRef, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
 import { useLocation, useSearchParams, Link, NavLink } from 'react-router';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';
@@ -11,10 +12,9 @@ import type {
   Id,
   LocationState,
   NewParams,
-  SortByValue,
   SortValue,
 } from '../types';
-import { SortValues } from '../types';
+import { SortByValues, SortValues } from '../types';
 
 interface LinkProps {
   children: ReactNode;
@@ -47,7 +47,8 @@ interface FilterLinkProps extends LinkProps {
 
 interface SortLinkProps extends LinkProps {
   defaultSort?: SortValue;
-  newParams?: NewParams;
+  isDefault?: boolean;
+  name?: SortByValues;
 }
 
 interface LinkIdProps extends LinkProps {
@@ -63,9 +64,6 @@ export const sortByParam = 'sort_by';
 export const withEntityIdParam = 'with_entity_id';
 export const withPersonIdParam = 'with_person_id';
 
-export const getSortByParam = (value: SortByValue, isDefault?: boolean) => ({
-  [sortByParam]: isDefault ? null : value,
-});
 export const getWithEntityParams = (item: AffiliatedItem) => ({
   [withEntityIdParam]: item.entity.id,
 });
@@ -149,7 +147,7 @@ const toggleSort = (sort: string) =>
   sort === SortValues.ASC
     ? SortValues.DESC
     : SortValues.ASC;
-const getIconNameForSort = (sort: string) =>
+const getIconNameForSort = (sort: string): IconName =>
   sort === SortValues.ASC
     ? 'arrow-up'
     : 'arrow-down';
@@ -157,48 +155,41 @@ const getIconNameForSort = (sort: string) =>
 export const SortLink = ({
   children,
   className,
-  title,
-  newParams,
   defaultSort,
+  isDefault,
+  name,
+  title,
   ...rest
 }: SortLinkProps) => {
-  const [nextSort, setNextSort] = useState(defaultSort);
   const [searchParams] = useSearchParams();
-  const params = new Map(Object.entries(newParams));
+  const currentSortBy = searchParams.get(sortByParam);
+  const currentSort = searchParams.get(sortParam);
+  const isCurrentSortBy = name === currentSortBy || (currentSortBy === null && isDefault);
+  const newParamMap = new Map();
+  let icon;
 
-  for (const [key, value] of searchParams.entries()) {
-    params.set(key, value);
-  }
+  if (isCurrentSortBy) {
+    newParamMap.set(sortByParam, isDefault ? null : name);
 
-  const queryParams = useQueryParams(Object.fromEntries(params));
-  const hasSortBy = searchParams.has('sort_by');
-  const isDefault = params.get('sort_by') === null && !hasSortBy;
-  const isSorted = params.get('sort_by') !== null && hasSortBy;
-  const hasIcon = isDefault || isSorted;
-  const icon = getIconNameForSort(toggleSort(nextSort));
-
-  useEffect(() => {
-    const sortValue = searchParams.get('sort') || defaultSort;
-
-    if (queryParams.isCurrent) {
-      setNextSort(toggleSort(sortValue));
+    if (currentSort === null) {
+      newParamMap.set(sortParam, toggleSort(defaultSort));
+      icon = getIconNameForSort(defaultSort);
+    } else {
+      newParamMap.set(sortParam, null);
+      icon = getIconNameForSort(toggleSort(defaultSort));
     }
-  }, [
-    queryParams,
-    searchParams,
-    defaultSort,
-    setNextSort,
-  ]);
-
-  if (queryParams.isCurrent) {
-    params.set('sort', nextSort === defaultSort ? null : nextSort);
+  } else {
+    newParamMap.set(sortByParam, isDefault ? null : name);
+    newParamMap.set(sortParam, null);
   }
+
+  const hasIcon = Boolean(icon);
 
   return (
     <LinkToQueryParams
       className={cx('link-sort', className)}
       title={title || 'Sort this list'}
-      newParams={Object.fromEntries(params)}
+      newParams={Object.fromEntries(newParamMap.entries())}
       {...rest}
     >
       {hasIcon ? (
@@ -208,7 +199,7 @@ export const SortLink = ({
         >
           {children}
         </ItemTextWithIcon>
-      ) : (children)}
+      ) : children}
     </LinkToQueryParams>
   );
 };

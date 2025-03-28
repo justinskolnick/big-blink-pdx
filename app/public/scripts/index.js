@@ -19296,7 +19296,7 @@
           return x2 === y && (0 !== x2 || 1 / x2 === 1 / y) || x2 !== x2 && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef20 = React53.useRef, useEffect35 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
+        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef20 = React53.useRef, useEffect34 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef20(null);
           if (null === instRef.current) {
@@ -19339,7 +19339,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect35(
+          useEffect34(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -40937,12 +40937,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var dateRangeFromParam = "date_range_from";
   var dateRangeToParam = "date_range_to";
   var quarterParam = "quarter";
+  var sortParam = "sort";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
   var withPersonIdParam = "with_person_id";
-  var getSortByParam = (value, isDefault) => ({
-    [sortByParam]: isDefault ? null : value
-  });
   var getWithEntityParams = (item) => ({
     [withEntityIdParam]: item.entity.id
   });
@@ -41013,43 +41011,38 @@ Hook ${hookName} was either not provided or not a function.`);
   var SortLink = ({
     children,
     className,
-    title,
-    newParams,
     defaultSort,
+    isDefault,
+    name,
+    title,
     ...rest
   }) => {
-    const [nextSort, setNextSort] = (0, import_react19.useState)(defaultSort);
     const [searchParams] = useSearchParams();
-    const params = new Map(Object.entries(newParams));
-    for (const [key, value] of searchParams.entries()) {
-      params.set(key, value);
-    }
-    const queryParams = useQueryParams(Object.fromEntries(params));
-    const hasSortBy = searchParams.has("sort_by");
-    const isDefault = params.get("sort_by") === null && !hasSortBy;
-    const isSorted = params.get("sort_by") !== null && hasSortBy;
-    const hasIcon = isDefault || isSorted;
-    const icon2 = getIconNameForSort(toggleSort(nextSort));
-    (0, import_react19.useEffect)(() => {
-      const sortValue = searchParams.get("sort") || defaultSort;
-      if (queryParams.isCurrent) {
-        setNextSort(toggleSort(sortValue));
+    const currentSortBy = searchParams.get(sortByParam);
+    const currentSort = searchParams.get(sortParam);
+    const isCurrentSortBy = name === currentSortBy || currentSortBy === null && isDefault;
+    const newParamMap = /* @__PURE__ */ new Map();
+    let icon2;
+    if (isCurrentSortBy) {
+      newParamMap.set(sortByParam, isDefault ? null : name);
+      if (currentSort === null) {
+        newParamMap.set(sortParam, toggleSort(defaultSort));
+        icon2 = getIconNameForSort(defaultSort);
+      } else {
+        newParamMap.set(sortParam, null);
+        icon2 = getIconNameForSort(toggleSort(defaultSort));
       }
-    }, [
-      queryParams,
-      searchParams,
-      defaultSort,
-      setNextSort
-    ]);
-    if (queryParams.isCurrent) {
-      params.set("sort", nextSort === defaultSort ? null : nextSort);
+    } else {
+      newParamMap.set(sortByParam, isDefault ? null : name);
+      newParamMap.set(sortParam, null);
     }
+    const hasIcon = Boolean(icon2);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       LinkToQueryParams,
       {
         className: cx("link-sort", className),
         title: title || "Sort this list",
-        newParams: Object.fromEntries(params),
+        newParams: Object.fromEntries(newParamMap.entries()),
         ...rest,
         children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
           item_text_with_icon_default,
@@ -41759,8 +41752,9 @@ Hook ${hookName} was either not provided or not a function.`);
             /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
               SortLink,
               {
-                newParams: getSortByParam("name" /* Name */, true),
                 defaultSort: "ASC" /* ASC */,
+                isDefault: true,
+                name: "name" /* Name */,
                 title: "Sort this list by name",
                 children: "Name"
               }
@@ -41768,8 +41762,8 @@ Hook ${hookName} was either not provided or not a function.`);
             /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
               SortLink,
               {
-                newParams: getSortByParam("total" /* Total */),
                 defaultSort: "DESC" /* DESC */,
+                name: "total" /* Total */,
                 title: "Sort this list by total",
                 children: "Total"
               }
@@ -54883,8 +54877,9 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { className: "cell-date", children: hasSort ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(
           SortLink,
           {
-            newParams: getSortByParam("date" /* Date */, true),
             defaultSort: "ASC" /* ASC */,
+            isDefault: true,
+            name: "date" /* Date */,
             title: "Sort this list by date",
             children: "Date"
           }
@@ -55202,8 +55197,9 @@ Hook ${hookName} was either not provided or not a function.`);
             /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
               SortLink,
               {
-                newParams: getSortByParam("name" /* Name */, true),
                 defaultSort: "ASC" /* ASC */,
+                isDefault: true,
+                name: "name" /* Name */,
                 title: "Sort this list by name",
                 children: "Name"
               }
@@ -55211,8 +55207,8 @@ Hook ${hookName} was either not provided or not a function.`);
             /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
               SortLink,
               {
-                newParams: getSortByParam("total" /* Total */),
                 defaultSort: "DESC" /* DESC */,
+                name: "total" /* Total */,
                 title: "Sort this list by total",
                 children: "Total"
               }

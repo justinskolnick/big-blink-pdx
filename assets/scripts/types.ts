@@ -66,7 +66,7 @@ export enum SortByValues {
   Total = 'total',
 }
 
-export type SortByValue = Extract<SortByValues, string>;
+type SortByValue = Extract<SortByValues, string>;
 
 export type Attendee = {
   as?: string;
