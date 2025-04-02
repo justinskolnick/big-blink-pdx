@@ -1,4 +1,4 @@
-FROM node:20-bullseye AS build
+FROM node:20.19-bullseye AS build
 RUN apt-get -y update \
   && apt-get install -y vim
 
@@ -14,8 +14,8 @@ COPY package.json .
 COPY yarn.lock .
 
 RUN corepack enable
-RUN corepack install --global yarn@4.5.0
-RUN yarn set version 4.5.0
+RUN corepack install --global yarn@4.8.1
+RUN yarn set version 4.8.1
 RUN yarn install
 
 RUN chown -R node:node $BUILD_DIR/*
