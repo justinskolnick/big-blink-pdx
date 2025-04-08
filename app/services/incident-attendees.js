@@ -4,49 +4,15 @@ const {
   getRangesByYearSet,
   getRangeStatement,
 } = require('../helpers/quarters');
-const queryHelper = require('../helpers/query');
 const { sortTotalDescending } = require('../lib/sorting');
-const Entity = require('../models/entity');
-const Incident = require('../models/incident');
 const IncidentAttendee = require('../models/incident-attendee');
-const Person = require('../models/person');
 const db = require('./db');
 const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
-
-const getAllQuery = (options = {}) => {
-  const { page, perPage, incidentId } = options;
-
-  const clauses = [];
-  const params = [];
-
-  clauses.push('SELECT');
-  clauses.push(
-    [
-      ...IncidentAttendee.fields(),
-      `${Person.field('id')} AS person_id`,
-      Person.field('name'),
-      Person.field('type'),
-    ].join(', ')
-  );
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
-
-  if (incidentId) {
-    clauses.push('WHERE incident_id = ?');
-    params.push(incidentId);
-  }
-
-  clauses.push(`ORDER BY ${IncidentAttendee.field('role')} ASC, ${Person.field('family')} ASC`);
-
-  if (page && perPage) {
-    const offset = queryHelper.getOffset(page, perPage);
-
-    clauses.push('LIMIT ?,?');
-    params.push(offset, perPage);
-  }
-
-  return { clauses, params };
-};
+const {
+  getAllQuery,
+  getEntitiesQuery,
+  getPeopleQuery,
+} = require('./queries/incident-attendees');
 
 const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
@@ -109,39 +75,6 @@ const collectEntities = entities => {
   return Object.values(unsorted).sort(sortTotalDescending);
 };
 
-const getEntitiesQuery = (options = {}) => {
-  const { personId, personRole } = options;
-
-  const clauses = [];
-  const params = [];
-
-  clauses.push('SELECT');
-  clauses.push(`${Entity.field('id')}, ${Entity.field('name')}`);
-  clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(`LEFT JOIN ${Entity.tableName}`);
-  clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field('entity_id')}`);
-
-  if (personId) {
-    const segments = [];
-    segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
-    segments.push('WHERE person_id = ?');
-    params.push(personId);
-
-    if (personRole) {
-      segments.push('AND role = ?');
-      params.push(personRole);
-    }
-
-    clauses.push(`WHERE ${Incident.primaryKey()} IN`);
-    clauses.push('(' + segments.join(' ') + ')');
-  }
-
-  clauses.push(`ORDER BY ${Entity.field('name')} ASC`);
-
-  return { clauses, params };
-};
-
 const getEntities = async (options = {}) => {
   const { personId, personRole } = options;
   const { clauses, params } = getEntitiesQuery(options);
@@ -201,61 +134,6 @@ const collectPeople = people => {
   };
 };
 
-const getPeopleQuery = (options = {}) => {
-  const { entityId, personId, personRole, role, sourceId } = options;
-
-  const clauses = [];
-  const params = [];
-
-  clauses.push('SELECT');
-  clauses.push(`${Person.field('name')}, ${IncidentAttendee.field('person_id')} AS id, ${Person.field('type')}`);
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
-
-  if (entityId || personId || sourceId) {
-    clauses.push(`WHERE ${IncidentAttendee.field('incident_id')} IN`);
-  }
-
-  if (entityId) {
-    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE entity_id = ?)`);
-    params.push(entityId);
-  }
-
-  if (personId) {
-    const segments = [];
-    segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
-    segments.push('WHERE person_id = ?');
-    params.push(personId);
-
-    if (personRole) {
-      segments.push('AND role = ?');
-      params.push(personRole);
-    }
-
-    clauses.push('(' + segments.join(' ') + ')');
-  }
-
-  if (personId) {
-    clauses.push(`AND ${IncidentAttendee.field('person_id')} != ?`);
-    params.push(personId);
-  }
-
-  if (sourceId) {
-    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE data_source_id = ?)`);
-    params.push(sourceId);
-  }
-
-  if (role) {
-    clauses.push(`AND ${IncidentAttendee.field('role')} = ?`);
-    params.push(role);
-  }
-
-  clauses.push(`ORDER BY ${IncidentAttendee.field('person_id')} ASC`);
-
-  return { clauses, params };
-};
-
 const getPeople = async (options = {}) => {
   const { clauses, params } = getPeopleQuery(options);
   const results = await db.getAll(clauses, params);
@@ -291,10 +169,7 @@ const getAttendees = async (options = {}) => {
 
 module.exports = {
   getAll,
-  getAllQuery,
   getAllForIncidents,
   getAttendees,
   getEntities,
-  getEntitiesQuery,
-  getPeopleQuery,
 };

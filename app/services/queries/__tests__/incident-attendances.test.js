@@ -1,4 +1,4 @@
-const { SORT_ASC, SORT_DESC } = require('../../config/constants');
+const { SORT_ASC, SORT_DESC } = require('../../../config/constants');
 
 const {
   getAllQuery,
