@@ -54758,16 +54758,29 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/incidents-header.tsx
   var import_jsx_runtime51 = __toESM(require_jsx_runtime());
   var PAGE_PARAM_KEY = "page";
+  var AssociationLabelSet = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label-set", children });
+  var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children: label });
+  var AssociationSingle = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }) });
+  var AssociationMultiple = ({ labels }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: l }, i)).reduce((prev2, curr) => [prev2, " and ", curr]) });
+  var AssociationRemove = ({ newParams }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+    LinkToQueryParams,
+    {
+      className: "incidents-association-remove",
+      newParams,
+      replace: false,
+      title: "Remove this association",
+      children: "\xD7"
+    }
+  );
   var PrimaryAssociation = ({ label }) => {
     if (!label) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
       "associatied with",
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label })
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label })
     ] });
   };
-  var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association", children: label });
-  var AssociationLabels = ({ labels }) => labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: l }, i)).reduce((prev2, curr) => [prev2, " and ", curr]);
+  var Associations = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "incidents-associations", children });
   var Association = ({
     filterKey,
     filterKeys,
@@ -54791,22 +54804,13 @@ Hook ${hookName} was either not provided or not a function.`);
       all[key] = null;
       return all;
     }, {});
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("h5", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "incidents-association", children: [
       intro,
       " ",
-      hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabels, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }),
+      hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationMultiple, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label }),
       (hasFilterKeys || hasFilterKey) && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
-          LinkToQueryParams,
-          {
-            className: "incidents-association-remove",
-            newParams,
-            replace: false,
-            title: "Remove this association",
-            children: "\xD7"
-          }
-        )
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationRemove, { newParams })
       ] })
     ] });
   };
@@ -55011,13 +55015,13 @@ Hook ${hookName} was either not provided or not a function.`);
       scrollToRef
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "activity-stat-section incident-list-section", ref, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(incidents_header_default, { label, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(incidents_header_default, { label, children: /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(Associations, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] })
-      ] }),
+      ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         incident_list_default,
         {

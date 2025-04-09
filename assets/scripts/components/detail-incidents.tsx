@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../lib/store';
 
-import IncidentsHeader, { Association } from './incidents-header';
+import IncidentsHeader, { Association, Associations } from './incidents-header';
 import IncidentList from './incident-list';
 import {
   dateOnParam,
@@ -175,11 +175,13 @@ const DetailIncidents = (({
   return (
     <section className='activity-stat-section incident-list-section' ref={ref}>
       <IncidentsHeader label={label}>
-        <WithEntityId filters={filters} filterKey={withEntityIdParam} />
-        <WithPersonId filters={filters} filterKey={withPersonIdParam} />
-        <DuringQuarter filters={filters} filterKey={quarterParam} />
-        <OnDate filters={filters} filterKey={dateOnParam} />
-        <BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />
+        <Associations>
+          <WithEntityId filters={filters} filterKey={withEntityIdParam} />
+          <WithPersonId filters={filters} filterKey={withPersonIdParam} />
+          <DuringQuarter filters={filters} filterKey={quarterParam} />
+          <OnDate filters={filters} filterKey={dateOnParam} />
+          <BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />
+        </Associations>
       </IncidentsHeader>
 
       <IncidentList

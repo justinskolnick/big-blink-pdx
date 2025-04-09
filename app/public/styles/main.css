@@ -1498,6 +1498,9 @@ body.has-alert .alert-root {
   display: inline;
 }
 .incident-header .incidents-association {
+  min-height: 27px;
+}
+.incident-header .incidents-association-label {
   font-weight: 600;
 }
 .incident-header .incidents-association-remove {

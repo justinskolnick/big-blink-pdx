@@ -7,12 +7,20 @@ import type { IncidentFilterLabel, NewParams } from '../types';
 
 type NewParamsKey = keyof NewParams;
 
-interface AssociationLabelProps {
+interface AssociationSingleProps {
   label: IncidentFilterLabel;
 }
 
-interface AssociationLabelsProps {
+interface AssociationMultipleProps {
   labels: IncidentFilterLabel[];
+}
+
+interface AssociationLabelSetProps {
+  children: ReactNode;
+}
+
+interface AssociationLabelProps {
+  label: IncidentFilterLabel;
 }
 
 interface AssociationProps {
@@ -23,6 +31,14 @@ interface AssociationProps {
   labels?: IncidentFilterLabel[];
 }
 
+interface AssociationsProps {
+  children: ReactNode;
+}
+
+interface AssociationRemoveProps {
+  newParams: NewParams;
+}
+
 interface IncidentsHeaderProps {
   children?: ReactNode;
   label?: string;
@@ -30,27 +46,59 @@ interface IncidentsHeaderProps {
 
 const PAGE_PARAM_KEY = 'page';
 
+const AssociationLabelSet = ({ children }: AssociationLabelSetProps) => (
+  <span className='incidents-association-label-set'>
+    {children}
+  </span>
+);
+
+const AssociationLabel = ({ label }: AssociationLabelProps) => (
+  <span className='incidents-association-label'>
+    {label}
+  </span>
+);
+
+const AssociationSingle = ({ label }: AssociationSingleProps) => (
+  <AssociationLabelSet>
+    <AssociationLabel label={label} />
+  </AssociationLabelSet>
+);
+
+const AssociationMultiple = ({ labels }: AssociationMultipleProps) => (
+  <AssociationLabelSet>
+    {labels.map<ReactNode>((l, i) => (
+      <AssociationLabel key={i} label={l} />
+    )).reduce((prev, curr) => [prev, ' and ', curr])}
+  </AssociationLabelSet>
+);
+
+const AssociationRemove = ({ newParams }: AssociationRemoveProps) => (
+  <LinkToQueryParams
+    className='incidents-association-remove'
+    newParams={newParams}
+    replace={false}
+    title='Remove this association'
+  >
+    &times;
+  </LinkToQueryParams>
+);
+
 const PrimaryAssociation = ({ label }: AssociationProps) => {
   if (!label) return null;
 
   return (
     <>
       associatied with{' '}
-      <span className='incidents-association'>{label}</span>
+      <AssociationSingle label={label} />
     </>
   );
 };
 
-const AssociationLabel = ({ label }: AssociationLabelProps) => (
-  <span className='incidents-association'>
-    {label}
-  </span>
+export const Associations = ({ children }: AssociationsProps) => (
+  <div className='incidents-associations'>
+    {children}
+  </div>
 );
-
-const AssociationLabels = ({ labels }: AssociationLabelsProps) =>
-  labels.map<ReactNode>((l, i) => (
-    <AssociationLabel key={i} label={l} />
-  )).reduce((prev, curr) => [prev, ' and ', curr]);
 
 export const Association = ({
   filterKey,
@@ -81,28 +129,21 @@ export const Association = ({
   }, {} as Record<NewParamsKey, null>);
 
   return (
-    <h5>
+    <div className='incidents-association'>
       {intro}
       {' '}
       {hasLabels ? (
-        <AssociationLabels labels={labels} />
+        <AssociationMultiple labels={labels} />
       ) : (
-        <AssociationLabel label={label} />
+        <AssociationSingle label={label} />
       )}
       {(hasFilterKeys || hasFilterKey) && (
         <>
           {' '}
-          <LinkToQueryParams
-            className='incidents-association-remove'
-            newParams={newParams}
-            replace={false}
-            title='Remove this association'
-          >
-            &times;
-          </LinkToQueryParams>
+          <AssociationRemove newParams={newParams} />
         </>
       )}
-    </h5>
+    </div>
   );
 };
 
