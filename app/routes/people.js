@@ -154,6 +154,10 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (person.exists) {
+    if (person.hasMoved) {
+      return res.redirect(`/people/${person.identicalId}`);
+    }
+
     adapted = person.adapted;
 
     description = metaHelper.getDetailDescription(adapted.name);

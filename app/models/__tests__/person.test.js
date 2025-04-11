@@ -18,6 +18,7 @@ describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(Person.fields()).toEqual([
       'people.id',
+      'people.identical_id',
       'people.type',
       'people.name',
     ]);
@@ -27,6 +28,7 @@ describe('fields()', () => {
 describe('adapt()', () => {
   const result = {
     id: 1,
+    identical_id: null, // eslint-disable-line camelcase
     type: 'person',
     name: 'John Doe',
   };
@@ -44,6 +46,7 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
+      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -55,6 +58,7 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
+      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [
@@ -71,6 +75,7 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
+      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -101,6 +106,7 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
+      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -108,6 +114,7 @@ describe('adapt()', () => {
 
     expect(personWithTotal.adapted).toEqual({
       id: 1,
+      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -134,18 +141,25 @@ describe('adapt()', () => {
 });
 
 describe('setData()', () => {
+  const result = {
+    id: 1,
+    identical_id: null, // eslint-disable-line camelcase
+    type: 'person',
+    name: 'John Doe',
+  };
+  const resultWithJunk = {
+    ...result,
+    x: 'y',
+  };
+
   test('sets data', () => {
-    const person = new Person({
-      id: 1,
-      type: 'person',
-      name: 'John Doe',
-      x: 'y',
-    });
+    const person = new Person(resultWithJunk);
 
     person.setData('z', 'abc');
 
     expect(person.data).toEqual({
       id: 1,
+      identical_id: null, // eslint-disable-line camelcase
       name: 'John Doe',
       type: 'person',
       x: 'y',
@@ -154,9 +168,34 @@ describe('setData()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
+      identicalId: null,
       name: 'John Doe',
       roles: [],
       type: 'person',
     });
+  });
+});
+
+describe('hasMoved() and identicalId()', () => {
+  const result = {
+    id: 3,
+    identical_id: null, // eslint-disable-line camelcase
+    type: 'person',
+    name: 'John Doe',
+  };
+  const resultWithIdenticalId = {
+    ...result,
+    identical_id: 1, // eslint-disable-line camelcase
+  };
+
+  test('sets data', () => {
+    const person1 = new Person(result);
+    const person2 = new Person(resultWithIdenticalId);
+
+    expect(person1.hasMoved).toBe(false);
+    expect(person2.hasMoved).toBe(true);
+
+    expect(person1.identicalId).toBe(null);
+    expect(person2.identicalId).toBe(1);
   });
 });

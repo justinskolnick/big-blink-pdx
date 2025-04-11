@@ -32,9 +32,15 @@ const getAllQuery = (options = {}) => {
   if (includeCount || role) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
     clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
+  }
 
+  clauses.push('WHERE');
+  clauses.push(`${Person.field('identical_id')} IS NULL`);
+
+  if (includeCount || role) {
     if (role) {
-      clauses.push(`WHERE ${IncidentAttendee.field('role')} = ?`);
+      clauses.push('AND');
+      clauses.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
     }
 

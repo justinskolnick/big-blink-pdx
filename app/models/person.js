@@ -6,9 +6,10 @@ class Person extends IncidentedObject {
   static perPage = 40;
 
   static fieldNames = {
-    id:   { select: true, },
-    type: { select: true, },
-    name: { select: true, },
+    id:           { select: true, },
+    identical_id: { select: true, adapt: { as: 'identicalId' } }, // eslint-disable-line camelcase
+    type:         { select: true, },
+    name:         { select: true, },
   };
 
   adaptRoles(value) {
@@ -19,6 +20,14 @@ class Person extends IncidentedObject {
     return this.adaptResult(result, {
       roles: this.adaptRoles(result.roles),
     });
+  }
+
+  get hasMoved() {
+    return Boolean(this.data.identical_id);
+  }
+
+  get identicalId() {
+    return this.data.identical_id;
   }
 }
 
