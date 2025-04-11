@@ -132,6 +132,7 @@ router.get('/:id', async (req, res, next) => {
   const perPage = Incident.perPage;
 
   let entity;
+  let adapted;
   let description;
   let incidentsStats;
   let entityLocations;
@@ -140,14 +141,19 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     entity = await entities.getAtId(id);
+  } catch (err) {
+    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
+    return next(createError(err));
+  }
+
+  if (entity.exists) {
     adapted = entity.adapted;
 
     description = metaHelper.getDetailDescription(adapted.name);
     section.id = adapted.id;
     section.subtitle = adapted.name;
-  } catch (err) {
-    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
-    next(createError(err));
+  } else {
+    return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
   if (req.get('Content-Type') === headers.json) {
@@ -194,7 +200,7 @@ router.get('/:id', async (req, res, next) => {
       res.json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
-      next(createError(err));
+      return next(createError(err));
     }
   } else {
     meta = {

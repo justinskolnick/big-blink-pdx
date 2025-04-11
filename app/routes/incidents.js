@@ -95,33 +95,42 @@ router.get('/:id', async (req, res, next) => {
   const description = metaHelper.getDetailDescription();
 
   let incidentResult;
+  let adapted;
   let attendeesResult;
   let data;
   let meta;
 
+  try {
+    incidentResult = await incidents.getAtId(id);
+  } catch (err) {
+    console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
+    return next(createError(err));
+  }
+
+  if (incidentResult.exists) {
+    adapted = incidentResult.adapted;
+
+    section.id = adapted.id;
+    section.subtitle = 'Incident';
+  } else {
+    return next(createError(404, `No record was found with an ID of ${id}`));
+  }
+
   if (req.get('Content-Type') === headers.json) {
     try {
-      incidentResult = await incidents.getAtId(id);
-      incidentResult = incidentResult.adapted;
-
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
-
-      section.id = incidentResult.id;
-      section.subtitle = 'Incident';
+      adapted.attendees = {
+        lobbyists: {
+          records: attendeesResult.lobbyists,
+        },
+        officials: {
+          records: attendeesResult.officials,
+        },
+      };
 
       data = {
         incident: {
-          record: {
-            ...incidentResult,
-            attendees: {
-              lobbyists: {
-                records: attendeesResult.lobbyists,
-              },
-              officials: {
-                records: attendeesResult.officials,
-              },
-            },
-          },
+          record: adapted,
         },
       };
       meta = {
@@ -135,7 +144,7 @@ router.get('/:id', async (req, res, next) => {
       res.json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
-      next(createError(err));
+      return next(createError(err));
     }
   } else {
     meta = { description };

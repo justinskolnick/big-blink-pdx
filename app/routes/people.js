@@ -148,14 +148,19 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     person = await people.getAtId(id);
+  } catch (err) {
+    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
+    return next(createError(err));
+  }
+
+  if (person.exists) {
     adapted = person.adapted;
 
     description = metaHelper.getDetailDescription(adapted.name);
     section.id = adapted.id;
     section.subtitle = adapted.name;
-  } catch (err) {
-    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
-    next(createError(err));
+  } else {
+    return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
   if (req.get('Content-Type') === headers.json) {

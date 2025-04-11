@@ -134,6 +134,10 @@ class Base {
   get adapted() {
     return this.adapt(this.data);
   }
+
+  get exists() {
+    return Boolean(this.data.id);
+  }
 }
 
 module.exports = Base;
