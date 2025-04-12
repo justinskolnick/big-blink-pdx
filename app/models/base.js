@@ -44,8 +44,12 @@ class Base {
     return fields;
   }
 
+  static hasAdaptField(fieldName) {
+    return 'adapt' in this.fieldNames[fieldName];
+  }
+
   static hasFieldAlias(fieldName) {
-    if ('adapt' in this.fieldNames[fieldName]) {
+    if (this.hasAdaptField(fieldName)) {
       if ('as' in this.fieldNames[fieldName].adapt) {
         return true;
       }
@@ -58,8 +62,18 @@ class Base {
     return this.fieldNames[fieldName].adapt.as;
   }
 
+  static fieldShouldBeAdapted(fieldName) {
+    if (this.hasAdaptField(fieldName)) {
+      if (this.fieldNames[fieldName].adapt === false) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   static hasAdaptMethod(fieldName) {
-    if ('adapt' in this.fieldNames[fieldName]) {
+    if (this.hasAdaptField(fieldName)) {
       if ('method' in this.fieldNames[fieldName].adapt) {
         return true;
       }
@@ -109,10 +123,12 @@ class Base {
   adaptResult(result, otherValues) {
     const fields = this.constructor.fields(false);
     let adapted = fields.reduce((obj, field) => {
-      const key = this.constructor.fieldKey(field);
-      const value = this.constructor.fieldValue(field, result);
+      if (this.constructor.fieldShouldBeAdapted(field)) {
+        const key = this.constructor.fieldKey(field);
+        const value = this.constructor.fieldValue(field, result);
 
-      obj[key] = value;
+        obj[key] = value;
+      }
 
       return obj;
     }, {});

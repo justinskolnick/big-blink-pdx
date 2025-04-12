@@ -46,7 +46,6 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
-      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -58,7 +57,6 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
-      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [
@@ -75,7 +73,6 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
-      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -106,7 +103,6 @@ describe('adapt()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
-      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -114,7 +110,6 @@ describe('adapt()', () => {
 
     expect(personWithTotal.adapted).toEqual({
       id: 1,
-      identicalId: null,
       type: 'person',
       name: 'John Doe',
       roles: [],
@@ -168,7 +163,6 @@ describe('setData()', () => {
 
     expect(person.adapted).toEqual({
       id: 1,
-      identicalId: null,
       name: 'John Doe',
       roles: [],
       type: 'person',

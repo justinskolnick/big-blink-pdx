@@ -7,7 +7,7 @@ class Person extends IncidentedObject {
 
   static fieldNames = {
     id:           { select: true, },
-    identical_id: { select: true, adapt: { as: 'identicalId' } }, // eslint-disable-line camelcase
+    identical_id: { select: true, adapt: false }, // eslint-disable-line camelcase
     type:         { select: true, },
     name:         { select: true, },
   };
