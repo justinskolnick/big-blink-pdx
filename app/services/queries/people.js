@@ -88,7 +88,7 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getTotalQuery = () => `SELECT COUNT(${Person.primaryKey()}) AS total FROM ${Person.tableName}`;
+const getTotalQuery = () => `SELECT COUNT(${Person.primaryKey()}) AS total FROM ${Person.tableName} WHERE ${Person.field('identical_id')} IS NULL`;
 
 module.exports = {
   getAllQuery,
