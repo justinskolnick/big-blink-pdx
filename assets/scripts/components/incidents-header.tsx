@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
@@ -68,7 +68,13 @@ const AssociationMultiple = ({ labels }: AssociationMultipleProps) => (
   <AssociationLabelSet>
     {labels.map<ReactNode>((l, i) => (
       <AssociationLabel key={i} label={l} />
-    )).reduce((prev, curr) => [prev, ' and ', curr])}
+    )).reduce((prev, curr) => [prev, (
+      <Fragment key='conjunction'>
+        {' '}
+        <span className='incidents-association-text'>and</span>
+        {' '}
+      </Fragment>
+    ), curr])}
   </AssociationLabelSet>
 );
 
@@ -88,7 +94,8 @@ const PrimaryAssociation = ({ label }: AssociationProps) => {
 
   return (
     <>
-      associatied with{' '}
+      <span className='incidents-association-text'>associatied with</span>
+      {' '}
       <AssociationSingle label={label} />
     </>
   );
@@ -130,7 +137,7 @@ export const Association = ({
 
   return (
     <div className='incidents-association'>
-      {intro}
+      <span className='incidents-association-text'>{intro}</span>
       {' '}
       {hasLabels ? (
         <AssociationMultiple labels={labels} />

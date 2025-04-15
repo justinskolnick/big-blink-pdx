@@ -134,6 +134,26 @@ export type DateFilters = {
   date_range_to?: IncidentDateFilterObject;
 };
 
+type FiltersLabelPart = {
+  value: string;
+  type: 'id' | 'label' | 'link' | 'text';
+};
+
+type DatesFilters = {
+  labels: FiltersLabelPart[];
+  values?: DateFilters;
+};
+
+type EntitiesFilters = {
+  labels: FiltersLabelPart[];
+  values?: DateFilters;
+};
+
+type PeopleFilters = {
+  labels: FiltersLabelPart[];
+  values?: DateFilters;
+};
+
 export type IncidentFilters = {
   quarter?: IncidentFilterQuarterObject;
   with_entity_id?: IncidentFilterIdObject;
@@ -149,7 +169,7 @@ type SortFilters = {
   sort_by?: SortByValue;
 };
 
-export type IncidentsFilters = DateFilters & IncidentFilters & PaginationFilters & SortFilters;
+export type IncidentsFilters = DateFilters & IncidentFilters & PaginationFilters & SortFilters & DatesFilters & EntitiesFilters & PeopleFilters;
 
 type DateParams = {
   date_on?: string;

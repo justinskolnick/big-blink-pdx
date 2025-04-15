@@ -75,37 +75,112 @@ const getParams = searchParams => {
 };
 
 const getFilters = searchParams => {
-  const values = {};
+  const filters = {};
 
   if (searchParams.has(PARAM_SORT)) {
-    values.sort = getSort(searchParams.get(PARAM_SORT));
+    filters.sort = getSort(searchParams.get(PARAM_SORT));
   }
 
-  if (searchParams.has(PARAM_DATE_ON)) {
-    if (hasDate(searchParams.get(PARAM_DATE_ON))) {
-      values[PARAM_DATE_ON] = {
-        key: PARAM_DATE_ON,
-        label: dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON)),
-        value: searchParams.get(PARAM_DATE_ON),
+  const hasDateOn = searchParams.has(PARAM_DATE_ON) && hasDate(searchParams.get(PARAM_DATE_ON));
+  const hasDateRange = [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p) && hasDate(searchParams.get(p)));
+
+  filters.dates = {
+    labels: [
+      {
+        action: PARAM_DATE_ON,
+        value: 'on a date',
+        type: 'link',
+      },
+      {
+        value: 'or',
+        type: 'text',
+      },
+      {
+        action: PARAM_DATE_RANGE_FROM,
+        value: 'between dates',
+        type: 'link',
+      },
+    ],
+  };
+
+  if (hasDateOn) {
+    filters.dates = {
+      labels: [
+        {
+          value: 'on',
+          type: 'text',
+        },
+        {
+          value: dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON)),
+          type: 'label',
+        },
+      ],
+      values: {
+        [PARAM_DATE_ON]: searchParams.get(PARAM_DATE_ON),
+      },
+    };
+
+    filters[PARAM_DATE_ON] = {
+      key: PARAM_DATE_ON,
+      label: dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON)),
+      value: searchParams.get(PARAM_DATE_ON),
+    };
+  }
+
+  if (hasDateRange) {
+    filters.dates = {
+      labels: [
+        {
+          value: 'between',
+          type: 'text',
+        },
+        {
+          value: dateHelper.formatDateString(searchParams.get(PARAM_DATE_RANGE_FROM)),
+          type: 'label',
+        },
+        {
+          value: 'and',
+          type: 'text',
+        },
+        {
+          value: dateHelper.formatDateString(searchParams.get(PARAM_DATE_RANGE_TO)),
+          type: 'label',
+        },
+      ],
+      values: {
+        [PARAM_DATE_RANGE_FROM]: searchParams.get(PARAM_DATE_RANGE_FROM),
+        [PARAM_DATE_RANGE_TO]: searchParams.get(PARAM_DATE_RANGE_TO),
+      },
+    };
+
+    [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
+      filters[p] = {
+        key: p,
+        label: dateHelper.formatDateString(searchParams.get(p)),
+        value: searchParams.get(p),
       };
-    }
-  }
-
-  if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p))) {
-    if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => hasDate(searchParams.get(p)))) {
-      [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
-        values[p] = {
-          key: p,
-          label: dateHelper.formatDateString(searchParams.get(p)),
-          value: searchParams.get(p),
-        };
-      });
-    }
+    });
   }
 
   if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
-      values[PARAM_WITH_ENTITY_ID] = {
+      filters.entities = {
+        labels: [
+          {
+            value: 'and',
+            type: 'text',
+          },
+          {
+            value: searchParams.get(PARAM_WITH_ENTITY_ID),
+            type: 'label',
+          },
+        ],
+        values: {
+          [PARAM_WITH_ENTITY_ID]: Number(searchParams.get(PARAM_WITH_ENTITY_ID)),
+        },
+      };
+
+      filters[PARAM_WITH_ENTITY_ID] = {
         key: PARAM_WITH_ENTITY_ID,
         label: Number(searchParams.get(PARAM_WITH_ENTITY_ID)),
         value: Number(searchParams.get(PARAM_WITH_ENTITY_ID)),
@@ -115,7 +190,23 @@ const getFilters = searchParams => {
 
   if (searchParams.has(PARAM_WITH_PERSON_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_PERSON_ID))) {
-      values[PARAM_WITH_PERSON_ID] = {
+      filters.people = {
+        labels: [
+          {
+            value: 'and',
+            type: 'text',
+          },
+          {
+            value: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
+            type: 'id',
+          },
+        ],
+        values: {
+          [PARAM_WITH_PERSON_ID]: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
+        },
+      };
+
+      filters[PARAM_WITH_PERSON_ID] = {
         key: PARAM_WITH_PERSON_ID,
         label: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
         value: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
@@ -123,7 +214,7 @@ const getFilters = searchParams => {
     }
   }
 
-  return values;
+  return filters;
 };
 
 const getParamsFromFilters = filters =>
