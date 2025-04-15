@@ -1,5 +1,8 @@
 include .env
 
+logs:
+	docker logs -f --tail 50 web
+
 shell:
 	docker exec -it web /bin/bash
 
