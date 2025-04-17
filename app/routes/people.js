@@ -154,7 +154,7 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (person.exists) {
-    if (person.hasMoved) {
+    if (person.hasMoved && req.get('Content-Type') !== headers.json) {
       return res.redirect(`/people/${person.identicalId}`);
     }
 
