@@ -29,6 +29,53 @@ describe('getFilters()', () => {
           label: 'November 12, 2015',
           value: '2015-11-12',
         },
+        dates: {
+          labels: [
+            {
+              type: 'text',
+              value: 'on',
+            },
+            {
+              type: 'label',
+              value: 'November 12, 2015',
+            },
+          ],
+          values: {
+            date_on: '2015-11-12', // eslint-disable-line camelcase
+          }
+        },
+        entities: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 123,
+            },
+          ],
+          model: 'entities',
+          values: {
+            with_entity_id: 123, // eslint-disable-line camelcase
+          },
+        },
+        people: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 321,
+            },
+          ],
+          model: 'people',
+          values: {
+            with_person_id: 321, // eslint-disable-line camelcase
+          },
+        },
         sort: 'ASC',
         with_entity_id: { // eslint-disable-line camelcase
           key: 'with_entity_id',
@@ -59,6 +106,62 @@ describe('getFilters()', () => {
           label: 'December 13, 2015',
           value: '2015-12-13',
         },
+        dates: {
+          labels: [
+            {
+              type: 'text',
+              value: 'between',
+            },
+            {
+              type: 'label',
+              value: 'November 12, 2015',
+            },
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'label',
+              value: 'December 13, 2015',
+            },
+          ],
+          values: {
+            date_range_from: '2015-11-12', // eslint-disable-line camelcase
+            date_range_to: '2015-12-13', // eslint-disable-line camelcase
+          },
+        },
+        entities: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 123,
+            },
+          ],
+          model: 'entities',
+          values: {
+            with_entity_id: 123, // eslint-disable-line camelcase
+          },
+        },
+        people: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 321,
+            },
+          ],
+          model: 'people',
+          values: {
+            with_person_id: 321, // eslint-disable-line camelcase
+          },
+        },
         sort: 'ASC',
         with_entity_id: { // eslint-disable-line camelcase
           key: 'with_entity_id',
@@ -80,6 +183,56 @@ describe('getFilters()', () => {
 
       expect(getFilters(queryParams)).toEqual({
         sort: 'ASC',
+        dates: {
+          labels: [
+            {
+              to: 'date-select',
+              value: 'on a date',
+              type: 'link',
+            },
+            {
+              value: 'or',
+              type: 'text',
+            },
+            {
+              to: 'date-range-select',
+              value: 'between dates',
+              type: 'link',
+            },
+          ],
+        },
+        entities: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 123,
+            },
+          ],
+          model: 'entities',
+          values: {
+            with_entity_id: 123, // eslint-disable-line camelcase
+          },
+        },
+        people: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 321,
+            },
+          ],
+          model: 'people',
+          values: {
+            with_person_id: 321, // eslint-disable-line camelcase
+          },
+        },
         with_entity_id: { // eslint-disable-line camelcase
           key: 'with_entity_id',
           label: 123,

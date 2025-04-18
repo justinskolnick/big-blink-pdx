@@ -57,10 +57,15 @@ const SORT_BY_OPTIONS = {
   [SORT_BY_TOTAL]: SORT_BY_TOTAL,
 };
 
+const MODEL_ENTITIES = 'entities';
+const MODEL_PEOPLE = 'people';
+
 const TIME_ZONE = 'America/Los_Angeles';
 
 module.exports = {
   LOCALE,
+  MODEL_ENTITIES,
+  MODEL_PEOPLE,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
