@@ -1,4 +1,5 @@
-import React, { Fragment, ReactNode } from 'react';
+import React, { useEffect, useState, Fragment, ReactNode } from 'react';
+import { cx } from '@emotion/css';
 
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
@@ -20,7 +21,32 @@ interface AssociationLabelSetProps {
 }
 
 interface AssociationLabelProps {
-  label: IncidentFilterLabel;
+  children: ReactNode;
+}
+
+type AssociationActionHandlerType = (event?: ReactMouseEvent, action: string) => void;
+
+interface AssociationActionProps {
+  action?: string;
+  children: ReactNode;
+  handleClick?: AssociationActionHandlerType;
+  to?: string;
+}
+
+interface AssociationTextProps {
+  children: ReactNode;
+}
+
+interface AssociationLabelsProps {
+  filter: any; // todo
+  handleClick?: AssociationActionHandlerType;
+}
+
+interface AssociationFormProps {
+  action: string;
+  filter: any; // todo
+  handleActionClick?: AssociationActionHandlerType;
+  handleCancel: () => void;
 }
 
 interface AssociationProps {
@@ -52,26 +78,42 @@ const AssociationLabelSet = ({ children }: AssociationLabelSetProps) => (
   </span>
 );
 
-const AssociationLabel = ({ label }: AssociationLabelProps) => (
+const AssociationLabel = ({ children }: AssociationLabelProps) => (
   <span className='incidents-association-label'>
-    {label}
+    {children}
+  </span>
+);
+
+const AssociationAction = ({ action, children, handleClick }: AssociationActionProps) => {
+  const hasAction = Boolean(action);
+
+  return (
+    <span className='incidents-association-link' onClick={hasAction ? e => handleClick(e, action) : null}>
+      {children}
+    </span>
+  );
+};
+
+const AssociationText = ({ children }: AssociationTextProps) => (
+  <span className='incidents-association-text'>
+    {children}
   </span>
 );
 
 const AssociationSingle = ({ label }: AssociationSingleProps) => (
   <AssociationLabelSet>
-    <AssociationLabel label={label} />
+    <AssociationLabel>{label}</AssociationLabel>
   </AssociationLabelSet>
 );
 
 const AssociationMultiple = ({ labels }: AssociationMultipleProps) => (
   <AssociationLabelSet>
     {labels.map<ReactNode>((l, i) => (
-      <AssociationLabel key={i} label={l} />
+      <AssociationLabel key={i}>{l}</AssociationLabel>
     )).reduce((prev, curr) => [prev, (
       <Fragment key='conjunction'>
         {' '}
-        <span className='incidents-association-text'>and</span>
+        <AssociationText>and</AssociationText>
         {' '}
       </Fragment>
     ), curr])}
@@ -94,10 +136,114 @@ const PrimaryAssociation = ({ label }: AssociationProps) => {
 
   return (
     <>
-      <span className='incidents-association-text'>associatied with</span>
+      <AssociationText>associatied with</AssociationText>
       {' '}
       <AssociationSingle label={label} />
     </>
+  );
+};
+
+const AssociationDateField = ({ field }) => (
+  <input
+    type='date'
+    id={field.name}
+    name={field.name}
+  />
+);
+
+const AssociationLabelArray = ({ handleActionClick, labels }) => labels.map((label, i) => (
+  <Fragment key={i}>
+    {label.type === 'field-date' && <AssociationDateField field={label} />}
+    {label.type === 'label' && <AssociationLabel>{label.value}</AssociationLabel>}
+    {label.type === 'link' && (
+      <AssociationAction action={label.action} handleClick={handleActionClick}>
+        {label.value}
+      </AssociationAction>
+    )}
+    {label.type === 'text' && <AssociationText>{label.value}</AssociationText>}
+  </Fragment>
+)).reduce((prev, curr) => [prev, ' ', curr]);
+
+const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: AssociationFormProps) => {
+  const { fields } = filter;
+
+  const hasFields = Boolean(fields);
+  const hasAction = hasFields && action in fields;
+  const actionFields = hasAction && fields[action];
+
+  return (
+    <form action={null}>
+      <AssociationLabelArray labels={actionFields} handleActionClick={handleActionClick} />
+      {' '}
+      <button type='cancel' onClick={handleCancel}>x</button>
+    </form>
+  );
+};
+
+const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps) => {
+  const { labels, values } = filter;
+
+  const hasValues = Boolean(values);
+  const isRemovable = hasValues && Object.values(values).length > 0;
+  const newParams = hasValues && Object.keys(values).reduce((all, key) => {
+    all[key] = null;
+
+    return all;
+  }, {} as Record<NewParamsKey, null>);
+
+  return (
+    <>
+      <AssociationLabelArray labels={labels} handleActionClick={handleActionClick} />
+      {isRemovable && (
+        <>
+          {' '}
+          <AssociationRemove newParams={newParams} />
+        </>
+      )}
+    </>
+  );
+};
+
+export const AssociationFilter = ({ filter }) => {
+  const hasFilter = Boolean(filter);
+  const hasValues = hasFilter && 'values' in filter;
+  // const hasFields = hasFilter && 'fields' in filter;
+
+  const [activeAction, setActiveAction] = useState(null);
+
+  const clearAction = () => setActiveAction(null);
+
+  const handleActionClick = (e, action) => {
+    e.preventDefault();
+
+    if (action) {
+      setActiveAction(action);
+    }
+  };
+  const handleCancelActionClick = e => {
+    e.preventDefault();
+
+    clearAction();
+  };
+
+  const hasActiveAction = Boolean(activeAction);
+
+  useEffect(() => {
+    if (hasValues) {
+      clearAction();
+    }
+  }, [hasValues, clearAction]);
+
+  if (!hasFilter) return null;
+
+  return (
+    <div className={cx('incidents-association', !hasValues && 'incidents-association-option')}>
+      {hasActiveAction && !hasValues ? (
+        <AssociationForm filter={filter} action={activeAction} handleCancel={handleCancelActionClick} handleActionClick={handleActionClick} />
+      ) : (
+        <AssociationLabels filter={filter} handleActionClick={handleActionClick} />
+      )}
+    </div>
   );
 };
 
@@ -137,7 +283,7 @@ export const Association = ({
 
   return (
     <div className='incidents-association'>
-      <span className='incidents-association-text'>{intro}</span>
+      <AssociationText>{intro}</AssociationText>
       {' '}
       {hasLabels ? (
         <AssociationMultiple labels={labels} />

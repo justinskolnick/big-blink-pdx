@@ -9,8 +9,22 @@
     min-height: 27px;
   }
 
+  .incidents-association-option {
+    color: var(--color-light);
+  }
+
   .incidents-association-label {
     font-weight: 600;
+  }
+
+  .incidents-association-link {
+    cursor: pointer;
+    color: var(--color-link);
+    font-weight: 600;
+
+    &:hover {
+      border-bottom: 1px solid var(--color-link);
+    }
   }
 
   .incidents-association-remove {

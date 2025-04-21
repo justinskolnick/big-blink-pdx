@@ -22,7 +22,8 @@ const getLabelText = value => ({
   type: 'text',
   value,
 });
-const getLabelLink = (to, value) => ({
+const getLabelLink = (action, to, value) => ({
+  action,
   to,
   type: 'link',
   value,
@@ -66,10 +67,31 @@ const getDatesFilter = searchParams => {
   }
 
   return {
+    fields: {
+      'date-select': [
+        getLabelText('on'),
+        {
+          name: PARAM_DATE_ON,
+          type: 'field-date',
+        },
+      ],
+      'date-range-select': [
+        getLabelText('between'),
+        {
+          name: PARAM_DATE_RANGE_FROM,
+          type: 'field-date',
+        },
+        getLabelText('and'),
+        {
+          name: PARAM_DATE_RANGE_TO,
+          type: 'field-date',
+        },
+      ],
+    },
     labels: [
-      getLabelLink('date-select', 'on a date'),
+      getLabelLink('date-select', null, 'on a date'),
       getLabelText('or'),
-      getLabelLink('date-range-select', 'between dates'),
+      getLabelLink('date-range-select', null, 'between dates'),
     ],
   };
 };

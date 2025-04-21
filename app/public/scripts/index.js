@@ -19296,7 +19296,7 @@
           return x2 === y && (0 !== x2 || 1 / x2 === 1 / y) || x2 !== x2 && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React54 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React54.useSyncExternalStore, useRef20 = React54.useRef, useEffect34 = React54.useEffect, useMemo7 = React54.useMemo, useDebugValue3 = React54.useDebugValue;
+        var React54 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React54.useSyncExternalStore, useRef20 = React54.useRef, useEffect35 = React54.useEffect, useMemo7 = React54.useMemo, useDebugValue3 = React54.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef20(null);
           if (null === instRef.current) {
@@ -19339,7 +19339,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect35(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -54760,11 +54760,16 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime51 = __toESM(require_jsx_runtime());
   var PAGE_PARAM_KEY = "page";
   var AssociationLabelSet = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label-set", children });
-  var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children: label });
-  var AssociationSingle = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }) });
-  var AssociationMultiple = ({ labels }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: l }, i)).reduce((prev2, curr) => [prev2, /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
+  var AssociationLabel = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children });
+  var AssociationAction = ({ action, children, handleClick }) => {
+    const hasAction = Boolean(action);
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-link", onClick: hasAction ? (e) => handleClick(e, action) : null, children });
+  };
+  var AssociationText = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children });
+  var AssociationSingle = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: label }) });
+  var AssociationMultiple = ({ labels }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: l }, i)).reduce((prev2, curr) => [prev2, /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
     " ",
-    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children: "and" }),
+    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: "and" }),
     " "
   ] }, "conjunction"), curr]) });
   var AssociationRemove = ({ newParams }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
@@ -54780,10 +54785,75 @@ Hook ${hookName} was either not provided or not a function.`);
   var PrimaryAssociation = ({ label }) => {
     if (!label) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children: "associatied with" }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: "associatied with" }),
       " ",
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label })
     ] });
+  };
+  var AssociationDateField = ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+    "input",
+    {
+      type: "date",
+      id: field.name,
+      name: field.name
+    }
+  );
+  var AssociationLabelArray = ({ handleActionClick, labels }) => labels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
+    label.type === "field-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
+    label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: label.value }),
+    label.type === "link" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
+    label.type === "text" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: label.value })
+  ] }, i)).reduce((prev2, curr) => [prev2, " ", curr]);
+  var AssociationForm = ({ action, filter, handleActionClick, handleCancel }) => {
+    const { fields } = filter;
+    const hasFields = Boolean(fields);
+    const hasAction = hasFields && action in fields;
+    const actionFields = hasAction && fields[action];
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { action: null, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }),
+      " ",
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "cancel", onClick: handleCancel, children: "x" })
+    ] });
+  };
+  var AssociationLabels = ({ filter, handleActionClick }) => {
+    const { labels, values } = filter;
+    const hasValues = Boolean(values);
+    const isRemovable = hasValues && Object.values(values).length > 0;
+    const newParams = hasValues && Object.keys(values).reduce((all, key) => {
+      all[key] = null;
+      return all;
+    }, {});
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels, handleActionClick }),
+      isRemovable && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationRemove, { newParams })
+      ] })
+    ] });
+  };
+  var AssociationFilter = ({ filter }) => {
+    const hasFilter = Boolean(filter);
+    const hasValues = hasFilter && "values" in filter;
+    const [activeAction, setActiveAction] = (0, import_react33.useState)(null);
+    const clearAction = () => setActiveAction(null);
+    const handleActionClick = (e, action) => {
+      e.preventDefault();
+      if (action) {
+        setActiveAction(action);
+      }
+    };
+    const handleCancelActionClick = (e) => {
+      e.preventDefault();
+      clearAction();
+    };
+    const hasActiveAction = Boolean(activeAction);
+    (0, import_react33.useEffect)(() => {
+      if (hasValues) {
+        clearAction();
+      }
+    }, [hasValues, clearAction]);
+    if (!hasFilter) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: cx("incidents-association", !hasValues && "incidents-association-option"), children: hasActiveAction && !hasValues ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationForm, { filter, action: activeAction, handleCancel: handleCancelActionClick, handleActionClick }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabels, { filter, handleActionClick }) });
   };
   var Associations = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "incidents-associations", children });
   var Association = ({
@@ -54810,7 +54880,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return all;
     }, {});
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "incidents-association", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children: intro }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: intro }),
       " ",
       hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationMultiple, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label }),
       (hasFilterKeys || hasFilterKey) && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
@@ -55025,7 +55095,8 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] })
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.dates })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         incident_list_default,

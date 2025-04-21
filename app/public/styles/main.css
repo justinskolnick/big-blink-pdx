@@ -1500,8 +1500,22 @@ body.has-alert .alert-root {
 .incident-header .incidents-association {
   min-height: 27px;
 }
+.incident-header .incidents-association-option {
+  color: gray;
+  color: var(--color-light);
+}
 .incident-header .incidents-association-label {
   font-weight: 600;
+}
+.incident-header .incidents-association-link {
+  cursor: pointer;
+  color: cornflowerblue;
+  color: var(--color-link);
+  font-weight: 600;
+}
+.incident-header .incidents-association-link:hover {
+  border-bottom: 1px solid cornflowerblue;
+  border-bottom: 1px solid var(--color-link);
 }
 .incident-header .incidents-association-remove {
   color: crimson;

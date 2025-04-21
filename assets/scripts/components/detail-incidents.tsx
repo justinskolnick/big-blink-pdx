@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../lib/store';
 
-import IncidentsHeader, { Association, Associations } from './incidents-header';
+import IncidentsHeader, { Association, Associations, AssociationFilter } from './incidents-header';
 import IncidentList from './incident-list';
 import {
   dateOnParam,
@@ -181,6 +181,7 @@ const DetailIncidents = (({
           <DuringQuarter filters={filters} filterKey={quarterParam} />
           <OnDate filters={filters} filterKey={dateOnParam} />
           <BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />
+          <AssociationFilter filter={filters?.dates} />
         </Associations>
       </IncidentsHeader>
 
