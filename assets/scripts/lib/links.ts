@@ -36,5 +36,6 @@ export const getQueryParams = (
     get: (key: string) => searchParams.get(key),
     has: (key: string) => searchParams.has(key),
     isCurrent: isCurrent(location, newSearch),
+    searchParams,
   };
 };

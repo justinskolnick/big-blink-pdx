@@ -184,20 +184,52 @@ describe('getFilters()', () => {
       expect(getFilters(queryParams)).toEqual({
         sort: 'ASC',
         dates: {
+          fields: {
+            'date-range-select': [
+              {
+                type: 'text',
+                value: 'between',
+              },
+              {
+                name: 'date_range_from',
+                type: 'input-date',
+              },
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                name: 'date_range_to',
+                type: 'input-date',
+              },
+            ],
+            'date-select': [
+              {
+                type: 'text',
+                value: 'on',
+              },
+              {
+                name: 'date_on',
+                type: 'input-date',
+              },
+            ],
+          },
           labels: [
             {
-              to: 'date-select',
+              action: 'date-select',
+              to: null,
+              type: 'link',
               value: 'on a date',
-              type: 'link',
             },
             {
-              value: 'or',
               type: 'text',
+              value: 'or',
             },
             {
-              to: 'date-range-select',
-              value: 'between dates',
+              action: 'date-range-select',
+              to: null,
               type: 'link',
+              value: 'between dates',
             },
           ],
         },

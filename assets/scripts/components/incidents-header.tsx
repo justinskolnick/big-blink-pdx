@@ -1,5 +1,8 @@
 import React, { useEffect, useState, Fragment, ReactNode } from 'react';
+import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
+
+import { getQueryParams } from '../lib/links';
 
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
@@ -153,7 +156,7 @@ const AssociationDateField = ({ field }) => (
 
 const AssociationLabelArray = ({ handleActionClick, labels }) => labels.map((label, i) => (
   <Fragment key={i}>
-    {label.type === 'field-date' && <AssociationDateField field={label} />}
+    {label.type === 'input-date' && <AssociationDateField field={label} />}
     {label.type === 'label' && <AssociationLabel>{label.value}</AssociationLabel>}
     {label.type === 'link' && (
       <AssociationAction action={label.action} handleClick={handleActionClick}>
@@ -171,10 +174,21 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
   const hasAction = hasFields && action in fields;
   const actionFields = hasAction && fields[action];
 
+  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
+
+  const handleSubmit = formData => {
+    const params = Object.fromEntries(formData.entries());
+    const queryParams = getQueryParams(location, params, false);
+
+    setSearchParams(queryParams.searchParams);
+  };
+
   return (
-    <form action={null}>
+    <form action={handleSubmit}>
       <AssociationLabelArray labels={actionFields} handleActionClick={handleActionClick} />
       {' '}
+      <button type='submit'>submit</button>
       <button type='cancel' onClick={handleCancel}>x</button>
     </form>
   );

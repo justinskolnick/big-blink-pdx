@@ -40921,9 +40921,17 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       get: (key) => searchParams.get(key),
       has: (key) => searchParams.has(key),
-      isCurrent: isCurrent(location2, newSearch)
+      isCurrent: isCurrent(location2, newSearch),
+      searchParams
     };
   };
+
+  // assets/scripts/hooks/use-query-params.ts
+  var useQueryParams = (newParams, replace4 = true) => {
+    const location2 = useLocation();
+    return getQueryParams(location2, newParams, replace4);
+  };
+  var use_query_params_default = useQueryParams;
 
   // assets/scripts/types.ts
   var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
@@ -40933,9 +40941,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var dateOnParam = "date_on";
-  var dateRangeFromParam = "date_range_from";
-  var dateRangeToParam = "date_range_to";
   var quarterParam = "quarter";
   var sortParam = "sort";
   var sortByParam = "sort_by";
@@ -40947,7 +40952,6 @@ Hook ${hookName} was either not provided or not a function.`);
   var getWithPersonParams = (item) => ({
     [withPersonIdParam]: item.person.id
   });
-  var useQueryParams = (newParams, replace4 = true) => getQueryParams(useLocation(), newParams, replace4);
   var BetterLink = ({
     onClick,
     ...rest
@@ -40977,7 +40981,7 @@ Hook ${hookName} was either not provided or not a function.`);
     replace: replace4,
     ...rest
   }) => {
-    const queryParams = useQueryParams(newParams, replace4);
+    const queryParams = use_query_params_default(newParams, replace4);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       Link,
       {
@@ -54799,7 +54803,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   );
   var AssociationLabelArray = ({ handleActionClick, labels }) => labels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
-    label.type === "field-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
+    label.type === "input-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
     label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: label.value }),
     label.type === "link" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
     label.type === "text" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: label.value })
@@ -54809,9 +54813,17 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasFields = Boolean(fields);
     const hasAction = hasFields && action in fields;
     const actionFields = hasAction && fields[action];
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { action: null, children: [
+    const location2 = useLocation();
+    const [, setSearchParams] = useSearchParams();
+    const handleSubmit = (formData) => {
+      const params = Object.fromEntries(formData.entries());
+      const queryParams = getQueryParams(location2, params, false);
+      setSearchParams(queryParams.searchParams);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { action: handleSubmit, children: [
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }),
       " ",
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "submit", children: "submit" }),
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "cancel", onClick: handleCancel, children: "x" })
     ] });
   };
@@ -55028,37 +55040,6 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var OnDate = ({ filters, filterKey }) => {
-    const filter = filters?.[filterKey];
-    const hasValue = Boolean(filter?.value);
-    if (!hasValue) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        intro: "on",
-        label: filter.label
-      }
-    );
-  };
-  var BetweenDates = ({ filters, filterKeys }) => {
-    const filterKeyPair = [];
-    const filterLabelPair = [];
-    if (!filters) return null;
-    filterKeys.filter((key) => key in filters).forEach((key) => {
-      filterKeyPair.push(filters[key].key);
-      filterLabelPair.push(filters[key].label);
-    });
-    if (filterKeyPair.length < filterKeys.length) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKeys: filterKeyPair,
-        intro: "between",
-        labels: filterLabelPair
-      }
-    );
-  };
   var DetailIncidents = ({
     filters,
     hasSort,
@@ -55094,8 +55075,6 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.dates })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(

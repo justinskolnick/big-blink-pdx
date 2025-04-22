@@ -1,9 +1,9 @@
 import React, { useRef, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
-import { useLocation, useSearchParams, Link, NavLink } from 'react-router';
+import { useSearchParams, Link, NavLink } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
-import { getQueryParams } from '../lib/links';
+import useQueryParams from '../hooks/use-query-params';
 
 import ItemTextWithIcon from './item-text-with-icon';
 
@@ -70,9 +70,6 @@ export const getWithEntityParams = (item: AffiliatedItem) => ({
 export const getWithPersonParams = (item: AffiliatedItem) => ({
   [withPersonIdParam]: item.person.id,
 });
-
-const useQueryParams = (newParams: NewParams, replace = true) =>
-  getQueryParams(useLocation(), newParams, replace);
 
 const BetterLink = ({
   onClick,

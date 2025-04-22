@@ -6,9 +6,9 @@ import { RootState } from '../lib/store';
 import IncidentsHeader, { Association, Associations, AssociationFilter } from './incidents-header';
 import IncidentList from './incident-list';
 import {
-  dateOnParam,
-  dateRangeFromParam,
-  dateRangeToParam,
+  // dateOnParam,
+  // dateRangeFromParam,
+  // dateRangeToParam,
   quarterParam,
   withEntityIdParam,
   withPersonIdParam,
@@ -18,15 +18,15 @@ import { selectors as entitiesSelectors } from '../reducers/entities';
 import { selectors as peopleSelectors } from '../reducers/people';
 
 import type {
-  DateFilters,
+  // DateFilters,
   Ids,
   IncidentFilters,
-  IncidentFilterString,
+  // IncidentFilterString,
   IncidentsFilters,
   Pagination,
 } from '../types';
 
-type DateFiltersKey = keyof DateFilters;
+// type DateFiltersKey = keyof DateFilters;
 type IncidentsFiltersKey = keyof IncidentFilters;
 
 interface FiltersProps {
@@ -35,11 +35,11 @@ interface FiltersProps {
   filterKeys?: IncidentsFiltersKey[];
 }
 
-interface DateFiltersProps {
-  filters?: IncidentsFilters;
-  filterKey?: DateFiltersKey;
-  filterKeys?: DateFiltersKey[];
-}
+// interface DateFiltersProps {
+//   filters?: IncidentsFilters;
+//   filterKey?: DateFiltersKey;
+//   filterKeys?: DateFiltersKey[];
+// }
 
 interface Props {
   filters?: IncidentsFilters;
@@ -98,44 +98,44 @@ const DuringQuarter = ({ filters, filterKey }: FiltersProps) => {
   );
 };
 
-const OnDate = ({ filters, filterKey }: DateFiltersProps) => {
-  const filter = filters?.[filterKey];
-  const hasValue = Boolean(filter?.value);
+// const OnDate = ({ filters, filterKey }: DateFiltersProps) => {
+//   const filter = filters?.[filterKey];
+//   const hasValue = Boolean(filter?.value);
 
-  if (!hasValue) return null;
+//   if (!hasValue) return null;
 
-  return (
-    <Association
-      filterKey={filterKey}
-      intro='on'
-      label={filter.label}
-    />
-  );
-};
+//   return (
+//     <Association
+//       filterKey={filterKey}
+//       intro='on'
+//       label={filter.label}
+//     />
+//   );
+// };
 
-const BetweenDates = ({ filters, filterKeys }: DateFiltersProps) => {
-  const filterKeyPair: DateFiltersKey[] = [];
-  const filterLabelPair: IncidentFilterString[] = [];
+// const BetweenDates = ({ filters, filterKeys }: DateFiltersProps) => {
+//   const filterKeyPair: DateFiltersKey[] = [];
+//   const filterLabelPair: IncidentFilterString[] = [];
 
-  if (!filters) return null;
+//   if (!filters) return null;
 
-  filterKeys
-    .filter(key => key in filters)
-    .forEach(key => {
-      filterKeyPair.push(filters[key].key);
-      filterLabelPair.push(filters[key].label);
-    });
+//   filterKeys
+//     .filter(key => key in filters)
+//     .forEach(key => {
+//       filterKeyPair.push(filters[key].key);
+//       filterLabelPair.push(filters[key].label);
+//     });
 
-  if (filterKeyPair.length < filterKeys.length) return null;
+//   if (filterKeyPair.length < filterKeys.length) return null;
 
-  return (
-    <Association
-      filterKeys={filterKeyPair}
-      intro='between'
-      labels={filterLabelPair}
-    />
-  );
-};
+//   return (
+//     <Association
+//       filterKeys={filterKeyPair}
+//       intro='between'
+//       labels={filterLabelPair}
+//     />
+//   );
+// };
 
 const DetailIncidents = (({
   filters,
@@ -179,8 +179,8 @@ const DetailIncidents = (({
           <WithEntityId filters={filters} filterKey={withEntityIdParam} />
           <WithPersonId filters={filters} filterKey={withPersonIdParam} />
           <DuringQuarter filters={filters} filterKey={quarterParam} />
-          <OnDate filters={filters} filterKey={dateOnParam} />
-          <BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />
+          {/*<OnDate filters={filters} filterKey={dateOnParam} />*/}
+          {/*<BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />*/}
           <AssociationFilter filter={filters?.dates} />
         </Associations>
       </IncidentsHeader>

@@ -72,19 +72,19 @@ const getDatesFilter = searchParams => {
         getLabelText('on'),
         {
           name: PARAM_DATE_ON,
-          type: 'field-date',
+          type: 'input-date',
         },
       ],
       'date-range-select': [
         getLabelText('between'),
         {
           name: PARAM_DATE_RANGE_FROM,
-          type: 'field-date',
+          type: 'input-date',
         },
         getLabelText('and'),
         {
           name: PARAM_DATE_RANGE_TO,
-          type: 'field-date',
+          type: 'input-date',
         },
       ],
     },
