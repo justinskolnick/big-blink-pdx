@@ -162,22 +162,22 @@ export const SortLink = ({
   const currentSortBy = searchParams.get(sortByParam);
   const currentSort = searchParams.get(sortParam);
   const isCurrentSortBy = name === currentSortBy || (currentSortBy === null && isDefault);
-  const newParamMap = new Map();
+  const newSearchParams = new Map(searchParams);
   let icon;
 
   if (isCurrentSortBy) {
-    newParamMap.set(sortByParam, isDefault ? null : name);
+    newSearchParams.set(sortByParam, isDefault ? null : name);
 
     if (currentSort === null) {
-      newParamMap.set(sortParam, toggleSort(defaultSort));
+      newSearchParams.set(sortParam, toggleSort(defaultSort));
       icon = getIconNameForSort(defaultSort);
     } else {
-      newParamMap.set(sortParam, null);
+      newSearchParams.set(sortParam, null);
       icon = getIconNameForSort(toggleSort(defaultSort));
     }
   } else {
-    newParamMap.set(sortByParam, isDefault ? null : name);
-    newParamMap.set(sortParam, null);
+    newSearchParams.set(sortByParam, isDefault ? null : name);
+    newSearchParams.set(sortParam, null);
   }
 
   const hasIcon = Boolean(icon);
@@ -186,7 +186,7 @@ export const SortLink = ({
     <LinkToQueryParams
       className={cx('link-sort', className)}
       title={title || 'Sort this list'}
-      newParams={Object.fromEntries(newParamMap.entries())}
+      newParams={Object.fromEntries(newSearchParams.entries())}
       {...rest}
     >
       {hasIcon ? (

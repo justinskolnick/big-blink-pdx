@@ -82,10 +82,6 @@ const getParams = searchParams => {
 const getFilters = searchParams => {
   const filters = {};
 
-  if (searchParams.has(PARAM_SORT)) {
-    filters.sort = getSort(searchParams.get(PARAM_SORT));
-  }
-
   const hasDateOn = searchParams.has(PARAM_DATE_ON) && hasDate(searchParams.get(PARAM_DATE_ON));
   const hasDateRange = [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p) && hasDate(searchParams.get(p)));
 
@@ -132,16 +128,18 @@ const getFilters = searchParams => {
   return filters;
 };
 
-const getParamsFromFilters = filters =>
-  Object.entries(filters).reduce((all, [key, values]) => {
-    if (typeof values === 'object') {
-      all[key] = values.value;
-    } else {
-      all[key] = values;
-    }
+const getParamsFromFilters = (searchParams, filters) => {
+  const params = Object.entries(filters)
+    .filter(([, domain]) => domain && 'values' in domain)
+    .map(([, domain]) => domain.values)
+    .reduce((all, values) => Object.assign(all, values), {});
 
-    return all;
-  }, {});
+  if (searchParams.has(PARAM_SORT)) {
+    params[PARAM_SORT] = getSort(searchParams.get(PARAM_SORT));
+  }
+
+  return params;
+};
 
 const getInvalidValueMessage = (param, value) => `<strong>${value}</strong> is not a valid value for <code>${param}</code>`;
 

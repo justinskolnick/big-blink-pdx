@@ -76,7 +76,6 @@ describe('getFilters()', () => {
             with_person_id: 321, // eslint-disable-line camelcase
           },
         },
-        sort: 'ASC',
         with_entity_id: { // eslint-disable-line camelcase
           key: 'with_entity_id',
           label: 123,
@@ -162,7 +161,6 @@ describe('getFilters()', () => {
             with_person_id: 321, // eslint-disable-line camelcase
           },
         },
-        sort: 'ASC',
         with_entity_id: { // eslint-disable-line camelcase
           key: 'with_entity_id',
           label: 123,
@@ -182,7 +180,6 @@ describe('getFilters()', () => {
       const queryParams = new URLSearchParams('date_range_from=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
 
       expect(getFilters(queryParams)).toEqual({
-        sort: 'ASC',
         dates: {
           fields: {
             'date-range-select': [
@@ -326,7 +323,7 @@ describe('getParamsFromFilters()', () => {
   const filters = getFilters(queryParams);
 
   test('with param values', () => {
-    expect(getParamsFromFilters(filters)).toEqual({
+    expect(getParamsFromFilters(queryParams, filters)).toEqual({
       date_on: '2015-11-12', // eslint-disable-line camelcase
       sort: 'ASC',
       with_entity_id: 123, // eslint-disable-line camelcase

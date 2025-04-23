@@ -41025,20 +41025,20 @@ Hook ${hookName} was either not provided or not a function.`);
     const currentSortBy = searchParams.get(sortByParam);
     const currentSort = searchParams.get(sortParam);
     const isCurrentSortBy = name === currentSortBy || currentSortBy === null && isDefault;
-    const newParamMap = /* @__PURE__ */ new Map();
+    const newSearchParams = new Map(searchParams);
     let icon2;
     if (isCurrentSortBy) {
-      newParamMap.set(sortByParam, isDefault ? null : name);
+      newSearchParams.set(sortByParam, isDefault ? null : name);
       if (currentSort === null) {
-        newParamMap.set(sortParam, toggleSort(defaultSort));
+        newSearchParams.set(sortParam, toggleSort(defaultSort));
         icon2 = getIconNameForSort(defaultSort);
       } else {
-        newParamMap.set(sortParam, null);
+        newSearchParams.set(sortParam, null);
         icon2 = getIconNameForSort(toggleSort(defaultSort));
       }
     } else {
-      newParamMap.set(sortByParam, isDefault ? null : name);
-      newParamMap.set(sortParam, null);
+      newSearchParams.set(sortByParam, isDefault ? null : name);
+      newSearchParams.set(sortParam, null);
     }
     const hasIcon = Boolean(icon2);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
@@ -41046,7 +41046,7 @@ Hook ${hookName} was either not provided or not a function.`);
       {
         className: cx("link-sort", className),
         title: title || "Sort this list",
-        newParams: Object.fromEntries(newParamMap.entries()),
+        newParams: Object.fromEntries(newSearchParams.entries()),
         ...rest,
         children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
           item_text_with_icon_default,

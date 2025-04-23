@@ -310,7 +310,7 @@ router.get('/:id/incidents', async (req, res, next) => {
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
       filters = paramHelper.getFilters(req.query);
-      params = paramHelper.getParamsFromFilters(filters);
+      params = paramHelper.getParamsFromFilters(req.query, filters);
 
       data = {
         entity: {

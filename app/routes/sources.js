@@ -321,7 +321,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
         filters = paramHelper.getFilters(req.query);
-        params = paramHelper.getParamsFromFilters(filters);
+        params = paramHelper.getParamsFromFilters(req.query, filters);
 
         data = {
           source: {
