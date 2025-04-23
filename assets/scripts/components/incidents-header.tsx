@@ -185,11 +185,21 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
   };
 
   return (
-    <form action={handleSubmit}>
-      <AssociationLabelArray labels={actionFields} handleActionClick={handleActionClick} />
-      {' '}
-      <button type='submit'>submit</button>
-      <button type='cancel' onClick={handleCancel}>x</button>
+    <form className='incidents-association-form' action={handleSubmit}>
+      <fieldset>
+        <AssociationLabelArray labels={actionFields} handleActionClick={handleActionClick} />
+      </fieldset>
+
+      <button className='incidents-association-form-submit' type='submit'>
+        Submit
+      </button>
+      <button
+        className='incidents-association-form-cancel'
+        onClick={handleCancel}
+        type='cancel'
+      >
+        &times;
+      </button>
     </form>
   );
 };

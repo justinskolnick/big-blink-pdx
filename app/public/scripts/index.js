@@ -54820,11 +54820,18 @@ Hook ${hookName} was either not provided or not a function.`);
       const queryParams = getQueryParams(location2, params, false);
       setSearchParams(queryParams.searchParams);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { action: handleSubmit, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }),
-      " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "submit", children: "submit" }),
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "cancel", onClick: handleCancel, children: "x" })
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { className: "incidents-association-form", action: handleSubmit, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("fieldset", { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { className: "incidents-association-form-submit", type: "submit", children: "Submit" }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+        "button",
+        {
+          className: "incidents-association-form-cancel",
+          onClick: handleCancel,
+          type: "cancel",
+          children: "\xD7"
+        }
+      )
     ] });
   };
   var AssociationLabels = ({ filter, handleActionClick }) => {

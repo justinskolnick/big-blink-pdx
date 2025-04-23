@@ -27,6 +27,52 @@
     }
   }
 
+  .incidents-association-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    fieldset {
+      display: flex;
+      align-items: center;
+    }
+
+    input[type="date"] {
+      font-family: inherit;
+      font-size: 12px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    fieldset + button,
+    button + button {
+      margin-left: calc(var(--gap) / 2);
+    }
+  }
+
+  .incidents-association-text + input,
+  input + .incidents-association-text {
+    margin-left: calc(var(--gap) / 3);
+  }
+
+  .incidents-association-form-submit {
+    padding: 6px 12px;
+    border-radius: 12px;
+    background-color: var(--color-link);
+    color: var(--color-background);
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .incidents-association-form-cancel {
+    background-color: transparent;
+  }
+
+  .incidents-association-form-cancel,
   .incidents-association-remove {
     color: var(--color-danger);
     font-weight: 600;

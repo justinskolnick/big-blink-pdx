@@ -1517,11 +1517,54 @@ body.has-alert .alert-root {
   border-bottom: 1px solid cornflowerblue;
   border-bottom: 1px solid var(--color-link);
 }
+.incident-header .incidents-association-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.incident-header .incidents-association-form fieldset {
+  display: flex;
+  align-items: center;
+}
+.incident-header .incidents-association-form input[type=date] {
+  font-family: inherit;
+  font-size: 12px;
+}
+.incident-header .incidents-association-form button {
+  cursor: pointer;
+  border: none;
+}
+.incident-header .incidents-association-form fieldset + button,
+.incident-header .incidents-association-form button + button {
+  margin-left: calc(18px / 2);
+  margin-left: calc(var(--gap) / 2);
+}
+.incident-header .incidents-association-text + input,
+.incident-header input + .incidents-association-text {
+  margin-left: calc(18px / 3);
+  margin-left: calc(var(--gap) / 3);
+}
+.incident-header .incidents-association-form-submit {
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: cornflowerblue;
+  background-color: var(--color-link);
+  color: snow;
+  color: var(--color-background);
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.incident-header .incidents-association-form-cancel {
+  background-color: transparent;
+}
+.incident-header .incidents-association-form-cancel,
 .incident-header .incidents-association-remove {
   color: crimson;
   color: var(--color-danger);
   font-weight: 600;
 }
+.incident-header .incidents-association-form-cancel:hover,
 .incident-header .incidents-association-remove:hover {
   border-bottom-color: crimson;
   border-bottom-color: var(--color-danger);
