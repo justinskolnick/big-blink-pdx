@@ -84,6 +84,7 @@ const WithPersonId = ({ filters, filterKey }: FiltersProps) => {
 
 const DuringQuarter = ({ filters, filterKey }: FiltersProps) => {
   const quarterFilter = filters?.[filterKey];
+  console.log(filters, filterKey)
 
   if (!quarterFilter) return null;
 
@@ -176,8 +177,10 @@ const DetailIncidents = (({
     <section className='activity-stat-section incident-list-section' ref={ref}>
       <IncidentsHeader label={label}>
         <Associations>
-          <WithEntityId filters={filters} filterKey={withEntityIdParam} />
-          <WithPersonId filters={filters} filterKey={withPersonIdParam} />
+          {/*<WithEntityId filters={filters} filterKey={withEntityIdParam} />*/}
+          {/*<WithPersonId filters={filters} filterKey={withPersonIdParam} />*/}
+          <AssociationFilter filter={filters?.entities} />
+          <AssociationFilter filter={filters?.people} />
           <DuringQuarter filters={filters} filterKey={quarterParam} />
           {/*<OnDate filters={filters} filterKey={dateOnParam} />*/}
           {/*<BetweenDates filters={filters} filterKeys={[dateRangeFromParam, dateRangeToParam]} />*/}

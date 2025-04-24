@@ -1,11 +1,16 @@
 import React, { useEffect, useState, Fragment, ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';
+import { RootState } from '../lib/store';
 
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
+
+import { selectors as entitiesSelectors } from '../reducers/entities';
+import { selectors as peopleSelectors } from '../reducers/people';
 
 import type { IncidentFilterLabel, NewParams } from '../types';
 
@@ -146,6 +151,32 @@ const PrimaryAssociation = ({ label }: AssociationProps) => {
   );
 };
 
+const Entity = ({ id }) => {
+  const entity = useSelector((state: RootState) => entitiesSelectors.selectById(state, id));
+
+  if (!entity) return null;
+
+  return <AssociationLabel>{entity.name}</AssociationLabel>;
+};
+
+const Person = ({ id }) => {
+  const person = useSelector((state: RootState) => peopleSelectors.selectById(state, id));
+
+  if (!person) return null;
+
+  return <AssociationLabel>{person.name}</AssociationLabel>;
+};
+
+const AssociationModelId = ({ label, model }) => {
+  if (model === 'entities') {
+    return <Entity id={label.value} />;
+  } else if (model === 'people') {
+    return <Person id={label.value} />;
+  }
+
+  return null;
+};
+
 const AssociationDateField = ({ field }) => (
   <input
     className='incidents-association-form-field'
@@ -155,8 +186,9 @@ const AssociationDateField = ({ field }) => (
   />
 );
 
-const AssociationLabelArray = ({ handleActionClick, labels }) => labels.map((label, i) => (
+const AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i) => (
   <Fragment key={i}>
+    {label.type === 'id' && <AssociationModelId label={label} model={model} />}
     {label.type === 'input-date' && <AssociationDateField field={label} />}
     {label.type === 'label' && <AssociationLabel>{label.value}</AssociationLabel>}
     {label.type === 'link' && (
@@ -209,7 +241,7 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
 };
 
 const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps) => {
-  const { labels, values } = filter;
+  const { labels, model, values } = filter;
 
   const hasValues = Boolean(values);
   const isRemovable = hasValues && Object.values(values).length > 0;
@@ -221,7 +253,7 @@ const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps
 
   return (
     <>
-      <AssociationLabelArray labels={labels} handleActionClick={handleActionClick} />
+      <AssociationLabelArray labels={labels} model={model} handleActionClick={handleActionClick} />
       {isRemovable && (
         <>
           {' '}
@@ -234,6 +266,7 @@ const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps
 
 export const AssociationFilter = ({ filter }) => {
   const hasFilter = Boolean(filter);
+  const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
   // const hasFields = hasFilter && 'fields' in filter;
 
@@ -266,7 +299,7 @@ export const AssociationFilter = ({ filter }) => {
 
   return (
     <div className={cx('incidents-association', !hasValues && 'incidents-association-option')}>
-      {hasActiveAction && !hasValues ? (
+      {hasActiveAction && !hasValues && hasFields ? (
         <AssociationForm filter={filter} action={activeAction} handleCancel={handleCancelActionClick} handleActionClick={handleActionClick} />
       ) : (
         <AssociationLabels filter={filter} handleActionClick={handleActionClick} />
