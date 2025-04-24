@@ -31,31 +31,40 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+  }
 
-    fieldset {
-      display: flex;
-      align-items: center;
+  .incidents-association-text {
+    &:has(+ .incidents-association-form-field) {
+      margin-right: calc(var(--gap) / 3);
     }
+  }
 
-    input[type="date"] {
+  .incidents-association-form-field {
+    &[type="date"] {
+      margin-top: calc(var(--gap) / 6);
+      margin-bottom: calc(var(--gap) / 6);
       font-family: inherit;
       font-size: 12px;
     }
 
-    button {
-      cursor: pointer;
-      border: none;
-    }
-
-    fieldset + button,
-    button + button {
-      margin-left: calc(var(--gap) / 2);
+    &:has(+ .incidents-association-text) {
+      margin-right: calc(var(--gap) / 3);
     }
   }
 
-  .incidents-association-text + input,
-  input + .incidents-association-text {
-    margin-left: calc(var(--gap) / 3);
+  .incidents-association-form-fieldset {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &:has(+ button) {
+      margin-right: calc(var(--gap) / 2);
+    }
+  }
+
+  .incidents-association-form-button {
+    cursor: pointer;
+    border: none;
   }
 
   .incidents-association-form-submit {
@@ -66,6 +75,10 @@
     font-weight: bold;
     font-size: 10px;
     text-transform: uppercase;
+
+    &:has(+ .incidents-association-form-cancel) {
+      margin-right: calc(var(--gap) / 2);
+    }
   }
 
   .incidents-association-form-cancel {

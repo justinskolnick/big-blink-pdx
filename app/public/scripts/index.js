@@ -54797,6 +54797,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var AssociationDateField = ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
     "input",
     {
+      className: "incidents-association-form-field",
       type: "date",
       id: field.name,
       name: field.name
@@ -54821,12 +54822,19 @@ Hook ${hookName} was either not provided or not a function.`);
       setSearchParams(queryParams.searchParams);
     };
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { className: "incidents-association-form", action: handleSubmit, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("fieldset", { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { className: "incidents-association-form-submit", type: "submit", children: "Submit" }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("fieldset", { className: "incidents-association-form-fieldset", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }) }),
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
         "button",
         {
-          className: "incidents-association-form-cancel",
+          className: "incidents-association-form-button incidents-association-form-submit",
+          type: "submit",
+          children: "Submit"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+        "button",
+        {
+          className: "incidents-association-form-button incidents-association-form-cancel",
           onClick: handleCancel,
           type: "cancel",
           children: "\xD7"

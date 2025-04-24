@@ -148,6 +148,7 @@ const PrimaryAssociation = ({ label }: AssociationProps) => {
 
 const AssociationDateField = ({ field }) => (
   <input
+    className='incidents-association-form-field'
     type='date'
     id={field.name}
     name={field.name}
@@ -186,15 +187,18 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
 
   return (
     <form className='incidents-association-form' action={handleSubmit}>
-      <fieldset>
+      <fieldset className='incidents-association-form-fieldset'>
         <AssociationLabelArray labels={actionFields} handleActionClick={handleActionClick} />
       </fieldset>
 
-      <button className='incidents-association-form-submit' type='submit'>
+      <button
+        className='incidents-association-form-button incidents-association-form-submit'
+        type='submit'
+      >
         Submit
       </button>
       <button
-        className='incidents-association-form-cancel'
+        className='incidents-association-form-button incidents-association-form-cancel'
         onClick={handleCancel}
         type='cancel'
       >
