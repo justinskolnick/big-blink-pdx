@@ -13,7 +13,7 @@ const Introduction = () => (
 );
 
 const Index = () => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const scrollToRef = () => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };

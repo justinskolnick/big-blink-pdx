@@ -75,7 +75,7 @@ const BetterLink = ({
   onClick,
   ...rest
 }: BetterLinkProps) => {
-  const ref = useRef<HTMLAnchorElement>();
+  const ref = useRef<HTMLAnchorElement>(null);
 
   const handleClick = (e: ReactMouseEvent<HTMLAnchorElement>) => {
     if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {

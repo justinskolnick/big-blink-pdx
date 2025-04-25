@@ -39982,7 +39982,7 @@ Hook ${hookName} was either not provided or not a function.`);
     grade,
     isActive
   }) => {
-    const ref = (0, import_react13.useRef)();
+    const ref = (0, import_react13.useRef)(null);
     const iconName = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
@@ -40955,7 +40955,7 @@ Hook ${hookName} was either not provided or not a function.`);
     onClick,
     ...rest
   }) => {
-    const ref = (0, import_react19.useRef)();
+    const ref = (0, import_react19.useRef)(null);
     const handleClick = (e) => {
       if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         const customEvent = new MouseEvent("click", {
@@ -42018,7 +42018,7 @@ Hook ${hookName} was either not provided or not a function.`);
     TotalCell,
     label
   }) => {
-    const ref = (0, import_react28.useRef)();
+    const ref = (0, import_react28.useRef)(null);
     const [showAll, setShowAll] = (0, import_react28.useState)(false);
     const initialCount = 5;
     const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
@@ -55088,7 +55088,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/detail.tsx
   var import_jsx_runtime56 = __toESM(require_jsx_runtime());
   var Detail = () => {
-    const ref = (0, import_react37.useRef)();
+    const ref = (0, import_react37.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const entity = useSelector((state) => selectors.selectById(state, numericId));
@@ -55347,7 +55347,7 @@ Hook ${hookName} was either not provided or not a function.`);
     "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
   ] });
   var Index3 = () => {
-    const ref = (0, import_react38.useRef)();
+    const ref = (0, import_react38.useRef)(null);
     const scrollToRef = () => {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -55558,7 +55558,7 @@ Hook ${hookName} was either not provided or not a function.`);
     person,
     title
   }) => {
-    const ref = (0, import_react42.useRef)();
+    const ref = (0, import_react42.useRef)(null);
     const hasPerson = Boolean(person);
     return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
       const hasTotal = Boolean(item.total);
@@ -55662,7 +55662,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
-    const ref = (0, import_react44.useRef)();
+    const ref = (0, import_react44.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
@@ -55872,7 +55872,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/detail.tsx
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var Detail4 = () => {
-    const ref = (0, import_react48.useRef)();
+    const ref = (0, import_react48.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const source = useSelector((state) => selectors4.selectById(state, numericId));

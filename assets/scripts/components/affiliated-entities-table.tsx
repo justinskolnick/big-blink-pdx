@@ -28,7 +28,7 @@ const AffiliatedEntitiesTable = ({
   person,
   title,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const hasPerson = Boolean(person);
 

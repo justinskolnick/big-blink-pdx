@@ -21,7 +21,7 @@ const AffiliatedItemTable = ({
   TotalCell,
   label,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
   const [showAll, setShowAll] = useState(false);
   const initialCount = 5;
   const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);

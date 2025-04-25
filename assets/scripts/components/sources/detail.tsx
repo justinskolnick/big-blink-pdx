@@ -18,7 +18,7 @@ import SourceInformationBox from '../source-information-box';
 import { selectors } from '../../reducers/sources';
 
 const Detail = () => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);
