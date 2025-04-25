@@ -648,7 +648,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement2(type, key, self, source, owner, props) {
+        function ReactElement3(type, key, self, source, owner, props) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -678,7 +678,7 @@
           return type;
         }
         function cloneAndReplaceKey(oldElement, newKey) {
-          newKey = ReactElement2(
+          newKey = ReactElement3(
             oldElement.type,
             newKey,
             void 0,
@@ -1195,7 +1195,7 @@
               JSCompiler_inline_result[i] = arguments[i + 2];
             props.children = JSCompiler_inline_result;
           }
-          props = ReactElement2(element.type, key, void 0, void 0, owner, props);
+          props = ReactElement3(element.type, key, void 0, void 0, owner, props);
           for (key = 2; key < arguments.length; key++)
             validateChildKeys(arguments[key], props.type);
           return props;
@@ -1258,7 +1258,7 @@
             i,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          return ReactElement2(type, typeString, void 0, void 0, getOwner(), i);
+          return ReactElement3(type, typeString, void 0, void 0, getOwner(), i);
         };
         exports.createRef = function() {
           var refObject = { current: null };
@@ -20599,7 +20599,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement2(type, key, self, source, owner, props) {
+        function ReactElement3(type, key, self, source, owner, props) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -20679,7 +20679,7 @@
             maybeKey,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          return ReactElement2(type, children, self, source, getOwner(), maybeKey);
+          return ReactElement3(type, children, self, source, getOwner(), maybeKey);
         }
         function validateChildKeys(node2, parentType) {
           if ("object" === typeof node2 && node2 && node2.$$typeof !== REACT_CLIENT_REFERENCE) {
@@ -40941,7 +40941,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var quarterParam = "quarter";
   var sortParam = "sort";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
@@ -54727,8 +54726,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
+    const quarterParam = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam);
     const entitiesData = useSelector(getEntitiesChartData);
     const data2 = entitiesData?.[numericId];
     const hasData = data2?.length > 0;
@@ -54746,12 +54745,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasData, numericId, trigger]);
     (0, import_react32.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
+        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam2, quarter, setSearchParams]);
+    }, [quarterParam, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default = Chart3;
@@ -54762,20 +54761,13 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/incidents-header.tsx
   var import_react33 = __toESM(require_react());
   var import_jsx_runtime51 = __toESM(require_jsx_runtime());
-  var PAGE_PARAM_KEY = "page";
   var AssociationLabelSet = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label-set", children });
-  var AssociationLabel = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children });
+  var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children: label });
   var AssociationAction = ({ action, children, handleClick }) => {
     const hasAction = Boolean(action);
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-link", onClick: hasAction ? (e) => handleClick(e, action) : null, children });
   };
   var AssociationText = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children });
-  var AssociationSingle = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: label }) });
-  var AssociationMultiple = ({ labels }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: l }, i)).reduce((prev2, curr) => [prev2, /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
-    " ",
-    /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: "and" }),
-    " "
-  ] }, "conjunction"), curr]) });
   var AssociationRemove = ({ newParams }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
     LinkToQueryParams,
     {
@@ -54791,23 +54783,23 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: "associatied with" }),
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label })
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }) })
     ] });
   };
   var Entity = ({ id }) => {
     const entity = useSelector((state) => selectors.selectById(state, id));
     if (!entity) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: entity.name });
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: entity.name });
   };
   var Person = ({ id }) => {
     const person = useSelector((state) => selectors3.selectById(state, id));
     if (!person) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: person.name });
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: person.name });
   };
   var AssociationModelId = ({ label, model }) => {
-    if (model === "entities") {
+    if (model === "entities" /* Entities */) {
       return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Entity, { id: label.value });
-    } else if (model === "people") {
+    } else if (model === "people" /* People */) {
       return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Person, { id: label.value });
     }
     return null;
@@ -54821,13 +54813,14 @@ Hook ${hookName} was either not provided or not a function.`);
       name: field.name
     }
   );
+  var concatenate = (prev2, curr) => [prev2, " ", curr];
   var AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
     label.type === "id" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationModelId, { label, model }),
     label.type === "input-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
-    label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { children: label.value }),
+    label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: label.value }),
     label.type === "link" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
     label.type === "text" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: label.value })
-  ] }, i)).reduce((prev2, curr) => [prev2, " ", curr]);
+  ] }, i)).reduce(concatenate);
   var AssociationForm = ({ action, filter, handleActionClick, handleCancel }) => {
     const { fields } = filter;
     const hasFields = Boolean(fields);
@@ -54855,7 +54848,7 @@ Hook ${hookName} was either not provided or not a function.`);
         {
           className: "incidents-association-form-button incidents-association-form-cancel",
           onClick: handleCancel,
-          type: "cancel",
+          type: "button",
           children: "\xD7"
         }
       )
@@ -54903,39 +54896,6 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: cx("incidents-association", !hasValues && "incidents-association-option"), children: hasActiveAction && !hasValues && hasFields ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationForm, { filter, action: activeAction, handleCancel: handleCancelActionClick, handleActionClick }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabels, { filter, handleActionClick }) });
   };
   var Associations = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "incidents-associations", children });
-  var Association = ({
-    filterKey,
-    filterKeys,
-    intro = "and",
-    label,
-    labels
-  }) => {
-    const hasFilterKeys = filterKeys?.length > 0;
-    const hasLabels = labels?.length > 0;
-    const hasFilterKey = Boolean(filterKey);
-    const newParamKeys = [];
-    if (hasFilterKeys) {
-      filterKeys.forEach((key) => {
-        newParamKeys.push(key);
-      });
-    } else if (hasFilterKey) {
-      newParamKeys.push(filterKey);
-    }
-    newParamKeys.push(PAGE_PARAM_KEY);
-    const newParams = newParamKeys.reduce((all, key) => {
-      all[key] = null;
-      return all;
-    }, {});
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "incidents-association", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: intro }),
-      " ",
-      hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationMultiple, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label }),
-      (hasFilterKeys || hasFilterKey) && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationRemove, { newParams })
-      ] })
-    ] });
-  };
   var IncidentsHeader = ({
     children,
     label
@@ -55034,20 +54994,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/detail-incidents.tsx
   var import_jsx_runtime54 = __toESM(require_jsx_runtime());
-  var DuringQuarter = ({ filters, filterKey }) => {
-    const quarterFilter = filters?.[filterKey];
-    console.log(filters, filterKey);
-    if (!quarterFilter) return null;
-    const label = String(quarterFilter).match(/(Q[1-4])-(20[1-2][0-9])/).slice(1, 3).join(" of ");
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        intro: "during",
-        label
-      }
-    );
-  };
   var DetailIncidents = ({
     filters,
     hasSort,
@@ -55082,7 +55028,7 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(incidents_header_default, { label, children: /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(Associations, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.entities }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.people }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.quarter }),
         /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.dates })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
@@ -55571,8 +55517,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react41.useState)(quarterParam2);
+    const quarterParam = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react41.useState)(quarterParam);
     const peopleData = useSelector(getPeopleChartData);
     const data2 = peopleData?.[numericId];
     const hasData = data2?.length > 0;
@@ -55590,12 +55536,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasData, numericId, trigger]);
     (0, import_react41.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
+        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam2, quarter, setSearchParams]);
+    }, [quarterParam, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default3 = Chart5;

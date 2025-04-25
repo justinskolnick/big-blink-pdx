@@ -18,6 +18,7 @@ const {
   getDatesFilter,
   getEntitiesFilter,
   getPeopleFilter,
+  getQuarterFilter,
 } = require('./filters');
 
 const hasDate = (param) => param?.length > 0 && DATE_PATTERN.test(param);
@@ -88,6 +89,7 @@ const getFilters = searchParams => {
   filters.dates = getDatesFilter(searchParams);
   filters.entities = getEntitiesFilter(searchParams);
   filters.people = getPeopleFilter(searchParams);
+  filters.quarter = getQuarterFilter(searchParams);
 
   if (hasDateOn) {
     filters[PARAM_DATE_ON] = {

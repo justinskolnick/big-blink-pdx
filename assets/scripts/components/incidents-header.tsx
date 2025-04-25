@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, ReactNode } from 'react';
+import React, { useEffect, useState, Fragment, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
@@ -12,16 +12,26 @@ import { LinkToQueryParams } from './links';
 import { selectors as entitiesSelectors } from '../reducers/entities';
 import { selectors as peopleSelectors } from '../reducers/people';
 
-import type { IncidentFilterLabel, NewParams } from '../types';
+import { Sections } from '../types';
+import type {
+  Id,
+  IncidentFilterDateField,
+  IncidentsFilterObjects,
+  IncidentFiltersDatesActionValue,
+  // IncidentFilters,
+  IncidentFilterLabel,
+  // IncidentFiltersKeys,
+  // IncidentModelIdFilterLabel,
+  IncidentFilterLabelId,
+  NewParams,
+} from '../types';
 
 type NewParamsKey = keyof NewParams;
+// type NewParamsKey = keyof IncidentsFilterObjects['values'];
+// type NewParams = Record<NewParamsKey, null>
 
-interface AssociationSingleProps {
-  label: IncidentFilterLabel;
-}
-
-interface AssociationMultipleProps {
-  labels: IncidentFilterLabel[];
+interface AssociationFilterProps {
+  filter: IncidentsFilterObjects;
 }
 
 interface AssociationLabelSetProps {
@@ -29,13 +39,19 @@ interface AssociationLabelSetProps {
 }
 
 interface AssociationLabelProps {
-  children: ReactNode;
+  label: IncidentFilterLabel['value'];
 }
 
-type AssociationActionHandlerType = (event?: ReactMouseEvent, action: string) => void;
+interface SubmitHandler {
+  (formData: FormData): void;
+}
+
+interface AssociationActionHandlerType {
+  (event: MouseEvent, action?: IncidentFiltersDatesActionValue): void;
+}
 
 interface AssociationActionProps {
-  action?: string;
+  action?: IncidentFiltersDatesActionValue;
   children: ReactNode;
   handleClick?: AssociationActionHandlerType;
   to?: string;
@@ -46,27 +62,34 @@ interface AssociationTextProps {
 }
 
 interface AssociationLabelsProps {
-  filter: any; // todo
-  handleClick?: AssociationActionHandlerType;
+  filter: IncidentsFilterObjects;
+  handleActionClick?: AssociationActionHandlerType;
+}
+
+interface AssociationLabelArrayProps {
+  handleActionClick?: AssociationActionHandlerType;
+  labels: IncidentFilterLabel[];
+  model?: Sections.Entities | Sections.People;
 }
 
 interface AssociationFormProps {
-  action: string;
-  filter: any; // todo
+  action: IncidentFiltersDatesActionValue;
+  filter: IncidentsFilterObjects;
   handleActionClick?: AssociationActionHandlerType;
-  handleCancel: () => void;
-}
-
-interface AssociationProps {
-  filterKey?: NewParamsKey;
-  filterKeys?: NewParamsKey[];
-  intro?: string;
-  label?: IncidentFilterLabel;
-  labels?: IncidentFilterLabel[];
+  handleCancel: AssociationActionHandlerType;
 }
 
 interface AssociationsProps {
   children: ReactNode;
+}
+
+interface AssociationModelIdProps {
+  label: IncidentFilterLabelId;
+  model: Sections;
+}
+
+interface AssociationDateFieldProps {
+  field: IncidentFilterDateField;
 }
 
 interface AssociationRemoveProps {
@@ -78,17 +101,15 @@ interface IncidentsHeaderProps {
   label?: string;
 }
 
-const PAGE_PARAM_KEY = 'page';
-
 const AssociationLabelSet = ({ children }: AssociationLabelSetProps) => (
   <span className='incidents-association-label-set'>
     {children}
   </span>
 );
 
-const AssociationLabel = ({ children }: AssociationLabelProps) => (
+const AssociationLabel = ({ label }: AssociationLabelProps) => (
   <span className='incidents-association-label'>
-    {children}
+    {label}
   </span>
 );
 
@@ -108,26 +129,6 @@ const AssociationText = ({ children }: AssociationTextProps) => (
   </span>
 );
 
-const AssociationSingle = ({ label }: AssociationSingleProps) => (
-  <AssociationLabelSet>
-    <AssociationLabel>{label}</AssociationLabel>
-  </AssociationLabelSet>
-);
-
-const AssociationMultiple = ({ labels }: AssociationMultipleProps) => (
-  <AssociationLabelSet>
-    {labels.map<ReactNode>((l, i) => (
-      <AssociationLabel key={i}>{l}</AssociationLabel>
-    )).reduce((prev, curr) => [prev, (
-      <Fragment key='conjunction'>
-        {' '}
-        <AssociationText>and</AssociationText>
-        {' '}
-      </Fragment>
-    ), curr])}
-  </AssociationLabelSet>
-);
-
 const AssociationRemove = ({ newParams }: AssociationRemoveProps) => (
   <LinkToQueryParams
     className='incidents-association-remove'
@@ -139,45 +140,47 @@ const AssociationRemove = ({ newParams }: AssociationRemoveProps) => (
   </LinkToQueryParams>
 );
 
-const PrimaryAssociation = ({ label }: AssociationProps) => {
+const PrimaryAssociation = ({ label }: AssociationLabelProps) => {
   if (!label) return null;
 
   return (
     <>
       <AssociationText>associatied with</AssociationText>
       {' '}
-      <AssociationSingle label={label} />
+      <AssociationLabelSet>
+        <AssociationLabel label={label} />
+      </AssociationLabelSet>
     </>
   );
 };
 
-const Entity = ({ id }) => {
+const Entity = ({ id }: { id: Id }) => {
   const entity = useSelector((state: RootState) => entitiesSelectors.selectById(state, id));
 
   if (!entity) return null;
 
-  return <AssociationLabel>{entity.name}</AssociationLabel>;
+  return <AssociationLabel label={entity.name} />;
 };
 
-const Person = ({ id }) => {
+const Person = ({ id }: { id: Id }) => {
   const person = useSelector((state: RootState) => peopleSelectors.selectById(state, id));
 
   if (!person) return null;
 
-  return <AssociationLabel>{person.name}</AssociationLabel>;
+  return <AssociationLabel label={person.name} />;
 };
 
-const AssociationModelId = ({ label, model }) => {
-  if (model === 'entities') {
+const AssociationModelId = ({ label, model }: AssociationModelIdProps) => {
+  if (model === Sections.Entities) {
     return <Entity id={label.value} />;
-  } else if (model === 'people') {
+  } else if (model === Sections.People) {
     return <Person id={label.value} />;
   }
 
   return null;
 };
 
-const AssociationDateField = ({ field }) => (
+const AssociationDateField = ({ field }: AssociationDateFieldProps) => (
   <input
     className='incidents-association-form-field'
     type='date'
@@ -186,11 +189,17 @@ const AssociationDateField = ({ field }) => (
   />
 );
 
-const AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i) => (
+interface Concatenate {
+  (prev: ReactElement, curr: ReactElement): any;
+}
+
+const concatenate: Concatenate = (prev, curr) => [prev, ' ', curr];
+
+const AssociationLabelArray = ({ handleActionClick, labels, model }: AssociationLabelArrayProps) => labels.map((label, i) => (
   <Fragment key={i}>
     {label.type === 'id' && <AssociationModelId label={label} model={model} />}
     {label.type === 'input-date' && <AssociationDateField field={label} />}
-    {label.type === 'label' && <AssociationLabel>{label.value}</AssociationLabel>}
+    {label.type === 'label' && <AssociationLabel label={label.value} />}
     {label.type === 'link' && (
       <AssociationAction action={label.action} handleClick={handleActionClick}>
         {label.value}
@@ -198,7 +207,7 @@ const AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.m
     )}
     {label.type === 'text' && <AssociationText>{label.value}</AssociationText>}
   </Fragment>
-)).reduce((prev, curr) => [prev, ' ', curr]);
+)).reduce(concatenate);
 
 const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: AssociationFormProps) => {
   const { fields } = filter;
@@ -210,7 +219,7 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
 
-  const handleSubmit = formData => {
+  const handleSubmit: SubmitHandler = (formData) => {
     const params = Object.fromEntries(formData.entries());
     const queryParams = getQueryParams(location, params, false);
 
@@ -232,7 +241,7 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
       <button
         className='incidents-association-form-button incidents-association-form-cancel'
         onClick={handleCancel}
-        type='cancel'
+        type='button'
       >
         &times;
       </button>
@@ -245,7 +254,7 @@ const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps
 
   const hasValues = Boolean(values);
   const isRemovable = hasValues && Object.values(values).length > 0;
-  const newParams = hasValues && Object.keys(values).reduce((all, key) => {
+  const newParams = hasValues && Object.keys(values).reduce((all, key: NewParamsKey) => {
     all[key] = null;
 
     return all;
@@ -264,24 +273,23 @@ const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps
   );
 };
 
-export const AssociationFilter = ({ filter }) => {
+export const AssociationFilter = ({ filter }: AssociationFilterProps) => {
   const hasFilter = Boolean(filter);
   const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
-  // const hasFields = hasFilter && 'fields' in filter;
 
-  const [activeAction, setActiveAction] = useState(null);
+  const [activeAction, setActiveAction] = useState<IncidentFiltersDatesActionValue>(null);
 
   const clearAction = () => setActiveAction(null);
 
-  const handleActionClick = (e, action) => {
+  const handleActionClick: AssociationActionHandlerType = (e, action) => {
     e.preventDefault();
 
     if (action) {
       setActiveAction(action);
     }
   };
-  const handleCancelActionClick = e => {
+  const handleCancelActionClick: AssociationActionHandlerType = (e) => {
     e.preventDefault();
 
     clearAction();
@@ -313,53 +321,6 @@ export const Associations = ({ children }: AssociationsProps) => (
     {children}
   </div>
 );
-
-export const Association = ({
-  filterKey,
-  filterKeys,
-  intro = 'and',
-  label,
-  labels,
-}: AssociationProps) => {
-  const hasFilterKeys = filterKeys?.length > 0;
-  const hasLabels = labels?.length > 0;
-  const hasFilterKey = Boolean(filterKey);
-  const newParamKeys: NewParamsKey[] = [];
-
-  if (hasFilterKeys) {
-    filterKeys.forEach(key => {
-      newParamKeys.push(key);
-    });
-  } else if (hasFilterKey) {
-    newParamKeys.push(filterKey);
-  }
-
-  newParamKeys.push(PAGE_PARAM_KEY);
-
-  const newParams = newParamKeys.reduce((all, key) => {
-    all[key] = null;
-
-    return all;
-  }, {} as Record<NewParamsKey, null>);
-
-  return (
-    <div className='incidents-association'>
-      <AssociationText>{intro}</AssociationText>
-      {' '}
-      {hasLabels ? (
-        <AssociationMultiple labels={labels} />
-      ) : (
-        <AssociationSingle label={label} />
-      )}
-      {(hasFilterKeys || hasFilterKey) && (
-        <>
-          {' '}
-          <AssociationRemove newParams={newParams} />
-        </>
-      )}
-    </div>
-  );
-};
 
 const IncidentsHeader = ({
   children,

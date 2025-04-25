@@ -275,6 +275,110 @@ describe('getFilters()', () => {
       });
     });
   });
+
+  describe('with a quarter', () => {
+    test('should include the quarter', () => {
+      const queryParams = new URLSearchParams('sort=ASC&with_entity_id=123&quarter=Q2-2014');
+
+      expect(getFilters(queryParams)).toEqual({
+        dates: {
+          fields: {
+            'date-range-select': [
+              {
+                type: 'text',
+                value: 'between',
+              },
+              {
+                name: 'date_range_from',
+                type: 'input-date',
+              },
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                name: 'date_range_to',
+                type: 'input-date',
+              },
+            ],
+            'date-select': [
+              {
+                type: 'text',
+                value: 'on',
+              },
+              {
+                name: 'date_on',
+                type: 'input-date',
+              },
+            ],
+          },
+          labels: [
+            {
+              action: 'date-select',
+              to: null,
+              type: 'link',
+              value: 'on a date',
+            },
+            {
+              type: 'text',
+              value: 'or',
+            },
+            {
+              action: 'date-range-select',
+              to: null,
+              type: 'link',
+              value: 'between dates',
+            },
+          ],
+        },
+        entities: {
+          labels: [
+            {
+              type: 'text',
+              value: 'and',
+            },
+            {
+              type: 'id',
+              value: 123,
+            },
+          ],
+          model: 'entities',
+          values: {
+            with_entity_id: 123, // eslint-disable-line camelcase
+          },
+        },
+        people: undefined,
+        quarter: {
+          labels: [
+            {
+              type: 'text',
+              value: 'during',
+            },
+            {
+              type: 'label',
+              value: 'Q2',
+            },
+            {
+              type: 'text',
+              value: 'of',
+            },
+            {
+              type: 'label',
+              value: 2014,
+            },
+          ],
+          values: {
+            quarter: 'Q2-2014',
+          },
+        },
+        with_entity_id: { // eslint-disable-line camelcase
+          key: 'with_entity_id',
+          label: 123,
+          value: 123,
+        },
+      });
+    });
+  });
 });
 
 describe('getParams()', () => {
