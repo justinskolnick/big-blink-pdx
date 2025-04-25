@@ -54828,7 +54828,11 @@ Hook ${hookName} was either not provided or not a function.`);
     const location2 = useLocation();
     const [, setSearchParams] = useSearchParams();
     const handleSubmit = (formData) => {
-      const params = Object.fromEntries(formData.entries());
+      const formParams = Object.fromEntries(formData.entries());
+      const params = {
+        ...formParams,
+        page: null
+      };
       const queryParams = getQueryParams(location2, params, false);
       setSearchParams(queryParams.searchParams);
     };

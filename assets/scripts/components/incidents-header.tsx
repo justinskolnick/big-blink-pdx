@@ -16,9 +16,9 @@ import { Sections } from '../types';
 import type {
   Id,
   IncidentsFiltersDateField,
-  IncidentsFiltersLabelId,
   IncidentsFiltersDatesActionValue,
   IncidentsFiltersLabel,
+  IncidentsFiltersLabelId,
   IncidentsFiltersObjects,
   NewParams,
 } from '../types';
@@ -209,7 +209,11 @@ const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: As
   const [, setSearchParams] = useSearchParams();
 
   const handleSubmit: SubmitHandler = (formData) => {
-    const params = Object.fromEntries(formData.entries());
+    const formParams = Object.fromEntries(formData.entries());
+    const params = {
+      ...formParams,
+      page: null,
+    } as NewParams;
     const queryParams = getQueryParams(location, params, false);
 
     setSearchParams(queryParams.searchParams);
