@@ -54813,14 +54813,13 @@ Hook ${hookName} was either not provided or not a function.`);
       name: field.name
     }
   );
-  var concatenate = (prev2, curr) => [prev2, " ", curr];
   var AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
     label.type === "id" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationModelId, { label, model }),
     label.type === "input-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
     label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: label.value }),
     label.type === "link" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
     label.type === "text" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: label.value })
-  ] }, i)).reduce(concatenate);
+  ] }, i)).reduce((prev2, curr) => [prev2, " ", curr]);
   var AssociationForm = ({ action, filter, handleActionClick, handleCancel }) => {
     const { fields } = filter;
     const hasFields = Boolean(fields);

@@ -5,12 +5,12 @@ import IncidentList from './incident-list';
 
 import type {
   Ids,
-  IncidentFilters,
+  IncidentsFilters,
   Pagination,
 } from '../types';
 
 interface Props {
-  filters?: IncidentFilters;
+  filters?: IncidentsFilters;
   hasSort?: boolean;
   ids: Ids;
   label: string;

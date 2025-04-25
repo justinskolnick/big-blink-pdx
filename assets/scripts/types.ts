@@ -132,71 +132,69 @@ type SortParams = {
 export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & SortParams;
 
 type IncidentsFilterStringValue = string;
-export type IncidentFiltersDatesActionValue = 'date-select' | 'date-range-select';
+export type IncidentsFiltersDatesActionValue = 'date-select' | 'date-range-select';
 
-export type IncidentFilterLabelId = {
+export type IncidentsFiltersLabelId = {
   type: 'id';
   value: Id;
 };
-type IncidentFilterLabelLabel = {
+type IncidentsFiltersLabelLabel = {
   type: 'label';
   value: IncidentsFilterStringValue;
 };
-type IncidentFilterLabelLink = {
-  action: IncidentFiltersDatesActionValue;
+type IncidentsFiltersLabelLink = {
+  action: IncidentsFiltersDatesActionValue;
   to: string;
   type: 'link';
   value: IncidentsFilterStringValue;
 };
-type IncidentFilterLabelText = {
+type IncidentsFiltersLabelText = {
   type: 'text';
   value: IncidentsFilterStringValue;
 };
-export type IncidentFilterDateField = {
-  name: 'date_on' | 'date_range_from' | 'date_range_to';
+export type IncidentsFiltersDateField = {
+  name: keyof DatesParams;
   type: 'input-date';
   value?: IncidentsFilterStringValue;
 };
-export type IncidentFilterLabel = IncidentFilterLabelId | IncidentFilterLabelLabel | IncidentFilterLabelLink | IncidentFilterLabelText | IncidentFilterDateField;
+export type IncidentsFiltersLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText | IncidentsFiltersDateField;
 
-export type IncidentDateFilterLabel = IncidentFilterLabelLabel | IncidentFilterLabelLink | IncidentFilterLabelText;
-type IncidentDateFilterFieldLabel = IncidentFilterDateField | IncidentFilterLabelText;
-export type IncidentModelIdFilterLabel = IncidentFilterLabelId | IncidentFilterLabelText;
+type IncidentDateFilterLabel = IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText;
+type IncidentsDateFilterFieldLabel = IncidentsFiltersDateField | IncidentsFiltersLabelText;
+export type IncidentModelIdFilterLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelText;
 
-
-type IncidentFiltersDates = {
-  fields: Record<IncidentFiltersDatesActionValue, IncidentDateFilterFieldLabel[]> | undefined;
+type IncidentsFiltersDates = {
+  fields: Record<IncidentsFiltersDatesActionValue, IncidentsDateFilterFieldLabel[]> | undefined;
   labels: IncidentDateFilterLabel[];
   model: undefined;
   values?: DatesParams;
 };
-type IncidentFiltersEntities = {
+type IncidentsFiltersEntities = {
   fields: undefined;
   labels: IncidentModelIdFilterLabel[];
   model: Sections.Entities;
   values: EntitiesParams;
 };
-type IncidentFiltersPeople = {
+type IncidentsFiltersPeople = {
   fields: undefined;
   labels: IncidentModelIdFilterLabel[];
   model: Sections.People;
   values: PeopleParams;
 };
-type IncidentFiltersQuarter = {
+type IncidentsFiltersQuarter = {
   fields: undefined;
-  labels: IncidentFilterLabel[];
+  labels: IncidentsFiltersLabel[];
   model: undefined;
   values: QuarterParams;
 };
 
-export type IncidentFilters = {
-  dates: IncidentFiltersDates;
-  entities?: IncidentFiltersEntities;
-  people?: IncidentFiltersPeople;
-  quarter?: IncidentFiltersQuarter;
+export type IncidentsFilters = {
+  dates: IncidentsFiltersDates;
+  entities?: IncidentsFiltersEntities;
+  people?: IncidentsFiltersPeople;
+  quarter?: IncidentsFiltersQuarter;
 };
-export type IncidentFiltersKeys = keyof IncidentFilters;
-export type IncidentsFilterObjects = IncidentFilters[IncidentFiltersKeys];
+export type IncidentsFiltersObjects = IncidentsFilters[keyof IncidentsFilters];
 
 type LeaderboardLinkLabels = {
   more: string;
@@ -253,7 +251,7 @@ type IncidentsStats = {
 };
 
 export type IncidentsOverview = {
-  filters?: IncidentFilters;
+  filters?: IncidentsFilters;
   stats: IncidentsStats;
 };
 

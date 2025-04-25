@@ -8,23 +8,14 @@ const {
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
 } = require('../config/constants');
-const { DATE_PATTERN, QUARTER_PATTERN } = require('../config/patterns');
 
 const dateHelper = require('./date');
-
-const hasDate = (param) => param?.length > 0 && DATE_PATTERN.test(param);
-const hasInteger = (param) => param?.length > 0 && Number.isInteger(Number(param));
-const hasQuarterAndYear = (param) => param?.length > 0 && QUARTER_PATTERN.test(param);
-
-const getQuarterAndYear = (param) => {
-  if (hasQuarterAndYear(param)) {
-    const [quarter, year] = param.match(QUARTER_PATTERN).slice(1,3);
-
-    return [quarter, year].map(Number);
-  }
-
-  return null;
-};
+const {
+  getQuarterAndYear,
+  hasDate,
+  hasInteger,
+  hasQuarterAndYear,
+} = require('./param');
 
 const getLabel = value => ({
   type: 'label',
@@ -171,9 +162,13 @@ const getQuarterFilter = searchParams => {
   }
 };
 
+const getFilters = searchParams => ({
+  dates: getDatesFilter(searchParams),
+  entities: getEntitiesFilter(searchParams),
+  people: getPeopleFilter(searchParams),
+  quarter: getQuarterFilter(searchParams),
+});
+
 module.exports = {
-  getDatesFilter,
-  getEntitiesFilter,
-  getPeopleFilter,
-  getQuarterFilter,
+  getFilters,
 };

@@ -15,23 +15,26 @@ import { selectors as peopleSelectors } from '../reducers/people';
 import { Sections } from '../types';
 import type {
   Id,
-  IncidentFilterDateField,
-  IncidentsFilterObjects,
-  IncidentFiltersDatesActionValue,
-  // IncidentFilters,
-  IncidentFilterLabel,
-  // IncidentFiltersKeys,
-  // IncidentModelIdFilterLabel,
-  IncidentFilterLabelId,
+  IncidentsFiltersDateField,
+  IncidentsFiltersLabelId,
+  IncidentsFiltersDatesActionValue,
+  IncidentsFiltersLabel,
+  IncidentsFiltersObjects,
   NewParams,
 } from '../types';
 
 type NewParamsKey = keyof NewParams;
-// type NewParamsKey = keyof IncidentsFilterObjects['values'];
-// type NewParams = Record<NewParamsKey, null>
+
+interface AssociationActionHandlerType {
+  (event: MouseEvent, action?: IncidentsFiltersDatesActionValue): void;
+}
+
+interface SubmitHandler {
+  (formData: FormData): void;
+}
 
 interface AssociationFilterProps {
-  filter: IncidentsFilterObjects;
+  filter: IncidentsFiltersObjects;
 }
 
 interface AssociationLabelSetProps {
@@ -39,19 +42,11 @@ interface AssociationLabelSetProps {
 }
 
 interface AssociationLabelProps {
-  label: IncidentFilterLabel['value'];
-}
-
-interface SubmitHandler {
-  (formData: FormData): void;
-}
-
-interface AssociationActionHandlerType {
-  (event: MouseEvent, action?: IncidentFiltersDatesActionValue): void;
+  label: IncidentsFiltersLabel['value'];
 }
 
 interface AssociationActionProps {
-  action?: IncidentFiltersDatesActionValue;
+  action?: IncidentsFiltersDatesActionValue;
   children: ReactNode;
   handleClick?: AssociationActionHandlerType;
   to?: string;
@@ -62,19 +57,19 @@ interface AssociationTextProps {
 }
 
 interface AssociationLabelsProps {
-  filter: IncidentsFilterObjects;
+  filter: IncidentsFiltersObjects;
   handleActionClick?: AssociationActionHandlerType;
 }
 
 interface AssociationLabelArrayProps {
   handleActionClick?: AssociationActionHandlerType;
-  labels: IncidentFilterLabel[];
+  labels: IncidentsFiltersLabel[];
   model?: Sections.Entities | Sections.People;
 }
 
 interface AssociationFormProps {
-  action: IncidentFiltersDatesActionValue;
-  filter: IncidentsFilterObjects;
+  action: IncidentsFiltersDatesActionValue;
+  filter: IncidentsFiltersObjects;
   handleActionClick?: AssociationActionHandlerType;
   handleCancel: AssociationActionHandlerType;
 }
@@ -84,12 +79,12 @@ interface AssociationsProps {
 }
 
 interface AssociationModelIdProps {
-  label: IncidentFilterLabelId;
+  label: IncidentsFiltersLabelId;
   model: Sections;
 }
 
 interface AssociationDateFieldProps {
-  field: IncidentFilterDateField;
+  field: IncidentsFiltersDateField;
 }
 
 interface AssociationRemoveProps {
@@ -189,12 +184,6 @@ const AssociationDateField = ({ field }: AssociationDateFieldProps) => (
   />
 );
 
-interface Concatenate {
-  (prev: ReactElement, curr: ReactElement): any;
-}
-
-const concatenate: Concatenate = (prev, curr) => [prev, ' ', curr];
-
 const AssociationLabelArray = ({ handleActionClick, labels, model }: AssociationLabelArrayProps) => labels.map((label, i) => (
   <Fragment key={i}>
     {label.type === 'id' && <AssociationModelId label={label} model={model} />}
@@ -207,7 +196,7 @@ const AssociationLabelArray = ({ handleActionClick, labels, model }: Association
     )}
     {label.type === 'text' && <AssociationText>{label.value}</AssociationText>}
   </Fragment>
-)).reduce(concatenate);
+)).reduce((prev: ReactElement, curr: ReactElement): any => [prev, ' ', curr]);
 
 const AssociationForm = ({ action, filter, handleActionClick, handleCancel }: AssociationFormProps) => {
   const { fields } = filter;
@@ -278,7 +267,7 @@ export const AssociationFilter = ({ filter }: AssociationFilterProps) => {
   const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
 
-  const [activeAction, setActiveAction] = useState<IncidentFiltersDatesActionValue>(null);
+  const [activeAction, setActiveAction] = useState<IncidentsFiltersDatesActionValue>(null);
 
   const clearAction = () => setActiveAction(null);
 

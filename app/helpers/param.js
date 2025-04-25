@@ -13,14 +13,6 @@ const {
   QUARTER_PATTERN,
 } = require('../config/patterns');
 
-const dateHelper = require('./date');
-const {
-  getDatesFilter,
-  getEntitiesFilter,
-  getPeopleFilter,
-  getQuarterFilter,
-} = require('./filters');
-
 const hasDate = (param) => param?.length > 0 && DATE_PATTERN.test(param);
 const hasInteger = (param) => param?.length > 0 && Number.isInteger(Number(param));
 const hasQuarterAndYear = (param) => param?.length > 0 && QUARTER_PATTERN.test(param);
@@ -80,56 +72,6 @@ const getParams = searchParams => {
   return values;
 };
 
-const getFilters = searchParams => {
-  const filters = {};
-
-  const hasDateOn = searchParams.has(PARAM_DATE_ON) && hasDate(searchParams.get(PARAM_DATE_ON));
-  const hasDateRange = [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p) && hasDate(searchParams.get(p)));
-
-  filters.dates = getDatesFilter(searchParams);
-  filters.entities = getEntitiesFilter(searchParams);
-  filters.people = getPeopleFilter(searchParams);
-  filters.quarter = getQuarterFilter(searchParams);
-
-  if (hasDateOn) {
-    filters[PARAM_DATE_ON] = {
-      key: PARAM_DATE_ON,
-      label: dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON)),
-      value: searchParams.get(PARAM_DATE_ON),
-    };
-  } else if (hasDateRange) {
-    [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
-      filters[p] = {
-        key: p,
-        label: dateHelper.formatDateString(searchParams.get(p)),
-        value: searchParams.get(p),
-      };
-    });
-  }
-
-  if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
-    if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
-      filters[PARAM_WITH_ENTITY_ID] = {
-        key: PARAM_WITH_ENTITY_ID,
-        label: Number(searchParams.get(PARAM_WITH_ENTITY_ID)),
-        value: Number(searchParams.get(PARAM_WITH_ENTITY_ID)),
-      };
-    }
-  }
-
-  if (searchParams.has(PARAM_WITH_PERSON_ID)) {
-    if (hasInteger(searchParams.get(PARAM_WITH_PERSON_ID))) {
-      filters[PARAM_WITH_PERSON_ID] = {
-        key: PARAM_WITH_PERSON_ID,
-        label: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
-        value: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
-      };
-    }
-  }
-
-  return filters;
-};
-
 const getParamsFromFilters = (searchParams, filters) => {
   const params = Object.entries(filters)
     .filter(([, domain]) => domain && 'values' in domain)
@@ -146,7 +88,6 @@ const getParamsFromFilters = (searchParams, filters) => {
 const getInvalidValueMessage = (param, value) => `<strong>${value}</strong> is not a valid value for <code>${param}</code>`;
 
 module.exports = {
-  getFilters,
   getInvalidValueMessage,
   getParams,
   getParamsFromFilters,
