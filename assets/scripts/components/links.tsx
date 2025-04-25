@@ -1,9 +1,9 @@
 import React, { useRef, MouseEvent as ReactMouseEvent, ReactNode } from 'react';
-import { useLocation, useSearchParams, Link, NavLink } from 'react-router';
+import { useSearchParams, Link, NavLink } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
-import { getQueryParams } from '../lib/links';
+import useQueryParams from '../hooks/use-query-params';
 
 import ItemTextWithIcon from './item-text-with-icon';
 
@@ -71,14 +71,11 @@ export const getWithPersonParams = (item: AffiliatedItem) => ({
   [withPersonIdParam]: item.person.id,
 });
 
-const useQueryParams = (newParams: NewParams, replace = true) =>
-  getQueryParams(useLocation(), newParams, replace);
-
 const BetterLink = ({
   onClick,
   ...rest
 }: BetterLinkProps) => {
-  const ref = useRef<HTMLAnchorElement>();
+  const ref = useRef<HTMLAnchorElement>(null);
 
   const handleClick = (e: ReactMouseEvent<HTMLAnchorElement>) => {
     if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
@@ -165,22 +162,22 @@ export const SortLink = ({
   const currentSortBy = searchParams.get(sortByParam);
   const currentSort = searchParams.get(sortParam);
   const isCurrentSortBy = name === currentSortBy || (currentSortBy === null && isDefault);
-  const newParamMap = new Map();
+  const newSearchParams = new Map(searchParams);
   let icon;
 
   if (isCurrentSortBy) {
-    newParamMap.set(sortByParam, isDefault ? null : name);
+    newSearchParams.set(sortByParam, isDefault ? null : name);
 
     if (currentSort === null) {
-      newParamMap.set(sortParam, toggleSort(defaultSort));
+      newSearchParams.set(sortParam, toggleSort(defaultSort));
       icon = getIconNameForSort(defaultSort);
     } else {
-      newParamMap.set(sortParam, null);
+      newSearchParams.set(sortParam, null);
       icon = getIconNameForSort(toggleSort(defaultSort));
     }
   } else {
-    newParamMap.set(sortByParam, isDefault ? null : name);
-    newParamMap.set(sortParam, null);
+    newSearchParams.set(sortByParam, isDefault ? null : name);
+    newSearchParams.set(sortParam, null);
   }
 
   const hasIcon = Boolean(icon);
@@ -189,7 +186,7 @@ export const SortLink = ({
     <LinkToQueryParams
       className={cx('link-sort', className)}
       title={title || 'Sort this list'}
-      newParams={Object.fromEntries(newParamMap.entries())}
+      newParams={Object.fromEntries(newSearchParams.entries())}
       {...rest}
     >
       {hasIcon ? (

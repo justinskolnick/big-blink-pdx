@@ -64,7 +64,7 @@ const Alert = ({
   grade,
   isActive,
 }: AlertProps) => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const iconName = ['error', 'warning'].includes(grade) ? 'triangle-exclamation' : 'asterisk';
   const classNames = unique(['alert-message', `alert-${grade}`]).join(' ');

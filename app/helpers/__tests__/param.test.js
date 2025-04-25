@@ -1,5 +1,5 @@
+const { getFilters } = require('../filter');
 const {
-  getFilters,
   getInvalidValueMessage,
   getParams,
   getParamsFromFilters,
@@ -15,83 +15,6 @@ const {
 describe('getInvalidValueMessage()', () => {
   test('with a param value', () => {
     expect(getInvalidValueMessage('name', 123)).toEqual('<strong>123</strong> is not a valid value for <code>name</code>');
-  });
-});
-
-describe('getFilters()', () => {
-  describe('with a date', () => {
-    test('should include the date', () => {
-      const queryParams = new URLSearchParams('date_on=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
-
-      expect(getFilters(queryParams)).toEqual({
-        date_on: { // eslint-disable-line camelcase
-          key: 'date_on',
-          label: 'November 12, 2015',
-          value: '2015-11-12',
-        },
-        sort: 'ASC',
-        with_entity_id: { // eslint-disable-line camelcase
-          key: 'with_entity_id',
-          label: 123,
-          value: 123,
-        },
-        with_person_id: { // eslint-disable-line camelcase
-          key: 'with_person_id',
-          label: 321,
-          value: 321,
-        },
-      });
-    });
-  });
-
-  describe('with a date range', () => {
-    test('should include the date range', () => {
-      const queryParams = new URLSearchParams('date_range_from=2015-11-12&date_range_to=2015-12-13&sort=ASC&with_entity_id=123&with_person_id=321');
-
-      expect(getFilters(queryParams)).toEqual({
-        date_range_from: { // eslint-disable-line camelcase
-          key: 'date_range_from',
-          label: 'November 12, 2015',
-          value: '2015-11-12',
-        },
-        date_range_to: { // eslint-disable-line camelcase
-          key: 'date_range_to',
-          label: 'December 13, 2015',
-          value: '2015-12-13',
-        },
-        sort: 'ASC',
-        with_entity_id: { // eslint-disable-line camelcase
-          key: 'with_entity_id',
-          label: 123,
-          value: 123,
-        },
-        with_person_id: { // eslint-disable-line camelcase
-          key: 'with_person_id',
-          label: 321,
-          value: 321,
-        },
-      });
-    });
-  });
-
-  describe('with am incomplete date range', () => {
-    test('should ignore the date range', () => {
-      const queryParams = new URLSearchParams('date_range_from=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
-
-      expect(getFilters(queryParams)).toEqual({
-        sort: 'ASC',
-        with_entity_id: { // eslint-disable-line camelcase
-          key: 'with_entity_id',
-          label: 123,
-          value: 123,
-        },
-        with_person_id: { // eslint-disable-line camelcase
-          key: 'with_person_id',
-          label: 321,
-          value: 321,
-        },
-      });
-    });
   });
 });
 
@@ -141,7 +64,7 @@ describe('getParamsFromFilters()', () => {
   const filters = getFilters(queryParams);
 
   test('with param values', () => {
-    expect(getParamsFromFilters(filters)).toEqual({
+    expect(getParamsFromFilters(queryParams, filters)).toEqual({
       date_on: '2015-11-12', // eslint-disable-line camelcase
       sort: 'ASC',
       with_entity_id: 123, // eslint-disable-line camelcase

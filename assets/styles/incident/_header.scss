@@ -9,10 +9,83 @@
     min-height: 27px;
   }
 
+  .incidents-association-option {
+    color: var(--color-light);
+  }
+
   .incidents-association-label {
     font-weight: 600;
   }
 
+  .incidents-association-link {
+    cursor: pointer;
+    color: var(--color-link);
+    font-weight: 600;
+
+    &:hover {
+      border-bottom: 1px solid var(--color-link);
+    }
+  }
+
+  .incidents-association-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .incidents-association-text {
+    &:has(+ .incidents-association-form-field) {
+      margin-right: calc(var(--gap) / 3);
+    }
+  }
+
+  .incidents-association-form-field {
+    &[type="date"] {
+      margin-top: calc(var(--gap) / 6);
+      margin-bottom: calc(var(--gap) / 6);
+      font-family: inherit;
+      font-size: 12px;
+    }
+
+    &:has(+ .incidents-association-text) {
+      margin-right: calc(var(--gap) / 3);
+    }
+  }
+
+  .incidents-association-form-fieldset {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &:has(+ button) {
+      margin-right: calc(var(--gap) / 2);
+    }
+  }
+
+  .incidents-association-form-button {
+    cursor: pointer;
+    border: none;
+  }
+
+  .incidents-association-form-submit {
+    padding: 6px 12px;
+    border-radius: 12px;
+    background-color: var(--color-link);
+    color: var(--color-background);
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+
+    &:has(+ .incidents-association-form-cancel) {
+      margin-right: calc(var(--gap) / 2);
+    }
+  }
+
+  .incidents-association-form-cancel {
+    background-color: transparent;
+  }
+
+  .incidents-association-form-cancel,
   .incidents-association-remove {
     color: var(--color-danger);
     font-weight: 600;

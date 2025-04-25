@@ -1500,14 +1500,82 @@ body.has-alert .alert-root {
 .incident-header .incidents-association {
   min-height: 27px;
 }
+.incident-header .incidents-association-option {
+  color: gray;
+  color: var(--color-light);
+}
 .incident-header .incidents-association-label {
   font-weight: 600;
 }
+.incident-header .incidents-association-link {
+  cursor: pointer;
+  color: cornflowerblue;
+  color: var(--color-link);
+  font-weight: 600;
+}
+.incident-header .incidents-association-link:hover {
+  border-bottom: 1px solid cornflowerblue;
+  border-bottom: 1px solid var(--color-link);
+}
+.incident-header .incidents-association-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.incident-header .incidents-association-text:has(+ .incidents-association-form-field) {
+  margin-right: calc(18px / 3);
+  margin-right: calc(var(--gap) / 3);
+}
+.incident-header .incidents-association-form-field[type=date] {
+  margin-top: calc(18px / 6);
+  margin-top: calc(var(--gap) / 6);
+  margin-bottom: calc(18px / 6);
+  margin-bottom: calc(var(--gap) / 6);
+  font-family: inherit;
+  font-size: 12px;
+}
+.incident-header .incidents-association-form-field:has(+ .incidents-association-text) {
+  margin-right: calc(18px / 3);
+  margin-right: calc(var(--gap) / 3);
+}
+.incident-header .incidents-association-form-fieldset {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.incident-header .incidents-association-form-fieldset:has(+ button) {
+  margin-right: calc(18px / 2);
+  margin-right: calc(var(--gap) / 2);
+}
+.incident-header .incidents-association-form-button {
+  cursor: pointer;
+  border: none;
+}
+.incident-header .incidents-association-form-submit {
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: cornflowerblue;
+  background-color: var(--color-link);
+  color: snow;
+  color: var(--color-background);
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.incident-header .incidents-association-form-submit:has(+ .incidents-association-form-cancel) {
+  margin-right: calc(18px / 2);
+  margin-right: calc(var(--gap) / 2);
+}
+.incident-header .incidents-association-form-cancel {
+  background-color: transparent;
+}
+.incident-header .incidents-association-form-cancel,
 .incident-header .incidents-association-remove {
   color: crimson;
   color: var(--color-danger);
   font-weight: 600;
 }
+.incident-header .incidents-association-form-cancel:hover,
 .incident-header .incidents-association-remove:hover {
   border-bottom-color: crimson;
   border-bottom-color: var(--color-danger);

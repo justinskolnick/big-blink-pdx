@@ -648,7 +648,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement2(type, key, self, source, owner, props) {
+        function ReactElement3(type, key, self, source, owner, props) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -678,7 +678,7 @@
           return type;
         }
         function cloneAndReplaceKey(oldElement, newKey) {
-          newKey = ReactElement2(
+          newKey = ReactElement3(
             oldElement.type,
             newKey,
             void 0,
@@ -1195,7 +1195,7 @@
               JSCompiler_inline_result[i] = arguments[i + 2];
             props.children = JSCompiler_inline_result;
           }
-          props = ReactElement2(element.type, key, void 0, void 0, owner, props);
+          props = ReactElement3(element.type, key, void 0, void 0, owner, props);
           for (key = 2; key < arguments.length; key++)
             validateChildKeys(arguments[key], props.type);
           return props;
@@ -1258,7 +1258,7 @@
             i,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          return ReactElement2(type, typeString, void 0, void 0, getOwner(), i);
+          return ReactElement3(type, typeString, void 0, void 0, getOwner(), i);
         };
         exports.createRef = function() {
           var refObject = { current: null };
@@ -1476,7 +1476,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), Internals = {
+        var React54 = require_react(), Internals = {
           d: {
             f: noop5,
             r: function() {
@@ -1494,7 +1494,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React54.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2950,7 +2950,7 @@
           "number" === type && getActiveElement(node2.ownerDocument) === node2 || node2.defaultValue === "" + value || (node2.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React53.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React54.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -16420,13 +16420,13 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React53 = require_react(), ReactDOM2 = require_react_dom(), REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_PROVIDER_TYPE = Symbol.for("react.provider"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React54 = require_react(), ReactDOM2 = require_react_dom(), REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_PROVIDER_TYPE = Symbol.for("react.provider"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
         Symbol.for("react.scope");
         Symbol.for("react.debug_trace_mode");
         var REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen");
         Symbol.for("react.legacy_hidden");
         Symbol.for("react.tracing_marker");
-        var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, assign3 = Object.assign, disabledDepth = 0, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd;
+        var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React54.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, assign3 = Object.assign, disabledDepth = 0, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd;
         disabledLog.__reactDisabledLog = true;
         var prefix2, suffix, reentry = false;
         var componentFrameCache = new ("function" === typeof WeakMap ? WeakMap : Map)();
@@ -19146,7 +19146,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React53.version;
+          var isomorphicReactPackageVersion = React54.version;
           if ("19.0.0" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.0.0\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -19296,7 +19296,7 @@
           return x2 === y && (0 !== x2 || 1 / x2 === 1 / y) || x2 !== x2 && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef20 = React53.useRef, useEffect34 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
+        var React54 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React54.useSyncExternalStore, useRef20 = React54.useRef, useEffect35 = React54.useEffect, useMemo7 = React54.useMemo, useDebugValue3 = React54.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef20(null);
           if (null === instRef.current) {
@@ -19339,7 +19339,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect35(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -19594,7 +19594,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment24 = REACT_FRAGMENT_TYPE;
+          var Fragment25 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19653,7 +19653,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment24;
+          exports.Fragment = Fragment25;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -20599,7 +20599,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement2(type, key, self, source, owner, props) {
+        function ReactElement3(type, key, self, source, owner, props) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -20679,7 +20679,7 @@
             maybeKey,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          return ReactElement2(type, children, self, source, getOwner(), maybeKey);
+          return ReactElement3(type, children, self, source, getOwner(), maybeKey);
         }
         function validateChildKeys(node2, parentType) {
           if ("object" === typeof node2 && node2 && node2.$$typeof !== REACT_CLIENT_REFERENCE) {
@@ -20723,9 +20723,9 @@
           info || (parentType = getComponentNameFromType(parentType)) && (info = "\n\nCheck the top-level render call using <" + parentType + ">.");
           return info;
         }
-        var React53 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+        var React54 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
         Symbol.for("react.provider");
-        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE$2 = Symbol.for("react.client.reference"), ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, assign3 = Object.assign, REACT_CLIENT_REFERENCE$1 = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, disabledDepth = 0, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd;
+        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE = Symbol.for("react.offscreen"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE$2 = Symbol.for("react.client.reference"), ReactSharedInternals = React54.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, assign3 = Object.assign, REACT_CLIENT_REFERENCE$1 = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, disabledDepth = 0, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd;
         disabledLog.__reactDisabledLog = true;
         var prefix2, suffix, reentry = false;
         var componentFrameCache = new ("function" === typeof WeakMap ? WeakMap : Map)();
@@ -20762,8 +20762,8 @@
       function _interopDefault(ex) {
         return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
       }
-      var React53 = require_react();
-      var React__default = _interopDefault(React53);
+      var React54 = require_react();
+      var React__default = _interopDefault(React54);
       function _defineProperty3(obj, key, value) {
         if (key in obj) {
           Object.defineProperty(obj, key, {
@@ -20846,7 +20846,7 @@
               return React__default.createElement(WrappedComponent, this.props);
             };
             return SideEffect2;
-          }(React53.PureComponent);
+          }(React54.PureComponent);
           _defineProperty3(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
           _defineProperty3(SideEffect, "canUseDOM", canUseDOM3);
           return SideEffect;
@@ -39982,7 +39982,7 @@ Hook ${hookName} was either not provided or not a function.`);
     grade,
     isActive
   }) => {
-    const ref = (0, import_react13.useRef)();
+    const ref = (0, import_react13.useRef)(null);
     const iconName = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
@@ -40921,9 +40921,17 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       get: (key) => searchParams.get(key),
       has: (key) => searchParams.has(key),
-      isCurrent: isCurrent(location2, newSearch)
+      isCurrent: isCurrent(location2, newSearch),
+      searchParams
     };
   };
+
+  // assets/scripts/hooks/use-query-params.ts
+  var useQueryParams = (newParams, replace4 = true) => {
+    const location2 = useLocation();
+    return getQueryParams(location2, newParams, replace4);
+  };
+  var use_query_params_default = useQueryParams;
 
   // assets/scripts/types.ts
   var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
@@ -40933,10 +40941,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var dateOnParam = "date_on";
-  var dateRangeFromParam = "date_range_from";
-  var dateRangeToParam = "date_range_to";
-  var quarterParam = "quarter";
   var sortParam = "sort";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
@@ -40947,12 +40951,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var getWithPersonParams = (item) => ({
     [withPersonIdParam]: item.person.id
   });
-  var useQueryParams = (newParams, replace4 = true) => getQueryParams(useLocation(), newParams, replace4);
   var BetterLink = ({
     onClick,
     ...rest
   }) => {
-    const ref = (0, import_react19.useRef)();
+    const ref = (0, import_react19.useRef)(null);
     const handleClick = (e) => {
       if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
         const customEvent = new MouseEvent("click", {
@@ -40977,7 +40980,7 @@ Hook ${hookName} was either not provided or not a function.`);
     replace: replace4,
     ...rest
   }) => {
-    const queryParams = useQueryParams(newParams, replace4);
+    const queryParams = use_query_params_default(newParams, replace4);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
       Link,
       {
@@ -41021,20 +41024,20 @@ Hook ${hookName} was either not provided or not a function.`);
     const currentSortBy = searchParams.get(sortByParam);
     const currentSort = searchParams.get(sortParam);
     const isCurrentSortBy = name === currentSortBy || currentSortBy === null && isDefault;
-    const newParamMap = /* @__PURE__ */ new Map();
+    const newSearchParams = new Map(searchParams);
     let icon2;
     if (isCurrentSortBy) {
-      newParamMap.set(sortByParam, isDefault ? null : name);
+      newSearchParams.set(sortByParam, isDefault ? null : name);
       if (currentSort === null) {
-        newParamMap.set(sortParam, toggleSort(defaultSort));
+        newSearchParams.set(sortParam, toggleSort(defaultSort));
         icon2 = getIconNameForSort(defaultSort);
       } else {
-        newParamMap.set(sortParam, null);
+        newSearchParams.set(sortParam, null);
         icon2 = getIconNameForSort(toggleSort(defaultSort));
       }
     } else {
-      newParamMap.set(sortByParam, isDefault ? null : name);
-      newParamMap.set(sortParam, null);
+      newSearchParams.set(sortByParam, isDefault ? null : name);
+      newSearchParams.set(sortParam, null);
     }
     const hasIcon = Boolean(icon2);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
@@ -41042,7 +41045,7 @@ Hook ${hookName} was either not provided or not a function.`);
       {
         className: cx("link-sort", className),
         title: title || "Sort this list",
-        newParams: Object.fromEntries(newParamMap.entries()),
+        newParams: Object.fromEntries(newSearchParams.entries()),
         ...rest,
         children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(
           item_text_with_icon_default,
@@ -41778,7 +41781,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var entities_default2 = Index;
 
   // assets/scripts/components/entities/detail.tsx
-  var import_react36 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
 
   // assets/scripts/components/incident-date-box.tsx
   var import_react27 = __toESM(require_react());
@@ -42015,7 +42018,7 @@ Hook ${hookName} was either not provided or not a function.`);
     TotalCell,
     label
   }) => {
-    const ref = (0, import_react28.useRef)();
+    const ref = (0, import_react28.useRef)(null);
     const [showAll, setShowAll] = (0, import_react28.useState)(false);
     const initialCount = 5;
     const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
@@ -54723,8 +54726,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
+    const quarterParam = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam);
     const entitiesData = useSelector(getEntitiesChartData);
     const data2 = entitiesData?.[numericId];
     const hasData = data2?.length > 0;
@@ -54742,26 +54745,29 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasData, numericId, trigger]);
     (0, import_react32.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
+        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam2, quarter, setSearchParams]);
+    }, [quarterParam, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default = Chart3;
 
   // assets/scripts/components/detail-incidents.tsx
-  var import_react34 = __toESM(require_react());
+  var import_react35 = __toESM(require_react());
 
   // assets/scripts/components/incidents-header.tsx
+  var import_react33 = __toESM(require_react());
   var import_jsx_runtime51 = __toESM(require_jsx_runtime());
-  var PAGE_PARAM_KEY = "page";
   var AssociationLabelSet = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label-set", children });
   var AssociationLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-label", children: label });
-  var AssociationSingle = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }) });
-  var AssociationMultiple = ({ labels }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: labels.map((l, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: l }, i)).reduce((prev2, curr) => [prev2, " and ", curr]) });
+  var AssociationAction = ({ action, children, handleClick }) => {
+    const hasAction = Boolean(action);
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-link", onClick: hasAction ? (e) => handleClick(e, action) : null, children });
+  };
+  var AssociationText = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "incidents-association-text", children });
   var AssociationRemove = ({ newParams }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
     LinkToQueryParams,
     {
@@ -54775,45 +54781,120 @@ Hook ${hookName} was either not provided or not a function.`);
   var PrimaryAssociation = ({ label }) => {
     if (!label) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
-      "associatied with",
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: "associatied with" }),
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label })
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelSet, { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label }) })
     ] });
   };
-  var Associations = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "incidents-associations", children });
-  var Association = ({
-    filterKey,
-    filterKeys,
-    intro = "and",
-    label,
-    labels
-  }) => {
-    const hasFilterKeys = filterKeys?.length > 0;
-    const hasLabels = labels?.length > 0;
-    const hasFilterKey = Boolean(filterKey);
-    const newParamKeys = [];
-    if (hasFilterKeys) {
-      filterKeys.forEach((key) => {
-        newParamKeys.push(key);
-      });
-    } else if (hasFilterKey) {
-      newParamKeys.push(filterKey);
+  var Entity = ({ id }) => {
+    const entity = useSelector((state) => selectors.selectById(state, id));
+    if (!entity) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: entity.name });
+  };
+  var Person = ({ id }) => {
+    const person = useSelector((state) => selectors3.selectById(state, id));
+    if (!person) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: person.name });
+  };
+  var AssociationModelId = ({ label, model }) => {
+    if (model === "entities" /* Entities */) {
+      return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Entity, { id: label.value });
+    } else if (model === "people" /* People */) {
+      return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Person, { id: label.value });
     }
-    newParamKeys.push(PAGE_PARAM_KEY);
-    const newParams = newParamKeys.reduce((all, key) => {
+    return null;
+  };
+  var AssociationDateField = ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+    "input",
+    {
+      className: "incidents-association-form-field",
+      type: "date",
+      id: field.name,
+      name: field.name
+    }
+  );
+  var AssociationLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_react33.Fragment, { children: [
+    label.type === "id" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationModelId, { label, model }),
+    label.type === "input-date" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationDateField, { field: label }),
+    label.type === "label" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabel, { label: label.value }),
+    label.type === "link" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
+    label.type === "text" && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationText, { children: label.value })
+  ] }, i)).reduce((prev2, curr) => [prev2, " ", curr]);
+  var AssociationForm = ({ action, filter, handleActionClick, handleCancel }) => {
+    const { fields } = filter;
+    const hasFields = Boolean(fields);
+    const hasAction = hasFields && action in fields;
+    const actionFields = hasAction && fields[action];
+    const location2 = useLocation();
+    const [, setSearchParams] = useSearchParams();
+    const handleSubmit = (formData) => {
+      const params = Object.fromEntries(formData.entries());
+      const queryParams = getQueryParams(location2, params, false);
+      setSearchParams(queryParams.searchParams);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("form", { className: "incidents-association-form", action: handleSubmit, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("fieldset", { className: "incidents-association-form-fieldset", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels: actionFields, handleActionClick }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+        "button",
+        {
+          className: "incidents-association-form-button incidents-association-form-submit",
+          type: "submit",
+          children: "Submit"
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+        "button",
+        {
+          className: "incidents-association-form-button incidents-association-form-cancel",
+          onClick: handleCancel,
+          type: "button",
+          children: "\xD7"
+        }
+      )
+    ] });
+  };
+  var AssociationLabels = ({ filter, handleActionClick }) => {
+    const { labels, model, values } = filter;
+    const hasValues = Boolean(values);
+    const isRemovable = hasValues && Object.values(values).length > 0;
+    const newParams = hasValues && Object.keys(values).reduce((all, key) => {
       all[key] = null;
       return all;
     }, {});
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "incidents-association", children: [
-      intro,
-      " ",
-      hasLabels ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationMultiple, { labels }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationSingle, { label }),
-      (hasFilterKeys || hasFilterKey) && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabelArray, { labels, model, handleActionClick }),
+      isRemovable && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
         " ",
         /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationRemove, { newParams })
       ] })
     ] });
   };
+  var AssociationFilter = ({ filter }) => {
+    const hasFilter = Boolean(filter);
+    const hasFields = hasFilter && "fields" in filter;
+    const hasValues = hasFilter && "values" in filter;
+    const [activeAction, setActiveAction] = (0, import_react33.useState)(null);
+    const clearAction = () => setActiveAction(null);
+    const handleActionClick = (e, action) => {
+      e.preventDefault();
+      if (action) {
+        setActiveAction(action);
+      }
+    };
+    const handleCancelActionClick = (e) => {
+      e.preventDefault();
+      clearAction();
+    };
+    const hasActiveAction = Boolean(activeAction);
+    (0, import_react33.useEffect)(() => {
+      if (hasValues) {
+        clearAction();
+      }
+    }, [hasValues, clearAction]);
+    if (!hasFilter) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: cx("incidents-association", !hasValues && "incidents-association-option"), children: hasActiveAction && !hasValues && hasFields ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationForm, { filter, action: activeAction, handleCancel: handleCancelActionClick, handleActionClick }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(AssociationLabels, { filter, handleActionClick }) });
+  };
+  var Associations = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "incidents-associations", children });
   var IncidentsHeader = ({
     children,
     label
@@ -54829,10 +54910,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_header_default = IncidentsHeader;
 
   // assets/scripts/components/incident-list-table.tsx
-  var import_react33 = __toESM(require_react());
+  var import_react34 = __toESM(require_react());
   var import_jsx_runtime52 = __toESM(require_jsx_runtime());
   var IncidentRow = ({ id }) => {
-    const [isSelected, setIsSelected] = (0, import_react33.useState)(false);
+    const [isSelected, setIsSelected] = (0, import_react34.useState)(false);
     const incident = useSelector((state) => selectors2.selectById(state, id));
     const hasNotes = Boolean(incident?.notes);
     const deactivate = () => setIsSelected(false);
@@ -54912,78 +54993,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/detail-incidents.tsx
   var import_jsx_runtime54 = __toESM(require_jsx_runtime());
-  var WithEntityId = ({ filters, filterKey }) => {
-    const filter = filters?.[filterKey];
-    const hasValue = Boolean(filter?.value);
-    const value = hasValue && Number(filter.value);
-    const entity = useSelector((state) => hasValue && selectors.selectById(state, value));
-    if (!entity) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        label: entity.name
-      }
-    );
-  };
-  var WithPersonId = ({ filters, filterKey }) => {
-    const filter = filters?.[filterKey];
-    const hasValue = typeof filter === "object" && Boolean(filter?.value);
-    const value = hasValue && Number(filter.value);
-    const person = useSelector((state) => hasValue && selectors3.selectById(state, value));
-    if (!person) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        label: person.name
-      }
-    );
-  };
-  var DuringQuarter = ({ filters, filterKey }) => {
-    const quarterFilter = filters?.[filterKey];
-    if (!quarterFilter) return null;
-    const label = String(quarterFilter).match(/(Q[1-4])-(20[1-2][0-9])/).slice(1, 3).join(" of ");
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        intro: "during",
-        label
-      }
-    );
-  };
-  var OnDate = ({ filters, filterKey }) => {
-    const filter = filters?.[filterKey];
-    const hasValue = Boolean(filter?.value);
-    if (!hasValue) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKey,
-        intro: "on",
-        label: filter.label
-      }
-    );
-  };
-  var BetweenDates = ({ filters, filterKeys }) => {
-    const filterKeyPair = [];
-    const filterLabelPair = [];
-    if (!filters) return null;
-    filterKeys.filter((key) => key in filters).forEach((key) => {
-      filterKeyPair.push(filters[key].key);
-      filterLabelPair.push(filters[key].label);
-    });
-    if (filterKeyPair.length < filterKeys.length) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
-      Association,
-      {
-        filterKeys: filterKeyPair,
-        intro: "between",
-        labels: filterLabelPair
-      }
-    );
-  };
   var DetailIncidents = ({
     filters,
     hasSort,
@@ -54994,12 +55003,12 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const params = new URLSearchParams(location.search);
     const paramsString = params.toString();
-    const idsRef = (0, import_react34.useRef)(null);
-    const paramsStringRef = (0, import_react34.useRef)(null);
+    const idsRef = (0, import_react35.useRef)(null);
+    const paramsStringRef = (0, import_react35.useRef)(null);
     const scrollToRef = () => {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     };
-    (0, import_react34.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       if (JSON.stringify(ids) !== JSON.stringify(idsRef.current)) {
         idsRef.current = ids;
         if (paramsString.length > 0 && paramsString !== paramsStringRef.current) {
@@ -55016,11 +55025,10 @@ Hook ${hookName} was either not provided or not a function.`);
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "activity-stat-section incident-list-section", ref, children: [
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(incidents_header_default, { label, children: /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(Associations, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithEntityId, { filters, filterKey: withEntityIdParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(WithPersonId, { filters, filterKey: withPersonIdParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(DuringQuarter, { filters, filterKey: quarterParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(OnDate, { filters, filterKey: dateOnParam }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(BetweenDates, { filters, filterKeys: [dateRangeFromParam, dateRangeToParam] })
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.entities }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.people }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.quarter }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationFilter, { filter: filters?.dates })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         incident_list_default,
@@ -55036,13 +55044,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_incidents_default = DetailIncidents;
 
   // assets/scripts/components/detail-incidents-fetcher.tsx
-  var import_react35 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
   var IncidentsFetcher = ({ children, id, trigger }) => {
     const location2 = useLocation();
     const route = location2.pathname + location2.search;
-    const [lastRoute, setLastRoute] = (0, import_react35.useState)(route);
-    const [hasFetched, setHasFetched] = (0, import_react35.useState)(false);
-    (0, import_react35.useEffect)(() => {
+    const [lastRoute, setLastRoute] = (0, import_react36.useState)(route);
+    const [hasFetched, setHasFetched] = (0, import_react36.useState)(false);
+    (0, import_react36.useEffect)(() => {
       const currentRoute = location2.pathname + location2.search;
       if (lastRoute !== currentRoute) {
         setHasFetched(false);
@@ -55080,7 +55088,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/detail.tsx
   var import_jsx_runtime56 = __toESM(require_jsx_runtime());
   var Detail = () => {
-    const ref = (0, import_react36.useRef)();
+    const ref = (0, import_react37.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const entity = useSelector((state) => selectors.selectById(state, numericId));
@@ -55329,7 +55337,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var home_default = Home;
 
   // assets/scripts/components/incidents/index.tsx
-  var import_react37 = __toESM(require_react());
+  var import_react38 = __toESM(require_react());
   var import_jsx_runtime67 = __toESM(require_jsx_runtime());
   var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime67.jsxs)("p", { children: [
     "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
@@ -55339,7 +55347,7 @@ Hook ${hookName} was either not provided or not a function.`);
     "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
   ] });
   var Index3 = () => {
-    const ref = (0, import_react37.useRef)();
+    const ref = (0, import_react38.useRef)(null);
     const scrollToRef = () => {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -55366,13 +55374,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_default2 = Index3;
 
   // assets/scripts/components/incident-source-box.tsx
-  var import_react38 = __toESM(require_react());
+  var import_react39 = __toESM(require_react());
   var import_jsx_runtime68 = __toESM(require_jsx_runtime());
   var IncidentSourceBox = ({ incident, title }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const id = incident?.sourceId;
     const source = useSelector((state) => selectors4.selectById(state, id));
-    (0, import_react38.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       if (source || !id) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -55428,10 +55436,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default2 = Detail2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_react43 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
 
   // assets/scripts/components/people/attendees.tsx
-  var import_react39 = __toESM(require_react());
+  var import_react40 = __toESM(require_react());
   var import_jsx_runtime70 = __toESM(require_jsx_runtime());
   var Attendees3 = ({
     attendees,
@@ -55456,7 +55464,7 @@ Hook ${hookName} was either not provided or not a function.`);
       roles.push("was lobbied by a number of lobbyists as a City of Portland official");
     }
     description.push(roles.join(" and "));
-    (0, import_react39.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       if (!hasRecords) {
         trigger({ id: person.id });
       }
@@ -55501,15 +55509,15 @@ Hook ${hookName} was either not provided or not a function.`);
   var attendees_default2 = Attendees3;
 
   // assets/scripts/components/people/chart.tsx
-  var import_react40 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var Chart5 = ({ label }) => {
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react40.useState)(quarterParam2);
+    const quarterParam = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react41.useState)(quarterParam);
     const peopleData = useSelector(getPeopleChartData);
     const data2 = peopleData?.[numericId];
     const hasData = data2?.length > 0;
@@ -55520,28 +55528,28 @@ Hook ${hookName} was either not provided or not a function.`);
     const handleClick = (value) => {
       setQuarter(value.replace(" ", "-"));
     };
-    (0, import_react40.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       if (!hasData) {
         trigger({ id: numericId });
       }
     }, [hasData, numericId, trigger]);
-    (0, import_react40.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
+        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam2, quarter, setSearchParams]);
+    }, [quarterParam, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default3 = Chart5;
 
   // assets/scripts/components/people/entities.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
 
   // assets/scripts/components/affiliated-entities-table.tsx
-  var import_react41 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
   var import_jsx_runtime72 = __toESM(require_jsx_runtime());
   var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(icon_default, { name: "check", className: "icon-registered" });
   var AffiliatedEntitiesTable = ({
@@ -55550,7 +55558,7 @@ Hook ${hookName} was either not provided or not a function.`);
     person,
     title
   }) => {
-    const ref = (0, import_react41.useRef)();
+    const ref = (0, import_react42.useRef)(null);
     const hasPerson = Boolean(person);
     return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
       const hasTotal = Boolean(item.total);
@@ -55599,7 +55607,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
     const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
     const hasRecords = hasLobbyistRecords || hasOfficialRecords;
-    (0, import_react42.useEffect)(() => {
+    (0, import_react43.useEffect)(() => {
       if (!hasRecords) {
         trigger({ id: person.id });
       }
@@ -55654,7 +55662,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
-    const ref = (0, import_react43.useRef)();
+    const ref = (0, import_react44.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
@@ -55706,13 +55714,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default3 = Detail3;
 
   // assets/scripts/components/sources/item.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
   var import_jsx_runtime75 = __toESM(require_jsx_runtime());
   var Source = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useSelector((state) => selectors4.selectById(state, id));
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
-    (0, import_react44.useEffect)(() => {
+    (0, import_react45.useEffect)(() => {
       if (source) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -55751,17 +55759,17 @@ Hook ${hookName} was either not provided or not a function.`);
   var sources_default2 = Index4;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_react47 = __toESM(require_react());
+  var import_react48 = __toESM(require_react());
 
   // assets/scripts/components/sources/attendees.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react46 = __toESM(require_react());
   var import_jsx_runtime77 = __toESM(require_jsx_runtime());
   var Attendees4 = ({ attendees }) => {
     const [trigger] = api_default.useLazyGetSourceAttendeesByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
     const hasAttendees = Boolean(attendees);
-    (0, import_react45.useEffect)(() => {
+    (0, import_react46.useEffect)(() => {
       if (!hasAttendees) {
         trigger({ id: numericId });
       }
@@ -55786,12 +55794,12 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default4 = Chart6;
 
   // assets/scripts/components/sources/entities.tsx
-  var import_react46 = __toESM(require_react());
+  var import_react47 = __toESM(require_react());
   var import_jsx_runtime79 = __toESM(require_jsx_runtime());
   var Entities2 = ({ entities, source }) => {
     const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
     const hasEntities = entities?.length > 0;
-    (0, import_react46.useEffect)(() => {
+    (0, import_react47.useEffect)(() => {
       if (!hasEntities) {
         trigger({ id: source.id });
       }
@@ -55864,7 +55872,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/detail.tsx
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var Detail4 = () => {
-    const ref = (0, import_react47.useRef)();
+    const ref = (0, import_react48.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const source = useSelector((state) => selectors4.selectById(state, numericId));

@@ -102,69 +102,26 @@ export type Incident = {
 
 export type Incidents = Incident[];
 
-export type IncidentFilterString = string;
-type IncidentFilterNumber = number;
-export type IncidentFilterLabel = IncidentFilterString | IncidentFilterNumber;
-
-type IncidentFilterNumberLabelValue = {
-  label: IncidentFilterString;
-  value: IncidentFilterString;
-};
-
-type IncidentFilterStringLabelValue = {
-  label: IncidentFilterString;
-  value: IncidentFilterString;
-};
-
-type IncidentFilterQuarterObject = {
-  key: 'quarter';
-} & IncidentFilterStringLabelValue;
-
-type IncidentFilterIdObject = {
-  key: 'with_entity_id' | 'with_person_id';
-} & IncidentFilterNumberLabelValue;
-
-type IncidentDateFilterObject = {
-  key: 'date_on' | 'date_range_from' | 'date_range_to';
-} & IncidentFilterStringLabelValue;
-
-export type DateFilters = {
-  date_on?: IncidentDateFilterObject;
-  date_range_from?: IncidentDateFilterObject;
-  date_range_to?: IncidentDateFilterObject;
-};
-
-export type IncidentFilters = {
-  quarter?: IncidentFilterQuarterObject;
-  with_entity_id?: IncidentFilterIdObject;
-  with_person_id?: IncidentFilterIdObject;
-};
-
-type PaginationFilters = {
-  page?: string | number;
-};
-
-type SortFilters = {
-  sort?: SortValue;
-  sort_by?: SortByValue;
-};
-
-export type IncidentsFilters = DateFilters & IncidentFilters & PaginationFilters & SortFilters;
-
-type DateParams = {
+type DatesParams = {
   date_on?: string;
   date_range_from?: string;
   date_range_to?: string;
 };
 
-export type IncidentParams = {
-  quarter?: string;
-  with_entity_id?: number;
-  with_person_id?: number;
+type EntitiesParams = {
+  with_entity_id?: Id;
 };
 
 type PaginationParams = {
   page?: string | number;
+};
+
+type PeopleParams = {
+  with_person_id?: Id;
+};
+
+type QuarterParams = {
+  quarter?: string;
 };
 
 type SortParams = {
@@ -172,7 +129,72 @@ type SortParams = {
   sort_by?: SortByValue;
 };
 
-export type NewParams = DateParams & IncidentParams & PaginationParams & SortParams;
+export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & SortParams;
+
+type IncidentsFilterStringValue = string;
+export type IncidentsFiltersDatesActionValue = 'date-select' | 'date-range-select';
+
+export type IncidentsFiltersLabelId = {
+  type: 'id';
+  value: Id;
+};
+type IncidentsFiltersLabelLabel = {
+  type: 'label';
+  value: IncidentsFilterStringValue;
+};
+type IncidentsFiltersLabelLink = {
+  action: IncidentsFiltersDatesActionValue;
+  to: string;
+  type: 'link';
+  value: IncidentsFilterStringValue;
+};
+type IncidentsFiltersLabelText = {
+  type: 'text';
+  value: IncidentsFilterStringValue;
+};
+export type IncidentsFiltersDateField = {
+  name: keyof DatesParams;
+  type: 'input-date';
+  value?: IncidentsFilterStringValue;
+};
+export type IncidentsFiltersLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText | IncidentsFiltersDateField;
+
+type IncidentDateFilterLabel = IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText;
+type IncidentsDateFilterFieldLabel = IncidentsFiltersDateField | IncidentsFiltersLabelText;
+export type IncidentModelIdFilterLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelText;
+
+type IncidentsFiltersDates = {
+  fields: Record<IncidentsFiltersDatesActionValue, IncidentsDateFilterFieldLabel[]> | undefined;
+  labels: IncidentDateFilterLabel[];
+  model: undefined;
+  values?: DatesParams;
+};
+type IncidentsFiltersEntities = {
+  fields: undefined;
+  labels: IncidentModelIdFilterLabel[];
+  model: Sections.Entities;
+  values: EntitiesParams;
+};
+type IncidentsFiltersPeople = {
+  fields: undefined;
+  labels: IncidentModelIdFilterLabel[];
+  model: Sections.People;
+  values: PeopleParams;
+};
+type IncidentsFiltersQuarter = {
+  fields: undefined;
+  labels: IncidentsFiltersLabel[];
+  model: undefined;
+  values: QuarterParams;
+};
+
+export type IncidentsFilters = {
+  dates: IncidentsFiltersDates;
+  entities?: IncidentsFiltersEntities;
+  people?: IncidentsFiltersPeople;
+  quarter?: IncidentsFiltersQuarter;
+};
+export type IncidentsFiltersObjects = IncidentsFilters[keyof IncidentsFilters];
 
 type LeaderboardLinkLabels = {
   more: string;

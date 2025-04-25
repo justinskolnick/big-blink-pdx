@@ -15,7 +15,7 @@ import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);

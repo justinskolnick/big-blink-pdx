@@ -12,6 +12,7 @@ const {
   PARAM_WITH_PERSON_ID,
 } = require('../config/constants');
 
+const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
@@ -320,8 +321,8 @@ router.get('/:id/incidents', async (req, res, next) => {
 
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
-        filters = paramHelper.getFilters(req.query);
-        params = paramHelper.getParamsFromFilters(filters);
+        filters = filterHelper.getFilters(req.query);
+        params = paramHelper.getParamsFromFilters(req.query, filters);
 
         data = {
           source: {
