@@ -18,7 +18,7 @@ import SourceInformationBox from '../source-information-box';
 import { selectors } from '../../reducers/sources';
 
 const Detail = () => {
-  const ref = useRef<HTMLDivElement>(null);
+  const incidentsRef = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);
@@ -43,7 +43,7 @@ const Detail = () => {
 
       <ActivityOverview
         overview={source.overview}
-        ref={ref}
+        ref={incidentsRef}
       >
         <Chart label={label} />
       </ActivityOverview>
@@ -61,6 +61,7 @@ const Detail = () => {
             {trigger => (
               <IncidentsFetcher
                 id={source.id}
+                ref={incidentsRef}
                 trigger={trigger}
               >
                 <Incidents
@@ -69,7 +70,7 @@ const Detail = () => {
                   hasSort
                   label={source.title}
                   pagination={source.incidents?.pagination}
-                  ref={ref}
+                  ref={incidentsRef}
                 />
               </IncidentsFetcher>
             )}

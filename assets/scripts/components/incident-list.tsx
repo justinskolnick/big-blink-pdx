@@ -9,21 +9,19 @@ interface Props {
   hasSort?: boolean;
   ids: Ids;
   pagination: PaginationType;
-  scrollToRef: () => void;
 }
 
 const IncidentList = ({
   hasSort,
   ids,
   pagination,
-  scrollToRef,
 }: Props) => (
   <div className='incident-list'>
     <IncidentListTable hasSort={hasSort} ids={ids} />
 
     {pagination && ids.length > 0 && (
       <footer className='incident-list-footer'>
-        <Pagination pagination={pagination} onPageClick={scrollToRef} />
+        <Pagination pagination={pagination} />
       </footer>
     )}
   </div>

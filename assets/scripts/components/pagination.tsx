@@ -6,11 +6,10 @@ import { LinkToPage } from './links';
 import type { Pagination as PaginationType } from '../types';
 
 interface PaginationProps {
-  onPageClick?: () => void;
   pagination: PaginationType;
 }
 
-const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
+const Pagination = ({ pagination }: PaginationProps) => {
   const { page, pageCount, pages } = pagination;
 
   if (!pages) return null;
@@ -21,7 +20,6 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
         {pages.previous ? (
           <LinkToPage
             to={pages.previous.link}
-            onClick={onPageClick}
             aria-label='Previous Page'
           >
             <Icon name='arrow-left' />
@@ -45,7 +43,6 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
                   <LinkToPage
                     to={numberedPage.link}
                     isCurrent={numberedPage.value === page}
-                    onClick={onPageClick}
                   >
                     {numberedPage.label}
                   </LinkToPage>
@@ -60,10 +57,7 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
           </li>
           <li className='pagination-page pagination-page-total'>
             {pageCount > 1 ? (
-              <LinkToPage
-                to={pages.last.link}
-                onClick={onPageClick}
-              >
+              <LinkToPage to={pages.last.link}>
                 {pages.last.label}
               </LinkToPage>
             ) : (
@@ -77,7 +71,6 @@ const Pagination = ({ pagination, onPageClick }: PaginationProps) => {
         {pages.next ? (
           <LinkToPage
             to={pages.next.link}
-            onClick={onPageClick}
             aria-label='Next Page'
           >
             <Icon name='arrow-right' />

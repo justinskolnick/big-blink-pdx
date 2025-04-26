@@ -1,42 +1,26 @@
-import { useEffect, useState, ReactNode } from 'react';
-import { useLocation } from 'react-router';
+import { ReactNode, RefObject } from 'react';
 
+import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../hooks/use-fetch-and-scroll-on-route-change';
 import type { TriggerFn } from '../services/api';
 import type { Id } from '../types';
 
 interface Props {
   children: ReactNode;
   id: Id;
+  ref: RefObject<HTMLElement>;
   trigger?: TriggerFn;
 }
 
-const IncidentsFetcher = ({ children, id, trigger }: Props) => {
-  const location = useLocation();
-  const route = location.pathname + location.search;
-  const [lastRoute, setLastRoute] = useState(route);
-  const [hasFetched, setHasFetched] = useState(false);
+const IncidentsFetcher = ({ children, id, ref, trigger }: Props) => {
+  const fetch: FetchWithCallback = async (callback) => {
+    await trigger({ id, search: location.search });
 
-  useEffect(() => {
-    const currentRoute = location.pathname + location.search;
-
-    if (lastRoute !== currentRoute) {
-      setHasFetched(false);
-      setLastRoute(currentRoute);
+    if (callback) {
+      callback(ref);
     }
+  };
 
-    if (!hasFetched) {
-      setHasFetched(true);
-      trigger({ id, search: location.search });
-    }
-  }, [
-    hasFetched,
-    id,
-    lastRoute,
-    location,
-    setHasFetched,
-    setLastRoute,
-    trigger,
-  ]);
+  useFetchAndScrollOnRouteChange(fetch);
 
   return children;
 };

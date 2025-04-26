@@ -15,7 +15,7 @@ import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
 const Detail = () => {
-  const ref = useRef<HTMLDivElement>(null);
+  const incidentsRef = useRef<HTMLDivElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);
@@ -29,7 +29,7 @@ const Detail = () => {
     <ItemDetail>
       <ActivityOverview
         overview={person.overview}
-        ref={ref}
+        ref={incidentsRef}
       >
         <Chart label={person.name} />
       </ActivityOverview>
@@ -48,6 +48,7 @@ const Detail = () => {
         {trigger => (
           <IncidentsFetcher
             id={person.id}
+            ref={incidentsRef}
             trigger={trigger}
           >
             <Incidents
@@ -56,7 +57,7 @@ const Detail = () => {
               hasSort
               label={person.name}
               pagination={person.incidents?.pagination}
-              ref={ref}
+              ref={incidentsRef}
             />
           </IncidentsFetcher>
         )}

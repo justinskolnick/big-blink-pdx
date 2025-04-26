@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../lib/store';
 
+import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+
 import {
   LinkToPerson,
   SortLink,
@@ -65,6 +67,8 @@ const Index = () => {
   const pagination = useSelector(getPeoplePagination);
   const pageIds = useSelector(getPeoplePageIds);
   const hasPageIds = pageIds?.length > 0;
+
+  useFetchAndScrollOnRouteChange();
 
   return (
     <SectionIndex

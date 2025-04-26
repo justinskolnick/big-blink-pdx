@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, Outlet, ScrollRestoration } from 'react-router';
+import { useLocation, Outlet } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 
@@ -67,7 +67,6 @@ const App = () => {
       </main>
 
       <GlobalFooter />
-      <ScrollRestoration />
     </div>
   );
 };

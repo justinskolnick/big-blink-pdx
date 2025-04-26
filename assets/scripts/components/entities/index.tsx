@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../lib/store';
 
+import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+
 import EntityIcon from './icon';
 import {
   LinkToEntity,
@@ -60,6 +62,8 @@ const Index = () => {
   const pagination = useSelector(getEntitiesPagination);
   const pageIds = useSelector(getEntitiesPageIds);
   const hasPageIds = pageIds?.length > 0;
+
+  useFetchAndScrollOnRouteChange();
 
   return (
     <SectionIndex

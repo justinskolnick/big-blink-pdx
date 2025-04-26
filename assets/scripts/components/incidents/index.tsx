@@ -1,8 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import IncidentList from '../incident-list';
 import SectionIndex from '../section-index';
+
+import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import { getIncidentsPageIds, getIncidentsPagination } from '../../selectors';
 
@@ -13,26 +15,22 @@ const Introduction = () => (
 );
 
 const Index = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const scrollToRef = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const pagination = useSelector(getIncidentsPagination);
   const pageIds = useSelector(getIncidentsPageIds);
   const hasPageIds = pageIds?.length > 0;
+
+  useFetchAndScrollOnRouteChange();
 
   return (
     <SectionIndex
       introduction={<Introduction />}
       isLoading={!hasPageIds}
     >
-      <div className='incident-list-anchor' ref={ref}>
+      <div className='incident-list-anchor'>
         <IncidentList
           hasSort
           ids={pageIds}
           pagination={pagination}
-          scrollToRef={scrollToRef}
         />
       </div>
     </SectionIndex>
