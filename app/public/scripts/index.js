@@ -40895,6 +40895,17 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/links.tsx
   var import_react19 = __toESM(require_react());
 
+  // assets/scripts/config/constants.ts
+  var dateOnParam = "date_on";
+  var dateRangeFromParam = "date_range_from";
+  var dateRangeToParam = "date_range_to";
+  var pageParam = "page";
+  var quarterParam = "quarter";
+  var sortParam = "sort";
+  var sortByParam = "sort_by";
+  var withEntityIdParam = "with_entity_id";
+  var withPersonIdParam = "with_person_id";
+
   // assets/scripts/lib/links.ts
   var isCurrent = (location2, newSearch) => {
     const { pathname, search } = location2;
@@ -40941,10 +40952,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var sortParam = "sort";
-  var sortByParam = "sort_by";
-  var withEntityIdParam = "with_entity_id";
-  var withPersonIdParam = "with_person_id";
   var getWithEntityParams = (item) => ({
     [withEntityIdParam]: item.entity.id
   });
@@ -41634,6 +41641,30 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/hooks/use-fetch-and-scroll-on-route-change.ts
   var import_react26 = __toESM(require_react());
+
+  // assets/scripts/config/patterns.ts
+  var DETAIL_ROUTE_PATTERN = /^\/[a-z]+\/[0-9]+\/?$/;
+
+  // assets/scripts/hooks/use-fetch-and-scroll-on-route-change.ts
+  var PAGE_PARAMS = [
+    pageParam
+  ];
+  var SORT_PARAMS = [
+    sortByParam,
+    sortParam
+  ];
+  var INCIDENT_FILTER_PARAMS = [
+    dateOnParam,
+    dateRangeFromParam,
+    dateRangeToParam,
+    quarterParam,
+    withEntityIdParam,
+    withPersonIdParam
+  ];
+  var isDetailRoute = (pathname) => DETAIL_ROUTE_PATTERN.test(pathname);
+  var hasPageSearchParams = (searchParams) => PAGE_PARAMS.some((p2) => searchParams.has(p2));
+  var hasSortSearchParams = (searchParams) => SORT_PARAMS.some((p2) => searchParams.has(p2));
+  var hasIncidentFilterSearchParams = (searchParams) => INCIDENT_FILTER_PARAMS.some((p2) => searchParams.has(p2));
   var defaultFetch = (callback2) => {
     if (callback2) {
       callback2();
@@ -41642,35 +41673,49 @@ Hook ${hookName} was either not provided or not a function.`);
   var scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  var scrollToRef = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+  };
   var useScrollOnRouteChange = (fetch2 = defaultFetch) => {
     const hasFetch = Boolean(fetch2);
     const location2 = useLocation();
+    const [searchParams] = useSearchParams();
     const route = location2.pathname + location2.search;
     const [lastRoute, setLastRoute] = (0, import_react26.useState)(route);
     const [lastPathname, setLastPathname] = (0, import_react26.useState)(location2.pathname);
-    const [lastSearch, setLastSearch] = (0, import_react26.useState)(location2.search);
+    const [lastSearchParams, setLastSearchParams] = (0, import_react26.useState)(searchParams);
     const [hasFetched, setHasFetched] = (0, import_react26.useState)(false);
     const action = (ref) => {
       const hasRef = Boolean(ref?.current);
-      if (location2.pathname !== lastPathname) {
-        scrollToTop();
-      } else if (location2.search && location2.search !== lastSearch) {
-        if (hasRef) {
-          ref.current.scrollIntoView({ behavior: "smooth" });
+      const isDetail = isDetailRoute(location2.pathname);
+      const hasPageParams = hasPageSearchParams(searchParams);
+      const hasSortParams = hasSortSearchParams(searchParams);
+      const hasIncidentFilterParams = hasIncidentFilterSearchParams(searchParams);
+      const hasParams = hasPageParams || hasSortParams || hasIncidentFilterParams;
+      setTimeout(() => {
+        if (location2.pathname === lastPathname) {
+          const hadPageParams = hasPageSearchParams(lastSearchParams);
+          const hadSortParams = hasSortSearchParams(lastSearchParams);
+          const hadIncidentFilterParams = hasIncidentFilterSearchParams(lastSearchParams);
+          const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
+          if (isDetail && hasRef && (hasParams || hadParams)) {
+            scrollToRef(ref);
+          } else {
+            scrollToTop();
+          }
         } else {
-          scrollToTop();
+          if (isDetail && hasRef && hasParams) {
+            scrollToRef(ref);
+          } else {
+            scrollToTop();
+          }
         }
-      }
+      }, 250);
       setLastPathname(location2.pathname);
-      setLastSearch(location2.search);
+      setLastSearchParams(searchParams);
     };
     (0, import_react26.useEffect)(() => {
       const currentRoute = location2.pathname + location2.search;
-      if (lastPathname === location2.pathname && !location2.search) {
-        if (!hasFetched) {
-          scrollToTop();
-        }
-      }
       if (lastRoute !== currentRoute) {
         setHasFetched(false);
         setLastRoute(currentRoute);
@@ -41997,7 +42042,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasOverview = Boolean(overview);
     const hasAppearances = Object.values(overview?.appearances?.values ?? {})?.some((value) => value.value);
     const hasTotals = Object.values(overview?.totals?.values ?? {})?.some((value) => value.value);
-    const scrollToRef = () => {
+    const scrollToRef2 = () => {
       ref.current?.scrollIntoView({ behavior: "smooth" });
     };
     if (!hasOverview) return null;
@@ -42017,7 +42062,7 @@ Hook ${hookName} was either not provided or not a function.`);
               stat_box_default,
               {
                 className: isInteractive && "is-interactive",
-                onClick: isInteractive ? scrollToRef : void 0,
+                onClick: isInteractive ? scrollToRef2 : void 0,
                 title: item.label,
                 children: item.value
               },
@@ -42078,7 +42123,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
     const hasMoreToShow = affiliatedItems.length > initialCount;
     const hasItems = affiliatedItems.length > 0;
-    const scrollToRef = () => {
+    const scrollToRef2 = () => {
       setTimeout(() => {
         ref.current?.scrollIntoView({ behavior: "smooth" });
       }, 250);
@@ -42094,7 +42139,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "button-toggle", onClick: (e) => {
         e.preventDefault();
-        scrollToRef();
+        scrollToRef2();
         setShowAll(!showAll);
       }, children: showAll ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
         "View top ",
@@ -54780,8 +54825,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react33.useState)(quarterParam);
+    const quarterParam2 = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react33.useState)(quarterParam2);
     const entitiesData = useSelector(getEntitiesChartData);
     const data2 = entitiesData?.[numericId];
     const hasData = data2?.length > 0;
@@ -54799,12 +54844,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasData, numericId, trigger]);
     (0, import_react33.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
+        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam, quarter, setSearchParams]);
+    }, [quarterParam2, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default = Chart3;
@@ -55525,8 +55570,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(id);
     const [searchParams, setSearchParams] = useSearchParams();
-    const quarterParam = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react39.useState)(quarterParam);
+    const quarterParam2 = searchParams.get("quarter");
+    const [quarter, setQuarter] = (0, import_react39.useState)(quarterParam2);
     const peopleData = useSelector(getPeopleChartData);
     const data2 = peopleData?.[numericId];
     const hasData = data2?.length > 0;
@@ -55544,12 +55589,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasData, numericId, trigger]);
     (0, import_react39.useEffect)(() => {
       if (quarter) {
-        if (!quarterParam || quarterParam && quarter && quarterParam !== quarter) {
+        if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
           setSearchParams({ quarter });
         }
         setQuarter(null);
       }
-    }, [quarterParam, quarter, setSearchParams]);
+    }, [quarterParam2, quarter, setSearchParams]);
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default3 = Chart5;

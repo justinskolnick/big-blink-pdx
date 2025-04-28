@@ -13,8 +13,10 @@ type Item = {
   name: string;
 };
 
+export type LocationPathname = string;
+
 export type LocationState = {
-  pathname: string;
+  pathname: LocationPathname;
   search: string;
 };
 

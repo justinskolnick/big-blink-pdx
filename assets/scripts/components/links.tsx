@@ -3,6 +3,12 @@ import { useSearchParams, Link, NavLink } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
+import {
+  sortParam,
+  sortByParam,
+  withEntityIdParam,
+  withPersonIdParam,
+} from '../config/constants';
 import useQueryParams from '../hooks/use-query-params';
 
 import ItemTextWithIcon from './item-text-with-icon';
@@ -54,15 +60,6 @@ interface SortLinkProps extends LinkProps {
 interface LinkIdProps extends LinkProps {
   id: Id;
 }
-
-export const dateOnParam = 'date_on';
-export const dateRangeFromParam = 'date_range_from';
-export const dateRangeToParam = 'date_range_to';
-export const quarterParam = 'quarter';
-export const sortParam = 'sort';
-export const sortByParam = 'sort_by';
-export const withEntityIdParam = 'with_entity_id';
-export const withPersonIdParam = 'with_person_id';
 
 export const getWithEntityParams = (item: AffiliatedItem) => ({
   [withEntityIdParam]: item.entity.id,
