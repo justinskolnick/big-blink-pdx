@@ -11,8 +11,8 @@ const parseDateString = (dateString) => {
     const parsed = new Date();
 
     parsed.setFullYear(year);
-    parsed.setMonth(month - 1);
     parsed.setDate(day);
+    parsed.setMonth(month - 1);
     parsed.setHours(0);
     parsed.setMinutes(0);
     parsed.setSeconds(0);
