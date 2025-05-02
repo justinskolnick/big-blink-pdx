@@ -569,16 +569,6 @@ body.has-alert .alert-root {
   height: 100%;
   z-index: 3;
 }
-@media screen and (min-width: 401px) {
-  .global-layout {
-    transform-origin: left bottom;
-    transform-style: preserve-3d;
-    transition: filter 250ms ease-in-out;
-  }
-  .has-modal .global-layout {
-    filter: saturate(0.25);
-  }
-}
 .global-layout a {
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -594,6 +584,14 @@ body.has-alert .alert-root {
 .global-layout header.item-header + .item-content {
   margin-top: calc(18px * 3);
   margin-top: calc(var(--gap) * 3);
+}
+@media screen and (min-width: 401px) {
+  .global-layout {
+    transition: filter 250ms ease-in-out;
+  }
+  .has-modal .global-layout {
+    filter: saturate(0.25);
+  }
 }
 @media screen and (min-width: 601px) {
   .global-layout {
@@ -1613,15 +1611,17 @@ body.has-alert .alert-root {
       rgba(var(--color-table-frame-background), 0.25) 100%);
 }
 .incident-list-table-frame .incident-list-table {
-  border: 2px solid rgba(100, 149, 237, 0.25);
-  border: 2px solid rgba(var(--color-table-frame-background), 0.25);
+  padding: 2px;
   border-radius: 9px;
+  background-color: rgba(100, 149, 237, 0.25);
+  background-color: rgba(var(--color-table-frame-background), 0.25);
   overflow-x: auto;
 }
 .incident-list-table-frame table {
   table-layout: fixed;
   position: relative;
-  width: 100%;
+  overflow: hidden;
+  border-radius: 7px;
   z-index: 2;
 }
 .incident-list-table-frame thead tr {
@@ -1653,7 +1653,7 @@ body.has-alert .alert-root {
   padding: 9px;
 }
 .incident-list-table-frame .cell-date {
-  width: 18ch;
+  width: 17ch;
   white-space: nowrap;
 }
 .incident-list-table-frame .cell-date .has-notes {
@@ -1666,7 +1666,7 @@ body.has-alert .alert-root {
   font-size: 6px;
 }
 .incident-list-table-frame .cell-entity {
-  width: 25ch;
+  width: 27ch;
   font-weight: 600;
 }
 .incident-list-table-frame .cell-link {
@@ -1731,16 +1731,20 @@ body.has-alert .alert-root {
   padding-top: 6px;
   padding-bottom: 6px;
 }
-@media screen and (max-width: 812px) {
-  .incident-list-table-frame .cell-topic {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+@media screen and (min-width: 813px) {
+  .incident-list-table-frame table {
+    width: 100%;
   }
 }
-@media screen and (max-width: 600px) {
-  .incident-list-table-frame .cell-link {
-    display: none;
+@media screen and (max-width: 812px) {
+  .incident-list-table-frame .cell-date {
+    min-width: 15ch;
+  }
+  .incident-list-table-frame .cell-entity {
+    min-width: 22ch;
+  }
+  .incident-list-table-frame .cell-topic {
+    min-width: 45ch;
   }
 }
 .incident-notes-box {

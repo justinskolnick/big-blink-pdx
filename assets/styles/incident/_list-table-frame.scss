@@ -5,16 +5,17 @@
   background: linear-gradient(to bottom, rgba(var(--color-table-frame-background), 0.5) 50%, rgba(var(--color-table-frame-background), 0.25) 100%);
 
   .incident-list-table {
-    border: 2px solid rgba(var(--color-table-frame-background), 0.25);
+    padding: 2px;
     border-radius: 9px;
+    background-color: rgba(var(--color-table-frame-background), 0.25);
     overflow-x: auto;
   }
-
 
   table {
     table-layout: fixed;
     position: relative;
-    width: 100%;
+    overflow: hidden;
+    border-radius: 7px;
     z-index: 2;
   }
 
@@ -48,7 +49,7 @@
   }
 
   .cell-date {
-    width: 18ch;
+    width: 17ch;
     white-space: nowrap;
 
     .has-notes {
@@ -63,7 +64,7 @@
   }
 
   .cell-entity {
-    width: 25ch;
+    width: 27ch;
     font-weight: 600;
   }
 
@@ -148,17 +149,23 @@
     }
   }
 
-  @media screen and (max-width: 812px) {
-    .cell-topic {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+  @media screen and (min-width: 813px) {
+    table {
+      width: 100%;
     }
   }
 
-  @media screen and (max-width: 600px) {
-    .cell-link {
-      display: none;
+  @media screen and (max-width: 812px) {
+    .cell-date {
+      min-width: 15ch;
+    }
+
+    .cell-entity {
+      min-width: 22ch;
+    }
+
+    .cell-topic {
+      min-width: 45ch;
     }
   }
 }

@@ -569,16 +569,6 @@ body.has-alert .alert-root {
   height: 100%;
   z-index: 3;
 }
-@media screen and (min-width: 401px) {
-  .global-layout {
-    transform-origin: left bottom;
-    transform-style: preserve-3d;
-    transition: filter 250ms ease-in-out;
-  }
-  .has-modal .global-layout {
-    filter: saturate(0.25);
-  }
-}
 .global-layout a {
   -webkit-text-decoration: none;
   text-decoration: none;
@@ -594,6 +584,14 @@ body.has-alert .alert-root {
 .global-layout header.item-header + .item-content {
   margin-top: calc(18px * 3);
   margin-top: calc(var(--gap) * 3);
+}
+@media screen and (min-width: 401px) {
+  .global-layout {
+    transition: filter 250ms ease-in-out;
+  }
+  .has-modal .global-layout {
+    filter: saturate(0.25);
+  }
 }
 @media screen and (min-width: 601px) {
   .global-layout {
