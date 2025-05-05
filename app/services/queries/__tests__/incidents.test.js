@@ -13,7 +13,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
           'incidents.contact_date',
@@ -29,7 +29,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ dateOn: '2019-02-20' })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
           'incidents.contact_date = ?',
@@ -46,7 +46,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ dateOn: '2019-02-20', withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -68,7 +68,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
           'incidents.contact_date BETWEEN ? AND ?',
@@ -85,7 +85,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28', withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -107,7 +107,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sourceId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
           'incidents.data_source_id = ?',
@@ -124,7 +124,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ sourceId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
             'incidents.contact_date BETWEEN ? AND ?',
@@ -148,7 +148,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ sourceId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -170,7 +170,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ personId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
           'WHERE',
@@ -188,7 +188,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -209,7 +209,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, withEntityId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -231,7 +231,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
           'incidents.entity_id = ?',
@@ -248,7 +248,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
             'incidents.contact_date BETWEEN ? AND ?',
@@ -268,7 +268,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
@@ -289,7 +289,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, quarterSourceId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
             'incidents.entity_id = ?',
@@ -310,7 +310,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
           'incidents.contact_date',
@@ -325,7 +325,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'ORDER BY',
             'incidents.contact_date',
@@ -343,7 +343,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeCount: true })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
           'incidents.contact_date',
@@ -361,7 +361,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'ORDER BY',
             'incidents.contact_date',
@@ -378,7 +378,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_ASC })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
           'incidents.contact_date',
@@ -389,7 +389,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_DESC })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
           'incidents.contact_date',
@@ -413,7 +413,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes, entities.name AS entity_name',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes, entities.name AS entity_name',
           'FROM incidents',
           'LEFT JOIN entities ON entities.id = incidents.entity_id',
           'WHERE incidents.id = ?',
@@ -432,7 +432,7 @@ describe('getFirstAndLastDatesQuery()', () => {
     test('returns the expected SQL', () => {
       expect(getFirstAndLastDatesQuery()).toEqual({
         clauses: [
-          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date DESC LIMIT 1)',
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year ORDER BY incidents.contact_date DESC LIMIT 1)',
         ],
         params: [],
       });
@@ -443,7 +443,7 @@ describe('getFirstAndLastDatesQuery()', () => {
     test('returns the expected SQL', () => {
       expect(getFirstAndLastDatesQuery({ entityId: 123 })).toEqual({
         clauses: [
-          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.entity_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
         ],
         params: [123, 123],
       });
@@ -454,7 +454,7 @@ describe('getFirstAndLastDatesQuery()', () => {
     test('returns the expected SQL', () => {
       expect(getFirstAndLastDatesQuery({ personId: 123 })).toEqual({
         clauses: [
-          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incident_attendees.person_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
         ],
         params: [123, 123],
       });
@@ -465,7 +465,7 @@ describe('getFirstAndLastDatesQuery()', () => {
     test('returns the expected SQL', () => {
       expect(getFirstAndLastDatesQuery({ sourceId: 123 })).toEqual({
         clauses: [
-          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
+          '(SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date ASC LIMIT 1) UNION (SELECT incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes FROM incidents LEFT JOIN data_sources ON incidents.data_source_id = data_sources.id WHERE SUBSTRING(incidents.contact_date, 1, 4) = data_sources.year AND incidents.data_source_id = ? ORDER BY incidents.contact_date DESC LIMIT 1)',
         ],
         params: [123, 123],
       });

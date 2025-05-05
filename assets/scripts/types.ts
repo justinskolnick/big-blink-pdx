@@ -90,6 +90,8 @@ export type Attendees = {
 export type Incident = {
   category: string;
   contactDate: string;
+  contactDateEnd?: string;
+  contactDateRange?: string;
   contactType: string;
   entity: string;
   entityId: number;

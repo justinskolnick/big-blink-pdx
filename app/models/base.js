@@ -100,7 +100,11 @@ class Base {
     let value = result[fieldName];
 
     if (this.hasAdaptMethod(fieldName)) {
-      value = this.fieldMethod(fieldName)(value);
+      if (value === undefined || value === null) {
+        value = null;
+      } else {
+        value = this.fieldMethod(fieldName)(value);
+      }
     }
 
     return value;
@@ -108,6 +112,14 @@ class Base {
 
   static readableDate(str) {
     return dateHelper.formatDateString(str);
+  }
+
+  static readableDateRange(dateStrStart, dateStrEnd) {
+    if (dateStrEnd && dateStrStart !== dateStrEnd) {
+      return dateHelper.formatDateRangeString(dateStrStart, dateStrEnd);
+    }
+
+    return null;
   }
 
   data = {};

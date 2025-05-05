@@ -24,8 +24,28 @@ const parseDateString = (dateString) => {
   return new Date(dateString);
 };
 
+const formatDateRangeString = (dateStringStart, dateStringEnd, setTimeZone = false) => {
+  const dateStart = parseDateString(dateStringStart);
+  const dateEnd = parseDateString(dateStringEnd);
+
+  const options = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  };
+  if (setTimeZone) {
+    options.timeZone = TIME_ZONE;
+  }
+
+
+  const dateTimeFormat = new Intl.DateTimeFormat(LOCALE, options);
+
+  return dateTimeFormat.formatRange(dateStart, dateEnd);
+};
+
 const formatDateString = (dateString, setTimeZone = false) => {
   const date = parseDateString(dateString);
+
   const options = {
     month: 'long',
     day: 'numeric',
@@ -40,5 +60,6 @@ const formatDateString = (dateString, setTimeZone = false) => {
 };
 
 module.exports = {
+  formatDateRangeString,
   formatDateString,
 };

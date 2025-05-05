@@ -11,7 +11,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -29,7 +29,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ personId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -48,7 +48,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, dateOn: '2019-02-20' })).toEqual({
           clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -70,7 +70,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -92,7 +92,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, quarterSourceId: 321 })).toEqual({
           clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -114,7 +114,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, withPersonId: 321 })).toEqual({
           clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -136,7 +136,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, withEntityId: 321 })).toEqual({
           clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -159,7 +159,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_ASC })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -172,7 +172,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_DESC })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -190,7 +190,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees',
           'ON incidents.id = incident_attendees.incident_id',
@@ -207,7 +207,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees',
             'ON incidents.id = incident_attendees.incident_id',

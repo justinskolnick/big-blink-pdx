@@ -13,6 +13,7 @@ describe('fields()', () => {
       'incidents.entity',
       'incidents.entity_id',
       'incidents.contact_date',
+      'incidents.contact_date_end',
       'incidents.contact_type',
       'incidents.category',
       'incidents.data_source_id',
@@ -32,6 +33,7 @@ describe('adapt()', () => {
     entity: 'Spacely Sprockets',
     entity_id: 3,
     contact_date: '2014-01-14',
+    contact_date_end: null,
     contact_type: 'Email',
     category: 'Business and Economic Development',
     topic: 'Office Space',
@@ -51,6 +53,8 @@ describe('adapt()', () => {
       entityName: 'Spacely Sprockets',
       entityId: 3,
       contactDate: 'January 14, 2014',
+      contactDateEnd: null,
+      contactDateRange: null,
       contactType: 'Email',
       category: 'Business and Economic Development',
       topic: 'Office Space',
@@ -61,6 +65,60 @@ describe('adapt()', () => {
         officials: 'Mayor Mercury; Orbit, Henry',
         lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
       },
+    });
+  });
+
+  describe('with a contact_date_end', () => {
+    describe('with the same month as the contact_date', () => {
+      test('adapts a result', () => {
+        const resultWithContactDateEnd = {
+          ...result,
+          contact_date_end: '2014-01-16', // eslint-disable-line camelcase
+        };
+
+        const incidentWithContactDateEnd = new Incident(resultWithContactDateEnd);
+
+        expect(incidentWithContactDateEnd.adapted).toEqual(expect.objectContaining({
+          contactDate: 'January 14, 2014',
+          contactDateEnd: 'January 16, 2014',
+          contactDateRange: 'January 14 – 16, 2014',
+        }));
+      });
+    });
+
+    describe('with a different month from the contact_date', () => {
+      test('adapts a result', () => {
+        const resultWithContactDateEnd = {
+          ...result,
+          contact_date_end: '2014-02-16', // eslint-disable-line camelcase
+        };
+
+        const incidentWithContactDateEnd = new Incident(resultWithContactDateEnd);
+
+        expect(incidentWithContactDateEnd.adapted).toEqual(expect.objectContaining({
+          contactDate: 'January 14, 2014',
+          contactDateEnd: 'February 16, 2014',
+          contactDateRange: 'January 14 – February 16, 2014',
+        }));
+      });
+    });
+
+    describe('with a different year from the contact_date', () => {
+      test('adapts a result', () => {
+        const resultWithContactDateEnd = {
+          ...result,
+          contact_date: '2014-12-30', // eslint-disable-line camelcase
+          contact_date_end: '2015-01-02', // eslint-disable-line camelcase
+        };
+
+        const incidentWithContactDateEnd = new Incident(resultWithContactDateEnd);
+
+        expect(incidentWithContactDateEnd.adapted).toEqual(expect.objectContaining({
+          contactDate: 'December 30, 2014',
+          contactDateEnd: 'January 2, 2015',
+          contactDateRange: 'December 30, 2014 – January 2, 2015',
+        }));
+      });
     });
   });
 });
@@ -74,6 +132,7 @@ describe('setData()', () => {
       entity: 'Spacely Sprockets',
       entity_id: 3,
       contact_date: '2014-01-14',
+      contact_date_end: null,
       contact_type: 'Email',
       category: 'Business and Economic Development',
       topic: 'Office Space',
@@ -91,6 +150,7 @@ describe('setData()', () => {
     expect(incident.data).toEqual({
       category: 'Business and Economic Development',
       contact_date: '2025-02-14',
+      contact_date_end: null,
       contact_type: 'Email',
       data_source_id: 1,
       entity: 'Spacely Sprockets',
@@ -108,6 +168,8 @@ describe('setData()', () => {
     expect(incident.adapted).toEqual({
       category: 'Business and Economic Development',
       contactDate: 'February 14, 2025',
+      contactDateEnd: null,
+      contactDateRange: null,
       contactType: 'Email',
       entity: 'Spacely Sprockets',
       entityId: 3,
