@@ -2,6 +2,7 @@ const IncidentedObject = require('./incidented-object');
 
 class Person extends IncidentedObject {
   static tableName = 'people';
+  static linkKey = 'person';
 
   static perPage = 40;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LinkToPerson } from './links';
+import ItemLink from './people/item-link';
 
 import type { AttendeeGroup } from '../types';
 
@@ -8,7 +8,7 @@ interface Props {
   attendees?: AttendeeGroup;
 }
 
-const Attendees = ({ attendees }: Props) => {
+const IncidentAttendees = ({ attendees }: Props) => {
   const hasAttendees = attendees?.records?.length > 0;
 
   if (!hasAttendees) {
@@ -19,7 +19,7 @@ const Attendees = ({ attendees }: Props) => {
     <ul className='incident-attendees'>
       {attendees.records.map(attendee => (
         <li key={attendee.person.id} className='incident-attendee'>
-          <LinkToPerson id={attendee.person.id}>{attendee.person.name}</LinkToPerson>
+          <ItemLink item={attendee.person}>{attendee.person.name}</ItemLink>
           {attendee.as !== attendee.person.name && (
             <span>
               {attendee.as}
@@ -31,4 +31,4 @@ const Attendees = ({ attendees }: Props) => {
   );
 };
 
-export default Attendees;
+export default IncidentAttendees;

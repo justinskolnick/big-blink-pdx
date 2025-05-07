@@ -21,6 +21,7 @@ const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 
+const Entity = require('../models/entity');
 const Incident = require('../models/incident');
 const Person = require('../models/person');
 
@@ -40,6 +41,22 @@ const section = {
 };
 const view = {
   section: slug,
+};
+
+const adaptItemEntity = item => {
+  const entity = new Entity(item.entity);
+
+  item.entity = entity.adapted;
+
+  return item;
+};
+
+const adaptItemPerson = item => {
+  const person = new Person(item.person);
+
+  item.person = person.adapted;
+
+  return item;
 };
 
 router.get('/', async (req, res, next) => {
@@ -237,40 +254,39 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
-      record = person.adapted;
 
       asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: 'lobbyist' });
       asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: 'official' });
 
+      record = person.adapted;
+      record.attendees = {
+        asLobbyist: {
+          label: `As a lobbyist, ${record.name} ...`,
+          lobbyists: {
+            label: 'Alongside these lobbyists',
+            records: asLobbyist.lobbyists.records.map(adaptItemPerson),
+          },
+          officials: {
+            label: 'Lobbied these City officials',
+            records: asLobbyist.officials.records.map(adaptItemPerson),
+          },
+        },
+        asOfficial: {
+          label: `As a City official, ${record.name} ...`,
+          lobbyists: {
+            label: 'Was lobbied by these lobbyists',
+            records: asOfficial.lobbyists.records.map(adaptItemPerson),
+          },
+          officials: {
+            label: 'Alongside these City officials',
+            records: asOfficial.officials.records.map(adaptItemPerson),
+          },
+        },
+      };
+
       data = {
         person: {
-          record: {
-            ...record,
-            attendees: {
-              asLobbyist: {
-                label: `As a lobbyist, ${record.name} ...`,
-                lobbyists: {
-                  label: 'Alongside these lobbyists',
-                  records: asLobbyist.lobbyists.records,
-                },
-                officials: {
-                  label: 'Lobbied these City officials',
-                  records: asLobbyist.officials.records,
-                },
-              },
-              asOfficial: {
-                label: `As a City official, ${record.name} ...`,
-                lobbyists: {
-                  label: 'Was lobbied by these lobbyists',
-                  records: asOfficial.lobbyists.records,
-                },
-                officials: {
-                  label: 'Alongside these City officials',
-                  records: asOfficial.officials.records,
-                },
-              },
-            },
-          },
+          record,
         },
       };
       meta = { id, view };
@@ -298,19 +314,18 @@ router.get('/:id/entities', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
-      record = person.adapted;
       asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: 'lobbyist' });
       asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: 'official' });
 
+      record = person.adapted;
+      record.entities = {
+        asLobbyist: asLobbyist.map(adaptItemEntity),
+        asOfficial: asOfficial.map(adaptItemEntity),
+      };
+
       data = {
         person: {
-          record: {
-            ...record,
-            entities: {
-              asLobbyist,
-              asOfficial,
-            },
-          },
+          record,
         },
       };
       meta = { id, view };

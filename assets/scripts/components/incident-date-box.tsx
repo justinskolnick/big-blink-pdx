@@ -1,7 +1,7 @@
 import React, { useState, MouseEvent } from 'react';
 
 import IncidentModal from './incident-modal';
-import { LinkToIncident } from './links';
+import { BetterLink as Link } from './links';
 import StatBox from './stat-box';
 
 import type { IncidentsStatsValue } from '../types';
@@ -30,12 +30,12 @@ const IncidentDateBox = ({ incident }: Props) => {
 
   return (
     <StatBox className='activity-stat-details' title={incident.label}>
-      <LinkToIncident
-        id={incident.value.id}
+      <Link
+        to={incident.value.links.self}
         onClick={handleLinkClick}
       >
         {incident.value.contactDate}
-      </LinkToIncident>
+      </Link>
       <IncidentModal
         deactivate={deactivate}
         id={incident.value.id}

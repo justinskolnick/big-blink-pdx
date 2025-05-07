@@ -68,6 +68,9 @@ const api = createApi({
     )),
     getPrimary: builder.query(getPrimaryRoute()),
 
+    getEntityById: builder.query(getAncillaryRoute(
+      ({ id }) => `entities/${id}`
+    )),
     getEntityAttendeesById: builder.query(getAncillaryRoute(
       ({ id }) => `entities/${id}/attendees`
     )),

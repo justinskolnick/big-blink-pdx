@@ -4,8 +4,11 @@ const {
   getRangesByYearSet,
   getRangeStatement,
 } = require('../helpers/quarters');
+
 const { sortTotalDescending } = require('../lib/sorting');
+
 const IncidentAttendee = require('../models/incident-attendee');
+
 const db = require('./db');
 const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
 const {
@@ -41,9 +44,9 @@ const getAllForIncidents = async (incidents) => {
   const amended = await Promise.all(incidents.map(async (incident) => {
     const result = await getAll({ incidentId: incident.id });
 
-    incident.attendees = Object.entries(result).reduce((attendees, [key, value]) => {
+    incident.attendees = Object.entries(result).reduce((attendees, [key, values]) => {
       attendees[key] = {
-        records: value,
+        records: values,
       };
 
       return attendees;

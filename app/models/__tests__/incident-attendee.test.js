@@ -36,7 +36,13 @@ describe('adapt()', () => {
       as: 'Orbit, Henry',
       person: {
         id: 321,
+        links: {
+          self: '/people/321',
+        },
         name: 'Henry Orbit',
+        roles: [
+          'official',
+        ],
         type: 'person',
       },
     });
@@ -77,7 +83,13 @@ describe('setData()', () => {
       id: 123,
       person: {
         id: 321,
+        links: {
+          self: '/people/321',
+        },
         name: 'Henry Orbit',
+        roles: [
+          'official',
+        ],
         type: 'person',
       },
     });

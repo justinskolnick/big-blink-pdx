@@ -7,7 +7,7 @@ import { RootState } from '../lib/store';
 import Icon from './icon';
 import IncidentModal from './incident-modal';
 import {
-  LinkToIncident,
+  BetterLink as Link,
   SortLink,
 } from './links';
 
@@ -62,9 +62,9 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
         <td className='cell-entity'>{incident.entity}</td>
         <td className='cell-topic'>{incident.topic}</td>
         <td className='cell-link'>
-          <LinkToIncident id={incident.id} aria-label='View'>
+          <Link to={incident.links.self} aria-label='View'>
             <Icon name='chevron-right' />
-          </LinkToIncident>
+          </Link>
           <IncidentModal
             deactivate={deactivate}
             id={incident.id}

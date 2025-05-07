@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 
 import EntityIcon from './entities/icon';
+import EntityItemLink from './entities/item-link';
 import Icon from './icon';
 import ItemTable from './item-table';
 import {
   getWithEntityParams,
   FilterLink,
-  LinkToEntity,
 } from './links';
 import PersonIcon from './people/icon';
 import StatBox from './stat-box';
@@ -82,9 +82,9 @@ const AffiliatedEntitiesTable = ({
                   </td>
                 )}
                 <td className='cell-name'>
-                  <LinkToEntity id={item.entity.id} className='item-entity'>
+                  <EntityItemLink item={item.entity} className='item-entity'>
                     {item.entity.name}
-                  </LinkToEntity>
+                  </EntityItemLink>
                   <div className='item-description'>
                     {item.registrations}
                   </div>

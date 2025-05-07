@@ -59,6 +59,9 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
+      links: {
+        self: '/sources/1'
+      },
     });
   });
 
@@ -76,6 +79,9 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
+      links: {
+        self: '/sources/1'
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -110,6 +116,9 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
+      links: {
+        self: '/sources/1'
+      },
     });
 
     expect(sourceWithTotal.adapted).toEqual({
@@ -121,6 +130,9 @@ describe('adapt()', () => {
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       retrievedDate: 'March 28, 2023',
+      links: {
+        self: '/sources/1'
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -191,6 +203,9 @@ describe('setData()', () => {
     source.setData('z', 'abc');
     source.setData('retrieved_at', '2025-02-14 02:19:00');
 
+    expect(source.hasData()).toBe(true);
+    expect(source.hasLinks()).toBe(true);
+
     /* eslint-disable camelcase */
     expect(source.data).toEqual({
       id: 1,
@@ -216,6 +231,9 @@ describe('setData()', () => {
       title: 'Lobbying Activity Report for Q1 2014',
       type: 'activity',
       year: 2014,
+      links: {
+        self: '/sources/1'
+      },
     });
   });
 });

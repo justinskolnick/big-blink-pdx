@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
 
 import Icon from '../icon';
-import { LinkToSource } from '../links';
+import ItemLink from './item-link';
 
 import { selectors } from '../../reducers/sources';
 import api from '../../services/api';
@@ -15,7 +15,7 @@ interface Props {
   id: Id;
 }
 
-const Source = ({ id }: Props) => {
+const Item = ({ id }: Props) => {
   const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const source = useSelector((state: RootState) => selectors.selectById(state, id));
@@ -30,11 +30,7 @@ const Source = ({ id }: Props) => {
   if (!source) return null;
 
   return (
-    <LinkToSource
-      className='item-source-quarter'
-      id={source.id}
-      key={`${source.year}-${source.quarter}`}
-    >
+    <ItemLink item={source} className='item-source-quarter'>
       <div className='item-source-quarter-icon'>
         <Icon name='database' />
       </div>
@@ -45,8 +41,8 @@ const Source = ({ id }: Props) => {
           <p>{source?.overview?.totals.values.total.value} incidents</p>
         )}
       </div>
-    </LinkToSource>
+    </ItemLink>
   );
 };
 
-export default Source;
+export default Item;

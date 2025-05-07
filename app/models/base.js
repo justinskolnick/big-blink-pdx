@@ -1,6 +1,7 @@
 const camelCase = require('lodash.camelcase');
 
 const dateHelper = require('../helpers/date');
+const linkHelper = require('../helpers/links');
 
 class Base {
   static primaryKeyField = 'id';
@@ -123,13 +124,46 @@ class Base {
   }
 
   data = {};
+  links = {};
 
   constructor(data = {}) {
     this.data = data;
+
+    this.setLinksObject();
   }
 
   setData(key, value) {
     this.data[key] = value;
+  }
+
+  hasData(key = '') {
+    if (key.length) {
+      return key in this.data;
+    }
+
+    return Object.keys(this.data).length > 0;
+  }
+
+  setLinksObject() {
+    const key = this.constructor.linkKey;
+
+    if (key !== null) {
+      if (typeof linkHelper.links[key] === 'function') {
+        if (this.hasData('id')) {
+          this.setLinks({
+            self: linkHelper.links[key](this.data.id),
+          });
+        }
+      }
+    }
+  }
+
+  setLinks(links) {
+    this.links = links;
+  }
+
+  hasLinks() {
+    return Object.keys(this.links).length > 0;
   }
 
   adaptResult(result, otherValues) {
@@ -147,6 +181,10 @@ class Base {
 
     if (typeof this.adaptOtherValues === 'function') {
       adapted = this.adaptOtherValues(result, adapted);
+    }
+
+    if (this.hasLinks()) {
+      adapted.links = this.links;
     }
 
     return {

@@ -68,7 +68,7 @@ export const getWithPersonParams = (item: AffiliatedItem) => ({
   [withPersonIdParam]: item.person.id,
 });
 
-const BetterLink = ({
+export const BetterLink = ({
   onClick,
   ...rest
 }: BetterLinkProps) => {
@@ -231,30 +231,26 @@ export const LinkToEntities = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/entities' {...rest}>{children}</BetterLink>
 );
 
-export const LinkToEntity = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/entities/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
+export const LinkToEntity = ({ children, id, ...rest }: LinkIdProps) => (
+  <BetterLink to={`/entities/${id}`} {...rest}>{children}</BetterLink>
 );
 
 export const LinkToIncidents = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/incidents' {...rest}>{children}</BetterLink>
 );
 
-export const LinkToIncident = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/incidents/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
-);
-
 export const LinkToPeople = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/people' {...rest}>{children}</BetterLink>
 );
 
-export const LinkToPerson = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/people/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
+export const LinkToPerson = ({ children, id, ...rest }: LinkIdProps) => (
+  <BetterLink to={`/people/${id}`} {...rest}>{children}</BetterLink>
 );
 
 export const LinkToSources = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/sources' {...rest}>{children}</BetterLink>
 );
 
-export const LinkToSource = ({ children, id, onClick, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/sources/${id}`} onClick={onClick} {...rest}>{children}</BetterLink>
+export const LinkToSource = ({ children, id, ...rest }: LinkIdProps) => (
+  <BetterLink to={`/sources/${id}`} {...rest}>{children}</BetterLink>
 );

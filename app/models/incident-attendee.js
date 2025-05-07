@@ -1,4 +1,5 @@
 const Base = require('./base');
+const Person = require('./person');
 
 class IncidentAttendee extends Base {
   static tableName = 'incident_attendees';
@@ -19,13 +20,18 @@ class IncidentAttendee extends Base {
   };
 
   adapt(result) {
+    const data = {
+      id: result.person_id,
+      name: result.name,
+      roles: result.role,
+      type: result.type,
+    };
+    const person = new Person(data);
+
     const adapted = this.adaptResult(result, {
-      person: {
-        id: result.person_id,
-        name: result.name,
-        type: result.type,
-      },
+      person: person.adapted,
     });
+
     delete adapted.role;
 
     return adapted;

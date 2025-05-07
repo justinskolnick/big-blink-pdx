@@ -23,6 +23,7 @@ const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
+const Person = require('../models/person');
 
 const entities = require('../services/entities');
 const entityLobbyistLocations = require('../services/entity-lobbyist-locations');
@@ -40,6 +41,14 @@ const section = {
 };
 const view = {
   section: slug,
+};
+
+const adaptItemPerson = item => {
+  const person = new Person(item.person);
+
+  item.person = person.adapted;
+
+  return item;
 };
 
 router.get('/', async (req, res, next) => {
@@ -224,25 +233,24 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       entity = await entities.getAtId(id);
-      record = entity.adapted;
       attendees = await incidentAttendees.getAttendees({ entityId: id });
+
+      record = entity.adapted;
+      record.attendees = {
+        label: `As an entity, ${record.name} ...`,
+        lobbyists: {
+          label: 'Through these lobbyists',
+          records: attendees.lobbyists.records.map(adaptItemPerson),
+        },
+        officials: {
+          label: 'Lobbied these City officials',
+          records: attendees.officials.records.map(adaptItemPerson),
+        },
+      };
 
       data = {
         entity: {
-          record: {
-            ...record,
-            attendees: {
-              label: `As an entity, ${record.name} ...`,
-              lobbyists: {
-                label: 'Through these lobbyists',
-                records: attendees.lobbyists.records,
-              },
-              officials: {
-                label: 'Lobbied these City officials',
-                records: attendees.officials.records,
-              },
-            },
-          },
+          record,
         },
       };
       meta = { id, view };

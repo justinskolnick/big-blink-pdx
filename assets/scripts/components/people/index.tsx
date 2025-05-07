@@ -5,12 +5,10 @@ import { RootState } from '../../lib/store';
 
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
 
-import {
-  LinkToPerson,
-  SortLink,
-} from '../links';
 import Icon from './icon';
+import ItemLink from './item-link';
 import SectionIndex from '../section-index';
+import { SortLink } from '../links';
 
 import { selectors } from '../../reducers/people';
 import {
@@ -35,7 +33,7 @@ export const PersonItem = ({ id }: PersonItemProps) => {
       <td className='cell-type'><Icon person={person} /></td>
       <td className='cell-name'>
         {hasTotal ? (
-          <LinkToPerson id={person.id}>{person.name}</LinkToPerson>
+          <ItemLink item={person}>{person.name}</ItemLink>
         ) : (
           person.name
         )}

@@ -70,6 +70,10 @@ export enum SortByValues {
 
 type SortByValue = Extract<SortByValues, string>;
 
+type LinkObject = {
+  self: string;
+};
+
 export type Attendee = {
   as?: string;
   person: Person;
@@ -102,6 +106,7 @@ export type Incident = {
   topic: string;
   notes: string;
   attendees?: Attendees;
+  links?: LinkObject;
 };
 
 export type Incidents = Incident[];
@@ -291,6 +296,7 @@ export type Entity = Item & {
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   isRegistered?: boolean;
   overview?: ItemOverview;
+  links?: LinkObject;
 }
 
 export type EntityWithIncidentRecords = Entity & {
@@ -341,6 +347,7 @@ export type Person = Item & {
   entities?: PersonEntities;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   overview?: ItemOverview;
+  links?: LinkObject;
 }
 
 export type PersonWithIncidentRecords = Person & {
@@ -368,6 +375,7 @@ export type Source = {
   attendees?: Attendees;
   entities?: AffiliatedItem[];
   overview?: ItemOverview;
+  links?: LinkObject;
 }
 
 export type SourceWithIncidentRecords = Source & {

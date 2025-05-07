@@ -10,8 +10,11 @@ const {
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
+
 const headers = require('../lib/headers');
+
 const Incident = require('../models/incident');
+
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
 
@@ -95,6 +98,7 @@ router.get('/:id', async (req, res, next) => {
   const description = metaHelper.getDetailDescription();
 
   let incidentResult;
+  let record;
   let adapted;
   let attendeesResult;
   let data;
@@ -119,7 +123,9 @@ router.get('/:id', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
-      adapted.attendees = {
+
+      record = incidentResult.adapted;
+      record.attendees = {
         lobbyists: {
           records: attendeesResult.lobbyists,
         },
@@ -130,7 +136,7 @@ router.get('/:id', async (req, res, next) => {
 
       data = {
         incident: {
-          record: adapted,
+          record,
         },
       };
       meta = {

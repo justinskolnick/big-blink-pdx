@@ -2,7 +2,10 @@ import React, { useEffect, useState, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
-import { LinkToIncidents, LinkToIncident } from './links';
+import {
+  BetterLink as Link,
+  LinkToIncidents,
+} from './links';
 import Icon from './icon';
 import IncidentModal from './incident-modal';
 
@@ -78,15 +81,15 @@ const HeaderIntro = () => {
         {' '}
         reported between
         {' '}
-        <LinkToIncident id={first.id} data-id={first.id} onClick={handleClick}>
+        <Link to={first.links.self} data-id={first.id} onClick={handleClick}>
           {first.contactDate}
-        </LinkToIncident>
+        </Link>
         {' '}
         and
         {' '}
-        <LinkToIncident id={last.id} data-id={last.id} onClick={handleClick}>
+        <Link to={last.links.self} data-id={last.id} onClick={handleClick}>
           {last.contactDate}
-        </LinkToIncident>
+        </Link>
         .
         {' '}
         <DateRangeNote />

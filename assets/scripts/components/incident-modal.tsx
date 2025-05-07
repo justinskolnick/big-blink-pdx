@@ -10,7 +10,7 @@ import IncidentNotesBox from './incident-notes-box';
 import IncidentTable from './incident-table';
 import ItemSubhead from './item-subhead';
 import ItemTextWithIcon from './item-text-with-icon';
-import { LinkToIncident } from './links';
+import { BetterLink as Link } from './links';
 import MetaSection from './meta-section';
 import Modal from './modal';
 
@@ -66,9 +66,9 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
 
         <footer className='incident-footer'>
           <ItemTextWithIcon icon='link'>
-            <LinkToIncident id={incident.id}>
+            <Link to={incident.links.self}>
               View the full record
-            </LinkToIncident>
+            </Link>
           </ItemTextWithIcon>
         </footer>
       </section>

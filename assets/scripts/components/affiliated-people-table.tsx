@@ -4,9 +4,9 @@ import AffiliatedItemTable from './affiliated-item-table';
 import {
   getWithPersonParams,
   FilterLink,
-  LinkToPerson,
 } from './links';
 import PersonIcon from './people/icon';
+import ItemLink from './people/item-link';
 import StatBox from './stat-box';
 
 import type { AttendeeGroup } from '../types';
@@ -24,9 +24,9 @@ const AffiliatedPeopleTable = ({ attendees }: Props) => (
         <PersonIcon person={item.person} />
       )}
       TitleCell={({ item }) => (
-        <LinkToPerson id={item.person.id}>
+        <ItemLink item={item.person}>
           {item.person.name}
-        </LinkToPerson>
+        </ItemLink>
       )}
       TotalCell={({ item }) => (
         <FilterLink newParams={getWithPersonParams(item)} hasIcon>

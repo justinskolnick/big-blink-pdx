@@ -2,6 +2,7 @@ const IncidentedObject = require('./incidented-object');
 
 class Source extends IncidentedObject {
   static tableName = 'data_sources';
+  static linkKey = 'source';
 
   static perPage = 40;
 

@@ -3,23 +3,54 @@ import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
+import { RootState } from '../lib/store';
+
 import Eyes from './eyes';
 import {
+  BetterLink as Link,
   GlobalLink,
   LinkToEntities,
-  LinkToEntity,
-  LinkToIncident,
   LinkToIncidents,
   LinkToPeople,
-  LinkToPerson,
-  LinkToSource,
   LinkToSources,
 } from './links';
 import SectionIcon from './section-icon';
 
 import { getSection } from '../selectors';
+import { selectors as entitiesSelectors } from '../reducers/entities';
+import { selectors as incidentsSelectors } from '../reducers/incidents';
+import { selectors as peopleSelectors } from '../reducers/people';
+import { selectors as sourcesSelectors } from '../reducers/sources';
 
 import { Sections } from '../types';
+import type { SectionType } from '../types';
+
+interface Props {
+  children?: ReactNode;
+  icon?: IconName;
+  title?: ReactNode | string;
+}
+
+interface ItemLinkProps {
+  children: ReactNode;
+  section: SectionType;
+}
+
+const getItemSelectors = (section?: SectionType) => {
+  let selectors = null;
+
+  if (section?.slug === Sections.Entities) {
+    selectors = entitiesSelectors;
+  } else if (section?.slug === Sections.Incidents) {
+    selectors = incidentsSelectors;
+  } else if (section?.slug === Sections.People) {
+    selectors = peopleSelectors;
+  } else if (section?.slug === Sections.Sources) {
+    selectors = sourcesSelectors;
+  }
+
+  return selectors;
+};
 
 const useGetSectionLink = (slug: string) => {
   if (slug === Sections.Entities) {
@@ -33,23 +64,12 @@ const useGetSectionLink = (slug: string) => {
   }
 };
 
-const useGetSectionItemLink = (slug: string) => {
-  if (slug === Sections.Entities) {
-    return LinkToEntity;
-  } else if (slug === Sections.Incidents) {
-    return LinkToIncident;
-  } else if (slug === Sections.People) {
-    return LinkToPerson;
-  } else if (slug === Sections.Sources) {
-    return LinkToSource;
-  }
-};
+const SectionItemLink = ({ children, section }: ItemLinkProps) => {
+  const selectors = getItemSelectors(section);
+  const item = useSelector((state: RootState) => selectors?.selectById(state, section.id));
 
-interface Props {
-  children?: ReactNode;
-  icon?: IconName;
-  title?: ReactNode | string;
-}
+  return <Link to={item.links.self}>{children}</Link>;
+};
 
 const Header = ({
   children,
@@ -58,10 +78,9 @@ const Header = ({
 }: Props) => {
   const section = useSelector(getSection);
 
-  const slug = section.slug;
+  const slug = section?.slug;
 
   const SectionLink = useGetSectionLink(slug);
-  const SectionItemLink = useGetSectionItemLink(slug);
 
   const hasLink = Boolean(SectionLink);
   const hasSubhead = Boolean(section.subtitle);
@@ -111,7 +130,7 @@ const Header = ({
             {hasSubhead && (
               <>
                 <h3>
-                  <SectionItemLink id={section.id}>{section.subtitle}</SectionItemLink>
+                  <SectionItemLink section={section}>{section.subtitle}</SectionItemLink>
                 </h3>
                 {hasDetails && (
                   <h4>

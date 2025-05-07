@@ -65,6 +65,9 @@ describe('adapt()', () => {
         officials: 'Mayor Mercury; Orbit, Henry',
         lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
       },
+      links: {
+        self: '/incidents/6',
+      },
     });
   });
 
@@ -183,6 +186,9 @@ describe('setData()', () => {
       raw: {
         lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
         officials: 'Mayor Mercury; Orbit, Henry',
+      },
+      links: {
+        self: '/incidents/6',
       },
     });
   });

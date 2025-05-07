@@ -42,6 +42,9 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
+      links: {
+        self: '/entities/1'
+      },
     });
   });
 
@@ -67,6 +70,9 @@ describe('adapt()', () => {
           },
         },
       },
+      links: {
+        self: '/entities/1'
+      },
     });
   });
 
@@ -83,6 +89,9 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
+      links: {
+        self: '/entities/1'
+      },
     });
 
     expect(entityWithTotal.adapted).toEqual({
@@ -106,6 +115,9 @@ describe('adapt()', () => {
             },
           },
         },
+      },
+      links: {
+        self: '/entities/1'
       },
     });
   });
@@ -184,6 +196,9 @@ describe('adapt()', () => {
           },
         },
       },
+      links: {
+        self: '/entities/1'
+      },
     });
   });
 });
@@ -199,6 +214,9 @@ describe('setData()', () => {
 
     entity.setData('z', 'abc');
 
+    expect(entity.hasData()).toBe(true);
+    expect(entity.hasLinks()).toBe(true);
+
     expect(entity.data).toEqual({
       domain: 'https://example.com',
       id: 1,
@@ -211,6 +229,9 @@ describe('setData()', () => {
       domain: 'https://example.com',
       id: 1,
       name: 'Spacely Sprockets',
+      links: {
+        self: '/entities/1'
+      },
     });
   });
 });

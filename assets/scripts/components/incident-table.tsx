@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Attendees from './incident-attendees';
-import { LinkToEntity } from './links';
+import Entity from './incident-entity';
 
 import type { Incident } from '../types';
 
@@ -15,7 +15,7 @@ const IncidentTable = ({ incident }: Props) => (
       <tr>
         <th>Entity</th>
         <td>
-          <LinkToEntity id={incident.entityId}>{incident.entity}</LinkToEntity>
+          <Entity incident={incident} />
         </td>
       </tr>
       <tr>

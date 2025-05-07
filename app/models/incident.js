@@ -2,6 +2,7 @@ const Base = require('./base');
 
 class Incident extends Base {
   static tableName = 'incidents';
+  static linkKey = 'incident';
 
   static perPage = 15;
 

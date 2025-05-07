@@ -6,10 +6,8 @@ import { RootState } from '../../lib/store';
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import EntityIcon from './icon';
-import {
-  LinkToEntity,
-  SortLink,
-} from '../links';
+import ItemLink from './item-link';
+import { SortLink } from '../links';
 import SectionIndex from '../section-index';
 
 import { selectors } from '../../reducers/entities';
@@ -36,7 +34,7 @@ export const EntityItem = ({ id }: ItemProps) => {
       <td className='cell-type'><EntityIcon /></td>
       <td className='cell-name'>
         {hasTotal ? (
-          <LinkToEntity id={entity.id}>{entity.name}</LinkToEntity>
+          <ItemLink item={entity}>{entity.name}</ItemLink>
         ) : (
           entity.name
         )}

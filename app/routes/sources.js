@@ -19,7 +19,9 @@ const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 
+const Entity = require('../models/entity');
 const Incident = require('../models/incident');
+const Person = require('../models/person');
 const Source = require('../models/source');
 
 const incidents = require('../services/incidents');
@@ -36,6 +38,22 @@ const section = {
 };
 const view = {
   section: slug,
+};
+
+const adaptItemEntity = item => {
+  const entity = new Entity(item.entity);
+
+  item.entity = entity.adapted;
+
+  return item;
+};
+
+const adaptItemPerson = item => {
+  const person = new Person(item.person);
+
+  item.person = person.adapted;
+
+  return item;
 };
 
 router.get('/', async (req, res, next) => {
@@ -189,31 +207,31 @@ router.get('/:id/attendees', async (req, res, next) => {
     const id = req.params.id;
 
     let source;
+    let record;
     let attendees;
     let data;
     let meta;
 
     try {
       source = await sources.getAtId(id);
-      record = source.adapted;
       attendees = await incidentAttendees.getAttendees({ sourceId: id });
+
+      record = source.adapted;
+      record.attendees = {
+        label: `These people appear in ${record.title}`,
+        lobbyists: {
+          label: 'Lobbyists',
+          records: attendees.lobbyists.records.map(adaptItemPerson),
+        },
+        officials: {
+          label: 'City Officials',
+          records: attendees.officials.records.map(adaptItemPerson),
+        },
+      };
 
       data = {
         source: {
-          record: {
-            ...record,
-            attendees: {
-              label: `These people appear in ${record.title}`,
-              lobbyists: {
-                label: 'Lobbyists',
-                records: attendees.lobbyists.records,
-              },
-              officials: {
-                label: 'City Officials',
-                records: attendees.officials.records,
-              },
-            },
-          },
+          record,
         },
       };
       meta = { id, view };
@@ -243,13 +261,11 @@ router.get('/:id/entities', async (req, res, next) => {
       entities = await sources.getEntitiesForId(id);
 
       record = source.adapted;
+      record.entities = entities.map(adaptItemEntity);
 
       data = {
         source: {
-          record: {
-            ...record,
-            entities,
-          },
+          record,
         },
       };
       meta = { id, view };

@@ -49,6 +49,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       roles: [],
+      links: {
+        self: '/people/1'
+      },
     });
   });
 
@@ -63,6 +66,9 @@ describe('adapt()', () => {
         'official',
         'lobbyist',
       ],
+      links: {
+        self: '/people/1'
+      },
     });
   });
 
@@ -89,6 +95,9 @@ describe('adapt()', () => {
           },
         },
       },
+      links: {
+        self: '/people/1'
+      },
     });
   });
 
@@ -106,6 +115,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       roles: [],
+      links: {
+        self: '/people/1'
+      },
     });
 
     expect(personWithTotal.adapted).toEqual({
@@ -131,6 +143,9 @@ describe('adapt()', () => {
           },
         },
       },
+      links: {
+        self: '/people/1'
+      },
     });
   });
 });
@@ -152,6 +167,9 @@ describe('setData()', () => {
 
     person.setData('z', 'abc');
 
+    expect(person.hasData()).toBe(true);
+    expect(person.hasLinks()).toBe(true);
+
     expect(person.data).toEqual({
       id: 1,
       identical_id: null, // eslint-disable-line camelcase
@@ -166,6 +184,9 @@ describe('setData()', () => {
       name: 'John Doe',
       roles: [],
       type: 'person',
+      links: {
+        self: '/people/1'
+      },
     });
   });
 });
