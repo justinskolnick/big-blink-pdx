@@ -36,6 +36,10 @@ interface ItemLinkProps {
   section: SectionType;
 }
 
+interface DescriptionProps {
+  section: SectionType;
+}
+
 const getItemSelectors = (section?: SectionType) => {
   let selectors = null;
 
@@ -71,6 +75,23 @@ const SectionItemLink = ({ children, section }: ItemLinkProps) => {
   return <Link to={item.links.self}>{children}</Link>;
 };
 
+const SectionDescription = ({ section }: DescriptionProps) => {
+  const selectors = getItemSelectors(section);
+  const item = useSelector((state: RootState) => selectors?.selectById(state, section.id));
+
+  const hasDetails = Object.keys(item.details || {}).length > 0;
+
+  if (!hasDetails) return null;
+
+  return (
+    <h4>
+      {Object.values(item.details).map((detail, i) => (
+        <span key={i} className='header-section-detail'>{detail}</span>
+      ))}
+    </h4>
+  );
+};
+
 const Header = ({
   children,
   icon,
@@ -84,7 +105,6 @@ const Header = ({
 
   const hasLink = Boolean(SectionLink);
   const hasSubhead = Boolean(section.subtitle);
-  const hasDetails = section.details?.length > 0;
 
   return (
     <header
@@ -132,12 +152,7 @@ const Header = ({
                 <h3>
                   <SectionItemLink section={section}>{section.subtitle}</SectionItemLink>
                 </h3>
-                {hasDetails && (
-                  <h4>
-                    {section.details.map((detail, i) => (
-                      <span key={i} className='header-section-detail'>{detail}</span>
-                    ))}</h4>
-                )}
+                <SectionDescription section={section} />
               </>
             )}
           </div>

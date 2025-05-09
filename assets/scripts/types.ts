@@ -91,6 +91,11 @@ export type Attendees = {
   officials: AttendeeGroup;
 }
 
+type Details = {
+  description?: string;
+  domain?: string;
+};
+
 export type Incident = {
   category: string;
   contactDate: string;
@@ -106,6 +111,7 @@ export type Incident = {
   topic: string;
   notes: string;
   attendees?: Attendees;
+  details?: Details;
   links?: LinkObject;
 };
 
@@ -292,6 +298,7 @@ export type ItemOverview = {
 
 export type Entity = Item & {
   attendees?: Attendees;
+  details?: Details;
   domain?: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   isRegistered?: boolean;
@@ -344,6 +351,7 @@ export type Person = Item & {
   roles?: Role[];
   type: 'group' | 'person' | 'unknown';
   attendees?: PersonAttendees;
+  details?: Details;
   entities?: PersonEntities;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   overview?: ItemOverview;
@@ -373,6 +381,7 @@ export type Source = {
   retrievedDate: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
+  details?: Details;
   entities?: AffiliatedItem[];
   overview?: ItemOverview;
   links?: LinkObject;

@@ -41556,6 +41556,13 @@ Hook ${hookName} was either not provided or not a function.`);
     const item = useSelector((state) => selectors5?.selectById(state, section.id));
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(BetterLink, { to: item.links.self, children });
   };
+  var SectionDescription = ({ section }) => {
+    const selectors5 = getItemSelectors(section);
+    const item = useSelector((state) => selectors5?.selectById(state, section.id));
+    const hasDetails = Object.keys(item.details || {}).length > 0;
+    if (!hasDetails) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h4", { children: Object.values(item.details).map((detail, i) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "header-section-detail", children: detail }, i)) });
+  };
   var Header = ({
     children,
     icon: icon2,
@@ -41566,7 +41573,6 @@ Hook ${hookName} was either not provided or not a function.`);
     const SectionLink = useGetSectionLink(slug);
     const hasLink = Boolean(SectionLink);
     const hasSubhead = Boolean(section.subtitle);
-    const hasDetails = section.details?.length > 0;
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(
       "header",
       {
@@ -41592,7 +41598,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
                 hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
                   /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionItemLink, { section, children: section.subtitle }) }),
-                  hasDetails && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h4", { children: section.details.map((detail, i) => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "header-section-detail", children: detail }, i)) })
+                  /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SectionDescription, { section })
                 ] })
               ] })
             ] })
