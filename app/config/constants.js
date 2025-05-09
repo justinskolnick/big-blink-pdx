@@ -60,6 +60,14 @@ const SORT_BY_OPTIONS = {
 const MODEL_ENTITIES = 'entities';
 const MODEL_PEOPLE = 'people';
 
+const ROLE_LOBBYIST = 'lobbyist';
+const ROLE_OFFICIAL = 'official';
+
+const SECTION_ENTITIES = 'entities';
+const SECTION_INCIDENTS = 'incidents';
+const SECTION_PEOPLE = 'people';
+const SECTION_SOURCES = 'sources';
+
 const TIME_ZONE = 'America/Los_Angeles';
 
 module.exports = {
@@ -77,6 +85,12 @@ module.exports = {
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
   QUARTERS,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+  SECTION_ENTITIES,
+  SECTION_INCIDENTS,
+  SECTION_PEOPLE,
+  SECTION_SOURCES,
   SORT_ASC,
   SORT_BY_NAME,
   SORT_BY_OPTIONS,

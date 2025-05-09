@@ -11,6 +11,7 @@ const {
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_PERSON_ID,
+  SECTION_ENTITIES,
 } = require('../config/constants');
 
 const filterHelper = require('../helpers/filter');
@@ -34,7 +35,7 @@ const stats = require('../services/stats');
 
 const title = 'Entities';
 const template = 'main';
-const slug = 'entities';
+const slug = SECTION_ENTITIES;
 const section = {
   slug,
   title,
@@ -59,7 +60,7 @@ router.get('/', async (req, res, next) => {
   const params = {};
   const perPage = Entity.perPage;
   const links = linkHelper.links;
-  const description = metaHelper.getIndexDescription('entities');
+  const description = metaHelper.getIndexDescription(SECTION_ENTITIES);
 
   let entitiesResult;
   let entityTotal;

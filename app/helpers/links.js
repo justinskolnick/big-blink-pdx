@@ -1,4 +1,10 @@
-const { PARAM_PAGE } = require('../config/constants');
+const {
+  PARAM_PAGE,
+  SECTION_ENTITIES,
+  SECTION_INCIDENTS,
+  SECTION_PEOPLE,
+  SECTION_SOURCES,
+} = require('../config/constants');
 
 const getPath = (...rest) => [...rest]
   .map(segment => {
@@ -12,14 +18,14 @@ const getPath = (...rest) => [...rest]
 
 const links = {
   home: () => getPath('/'),
-  entities: () => getPath('entities'),
-  entity: id => getPath('entities', id),
-  incidents: () => getPath('incidents'),
-  incident: id => getPath('incidents', id),
-  people: () => getPath('people'),
-  person: id => getPath('people', id),
-  sources: () => getPath('sources'),
-  source: id => getPath('sources', id),
+  entities: () => getPath(SECTION_ENTITIES),
+  entity: id => getPath(SECTION_ENTITIES, id),
+  incidents: () => getPath(SECTION_INCIDENTS),
+  incident: id => getPath(SECTION_INCIDENTS, id),
+  people: () => getPath(SECTION_PEOPLE),
+  person: id => getPath(SECTION_PEOPLE, id),
+  sources: () => getPath(SECTION_SOURCES),
+  source: id => getPath(SECTION_SOURCES, id),
 };
 
 const toPageLink = (pathname, page, params = {}) => {

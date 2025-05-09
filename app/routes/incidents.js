@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   PARAM_PAGE,
   PARAM_SORT,
+  SECTION_INCIDENTS,
 } = require('../config/constants');
 
 const linkHelper = require('../helpers/links');
@@ -20,7 +21,7 @@ const incidentAttendees = require('../services/incident-attendees');
 
 const title = 'Incidents';
 const template = 'main';
-const slug = 'incidents';
+const slug = SECTION_INCIDENTS;
 const section = {
   slug,
   title,

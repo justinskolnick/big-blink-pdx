@@ -2,7 +2,11 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
-const { SORT_BY_TOTAL } = require('../config/constants');
+const {
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+  SORT_BY_TOTAL,
+} = require('../config/constants');
 
 const metaHelper = require('../helpers/meta');
 
@@ -52,7 +56,7 @@ router.get('/', async (req, res, next) => {
         page: 1,
         perPage: 5,
         includeCount: true,
-        role: 'lobbyist',
+        role: ROLE_LOBBYIST,
         sortBy: SORT_BY_TOTAL,
       });
       lobbyistsResult = lobbyistsResult.map(person => {
@@ -66,7 +70,7 @@ router.get('/', async (req, res, next) => {
         page: 1,
         perPage: 5,
         includeCount: true,
-        role: 'official',
+        role: ROLE_OFFICIAL,
         sortBy: SORT_BY_TOTAL,
       });
       officialsResult = officialsResult.map(person => {

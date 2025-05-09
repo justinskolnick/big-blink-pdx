@@ -10,6 +10,7 @@ const {
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  SECTION_SOURCES,
 } = require('../config/constants');
 
 const filterHelper = require('../helpers/filter');
@@ -31,7 +32,7 @@ const stats = require('../services/stats');
 
 const title = 'Data Sources';
 const template = 'main';
-const slug = 'sources';
+const slug = SECTION_SOURCES;
 const section = {
   slug,
   title,

@@ -1,3 +1,8 @@
+const {
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../config/constants');
+
 const Base = require('./base');
 const Person = require('./person');
 
@@ -15,8 +20,8 @@ class IncidentAttendee extends Base {
   };
 
   static roles = {
-    lobbyist: 'lobbyist',
-    official: 'official',
+    lobbyist: ROLE_LOBBYIST,
+    official: ROLE_OFFICIAL,
   };
 
   adapt(result) {

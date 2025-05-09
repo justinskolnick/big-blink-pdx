@@ -12,6 +12,9 @@ const {
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+  SECTION_PEOPLE,
 } = require('../config/constants');
 
 const filterHelper = require('../helpers/filter');
@@ -34,7 +37,7 @@ const stats = require('../services/stats');
 
 const title = 'People';
 const template = 'main';
-const slug = 'people';
+const slug = SECTION_PEOPLE;
 const section = {
   slug,
   title,
@@ -67,7 +70,7 @@ router.get('/', async (req, res, next) => {
   const params = {};
   const perPage = Person.perPage;
   const links = linkHelper.links;
-  const description = metaHelper.getIndexDescription('people');
+  const description = metaHelper.getIndexDescription(SECTION_PEOPLE);
 
   let peopleResult;
   let personTotal;
@@ -255,8 +258,8 @@ router.get('/:id/attendees', async (req, res, next) => {
     try {
       person = await people.getAtId(id);
 
-      asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: 'lobbyist' });
-      asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: 'official' });
+      asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST });
+      asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL });
 
       record = person.adapted;
       record.attendees = {
@@ -314,8 +317,8 @@ router.get('/:id/entities', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
-      asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: 'lobbyist' });
-      asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: 'official' });
+      asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST });
+      asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL });
 
       record = person.adapted;
       record.entities = {
