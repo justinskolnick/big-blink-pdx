@@ -1,3 +1,8 @@
+const {
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../config/constants');
+
 const Person = require('../models/person');
 const db = require('./db');
 const {
@@ -5,6 +10,8 @@ const {
   getAtIdQuery,
   getTotalQuery,
 } = require('./queries/people');
+const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
+const incidentAttendees = require('./incident-attendees');
 
 const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
@@ -20,6 +27,34 @@ const getAtId = async (id) => {
   return new Person(result);
 };
 
+const getHasLobbiedOrBeenLobbied = async (id) => {
+  const results = await Promise.all([
+    entityLobbyistRegistrations.getHasBeenCityEmployee({
+      personId: id,
+    }),
+    incidentAttendees.getHasLobbiedOrBeenLobbied({
+      personId: id,
+      role: ROLE_OFFICIAL,
+    }),
+    incidentAttendees.getHasLobbiedOrBeenLobbied({
+      personId: id,
+      role: ROLE_LOBBYIST,
+    }),
+  ]);
+
+  const [
+    hasBeenEmployee,
+    hasBeenLobbied,
+    hasLobbied,
+  ] = results;
+
+  return {
+    hasBeenEmployee,
+    hasBeenLobbied,
+    hasLobbied,
+  };
+};
+
 const getTotal = async () => {
   const sql = getTotalQuery();
   const result = await db.get(sql);
@@ -30,5 +65,6 @@ const getTotal = async () => {
 module.exports = {
   getAll,
   getAtId,
+  getHasLobbiedOrBeenLobbied,
   getTotal,
 };

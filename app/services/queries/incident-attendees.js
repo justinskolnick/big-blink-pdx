@@ -72,6 +72,39 @@ const getEntitiesQuery = (options = {}) => {
   return { clauses, params };
 };
 
+const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
+  const {
+    personId,
+    role,
+  } = options;
+  const hasPersonId = Boolean(personId);
+  const hasRole = Boolean(role);
+
+  const clauses = [];
+  const conditions = [];
+  const params = [];
+
+  clauses.push('SELECT');
+  clauses.push(`IF(COUNT(${IncidentAttendee.primaryKey()}) > 0, 'true', 'false') AS hasLobbiedOrBeenLobbied`);
+
+  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+
+  if (hasPersonId && hasRole) {
+    clauses.push('WHERE');
+    conditions.push(`${IncidentAttendee.field('role')} = ?`);
+    params.push(role);
+
+    conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
+    params.push(personId);
+  }
+
+  if (conditions.length) {
+    clauses.push(conditions.join(' AND '));
+  }
+
+  return { clauses, params };
+};
+
 const getPeopleQuery = (options = {}) => {
   const { entityId, personId, personRole, role, sourceId } = options;
 
@@ -130,5 +163,6 @@ const getPeopleQuery = (options = {}) => {
 module.exports = {
   getAllQuery,
   getEntitiesQuery,
+  getHasLobbiedOrBeenLobbiedQuery,
   getPeopleQuery,
 };

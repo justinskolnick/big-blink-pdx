@@ -1,6 +1,7 @@
 const {
   getQuartersQuery,
   getTotalQuery,
+  getHasBeenCityEmployeeQuery,
 } = require('../entity-lobbyist-registrations');
 
 describe('getQuartersQuery()', () => {
@@ -130,6 +131,23 @@ describe('getTotalQuery()', () => {
           'entity_lobbyist_registrations.entity_id = ? AND entity_lobbyist_registrations.person_id = ?',
         ],
         params: [123, 321],
+      });
+    });
+  });
+});
+
+describe('getHasBeenCityEmployeeQuery()', () => {
+  describe('with a personId', () => {
+    test('returns the expected SQL', () => {
+      expect(getHasBeenCityEmployeeQuery({ personId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          "IF(COUNT(entity_lobbyist_registrations.id) > 0, 'true', 'false') AS hasBeenEmployee",
+          'FROM entity_lobbyist_registrations',
+          'WHERE',
+          'entity_lobbyist_registrations.was_city_employee = 1 AND entity_lobbyist_registrations.length_of_employment IS NOT NULL AND entity_lobbyist_registrations.person_id = ?',
+        ],
+        params: [123],
       });
     });
   });

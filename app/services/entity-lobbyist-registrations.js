@@ -3,6 +3,7 @@ const db = require('./db');
 const {
   getQuartersQuery,
   getTotalQuery,
+  getHasBeenCityEmployeeQuery,
 } = require('./queries/entity-lobbyist-registrations');
 
 const getQuarters = async (options = {}) => {
@@ -23,7 +24,15 @@ const getTotal = async (options = {}) => {
   return result.total;
 };
 
+const getHasBeenCityEmployee = async (options = {}) => {
+  const { clauses, params } = getHasBeenCityEmployeeQuery(options);
+  const result = await db.get(clauses, params);
+
+  return result.hasBeenEmployee === 'true';
+};
+
 module.exports = {
   getQuarters,
   getTotal,
+  getHasBeenCityEmployee,
 };

@@ -14,6 +14,7 @@ const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
 const {
   getAllQuery,
   getEntitiesQuery,
+  getHasLobbiedOrBeenLobbiedQuery,
   getPeopleQuery,
 } = require('./queries/incident-attendees');
 
@@ -115,6 +116,13 @@ const getEntities = async (options = {}) => {
   return collectedResults;
 };
 
+const getHasLobbiedOrBeenLobbied = async (options = {}) => {
+  const { clauses, params } = getHasLobbiedOrBeenLobbiedQuery(options);
+  const result = await db.get(clauses, params);
+
+  return result.hasLobbiedOrBeenLobbied === 'true';
+};
+
 // todo: add count to query
 const collectPeople = people => {
   const unsorted = people
@@ -174,5 +182,6 @@ module.exports = {
   getAll,
   getAllForIncidents,
   getAttendees,
+  getHasLobbiedOrBeenLobbied,
   getEntities,
 };

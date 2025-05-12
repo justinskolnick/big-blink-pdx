@@ -23,6 +23,7 @@ const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -209,12 +210,34 @@ router.get('/:id', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
+      const {
+        hasBeenEmployee,
+        hasBeenLobbied,
+        hasLobbied,
+      } = await people.getHasLobbiedOrBeenLobbied(id);
 
       person.setOverview(incidentsStats);
 
+      record = person.adapted;
+      record.details = {};
+
+      const roles = [];
+
+      if (hasBeenEmployee || hasBeenLobbied) {
+        roles.push('worked for the City');
+      }
+
+      if (hasLobbied) {
+        roles.push('lobbied City officials');
+      }
+
+      if (roles.length) {
+        record.details.description = `Has ${toSentence(roles)}`;
+      }
+
       data = {
         person: {
-          record: person.adapted,
+          record,
         },
       };
       meta = {

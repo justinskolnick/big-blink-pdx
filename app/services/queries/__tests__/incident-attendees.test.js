@@ -1,6 +1,7 @@
 const {
   getAllQuery,
   getEntitiesQuery,
+  getHasLobbiedOrBeenLobbiedQuery,
   getPeopleQuery,
 } = require('../incident-attendees');
 
@@ -117,6 +118,38 @@ describe('getEntitiesQuery()', () => {
           ],
           params: [123, 'lobbyist'],
         });
+      });
+    });
+  });
+});
+
+describe('getHasLobbiedOrBeenLobbiedQuery()', () => {
+  describe('as a lobbyist', () => {
+    test('returns the expected SQL', () => {
+      expect(getHasLobbiedOrBeenLobbiedQuery({ personId: 123, role: 'lobbyist' })).toEqual({
+        clauses: [
+          'SELECT',
+          "IF(COUNT(incident_attendees.id) > 0, 'true', 'false') AS hasLobbiedOrBeenLobbied",
+          'FROM incident_attendees',
+          'WHERE',
+          'incident_attendees.role = ? AND incident_attendees.person_id = ?',
+        ],
+        params: ['lobbyist', 123],
+      });
+    });
+  });
+
+  describe('as an official', () => {
+    test('returns the expected SQL', () => {
+      expect(getHasLobbiedOrBeenLobbiedQuery({ personId: 123, role: 'official' })).toEqual({
+        clauses: [
+          'SELECT',
+          "IF(COUNT(incident_attendees.id) > 0, 'true', 'false') AS hasLobbiedOrBeenLobbied",
+          'FROM incident_attendees',
+          'WHERE',
+          'incident_attendees.role = ? AND incident_attendees.person_id = ?',
+        ],
+        params: ['official', 123],
       });
     });
   });
