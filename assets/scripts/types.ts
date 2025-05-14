@@ -28,7 +28,6 @@ export enum Sections {
 }
 
 export type SectionType = {
-  details?: string[];
   id?: number;
   slug?: string;
   subtitle?: string;

@@ -184,18 +184,15 @@ router.get('/:id', async (req, res, next) => {
 
       if (hasLocations || hasDomain) {
         record.details = {};
-        section.details = [];
 
         if (hasLocations) {
           const location = toSentence(entityLocations.map(location => `${location.city}, ${location.region}`));
 
           record.details.description = location;
-          section.details.push(location);
         }
 
         if (hasDomain) {
           record.details.domain = record.domain;
-          section.details.push(record.domain);
         }
       }
 
