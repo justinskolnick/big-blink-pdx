@@ -191,42 +191,44 @@ const getTotalQuery = (options = {}) => {
     if (withPersonId) {
       clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
     }
+  }
 
+  if (hasSourceId || hasEntityId || hasDateOn || hasDateRange) {
     clauses.push('WHERE');
   }
 
-  if (hasSourceId) {
-    clauses.push(`${Incident.field('data_source_id')} = ?`);
-    params.push(sourceId || quarterSourceId);
-  }
+  if (hasSourceId || hasEntityId) {
+    if (hasSourceId) {
+      clauses.push(`${Incident.field('data_source_id')} = ?`);
+      params.push(sourceId || quarterSourceId);
 
-  if (hasSourceId && hasEntityId) {
-    clauses.push('AND');
-  }
+      if (hasEntityId) {
+        clauses.push('AND');
+      }
+    }
 
-  if (hasEntityId) {
-    clauses.push(`${Incident.field('entity_id')} = ?`);
-    params.push(entityId || withEntityId);
-  }
+    if (hasEntityId) {
+      clauses.push(`${Incident.field('entity_id')} = ?`);
+      params.push(entityId || withEntityId);
+    }
 
-  if ((hasSourceId || hasEntityId) && withPersonId) {
-    clauses.push('AND');
-    clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
-    params.push(withPersonId);
-  }
+    if (withPersonId) {
+      clauses.push('AND');
+      clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+      params.push(withPersonId);
+    }
 
-  if (hasDateOn || hasDateRange) {
-    if (hasSourceId || hasEntityId || withPersonId) {
+    if (hasDateOn || hasDateRange) {
       clauses.push('AND');
     }
+  }
 
-    if (hasDateOn) {
-      clauses.push(`${Incident.field('contact_date')} = ?`);
-      params.push(dateOn);
-    } else if (hasDateRange) {
-      clauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
-      params.push(dateRangeFrom, dateRangeTo);
-    }
+  if (hasDateOn) {
+    clauses.push(`${Incident.field('contact_date')} = ?`);
+    params.push(dateOn);
+  } else if (hasDateRange) {
+    clauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
+    params.push(dateRangeFrom, dateRangeTo);
   }
 
   return { clauses, params };

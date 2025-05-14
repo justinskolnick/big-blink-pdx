@@ -3,11 +3,15 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  PARAM_DATE_ON,
+  PARAM_DATE_RANGE_FROM,
+  PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
   PARAM_SORT,
   SECTION_INCIDENTS,
 } = require('../config/constants');
 
+const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
@@ -18,6 +22,7 @@ const Incident = require('../models/incident');
 
 const incidents = require('../services/incidents');
 const incidentAttendees = require('../services/incident-attendees');
+const stats = require('../services/stats');
 
 const title = 'Incidents';
 const template = 'main';
@@ -31,17 +36,22 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
+  const dateOn = req.query.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
   const page = req.query.get(PARAM_PAGE) || 1;
   const sort = req.query.get(PARAM_SORT);
 
-  const params = {};
   const perPage = Incident.perPage;
   const links = linkHelper.links;
   const description = metaHelper.getIndexDescription();
 
   let incidentsResult;
   let incidentCountResult;
+  let paginationTotal;
   let records;
+  let filters;
+  let params;
   let data;
   let meta;
 
@@ -50,25 +60,36 @@ router.get('/', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     try {
-      incidentsResult = await incidents.getAll({ page, perPage, sort });
+      paginationTotal = await stats.getPaginationStats({
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+      });
+      incidentsResult = await incidents.getAll({
+        dateOn,
+        dateRangeFrom,
+        dateRangeTo,
+        page,
+        perPage,
+        sort,
+      });
       incidentsResult = incidentsResult.map(incident => incident.adapted);
 
       incidentCountResult = await incidents.getTotal();
       records = await incidentAttendees.getAllForIncidents(incidentsResult);
 
-      if (paramHelper.hasSort(sort)) {
-        params.sort = paramHelper.getSort(sort);
-      }
+      filters = filterHelper.getFilters(req.query);
+      params = paramHelper.getParamsFromFilters(req.query, filters);
 
       data = {
         incidents: {
           records,
           pagination: linkHelper.getPagination({
-            total: incidentCountResult,
-            perPage,
             page,
             params,
             path: links.incidents(),
+            perPage,
+            total: paginationTotal,
           }),
           total: incidentCountResult,
         }

@@ -75,9 +75,7 @@ const getPaginationStats = async (options = {}) => {
       withEntityId,
       withPersonId,
     });
-  }
-
-  if (personId) {
+  } else if (personId) {
     paginationTotal = await incidentAttendances.getTotal({
       dateOn,
       dateRangeFrom,
@@ -87,9 +85,7 @@ const getPaginationStats = async (options = {}) => {
       withEntityId,
       withPersonId,
     });
-  }
-
-  if (sourceId) {
+  } else if (sourceId) {
     paginationTotal = await incidents.getTotal({
       dateOn,
       dateRangeFrom,
@@ -97,6 +93,12 @@ const getPaginationStats = async (options = {}) => {
       sourceId,
       withEntityId,
       withPersonId,
+    });
+  } else {
+    paginationTotal = await incidents.getTotal({
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
     });
   }
 
