@@ -55331,10 +55331,13 @@ Hook ${hookName} was either not provided or not a function.`);
     const { labels, model, values } = filter;
     const hasValues = Boolean(values);
     const isRemovable = hasValues && Object.values(values).length > 0;
+    const newParamsBase = {
+      page: null
+    };
     const newParams = hasValues && Object.keys(values).reduce((all, key) => {
       all[key] = null;
       return all;
-    }, {});
+    }, newParamsBase);
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(import_jsx_runtime54.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(AssociationLabelArray, { labels, model, handleActionClick }),
       isRemovable && /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(import_jsx_runtime54.Fragment, { children: [

@@ -247,11 +247,14 @@ const AssociationLabels = ({ filter, handleActionClick }: AssociationLabelsProps
 
   const hasValues = Boolean(values);
   const isRemovable = hasValues && Object.values(values).length > 0;
+  const newParamsBase = {
+    page: null,
+  } as Record<NewParamsKey, null>;
   const newParams = hasValues && Object.keys(values).reduce((all, key: NewParamsKey) => {
     all[key] = null;
 
     return all;
-  }, {} as Record<NewParamsKey, null>);
+  }, newParamsBase);
 
   return (
     <>
