@@ -55,12 +55,12 @@ describe('getAllQuery()', () => {
           'WHERE',
           'incident_attendees.person_id = ?',
           'AND',
-          'incidents.contact_date = ?',
+          '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
           ],
-          params: [123, '2019-02-20'],
+          params: [123, '2019-02-20', '2019-02-20'],
         });
       });
     });
@@ -77,12 +77,12 @@ describe('getAllQuery()', () => {
           'WHERE',
           'incident_attendees.person_id = ?',
           'AND',
-          'incidents.contact_date BETWEEN ? AND ?',
+          '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
           ],
-          params: [123, '2019-02-20', '2019-02-28'],
+          params: [123, '2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
         });
       });
     });

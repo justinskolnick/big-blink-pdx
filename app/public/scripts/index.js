@@ -41704,36 +41704,42 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/incident-table.tsx
   var import_jsx_runtime25 = __toESM(require_jsx_runtime());
-  var IncidentTable = ({ incident }) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tbody", { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Entity" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_entity_default, { incident }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Date" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.contactDate })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Type" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.contactType })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Category" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.category })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Topic" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.topic })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Officials" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Lobbyists" }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
-    ] })
-  ] }) });
+  var IncidentTable = ({ incident }) => {
+    const hasDateRange = Boolean(incident.contactDateRange);
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tbody", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Entity" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_entity_default, { incident }) })
+      ] }),
+      hasDateRange ? /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Dates" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.contactDateRange })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Date" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.contactDate })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Type" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.contactType })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Category" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.category })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Topic" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: incident.topic })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Officials" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("tr", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("th", { children: "Lobbyists" }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
+      ] })
+    ] }) });
+  };
   var incident_table_default = IncidentTable;
 
   // assets/scripts/components/item-subhead.tsx
@@ -55392,6 +55398,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentRow = ({ id }) => {
     const [isSelected, setIsSelected] = (0, import_react36.useState)(false);
     const incident = useSelector((state) => selectors2.selectById(state, id));
+    const hasDateRange = Boolean(incident?.contactDateRange);
     const hasNotes = Boolean(incident?.notes);
     const deactivate = () => setIsSelected(false);
     const handleClick = (event) => {
@@ -55411,9 +55418,9 @@ Hook ${hookName} was either not provided or not a function.`);
         onClick: handleClick,
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("td", { className: "cell-date", children: hasNotes ? /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("span", { className: "has-notes", children: [
-            incident.contactDate,
+            hasDateRange ? incident.contactDateRange : incident.contactDate,
             /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(icon_default, { name: "asterisk" })
-          ] }) : incident.contactDate }),
+          ] }) : hasDateRange ? incident.contactDateRange : incident.contactDate }),
           /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("td", { className: "cell-entity", children: incident.entity }),
           /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("td", { className: "cell-topic", children: incident.topic }),
           /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("td", { className: "cell-link", children: [

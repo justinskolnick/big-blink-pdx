@@ -32,12 +32,12 @@ describe('getAllQuery()', () => {
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
-          'incidents.contact_date = ?',
+          '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
         ],
-        params: ['2019-02-20'],
+        params: ['2019-02-20', '2019-02-20'],
       });
     });
 
@@ -50,14 +50,14 @@ describe('getAllQuery()', () => {
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            'incidents.contact_date = ?',
+            '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
             'AND',
             'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: ['2019-02-20', 321],
+          params: ['2019-02-20', '2019-02-20', 321],
         });
       });
     });
@@ -71,12 +71,12 @@ describe('getAllQuery()', () => {
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
-          'incidents.contact_date BETWEEN ? AND ?',
+          '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
           'ORDER BY',
           'incidents.contact_date',
           'ASC',
         ],
-        params: ['2019-02-20', '2019-02-28'],
+        params: ['2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
       });
     });
 
@@ -89,14 +89,20 @@ describe('getAllQuery()', () => {
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            'incidents.contact_date BETWEEN ? AND ?',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'AND',
             'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: ['2019-02-20', '2019-02-28', 321],
+          params: [
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
+            321,
+          ],
         });
       });
     });
@@ -127,7 +133,7 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
-            'incidents.contact_date BETWEEN ? AND ?',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'AND',
             'incidents.data_source_id = ?',
             'ORDER BY',
@@ -135,6 +141,8 @@ describe('getAllQuery()', () => {
             'ASC',
           ],
           params: [
+            '2019-02-20',
+            '2019-02-28',
             '2019-02-20',
             '2019-02-28',
             123,
@@ -192,14 +200,20 @@ describe('getAllQuery()', () => {
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            'incidents.contact_date BETWEEN ? AND ?',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'AND',
             'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: ['2019-02-20', '2019-02-28', 123],
+          params: [
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
+            123,
+          ],
         });
       });
     });
@@ -251,14 +265,20 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
-            'incidents.contact_date BETWEEN ? AND ?',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'AND',
             'incidents.entity_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: ['2019-02-20', '2019-02-28', 123],
+          params: [
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
+            123,
+          ],
         });
       });
     });
@@ -479,7 +499,8 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery()).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
         ],
         params: [],
       });
@@ -491,7 +512,8 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
           'WHERE',
           'incidents.entity_id = ?',
         ],
@@ -505,7 +527,8 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
           'WHERE',
           'incidents.data_source_id = ?',
         ],
@@ -518,7 +541,8 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123 })).toEqual({
           clauses: [
             'SELECT',
-            'COUNT(incidents.id) AS total FROM incidents',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
             'WHERE',
             'incidents.data_source_id = ?',
             'AND',
@@ -535,13 +559,14 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3, dateOn: '2019-02-20' })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
           'WHERE',
           'incidents.data_source_id = ?',
           'AND',
-          'incidents.contact_date = ?',
+          '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
         ],
-        params: [3, '2019-02-20'],
+        params: [3, '2019-02-20', '2019-02-20'],
       });
     });
 
@@ -550,15 +575,16 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateOn: '2019-02-20' })).toEqual({
           clauses: [
             'SELECT',
-            'COUNT(incidents.id) AS total FROM incidents',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
             'WHERE',
             'incidents.data_source_id = ?',
             'AND',
             'incidents.entity_id = ?',
             'AND',
-            'incidents.contact_date = ?',
+            '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
           ],
-          params: [3, 123, '2019-02-20'],
+          params: [3, 123, '2019-02-20', '2019-02-20'],
         });
       });
     });
@@ -569,13 +595,14 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
           'WHERE',
           'incidents.data_source_id = ?',
           'AND',
-          'incidents.contact_date BETWEEN ? AND ?',
+          '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
         ],
-        params: [3, '2019-02-20', '2019-02-28'],
+        params: [3, '2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
       });
     });
 
@@ -584,15 +611,16 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
-            'COUNT(incidents.id) AS total FROM incidents',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
             'WHERE',
             'incidents.data_source_id = ?',
             'AND',
             'incidents.entity_id = ?',
             'AND',
-            'incidents.contact_date BETWEEN ? AND ?',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
           ],
-          params: [3, 123, '2019-02-20', '2019-02-28'],
+          params: [3, 123, '2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
         });
       });
     });
@@ -603,7 +631,8 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ withEntityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'COUNT(incidents.id) AS total FROM incidents',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
           'WHERE',
           'incidents.entity_id = ?',
         ],
@@ -616,8 +645,10 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ withEntityId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
-            'COUNT(incidents.id) AS total FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
             'AND',
@@ -633,7 +664,8 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ withEntityId: 123, quarterSourceId: 3 })).toEqual({
           clauses: [
             'SELECT',
-            'COUNT(incidents.id) AS total FROM incidents',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
             'WHERE',
             'incidents.data_source_id = ?',
             'AND',

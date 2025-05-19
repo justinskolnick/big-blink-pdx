@@ -22,22 +22,25 @@ const getIncidentsStats = async (options = {}) => {
     personId,
     sourceId,
   } = options;
+  const hasEntityId = Boolean(entityId);
+  const hasPersonId = Boolean(personId);
+  const hasSourceId = Boolean(sourceId);
 
   const incidentTotal = await incidents.getTotal();
   let firstAndLastIncidents;
   let total;
 
-  if (entityId) {
+  if (hasEntityId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ entityId });
     total = await incidents.getTotal({ entityId });
   }
 
-  if (personId) {
+  if (hasPersonId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ personId });
     total = await incidentAttendances.getTotal({ personId });
   }
 
-  if (sourceId) {
+  if (hasSourceId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ sourceId });
     total = await incidents.getTotal({ sourceId });
   }
@@ -62,10 +65,13 @@ const getPaginationStats = async (options = {}) => {
     withEntityId,
     withPersonId,
   } = options;
+  const hasEntityId = Boolean(entityId);
+  const hasPersonId = Boolean(personId);
+  const hasSourceId = Boolean(sourceId);
 
   let paginationTotal;
 
-  if (entityId) {
+  if (hasEntityId) {
     paginationTotal = await incidents.getTotal({
       dateOn,
       dateRangeFrom,
@@ -75,7 +81,7 @@ const getPaginationStats = async (options = {}) => {
       withEntityId,
       withPersonId,
     });
-  } else if (personId) {
+  } else if (hasPersonId) {
     paginationTotal = await incidentAttendances.getTotal({
       dateOn,
       dateRangeFrom,
@@ -85,7 +91,7 @@ const getPaginationStats = async (options = {}) => {
       withEntityId,
       withPersonId,
     });
-  } else if (sourceId) {
+  } else if (hasSourceId) {
     paginationTotal = await incidents.getTotal({
       dateOn,
       dateRangeFrom,

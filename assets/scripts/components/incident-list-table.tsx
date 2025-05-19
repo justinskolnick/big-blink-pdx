@@ -29,6 +29,7 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const incident = useSelector((state: RootState) => selectors.selectById(state, id));
+  const hasDateRange = Boolean(incident?.contactDateRange);
   const hasNotes = Boolean(incident?.notes);
 
   const deactivate = () => setIsSelected(false);
@@ -54,10 +55,10 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
         <td className='cell-date'>
           {hasNotes ? (
             <span className='has-notes'>
-              {incident.contactDate}
+              {hasDateRange ? incident.contactDateRange : incident.contactDate}
               <Icon name='asterisk' />
             </span>
-          ) : incident.contactDate}
+          ) : hasDateRange ? incident.contactDateRange : incident.contactDate}
         </td>
         <td className='cell-entity'>{incident.entity}</td>
         <td className='cell-topic'>{incident.topic}</td>
