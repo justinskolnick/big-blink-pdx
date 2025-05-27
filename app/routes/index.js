@@ -81,10 +81,10 @@ router.get('/', async (req, res, next) => {
       });
 
       data = {
-        entities: {
-          records: entitiesResult,
-          leaderboard: {
-            all: {
+        leaderboard: {
+          values: {
+            entities: {
+              ids: entitiesResult.map(item => item.id),
               labels: {
                 title: 'Lobbying Entities',
                 subtitle: 'Lobbying entities are ranked by total number of lobbying incident appearances.',
@@ -95,14 +95,9 @@ router.get('/', async (req, res, next) => {
                   more: 'View the full list of lobbying entities',
                 }
               },
-              ids: entitiesResult.map(item => item.id),
             },
-          }
-        },
-        people: {
-          records: [].concat(lobbyistsResult, officialsResult),
-          leaderboard: {
             lobbyists: {
+              ids: lobbyistsResult.map(item => item.id),
               labels: {
                 title: 'Lobbyists',
                 subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
@@ -113,9 +108,9 @@ router.get('/', async (req, res, next) => {
                   more: 'View all lobbyists in the full list of people',
                 },
               },
-              ids: lobbyistsResult.map(item => item.id),
             },
             officials: {
+              ids: officialsResult.map(item => item.id),
               labels: {
                 title: 'City Officials',
                 subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
@@ -126,9 +121,14 @@ router.get('/', async (req, res, next) => {
                   more: 'View all officials in the full list of people',
                 },
               },
-              ids: officialsResult.map(item => item.id),
             },
-          }
+          },
+        },
+        entities: {
+          records: entitiesResult,
+        },
+        people: {
+          records: [].concat(lobbyistsResult, officialsResult),
         },
       };
 

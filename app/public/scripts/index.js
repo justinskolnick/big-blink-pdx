@@ -1156,10 +1156,10 @@
         exports.use = function(usable) {
           return resolveDispatcher().use(usable);
         };
-        exports.useActionState = function(action, initialState6, permalink) {
+        exports.useActionState = function(action, initialState7, permalink) {
           return resolveDispatcher().useActionState(
             action,
-            initialState6,
+            initialState7,
             permalink
           );
         };
@@ -1211,17 +1211,17 @@
         exports.useMemo = function(create, deps) {
           return resolveDispatcher().useMemo(create, deps);
         };
-        exports.useOptimistic = function(passthrough, reducer) {
-          return resolveDispatcher().useOptimistic(passthrough, reducer);
+        exports.useOptimistic = function(passthrough, reducer2) {
+          return resolveDispatcher().useOptimistic(passthrough, reducer2);
         };
-        exports.useReducer = function(reducer, initialArg, init) {
-          return resolveDispatcher().useReducer(reducer, initialArg, init);
+        exports.useReducer = function(reducer2, initialArg, init) {
+          return resolveDispatcher().useReducer(reducer2, initialArg, init);
         };
         exports.useRef = function(initialValue) {
           return resolveDispatcher().useRef(initialValue);
         };
-        exports.useState = function(initialState6) {
-          return resolveDispatcher().useState(initialState6);
+        exports.useState = function(initialState7) {
+          return resolveDispatcher().useState(initialState7);
         };
         exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
           return resolveDispatcher().useSyncExternalStore(
@@ -1483,8 +1483,8 @@
         exports.unstable_batchedUpdates = function(fn, a) {
           return fn(a);
         };
-        exports.useFormState = function(action, initialState6, permalink) {
-          return resolveDispatcher().useFormState(action, initialState6, permalink);
+        exports.useFormState = function(action, initialState7, permalink) {
+          return resolveDispatcher().useFormState(action, initialState7, permalink);
         };
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
@@ -5634,10 +5634,10 @@
         function basicStateReducer(state, action) {
           return "function" === typeof action ? action(state) : action;
         }
-        function mountReducer(reducer, initialArg, init) {
+        function mountReducer(reducer2, initialArg, init) {
           var hook = mountWorkInProgressHook();
           if (void 0 !== init) {
-            var initialState6 = init(initialArg);
+            var initialState7 = init(initialArg);
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -5646,34 +5646,34 @@
                 setIsStrictModeForDevtools(false);
               }
             }
-          } else initialState6 = initialArg;
-          hook.memoizedState = hook.baseState = initialState6;
-          reducer = {
+          } else initialState7 = initialArg;
+          hook.memoizedState = hook.baseState = initialState7;
+          reducer2 = {
             pending: null,
             lanes: 0,
             dispatch: null,
-            lastRenderedReducer: reducer,
-            lastRenderedState: initialState6
+            lastRenderedReducer: reducer2,
+            lastRenderedState: initialState7
           };
-          hook.queue = reducer;
-          reducer = reducer.dispatch = dispatchReducerAction.bind(
+          hook.queue = reducer2;
+          reducer2 = reducer2.dispatch = dispatchReducerAction.bind(
             null,
             currentlyRenderingFiber,
-            reducer
+            reducer2
           );
-          return [hook.memoizedState, reducer];
+          return [hook.memoizedState, reducer2];
         }
-        function updateReducer(reducer) {
+        function updateReducer(reducer2) {
           var hook = updateWorkInProgressHook();
-          return updateReducerImpl(hook, currentHook, reducer);
+          return updateReducerImpl(hook, currentHook, reducer2);
         }
-        function updateReducerImpl(hook, current3, reducer) {
+        function updateReducerImpl(hook, current3, reducer2) {
           var queue = hook.queue;
           if (null === queue)
             throw Error(
               "Should have a queue. You are likely calling Hooks conditionally, which is not allowed. (https://react.dev/link/invalid-hook-call)"
             );
-          queue.lastRenderedReducer = reducer;
+          queue.lastRenderedReducer = reducer2;
           var baseQueue = hook.baseQueue, pendingQueue = queue.pending;
           if (null !== pendingQueue) {
             if (null !== baseQueue) {
@@ -5719,8 +5719,8 @@
                     next: null
                   }, null === newBaseQueueLast ? (newBaseQueueFirst = newBaseQueueLast = updateLane, baseFirst = pendingQueue) : newBaseQueueLast = newBaseQueueLast.next = updateLane, currentlyRenderingFiber.lanes |= revertLane, workInProgressRootSkippedLanes |= revertLane;
                 updateLane = update.action;
-                shouldDoubleInvokeUserFnsInHooksDEV && reducer(pendingQueue, updateLane);
-                pendingQueue = update.hasEagerState ? update.eagerState : reducer(pendingQueue, updateLane);
+                shouldDoubleInvokeUserFnsInHooksDEV && reducer2(pendingQueue, updateLane);
+                pendingQueue = update.hasEagerState ? update.eagerState : reducer2(pendingQueue, updateLane);
               } else
                 revertLane = {
                   lane: updateLane,
@@ -5733,8 +5733,8 @@
               update = update.next;
             } while (null !== update && update !== current3);
             null === newBaseQueueLast ? baseFirst = pendingQueue : newBaseQueueLast.next = newBaseQueueFirst;
-            if (!objectIs(pendingQueue, hook.memoizedState) && (didReceiveUpdate = true, didReadFromEntangledAsyncAction2 && (reducer = currentEntangledActionThenable, null !== reducer)))
-              throw reducer;
+            if (!objectIs(pendingQueue, hook.memoizedState) && (didReceiveUpdate = true, didReadFromEntangledAsyncAction2 && (reducer2 = currentEntangledActionThenable, null !== reducer2)))
+              throw reducer2;
             hook.memoizedState = pendingQueue;
             hook.baseState = baseFirst;
             hook.baseQueue = newBaseQueueLast;
@@ -5743,19 +5743,19 @@
           null === baseQueue && (queue.lanes = 0);
           return [hook.memoizedState, queue.dispatch];
         }
-        function rerenderReducer(reducer) {
+        function rerenderReducer(reducer2) {
           var hook = updateWorkInProgressHook(), queue = hook.queue;
           if (null === queue)
             throw Error(
               "Should have a queue. You are likely calling Hooks conditionally, which is not allowed. (https://react.dev/link/invalid-hook-call)"
             );
-          queue.lastRenderedReducer = reducer;
+          queue.lastRenderedReducer = reducer2;
           var dispatch = queue.dispatch, lastRenderPhaseUpdate = queue.pending, newState = hook.memoizedState;
           if (null !== lastRenderPhaseUpdate) {
             queue.pending = null;
             var update = lastRenderPhaseUpdate = lastRenderPhaseUpdate.next;
             do
-              newState = reducer(newState, update.action), update = update.next;
+              newState = reducer2(newState, update.action), update = update.next;
             while (update !== lastRenderPhaseUpdate);
             objectIs(newState, hook.memoizedState) || (didReceiveUpdate = true);
             hook.memoizedState = newState;
@@ -5882,11 +5882,11 @@
           var root2 = enqueueConcurrentRenderForLane(fiber, 2);
           null !== root2 && scheduleUpdateOnFiber(root2, fiber, 2);
         }
-        function mountStateImpl(initialState6) {
+        function mountStateImpl(initialState7) {
           var hook = mountWorkInProgressHook();
-          if ("function" === typeof initialState6) {
-            var initialStateInitializer = initialState6;
-            initialState6 = initialStateInitializer();
+          if ("function" === typeof initialState7) {
+            var initialStateInitializer = initialState7;
+            initialState7 = initialStateInitializer();
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -5896,21 +5896,21 @@
               }
             }
           }
-          hook.memoizedState = hook.baseState = initialState6;
+          hook.memoizedState = hook.baseState = initialState7;
           hook.queue = {
             pending: null,
             lanes: 0,
             dispatch: null,
             lastRenderedReducer: basicStateReducer,
-            lastRenderedState: initialState6
+            lastRenderedState: initialState7
           };
           return hook;
         }
-        function mountState(initialState6) {
-          initialState6 = mountStateImpl(initialState6);
-          var queue = initialState6.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
+        function mountState(initialState7) {
+          initialState7 = mountStateImpl(initialState7);
+          var queue = initialState7.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
           queue.dispatch = dispatch;
-          return [initialState6.memoizedState, dispatch];
+          return [initialState7.memoizedState, dispatch];
         }
         function mountOptimistic(passthrough) {
           var hook = mountWorkInProgressHook();
@@ -5932,22 +5932,22 @@
           queue.dispatch = hook;
           return [passthrough, hook];
         }
-        function updateOptimistic(passthrough, reducer) {
+        function updateOptimistic(passthrough, reducer2) {
           var hook = updateWorkInProgressHook();
-          return updateOptimisticImpl(hook, currentHook, passthrough, reducer);
+          return updateOptimisticImpl(hook, currentHook, passthrough, reducer2);
         }
-        function updateOptimisticImpl(hook, current3, passthrough, reducer) {
+        function updateOptimisticImpl(hook, current3, passthrough, reducer2) {
           hook.baseState = passthrough;
           return updateReducerImpl(
             hook,
             currentHook,
-            "function" === typeof reducer ? reducer : basicStateReducer
+            "function" === typeof reducer2 ? reducer2 : basicStateReducer
           );
         }
-        function rerenderOptimistic(passthrough, reducer) {
+        function rerenderOptimistic(passthrough, reducer2) {
           var hook = updateWorkInProgressHook();
           if (null !== currentHook)
-            return updateOptimisticImpl(hook, currentHook, passthrough, reducer);
+            return updateOptimisticImpl(hook, currentHook, passthrough, reducer2);
           hook.baseState = passthrough;
           return [passthrough, hook.queue.dispatch];
         }
@@ -17744,13 +17744,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer, initialArg, init);
+              return mountReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -17760,13 +17760,13 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState6) {
+          useState: function(initialState7) {
             currentHookNameInDev = "useState";
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState6);
+              return mountState(initialState7);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -17799,16 +17799,16 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState6) {
+          useFormState: function(action, initialState7) {
             currentHookNameInDev = "useFormState";
             mountHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
-          useActionState: function(action, initialState6) {
+          useActionState: function(action, initialState7) {
             currentHookNameInDev = "useActionState";
             mountHookTypesDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -17869,13 +17869,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer, initialArg, init);
+              return mountReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -17885,13 +17885,13 @@
             updateHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState6) {
+          useState: function(initialState7) {
             currentHookNameInDev = "useState";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState6);
+              return mountState(initialState7);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -17924,16 +17924,16 @@
             updateHookTypesDev();
             return mountId();
           },
-          useActionState: function(action, initialState6) {
+          useActionState: function(action, initialState7) {
             currentHookNameInDev = "useActionState";
             updateHookTypesDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
-          useFormState: function(action, initialState6) {
+          useFormState: function(action, initialState7) {
             currentHookNameInDev = "useFormState";
             updateHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -17994,13 +17994,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return updateReducer(reducer, initialArg, init);
+              return updateReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18060,10 +18060,10 @@
             updateHookTypesDev();
             return updateActionState(action);
           },
-          useOptimistic: function(passthrough, reducer) {
+          useOptimistic: function(passthrough, reducer2) {
             currentHookNameInDev = "useOptimistic";
             updateHookTypesDev();
-            return updateOptimistic(passthrough, reducer);
+            return updateOptimistic(passthrough, reducer2);
           },
           useHostTransitionStatus,
           useMemoCache,
@@ -18119,13 +18119,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnRerenderInDEV;
             try {
-              return rerenderReducer(reducer, initialArg, init);
+              return rerenderReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18185,10 +18185,10 @@
             updateHookTypesDev();
             return rerenderActionState(action);
           },
-          useOptimistic: function(passthrough, reducer) {
+          useOptimistic: function(passthrough, reducer2) {
             currentHookNameInDev = "useOptimistic";
             updateHookTypesDev();
-            return rerenderOptimistic(passthrough, reducer);
+            return rerenderOptimistic(passthrough, reducer2);
           },
           useHostTransitionStatus,
           useMemoCache,
@@ -18255,14 +18255,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer, initialArg, init);
+              return mountReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18273,14 +18273,14 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState6) {
+          useState: function(initialState7) {
             currentHookNameInDev = "useState";
             warnInvalidHookAccess();
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState6);
+              return mountState(initialState7);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18318,17 +18318,17 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState6) {
+          useFormState: function(action, initialState7) {
             currentHookNameInDev = "useFormState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
-          useActionState: function(action, initialState6) {
+          useActionState: function(action, initialState7) {
             currentHookNameInDev = "useActionState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState6);
+            return mountActionState(action, initialState7);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -18404,14 +18404,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return updateReducer(reducer, initialArg, init);
+              return updateReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18479,11 +18479,11 @@
             updateHookTypesDev();
             return updateActionState(action);
           },
-          useOptimistic: function(passthrough, reducer) {
+          useOptimistic: function(passthrough, reducer2) {
             currentHookNameInDev = "useOptimistic";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return updateOptimistic(passthrough, reducer);
+            return updateOptimistic(passthrough, reducer2);
           },
           useMemoCache: function(size) {
             warnInvalidHookAccess();
@@ -18553,14 +18553,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer, initialArg, init) {
+          useReducer: function(reducer2, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return rerenderReducer(reducer, initialArg, init);
+              return rerenderReducer(reducer2, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -18628,11 +18628,11 @@
             updateHookTypesDev();
             return rerenderActionState(action);
           },
-          useOptimistic: function(passthrough, reducer) {
+          useOptimistic: function(passthrough, reducer2) {
             currentHookNameInDev = "useOptimistic";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return rerenderOptimistic(passthrough, reducer);
+            return rerenderOptimistic(passthrough, reducer2);
           },
           useMemoCache: function(size) {
             warnInvalidHookAccess();
@@ -19610,7 +19610,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment26 = REACT_FRAGMENT_TYPE;
+          var Fragment27 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19669,7 +19669,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment26;
+          exports.Fragment = Fragment27;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -27229,9 +27229,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     return typeOfVal;
   }
-  function createStore(reducer, preloadedState, enhancer) {
-    if (typeof reducer !== "function") {
-      throw new Error(false ? formatProdErrorMessage(2) : `Expected the root reducer to be a function. Instead, received: '${kindOf(reducer)}'`);
+  function createStore(reducer2, preloadedState, enhancer) {
+    if (typeof reducer2 !== "function") {
+      throw new Error(false ? formatProdErrorMessage(2) : `Expected the root reducer to be a function. Instead, received: '${kindOf(reducer2)}'`);
     }
     if (typeof preloadedState === "function" && typeof enhancer === "function" || typeof enhancer === "function" && typeof arguments[3] === "function") {
       throw new Error(false ? formatProdErrorMessage(0) : "It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
@@ -27244,9 +27244,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (typeof enhancer !== "function") {
         throw new Error(false ? formatProdErrorMessage(1) : `Expected the enhancer to be a function. Instead, received: '${kindOf(enhancer)}'`);
       }
-      return enhancer(createStore)(reducer, preloadedState);
+      return enhancer(createStore)(reducer2, preloadedState);
     }
-    let currentReducer = reducer;
+    let currentReducer = reducer2;
     let currentState = preloadedState;
     let currentListeners = /* @__PURE__ */ new Map();
     let nextListeners = currentListeners;
@@ -27398,14 +27398,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   function assertReducerShape(reducers) {
     Object.keys(reducers).forEach((key) => {
-      const reducer = reducers[key];
-      const initialState6 = reducer(void 0, {
+      const reducer2 = reducers[key];
+      const initialState7 = reducer2(void 0, {
         type: actionTypes_default.INIT
       });
-      if (typeof initialState6 === "undefined") {
+      if (typeof initialState7 === "undefined") {
         throw new Error(false ? formatProdErrorMessage(12) : `The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
       }
-      if (typeof reducer(void 0, {
+      if (typeof reducer2(void 0, {
         type: actionTypes_default.PROBE_UNKNOWN_ACTION()
       }) === "undefined") {
         throw new Error(false ? formatProdErrorMessage(13) : `The slice reducer for key "${key}" returned undefined when probed with a random type. Don't try to handle '${actionTypes_default.INIT}' or other actions in "redux/*" namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined, but can be null.`);
@@ -27451,9 +27451,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const nextState = {};
       for (let i = 0; i < finalReducerKeys.length; i++) {
         const key = finalReducerKeys[i];
-        const reducer = finalReducers[key];
+        const reducer2 = finalReducers[key];
         const previousStateForKey = state[key];
-        const nextStateForKey = reducer(previousStateForKey, action);
+        const nextStateForKey = reducer2(previousStateForKey, action);
         if (typeof nextStateForKey === "undefined") {
           const actionType = action && action.type;
           throw new Error(false ? formatProdErrorMessage(14) : `When called with an action of type ${actionType ? `"${String(actionType)}"` : "(unknown type)"}, the slice reducer for key "${key}" returned undefined. To ignore an action, you must explicitly return the previous state. If you want this reducer to hold no value, you can return null instead of undefined.`);
@@ -27475,8 +27475,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return funcs.reduce((a, b) => (...args) => a(b(...args)));
   }
   function applyMiddleware(...middlewares) {
-    return (createStore2) => (reducer, preloadedState) => {
-      const store2 = createStore2(reducer, preloadedState);
+    return (createStore2) => (reducer2, preloadedState) => {
+      const store2 = createStore2(reducer2, preloadedState);
       let dispatch = () => {
         throw new Error(false ? formatProdErrorMessage(15) : "Dispatching while constructing your middleware is not allowed. Other middleware would not be applied to this dispatch.");
       };
@@ -29229,7 +29229,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function configureStore(options2) {
     const getDefaultMiddleware = buildGetDefaultMiddleware();
     const {
-      reducer = void 0,
+      reducer: reducer2 = void 0,
       middleware: middleware2,
       devTools = true,
       duplicateMiddlewareCheck = true,
@@ -29237,10 +29237,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       enhancers = void 0
     } = options2 || {};
     let rootReducer;
-    if (typeof reducer === "function") {
-      rootReducer = reducer;
-    } else if (isPlainObject(reducer)) {
-      rootReducer = combineReducers(reducer);
+    if (typeof reducer2 === "function") {
+      rootReducer = reducer2;
+    } else if (isPlainObject(reducer2)) {
+      rootReducer = combineReducers(reducer2);
     } else {
       throw new Error(false ? formatProdErrorMessage(1) : "`reducer` is a required argument, and must be a function or an object of functions that can be passed to combineReducers");
     }
@@ -29299,7 +29299,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const actionMatchers = [];
     let defaultCaseReducer;
     const builder = {
-      addCase(typeOrActionCreator, reducer) {
+      addCase(typeOrActionCreator, reducer2) {
         if (true) {
           if (actionMatchers.length > 0) {
             throw new Error(false ? formatProdErrorMessage(26) : "`builder.addCase` should only be called before calling `builder.addMatcher`");
@@ -29315,10 +29315,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (type in actionsMap) {
           throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
         }
-        actionsMap[type] = reducer;
+        actionsMap[type] = reducer2;
         return builder;
       },
-      addMatcher(matcher, reducer) {
+      addMatcher(matcher, reducer2) {
         if (true) {
           if (defaultCaseReducer) {
             throw new Error(false ? formatProdErrorMessage(30) : "`builder.addMatcher` should only be called before calling `builder.addDefaultCase`");
@@ -29326,17 +29326,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
         actionMatchers.push({
           matcher,
-          reducer
+          reducer: reducer2
         });
         return builder;
       },
-      addDefaultCase(reducer) {
+      addDefaultCase(reducer2) {
         if (true) {
           if (defaultCaseReducer) {
             throw new Error(false ? formatProdErrorMessage(31) : "`builder.addDefaultCase` can only be called once");
           }
         }
-        defaultCaseReducer = reducer;
+        defaultCaseReducer = reducer2;
         return builder;
       }
     };
@@ -29346,7 +29346,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isStateFunction(x2) {
     return typeof x2 === "function";
   }
-  function createReducer(initialState6, mapOrBuilderCallback) {
+  function createReducer(initialState7, mapOrBuilderCallback) {
     if (true) {
       if (typeof mapOrBuilderCallback === "object") {
         throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
@@ -29354,18 +29354,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     let [actionsMap, finalActionMatchers, finalDefaultCaseReducer] = executeReducerBuilderCallback(mapOrBuilderCallback);
     let getInitialState;
-    if (isStateFunction(initialState6)) {
-      getInitialState = () => freezeDraftable(initialState6());
+    if (isStateFunction(initialState7)) {
+      getInitialState = () => freezeDraftable(initialState7());
     } else {
-      const frozenInitialState = freezeDraftable(initialState6);
+      const frozenInitialState = freezeDraftable(initialState7);
       getInitialState = () => frozenInitialState;
     }
-    function reducer(state = getInitialState(), action) {
+    function reducer2(state = getInitialState(), action) {
       let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({
         matcher
       }) => matcher(action)).map(({
-        reducer: reducer2
-      }) => reducer2)];
+        reducer: reducer22
+      }) => reducer22)];
       if (caseReducers.filter((cr) => !!cr).length === 0) {
         caseReducers = [finalDefaultCaseReducer];
       }
@@ -29396,8 +29396,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return previousState;
       }, state);
     }
-    reducer.getInitialState = getInitialState;
-    return reducer;
+    reducer2.getInitialState = getInitialState;
+    return reducer2;
   }
   var matches = (matcher, action) => {
     if (hasMatchFunction(matcher)) {
@@ -29707,7 +29707,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         sliceMatchers: []
       };
       const contextMethods = {
-        addCase(typeOrActionCreator, reducer2) {
+        addCase(typeOrActionCreator, reducer22) {
           const type = typeof typeOrActionCreator === "string" ? typeOrActionCreator : typeOrActionCreator.type;
           if (!type) {
             throw new Error(false ? formatProdErrorMessage(12) : "`context.addCase` cannot be called with an empty action type");
@@ -29715,13 +29715,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           if (type in context.sliceCaseReducersByType) {
             throw new Error(false ? formatProdErrorMessage(13) : "`context.addCase` cannot be called with two reducers for the same action type: " + type);
           }
-          context.sliceCaseReducersByType[type] = reducer2;
+          context.sliceCaseReducersByType[type] = reducer22;
           return contextMethods;
         },
-        addMatcher(matcher, reducer2) {
+        addMatcher(matcher, reducer22) {
           context.sliceMatchers.push({
             matcher,
-            reducer: reducer2
+            reducer: reducer22
           });
           return contextMethods;
         },
@@ -29729,8 +29729,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           context.actionCreators[name2] = actionCreator;
           return contextMethods;
         },
-        exposeCaseReducer(name2, reducer2) {
-          context.sliceCaseReducersByName[name2] = reducer2;
+        exposeCaseReducer(name2, reducer22) {
+          context.sliceCaseReducersByName[name2] = reducer22;
           return contextMethods;
         }
       };
@@ -29777,7 +29777,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const injectedSelectorCache = /* @__PURE__ */ new Map();
       const injectedStateCache = /* @__PURE__ */ new WeakMap();
       let _reducer;
-      function reducer(state, action) {
+      function reducer2(state, action) {
         if (!_reducer) _reducer = buildReducer();
         return _reducer(state, action);
       }
@@ -29818,7 +29818,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const slice2 = {
         name,
-        reducer,
+        reducer: reducer2,
         actions: context.actionCreators,
         caseReducers: context.sliceCaseReducersByName,
         getInitialState,
@@ -29830,7 +29830,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           const newReducerPath = pathOpt ?? reducerPath;
           injectable.inject({
             reducerPath: newReducerPath,
-            reducer
+            reducer: reducer2
           }, config2);
           return {
             ...slice2,
@@ -29879,11 +29879,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           /* reducer */
         });
       },
-      preparedReducer(prepare, reducer) {
+      preparedReducer(prepare, reducer2) {
         return {
           _reducerDefinitionType: "reducerWithPrepare",
           prepare,
-          reducer
+          reducer: reducer2
         };
       },
       asyncThunk
@@ -31853,8 +31853,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       subscriptions: internalSubscriptionsSlice.reducer,
       config: configSlice.reducer
     });
-    const reducer = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
-    const actions3 = {
+    const reducer2 = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
+    const actions4 = {
       ...configSlice.actions,
       ...querySlice.actions,
       ...subscriptionSlice.actions,
@@ -31864,8 +31864,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       resetApiState
     };
     return {
-      reducer,
-      actions: actions3
+      reducer: reducer2,
+      actions: actions4
     };
   }
   var skipToken = /* @__PURE__ */ Symbol.for("RTKQ/skipToken");
@@ -32838,7 +32838,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     const {
       apiUid
     } = context;
-    const actions3 = {
+    const actions4 = {
       invalidateTags: createAction(`${reducerPath}/invalidateTags`)
     };
     const isThisApiSliceAction = (action) => action.type.startsWith(`${reducerPath}/`);
@@ -32892,7 +32892,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     };
     return {
       middleware: middleware2,
-      actions: actions3
+      actions: actions4
     };
     function refetchQuery(querySubState) {
       return input.api.endpoints[querySubState.endpointName].initiate(querySubState.originalArgs, {
@@ -32979,7 +32979,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         skipSchemaValidation
       });
       const {
-        reducer,
+        reducer: reducer2,
         actions: sliceActions
       } = buildSlice({
         context,
@@ -33022,7 +33022,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       });
       safeAssign(api3.util, middlewareActions);
       safeAssign(api3, {
-        reducer,
+        reducer: reducer2,
         middleware: middleware2
       });
       const {
@@ -33782,11 +33782,11 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/selectors.ts
   var getEntities = (state) => state.entities;
   var getIncidents = (state) => state.incidents;
+  var getLeaderboard = (state) => state.leaderboard;
   var getPeople = (state) => state.people;
   var getSources = (state) => state.sources;
   var getStats = (state) => state.stats;
   var getUI = (state) => state.ui;
-  var getEntitiesLeaderboard = createSelector(getEntities, (entities) => entities.leaderboard);
   var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
   var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
   var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
@@ -33794,7 +33794,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
   var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
   var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
-  var getPeopleLeaderboard = createSelector(getPeople, (people) => people.leaderboard);
+  var getLeaderboardEntitiesValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values.entities);
+  var getLeaderboardLobbyistsValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values.lobbyists);
+  var getLeaderboardOfficialsValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values.officials);
   var getPeoplePagination = createSelector(getPeople, (people) => people.pagination);
   var getPeoplePageIds = createSelector(getPeople, (people) => people.pageIds);
   var getSourcesStats = createSelector(getStats, (stats) => stats.sources);
@@ -33884,23 +33886,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var adapter = createEntityAdapter();
   var selectors = adapter.getSelectors(getEntities);
-  var leaderboardSet = {
-    ids: [],
-    labels: {
-      links: {
-        more: ""
-      },
-      subtitle: "",
-      table: {
-        title: ""
-      },
-      title: ""
-    }
-  };
   var initialState2 = {
-    leaderboard: {
-      all: leaderboardSet
-    },
     pageIds: [],
     pagination: null
   };
@@ -33919,16 +33905,12 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       setPagination: (state, action) => {
         state.pagination = { ...action.payload };
-      },
-      setLeaderboard: (state, action) => {
-        state.leaderboard = action.payload;
       }
     }
   });
   var {
     set: set2,
     setAll,
-    setLeaderboard,
     setPageIds,
     setPagination
   } = entitiesSlice.actions;
@@ -33987,6 +33969,21 @@ Hook ${hookName} was either not provided or not a function.`);
   } = incidentsSlice.actions;
   var incidents_default = incidentsSlice.reducer;
 
+  // assets/scripts/reducers/leaderboard.ts
+  var initialState3 = {
+    values: {}
+  };
+  var setLeaderboard = createAction("ui/setLeaderboard");
+  var actions = {
+    setLeaderboard
+  };
+  var reducer = createReducer(initialState3, (builder) => {
+    builder.addCase(setLeaderboard, (state, action) => {
+      state.values = action.payload.values;
+    });
+  });
+  var leaderboard_default = reducer;
+
   // assets/scripts/reducers/people.ts
   var adapters3 = {
     adaptOne: (person) => {
@@ -34015,30 +34012,13 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var adapter3 = createEntityAdapter();
   var selectors3 = adapter3.getSelectors(getPeople);
-  var leaderboardSet2 = {
-    ids: [],
-    labels: {
-      links: {
-        more: ""
-      },
-      subtitle: "",
-      table: {
-        title: ""
-      },
-      title: ""
-    }
-  };
-  var initialState3 = {
-    leaderboard: {
-      lobbyists: leaderboardSet2,
-      officials: leaderboardSet2
-    },
+  var initialState4 = {
     pageIds: [],
     pagination: null
   };
   var peopleSlice = createSlice({
     name: "people",
-    initialState: adapter3.getInitialState(initialState3),
+    initialState: adapter3.getInitialState(initialState4),
     reducers: {
       set: (state, action) => {
         adapter3.upsertOne(state, action.payload);
@@ -34051,16 +34031,12 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       setPagination: (state, action) => {
         state.pagination = { ...action.payload };
-      },
-      setLeaderboard: (state, action) => {
-        state.leaderboard = action.payload;
       }
     }
   });
   var {
     set: set4,
     setAll: setAll3,
-    setLeaderboard: setLeaderboard2,
     setPageIds: setPageIds3,
     setPagination: setPagination3
   } = peopleSlice.actions;
@@ -34533,17 +34509,17 @@ Hook ${hookName} was either not provided or not a function.`);
   var setEntity = createAction("stats/setEntity");
   var setPerson = createAction("stats/setPerson");
   var setSources = createAction("stats/setSources");
-  var actions = {
+  var actions2 = {
     setEntity,
     setPerson,
     setSources
   };
-  var initialState4 = {
+  var initialState5 = {
     entities: [],
     people: [],
     sources: []
   };
-  var statsReducer = createReducer(initialState4, (builder) => {
+  var statsReducer = createReducer(initialState5, (builder) => {
     builder.addCase(setSources, (state, action) => {
       state.sources = action.payload;
     }).addCase(setEntity, (state, action) => {
@@ -34565,7 +34541,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var setPositionY = createAction("ui/setPositionY");
   var setSection = createAction("ui/setSection");
   var setWarning = createAction("ui/setWarning");
-  var actions2 = {
+  var actions3 = {
     clearErrors,
     clearMessages,
     clearWarnings,
@@ -34577,7 +34553,7 @@ Hook ${hookName} was either not provided or not a function.`);
     setSection,
     setWarning
   };
-  var initialState5 = {
+  var initialState6 = {
     description: null,
     pageTitle: null,
     errors: [],
@@ -34587,16 +34563,16 @@ Hook ${hookName} was either not provided or not a function.`);
     warnings: []
   };
   var customMessageExists = (alerts, customMessage) => customMessage && alerts.some((alert) => alert.customMessage === customMessage);
-  var uiReducer = createReducer(initialState5, (builder) => {
+  var uiReducer = createReducer(initialState6, (builder) => {
     builder.addCase(clearErrors, (state) => {
-      state.errors = initialState5.errors;
+      state.errors = initialState6.errors;
     }).addCase(setError, (state, action) => {
       if (customMessageExists(state.errors, action.payload.customMessage)) {
         return;
       }
       state.errors.push(action.payload);
     }).addCase(clearMessages, (state) => {
-      state.messages = initialState5.messages;
+      state.messages = initialState6.messages;
     }).addCase(setMessage, (state, action) => {
       if (customMessageExists(state.messages, action.payload.customMessage)) {
         return;
@@ -34609,7 +34585,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }).addCase(setPositionY, (state, action) => {
       state.positionY = action.payload;
     }).addCase(clearWarnings, (state) => {
-      state.warnings = initialState5.warnings;
+      state.warnings = initialState6.warnings;
     }).addCase(setSection, (state, action) => {
       state.section = action.payload;
     }).addCase(setWarning, (state, action) => {
@@ -34633,14 +34609,17 @@ Hook ${hookName} was either not provided or not a function.`);
     if (data2) {
       if ("stats" in data2) {
         if ("sources" in data2.stats) {
-          dispatch(actions.setSources(data2.stats.sources));
+          dispatch(actions2.setSources(data2.stats.sources));
         }
         if ("entity" in data2.stats) {
-          dispatch(actions.setEntity(data2.stats.entity));
+          dispatch(actions2.setEntity(data2.stats.entity));
         }
         if ("person" in data2.stats) {
-          dispatch(actions.setPerson(data2.stats.person));
+          dispatch(actions2.setPerson(data2.stats.person));
         }
+      }
+      if ("leaderboard" in data2) {
+        dispatch(actions.setLeaderboard(data2.leaderboard));
       }
       if ("entity" in data2) {
         const entity = adapters.adaptOne(data2.entity.record);
@@ -34656,9 +34635,6 @@ Hook ${hookName} was either not provided or not a function.`);
           const ids = adapters.getIds(data2.entities.records);
           dispatch(setPageIds(ids));
           dispatch(setPagination(data2.entities.pagination));
-        }
-        if ("leaderboard" in data2.entities) {
-          dispatch(setLeaderboard(data2.entities.leaderboard));
         }
       }
       if ("incident" in data2) {
@@ -34703,9 +34679,6 @@ Hook ${hookName} was either not provided or not a function.`);
           dispatch(setPageIds3(ids));
           dispatch(setPagination3(data2.people.pagination));
         }
-        if ("leaderboard" in data2.people) {
-          dispatch(setLeaderboard2(data2.people.leaderboard));
-        }
       }
       if ("source" in data2) {
         const source = adapters4.adaptOne(data2.source.record);
@@ -34729,30 +34702,30 @@ Hook ${hookName} was either not provided or not a function.`);
     if (meta) {
       if (isPrimary) {
         if ("description" in meta) {
-          dispatch(actions2.setDescription(meta.description));
+          dispatch(actions3.setDescription(meta.description));
         }
         if ("pageTitle" in meta) {
-          dispatch(actions2.setPageTitle(meta.pageTitle));
+          dispatch(actions3.setPageTitle(meta.pageTitle));
         }
         if ("section" in meta) {
-          dispatch(actions2.setSection(meta.section));
+          dispatch(actions3.setSection(meta.section));
         }
       }
       if ("errors" in meta) {
         meta.errors.forEach((error) => {
-          dispatch(actions2.setError(error));
+          dispatch(actions3.setError(error));
         });
       }
       if ("warnings" in meta) {
         meta.warnings.forEach((warning3) => {
-          dispatch(actions2.setWarning(warning3));
+          dispatch(actions3.setWarning(warning3));
         });
       }
     }
   };
   var handleError = (error) => {
     const dispatch = store_default.dispatch;
-    dispatch(actions2.setError(getError(error)));
+    dispatch(actions3.setError(getError(error)));
   };
 
   // assets/scripts/services/api.ts
@@ -34845,6 +34818,7 @@ Hook ${hookName} was either not provided or not a function.`);
       api: api_default.reducer,
       entities: entities_default,
       incidents: incidents_default,
+      leaderboard: leaderboard_default,
       people: people_default,
       sources: sources_default,
       stats: stats_default,
@@ -37759,9 +37733,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   }
   var build = () => {
-    const lookup = (reducer) => {
+    const lookup = (reducer2) => {
       return reduce(styles, (o$$1, style, prefix2) => {
-        o$$1[prefix2] = reduce(style, reducer, {});
+        o$$1[prefix2] = reduce(style, reducer2, {});
         return o$$1;
       }, {});
     };
@@ -40340,7 +40314,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions2.clearErrors());
+        dispatch(actions3.clearErrors());
       }, 250);
     };
     const alerts = useSelector(getErrors);
@@ -41139,7 +41113,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions2.clearMessages());
+        dispatch(actions3.clearMessages());
       }, 250);
     };
     const alerts = useSelector(getMessages);
@@ -41170,7 +41144,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions2.clearWarnings());
+        dispatch(actions3.clearWarnings());
       }, 250);
     };
     const alerts = useSelector(getWarnings);
@@ -41848,7 +41822,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const handleClick = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      dispatch(actions2.setMessage({
+      dispatch(actions3.setMessage({
         message: dateRangeMessage
       }));
     };
@@ -41958,7 +41932,7 @@ Hook ${hookName} was either not provided or not a function.`);
       };
     }, [debounced]);
     (0, import_react24.useEffect)(() => {
-      dispatch(actions2.setPositionY(scrollPos));
+      dispatch(actions3.setPositionY(scrollPos));
     }, [dispatch, scrollPos]);
   };
   var use_capture_scroll_position_default = useCaptureScrollPosition;
@@ -55716,76 +55690,83 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var rankings_default = LeaderboardRankings;
 
-  // assets/scripts/components/home/leaderboard-entities.tsx
+  // assets/scripts/components/leaderboard/leaderboard-entities.tsx
   var import_jsx_runtime66 = __toESM(require_jsx_runtime());
   var EntitiesLeaderboard = () => {
-    const result = useSelector(getEntitiesLeaderboard);
+    const result = useSelector(getLeaderboardEntitiesValues);
     return /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
       rankings_default,
       {
         isGrid: true,
-        rankings: result?.all,
+        rankings: result,
         section: "entities" /* Entities */
       }
     );
   };
   var leaderboard_entities_default = EntitiesLeaderboard;
 
-  // assets/scripts/components/home/leaderboard-lobbyists.tsx
+  // assets/scripts/components/leaderboard/leaderboard-lobbyists.tsx
   var import_jsx_runtime67 = __toESM(require_jsx_runtime());
   var LobbyistsLeaderboard = () => {
-    const result = useSelector(getPeopleLeaderboard);
+    const result = useSelector(getLeaderboardLobbyistsValues);
     return /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(
       rankings_default,
       {
         isGrid: true,
-        rankings: result?.lobbyists,
+        rankings: result,
         section: "people" /* People */
       }
     );
   };
   var leaderboard_lobbyists_default = LobbyistsLeaderboard;
 
-  // assets/scripts/components/home/leaderboard-officials.tsx
+  // assets/scripts/components/leaderboard/leaderboard-officials.tsx
   var import_jsx_runtime68 = __toESM(require_jsx_runtime());
   var OfficialsLeaderboard = () => {
-    const result = useSelector(getPeopleLeaderboard);
+    const result = useSelector(getLeaderboardOfficialsValues);
     return /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
       rankings_default,
       {
         isGrid: true,
-        rankings: result?.officials,
+        rankings: result,
         section: "people" /* People */
       }
     );
   };
   var leaderboard_officials_default = OfficialsLeaderboard;
 
-  // assets/scripts/components/home/index.tsx
+  // assets/scripts/components/home/leaderboard.tsx
   var import_jsx_runtime69 = __toESM(require_jsx_runtime());
-  var Home = () => /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(
+  var Leaderboard = () => /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(import_jsx_runtime69.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_entities_default, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_lobbyists_default, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_officials_default, {})
+  ] });
+  var leaderboard_default2 = Leaderboard;
+
+  // assets/scripts/components/home/index.tsx
+  var import_jsx_runtime70 = __toESM(require_jsx_runtime());
+  var Home = () => /* @__PURE__ */ (0, import_jsx_runtime70.jsxs)(
     section_default,
     {
       icon: "handshake",
       title: "Lobbying in Portland, Oregon",
       className: "section-home",
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(chart_default2, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_entities_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_lobbyists_default, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(leaderboard_officials_default, {})
+        /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(chart_default2, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(leaderboard_default2, {})
       ]
     }
   );
   var home_default = Home;
 
   // assets/scripts/components/incidents/index.tsx
-  var import_jsx_runtime70 = __toESM(require_jsx_runtime());
-  var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime70.jsxs)("p", { children: [
+  var import_jsx_runtime71 = __toESM(require_jsx_runtime());
+  var Introduction3 = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("p", { children: [
     "Lobbying entities are required to register with the City Auditor and submit quarterly lobbying activity reports to the Auditor\u2019s office (",
-    /* @__PURE__ */ (0, import_jsx_runtime70.jsx)("a", { href: "https://www.portland.gov/code/2/12/040", children: "2.12.040" }),
+    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("a", { href: "https://www.portland.gov/code/2/12/040", children: "2.12.040" }),
     "). City Code identifies the information included in each report as public record (",
-    /* @__PURE__ */ (0, import_jsx_runtime70.jsx)("a", { href: "https://www.portland.gov/code/2/12/100", children: "2.12.100" }),
+    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("a", { href: "https://www.portland.gov/code/2/12/100", children: "2.12.100" }),
     "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
   ] });
   var Index3 = () => {
@@ -55793,12 +55774,12 @@ Hook ${hookName} was either not provided or not a function.`);
     const pageIds = useSelector(getIncidentsPageIds);
     const hasPageIds = pageIds?.length > 0;
     use_fetch_and_scroll_on_route_change_default();
-    return /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
       section_index_default,
       {
-        introduction: /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(Introduction3, {}),
+        introduction: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Introduction3, {}),
         isLoading: !hasPageIds,
-        children: /* @__PURE__ */ (0, import_jsx_runtime70.jsx)("div", { className: "incident-list-anchor", children: /* @__PURE__ */ (0, import_jsx_runtime70.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("div", { className: "incident-list-anchor", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(
           incident_list_default,
           {
             hasSort: true,
@@ -55815,18 +55796,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react38 = __toESM(require_react());
 
   // assets/scripts/components/sources/item-link.tsx
-  var import_jsx_runtime71 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime72 = __toESM(require_jsx_runtime());
   var ItemLink3 = ({ children, className, item }) => {
     const hasSelfLink = Boolean(item?.links?.self);
     if (!hasSelfLink) {
       console.log("*", item);
     }
-    return hasSelfLink ? /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(BetterLink, { to: item.links.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(LinkToSource, { id: item.id, className, children });
+    return hasSelfLink ? /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(BetterLink, { to: item.links.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(LinkToSource, { id: item.id, className, children });
   };
   var item_link_default3 = ItemLink3;
 
   // assets/scripts/components/incident-source-box.tsx
-  var import_jsx_runtime72 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime73 = __toESM(require_jsx_runtime());
   var IncidentSourceBox = ({ incident, title }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const id = incident?.sourceId;
@@ -55836,39 +55817,39 @@ Hook ${hookName} was either not provided or not a function.`);
       trigger({ id });
     }, [id, source, trigger]);
     if (!source) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
       MetaSectionBox,
       {
         className: "source-information-box",
         icon: "database",
         title,
-        children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(item_link_default3, { item: source, children: source.title })
+        children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(item_link_default3, { item: source, children: source.title })
       }
     );
   };
   var incident_source_box_default = IncidentSourceBox;
 
   // assets/scripts/components/incidents/detail.tsx
-  var import_jsx_runtime73 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Detail2 = () => {
     const { id } = useParams();
     const numericId = Number(id);
     const incident = useSelector((state) => selectors2.selectById(state, numericId));
     if (!incident) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(item_detail_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(item_subhead_default, { title: "Details" }),
-        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: "incident-details", children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(incident_table_default, { incident }) })
+    return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(item_detail_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(item_subhead_default, { title: "Details" }),
+        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("div", { className: "incident-details", children: /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(incident_table_default, { incident }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: "item-content-section item-content-section-secondary", children: /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(meta_section_default, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)("div", { className: "item-content-section item-content-section-secondary", children: /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(meta_section_default, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
           incident_notes_box_default,
           {
             title: "Notes about this incident",
             incident
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
           incident_source_box_default,
           {
             title: "Data source",
@@ -55885,7 +55866,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/attendees.tsx
   var import_react39 = __toESM(require_react());
-  var import_jsx_runtime74 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime75 = __toESM(require_jsx_runtime());
   var Attendees2 = ({
     attendees,
     person
@@ -55914,35 +55895,35 @@ Hook ${hookName} was either not provided or not a function.`);
         trigger({ id: person.id });
       }
     }, [hasRecords, person, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
       incident_activity_groups_default,
       {
         title: "Associated Names",
         description: `${person.name} is named in lobbying reports that also include these people.`,
-        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(import_jsx_runtime74.Fragment, { children: [
-          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
+        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(import_jsx_runtime75.Fragment, { children: [
+          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(
             incident_activity_group_default,
             {
               icon: "briefcase",
               title: attendees.asLobbyist.label,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.officials }),
-                /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.lobbyists })
+                /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.officials }),
+                /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.lobbyists })
               ]
             }
           ),
-          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
+          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(
             incident_activity_group_default,
             {
               icon: "landmark",
               title: attendees.asOfficial.label,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.lobbyists }),
-                /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.officials })
+                /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.lobbyists }),
+                /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.officials })
               ]
             }
           )
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(
           incident_activity_group_default,
           {
             title: "No record of associated names was found."
@@ -55955,7 +55936,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/chart.tsx
   var import_react40 = __toESM(require_react());
-  var import_jsx_runtime75 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime76 = __toESM(require_jsx_runtime());
   var Chart5 = ({ label }) => {
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
     const { id } = useParams();
@@ -55986,7 +55967,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setQuarter(null);
       }
     }, [quarterParam2, quarter, setSearchParams]);
-    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(item_chart_default, { lineProps, handleClick });
+    return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(item_chart_default, { lineProps, handleClick });
   };
   var chart_default3 = Chart5;
 
@@ -55995,8 +55976,8 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/affiliated-entities-table.tsx
   var import_react41 = __toESM(require_react());
-  var import_jsx_runtime76 = __toESM(require_jsx_runtime());
-  var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default, { name: "check", className: "icon-registered" });
+  var import_jsx_runtime77 = __toESM(require_jsx_runtime());
+  var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default, { name: "check", className: "icon-registered" });
   var AffiliatedEntitiesTable = ({
     entities,
     hasLobbyist,
@@ -56005,45 +55986,45 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const ref = (0, import_react41.useRef)(null);
     const hasPerson = Boolean(person);
-    return /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
       const hasTotal = Boolean(item.total);
-      return /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)("tr", { children: [
-        hasPerson ? hasLobbyist ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(import_jsx_runtime76.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(
+      return /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)("tr", { children: [
+        hasPerson ? hasLobbyist ? /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(import_jsx_runtime77.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(
             "div",
             {
               className: "icons",
               title: `${item.entity.name} is or was registered to lobby the City`,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default2, {}),
-                /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(RegisteredIcon, {})
+                /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default2, {}),
+                /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(RegisteredIcon, {})
               ]
             }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default2, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)(
+          ) : /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default2, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(
             "div",
             {
               className: "icons",
               title: `${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`,
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default4, {}),
-                /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(RegisteredIcon, {})
+                /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default4, {}),
+                /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(RegisteredIcon, {})
               ]
             }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default4, {}) })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(icon_default2, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime76.jsxs)("td", { className: "cell-name", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(item_link_default2, { item: item.entity, className: "item-entity", children: item.entity.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("div", { className: "item-description", children: item.registrations })
+          ) : /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default4, {}) })
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default2, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)("td", { className: "cell-name", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(item_link_default2, { item: item.entity, className: "item-entity", children: item.entity.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("div", { className: "item-description", children: item.registrations })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime76.jsx)("td", { className: "cell-total", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime76.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : "-" })
+        /* @__PURE__ */ (0, import_jsx_runtime77.jsx)("td", { className: "cell-total", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : "-" })
       ] }, i);
     }) }) }) });
   };
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
   // assets/scripts/components/people/entities.tsx
-  var import_jsx_runtime77 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime78 = __toESM(require_jsx_runtime());
   var Entities = ({ entities, person }) => {
     const [trigger] = api_default.useLazyGetPersonEntitiesByIdQuery();
     const hasEntities = "entities" in person;
@@ -56057,18 +56038,18 @@ Hook ${hookName} was either not provided or not a function.`);
         trigger({ id: person.id });
       }
     }, [hasRecords, person, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
       incident_activity_groups_default,
       {
         title: "Associated Entities",
         description: `${person.name} is named in lobbying reports related to these entities.`,
-        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)(import_jsx_runtime77.Fragment, { children: [
-          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(import_jsx_runtime78.Fragment, { children: [
+          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
             incident_activity_group_default,
             {
               icon: "briefcase",
               title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`,
-              children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+              children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
                 affiliated_entities_table_default,
                 {
                   entities: entities.asLobbyist,
@@ -56078,15 +56059,15 @@ Hook ${hookName} was either not provided or not a function.`);
               )
             }
           ),
-          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
             incident_activity_group_default,
             {
               icon: "landmark",
               title: `As a City official, ${person.name} was lobbied by representatives of these entities`,
-              children: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(affiliated_entities_table_default, { entities: entities.asOfficial })
+              children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(affiliated_entities_table_default, { entities: entities.asOfficial })
             }
           )
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
           incident_activity_group_default,
           {
             title: "No record of associated entities was found."
@@ -56105,7 +56086,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_incidents_trigger_default2 = IncidentsTrigger2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_jsx_runtime78 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime79 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
     const incidentsRef = (0, import_react43.useRef)(null);
     const { id } = useParams();
@@ -56113,36 +56094,36 @@ Hook ${hookName} was either not provided or not a function.`);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
     const hasPerson = Boolean(person);
     if (!hasPerson) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(item_detail_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(item_detail_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         detail_activity_overview_default,
         {
           overview: person.overview,
           ref: incidentsRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(chart_default3, { label: person.name })
+          children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(chart_default3, { label: person.name })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         entities_default3,
         {
           entities: person.entities,
           person
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         attendees_default2,
         {
           attendees: person.attendees,
           person
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(detail_incidents_trigger_default2, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(detail_incidents_trigger_default2, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
         detail_incidents_fetcher_default,
         {
           id: person.id,
           ref: incidentsRef,
           trigger,
-          children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
+          children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
             detail_incidents_default,
             {
               ids: person.incidents?.ids,
@@ -56161,7 +56142,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/item.tsx
   var import_react44 = __toESM(require_react());
-  var import_jsx_runtime79 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime80 = __toESM(require_jsx_runtime());
   var Item = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useSelector((state) => selectors4.selectById(state, id));
@@ -56171,11 +56152,11 @@ Hook ${hookName} was either not provided or not a function.`);
       trigger({ id });
     }, [id, source, trigger]);
     if (!source) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(icon_default, { name: "database" }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)("div", { className: "item-source-quarter-description", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("h6", { children: source.title }),
-        hasTotals && /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)("p", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(icon_default, { name: "database" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "item-source-quarter-description", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("h6", { children: source.title }),
+        hasTotals && /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("p", { children: [
           source?.overview?.totals.values.total.value,
           " incidents"
         ] })
@@ -56185,14 +56166,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var item_default = Item;
 
   // assets/scripts/components/sources/index.tsx
-  var import_jsx_runtime80 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var Index4 = () => {
     const byYear = useSelector(getSourcesByYear);
     const hasSources = byYear.length > 0;
     use_fetch_and_scroll_on_route_change_default();
-    return /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(section_index_default, { isLoading: !hasSources, children: byYear.map((sources) => /* @__PURE__ */ (0, import_jsx_runtime80.jsxs)("div", { className: "item-index-group", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(item_subhead_default, { title: sources.year }),
-      /* @__PURE__ */ (0, import_jsx_runtime80.jsx)("div", { className: "section-index-list", children: sources.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(item_default, { id: source.id }, source.id)) })
+    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(section_index_default, { isLoading: !hasSources, children: byYear.map((sources) => /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "item-index-group", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_subhead_default, { title: sources.year }),
+      /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "section-index-list", children: sources.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_default, { id: source.id }, source.id)) })
     ] }, sources.year)) });
   };
   var sources_default2 = Index4;
@@ -56202,7 +56183,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/attendees.tsx
   var import_react45 = __toESM(require_react());
-  var import_jsx_runtime81 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime82 = __toESM(require_jsx_runtime());
   var Attendees3 = ({ attendees }) => {
     const [trigger] = api_default.useLazyGetSourceAttendeesByIdQuery();
     const { id } = useParams();
@@ -56213,14 +56194,14 @@ Hook ${hookName} was either not provided or not a function.`);
         trigger({ id: numericId });
       }
     }, [hasAttendees, numericId, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incident_activity_groups_default, { title: "Associated Names", children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(
       incident_activity_group_default,
       {
         icon: "user-group",
         title: attendees.label,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(affiliated_people_table_default, { attendees: attendees.officials }),
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(affiliated_people_table_default, { attendees: attendees.lobbyists })
+          /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(affiliated_people_table_default, { attendees: attendees.officials }),
+          /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(affiliated_people_table_default, { attendees: attendees.lobbyists })
         ]
       }
     ) : null });
@@ -56228,13 +56209,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var attendees_default3 = Attendees3;
 
   // assets/scripts/components/sources/chart.tsx
-  var import_jsx_runtime82 = __toESM(require_jsx_runtime());
-  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(item_chart_default, { label });
+  var import_jsx_runtime83 = __toESM(require_jsx_runtime());
+  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(item_chart_default, { label });
   var chart_default4 = Chart6;
 
   // assets/scripts/components/sources/entities.tsx
   var import_react46 = __toESM(require_react());
-  var import_jsx_runtime83 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime84 = __toESM(require_jsx_runtime());
   var Entities2 = ({ entities, source }) => {
     const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
     const hasEntities = entities?.length > 0;
@@ -56243,12 +56224,12 @@ Hook ${hookName} was either not provided or not a function.`);
         trigger({ id: source.id });
       }
     }, [hasEntities, source, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(incident_activity_groups_default, { title: "Associated Entities", children: entities ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
       incident_activity_group_default,
       {
         icon: "briefcase",
         title: `These entities appear in ${source.title}`,
-        children: /* @__PURE__ */ (0, import_jsx_runtime83.jsx)(affiliated_entities_table_default, { entities })
+        children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(affiliated_entities_table_default, { entities })
       }
     ) : null });
   };
@@ -56262,7 +56243,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_incidents_trigger_default3 = IncidentsTrigger3;
 
   // assets/scripts/components/source-information-box.tsx
-  var import_jsx_runtime84 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime85 = __toESM(require_jsx_runtime());
   var DataFormatIcon = /* @__PURE__ */ ((DataFormatIcon2) => {
     DataFormatIcon2["csv"] = "file-csv";
     return DataFormatIcon2;
@@ -56276,7 +56257,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const disclaimers = SourceDisclaimers[source.type];
     const format = DataFormat[source.format];
     const icon2 = DataFormatIcon[source.format];
-    return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(
       MetaSectionBox,
       {
         className: "source-information-box",
@@ -56285,20 +56266,20 @@ Hook ${hookName} was either not provided or not a function.`);
         children: [
           "Data was retrieved on",
           " ",
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("strong", { children: source.retrievedDate }),
+          /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("strong", { children: source.retrievedDate }),
           " ",
           "in",
           " ",
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("strong", { children: format }),
+          /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("strong", { children: format }),
           " format",
           " ",
           "from",
           " ",
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("a", { href: source.publicUrl, target: "_blank", rel: "noreferrer", children: source.publicUrl }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("a", { href: source.publicUrl, target: "_blank", rel: "noreferrer", children: source.publicUrl }) }),
           " ",
           "as published by the City of Portland\u2019s Auditor\u2019s Office in accordance with the City\u2019s",
           " ",
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
+          /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
           ".",
           " ",
           disclaimers
@@ -56309,7 +56290,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var source_information_box_default = SourceInformationBox;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_jsx_runtime85 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime86 = __toESM(require_jsx_runtime());
   var Detail4 = () => {
     const incidentsRef = (0, import_react47.useRef)(null);
     const { id } = useParams();
@@ -56319,38 +56300,38 @@ Hook ${hookName} was either not provided or not a function.`);
     const label = source ? `Q${source.quarter} ${source.year}` : null;
     const isActivity = source?.type === "activity";
     if (!hasSource) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(item_detail_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(item_detail_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         source_information_box_default,
         {
           title: "Source Information",
           source
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         detail_activity_overview_default,
         {
           overview: source.overview,
           ref: incidentsRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(chart_default4, { label })
+          children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(chart_default4, { label })
         }
       ),
-      isActivity && /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)(import_jsx_runtime85.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+      isActivity && /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(import_jsx_runtime86.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           entities_default4,
           {
             entities: source.entities,
             source
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(attendees_default3, { attendees: source.attendees }),
-        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(attendees_default3, { attendees: source.attendees }),
+        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
           detail_incidents_fetcher_default,
           {
             id: source.id,
             ref: incidentsRef,
             trigger,
-            children: /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
               detail_incidents_default,
               {
                 ids: source.incidents?.ids,
@@ -56369,28 +56350,28 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default4 = Detail4;
 
   // assets/scripts/index.tsx
-  var import_jsx_runtime86 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime87 = __toESM(require_jsx_runtime());
   var rootTarget = document.getElementById("root");
   var router = createBrowserRouter([
     {
       path: "/",
-      element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(app_default, {}),
-      errorElement: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(alert_error_default, {}),
+      element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(app_default, {}),
+      errorElement: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(alert_error_default, {}),
       children: [
         {
           path: "",
-          element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(home_default, {})
+          element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(home_default, {})
         },
         {
           path: "entities/*",
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(entities_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(entities_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(detail_default, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(detail_default, {})
             }
           ]
         },
@@ -56399,11 +56380,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incidents_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(incidents_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(detail_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(detail_default2, {})
             }
           ]
         },
@@ -56412,11 +56393,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(people_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(people_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(detail_default3, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(detail_default3, {})
             }
           ]
         },
@@ -56425,11 +56406,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(sources_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(sources_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(detail_default4, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(detail_default4, {})
             }
           ]
         }
@@ -56452,13 +56433,13 @@ Hook ${hookName} was either not provided or not a function.`);
       appendTarget(modal);
       appendTarget(alert);
       (0, import_client.createRoot)(modal).render(
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)("div", { id: modalPortalId }) })
+        /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { id: modalPortalId }) })
       );
       (0, import_client.createRoot)(alert).render(
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)("div", { id: alertPortalId }) })
+        /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { id: alertPortalId }) })
       );
       (0, import_client.createRoot)(rootTarget).render(
-        /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(RouterProvider, { router }) })
+        /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(RouterProvider, { router }) })
       );
     } catch (error) {
       console.log(error);

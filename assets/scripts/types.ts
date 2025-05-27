@@ -230,6 +230,16 @@ export type LeaderboardSet = {
   labels: LeaderboardLabels;
 };
 
+type LeaderboardValues = {
+  entities: LeaderboardSet;
+  lobbyists: LeaderboardSet;
+  officials: LeaderboardSet;
+};
+
+export type Leaderboard = {
+  values: LeaderboardValues;
+};
+
 export type IncidentsStatsValue = {
   key: string;
   label: string;

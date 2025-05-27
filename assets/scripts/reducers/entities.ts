@@ -9,16 +9,10 @@ import type {
   Ids,
   Incident,
   Incidents,
-  LeaderboardSet,
   Pagination,
 } from '../types';
 
-type Leaderboard = {
-  all: LeaderboardSet;
-};
-
 type InitialState = {
-  leaderboard: Leaderboard;
   pageIds: Ids;
   pagination?: Pagination;
 };
@@ -57,24 +51,7 @@ const adapter = createEntityAdapter<Entity>();
 
 export const selectors = adapter.getSelectors(getEntities);
 
-const leaderboardSet = {
-  ids: [] as Ids,
-  labels: {
-    links: {
-      more: '',
-    },
-    subtitle: '',
-    table: {
-      title: '',
-    },
-    title: '',
-  },
-};
-
 const initialState = {
-  leaderboard: {
-    all: leaderboardSet,
-  },
   pageIds: [],
   pagination: null,
 } as InitialState;
@@ -95,16 +72,12 @@ export const entitiesSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
-    setLeaderboard: (state, action: PayloadAction<Leaderboard>) => {
-      state.leaderboard = action.payload;
-    },
   },
 });
 
 export const {
   set,
   setAll,
-  setLeaderboard,
   setPageIds,
   setPagination,
 } = entitiesSlice.actions;

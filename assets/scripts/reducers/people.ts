@@ -6,20 +6,13 @@ import type {
   Ids,
   Incident,
   Incidents,
-  LeaderboardSet,
   Pagination,
   People,
   Person,
   PersonWithIncidentRecords,
 } from '../types';
 
-type Leaderboard = {
-  lobbyists: LeaderboardSet;
-  officials: LeaderboardSet;
-};
-
 type InitialState = {
-  leaderboard: Leaderboard;
   pageIds: Ids;
   pagination?: Pagination;
 };
@@ -58,25 +51,7 @@ export const adapter = createEntityAdapter<Person>();
 
 export const selectors = adapter.getSelectors(getPeople);
 
-const leaderboardSet = {
-  ids: [] as Ids,
-  labels: {
-    links: {
-      more: '',
-    },
-    subtitle: '',
-    table: {
-      title: '',
-    },
-    title: '',
-  },
-};
-
 const initialState = {
-  leaderboard: {
-    lobbyists: leaderboardSet,
-    officials: leaderboardSet,
-  },
   pageIds: [],
   pagination: null,
 } as InitialState;
@@ -97,16 +72,12 @@ export const peopleSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
-    setLeaderboard: (state, action: PayloadAction<Leaderboard>) => {
-      state.leaderboard = action.payload;
-    },
   },
 });
 
 export const {
   set,
   setAll,
-  setLeaderboard,
   setPageIds,
   setPagination,
 } = peopleSlice.actions;

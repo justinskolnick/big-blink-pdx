@@ -1,9 +1,7 @@
 import React from 'react';
 
 import Chart from './chart';
-import EntitiesLeaderboard from './leaderboard-entities';
-import LobbyistsLeaderboard from './leaderboard-lobbyists';
-import OfficialsLeaderboard from './leaderboard-officials';
+import Leaderboard from './leaderboard';
 import Section from '../section';
 
 const Home = () => (
@@ -13,9 +11,7 @@ const Home = () => (
     className='section-home'
   >
     <Chart />
-    <EntitiesLeaderboard />
-    <LobbyistsLeaderboard />
-    <OfficialsLeaderboard />
+    <Leaderboard />
   </Section>
 );
 

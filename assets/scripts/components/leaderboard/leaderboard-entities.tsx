@@ -1,19 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getEntitiesLeaderboard } from '../../selectors';
+import { getLeaderboardEntitiesValues } from '../../selectors';
 
-import LeaderboardRankings from '../leaderboard/rankings';
+import LeaderboardRankings from './rankings';
 
 import { Sections } from '../../types';
 
 const EntitiesLeaderboard = () => {
-  const result = useSelector(getEntitiesLeaderboard);
+  const result = useSelector(getLeaderboardEntitiesValues);
 
   return (
     <LeaderboardRankings
       isGrid
-      rankings={result?.all}
+      rankings={result}
       section={Sections.Entities}
     />
   );

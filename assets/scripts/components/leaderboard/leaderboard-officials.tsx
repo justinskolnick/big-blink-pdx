@@ -1,19 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getPeopleLeaderboard } from '../../selectors';
+import { getLeaderboardOfficialsValues } from '../../selectors';
 
-import LeaderboardRankings from '../leaderboard/rankings';
+import LeaderboardRankings from './rankings';
 
 import { Sections } from '../../types';
 
 const OfficialsLeaderboard = () => {
-  const result = useSelector(getPeopleLeaderboard);
+  const result = useSelector(getLeaderboardOfficialsValues);
 
   return (
     <LeaderboardRankings
       isGrid
-      rankings={result?.officials}
+      rankings={result}
       section={Sections.People}
     />
   );

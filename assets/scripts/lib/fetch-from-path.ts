@@ -3,6 +3,7 @@ import store from './store';
 
 import * as entityActions from '../reducers/entities';
 import * as incidentActions from '../reducers/incidents';
+import { actions as leaderboardActions } from '../reducers/leaderboard';
 import * as personActions from '../reducers/people';
 import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
@@ -58,6 +59,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
     }
 
+    if ('leaderboard' in data) {
+      dispatch(leaderboardActions.setLeaderboard(data.leaderboard));
+    }
+
     if ('entity' in data) {
       const entity = entityActions.adapters.adaptOne(data.entity.record);
       const incidents = entityActions.adapters.getIncidents(data.entity.record);
@@ -76,10 +81,6 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
         dispatch(entityActions.setPageIds(ids));
         dispatch(entityActions.setPagination(data.entities.pagination));
-      }
-
-      if ('leaderboard' in data.entities) {
-        dispatch(entityActions.setLeaderboard(data.entities.leaderboard));
       }
     }
 
@@ -136,10 +137,6 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
         dispatch(personActions.setPageIds(ids));
         dispatch(personActions.setPagination(data.people.pagination));
-      }
-
-      if ('leaderboard' in data.people) {
-        dispatch(personActions.setLeaderboard(data.people.leaderboard));
       }
     }
 
