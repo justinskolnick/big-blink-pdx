@@ -34768,6 +34768,9 @@ Hook ${hookName} was either not provided or not a function.`);
       getOverview: builder.query(getAncillaryRoute(
         () => "overview"
       )),
+      getLeaderboard: builder.query(getAncillaryRoute(
+        () => "leaderboard"
+      )),
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityById: builder.query(getAncillaryRoute(
         ({ id }) => `entities/${id}`
@@ -41952,7 +41955,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/app.tsx
   var import_jsx_runtime31 = __toESM(require_jsx_runtime());
   var App = () => {
-    const [trigger, result] = api_default.useLazyGetOverviewQuery();
+    const [triggerOverview, overviewResult] = api_default.useLazyGetOverviewQuery();
+    const [triggerLeaderboard, leaderboardResult] = api_default.useLazyGetLeaderboardQuery();
     const location2 = useLocation();
     const description = useSelector(getDescription);
     const pageTitle = useSelector(getPageTitle);
@@ -41961,10 +41965,18 @@ Hook ${hookName} was either not provided or not a function.`);
     const scrollCaptureClasses = [hasAlertClass, hasModalClass];
     use_capture_scroll_position_default(scrollCaptureClasses);
     (0, import_react26.useEffect)(() => {
-      if (result.isUninitialized) {
-        trigger(null);
+      if (overviewResult.isUninitialized) {
+        triggerOverview(null);
       }
-    }, [result, trigger]);
+      if (leaderboardResult.isUninitialized) {
+        triggerLeaderboard(null);
+      }
+    }, [
+      leaderboardResult,
+      overviewResult,
+      triggerLeaderboard,
+      triggerOverview
+    ]);
     use_trigger_primary_query_default();
     return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "global-layout", children: [
       /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(

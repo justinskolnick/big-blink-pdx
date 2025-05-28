@@ -30,55 +30,90 @@ router.get('/', async (req, res, next) => {
   };
 
   if (req.get('Content-Type') === headers.json) {
-    let entitiesResult;
-    let lobbyistsResult;
-    let officialsResult;
+    let data;
+
+    try {
+      const results = await Promise.all([
+        incidents.getTotal(),
+        incidents.getFirstAndLastDates(),
+      ]);
+      const [total, firstAndLast] = results;
+
+      data = {
+        incidents: {
+          first: firstAndLast.first,
+          last: firstAndLast.last,
+          total,
+        },
+      };
+
+      res.json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting people:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.render(template, { title, meta, robots: headers.robots });
+  }
+});
+
+router.get('/overview', async (req, res, next) => {
+  if (req.get('Content-Type') === headers.json) {
+    let stats;
+    let data;
+
+    try {
+      stats = await sources.getStats();
+
+      data = {
+        stats: {
+          sources: stats,
+        },
+      };
+
+      res.json({ data });
+    } catch (err) {
+      console.error('Error while getting overview:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.get('/leaderboard', async (req, res, next) => {
+  if (req.get('Content-Type') === headers.json) {
     let incidentCountResult;
     let data;
 
     try {
       incidentCountResult = await incidents.getTotal();
 
-      entitiesResult = await entities.getAll({
+      const options = {
         page: 1,
         perPage: 5,
         includeCount: true,
         sortBy: SORT_BY_TOTAL,
-      });
-      entitiesResult = entitiesResult.map(entity => {
-        entity.setGlobalIncidentCount(incidentCountResult);
-        entity.setOverview();
+      };
+      const callback = (item) => {
+        item.setGlobalIncidentCount(incidentCountResult);
+        item.setOverview();
 
-        return entity.adapted;
-      });
+        return item.adapted;
+      };
 
-      lobbyistsResult = await people.getAll({
-        page: 1,
-        perPage: 5,
-        includeCount: true,
-        role: ROLE_LOBBYIST,
-        sortBy: SORT_BY_TOTAL,
-      });
-      lobbyistsResult = lobbyistsResult.map(person => {
-        person.setGlobalIncidentCount(incidentCountResult);
-        person.setOverview();
-
-        return person.adapted;
-      });
-
-      officialsResult = await people.getAll({
-        page: 1,
-        perPage: 5,
-        includeCount: true,
-        role: ROLE_OFFICIAL,
-        sortBy: SORT_BY_TOTAL,
-      });
-      officialsResult = officialsResult.map(person => {
-        person.setGlobalIncidentCount(incidentCountResult);
-        person.setOverview();
-
-        return person.adapted;
-      });
+      const results = await Promise.all([
+        entities.getAll(options),
+        people.getAll({
+          ...options,
+          role: ROLE_LOBBYIST,
+        }),
+        people.getAll({
+          ...options,
+          role: ROLE_OFFICIAL,
+        }),
+      ]);
+      const [entitiesResult, lobbyistsResult, officialsResult] = results.map(result => result.map(callback));
 
       data = {
         leaderboard: {
@@ -132,42 +167,9 @@ router.get('/', async (req, res, next) => {
         },
       };
 
-      res.json({ title, data, meta });
-    } catch (err) {
-      console.error('Error while getting people:', err.message); // eslint-disable-line no-console
-      next(createError(err));
-    }
-  } else {
-    res.render(template, { title, meta, robots: headers.robots });
-  }
-});
-
-router.get('/overview', async (req, res, next) => {
-  if (req.get('Content-Type') === headers.json) {
-    let incidentCountResult;
-    let incidentFirstAndLastResult;
-    let stats;
-    let data;
-
-    try {
-      incidentCountResult = await incidents.getTotal();
-      incidentFirstAndLastResult = await incidents.getFirstAndLastDates();
-      stats = await sources.getStats();
-
-      data = {
-        incidents: {
-          first: incidentFirstAndLastResult.first,
-          last: incidentFirstAndLastResult.last,
-          total: incidentCountResult,
-        },
-        stats: {
-          sources: stats,
-        },
-      };
-
       res.json({ data });
     } catch (err) {
-      console.error('Error while getting overview:', err.message); // eslint-disable-line no-console
+      console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {

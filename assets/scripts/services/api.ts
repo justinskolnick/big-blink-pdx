@@ -66,6 +66,9 @@ const api = createApi({
     getOverview: builder.query(getAncillaryRoute(
       () => 'overview'
     )),
+    getLeaderboard: builder.query(getAncillaryRoute(
+      () => 'leaderboard'
+    )),
     getPrimary: builder.query(getPrimaryRoute()),
 
     getEntityById: builder.query(getAncillaryRoute(

@@ -19,7 +19,8 @@ import api from '../services/api';
 import { getDescription, getPageTitle } from '../selectors';
 
 const App = () => {
-  const [trigger, result] = api.useLazyGetOverviewQuery();
+  const [triggerOverview, overviewResult] = api.useLazyGetOverviewQuery();
+  const [triggerLeaderboard, leaderboardResult] = api.useLazyGetLeaderboardQuery();
 
   const location = useLocation();
   const description = useSelector(getDescription);
@@ -32,10 +33,18 @@ const App = () => {
   useCaptureScrollPosition(scrollCaptureClasses);
 
   useEffect(() => {
-    if (result.isUninitialized) {
-      trigger(null);
+    if (overviewResult.isUninitialized) {
+      triggerOverview(null);
     }
-  }, [result, trigger]);
+    if (leaderboardResult.isUninitialized) {
+      triggerLeaderboard(null);
+    }
+  }, [
+    leaderboardResult,
+    overviewResult,
+    triggerLeaderboard,
+    triggerOverview,
+  ]);
 
   useTriggerPrimaryQuery();
 
