@@ -1,6 +1,7 @@
 const { SORT_ASC, SORT_BY_TOTAL, SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
+const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person');
 
@@ -12,7 +13,12 @@ const getAllQuery = (options = {}) => {
     role,
     sort,
     sortBy,
+    year,
   } = options;
+  const hasPage = Boolean(page);
+  const hasPerPage = Boolean(perPage);
+  const hasRole = Boolean(role);
+  const hasYear = Boolean(year);
 
   const clauses = [];
   const selections = [];
@@ -29,19 +35,30 @@ const getAllQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${Person.tableName}`);
 
-  if (includeCount || role) {
+  if (includeCount || hasRole || hasYear) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
     clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
+  }
+
+  if (hasYear) {
+    clauses.push(`LEFT JOIN ${Incident.tableName}`);
+    clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
 
   clauses.push('WHERE');
   clauses.push(`${Person.field('identical_id')} IS NULL`);
 
-  if (includeCount || role) {
-    if (role) {
+  if (includeCount || hasRole || hasYear) {
+    if (hasRole) {
       clauses.push('AND');
       clauses.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
+    }
+
+    if (hasYear) {
+      clauses.push('AND');
+      clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+      params.push(year);
     }
 
     clauses.push(`GROUP BY ${Person.primaryKey()}`);
@@ -55,7 +72,7 @@ const getAllQuery = (options = {}) => {
     clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
   }
 
-  if (page && perPage) {
+  if (hasPage && hasPerPage) {
     const offset = queryHelper.getOffset(page, perPage);
 
     clauses.push('LIMIT ?,?');

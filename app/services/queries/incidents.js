@@ -193,12 +193,14 @@ const getTotalQuery = (options = {}) => {
     sourceId,
     withEntityId,
     withPersonId,
+    year,
   } = options;
   const hasDateOn = Boolean(dateOn);
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
   const hasEntityId = Boolean(entityId || withEntityId);
   const hasWithPersonId = Boolean(withPersonId);
+  const hasYear = Boolean(year);
 
   const clauses = [];
   const params = [];
@@ -212,7 +214,7 @@ const getTotalQuery = (options = {}) => {
     clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
 
-  if (hasSourceId || hasEntityId || hasDateOn || hasDateRange) {
+  if (hasSourceId || hasEntityId || hasDateOn || hasDateRange || hasYear) {
     clauses.push('WHERE');
   }
 
@@ -237,7 +239,7 @@ const getTotalQuery = (options = {}) => {
       params.push(withPersonId);
     }
 
-    if (hasDateOn || hasDateRange) {
+    if (hasDateOn || hasDateRange || hasYear) {
       clauses.push('AND');
     }
   }
@@ -261,6 +263,9 @@ const getTotalQuery = (options = {}) => {
     }
 
     clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+  } else if (hasYear) {
+    clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+    params.push(year);
   }
 
   return { clauses, params };

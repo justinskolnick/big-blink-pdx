@@ -590,6 +590,21 @@ describe('getTotalQuery()', () => {
     });
   });
 
+  describe('with a year', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ year: '2016' })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
+          'WHERE',
+          'SUBSTRING(incidents.contact_date, 1, 4) = ?',
+        ],
+        params: ['2016'],
+      });
+    });
+  });
+
   describe('with a date range', () => {
     test('returns the expected SQL', () => {
       expect(getTotalQuery({ sourceId: 3, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({

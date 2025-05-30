@@ -53,6 +53,28 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a year', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({
+        year: 2016,
+      })).toEqual({
+        clauses: [
+          'SELECT',
+          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          'FROM entities',
+          'LEFT JOIN incidents',
+          'ON incidents.entity_id = entities.id',
+          'WHERE',
+          'SUBSTRING(incidents.contact_date, 1, 4) = ?',
+          'GROUP BY entities.id',
+          'ORDER BY',
+          'sort_name ASC',
+        ],
+        params: [2016],
+      });
+    });
+  });
+
   describe('with a limit', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({ limit: 5 })).toEqual({
@@ -76,7 +98,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           "entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
-          'LEFT JOIN incidents ON incidents.entity_id = entities.id',
+          'LEFT JOIN incidents',
+          'ON incidents.entity_id = entities.id',
           'GROUP BY entities.id',
           'ORDER BY',
           'sort_name ASC',
@@ -96,7 +119,8 @@ describe('getAllQuery()', () => {
               'SELECT',
               'entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total',
               'FROM entities',
-              'LEFT JOIN incidents ON incidents.entity_id = entities.id',
+              'LEFT JOIN incidents',
+              'ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
               'ORDER BY',
               'total DESC',
@@ -117,7 +141,8 @@ describe('getAllQuery()', () => {
               'SELECT',
               "entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
               'FROM entities',
-              'LEFT JOIN incidents ON incidents.entity_id = entities.id',
+              'LEFT JOIN incidents',
+              'ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
               'ORDER BY',
               'sort_name DESC',

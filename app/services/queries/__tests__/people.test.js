@@ -59,6 +59,61 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a year', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({
+        year: '2016',
+      })).toEqual({
+        clauses: [
+          'SELECT',
+          'people.id, people.identical_id, people.type, people.name',
+          'FROM people',
+          'LEFT JOIN incident_attendees',
+          'ON incident_attendees.person_id = people.id',
+          'LEFT JOIN incidents',
+          'ON incidents.id = incident_attendees.incident_id',
+          'WHERE',
+          'people.identical_id IS NULL',
+          'AND',
+          'SUBSTRING(incidents.contact_date, 1, 4) = ?',
+          'GROUP BY people.id',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
+        ],
+        params: ['2016'],
+      });
+    });
+
+    describe('with a role', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({
+          role: 'lobbyist',
+          year: '2016',
+        })).toEqual({
+          clauses: [
+            'SELECT',
+            'people.id, people.identical_id, people.type, people.name',
+            'FROM people',
+            'LEFT JOIN incident_attendees',
+            'ON incident_attendees.person_id = people.id',
+            'LEFT JOIN incidents',
+            'ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'people.identical_id IS NULL',
+            'AND',
+            'incident_attendees.role = ?',
+            'AND',
+            'SUBSTRING(incidents.contact_date, 1, 4) = ?',
+            'GROUP BY people.id',
+            'ORDER BY',
+            'people.family ASC, people.given ASC',
+          ],
+          params: ['lobbyist', '2016'],
+        });
+      });
+    });
+  });
+
   describe('with counts', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({ includeCount: true })).toEqual({

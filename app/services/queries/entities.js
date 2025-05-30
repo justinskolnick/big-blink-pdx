@@ -17,7 +17,12 @@ const getAllQuery = (options = {}) => {
     includeCount = false,
     sort,
     sortBy = SORT_BY_NAME,
+    year,
   } = options;
+  const hasLimit = Boolean(limit);
+  const hasPage = Boolean(page);
+  const hasPerPage = Boolean(perPage);
+  const hasYear = Boolean(year);
 
   const clauses = [];
   const selections = [];
@@ -38,8 +43,16 @@ const getAllQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${Entity.tableName}`);
 
-  if (includeCount) {
-    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
+  if (includeCount || hasYear) {
+    clauses.push(`LEFT JOIN ${Incident.tableName}`);
+    clauses.push(`ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
+
+    if (hasYear) {
+      clauses.push('WHERE');
+      clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+      params.push(year);
+    }
+
     clauses.push(`GROUP BY ${Entity.primaryKey()}`);
   }
 
@@ -51,12 +64,12 @@ const getAllQuery = (options = {}) => {
     clauses.push(`sort_name ${sort || SORT_ASC}`);
   }
 
-  if (page && perPage) {
+  if (hasPage && hasPerPage) {
     const offset = queryHelper.getOffset(page, perPage);
 
     clauses.push('LIMIT ?,?');
     params.push(offset, perPage);
-  } else if (limit) {
+  } else if (hasLimit) {
     clauses.push('LIMIT ?,?');
     params.push(0, limit);
   }

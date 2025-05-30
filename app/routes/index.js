@@ -95,6 +95,7 @@ router.get('/leaderboard', async (req, res, next) => {
         includeCount: true,
         sortBy: SORT_BY_TOTAL,
       };
+
       const callback = (item) => {
         item.setGlobalIncidentCount(incidentCountResult);
         item.setOverview();
