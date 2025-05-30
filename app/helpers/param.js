@@ -11,11 +11,14 @@ const {
 const {
   DATE_PATTERN,
   QUARTER_PATTERN,
+  YEAR_PATTERN,
 } = require('../config/patterns');
 
-const hasDate = (param) => param?.length > 0 && DATE_PATTERN.test(param);
-const hasInteger = (param) => param?.length > 0 && Number.isInteger(Number(param));
-const hasQuarterAndYear = (param) => param?.length > 0 && QUARTER_PATTERN.test(param);
+const hasParam = (param) => param?.length > 0;
+const hasDate = (param) => hasParam(param) && DATE_PATTERN.test(param);
+const hasInteger = (param) => hasParam(param) && Number.isInteger(Number(param));
+const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
+const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
 
 const getQuarterAndYear = (param) => {
   if (hasQuarterAndYear(param)) {
@@ -100,4 +103,5 @@ module.exports = {
   hasQuarterAndYear,
   hasSort,
   hasSortBy,
+  hasYear,
 };

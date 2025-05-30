@@ -10,6 +10,7 @@ const {
   hasQuarterAndYear,
   hasSort,
   hasSortBy,
+  hasYear,
 } = require('../param');
 
 describe('getInvalidValueMessage()', () => {
@@ -115,7 +116,10 @@ describe('hasDate()', () => {
 
 describe('hasQuarterAndYear()', () => {
   test('with a param value', () => {
+    expect(hasQuarterAndYear(null)).toBe(false);
     expect(hasQuarterAndYear('Q4-2021')).toBe(true);
+    expect(hasQuarterAndYear('Q42021')).toBe(false);
+    expect(hasQuarterAndYear('2021-Q4')).toBe(false);
   });
 });
 
@@ -132,5 +136,15 @@ describe('hasSortBy()', () => {
     expect(hasSortBy('name')).toBe(true);
     expect(hasSortBy('total')).toBe(true);
     expect(hasSortBy('id')).toBe(false);
+  });
+});
+
+describe('hasYear()', () => {
+  test('with a param value', () => {
+    expect(hasYear('2013')).toBe(true);
+    expect(hasYear('2021')).toBe(true);
+    expect(hasYear('202')).toBe(false);
+    expect(hasYear('20')).toBe(false);
+    expect(hasYear('20201')).toBe(false);
   });
 });

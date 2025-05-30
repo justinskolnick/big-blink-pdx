@@ -9,6 +9,7 @@ const PARAM_SORT = 'sort';
 const PARAM_SORT_BY = 'sort_by';
 const PARAM_WITH_ENTITY_ID = 'with_entity_id';
 const PARAM_WITH_PERSON_ID = 'with_person_id';
+const PARAM_YEAR = 'year';
 
 const PARAM_OPTIONS = {
   [PARAM_DATE_ON]: {
@@ -37,6 +38,9 @@ const PARAM_OPTIONS = {
   },
   [PARAM_WITH_PERSON_ID]: {
     validate: 'hasInteger',
+  },
+  [PARAM_YEAR]: {
+    validate: 'hasYear',
   },
 };
 
