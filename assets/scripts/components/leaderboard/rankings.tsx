@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { EntityItem } from '../entities/index';
-import Icon from '../icon';
 import ItemSubhead from '../item-subhead';
 import ItemTable from '../item-table';
 import ItemTextWithIcon from '../item-text-with-icon';
@@ -37,7 +36,7 @@ const useGetItemsLink = (section: string) => {
   }
 };
 
-const LeaderboardRankings = ({
+const Rankings = ({
   isGrid = false,
   rankings,
   section,
@@ -60,13 +59,9 @@ const LeaderboardRankings = ({
       </SubsectionSubhead>
 
       <LeaderboardSubsectionGroup>
-        <ItemSubhead subtitle={(
-          <>
-            <Icon name='trophy' />
-            <span className='item-text'>{labels.table.title}</span>
-          </>
-        )} />
-        <ItemTable hasPercent>
+        <ItemSubhead subtitle={labels.table.title} />
+
+        <ItemTable hasPercent labels={labels.table}>
           {ids.map(id => (
             <Item key={id} id={id} />
           ))}
@@ -84,4 +79,4 @@ const LeaderboardRankings = ({
   );
 };
 
-export default LeaderboardRankings;
+export default Rankings;

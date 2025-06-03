@@ -118,6 +118,10 @@ router.get('/leaderboard', async (req, res, next) => {
 
       data = {
         leaderboard: {
+          labels: {
+            title: 'Leaderboard',
+            period: '2014–25',
+          },
           values: {
             entities: {
               ids: entitiesResult.map(item => item.id),
@@ -126,6 +130,11 @@ router.get('/leaderboard', async (req, res, next) => {
                 subtitle: 'Lobbying entities are ranked by total number of lobbying incident appearances.',
                 table: {
                   title: 'Portland’s most active lobbying entities',
+                  column: {
+                    name: 'Name of the lobbying entity',
+                    total: 'Total number of lobbying incidents reported for this entity',
+                    percentage: `Share of ${incidentCountResult} incidents`,
+                  },
                 },
                 links: {
                   more: 'View the full list of lobbying entities',
@@ -139,6 +148,11 @@ router.get('/leaderboard', async (req, res, next) => {
                 subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
                 table: {
                   title: 'Portland’s most active lobbyists',
+                  column: {
+                    name: 'Name of the lobbyist',
+                    total: 'Total number of lobbying incidents reported for this lobbyist',
+                    percentage: `Share of ${incidentCountResult} incidents`,
+                  },
                 },
                 links: {
                   more: 'View all lobbyists in the full list of people',
@@ -152,6 +166,11 @@ router.get('/leaderboard', async (req, res, next) => {
                 subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
                 table: {
                   title: 'Portland’s most lobbied officials',
+                  column: {
+                    name: 'Name of the lobbied official',
+                    total: 'Total number of lobbying incidents reported for this official',
+                    percentage: `Share of ${incidentCountResult} incidents`,
+                  },
                 },
                 links: {
                   more: 'View all officials in the full list of people',

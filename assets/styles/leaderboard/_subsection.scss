@@ -1,13 +1,13 @@
 .leaderboard-subsection {
   & + & {
-    margin-top: calc(3 * var(--gap));
+    margin-top: calc(var(--gap) * 3);
   }
 
   &.is-grid {
     @media screen and (min-width: 813px) {
       display: grid;
       grid-template-columns: 1fr 2fr;
-      grid-gap: calc(2 * var(--gap));
+      grid-gap: calc(var(--gap) * 2);
     }
   }
 }

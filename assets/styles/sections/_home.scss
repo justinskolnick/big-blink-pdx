@@ -3,5 +3,17 @@
     .header-overview + .header-intro {
       margin-top: calc(var(--gap) * 2);
     }
+
+    @media screen and (min-width: 613px) {
+      .chart-section + .leaderboard-section {
+        margin-top: calc(var(--gap) * 4);
+      }
+    }
+
+    @media screen and (max-width: 612px) {
+      .chart-section + .leaderboard-section {
+        margin-top: calc(var(--gap) * 3);
+      }
+    }
   }
 }

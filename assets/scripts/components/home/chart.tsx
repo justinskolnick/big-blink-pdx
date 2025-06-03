@@ -5,8 +5,6 @@ import Icon from '../icon';
 import IncidentActivityChart from '../incident-activity-chart';
 import ItemChart from '../item-chart';
 import ItemSubhead from '../item-subhead';
-import LeaderboardSubsection from '../leaderboard/subsection';
-import LeaderboardSubsectionGroup from '../leaderboard/subsection-group';
 
 import { getSourcesDataForChart } from '../../selectors';
 
@@ -18,22 +16,20 @@ const Chart = () => {
   };
 
   return (
-    <LeaderboardSubsection>
-      <LeaderboardSubsectionGroup>
-        <ItemSubhead subtitle={(
-          <>
-            <Icon name='chart-simple' />
-            <span className='item-text'>
-              Lobbying activity over time
-            </span>
-          </>
-        )} />
+    <section className='chart-section'>
+      <ItemSubhead subtitle={(
+        <>
+          <Icon name='chart-simple' />
+          <span className='item-text'>
+            Lobbying activity over time
+          </span>
+        </>
+      )} />
 
-        <IncidentActivityChart>
-          <ItemChart lineProps={lineProps} />
-        </IncidentActivityChart>
-      </LeaderboardSubsectionGroup>
-    </LeaderboardSubsection>
+      <IncidentActivityChart>
+        <ItemChart lineProps={lineProps} />
+      </IncidentActivityChart>
+    </section>
   );
 };
 

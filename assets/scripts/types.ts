@@ -210,15 +210,27 @@ export type IncidentsFilters = {
 };
 export type IncidentsFiltersObjects = IncidentsFilters[keyof IncidentsFilters];
 
+type LeaderboardColumnLabels = {
+  name: string;
+  total: string;
+  percentage: string;
+};
+
+type LeaderboardLabels = {
+  period: string;
+  title: string;
+};
+
 type LeaderboardLinkLabels = {
   more: string;
 };
 
 type LeaderboardTableLabels = {
+  column: LeaderboardColumnLabels;
   title: string;
 };
 
-type LeaderboardLabels = {
+type LeaderboardValuesLabels = {
   links: LeaderboardLinkLabels;
   subtitle: string;
   table: LeaderboardTableLabels;
@@ -227,7 +239,7 @@ type LeaderboardLabels = {
 
 export type LeaderboardSet = {
   ids: Ids;
-  labels: LeaderboardLabels;
+  labels: LeaderboardValuesLabels;
 };
 
 type LeaderboardValues = {
@@ -237,6 +249,7 @@ type LeaderboardValues = {
 };
 
 export type Leaderboard = {
+  labels: LeaderboardLabels;
   values: LeaderboardValues;
 };
 
@@ -304,6 +317,8 @@ export type ItemOverview = {
     };
   };
 };
+
+export type ItemTableLabels = LeaderboardTableLabels;
 
 export type Entity = Item & {
   attendees?: Attendees;

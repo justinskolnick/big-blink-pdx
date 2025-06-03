@@ -6,7 +6,7 @@ interface Props {
   isGrid?: boolean;
 }
 
-const LeaderboardSubsection = ({ children, isGrid = false }: Props) => (
+const Subsection = ({ children, isGrid = false }: Props) => (
   <section className={cx(
     'leaderboard-subsection',
     isGrid && 'is-grid',
@@ -15,4 +15,4 @@ const LeaderboardSubsection = ({ children, isGrid = false }: Props) => (
   </section>
 );
 
-export default LeaderboardSubsection;
+export default Subsection;

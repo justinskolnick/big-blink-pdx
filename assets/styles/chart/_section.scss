@@ -1,0 +1,12 @@
+.chart-section {
+  .item-subhead {
+    h5 {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .item-subhead + .item-chart {
+    margin-top: calc(var(--gap) * 2);
+  }
+}

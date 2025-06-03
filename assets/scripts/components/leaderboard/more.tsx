@@ -4,10 +4,10 @@ interface Props {
   children: ReactNode;
 }
 
-const LeaderboardSubsectionGroup = ({ children }: Props) => (
+const More = ({ children }: Props) => (
   <div className='leaderboard-more'>
     {children}
   </div>
 );
 
-export default LeaderboardSubsectionGroup;
+export default More;
