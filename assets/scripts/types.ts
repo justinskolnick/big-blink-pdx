@@ -293,7 +293,7 @@ export type IncidentsOverview = {
 };
 
 export type IncidentRecords = {
-  records: Incidents;
+  records?: Incidents;
 };
 
 type IncidentPagination = {

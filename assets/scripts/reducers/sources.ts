@@ -3,6 +3,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import camelcaseKeys from 'camelcase-keys';
 
 import { getSources } from '../selectors';
+
+import { RootState } from '../lib/store';
 import type {
   Ids,
   Incident,
@@ -13,39 +15,44 @@ import type {
   SourceWithIncidentRecords,
 } from '../types';
 
+export const adapter = createEntityAdapter<Source>();
+export const selectors = adapter.getSelectors(getSources);
+
 export const adapters = {
-  adaptOne: (source: SourceWithIncidentRecords): any => {
-    if (source.incidents) {
+  adaptOne: (state: RootState, entry: SourceWithIncidentRecords): Source => {
+    const savedEntry = selectors.selectById(state, entry.id);
+
+    if ('incidents' in entry) {
       const {
         filters,
         pagination,
         records,
         stats,
-      } = source.incidents;
+      } = entry.incidents;
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
-      return {
-        ...camelcaseKeys(source, { deep: false }),
-        incidents: {
-          filters,
-          pagination,
-          stats,
-          ...ids,
-        },
+      entry.incidents = {
+        filters,
+        pagination,
+        stats,
+        ...ids,
       };
     }
 
-    return source;
+    if (savedEntry && 'overview' in savedEntry) {
+      entry.overview = {
+        ...savedEntry.overview,
+        ...entry.overview,
+      };
+    }
+
+    return camelcaseKeys(entry, { deep: false });
   },
   getIds: (sources: Sources): Ids =>
     sources.map((source: Source) => source.id),
   getIncidents: (source: SourceWithIncidentRecords): Incidents =>
     source.incidents?.records ?? [],
 };
-
-export const adapter = createEntityAdapter<Source>();
-
-export const selectors = adapter.getSelectors(getSources);
 
 export const sourcesSlice = createSlice({
   name: 'sources',

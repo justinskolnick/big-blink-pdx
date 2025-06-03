@@ -9,14 +9,18 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
+import { RootState } from '../lib/store';
 import type {
   AttendeeGroup,
+  EntityWithIncidentRecords,
   ErrorType,
   Incident,
   Incidents,
   MetaType,
   Person,
+  PersonWithIncidentRecords,
   Source,
+  SourceWithIncidentRecords,
   WarningType
 } from '../types';
 
@@ -28,22 +32,40 @@ export type Result = {
   title?: string;
 };
 
-const getPeopleFromIncidents = (incidents: Incidents) =>
+const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
   incidents.flatMap((incident: Incident) =>
     Object.values(incident.attendees)
       .filter((group: AttendeeGroup) => 'records' in group)
       .map((group: AttendeeGroup) => group.records).flat()
       .map(attendee => attendee?.person)
+      .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person))
   );
 
-const getEntitiesFromPerson = (person: Person) =>
-  person?.entities ? Object.values(person.entities).flat().map(entry => entry.entity) : [];
+const getEntitiesFromPerson = (state: RootState, person: Person) => {
+  if (person?.entities) {
+    return Object.values(person.entities)
+      .flat()
+      .map(entry => entry.entity)
+      .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
+  }
 
-const getEntitiesFromSource = (source: Source) =>
-  source?.entities ? source.entities.flat().map(entry => entry.entity) : [];
+  return [];
+};
+
+const getEntitiesFromSource = (state: RootState, source: Source) => {
+  if (source?.entities) {
+     return source.entities
+      .flat()
+      .map(entry => entry.entity)
+      .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
+  }
+
+  return [];
+};
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
+  const state = store.getState();
   const { data, meta } = result;
 
   if (data) {
@@ -64,9 +86,9 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('entity' in data) {
-      const entity = entityActions.adapters.adaptOne(data.entity.record);
+      const entity = entityActions.adapters.adaptOne(state, data.entity.record);
       const incidents = entityActions.adapters.getIncidents(data.entity.record);
-      const people = getPeopleFromIncidents(incidents);
+      const people = getPeopleFromIncidents(state, incidents);
 
       dispatch(entityActions.set(entity));
       dispatch(incidentActions.setAll(incidents));
@@ -74,10 +96,12 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('entities' in data) {
-      dispatch(entityActions.setAll(data.entities.records));
+      const entities = data.entities.records.map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
+
+      dispatch(entityActions.setAll(entities));
 
       if ('pagination' in data.entities) {
-        const ids = entityActions.adapters.getIds(data.entities.records);
+        const ids = entityActions.adapters.getIds(entities);
 
         dispatch(entityActions.setPageIds(ids));
         dispatch(entityActions.setPagination(data.entities.pagination));
@@ -86,7 +110,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
     if ('incident' in data) {
       const incident = incidentActions.adapters.adaptOne(data.incident.record);
-      const people = getPeopleFromIncidents([incident]);
+      const people = getPeopleFromIncidents(state, [incident]);
 
       dispatch(incidentActions.set(incident));
       dispatch(personActions.setAll(people));
@@ -118,10 +142,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('person' in data) {
-      const person = personActions.adapters.adaptOne(data.person.record);
+      const person = personActions.adapters.adaptOne(state, data.person.record);
       const incidents = personActions.adapters.getIncidents(data.person.record);
-      const people = getPeopleFromIncidents(incidents);
-      const entities = getEntitiesFromPerson(person);
+      const people = getPeopleFromIncidents(state, incidents);
+      const entities = getEntitiesFromPerson(state, person);
 
       dispatch(personActions.set(person));
       dispatch(incidentActions.setAll(incidents));
@@ -130,7 +154,9 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('people' in data) {
-      dispatch(personActions.setAll(data.people.records));
+      const people = data.people.records.map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
+
+      dispatch(personActions.setAll(people));
 
       if ('pagination' in data.people) {
         const ids = personActions.adapters.getIds(data.people.records);
@@ -141,10 +167,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('source' in data) {
-      const source = sourceActions.adapters.adaptOne(data.source.record);
+      const source = sourceActions.adapters.adaptOne(state, data.source.record);
       const incidents = sourceActions.adapters.getIncidents(data.source.record);
-      const people = getPeopleFromIncidents(incidents);
-      const entities = getEntitiesFromSource(data.source.record);
+      const people = getPeopleFromIncidents(state, incidents);
+      const entities = getEntitiesFromSource(state, data.source.record);
 
       dispatch(sourceActions.set(source));
       dispatch(incidentActions.setAll(incidents));
@@ -153,7 +179,9 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('sources' in data) {
-      dispatch(sourceActions.setAll(data.sources.records));
+      const sources = data.sources.records.map((source: SourceWithIncidentRecords) => sourceActions.adapters.adaptOne(state, source));
+
+      dispatch(sourceActions.setAll(sources));
 
       if ('pagination' in data.sources) {
         const ids = sourceActions.adapters.getIds(data.sources.records);

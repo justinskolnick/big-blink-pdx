@@ -33776,280 +33776,6 @@ Hook ${hookName} was either not provided or not a function.`);
     return error;
   };
 
-  // assets/scripts/lib/sorting.ts
-  var sortQuarterAscendingTypeDecending = (a, b) => a.quarter - b.quarter || b.type.localeCompare(a.type);
-
-  // assets/scripts/selectors.ts
-  var getEntities = (state) => state.entities;
-  var getIncidents = (state) => state.incidents;
-  var getLeaderboard = (state) => state.leaderboard;
-  var getPeople = (state) => state.people;
-  var getSources = (state) => state.sources;
-  var getStats = (state) => state.stats;
-  var getUI = (state) => state.ui;
-  var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
-  var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
-  var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
-  var getIncidentsPageIds = createSelector(getIncidents, (incidents) => incidents.pageIds);
-  var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
-  var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
-  var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
-  var getLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => leaderboard.labels);
-  var getLeaderboardValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values);
-  var getHasLeaderboardData = createSelector(
-    getLeaderboard,
-    (leaderboard) => Object.values(leaderboard.labels).length > 0 && Object.values(leaderboard.values).length > 0
-  );
-  var getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, (values) => values.entities);
-  var getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, (values) => values.lobbyists);
-  var getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, (values) => values.officials);
-  var getPeoplePagination = createSelector(getPeople, (people) => people.pagination);
-  var getPeoplePageIds = createSelector(getPeople, (people) => people.pageIds);
-  var getSourcesStats = createSelector(getStats, (stats) => stats.sources);
-  var getSourcesChartIds = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.id)
-  );
-  var getSourcesChartLabels = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.label)
-  );
-  var getSourcesChartData = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.total)
-  );
-  var getSourcesDataForChart = createSelector(
-    [getSourcesChartLabels, getSourcesChartData],
-    (labels, data2) => ({ labels, data: data2 })
-  );
-  var getSourcesByYear = createSelector(
-    getSources,
-    (sources) => {
-      const sourcesByYear = Object.values(sources.entities).reduce((byYear, item) => {
-        if (!(item.year in byYear)) {
-          byYear[item.year] = {
-            year: item.year,
-            items: []
-          };
-        }
-        byYear[item.year].items.push(item);
-        byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
-        return byYear;
-      }, {});
-      return Object.values(sourcesByYear);
-    }
-  );
-  var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
-    const match2 = values.find((value) => value.id === id);
-    indexed[id] = sourceIds.map((sourceId) => {
-      const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
-      return data2 ? data2.total : null;
-    });
-    return indexed;
-  }, {});
-  var getEntitiesStats = createSelector(getStats, (stats) => stats.entities);
-  var getEntitiesChartData = createSelector(
-    [getSourcesChartIds, getEntitiesStats],
-    getIndexedTotals
-  );
-  var getPeopleStats = createSelector(getStats, (stats) => stats.people);
-  var getPeopleChartData = createSelector(
-    [getSourcesChartIds, getPeopleStats],
-    getIndexedTotals
-  );
-  var getDescription = createSelector(getUI, (ui) => ui.description);
-  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
-  var getErrors = createSelector(getUI, (ui) => ui.errors);
-  var getMessages = createSelector(getUI, (ui) => ui.messages);
-  var getSection = createSelector(getUI, (ui) => ui.section);
-  var getWarnings = createSelector(getUI, (ui) => ui.warnings);
-
-  // assets/scripts/reducers/entities.ts
-  var adapters = {
-    adaptOne: (entity) => {
-      if (entity.incidents) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = entity.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        return {
-          ...entity,
-          incidents: {
-            filters,
-            pagination,
-            stats,
-            ...ids
-          }
-        };
-      }
-      return entity;
-    },
-    getIds: (entities) => entities.map((entity) => entity.id),
-    getIncidents: (entity) => entity.incidents?.records ?? []
-  };
-  var adapter = createEntityAdapter();
-  var selectors = adapter.getSelectors(getEntities);
-  var initialState2 = {
-    pageIds: [],
-    pagination: null
-  };
-  var entitiesSlice = createSlice({
-    name: "entities",
-    initialState: adapter.getInitialState(initialState2),
-    reducers: {
-      set: (state, action) => {
-        adapter.upsertOne(state, action.payload);
-      },
-      setAll: (state, action) => {
-        adapter.upsertMany(state, action.payload);
-      },
-      setPageIds: (state, action) => {
-        state.pageIds = action.payload;
-      },
-      setPagination: (state, action) => {
-        state.pagination = { ...action.payload };
-      }
-    }
-  });
-  var {
-    set: set2,
-    setAll,
-    setPageIds,
-    setPagination
-  } = entitiesSlice.actions;
-  var entities_default = entitiesSlice.reducer;
-
-  // assets/scripts/reducers/incidents.ts
-  var adapters2 = {
-    adaptOne: (incident) => incident,
-    getIds: (people) => people.map((incident) => incident.id)
-  };
-  var adapter2 = createEntityAdapter();
-  var selectors2 = adapter2.getSelectors(getIncidents);
-  var incidentsSlice = createSlice({
-    name: "incidents",
-    initialState: adapter2.getInitialState({
-      pageIds: [],
-      pagination: null,
-      first: null,
-      last: null,
-      total: 0
-    }),
-    reducers: {
-      set: (state, action) => {
-        adapter2.upsertOne(state, action.payload);
-      },
-      setAll: (state, action) => {
-        adapter2.upsertMany(state, action.payload);
-      },
-      setPageIds: (state, action) => {
-        state.pageIds = action.payload;
-      },
-      setPagination: (state, action) => {
-        state.pagination = { ...action.payload };
-      },
-      setFirst(state, action) {
-        state.first = action.payload;
-        adapter2.upsertOne(state, action.payload);
-      },
-      setLast(state, action) {
-        state.last = action.payload;
-        adapter2.upsertOne(state, action.payload);
-      },
-      setTotal(state, action) {
-        state.total = action.payload;
-      }
-    }
-  });
-  var {
-    set: set3,
-    setAll: setAll2,
-    setFirst,
-    setLast,
-    setPageIds: setPageIds2,
-    setPagination: setPagination2,
-    setTotal
-  } = incidentsSlice.actions;
-  var incidents_default = incidentsSlice.reducer;
-
-  // assets/scripts/reducers/leaderboard.ts
-  var initialState3 = {
-    labels: {},
-    values: {}
-  };
-  var setLeaderboard = createAction("ui/setLeaderboard");
-  var actions = {
-    setLeaderboard
-  };
-  var reducer = createReducer(initialState3, (builder) => {
-    builder.addCase(setLeaderboard, (state, action) => {
-      state.labels = action.payload.labels;
-      state.values = action.payload.values;
-    });
-  });
-  var leaderboard_default = reducer;
-
-  // assets/scripts/reducers/people.ts
-  var adapters3 = {
-    adaptOne: (person) => {
-      if (person.incidents) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = person.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        return {
-          ...person,
-          incidents: {
-            filters,
-            pagination,
-            stats,
-            ...ids
-          }
-        };
-      }
-      return person;
-    },
-    getIds: (people) => people.map((person) => person.id),
-    getIncidents: (person) => person.incidents?.records ?? []
-  };
-  var adapter3 = createEntityAdapter();
-  var selectors3 = adapter3.getSelectors(getPeople);
-  var initialState4 = {
-    pageIds: [],
-    pagination: null
-  };
-  var peopleSlice = createSlice({
-    name: "people",
-    initialState: adapter3.getInitialState(initialState4),
-    reducers: {
-      set: (state, action) => {
-        adapter3.upsertOne(state, action.payload);
-      },
-      setAll: (state, action) => {
-        adapter3.upsertMany(state, action.payload);
-      },
-      setPageIds: (state, action) => {
-        state.pageIds = action.payload;
-      },
-      setPagination: (state, action) => {
-        state.pagination = { ...action.payload };
-      }
-    }
-  });
-  var {
-    set: set4,
-    setAll: setAll3,
-    setPageIds: setPageIds3,
-    setPagination: setPagination3
-  } = peopleSlice.actions;
-  var people_default = peopleSlice.reducer;
-
   // node_modules/map-obj/index.js
   var isObject = (value) => typeof value === "object" && value !== null;
   var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
@@ -34461,34 +34187,320 @@ Hook ${hookName} was either not provided or not a function.`);
     return transform(input, options2);
   }
 
-  // assets/scripts/reducers/sources.ts
-  var adapters4 = {
-    adaptOne: (source) => {
-      if (source.incidents) {
+  // assets/scripts/lib/sorting.ts
+  var sortQuarterAscendingTypeDecending = (a, b) => a.quarter - b.quarter || b.type.localeCompare(a.type);
+
+  // assets/scripts/selectors.ts
+  var getEntities = (state) => state.entities;
+  var getIncidents = (state) => state.incidents;
+  var getLeaderboard = (state) => state.leaderboard;
+  var getPeople = (state) => state.people;
+  var getSources = (state) => state.sources;
+  var getStats = (state) => state.stats;
+  var getUI = (state) => state.ui;
+  var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
+  var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
+  var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
+  var getIncidentsPageIds = createSelector(getIncidents, (incidents) => incidents.pageIds);
+  var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
+  var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
+  var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
+  var getLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => leaderboard.labels);
+  var getLeaderboardValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values);
+  var getHasLeaderboardData = createSelector(
+    getLeaderboard,
+    (leaderboard) => Object.values(leaderboard.labels).length > 0 && Object.values(leaderboard.values).length > 0
+  );
+  var getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, (values) => values.entities);
+  var getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, (values) => values.lobbyists);
+  var getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, (values) => values.officials);
+  var getPeoplePagination = createSelector(getPeople, (people) => people.pagination);
+  var getPeoplePageIds = createSelector(getPeople, (people) => people.pageIds);
+  var getSourcesStats = createSelector(getStats, (stats) => stats.sources);
+  var getSourcesChartIds = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.id)
+  );
+  var getSourcesChartLabels = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.label)
+  );
+  var getSourcesChartData = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.total)
+  );
+  var getSourcesDataForChart = createSelector(
+    [getSourcesChartLabels, getSourcesChartData],
+    (labels, data2) => ({ labels, data: data2 })
+  );
+  var getSourcesByYear = createSelector(
+    getSources,
+    (sources) => {
+      const sourcesByYear = Object.values(sources.entities).reduce((byYear, item) => {
+        if (!(item.year in byYear)) {
+          byYear[item.year] = {
+            year: item.year,
+            items: []
+          };
+        }
+        byYear[item.year].items.push(item);
+        byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
+        return byYear;
+      }, {});
+      return Object.values(sourcesByYear);
+    }
+  );
+  var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
+    const match2 = values.find((value) => value.id === id);
+    indexed[id] = sourceIds.map((sourceId) => {
+      const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
+      return data2 ? data2.total : null;
+    });
+    return indexed;
+  }, {});
+  var getEntitiesStats = createSelector(getStats, (stats) => stats.entities);
+  var getEntitiesChartData = createSelector(
+    [getSourcesChartIds, getEntitiesStats],
+    getIndexedTotals
+  );
+  var getPeopleStats = createSelector(getStats, (stats) => stats.people);
+  var getPeopleChartData = createSelector(
+    [getSourcesChartIds, getPeopleStats],
+    getIndexedTotals
+  );
+  var getDescription = createSelector(getUI, (ui) => ui.description);
+  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
+  var getErrors = createSelector(getUI, (ui) => ui.errors);
+  var getMessages = createSelector(getUI, (ui) => ui.messages);
+  var getSection = createSelector(getUI, (ui) => ui.section);
+  var getWarnings = createSelector(getUI, (ui) => ui.warnings);
+
+  // assets/scripts/reducers/entities.ts
+  var adapter = createEntityAdapter();
+  var selectors = adapter.getSelectors(getEntities);
+  var adapters = {
+    adaptOne: (state, entry) => {
+      const savedEntry = selectors.selectById(state, entry.id);
+      if ("incidents" in entry) {
         const {
           filters,
           pagination,
           records,
           stats
-        } = source.incidents;
+        } = entry.incidents;
         const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        return {
-          ...camelcaseKeys(source, { deep: false }),
-          incidents: {
-            filters,
-            pagination,
-            stats,
-            ...ids
-          }
+        entry.incidents = {
+          filters,
+          pagination,
+          stats,
+          ...ids
         };
       }
-      return source;
+      if (savedEntry && "overview" in savedEntry) {
+        entry.overview = {
+          ...savedEntry.overview,
+          ...entry.overview
+        };
+      }
+      return camelcaseKeys(entry, { deep: false });
+    },
+    getIds: (entities) => entities.map((entity) => entity.id),
+    getIncidents: (entity) => entity.incidents?.records ?? []
+  };
+  var initialState2 = {
+    pageIds: [],
+    pagination: null
+  };
+  var entitiesSlice = createSlice({
+    name: "entities",
+    initialState: adapter.getInitialState(initialState2),
+    reducers: {
+      set: (state, action) => {
+        adapter.upsertOne(state, action.payload);
+      },
+      setAll: (state, action) => {
+        adapter.upsertMany(state, action.payload);
+      },
+      setPageIds: (state, action) => {
+        state.pageIds = action.payload;
+      },
+      setPagination: (state, action) => {
+        state.pagination = { ...action.payload };
+      }
+    }
+  });
+  var {
+    set: set2,
+    setAll,
+    setPageIds,
+    setPagination
+  } = entitiesSlice.actions;
+  var entities_default = entitiesSlice.reducer;
+
+  // assets/scripts/reducers/incidents.ts
+  var adapters2 = {
+    adaptOne: (incident) => incident,
+    getIds: (people) => people.map((incident) => incident.id)
+  };
+  var adapter2 = createEntityAdapter();
+  var selectors2 = adapter2.getSelectors(getIncidents);
+  var incidentsSlice = createSlice({
+    name: "incidents",
+    initialState: adapter2.getInitialState({
+      pageIds: [],
+      pagination: null,
+      first: null,
+      last: null,
+      total: 0
+    }),
+    reducers: {
+      set: (state, action) => {
+        adapter2.upsertOne(state, action.payload);
+      },
+      setAll: (state, action) => {
+        adapter2.upsertMany(state, action.payload);
+      },
+      setPageIds: (state, action) => {
+        state.pageIds = action.payload;
+      },
+      setPagination: (state, action) => {
+        state.pagination = { ...action.payload };
+      },
+      setFirst(state, action) {
+        state.first = action.payload;
+        adapter2.upsertOne(state, action.payload);
+      },
+      setLast(state, action) {
+        state.last = action.payload;
+        adapter2.upsertOne(state, action.payload);
+      },
+      setTotal(state, action) {
+        state.total = action.payload;
+      }
+    }
+  });
+  var {
+    set: set3,
+    setAll: setAll2,
+    setFirst,
+    setLast,
+    setPageIds: setPageIds2,
+    setPagination: setPagination2,
+    setTotal
+  } = incidentsSlice.actions;
+  var incidents_default = incidentsSlice.reducer;
+
+  // assets/scripts/reducers/leaderboard.ts
+  var initialState3 = {
+    labels: {},
+    values: {}
+  };
+  var setLeaderboard = createAction("ui/setLeaderboard");
+  var actions = {
+    setLeaderboard
+  };
+  var reducer = createReducer(initialState3, (builder) => {
+    builder.addCase(setLeaderboard, (state, action) => {
+      state.labels = action.payload.labels;
+      state.values = action.payload.values;
+    });
+  });
+  var leaderboard_default = reducer;
+
+  // assets/scripts/reducers/people.ts
+  var adapter3 = createEntityAdapter();
+  var selectors3 = adapter3.getSelectors(getPeople);
+  var adapters3 = {
+    adaptOne: (state, entry) => {
+      const savedEntry = selectors3.selectById(state, entry.id);
+      if ("incidents" in entry) {
+        const {
+          filters,
+          pagination,
+          records,
+          stats
+        } = entry.incidents;
+        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
+        entry.incidents = {
+          filters,
+          pagination,
+          stats,
+          ...ids
+        };
+      }
+      if (savedEntry && "overview" in savedEntry) {
+        entry.overview = {
+          ...savedEntry.overview,
+          ...entry.overview
+        };
+      }
+      return camelcaseKeys(entry, { deep: false });
+    },
+    getIds: (people) => people.map((person) => person.id),
+    getIncidents: (person) => person.incidents?.records ?? []
+  };
+  var initialState4 = {
+    pageIds: [],
+    pagination: null
+  };
+  var peopleSlice = createSlice({
+    name: "people",
+    initialState: adapter3.getInitialState(initialState4),
+    reducers: {
+      set: (state, action) => {
+        adapter3.upsertOne(state, action.payload);
+      },
+      setAll: (state, action) => {
+        adapter3.upsertMany(state, action.payload);
+      },
+      setPageIds: (state, action) => {
+        state.pageIds = action.payload;
+      },
+      setPagination: (state, action) => {
+        state.pagination = { ...action.payload };
+      }
+    }
+  });
+  var {
+    set: set4,
+    setAll: setAll3,
+    setPageIds: setPageIds3,
+    setPagination: setPagination3
+  } = peopleSlice.actions;
+  var people_default = peopleSlice.reducer;
+
+  // assets/scripts/reducers/sources.ts
+  var adapter4 = createEntityAdapter();
+  var selectors4 = adapter4.getSelectors(getSources);
+  var adapters4 = {
+    adaptOne: (state, entry) => {
+      const savedEntry = selectors4.selectById(state, entry.id);
+      if ("incidents" in entry) {
+        const {
+          filters,
+          pagination,
+          records,
+          stats
+        } = entry.incidents;
+        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
+        entry.incidents = {
+          filters,
+          pagination,
+          stats,
+          ...ids
+        };
+      }
+      if (savedEntry && "overview" in savedEntry) {
+        entry.overview = {
+          ...savedEntry.overview,
+          ...entry.overview
+        };
+      }
+      return camelcaseKeys(entry, { deep: false });
     },
     getIds: (sources) => sources.map((source) => source.id),
     getIncidents: (source) => source.incidents?.records ?? []
   };
-  var adapter4 = createEntityAdapter();
-  var selectors4 = adapter4.getSelectors(getSources);
   var sourcesSlice = createSlice({
     name: "sources",
     initialState: adapter4.getInitialState({
@@ -34606,13 +34618,24 @@ Hook ${hookName} was either not provided or not a function.`);
   var ui_default = uiReducer;
 
   // assets/scripts/lib/fetch-from-path.ts
-  var getPeopleFromIncidents = (incidents) => incidents.flatMap(
-    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person)
+  var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
+    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adapters3.adaptOne(state, person))
   );
-  var getEntitiesFromPerson = (person) => person?.entities ? Object.values(person.entities).flat().map((entry) => entry.entity) : [];
-  var getEntitiesFromSource = (source) => source?.entities ? source.entities.flat().map((entry) => entry.entity) : [];
+  var getEntitiesFromPerson = (state, person) => {
+    if (person?.entities) {
+      return Object.values(person.entities).flat().map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
+    }
+    return [];
+  };
+  var getEntitiesFromSource = (state, source) => {
+    if (source?.entities) {
+      return source.entities.flat().map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
+    }
+    return [];
+  };
   var handleResult = (result, isPrimary) => {
     const dispatch = store_default.dispatch;
+    const state = store_default.getState();
     const { data: data2, meta } = result;
     if (data2) {
       if ("stats" in data2) {
@@ -34630,24 +34653,25 @@ Hook ${hookName} was either not provided or not a function.`);
         dispatch(actions.setLeaderboard(data2.leaderboard));
       }
       if ("entity" in data2) {
-        const entity = adapters.adaptOne(data2.entity.record);
+        const entity = adapters.adaptOne(state, data2.entity.record);
         const incidents = adapters.getIncidents(data2.entity.record);
-        const people = getPeopleFromIncidents(incidents);
+        const people = getPeopleFromIncidents(state, incidents);
         dispatch(set2(entity));
         dispatch(setAll2(incidents));
         dispatch(setAll3(people));
       }
       if ("entities" in data2) {
-        dispatch(setAll(data2.entities.records));
+        const entities = data2.entities.records.map((entity) => adapters.adaptOne(state, entity));
+        dispatch(setAll(entities));
         if ("pagination" in data2.entities) {
-          const ids = adapters.getIds(data2.entities.records);
+          const ids = adapters.getIds(entities);
           dispatch(setPageIds(ids));
           dispatch(setPagination(data2.entities.pagination));
         }
       }
       if ("incident" in data2) {
         const incident = adapters2.adaptOne(data2.incident.record);
-        const people = getPeopleFromIncidents([incident]);
+        const people = getPeopleFromIncidents(state, [incident]);
         dispatch(set3(incident));
         dispatch(setAll3(people));
       }
@@ -34671,17 +34695,18 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("person" in data2) {
-        const person = adapters3.adaptOne(data2.person.record);
+        const person = adapters3.adaptOne(state, data2.person.record);
         const incidents = adapters3.getIncidents(data2.person.record);
-        const people = getPeopleFromIncidents(incidents);
-        const entities = getEntitiesFromPerson(person);
+        const people = getPeopleFromIncidents(state, incidents);
+        const entities = getEntitiesFromPerson(state, person);
         dispatch(set4(person));
         dispatch(setAll2(incidents));
         dispatch(setAll3(people));
         dispatch(setAll(entities));
       }
       if ("people" in data2) {
-        dispatch(setAll3(data2.people.records));
+        const people = data2.people.records.map((person) => adapters3.adaptOne(state, person));
+        dispatch(setAll3(people));
         if ("pagination" in data2.people) {
           const ids = adapters3.getIds(data2.people.records);
           dispatch(setPageIds3(ids));
@@ -34689,17 +34714,18 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("source" in data2) {
-        const source = adapters4.adaptOne(data2.source.record);
+        const source = adapters4.adaptOne(state, data2.source.record);
         const incidents = adapters4.getIncidents(data2.source.record);
-        const people = getPeopleFromIncidents(incidents);
-        const entities = getEntitiesFromSource(data2.source.record);
+        const people = getPeopleFromIncidents(state, incidents);
+        const entities = getEntitiesFromSource(state, data2.source.record);
         dispatch(set5(source));
         dispatch(setAll2(incidents));
         dispatch(setAll3(people));
         dispatch(setAll(entities));
       }
       if ("sources" in data2) {
-        dispatch(setAll4(data2.sources.records));
+        const sources = data2.sources.records.map((source) => adapters4.adaptOne(state, source));
+        dispatch(setAll4(sources));
         if ("pagination" in data2.sources) {
           const ids = adapters4.getIds(data2.sources.records);
           dispatch(setPageIds4(ids));
