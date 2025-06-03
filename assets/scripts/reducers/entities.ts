@@ -26,17 +26,18 @@ export const selectors = adapter.getSelectors(getEntities);
 export const adapters = {
   adaptOne: (state: RootState, entry: EntityWithIncidentRecords): Entity => {
     const savedEntry = selectors.selectById(state, entry.id);
+    const adapted = { ...entry };
 
-    if ('incidents' in entry) {
+    if ('incidents' in adapted) {
       const {
         filters,
         pagination,
         records,
         stats,
-      } = entry.incidents;
+      } = adapted.incidents;
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
-      entry.incidents = {
+      adapted.incidents = {
         filters,
         pagination,
         stats,
@@ -45,13 +46,13 @@ export const adapters = {
     }
 
     if (savedEntry && 'overview' in savedEntry) {
-      entry.overview = {
+      adapted.overview = {
         ...savedEntry.overview,
-        ...entry.overview,
+        ...adapted.overview,
       };
     }
 
-    return camelcaseKeys(entry, { deep: false });
+    return camelcaseKeys(adapted, { deep: false });
   },
   getIds: (entities: Entities): Ids =>
     entities.map((entity: Entity) => entity.id),

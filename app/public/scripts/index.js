@@ -34281,15 +34281,16 @@ Hook ${hookName} was either not provided or not a function.`);
   var adapters = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors.selectById(state, entry.id);
-      if ("incidents" in entry) {
+      const adapted = { ...entry };
+      if ("incidents" in adapted) {
         const {
           filters,
           pagination,
           records,
           stats
-        } = entry.incidents;
+        } = adapted.incidents;
         const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        entry.incidents = {
+        adapted.incidents = {
           filters,
           pagination,
           stats,
@@ -34297,12 +34298,12 @@ Hook ${hookName} was either not provided or not a function.`);
         };
       }
       if (savedEntry && "overview" in savedEntry) {
-        entry.overview = {
+        adapted.overview = {
           ...savedEntry.overview,
-          ...entry.overview
+          ...adapted.overview
         };
       }
-      return camelcaseKeys(entry, { deep: false });
+      return camelcaseKeys(adapted, { deep: false });
     },
     getIds: (entities) => entities.map((entity) => entity.id),
     getIncidents: (entity) => entity.incidents?.records ?? []
@@ -34413,15 +34414,16 @@ Hook ${hookName} was either not provided or not a function.`);
   var adapters3 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors3.selectById(state, entry.id);
-      if ("incidents" in entry) {
+      const adapted = { ...entry };
+      if ("incidents" in adapted) {
         const {
           filters,
           pagination,
           records,
           stats
-        } = entry.incidents;
+        } = adapted.incidents;
         const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        entry.incidents = {
+        adapted.incidents = {
           filters,
           pagination,
           stats,
@@ -34429,12 +34431,12 @@ Hook ${hookName} was either not provided or not a function.`);
         };
       }
       if (savedEntry && "overview" in savedEntry) {
-        entry.overview = {
+        adapted.overview = {
           ...savedEntry.overview,
-          ...entry.overview
+          ...adapted.overview
         };
       }
-      return camelcaseKeys(entry, { deep: false });
+      return camelcaseKeys(adapted, { deep: false });
     },
     getIds: (people) => people.map((person) => person.id),
     getIncidents: (person) => person.incidents?.records ?? []
@@ -34475,15 +34477,16 @@ Hook ${hookName} was either not provided or not a function.`);
   var adapters4 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors4.selectById(state, entry.id);
-      if ("incidents" in entry) {
+      const adapted = { ...entry };
+      if ("incidents" in adapted) {
         const {
           filters,
           pagination,
           records,
           stats
-        } = entry.incidents;
+        } = adapted.incidents;
         const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        entry.incidents = {
+        adapted.incidents = {
           filters,
           pagination,
           stats,
@@ -34491,12 +34494,12 @@ Hook ${hookName} was either not provided or not a function.`);
         };
       }
       if (savedEntry && "overview" in savedEntry) {
-        entry.overview = {
+        adapted.overview = {
           ...savedEntry.overview,
-          ...entry.overview
+          ...adapted.overview
         };
       }
-      return camelcaseKeys(entry, { deep: false });
+      return camelcaseKeys(adapted, { deep: false });
     },
     getIds: (sources) => sources.map((source) => source.id),
     getIncidents: (source) => source.incidents?.records ?? []

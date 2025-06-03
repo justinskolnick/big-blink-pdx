@@ -21,17 +21,18 @@ export const selectors = adapter.getSelectors(getSources);
 export const adapters = {
   adaptOne: (state: RootState, entry: SourceWithIncidentRecords): Source => {
     const savedEntry = selectors.selectById(state, entry.id);
+    const adapted = { ...entry };
 
-    if ('incidents' in entry) {
+    if ('incidents' in adapted) {
       const {
         filters,
         pagination,
         records,
         stats,
-      } = entry.incidents;
+      } = adapted.incidents;
       const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
 
-      entry.incidents = {
+      adapted.incidents = {
         filters,
         pagination,
         stats,
@@ -40,13 +41,13 @@ export const adapters = {
     }
 
     if (savedEntry && 'overview' in savedEntry) {
-      entry.overview = {
+      adapted.overview = {
         ...savedEntry.overview,
-        ...entry.overview,
+        ...adapted.overview,
       };
     }
 
-    return camelcaseKeys(entry, { deep: false });
+    return camelcaseKeys(adapted, { deep: false });
   },
   getIds: (sources: Sources): Ids =>
     sources.map((source: Source) => source.id),
