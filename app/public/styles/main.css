@@ -1778,7 +1778,10 @@ body.has-alert .alert-root {
   transition: background-color 250ms ease-in-out;
 }
 .incident-modal .modal-content {
-  top: 54px;
+  top: calc(18px * 3);
+  top: calc(var(--gap) * 3);
+  max-height: calc(100% - 18px * 6);
+  max-height: calc(100% - var(--gap) * 6);
   right: 0;
 }
 .incident-modal .modal-incident {
@@ -1786,11 +1789,12 @@ body.has-alert .alert-root {
   --modal-incident-min-width: 400px;
   --incident-header-icon-size: 36px;
   --incident-space-size: 18px;
-  overflow: hidden;
+  overflow: auto;
   max-width: 500px;
   max-width: var(--modal-incident-max-width);
   min-width: 400px;
   min-width: var(--modal-incident-min-width);
+  max-height: calc(100vh - 54px - 54px);
   box-sizing: border-box;
   box-shadow: 3px 4px 9px cornflowerblue;
   box-shadow: 3px 4px 9px var(--color-blue);
@@ -1801,6 +1805,7 @@ body.has-alert .alert-root {
   transition: transform 250ms ease-in-out;
 }
 .incident-modal .modal-incident .incident-header {
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
@@ -1810,16 +1815,12 @@ body.has-alert .alert-root {
   background: linear-gradient(rgba(var(--color-background-rgb), 1) 50%, rgba(var(--color-background-rgb), 0) 100%);
 }
 .incident-modal .modal-incident .incident-main {
-  padding: 72px var(--incident-space-size) calc(53px + 18px) var(--incident-space-size);
-  padding: 72px var(--incident-space-size) calc(53px + var(--gap)) var(--incident-space-size);
-  height: calc(100% - 72px - 53px - 36px);
+  padding: calc(18px * 3.5) var(--incident-space-size) 18px var(--incident-space-size);
+  padding: calc(var(--gap) * 3.5) var(--incident-space-size) var(--gap) var(--incident-space-size);
+  max-height: calc(100% - 72px - 53px - 36px);
   overflow: auto;
 }
 .incident-modal .modal-incident .incident-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: var(--incident-space-size);
   background-color: gainsboro;
   background-color: var(--color-lighter);
