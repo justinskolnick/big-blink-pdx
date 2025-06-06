@@ -2,6 +2,10 @@
   h5 {
     display: flex;
     line-height: 27px;
+
+    .item-text {
+      line-height: 27px;
+    }
   }
 
   .activity-stat-group + .activity-stat-group {

@@ -47,4 +47,8 @@
   .item-description {
     color: var(--color-text-lighter);
   }
+
+  & + .item-subsection {
+    margin-top: var(--gap);
+  }
 }

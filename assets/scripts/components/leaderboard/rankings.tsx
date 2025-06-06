@@ -2,6 +2,7 @@ import React from 'react';
 
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
+import ItemSubsection from '../item-subsection';
 import ItemTable from '../item-table';
 import ItemTextWithIcon from '../item-text-with-icon';
 import LeaderboardMore from './more';
@@ -61,19 +62,21 @@ const Rankings = ({
       <LeaderboardSubsectionGroup>
         <ItemSubhead subtitle={labels.table.title} />
 
-        <ItemTable hasPercent labels={labels.table}>
-          {ids.map(id => (
-            <Item key={id} id={id} />
-          ))}
-        </ItemTable>
+        <ItemSubsection>
+          <ItemTable hasPercent labels={labels.table}>
+            {ids.map(id => (
+              <Item key={id} id={id} />
+            ))}
+          </ItemTable>
 
-        <LeaderboardMore>
-          <ItemTextWithIcon icon='link'>
-            <ItemsLink>
-              {labels.links.more}
-            </ItemsLink>
-          </ItemTextWithIcon>
-        </LeaderboardMore>
+          <LeaderboardMore>
+            <ItemTextWithIcon icon='link'>
+              <ItemsLink>
+                {labels.links.more}
+              </ItemsLink>
+            </ItemTextWithIcon>
+          </LeaderboardMore>
+        </ItemSubsection>
       </LeaderboardSubsectionGroup>
     </LeaderboardSubsection>
   );

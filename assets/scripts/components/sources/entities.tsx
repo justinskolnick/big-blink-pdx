@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+import { iconName } from '../entities/icon';
 
 import api from '../../services/api';
 
@@ -25,10 +26,9 @@ const Entities = ({ entities, source }: Props) => {
   }, [hasEntities, source, trigger]);
 
   return (
-    <IncidentActivityGroups title='Associated Entities'>
+    <IncidentActivityGroups title='Associated Entities' icon={iconName}>
       {entities ? (
         <IncidentActivityGroup
-          icon='briefcase'
           title={`These entities appear in ${source.title}`}
         >
           <AffiliatedEntitiesTable entities={entities} />

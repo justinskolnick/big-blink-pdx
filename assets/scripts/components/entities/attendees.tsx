@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+import { iconName } from '../people/icon';
 
 import api from '../../services/api';
 
@@ -31,12 +32,10 @@ const Attendees = ({
     <IncidentActivityGroups
       title='Associated Names'
       description={`These people appear in lobbying reports related to ${entity.name}${entity.name.endsWith('.') ? '' : '.'}`}
+      icon={iconName}
     >
       {attendees ? (
-        <IncidentActivityGroup
-          icon='building'
-          title={attendees.label}
-        >
+        <IncidentActivityGroup title={attendees.label}>
           <AffiliatedPeopleTable attendees={attendees.officials} />
           <AffiliatedPeopleTable attendees={attendees.lobbyists} />
         </IncidentActivityGroup>

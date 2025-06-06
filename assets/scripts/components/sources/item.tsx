@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../lib/store';
 
-import Icon from '../icon';
+import Icon from './icon';
 import ItemLink from './item-link';
 
 import { selectors } from '../../reducers/sources';
@@ -32,7 +32,7 @@ const Item = ({ id }: Props) => {
   return (
     <ItemLink item={source} className='item-source-quarter'>
       <div className='item-source-quarter-icon'>
-        <Icon name='database' />
+        <Icon />
       </div>
 
       <div className='item-source-quarter-description'>

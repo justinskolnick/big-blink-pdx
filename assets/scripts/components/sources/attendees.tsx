@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+import { iconName } from '../people/icon';
 
 import api from '../../services/api';
 
@@ -28,12 +29,9 @@ const Attendees = ({ attendees }: Props) => {
   }, [hasAttendees, numericId, trigger]);
 
   return (
-    <IncidentActivityGroups title='Associated Names'>
+    <IncidentActivityGroups title='Associated Names' icon={iconName}>
       {attendees ? (
-        <IncidentActivityGroup
-          icon='user-group'
-          title={attendees.label}
-        >
+        <IncidentActivityGroup title={attendees.label}>
           <AffiliatedPeopleTable attendees={attendees.officials} />
           <AffiliatedPeopleTable attendees={attendees.lobbyists} />
         </IncidentActivityGroup>

@@ -6,6 +6,7 @@ import { cx } from '@emotion/css';
 import { getQueryParams } from '../lib/links';
 import { RootState } from '../lib/store';
 
+import { iconName } from './incidents/icon';
 import ItemSubhead from './item-subhead';
 import { LinkToQueryParams } from './links';
 
@@ -324,6 +325,7 @@ const IncidentsHeader = ({
 }: IncidentsHeaderProps) => (
   <ItemSubhead
     className='incident-header'
+    icon={iconName}
     title='Incidents'
     subtitle={<PrimaryAssociation label={label} />}
   >

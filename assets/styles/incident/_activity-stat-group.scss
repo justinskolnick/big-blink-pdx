@@ -5,23 +5,20 @@
     grid-gap: var(--gap);
   }
 
-  .item-subhead + .item-subsection {
-    margin-top: var(--gap);
-  }
-
   .activity-stat-titles {
     font-size: 13px;
     font-weight: 200;
+
+    &:has(+ .activity-stat-value) {
+      margin-top: calc(var(--gap) / 3);
+      margin-bottom: calc(var(--gap) * 1.33333);
+    }
   }
 
   .activity-stat-value {
     table {
       width: 100%;
     }
-  }
-
-  .activity-stat-titles + .activity-stat-value {
-    margin-top: var(--gap);
   }
 
   @media screen and (max-width: 812px) {

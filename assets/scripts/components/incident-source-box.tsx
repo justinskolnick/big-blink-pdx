@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../lib/store';
 
 import { MetaSectionBox } from './meta-section';
+import { iconName } from './sources/icon';
 import ItemLink from './sources/item-link';
 
 import { selectors } from '../reducers/sources';
@@ -33,7 +34,7 @@ const IncidentSourceBox = ({ incident, title }: Props) => {
   return (
     <MetaSectionBox
       className='source-information-box'
-      icon='database'
+      icon={iconName}
       title={title}
     >
       <ItemLink item={source}>

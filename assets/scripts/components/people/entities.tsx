@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
+import { iconName } from '../entities/icon';
 
 import api from '../../services/api';
 
@@ -34,12 +35,12 @@ const Entities = ({ entities, person }: Props) => {
     <IncidentActivityGroups
       title='Associated Entities'
       description={`${person.name} is named in lobbying reports related to these entities.`}
+      icon={iconName}
     >
       {hasRecords ? (
         <>
           {isLobbyist && (
             <IncidentActivityGroup
-              icon='briefcase'
               title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`}
             >
               <AffiliatedEntitiesTable
@@ -51,7 +52,6 @@ const Entities = ({ entities, person }: Props) => {
           )}
           {isOfficial && (
             <IncidentActivityGroup
-              icon='landmark'
               title={`As a City official, ${person.name} was lobbied by representatives of these entities`}
             >
               <AffiliatedEntitiesTable entities={entities.asOfficial} />

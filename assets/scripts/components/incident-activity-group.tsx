@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
 import Icon from './icon';
+import ItemSubsection from './item-subsection';
 import StatGroup from './stat-group';
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
@@ -31,7 +32,7 @@ export const IncidentActivityGroup = ({
         </>
       }
     >
-      {children && <div className='item-subsection'>{children}</div>}
+      {children && <ItemSubsection>{children}</ItemSubsection>}
     </StatGroup>
   );
 };

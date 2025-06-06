@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import ItemDescription from './item-description';
@@ -9,6 +10,7 @@ interface Props {
   children: ReactNode;
   className?: string;
   description?: string | ReactNode;
+  icon?: IconName;
   stylized?: boolean;
   subtitle?: string | ReactNode;
   title?: string | ReactNode;
@@ -18,6 +20,7 @@ const StatSection = ({
   children,
   className,
   description,
+  icon,
   stylized = true,
   subtitle,
   title,
@@ -25,7 +28,7 @@ const StatSection = ({
   <section className={cx('activity-stat-section', className)}>
     {(title || subtitle) && (
       stylized ? (
-        <SubsectionSubhead title={title}>
+        <SubsectionSubhead title={title} icon={icon}>
           {description}
         </SubsectionSubhead>
       ) : (

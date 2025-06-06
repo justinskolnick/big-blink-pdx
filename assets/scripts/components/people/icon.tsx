@@ -20,6 +20,8 @@ enum TypeForIcon {
   unknown = 'circle-question',
 }
 
+export const iconName = TypeForIcon.group;
+
 const getIconName = (person?: Person) => TypeForIcon[person?.type ?? 'person'];
 
 const PeopleIcon = ({ person }: Props) => {

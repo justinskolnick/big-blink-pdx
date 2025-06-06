@@ -5,7 +5,7 @@ import { RootState } from '../lib/store';
 import { selectors } from '../reducers/incidents';
 import api from '../services/api';
 
-import Icon from './icon';
+import Icon from './incidents/icon';
 import IncidentNotesBox from './incident-notes-box';
 import IncidentTable from './incident-table';
 import ItemSubhead from './item-subhead';
@@ -43,7 +43,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
         <header className='incident-header'>
           <ItemSubhead title={(
             <>
-              <Icon name='thumbtack' />
+              <Icon />
               <span className='item-text'>
                 Lobbying Incident
               </span>

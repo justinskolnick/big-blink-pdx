@@ -1483,6 +1483,10 @@ body.has-alert .alert-root {
   color: gray;
   color: var(--color-text-lighter);
 }
+.item-subhead + .item-subsection {
+  margin-top: 18px;
+  margin-top: var(--gap);
+}
 .item-table {
   width: 100%;
 }

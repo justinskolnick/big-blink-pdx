@@ -1422,20 +1422,18 @@ body.has-alert .alert-root {
   grid-gap: 18px;
   grid-gap: var(--gap);
 }
-.incident-activity-stat-group .item-subhead + .item-subsection {
-  margin-top: 18px;
-  margin-top: var(--gap);
-}
 .incident-activity-stat-group .activity-stat-titles {
   font-size: 13px;
   font-weight: 200;
 }
+.incident-activity-stat-group .activity-stat-titles:has(+ .activity-stat-value) {
+  margin-top: calc(18px / 3);
+  margin-top: calc(var(--gap) / 3);
+  margin-bottom: calc(18px * 1.33333);
+  margin-bottom: calc(var(--gap) * 1.33333);
+}
 .incident-activity-stat-group .activity-stat-value table {
   width: 100%;
-}
-.incident-activity-stat-group .activity-stat-titles + .activity-stat-value {
-  margin-top: 18px;
-  margin-top: var(--gap);
 }
 @media screen and (max-width: 812px) {
   .incident-activity-stat-group .activity-stat-titles {
@@ -1450,6 +1448,9 @@ body.has-alert .alert-root {
 }
 .incident-activity-stat-groups h5 {
   display: flex;
+  line-height: 27px;
+}
+.incident-activity-stat-groups h5 .item-text {
   line-height: 27px;
 }
 .incident-activity-stat-groups .activity-stat-group + .activity-stat-group {
@@ -2151,6 +2152,10 @@ body.has-alert .alert-root {
 .item-subhead .item-description {
   color: gray;
   color: var(--color-text-lighter);
+}
+.item-subhead + .item-subsection {
+  margin-top: 18px;
+  margin-top: var(--gap);
 }
 .item-table {
   width: 100%;
