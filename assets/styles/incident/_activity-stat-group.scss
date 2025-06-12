@@ -7,11 +7,13 @@
 
   .activity-stat-titles {
     font-size: 13px;
-    font-weight: 200;
+    font-weight: 400;
+    line-height: 21px;
+    color: var(--color-text-lighter);
 
     &:has(+ .activity-stat-value) {
-      margin-top: calc(var(--gap) / 3);
-      margin-bottom: calc(var(--gap) * 1.33333);
+      margin-top: calc(var(--gap) / 6);
+      margin-bottom: var(--gap);
     }
   }
 

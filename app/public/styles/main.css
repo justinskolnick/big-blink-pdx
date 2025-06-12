@@ -1507,13 +1507,16 @@ body.has-alert .alert-root {
 }
 .incident-activity-stat-group .activity-stat-titles {
   font-size: 13px;
-  font-weight: 200;
+  font-weight: 400;
+  line-height: 21px;
+  color: gray;
+  color: var(--color-text-lighter);
 }
 .incident-activity-stat-group .activity-stat-titles:has(+ .activity-stat-value) {
-  margin-top: calc(18px / 3);
-  margin-top: calc(var(--gap) / 3);
-  margin-bottom: calc(18px * 1.33333);
-  margin-bottom: calc(var(--gap) * 1.33333);
+  margin-top: calc(18px / 6);
+  margin-top: calc(var(--gap) / 6);
+  margin-bottom: 18px;
+  margin-bottom: var(--gap);
 }
 .incident-activity-stat-group .activity-stat-value table {
   width: 100%;
