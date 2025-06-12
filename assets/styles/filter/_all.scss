@@ -1,0 +1,89 @@
+.filter {
+  min-height: 27px;
+}
+
+.filter-option {
+  color: var(--color-light);
+}
+
+.filter-label {
+  font-weight: 600;
+}
+
+.filter-link {
+  cursor: pointer;
+  color: var(--color-link);
+  font-weight: 600;
+
+  &:hover {
+    border-bottom: 1px solid var(--color-link);
+  }
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-text {
+  &:has(+ .filter-form-field) {
+    margin-right: calc(var(--gap) / 3);
+  }
+}
+
+.filter-form-field {
+  &[type="date"] {
+    margin-top: calc(var(--gap) / 6);
+    margin-bottom: calc(var(--gap) / 6);
+    font-family: inherit;
+    font-size: 12px;
+  }
+
+  &:has(+ .filter-text) {
+    margin-right: calc(var(--gap) / 3);
+  }
+}
+
+.filter-form-fieldset {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &:has(+ button) {
+    margin-right: calc(var(--gap) / 2);
+  }
+}
+
+.filter-form-button {
+  cursor: pointer;
+  border: none;
+}
+
+.filter-form-submit {
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: var(--color-link);
+  color: var(--color-background);
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+
+  &:has(+ .filter-form-cancel) {
+    margin-right: calc(var(--gap) / 2);
+  }
+}
+
+.filter-form-cancel {
+  background-color: transparent;
+}
+
+.filter-form-cancel,
+.filter-remove {
+  color: var(--color-danger);
+  font-weight: 600;
+
+  &:hover {
+    border-bottom-color: var(--color-danger);
+  }
+}

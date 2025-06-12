@@ -145,70 +145,79 @@ type SortParams = {
 
 export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & SortParams;
 
-type IncidentsFilterStringValue = string;
-export type IncidentsFiltersDatesActionValue = 'date-select' | 'date-range-select';
+export enum FiltersLabelTypes {
+  Id = 'id',
+  InputDate = 'input-date',
+  Label = 'label',
+  Link = 'link',
+  Text = 'text',
+}
 
-export type IncidentsFiltersLabelId = {
-  type: 'id';
+type FilterStringValue = string;
+
+export type FiltersDatesActionValue = 'date-select' | 'date-range-select';
+
+export type FiltersLabelId = {
+  type: FiltersLabelTypes.Id;
   value: Id;
 };
-type IncidentsFiltersLabelLabel = {
-  type: 'label';
-  value: IncidentsFilterStringValue;
+type FiltersLabelLabel = {
+  type: FiltersLabelTypes.Label;
+  value: FilterStringValue;
 };
-type IncidentsFiltersLabelLink = {
-  action: IncidentsFiltersDatesActionValue;
+type FiltersLabelLink = {
+  action: FiltersDatesActionValue;
   to: string;
-  type: 'link';
-  value: IncidentsFilterStringValue;
+  type: FiltersLabelTypes.Link;
+  value: FilterStringValue;
 };
-type IncidentsFiltersLabelText = {
-  type: 'text';
-  value: IncidentsFilterStringValue;
+type FiltersLabelText = {
+  type: FiltersLabelTypes.Text;
+  value: FilterStringValue;
 };
-export type IncidentsFiltersDateField = {
+export type FiltersDateField = {
   name: keyof DatesParams;
-  type: 'input-date';
-  value?: IncidentsFilterStringValue;
+  type: FiltersLabelTypes.InputDate;
+  value?: FilterStringValue;
 };
-export type IncidentsFiltersLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText | IncidentsFiltersDateField;
+export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField;
 
-type IncidentDateFilterLabel = IncidentsFiltersLabelLabel | IncidentsFiltersLabelLink | IncidentsFiltersLabelText;
-type IncidentsDateFilterFieldLabel = IncidentsFiltersDateField | IncidentsFiltersLabelText;
-export type IncidentModelIdFilterLabel = IncidentsFiltersLabelId | IncidentsFiltersLabelText;
+type DateFilterLabel = FiltersLabelLabel | FiltersLabelLink | FiltersLabelText;
+type DateFilterFieldLabel = FiltersDateField | FiltersLabelText;
+type ModelIdFilterLabel = FiltersLabelId | FiltersLabelText;
 
-type IncidentsFiltersDates = {
-  fields: Record<IncidentsFiltersDatesActionValue, IncidentsDateFilterFieldLabel[]> | undefined;
-  labels: IncidentDateFilterLabel[];
+type FiltersDates = {
+  fields: Record<FiltersDatesActionValue, DateFilterFieldLabel[]> | undefined;
+  labels: DateFilterLabel[];
   model: undefined;
   values?: DatesParams;
 };
-type IncidentsFiltersEntities = {
+type FiltersEntities = {
   fields: undefined;
-  labels: IncidentModelIdFilterLabel[];
+  labels: ModelIdFilterLabel[];
   model: Sections.Entities;
   values: EntitiesParams;
 };
-type IncidentsFiltersPeople = {
+type FiltersPeople = {
   fields: undefined;
-  labels: IncidentModelIdFilterLabel[];
+  labels: ModelIdFilterLabel[];
   model: Sections.People;
   values: PeopleParams;
 };
-type IncidentsFiltersQuarter = {
+type FiltersQuarter = {
   fields: undefined;
-  labels: IncidentsFiltersLabel[];
+  labels: FiltersLabel[];
   model: undefined;
   values: QuarterParams;
 };
-
-export type IncidentsFilters = {
-  dates: IncidentsFiltersDates;
-  entities?: IncidentsFiltersEntities;
-  people?: IncidentsFiltersPeople;
-  quarter?: IncidentsFiltersQuarter;
+export type Filters = {
+  dates?: FiltersDates;
+  entities?: FiltersEntities;
+  people?: FiltersPeople;
+  quarter?: FiltersQuarter;
 };
-export type IncidentsFiltersObjects = IncidentsFilters[keyof IncidentsFilters];
+
+export type FiltersObjects = Filters[keyof Filters];
 
 type LeaderboardColumnLabels = {
   name: string;
@@ -287,8 +296,8 @@ type IncidentsStats = {
   totals: IncidentStatsTotals;
 };
 
-export type IncidentsOverview = {
-  filters?: IncidentsFilters;
+type IncidentsOverview = {
+  filters?: Filters;
   stats: IncidentsStats;
 };
 

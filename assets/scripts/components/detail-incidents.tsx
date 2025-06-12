@@ -1,16 +1,17 @@
 import React from 'react';
 
-import IncidentsHeader, { Associations, AssociationFilter } from './incidents-header';
+import Filter, { Filters } from './filter';
+import IncidentsHeader from './incidents-header';
 import IncidentList from './incident-list';
 
 import type {
+  Filters as FiltersType,
   Ids,
-  IncidentsFilters,
   Pagination,
 } from '../types';
 
 interface Props {
-  filters?: IncidentsFilters;
+  filters?: FiltersType;
   hasSort?: boolean;
   ids: Ids;
   label: string;
@@ -28,12 +29,12 @@ const DetailIncidents = ({
 }: Props) => (
   <section className='activity-stat-section incident-list-section' ref={ref}>
     <IncidentsHeader label={label}>
-      <Associations>
-        <AssociationFilter filter={filters?.entities} />
-        <AssociationFilter filter={filters?.people} />
-        <AssociationFilter filter={filters?.quarter} />
-        <AssociationFilter filter={filters?.dates} />
-      </Associations>
+      <Filters className='incidents-filters'>
+        <Filter filter={filters?.entities} />
+        <Filter filter={filters?.people} />
+        <Filter filter={filters?.quarter} />
+        <Filter filter={filters?.dates} />
+      </Filters>
     </IncidentsHeader>
 
     <IncidentList

@@ -1416,6 +1416,89 @@ body.has-alert .alert-root {
   border-top: 1px solid gainsboro;
   border-top: 1px solid var(--color-divider);
 }
+.filter {
+  min-height: 27px;
+}
+.filter-option {
+  color: gray;
+  color: var(--color-light);
+}
+.filter-label {
+  font-weight: 600;
+}
+.filter-link {
+  cursor: pointer;
+  color: cornflowerblue;
+  color: var(--color-link);
+  font-weight: 600;
+}
+.filter-link:hover {
+  border-bottom: 1px solid cornflowerblue;
+  border-bottom: 1px solid var(--color-link);
+}
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-text:has(+ .filter-form-field) {
+  margin-right: calc(18px / 3);
+  margin-right: calc(var(--gap) / 3);
+}
+.filter-form-field[type=date] {
+  margin-top: calc(18px / 6);
+  margin-top: calc(var(--gap) / 6);
+  margin-bottom: calc(18px / 6);
+  margin-bottom: calc(var(--gap) / 6);
+  font-family: inherit;
+  font-size: 12px;
+}
+.filter-form-field:has(+ .filter-text) {
+  margin-right: calc(18px / 3);
+  margin-right: calc(var(--gap) / 3);
+}
+.filter-form-fieldset {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filter-form-fieldset:has(+ button) {
+  margin-right: calc(18px / 2);
+  margin-right: calc(var(--gap) / 2);
+}
+.filter-form-button {
+  cursor: pointer;
+  border: none;
+}
+.filter-form-submit {
+  padding: 6px 12px;
+  border-radius: 12px;
+  background-color: cornflowerblue;
+  background-color: var(--color-link);
+  color: snow;
+  color: var(--color-background);
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.filter-form-submit:has(+ .filter-form-cancel) {
+  margin-right: calc(18px / 2);
+  margin-right: calc(var(--gap) / 2);
+}
+.filter-form-cancel {
+  background-color: transparent;
+}
+.filter-form-cancel,
+.filter-remove {
+  color: crimson;
+  color: var(--color-danger);
+  font-weight: 600;
+}
+.filter-form-cancel:hover,
+.filter-remove:hover {
+  border-bottom-color: crimson;
+  border-bottom-color: var(--color-danger);
+}
 .incident-activity-stat-group .item-subsection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(261px, 1fr));
@@ -1495,89 +1578,6 @@ body.has-alert .alert-root {
 .incident-header h4,
 .incident-header h5 {
   display: inline;
-}
-.incident-header .incidents-association {
-  min-height: 27px;
-}
-.incident-header .incidents-association-option {
-  color: gray;
-  color: var(--color-light);
-}
-.incident-header .incidents-association-label {
-  font-weight: 600;
-}
-.incident-header .incidents-association-link {
-  cursor: pointer;
-  color: cornflowerblue;
-  color: var(--color-link);
-  font-weight: 600;
-}
-.incident-header .incidents-association-link:hover {
-  border-bottom: 1px solid cornflowerblue;
-  border-bottom: 1px solid var(--color-link);
-}
-.incident-header .incidents-association-form {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.incident-header .incidents-association-text:has(+ .incidents-association-form-field) {
-  margin-right: calc(18px / 3);
-  margin-right: calc(var(--gap) / 3);
-}
-.incident-header .incidents-association-form-field[type=date] {
-  margin-top: calc(18px / 6);
-  margin-top: calc(var(--gap) / 6);
-  margin-bottom: calc(18px / 6);
-  margin-bottom: calc(var(--gap) / 6);
-  font-family: inherit;
-  font-size: 12px;
-}
-.incident-header .incidents-association-form-field:has(+ .incidents-association-text) {
-  margin-right: calc(18px / 3);
-  margin-right: calc(var(--gap) / 3);
-}
-.incident-header .incidents-association-form-fieldset {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.incident-header .incidents-association-form-fieldset:has(+ button) {
-  margin-right: calc(18px / 2);
-  margin-right: calc(var(--gap) / 2);
-}
-.incident-header .incidents-association-form-button {
-  cursor: pointer;
-  border: none;
-}
-.incident-header .incidents-association-form-submit {
-  padding: 6px 12px;
-  border-radius: 12px;
-  background-color: cornflowerblue;
-  background-color: var(--color-link);
-  color: snow;
-  color: var(--color-background);
-  font-weight: bold;
-  font-size: 10px;
-  text-transform: uppercase;
-}
-.incident-header .incidents-association-form-submit:has(+ .incidents-association-form-cancel) {
-  margin-right: calc(18px / 2);
-  margin-right: calc(var(--gap) / 2);
-}
-.incident-header .incidents-association-form-cancel {
-  background-color: transparent;
-}
-.incident-header .incidents-association-form-cancel,
-.incident-header .incidents-association-remove {
-  color: crimson;
-  color: var(--color-danger);
-  font-weight: 600;
-}
-.incident-header .incidents-association-form-cancel:hover,
-.incident-header .incidents-association-remove:hover {
-  border-bottom-color: crimson;
-  border-bottom-color: var(--color-danger);
 }
 .incident-list {
   font-size: 12px;
