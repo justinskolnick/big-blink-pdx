@@ -103,7 +103,7 @@ router.get('/', async (req, res, next) => {
         view,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting incidents:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -169,7 +169,7 @@ router.get('/:id', async (req, res, next) => {
         view,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
       return next(createError(err));

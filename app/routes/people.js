@@ -130,7 +130,7 @@ router.get('/', async (req, res, next) => {
         view,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -252,7 +252,7 @@ router.get('/:id', async (req, res, next) => {
         warnings,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting person:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -317,7 +317,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       };
       meta = { id, view };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting person attendees:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -356,7 +356,7 @@ router.get('/:id/entities', async (req, res, next) => {
       };
       meta = { id, view };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting person entities:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -451,7 +451,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         warnings,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting person:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -482,7 +482,7 @@ router.get('/:id/stats', async (req, res, next) => {
       };
       meta = { id, view };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting person stats:', err.message); // eslint-disable-line no-console
       next(createError(err));

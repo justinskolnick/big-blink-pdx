@@ -47,7 +47,7 @@ router.get('/', async (req, res, next) => {
         },
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -71,7 +71,7 @@ router.get('/overview', async (req, res, next) => {
         },
       };
 
-      res.json({ data });
+      res.status(200).json({ data });
     } catch (err) {
       console.error('Error while getting overview:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -187,7 +187,7 @@ router.get('/leaderboard', async (req, res, next) => {
         },
       };
 
-      res.json({ data });
+      res.status(200).json({ data });
     } catch (err) {
       console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));

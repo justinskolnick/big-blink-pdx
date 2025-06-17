@@ -102,7 +102,7 @@ router.get('/', async (req, res, next) => {
         view,
       };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting sources:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -191,7 +191,7 @@ router.get('/:id', async (req, res, next) => {
         };
       }
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting source:', err.message); // eslint-disable-line no-console
       return next(createError(err));
@@ -237,7 +237,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       };
       meta = { id, view };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting source attendees:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -271,7 +271,7 @@ router.get('/:id/entities', async (req, res, next) => {
       };
       meta = { id, view };
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting source entities:', err.message); // eslint-disable-line no-console
       next(createError(err));
@@ -371,7 +371,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         meta = {};
       }
 
-      res.json({ title, data, meta });
+      res.status(200).json({ title, data, meta });
     } catch (err) {
       console.error('Error while getting source:', err.message); // eslint-disable-line no-console
       next(createError(err));

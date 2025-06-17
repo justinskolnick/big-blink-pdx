@@ -17,6 +17,7 @@ const sourcesRouter = require('./routes/sources');
 
 const app = express();
 
+
 const errorCodes = {
   404: 'Not Found',
   422: 'Unprocessable Content',
@@ -74,7 +75,7 @@ app.use((err, req, res, next) => { // eslint-disable-line @typescript-eslint/no-
   res.locals.error = error;
 
   if (req.get('Content-Type') === headers.json) {
-    res.json({ meta: { errors: [error] } });
+    res.status(200).json({ meta: { errors: [error] } });
   } else {
     res.status(err.status || 500);
     res.render('error', { robots: headers.robots });

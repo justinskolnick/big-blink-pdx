@@ -7,9 +7,9 @@
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __commonJS = (cb, mod) => function __require() {
+  var __commonJS = (cb, mod) => (function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
+  });
   var __copyProps = (to2, from3, except, desc) => {
     if (from3 && typeof from3 === "object" || typeof from3 === "function") {
       for (let key of __getOwnPropNames(from3))
@@ -892,7 +892,7 @@
             ReactSharedInternals.thrownErrors.push(error);
           }
           if (0 < ReactSharedInternals.thrownErrors.length)
-            throw popActScope(prevActQueue, prevActScopeDepth), callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2;
+            throw (popActScope(prevActQueue, prevActScopeDepth), callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2);
           if (null !== result && "object" === typeof result && "function" === typeof result.then) {
             var thenable = result;
             queueSeveralMicrotasks(function() {
@@ -945,7 +945,7 @@
             ));
           }), ReactSharedInternals.actQueue = null);
           if (0 < ReactSharedInternals.thrownErrors.length)
-            throw callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2;
+            throw (callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2);
           return {
             then: function(resolve2, reject) {
               didAwaitActCall = true;
@@ -1039,9 +1039,9 @@
           i = {};
           node2 = null;
           if (null != config2)
-            for (propName in didWarnAboutOldJSXRuntime || !("__self" in config2) || "key" in config2 || (didWarnAboutOldJSXRuntime = true, console.warn(
+            for (propName in (didWarnAboutOldJSXRuntime || !("__self" in config2) || "key" in config2 || (didWarnAboutOldJSXRuntime = true, console.warn(
               "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
-            )), hasValidKey(config2) && (checkKeyStringCoercion(config2.key), node2 = "" + config2.key), config2)
+            )), hasValidKey(config2) && (checkKeyStringCoercion(config2.key), node2 = "" + config2.key), config2))
               hasOwnProperty.call(config2, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config2[propName]);
           var childrenLength = arguments.length - 2;
           if (1 === childrenLength) i.children = children;
@@ -1052,7 +1052,7 @@
             i.children = childArray;
           }
           if (type && type.defaultProps)
-            for (propName in childrenLength = type.defaultProps, childrenLength)
+            for (propName in (childrenLength = type.defaultProps, childrenLength))
               void 0 === i[propName] && (i[propName] = childrenLength[propName]);
           node2 && defineKeyPropWarningGetter(
             i,
@@ -4227,9 +4227,9 @@
         }
         function getRootForUpdatedFiber(sourceFiber) {
           if (nestedUpdateCount > NESTED_UPDATE_LIMIT)
-            throw nestedPassiveUpdateCount = nestedUpdateCount = 0, rootWithPassiveNestedUpdates = rootWithNestedUpdates = null, Error(
+            throw (nestedPassiveUpdateCount = nestedUpdateCount = 0, rootWithPassiveNestedUpdates = rootWithNestedUpdates = null, Error(
               "Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
-            );
+            ));
           nestedPassiveUpdateCount > NESTED_PASSIVE_UPDATE_LIMIT && (nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null, console.error(
             "Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render."
           ));
@@ -5053,7 +5053,7 @@
             case "fulfilled":
               return thenable.value;
             case "rejected":
-              throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
+              throw (thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2);
             default:
               if ("string" === typeof thenable.status)
                 thenable.then(noop$3, noop$3);
@@ -5086,7 +5086,7 @@
                 case "fulfilled":
                   return thenable.value;
                 case "rejected":
-                  throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
+                  throw (thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2);
               }
               suspendedThenable = thenable;
               needsToResetSuspendedThenableDEV = true;
@@ -8388,14 +8388,14 @@
               if (null !== JSCompiler_object_inline_digest_2451 && (JSCompiler_object_inline_stack_2452 = renderLanes2 & -renderLanes2, JSCompiler_object_inline_stack_2452 = 0 !== (JSCompiler_object_inline_stack_2452 & 42) ? 1 : getBumpedLaneForHydrationByLane(
                 JSCompiler_object_inline_stack_2452
               ), JSCompiler_object_inline_stack_2452 = 0 !== (JSCompiler_object_inline_stack_2452 & (JSCompiler_object_inline_digest_2451.suspendedLanes | renderLanes2)) ? 0 : JSCompiler_object_inline_stack_2452, 0 !== JSCompiler_object_inline_stack_2452 && JSCompiler_object_inline_stack_2452 !== prevState.retryLane))
-                throw prevState.retryLane = JSCompiler_object_inline_stack_2452, enqueueConcurrentRenderForLane(
+                throw (prevState.retryLane = JSCompiler_object_inline_stack_2452, enqueueConcurrentRenderForLane(
                   current3,
                   JSCompiler_object_inline_stack_2452
                 ), scheduleUpdateOnFiber(
                   JSCompiler_object_inline_digest_2451,
                   current3,
                   JSCompiler_object_inline_stack_2452
-                ), SelectiveHydrationException;
+                ), SelectiveHydrationException);
               JSCompiler_object_inline_message_2450.data === SUSPENSE_PENDING_START_DATA || renderDidSuspendDelayIfPossible();
               workInProgress2 = retrySuspenseComponentWithoutHydrating(
                 current3,
@@ -9206,7 +9206,7 @@
           else if (workInProgress2.flags |= 16777216, !preloadResource(resource)) {
             resource = suspenseHandlerStackCursor.current;
             if (null !== resource && ((workInProgressRootRenderLanes & 4194048) === workInProgressRootRenderLanes ? null !== shellBoundary : (workInProgressRootRenderLanes & 62914560) !== workInProgressRootRenderLanes && 0 === (workInProgressRootRenderLanes & 536870912) || resource !== shellBoundary))
-              throw suspendedThenable = noopSuspenseyCommitThenable, SuspenseyCommitException;
+              throw (suspendedThenable = noopSuspenseyCommitThenable, SuspenseyCommitException);
             workInProgress2.flags |= 8192;
           }
         }
@@ -12171,7 +12171,7 @@
               return;
             }
           } catch (error) {
-            if (null !== returnFiber) throw workInProgress = returnFiber, error;
+            if (null !== returnFiber) throw (workInProgress = returnFiber, error);
             workInProgressRootExitStatus = RootFatalErrored;
             logUncaughtError(
               root2,
@@ -15520,15 +15520,15 @@
                   );
                 }
                 if (currentProps && null === currentResource)
-                  throw pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
+                  throw (pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
                     "Expected <link> not to update to be updated to a stylesheet with precedence. Check the `rel`, `href`, and `precedence` props of this component. Alternatively, check whether two different <link> components render in the same slot or share the same key." + pendingProps
-                  );
+                  ));
                 return _resource;
               }
               if (currentProps && null !== currentResource)
-                throw pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
+                throw (pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
                   "Expected stylesheet with precedence to not be updated to a different kind of <link>. Check the `rel`, `href`, and `precedence` props of this component. Alternatively, check whether two different <link> components render in the same slot or share the same key." + pendingProps
-                );
+                ));
               return null;
             case "script":
               return currentProps = pendingProps.async, pendingProps = pendingProps.src, "string" === typeof pendingProps && currentProps && "function" !== typeof currentProps && "symbol" !== typeof currentProps ? (pendingProps = getScriptKey(pendingProps), currentProps = getResourcesFromRoot(resourceRoot).hoistableScripts, currentResource = currentProps.get(pendingProps), currentResource || (currentResource = {
@@ -21041,7 +21041,7 @@
   var ContextKey = /* @__PURE__ */ Symbol.for(`react-redux-context`);
   var gT = typeof globalThis !== "undefined" ? globalThis : (
     /* fall back to a per-module scope (pre-8.1 behaviour) if `globalThis` is not available */
-    {}
+    ({})
   );
   function getContext() {
     if (!React.createContext) return {};
@@ -21110,7 +21110,7 @@
   function createStoreHook(context = ReactReduxContext) {
     const useReduxContext2 = context === ReactReduxContext ? useReduxContext : (
       // @ts-ignore
-      createReduxContextHook(context)
+      (createReduxContextHook(context))
     );
     const useStore2 = () => {
       const { store: store2 } = useReduxContext2();
@@ -21231,7 +21231,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-AYJ5UCUI.mjs
+  // node_modules/react-router/dist/development/chunk-NL6KNZEE.mjs
   var React3 = __toESM(require_react(), 1);
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
@@ -21304,7 +21304,7 @@
       pathname: typeof current2 === "string" ? current2 : current2.pathname,
       search: "",
       hash: "",
-      ...typeof to2 === "string" ? parsePath(to2) : to2,
+      ...(typeof to2 === "string" ? parsePath(to2) : to2),
       state,
       // TODO: This could be cleaned up.  push/replace should probably just take
       // full Locations now and avoid the need to run through this flow at all
@@ -21399,14 +21399,7 @@
       }
     }
     function createURL(to2) {
-      let base = window2.location.origin !== "null" ? window2.location.origin : window2.location.href;
-      let href2 = typeof to2 === "string" ? to2 : createPath(to2);
-      href2 = href2.replace(/ $/, "%20");
-      invariant(
-        base,
-        `No window.location.(origin|href) available to create URL for href: ${href2}`
-      );
-      return new URL(href2, base);
+      return createBrowserURLImpl(to2);
     }
     let history = {
       get action() {
@@ -21445,6 +21438,19 @@
       }
     };
     return history;
+  }
+  function createBrowserURLImpl(to2, isAbsolute = false) {
+    let base = "http://localhost";
+    if (typeof window !== "undefined") {
+      base = window.location.origin !== "null" ? window.location.origin : window.location.href;
+    }
+    invariant(base, "No window.location.(origin|href) available to create URL");
+    let href2 = typeof to2 === "string" ? to2 : createPath(to2);
+    href2 = href2.replace(/ $/, "%20");
+    if (!isAbsolute && href2.startsWith("//")) {
+      href2 = base + href2;
+    }
+    return new URL(href2, base);
   }
   var _map;
   var unstable_RouterContextProvider = class {
@@ -21677,11 +21683,11 @@
       // first. This allows people to have fine-grained control over the matching
       // behavior by simply putting routes with identical paths in the order they
       // want them tried.
-      a[a.length - 1] - b[b.length - 1]
+      (a[a.length - 1] - b[b.length - 1])
     ) : (
       // Otherwise, it doesn't really make sense to rank non-siblings by index,
       // so they sort equally.
-      0
+      (0)
     );
   }
   function matchRouteBranch(branch, pathname, allowPartial = false) {
@@ -21997,53 +22003,57 @@
     let initialMatches = matchRoutes(dataRoutes, init.history.location, basename);
     let initialMatchesIsFOW = false;
     let initialErrors = null;
+    let initialized;
     if (initialMatches == null && !init.patchRoutesOnNavigation) {
       let error = getInternalRouterError(404, {
         pathname: init.history.location.pathname
       });
       let { matches: matches2, route } = getShortCircuitMatches(dataRoutes);
+      initialized = true;
       initialMatches = matches2;
       initialErrors = { [route.id]: error };
-    }
-    if (initialMatches && !init.hydrationData) {
-      let fogOfWar = checkFogOfWar(
-        initialMatches,
-        dataRoutes,
-        init.history.location.pathname
-      );
-      if (fogOfWar.active) {
-        initialMatches = null;
-      }
-    }
-    let initialized;
-    if (!initialMatches) {
-      initialized = false;
-      initialMatches = [];
-      let fogOfWar = checkFogOfWar(
-        null,
-        dataRoutes,
-        init.history.location.pathname
-      );
-      if (fogOfWar.active && fogOfWar.matches) {
-        initialMatchesIsFOW = true;
-        initialMatches = fogOfWar.matches;
-      }
-    } else if (initialMatches.some((m) => m.route.lazy)) {
-      initialized = false;
-    } else if (!initialMatches.some((m) => m.route.loader)) {
-      initialized = true;
     } else {
-      let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
-      let errors2 = init.hydrationData ? init.hydrationData.errors : null;
-      if (errors2) {
-        let idx = initialMatches.findIndex(
-          (m) => errors2[m.route.id] !== void 0
+      if (initialMatches && !init.hydrationData) {
+        let fogOfWar = checkFogOfWar(
+          initialMatches,
+          dataRoutes,
+          init.history.location.pathname
         );
-        initialized = initialMatches.slice(0, idx + 1).every((m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors2));
+        if (fogOfWar.active) {
+          initialMatches = null;
+        }
+      }
+      if (!initialMatches) {
+        initialized = false;
+        initialMatches = [];
+        let fogOfWar = checkFogOfWar(
+          null,
+          dataRoutes,
+          init.history.location.pathname
+        );
+        if (fogOfWar.active && fogOfWar.matches) {
+          initialMatchesIsFOW = true;
+          initialMatches = fogOfWar.matches;
+        }
+      } else if (initialMatches.some((m) => m.route.lazy)) {
+        initialized = false;
+      } else if (!initialMatches.some((m) => m.route.loader)) {
+        initialized = true;
       } else {
-        initialized = initialMatches.every(
-          (m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors2)
-        );
+        let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
+        let errors2 = init.hydrationData ? init.hydrationData.errors : null;
+        if (errors2) {
+          let idx = initialMatches.findIndex(
+            (m) => errors2[m.route.id] !== void 0
+          );
+          initialized = initialMatches.slice(0, idx + 1).every(
+            (m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors2)
+          );
+        } else {
+          initialized = initialMatches.every(
+            (m) => !shouldLoadRouteOnHydration(m.route, loaderData, errors2)
+          );
+        }
       }
     }
     let router2;
@@ -22393,7 +22403,7 @@
       let loadingNavigation = opts && opts.overrideNavigation;
       let matches2 = opts?.initialHydration && state.matches && state.matches.length > 0 && !initialMatchesIsFOW ? (
         // `matchRoutes()` has already been called if we're in here via `router.initialize()`
-        state.matches
+        (state.matches)
       ) : matchRoutes(routesToUse, location2, basename);
       let flushSync = (opts && opts.flushSync) === true;
       if (matches2 && state.initialized && !isRevalidationRequired && isHashChangeOnly(state.location, location2) && !(opts && opts.submission && isMutationMethod(opts.submission.formMethod))) {
@@ -22635,7 +22645,7 @@
           updateState(
             {
               navigation: loadingNavigation,
-              ...actionData !== void 0 ? { actionData } : {}
+              ...(actionData !== void 0 ? { actionData } : {})
             },
             {
               flushSync
@@ -22693,6 +22703,7 @@
         fetchRedirectIds,
         routesToUse,
         basename,
+        init.patchRoutesOnNavigation != null,
         pendingActionResult
       );
       pendingNavigationLoadId = ++incrementingLoadId;
@@ -22706,7 +22717,7 @@
             // Commit pending error if we're short circuiting
             errors: pendingActionResult && isErrorResult(pendingActionResult[1]) ? { [pendingActionResult[0]]: pendingActionResult[1].error } : null,
             ...getActionDataForCommit(pendingActionResult),
-            ...updatedFetchers2 ? { fetchers: new Map(state.fetchers) } : {}
+            ...(updatedFetchers2 ? { fetchers: new Map(state.fetchers) } : {})
           },
           { flushSync }
         );
@@ -22788,7 +22799,7 @@
         matches: matches2,
         loaderData,
         errors: errors2,
-        ...shouldUpdateFetchers ? { fetchers: new Map(state.fetchers) } : {}
+        ...(shouldUpdateFetchers ? { fetchers: new Map(state.fetchers) } : {})
       };
     }
     function getUpdatedActionData(pendingActionResult) {
@@ -23022,6 +23033,7 @@
         fetchRedirectIds,
         routesToUse,
         basename,
+        init.patchRoutesOnNavigation != null,
         [match2.route.id, actionResult]
       );
       revalidatingFetchers.filter((rf) => rf.key !== key).forEach((rf) => {
@@ -23059,6 +23071,10 @@
       fetchReloadIds.delete(key);
       fetchControllers.delete(key);
       revalidatingFetchers.forEach((r2) => fetchControllers.delete(r2.key));
+      if (state.fetchers.has(key)) {
+        let doneFetcher = getDoneFetcher(actionResult.data);
+        state.fetchers.set(key, doneFetcher);
+      }
       let redirect2 = findRedirect(loaderResults);
       if (redirect2) {
         return startRedirectNavigation(
@@ -23086,10 +23102,6 @@
         revalidatingFetchers,
         fetcherResults
       );
-      if (state.fetchers.has(key)) {
-        let doneFetcher = getDoneFetcher(actionResult.data);
-        state.fetchers.set(key, doneFetcher);
-      }
       abortStaleFetchLoads(loadId);
       if (state.navigation.state === "loading" && loadId > pendingNavigationLoadId) {
         invariant(pendingAction, "Expected pending action");
@@ -23225,7 +23237,7 @@
         if (redirect2.response.headers.has("X-Remix-Reload-Document")) {
           isDocumentReload = true;
         } else if (ABSOLUTE_URL_REGEX.test(location2)) {
-          const url = init.history.createURL(location2);
+          const url = createBrowserURLImpl(location2, true);
           isDocumentReload = // Hard reload if it's an absolute URL to a new origin
           url.origin !== routerWindow.location.origin || // Hard reload if it's an absolute URL that does not match our basename
           stripBasename(url.pathname, basename) == null;
@@ -23290,6 +23302,9 @@
             error: e
           };
         });
+        return dataResults;
+      }
+      if (request.signal.aborted) {
         return dataResults;
       }
       for (let [routeId, result] of Object.entries(results)) {
@@ -23759,11 +23774,8 @@
         }
         let text2 = typeof opts.body === "string" ? opts.body : opts.body instanceof FormData || opts.body instanceof URLSearchParams ? (
           // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#plain-text-form-data
-          Array.from(opts.body.entries()).reduce(
-            (acc, [name, value]) => `${acc}${name}=${value}
-`,
-            ""
-          )
+          (Array.from(opts.body.entries()).reduce((acc, [name, value]) => `${acc}${name}=${value}
+`, ""))
         ) : String(opts.body);
         return {
           path,
@@ -23842,7 +23854,7 @@
     parsedPath.search = `?${searchParams}`;
     return { path: createPath(parsedPath), submission };
   }
-  function getMatchesToLoad(request, scopedContext, mapRouteProperties2, manifest, history, state, matches2, submission, location2, lazyRoutePropertiesToSkip, initialHydration, isRevalidationRequired, cancelledFetcherLoads, fetchersQueuedForDeletion, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, pendingActionResult) {
+  function getMatchesToLoad(request, scopedContext, mapRouteProperties2, manifest, history, state, matches2, submission, location2, lazyRoutePropertiesToSkip, initialHydration, isRevalidationRequired, cancelledFetcherLoads, fetchersQueuedForDeletion, fetchLoadMatches, fetchRedirectIds, routesToUse, basename, hasPatchRoutesOnNavigation, pendingActionResult) {
     let actionResult = pendingActionResult ? isErrorResult(pendingActionResult[1]) ? pendingActionResult[1].error : pendingActionResult[1].data : void 0;
     let currentUrl = history.createURL(state.location);
     let nextUrl = history.createURL(location2);
@@ -23896,8 +23908,8 @@
       }
       let defaultShouldRevalidate = shouldSkipRevalidation ? false : (
         // Forced revalidation due to submission, useRevalidator, or X-Remix-Revalidate
-        isRevalidationRequired || currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
-        currentUrl.search !== nextUrl.search || isNewRouteInstance(state.matches[index], match2)
+        (isRevalidationRequired || currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
+        currentUrl.search !== nextUrl.search || isNewRouteInstance(state.matches[index], match2))
       );
       let shouldRevalidateArgs = {
         ...baseShouldRevalidateArgs,
@@ -23920,8 +23932,13 @@
       if (initialHydration || !matches2.some((m) => m.route.id === f.routeId) || fetchersQueuedForDeletion.has(key)) {
         return;
       }
+      let fetcher = state.fetchers.get(key);
+      let isMidInitialLoad = fetcher && fetcher.state !== "idle" && fetcher.data === void 0;
       let fetcherMatches = matchRoutes(routesToUse, f.path, basename);
       if (!fetcherMatches) {
+        if (hasPatchRoutesOnNavigation && isMidInitialLoad) {
+          return;
+        }
         revalidatingFetchers.push({
           key,
           routeId: f.routeId,
@@ -23936,7 +23953,6 @@
       if (fetchRedirectIds.has(key)) {
         return;
       }
-      let fetcher = state.fetchers.get(key);
       let fetcherMatch = getTargetMatch(fetcherMatches, f.path);
       let fetchController = new AbortController();
       let fetchRequest = createClientSideRequest(
@@ -23956,7 +23972,7 @@
           lazyRoutePropertiesToSkip,
           scopedContext
         );
-      } else if (fetcher && fetcher.state !== "idle" && fetcher.data === void 0) {
+      } else if (isMidInitialLoad) {
         if (isRevalidationRequired) {
           fetcherDsMatches = getTargetedDataStrategyMatches(
             mapRouteProperties2,
@@ -24007,7 +24023,7 @@
     if (!route.loader) {
       return false;
     }
-    let hasData = loaderData != null && loaderData[route.id] !== void 0;
+    let hasData = loaderData != null && route.id in loaderData;
     let hasError = errors2 != null && errors2[route.id] !== void 0;
     if (!hasData && hasError) {
       return false;
@@ -24020,8 +24036,8 @@
   function isNewLoader(currentLoaderData, currentMatch, match2) {
     let isNew = (
       // [a] -> [a, b]
-      !currentMatch || // [a, b] -> [a, c]
-      match2.route.id !== currentMatch.route.id
+      (// [a, b] -> [a, c]
+      (!currentMatch || match2.route.id !== currentMatch.route.id))
     );
     let isMissingData = !currentLoaderData.hasOwnProperty(match2.route.id);
     return isNew || isMissingData;
@@ -24030,9 +24046,9 @@
     let currentPath = currentMatch.route.path;
     return (
       // param change for this match, /users/123 -> /users/456
-      currentMatch.pathname !== match2.pathname || // splat param changed, which is not present in match.path
+      // splat param changed, which is not present in match.path
       // e.g. /files/images/avatar.jpg -> files/finances.xls
-      currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match2.params["*"]
+      (currentMatch.pathname !== match2.pathname || currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match2.params["*"])
     );
   }
   function shouldRevalidateLoader(loaderMatch, arg) {
@@ -24523,7 +24539,7 @@
             params: match2.params,
             context: scopedContext
           },
-          ...ctx !== void 0 ? [ctx] : []
+          ...(ctx !== void 0 ? [ctx] : [])
         );
       };
       let handlerPromise = (async () => {
@@ -25306,7 +25322,7 @@
       // router loaded. We can help them understand how to avoid that.
       `useRoutes() may be used only in the context of a <Router> component.`
     );
-    let { navigator: navigator2, static: isStatic } = React22.useContext(NavigationContext);
+    let { navigator: navigator2 } = React22.useContext(NavigationContext);
     let { matches: parentMatches } = React22.useContext(RouteContext);
     let routeMatch = parentMatches[parentMatches.length - 1];
     let parentParams = routeMatch ? routeMatch.params : {};
@@ -25342,7 +25358,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       let segments = pathname.replace(/^\//, "").split("/");
       remainingPathname = "/" + segments.slice(parentSegments.length).join("/");
     }
-    let matches2 = !isStatic && dataRouterState && dataRouterState.matches && dataRouterState.matches.length > 0 ? dataRouterState.matches : matchRoutes(routes, { pathname: remainingPathname });
+    let matches2 = matchRoutes(routes, { pathname: remainingPathname });
     if (ENABLE_DEV_WARNINGS) {
       warning(
         parentRoute || matches2 != null,
@@ -25685,7 +25701,6 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       console.warn(message);
     }
   }
-  var ENABLE_DEV_WARNINGS2 = true;
   function mapRouteProperties(route) {
     let updates = {
       // Note: this check also occurs in createRoutesFromChildren so update
@@ -25693,7 +25708,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       hasErrorBoundary: route.hasErrorBoundary || route.ErrorBoundary != null || route.errorElement != null
     };
     if (route.Component) {
-      if (ENABLE_DEV_WARNINGS2) {
+      if (ENABLE_DEV_WARNINGS) {
         if (route.element) {
           warning(
             false,
@@ -25707,7 +25722,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       });
     }
     if (route.HydrateFallback) {
-      if (ENABLE_DEV_WARNINGS2) {
+      if (ENABLE_DEV_WARNINGS) {
         if (route.hydrateFallbackElement) {
           warning(
             false,
@@ -25721,7 +25736,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       });
     }
     if (route.ErrorBoundary) {
-      if (ENABLE_DEV_WARNINGS2) {
+      if (ENABLE_DEV_WARNINGS) {
         if (route.errorElement) {
           warning(
             false,
@@ -26190,9 +26205,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     let matchPathChanged = (match2, index) => {
       return (
         // param change, /users/123 -> /users/456
-        currentMatches[index].pathname !== match2.pathname || // splat param changed, which is not present in match.path
+        // splat param changed, which is not present in match.path
         // e.g. /files/images/avatar.jpg -> files/finances.xls
-        currentMatches[index].route.path?.endsWith("*") && currentMatches[index].params["*"] !== match2.params["*"]
+        (currentMatches[index].pathname !== match2.pathname || currentMatches[index].route.path?.endsWith("*") && currentMatches[index].params["*"] !== match2.params["*"])
       );
     };
     if (mode === "assets") {
@@ -26278,6 +26293,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       return deduped;
     }, []);
   }
+  var objectProtoNames = Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
   var SingleFetchRedirectSymbol = Symbol("SingleFetchRedirect");
   var NO_BODY_STATUS_CODES = /* @__PURE__ */ new Set([100, 101, 204, 205]);
   function singleFetchUrl(reqUrl, basename) {
@@ -26496,11 +26512,19 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       [newMatchesForAssets, manifest]
     );
     let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
-    return /* @__PURE__ */ React9.createElement(React9.Fragment, null, dataHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "prefetch", as: "fetch", href: href2, ...linkProps })), moduleHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "modulepreload", href: href2, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
-      // these don't spread `linkProps` because they are full link descriptors
-      // already with their own props
-      /* @__PURE__ */ React9.createElement("link", { key, ...link })
-    )));
+    return (
+      /* @__PURE__ */ (React9.createElement(
+        React9.Fragment,
+        null,
+        dataHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "prefetch", as: "fetch", href: href2, ...linkProps })),
+        moduleHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "modulepreload", href: href2, ...linkProps })),
+        keyedPrefetchLinks.map(({ key, link }) => (
+            // these don't spread `linkProps` because they are full link descriptors
+            // already with their own props
+            /* @__PURE__ */ (React9.createElement("link", { key, ...link }))
+          ))
+      ))
+    );
   }
   function mergeRefs(...refs) {
     return (value) => {
@@ -26516,7 +26540,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   try {
     if (isBrowser) {
-      window.__reactRouterVersion = "7.5.3";
+      window.__reactRouterVersion = "7.6.2";
     }
   } catch (e) {
   }
@@ -26669,18 +26693,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
       let link = (
         // eslint-disable-next-line jsx-a11y/anchor-has-content
-        /* @__PURE__ */ React10.createElement(
-          "a",
-          {
-            ...rest,
-            ...prefetchHandlers,
-            href: absoluteHref || href2,
-            onClick: isExternal || reloadDocument ? onClick : handleClick,
-            ref: mergeRefs(forwardedRef, prefetchRef),
-            target,
-            "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
-          }
-        )
+        /* @__PURE__ */ (React10.createElement("a", {
+        ...rest,
+        ...prefetchHandlers,
+        href: absoluteHref || href2,
+        onClick: isExternal || reloadDocument ? onClick : handleClick,
+        ref: mergeRefs(forwardedRef, prefetchRef),
+        target,
+        "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
+      }))
       );
       return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ React10.createElement(React10.Fragment, null, link, /* @__PURE__ */ React10.createElement(PrefetchPageLinks, { page: href2 })) : link;
     }
@@ -26927,10 +26948,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         // Only merge in the defaults if we haven't yet called setSearchParams.
         // Once we call that we want those to take precedence, otherwise you can't
         // remove a param with setSearchParams({}) if it has an initial value
-        getSearchParamsForLocation(
+        (getSearchParamsForLocation(
           location2.search,
           hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
-        )
+        ))
       ),
       [location2.search]
     );
@@ -27153,7 +27174,6 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     let nextPath = stripBasename(vtContext.nextLocation.pathname, basename) || vtContext.nextLocation.pathname;
     return matchPath(path.pathname, nextPath) != null || matchPath(path.pathname, currentPath) != null;
   }
-  var encoder = new TextEncoder();
   var SERVER_NO_BODY_STATUS_CODES = /* @__PURE__ */ new Set([
     ...NO_BODY_STATUS_CODES,
     304
@@ -27979,7 +27999,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return desc ? `value` in desc ? desc.value : (
       // This is a very special case, if the prop is a getter defined by the
       // prototype, we should invoke it with the draft as context!
-      desc.get?.call(state.draft_)
+      (desc.get?.call(state.draft_))
     ) : void 0;
   }
   function getDescriptorFromProto(source, prop) {
@@ -28775,12 +28795,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         return {
           type,
           payload: prepared.payload,
-          ..."meta" in prepared && {
+          ...("meta" in prepared && {
             meta: prepared.meta
-          },
-          ..."error" in prepared && {
+          }),
+          ...("error" in prepared && {
             error: prepared.error
-          }
+          })
         };
       }
       return {
@@ -29114,7 +29134,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isBoolean(x2) {
     return typeof x2 === "boolean";
   }
-  var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options2) {
+  var buildGetDefaultMiddleware = () => (function getDefaultMiddleware(options2) {
     const {
       thunk: thunk2 = true,
       immutableCheck = true,
@@ -29153,7 +29173,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     return middlewareArray;
-  };
+  });
   var SHOULD_AUTOBATCH = "RTK_autoBatch";
   var prepareAutoBatched = () => (payload) => ({
     payload,
@@ -29176,7 +29196,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const listeners = /* @__PURE__ */ new Set();
     const queueCallback = options2.type === "tick" ? queueMicrotask : options2.type === "raf" ? (
       // requestAnimationFrame won't exist in SSR environments. Fall back to a vague approximation just to keep from erroring.
-      typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10)
+      (typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10))
     ) : options2.type === "callback" ? options2.queueNotification : createQueueWithTimer(options2.timeout);
     const notifyListeners = () => {
       notificationQueued = false;
@@ -29216,7 +29236,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     });
   };
-  var buildGetDefaultEnhancers = (middlewareEnhancer) => function getDefaultEnhancers(options2) {
+  var buildGetDefaultEnhancers = (middlewareEnhancer) => (function getDefaultEnhancers(options2) {
     const {
       autoBatch = true
     } = options2 ?? {};
@@ -29225,7 +29245,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       enhancerArray.push(autoBatchEnhancer(typeof autoBatch === "object" ? autoBatch : void 0));
     }
     return enhancerArray;
-  };
+  });
   function configureStore(options2) {
     const getDefaultMiddleware = buildGetDefaultMiddleware();
     const {
@@ -29273,7 +29293,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       finalCompose = composeWithDevTools({
         // Enable capture of stack traces for dispatched Redux actions
         trace: true,
-        ...typeof devTools === "object" && devTools
+        ...(typeof devTools === "object" && devTools)
       });
     }
     const middlewareEnhancer = applyMiddleware(...finalMiddleware);
@@ -29525,7 +29545,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const fulfilled = createAction(typePrefix + "/fulfilled", (payload, requestId, arg, meta) => ({
         payload,
         meta: {
-          ...meta || {},
+          ...(meta || {}),
           arg,
           requestId,
           requestStatus: "fulfilled"
@@ -29534,7 +29554,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const pending = createAction(typePrefix + "/pending", (requestId, arg, meta) => ({
         payload: void 0,
         meta: {
-          ...meta || {},
+          ...(meta || {}),
           arg,
           requestId,
           requestStatus: "pending"
@@ -29544,7 +29564,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         payload,
         error: (options2 && options2.serializeError || miniSerializeError)(error || "Rejected"),
         meta: {
-          ...meta || {},
+          ...(meta || {}),
           arg,
           requestId,
           rejectedWithValue: !!payload,
@@ -30476,7 +30496,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var defaultValidateStatus = (response) => response.status >= 200 && response.status <= 299;
   var defaultIsJsonContentType = (headers) => (
     /*applicat*/
-    /ion\/(vnd\.api\+)?json/.test(headers.get("content-type") || "")
+    (/ion\/(vnd\.api\+)?json/.test(headers.get("content-type") || ""))
   );
   function stripUndefined(obj) {
     if (!isPlainObject(obj)) {
@@ -30538,7 +30558,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         ...rest
       };
       headers = new Headers(stripUndefined(headers));
-      config2.headers = await prepareHeaders(headers, {
+      config2.headers = (await prepareHeaders(headers, {
         getState,
         arg,
         extra,
@@ -30546,7 +30566,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         forced,
         type,
         extraOptions
-      }) || headers;
+      })) || headers;
       const isJsonifiable = (body) => typeof body === "object" && (isPlainObject(body) || Array.isArray(body) || typeof body.toJSON === "function");
       if (!config2.headers.has("content-type") && isJsonifiable(config2.body)) {
         config2.headers.set("content-type", jsonContentType);
@@ -30788,15 +30808,15 @@ You must add the middleware for RTK-Query to function correctly!`);
         const statePromise = Object.assign(forceQueryFn ? (
           // a query has been forced (upsertQueryData)
           // -> we want to resolve it once data has been written with the data that will be written
-          thunkResult.then(selectFromState)
+          (thunkResult.then(selectFromState))
         ) : skippedSynchronously && !runningQuery ? (
           // a query has been skipped due to a condition and we do not have any currently running query
           // -> we want to resolve it immediately with the current data
-          Promise.resolve(stateAfter)
+          (Promise.resolve(stateAfter))
         ) : (
           // query just started or one is already in flight
           // -> wait for the running query, then resolve with data from after that
-          Promise.all([runningQuery, thunkResult]).then(selectFromState)
+          (Promise.all([runningQuery, thunkResult]).then(selectFromState))
         ), {
           arg,
           requestId,
@@ -31167,13 +31187,13 @@ You must add the middleware for RTK-Query to function correctly!`);
           const cachedData = selectors5.selectQueryEntry(getState(), arg.queryCacheKey)?.data;
           const isForcedQueryNeedingRefetch = (
             // arg.forceRefetch
-            isForcedQuery(arg, getState()) && !arg.direction
+            (isForcedQuery(arg, getState()) && !arg.direction)
           );
           const existingData = isForcedQueryNeedingRefetch || !cachedData ? blankData : cachedData;
           if ("direction" in arg && arg.direction && existingData.pages.length) {
             const previous = arg.direction === "backward";
             const pageParamFn = previous ? getPreviousPageParam : getNextPageParam;
-            const param = pageParamFn(infiniteQueryOptions, existingData);
+            const param = pageParamFn(infiniteQueryOptions, existingData, arg.originalArgs);
             result = await fetchPage(existingData, param, maxPages, previous);
           } else {
             const {
@@ -31189,7 +31209,7 @@ You must add the middleware for RTK-Query to function correctly!`);
               };
             }
             for (let i = 1; i < totalPages; i++) {
-              const param = getNextPageParam(infiniteQueryOptions, result.data);
+              const param = getNextPageParam(infiniteQueryOptions, result.data, arg.originalArgs);
               result = await fetchPage(result.data, param, maxPages);
             }
           }
@@ -31283,9 +31303,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           const endpointDefinition = endpointDefinitions[arg.endpointName];
           return addShouldAutoBatch({
             startedTimeStamp: Date.now(),
-            ...isInfiniteQueryDefinition(endpointDefinition) ? {
+            ...(isInfiniteQueryDefinition(endpointDefinition) ? {
               direction: arg.direction
-            } : {}
+            } : {})
           });
         },
         condition(queryThunkArg, {
@@ -31386,15 +31406,15 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
   function getNextPageParam(options2, {
     pages,
     pageParams
-  }) {
+  }, queryArg) {
     const lastIndex = pages.length - 1;
-    return options2.getNextPageParam(pages[lastIndex], pages, pageParams[lastIndex], pageParams);
+    return options2.getNextPageParam(pages[lastIndex], pages, pageParams[lastIndex], pageParams, queryArg);
   }
   function getPreviousPageParam(options2, {
     pages,
     pageParams
-  }) {
-    return options2.getPreviousPageParam?.(pages[0], pages, pageParams[0], pageParams);
+  }, queryArg) {
+    return options2.getPreviousPageParam?.(pages[0], pages, pageParams[0], pageParams, queryArg);
   }
   function calculateProvidedByThunk(action, type, endpointDefinitions, assertTagType) {
     return calculateProvidedBy(endpointDefinitions[action.meta.arg.endpointName][type], isFulfilled(action) ? action.payload : void 0, isRejectedWithValue(action) ? action.payload : void 0, action.meta.arg.originalArgs, "baseQueryMeta" in action.meta ? action.meta.baseQueryMeta : void 0, assertTagType);
@@ -31439,10 +31459,10 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         substate.status = "pending";
         substate.requestId = upserting && substate.requestId ? (
           // for `upsertQuery` **updates**, keep the current `requestId`
-          substate.requestId
+          (substate.requestId)
         ) : (
           // for normal queries or `upsertQuery` **inserts** always update the `requestId`
-          meta.requestId
+          (meta.requestId)
         );
         if (arg.originalArgs !== void 0) {
           substate.originalArgs = arg.originalArgs;
@@ -31960,8 +31980,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         const isBackward = direction === "backward";
         return {
           ...stateWithRequestFlags,
-          hasNextPage: getHasNextPage(infiniteQueryOptions, stateWithRequestFlags.data),
-          hasPreviousPage: getHasPreviousPage(infiniteQueryOptions, stateWithRequestFlags.data),
+          hasNextPage: getHasNextPage(infiniteQueryOptions, stateWithRequestFlags.data, stateWithRequestFlags.originalArgs),
+          hasPreviousPage: getHasPreviousPage(infiniteQueryOptions, stateWithRequestFlags.data, stateWithRequestFlags.originalArgs),
           isFetchingNextPage: isLoading && isForward,
           isFetchingPreviousPage: isLoading && isBackward,
           isFetchNextPageError: isError2 && isForward,
@@ -31993,10 +32013,10 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         }
         let invalidateSubscriptions = (tag.id !== void 0 ? (
           // id given: invalidate all queries that provide this type & id
-          provided[tag.id]
+          (provided[tag.id])
         ) : (
           // no id: invalidate all queries that provide this type
-          flatten(Object.values(provided))
+          (flatten(Object.values(provided)))
         )) ?? [];
         for (const invalidate of invalidateSubscriptions) {
           toInvalidate.add(invalidate);
@@ -32017,13 +32037,13 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         /* uninitialized */
       ).map((entry) => entry.originalArgs);
     }
-    function getHasNextPage(options2, data2) {
+    function getHasNextPage(options2, data2, queryArg) {
       if (!data2) return false;
-      return getNextPageParam(options2, data2) != null;
+      return getNextPageParam(options2, data2, queryArg) != null;
     }
-    function getHasPreviousPage(options2, data2) {
+    function getHasPreviousPage(options2, data2, queryArg) {
       if (!data2 || !options2.getPreviousPageParam) return false;
-      return getPreviousPageParam(options2, data2) != null;
+      return getPreviousPageParam(options2, data2, queryArg) != null;
     }
   }
   var cache = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
@@ -32087,7 +32107,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           }
           return finalSerializeQueryArgs(queryArgsApi);
         },
-        tagTypes: [...options2.tagTypes || []]
+        tagTypes: [...(options2.tagTypes || [])]
       };
       const context = {
         endpointDefinitions: {},
@@ -33327,9 +33347,9 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           const promise = dispatch(initiate(stableArg, {
             subscriptionOptions: stableSubscriptionOptions,
             forceRefetch: refetchOnMountOrArgChange,
-            ...isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
+            ...(isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
               initialPageParam: stableInitialPageParam
-            } : {}
+            } : {})
           }));
           promiseRef.current = promise;
         } else if (stableSubscriptionOptions !== lastSubscriptionOptions) {
@@ -33353,7 +33373,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           // already casting this selector to be `Selector<any>` anyway,
           // so the inconsistencies don't matter here
           // @ts-ignore
-          createSelector2([
+          (createSelector2([
             // @ts-ignore
             select(stableArg),
             (_, lastResult) => lastResult,
@@ -33362,7 +33382,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             memoizeOptions: {
               resultEqualityCheck: shallowEqual
             }
-          })
+          }))
         ), [select, stableArg]);
         const querySelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult, {
           devModeChecks: {
@@ -35189,9 +35209,9 @@ Hook ${hookName} was either not provided or not a function.`);
       var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
       return (
         // allows for nested Transitions
-        /* @__PURE__ */ import_react8.default.createElement(TransitionGroupContext_default.Provider, {
-          value: null
-        }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps))
+        /* @__PURE__ */ (import_react8.default.createElement(TransitionGroupContext_default.Provider, {
+            value: null
+          }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps)))
       );
     };
     return Transition2;
@@ -47092,6 +47112,22 @@ Hook ${hookName} was either not provided or not a function.`);
     _getStackCount(index) {
       return this._getStacks(void 0, index).length;
     }
+    _getAxisCount() {
+      return this._getAxis().length;
+    }
+    getFirstScaleIdForIndexAxis() {
+      const scales = this.chart.scales;
+      const indexScaleId = this.chart.options.indexAxis;
+      return Object.keys(scales).filter((key) => scales[key].axis === indexScaleId).shift();
+    }
+    _getAxis() {
+      const axis = {};
+      const firstScaleAxisId = this.getFirstScaleIdForIndexAxis();
+      for (const dataset of this.chart.data.datasets) {
+        axis[valueOrDefault(this.chart.options.indexAxis === "x" ? dataset.xAxisID : dataset.yAxisID, firstScaleAxisId)] = true;
+      }
+      return Object.keys(axis);
+    }
     _getStackIndex(datasetIndex, name, dataIndex) {
       const stacks = this._getStacks(datasetIndex, dataIndex);
       const index = name !== void 0 ? stacks.indexOf(name) : -1;
@@ -47182,10 +47218,13 @@ Hook ${hookName} was either not provided or not a function.`);
       const skipNull = options2.skipNull;
       const maxBarThickness = valueOrDefault(options2.maxBarThickness, Infinity);
       let center, size;
+      const axisCount = this._getAxisCount();
       if (ruler.grouped) {
         const stackCount = skipNull ? this._getStackCount(index) : ruler.stackCount;
-        const range = options2.barThickness === "flex" ? computeFlexCategoryTraits(index, ruler, options2, stackCount) : computeFitCategoryTraits(index, ruler, options2, stackCount);
-        const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : void 0);
+        const range = options2.barThickness === "flex" ? computeFlexCategoryTraits(index, ruler, options2, stackCount * axisCount) : computeFitCategoryTraits(index, ruler, options2, stackCount * axisCount);
+        const axisID = this.chart.options.indexAxis === "x" ? this.getDataset().xAxisID : this.getDataset().yAxisID;
+        const axisNumber = this._getAxis().indexOf(valueOrDefault(axisID, this.getFirstScaleIdForIndexAxis()));
+        const stackIndex = this._getStackIndex(this.index, this._cachedMeta.stack, skipNull ? index : void 0) + axisNumber;
         center = range.start + range.chunk * stackIndex + range.chunk / 2;
         size = Math.min(maxBarThickness, range.chunk * range.ratio);
       } else {
@@ -50189,7 +50228,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return cachedKeys(`${type}-plugin-${id}`, () => [
         [
           `plugins.${id}`,
-          ...plugin.additionalOptionScopes || []
+          ...(plugin.additionalOptionScopes || [])
         ]
       ]);
     }
@@ -50299,7 +50338,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return false;
   }
-  var version2 = "4.4.9";
+  var version2 = "4.5.0";
   var KNOWN_POSITIONS = [
     "top",
     "bottom",
@@ -56605,10 +56644,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-AYJ5UCUI.mjs:
+react-router/dist/development/chunk-NL6KNZEE.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.5.3
+   * react-router v7.6.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -56638,7 +56677,7 @@ react-router/dist/development/index.mjs:
 chart.js/dist/chunks/helpers.dataset.js:
 chart.js/dist/chart.js:
   (*!
-   * Chart.js v4.4.9
+   * Chart.js v4.5.0
    * https://www.chartjs.org
    * (c) 2025 Chart.js Contributors
    * Released under the MIT License
