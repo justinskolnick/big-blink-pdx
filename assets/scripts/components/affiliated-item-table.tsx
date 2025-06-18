@@ -1,4 +1,5 @@
-import React, { useRef, useState, ReactElement } from 'react';
+import React, { useRef, useState, ReactElement, ReactNode, RefObject } from 'react';
+import { cx } from '@emotion/css';
 
 import ItemTable from './item-table';
 
@@ -6,17 +7,35 @@ import type { AffiliatedItem } from '../types';
 
 type CellComponent = (ctx: { item: AffiliatedItem }) => ReactElement;
 
+interface AffiliatedItemsProps {
+  children: ReactNode;
+  className?: string;
+  ref?: RefObject<HTMLDivElement>
+}
+
 interface Props {
   affiliatedItems: AffiliatedItem[];
-  IconCell?: CellComponent;
+  TypeCell?: CellComponent;
+  TypeAuxiliaryCell?: CellComponent;
   TitleCell: CellComponent;
   TotalCell?: CellComponent;
   label: string;
 }
 
+const AffiliatedItems = ({
+  children,
+  className,
+  ref,
+}: AffiliatedItemsProps) => (
+  <div className={cx('affiliated-items', className)} ref={ref}>
+    {children}
+  </div>
+);
+
 const AffiliatedItemTable = ({
   affiliatedItems,
-  IconCell,
+  TypeCell,
+  TypeAuxiliaryCell,
   TitleCell,
   TotalCell,
   label,
@@ -28,6 +47,8 @@ const AffiliatedItemTable = ({
   const hasMoreToShow = affiliatedItems.length > initialCount;
   const hasItems = affiliatedItems.length > 0;
 
+  const hasAuxiliaryType = Boolean(TypeAuxiliaryCell);
+
   const scrollToRef = () => {
     setTimeout(() => {
       ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -35,14 +56,17 @@ const AffiliatedItemTable = ({
   };
 
   return hasItems ? (
-    <div className='affiliated-items' ref={ref}>
-      <ItemTable>
+    <AffiliatedItems ref={ref}>
+      <ItemTable hasAnotherIcon={hasAuxiliaryType}>
         {items.map((item, i) => {
           const hasTotal = Boolean(item.total);
 
           return (
             <tr key={i}>
-              <td className='cell-type'><IconCell item={item} /></td>
+              <td className='cell-type'><TypeCell item={item} /></td>
+              {hasAuxiliaryType && (
+                <td className='cell-type'><TypeAuxiliaryCell item={item} /></td>
+              )}
               <td className='cell-name'><TitleCell item={item} /></td>
               <td className='cell-total'>
                 {hasTotal ? (
@@ -67,9 +91,9 @@ const AffiliatedItemTable = ({
           )}
         </button>
       )}
-    </div>
+    </AffiliatedItems>
   ) : (
-    <div className='affiliated-items no-results'>None found</div>
+    <AffiliatedItems className='no-results'>None found</AffiliatedItems>
   );
 };
 

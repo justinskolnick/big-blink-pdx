@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  MODEL_ENTITIES,
+  MODEL_PEOPLE,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -301,6 +303,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       if (lobbyist.lobbyists.length || lobbyist.officials.length) {
         record.attendees.roles.push({
           label: `As a lobbyist, ${record.name} ...`,
+          model: MODEL_PEOPLE,
           role: ROLE_LOBBYIST,
           type: 'person',
           values: [
@@ -321,6 +324,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       if (official.lobbyists.length || official.officials.length) {
         record.attendees.roles.push({
           label: `As a City official, ${record.name} ...`,
+          model: MODEL_PEOPLE,
           role: ROLE_OFFICIAL,
           type: 'person',
           values: [
@@ -386,6 +390,7 @@ router.get('/:id/entities', async (req, res, next) => {
       if (lobbyist.records.length) {
         record.entities.roles.push({
           label: `As a lobbyist, ${record.name} interacted with City officials on behalf of these entities`,
+          model: MODEL_ENTITIES,
           role: ROLE_LOBBYIST,
           values: [
             {
@@ -399,6 +404,7 @@ router.get('/:id/entities', async (req, res, next) => {
       if (official.records.length) {
         record.entities.roles.push({
           label: `As a City official, ${record.name} was lobbied by representatives of these entities`,
+          model: MODEL_ENTITIES,
           role: ROLE_OFFICIAL,
           values: [
             {

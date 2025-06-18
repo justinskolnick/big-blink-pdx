@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  MODEL_ENTITIES,
+  MODEL_PEOPLE,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -222,6 +224,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       record = source.adapted;
       record.attendees = {
         label: `These people appear in ${record.title}`,
+        model: MODEL_PEOPLE,
         type: 'source',
         values: [
           {
@@ -271,6 +274,7 @@ router.get('/:id/entities', async (req, res, next) => {
       record = source.adapted;
       record.entities = {
         label: `These entities appear in ${record.title}`,
+        model: MODEL_ENTITIES,
         values: [
           {
             records: entities.map(adaptItemEntity),

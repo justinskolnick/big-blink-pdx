@@ -57,7 +57,11 @@ const Attendees = ({
         attendees.roles.map(role => (
           <IncidentActivityGroup key={role.role} group={role}>
             {role.values.map(group => (
-              <AffiliatedPeopleTable key={group.role} attendees={group} />
+              <AffiliatedPeopleTable
+                key={group.role}
+                attendees={group}
+                model={role.model}
+              />
             ))}
           </IncidentActivityGroup>
         ))

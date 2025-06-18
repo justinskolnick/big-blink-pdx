@@ -40,8 +40,8 @@ const Entities = ({ entities, person }: Props) => {
               <AffiliatedEntitiesTable
                 key={group.role}
                 entities={group}
-                hasLobbyist={group.role === Role.Lobbyist}
-                person={person}
+                model={role.model}
+                lobbyistName={group.role === Role.Lobbyist ? person.name : null}
               />
             ))}
           </IncidentActivityGroup>

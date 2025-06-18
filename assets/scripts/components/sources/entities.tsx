@@ -31,7 +31,11 @@ const Entities = ({ entities, source }: Props) => {
       {hasRecords ? (
         <IncidentActivityGroup group={entities}>
           {entities.values.map((group, i: number) =>(
-            <AffiliatedEntitiesTable key={i} entities={group} />
+            <AffiliatedEntitiesTable
+              key={i}
+              entities={group}
+              model={entities.model}
+            />
           ))}
         </IncidentActivityGroup>
       ) : null}

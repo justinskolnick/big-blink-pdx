@@ -87,6 +87,7 @@ export type AttendeeGroup = {
 
 export type Attendees = {
   label: string;
+  model: Sections;
   type: 'entity' | 'person' | 'source';
   values: AttendeeGroup[];
 }
@@ -368,7 +369,7 @@ export enum Role {
   Official = 'official',
 }
 
-type AffiliatedEntityRecord = {
+export type AffiliatedEntityRecord = {
   entity: Entity;
   isRegistered?: boolean;
   registrations?: string;
@@ -384,6 +385,7 @@ export type AffiliatedEntityValues = AffiliatedEntityValue[];
 
 export type PersonEntityRole = {
   label: string;
+  model: Sections;
   role: Role;
   values: AffiliatedEntityValues;
 };
@@ -425,6 +427,7 @@ type DataFormatStrings = keyof typeof DataFormat;
 
 export type SourceEntities = {
   label: string;
+  model: Sections;
   values: AffiliatedEntityValues;
 };
 

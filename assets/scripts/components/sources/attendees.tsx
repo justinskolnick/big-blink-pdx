@@ -33,7 +33,11 @@ const Attendees = ({ attendees }: Props) => {
       {attendees ? (
         <IncidentActivityGroup group={attendees}>
           {attendees.values.map(group => (
-            <AffiliatedPeopleTable key={group.role} attendees={group} />
+            <AffiliatedPeopleTable
+              key={group.role}
+              attendees={group}
+              model={attendees.model}
+            />
           ))}
         </IncidentActivityGroup>
       ) : null}

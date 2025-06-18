@@ -10,17 +10,19 @@ import ItemLink from './people/item-link';
 import StatBox from './stat-box';
 
 import type { AttendeeGroup } from '../types';
+import { Sections } from '../types';
 
 interface Props {
   attendees: AttendeeGroup;
+  model: Sections;
 }
 
-const AffiliatedPeopleTable = ({ attendees }: Props) => (
+const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
   <StatBox title={attendees.label}>
     <AffiliatedItemTable
       affiliatedItems={attendees.records}
-      label='people'
-      IconCell={({ item }) => (
+      label={model}
+      TypeCell={({ item }) => (
         <PersonIcon person={item.person} />
       )}
       TitleCell={({ item }) => (

@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
+
+import AffiliatedItemTable from './affiliated-item-table';
 
 import EntityIcon from './entities/icon';
 import EntityItemLink from './entities/item-link';
 import Icon from './icon';
-import ItemTable from './item-table';
 import {
   getWithEntityParams,
   FilterLink,
@@ -11,12 +12,13 @@ import {
 import PersonIcon from './people/icon';
 import StatBox from './stat-box';
 
-import type { AffiliatedEntityValue, Person } from '../types';
+import type { AffiliatedEntityRecord, AffiliatedEntityValue, Person } from '../types';
+import { Role, Sections } from '../types';
 
 interface Props {
   entities: AffiliatedEntityValue;
-  hasLobbyist?: boolean;
-  person?: Person;
+  lobbyistName?: Person['name'];
+  model: Sections;
   title?: string;
 }
 
@@ -24,71 +26,70 @@ const RegisteredIcon = () => <Icon name='check' className='icon-registered' />;
 
 const AffiliatedEntitiesTable = ({
   entities,
-  hasLobbyist,
-  person,
+  lobbyistName,
+  model,
   title,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const hasLobbyist = Boolean(lobbyistName);
+  let auxiliary;
 
-  const hasPerson = Boolean(person);
+  if (entities.role === Role.Lobbyist) {
+    auxiliary = {
+      TypeAuxiliaryCell: ({ item }: { item: AffiliatedEntityRecord }) => (
+        item.isRegistered ? (
+          <div
+            className='icons'
+            title={`${lobbyistName} is or was registered to lobby the City on behalf of ${item.entity.name}`}
+          >
+            <PersonIcon />
+            <RegisteredIcon />
+          </div>
+        ) : (
+          <PersonIcon />
+        )
+      ),
+    };
+  }
 
   return (
     <StatBox title={title}>
-      <div className='affiliated-items' ref={ref}>
-        <ItemTable hasAnotherIcon={hasPerson && hasLobbyist}>
-          {entities.records.map((item, i) => {
-            const hasTotal = Boolean(item.total);
-
-            return (
-              <tr key={i}>
-                <td className='cell-type'>
-                  {item.entity.isRegistered ? (
-                    <div
-                      className='icons'
-                      title={`${item.entity.name} is or was registered to lobby the City`}
-                    >
-                      <EntityIcon />
-                      <RegisteredIcon />
-                    </div>
-                  ) : (
-                    <EntityIcon />
-                  )}
-                </td>
-                {hasPerson && hasLobbyist && (
-                  <td className='cell-type'>
-                    {item.isRegistered ? (
-                      <div
-                        className='icons'
-                        title={`${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`}
-                      >
-                        <PersonIcon />
-                        <RegisteredIcon />
-                      </div>
-                    ) : (
-                      <PersonIcon />
-                    )}
-                  </td>
-                )}
-                <td className='cell-name'>
-                  <EntityItemLink item={item.entity} className='item-entity'>
-                    {item.entity.name}
-                  </EntityItemLink>
-                  <div className='item-description'>
-                    {item.registrations}
-                  </div>
-                </td>
-                <td className='cell-total'>
-                  {hasTotal ? (
-                    <FilterLink newParams={getWithEntityParams(item)} hasIcon>
-                      {item.total}
-                    </FilterLink>
-                  ) : '-'}
-                </td>
-              </tr>
-            );
-          })}
-        </ItemTable>
-      </div>
+      <AffiliatedItemTable
+        affiliatedItems={entities.records}
+        label={model}
+        TypeCell={({ item }) => (
+          item.entity.isRegistered ? (
+            <div
+              className='icons'
+              title={`${item.entity.name} is or was registered to lobby the City`}
+            >
+              <EntityIcon />
+              <RegisteredIcon />
+            </div>
+          ) : (
+            <EntityIcon />
+          )
+        )}
+        {...auxiliary}
+        TitleCell={({ item }) => (
+          <>
+            <EntityItemLink item={item.entity}>
+              {item.entity.name}
+            </EntityItemLink>
+            {hasLobbyist && (
+              <div className='item-description'>
+                {item.registrations}
+              </div>
+            )}
+          </>
+        )}
+        TotalCell={({ item }) => (
+          item.total ? (
+            <FilterLink newParams={getWithEntityParams(item)} hasIcon>
+              {item.total}
+            </FilterLink>
+          ) : <>-</>
+        )}
+      />
     </StatBox>
   );
 };

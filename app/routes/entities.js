@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  MODEL_PEOPLE,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -252,6 +253,7 @@ router.get('/:id/attendees', async (req, res, next) => {
       record = entity.adapted;
       record.attendees = {
         label: `As an entity, ${record.name} ...`,
+        model: MODEL_PEOPLE,
         type: 'entity',
         values: [
           {

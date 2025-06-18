@@ -16,7 +16,7 @@ interface Props {
   title?: string | ReactNode;
 }
 
-export const IncidentActivityGroup = ({
+const IncidentActivityGroup = ({
   children,
   className,
   group,

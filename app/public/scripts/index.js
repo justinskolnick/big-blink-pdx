@@ -1298,7 +1298,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), Internals = {
+        var React52 = require_react(), Internals = {
           d: {
             f: noop5,
             r: function() {
@@ -1316,7 +1316,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = Symbol.for("react.portal"), ReactSharedInternals = React52.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2858,7 +2858,7 @@
           "number" === type && getActiveElement(node2.ownerDocument) === node2 || node2.defaultValue === "" + value || (node2.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React53.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React52.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -16440,14 +16440,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React53 = require_react(), ReactDOM2 = require_react_dom(), assign3 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_PROVIDER_TYPE = Symbol.for("react.provider"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React52 = require_react(), ReactDOM2 = require_react_dom(), assign3 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = Symbol.for("react.element"), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler"), REACT_PROVIDER_TYPE = Symbol.for("react.provider"), REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy");
         Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = Symbol.for("react.activity");
         Symbol.for("react.legacy_hidden");
         Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = Symbol.for("react.memo_cache_sentinel");
         Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React52.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -19161,7 +19161,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React53.version;
+          var isomorphicReactPackageVersion = React52.version;
           if ("19.1.0" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.1.0\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -19310,9 +19310,9 @@
           return x2 === y && (0 !== x2 || 1 / x2 === 1 / y) || x2 !== x2 && y !== y;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React53 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React53.useSyncExternalStore, useRef18 = React53.useRef, useEffect35 = React53.useEffect, useMemo7 = React53.useMemo, useDebugValue3 = React53.useDebugValue;
+        var React52 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React52.useSyncExternalStore, useRef17 = React52.useRef, useEffect35 = React52.useEffect, useMemo7 = React52.useMemo, useDebugValue3 = React52.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef18(null);
+          var instRef = useRef17(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -19608,7 +19608,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment23 = REACT_FRAGMENT_TYPE;
+          var Fragment24 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19667,7 +19667,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment23;
+          exports.Fragment = Fragment24;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -20529,20 +20529,20 @@
         function validateChildKeys(node2) {
           "object" === typeof node2 && null !== node2 && node2.$$typeof === REACT_ELEMENT_TYPE && node2._store && (node2._store.validated = 1);
         }
-        var React53 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+        var React52 = require_react(), REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
         Symbol.for("react.provider");
-        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React53.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = React52.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React53 = {
+        React52 = {
           "react-stack-bottom-frame": function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React53["react-stack-bottom-frame"].bind(
-          React53,
+        var unknownOwnerDebugStack = React52["react-stack-bottom-frame"].bind(
+          React52,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -20597,8 +20597,8 @@
       function _interopDefault(ex) {
         return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
       }
-      var React53 = require_react();
-      var React__default = _interopDefault(React53);
+      var React52 = require_react();
+      var React__default = _interopDefault(React52);
       function _defineProperty3(obj, key, value) {
         if (key in obj) {
           Object.defineProperty(obj, key, {
@@ -20681,7 +20681,7 @@
               return React__default.createElement(WrappedComponent, this.props);
             };
             return SideEffect2;
-          }(React53.PureComponent);
+          }(React52.PureComponent);
           _defineProperty3(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
           _defineProperty3(SideEffect, "canUseDOM", canUseDOM3);
           return SideEffect;
@@ -42533,9 +42533,15 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/affiliated-item-table.tsx
   var import_jsx_runtime47 = __toESM(require_jsx_runtime());
+  var AffiliatedItems = ({
+    children,
+    className,
+    ref
+  }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: cx("affiliated-items", className), ref, children });
   var AffiliatedItemTable = ({
     affiliatedItems,
-    IconCell,
+    TypeCell,
+    TypeAuxiliaryCell,
     TitleCell,
     TotalCell,
     label
@@ -42546,16 +42552,18 @@ Hook ${hookName} was either not provided or not a function.`);
     const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
     const hasMoreToShow = affiliatedItems.length > initialCount;
     const hasItems = affiliatedItems.length > 0;
+    const hasAuxiliaryType = Boolean(TypeAuxiliaryCell);
     const scrollToRef2 = () => {
       setTimeout(() => {
         ref.current?.scrollIntoView({ behavior: "smooth" });
       }, 250);
     };
-    return hasItems ? /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "affiliated-items", ref, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(item_table_default, { children: items.map((item, i) => {
+    return hasItems ? /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(AffiliatedItems, { ref, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: items.map((item, i) => {
         const hasTotal = Boolean(item.total);
         return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("tr", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(IconCell, { item }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(TypeCell, { item }) }),
+          hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(TypeAuxiliaryCell, { item }) }),
           /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(TitleCell, { item }) }),
           /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("td", { className: "cell-total", children: hasTotal ? TotalCell ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(TotalCell, { item }) : item.total : "-" })
         ] }, i);
@@ -42575,18 +42583,18 @@ Hook ${hookName} was either not provided or not a function.`);
         " ",
         label
       ] }) })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "affiliated-items no-results", children: "None found" });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AffiliatedItems, { className: "no-results", children: "None found" });
   };
   var affiliated_item_table_default = AffiliatedItemTable;
 
   // assets/scripts/components/affiliated-people-table.tsx
   var import_jsx_runtime48 = __toESM(require_jsx_runtime());
-  var AffiliatedPeopleTable = ({ attendees }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
+  var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(
     affiliated_item_table_default,
     {
       affiliatedItems: attendees.records,
-      label: "people",
-      IconCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(icon_default4, { person: item.person }),
+      label: model,
+      TypeCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(icon_default4, { person: item.person }),
       TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_link_default, { item: item.person, children: item.person.name }),
       TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(FilterLink, { newParams: getWithPersonParams(item), hasIcon: true, children: item.total })
     }
@@ -42661,7 +42669,14 @@ Hook ${hookName} was either not provided or not a function.`);
         title: "Associated Names",
         description: `These people appear in lobbying reports related to ${entity.name}${entity.name.endsWith(".") ? "" : "."}`,
         icon: iconName3,
-        children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }) : null
+        children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(
+          affiliated_people_table_default,
+          {
+            attendees: group,
+            model: attendees.model
+          },
+          group.role
+        )) }) : null
       }
     );
   };
@@ -55982,7 +55997,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default2 = Detail2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_react43 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
 
   // assets/scripts/components/people/attendees.tsx
   var import_react39 = __toESM(require_react());
@@ -56019,7 +56034,14 @@ Hook ${hookName} was either not provided or not a function.`);
         title: "Associated Names",
         description: `${person.name} is named in lobbying reports that also include these people.`,
         icon: iconName3,
-        children: hasRecords ? attendees.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(incident_activity_group_default, { group: role, children: role.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+        children: hasRecords ? attendees.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(incident_activity_group_default, { group: role, children: role.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+          affiliated_people_table_default,
+          {
+            attendees: group,
+            model: role.model
+          },
+          group.role
+        )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
           incident_activity_group_default,
           {
             title: "No record of associated names was found."
@@ -56068,24 +56090,40 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default3 = Chart5;
 
   // assets/scripts/components/people/entities.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
 
   // assets/scripts/components/affiliated-entities-table.tsx
-  var import_react41 = __toESM(require_react());
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default, { name: "check", className: "icon-registered" });
   var AffiliatedEntitiesTable = ({
     entities,
-    hasLobbyist,
-    person,
+    lobbyistName,
+    model,
     title
   }) => {
-    const ref = (0, import_react41.useRef)(null);
-    const hasPerson = Boolean(person);
-    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.records.map((item, i) => {
-      const hasTotal = Boolean(item.total);
-      return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+    const hasLobbyist = Boolean(lobbyistName);
+    let auxiliary;
+    if (entities.role === "lobbyist" /* Lobbyist */) {
+      auxiliary = {
+        TypeAuxiliaryCell: ({ item }) => item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+          "div",
+          {
+            className: "icons",
+            title: `${lobbyistName} is or was registered to lobby the City on behalf of ${item.entity.name}`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}),
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
+            ]
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {})
+      };
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
+      affiliated_item_table_default,
+      {
+        affiliatedItems: entities.records,
+        label: model,
+        TypeCell: ({ item }) => item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
           "div",
           {
             className: "icons",
@@ -56095,25 +56133,15 @@ Hook ${hookName} was either not provided or not a function.`);
               /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
             ]
           }
-        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}) }),
-        hasPerson && hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
-          "div",
-          {
-            className: "icons",
-            title: `${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`,
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}),
-              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
-            ]
-          }
-        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("td", { className: "cell-name", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_link_default2, { item: item.entity, className: "item-entity", children: item.entity.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "item-description", children: item.registrations })
+        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}),
+        ...auxiliary,
+        TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_link_default2, { item: item.entity, children: item.entity.name }),
+          hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "item-description", children: item.registrations })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-total", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : "-" })
-      ] }, i);
-    }) }) }) });
+        TotalCell: ({ item }) => item.total ? /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(import_jsx_runtime81.Fragment, { children: "-" })
+      }
+    ) });
   };
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
@@ -56123,7 +56151,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const [trigger] = api_default.useLazyGetPersonEntitiesByIdQuery();
     const hasEntities = "entities" in person && Boolean(person.entities);
     const hasRecords = hasEntities && entities.roles.some((role) => role.values.some((v) => v.records.length));
-    (0, import_react42.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       if (!hasRecords) {
         trigger({ id: person.id });
       }
@@ -56138,8 +56166,8 @@ Hook ${hookName} was either not provided or not a function.`);
           affiliated_entities_table_default,
           {
             entities: group,
-            hasLobbyist: group.role === "lobbyist" /* Lobbyist */,
-            person
+            model: role.model,
+            lobbyistName: group.role === "lobbyist" /* Lobbyist */ ? person.name : null
           },
           group.role
         )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
@@ -56163,7 +56191,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime83 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
-    const incidentsRef = (0, import_react43.useRef)(null);
+    const incidentsRef = (0, import_react42.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const person = useSelector((state) => selectors3.selectById(state, numericId));
@@ -56216,13 +56244,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default3 = Detail3;
 
   // assets/scripts/components/sources/item.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
   var import_jsx_runtime84 = __toESM(require_jsx_runtime());
   var Item = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useSelector((state) => selectors4.selectById(state, id));
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
-    (0, import_react44.useEffect)(() => {
+    (0, import_react43.useEffect)(() => {
       if (source) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -56254,22 +56282,29 @@ Hook ${hookName} was either not provided or not a function.`);
   var sources_default2 = Index4;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_react47 = __toESM(require_react());
+  var import_react46 = __toESM(require_react());
 
   // assets/scripts/components/sources/attendees.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
   var import_jsx_runtime86 = __toESM(require_jsx_runtime());
   var Attendees3 = ({ attendees }) => {
     const [trigger] = api_default.useLazyGetSourceAttendeesByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
     const hasAttendees = Boolean(attendees);
-    (0, import_react45.useEffect)(() => {
+    (0, import_react44.useEffect)(() => {
       if (!hasAttendees) {
         trigger({ id: numericId });
       }
     }, [hasAttendees, numericId, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_groups_default, { title: "Associated Names", icon: iconName3, children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }) : null });
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_groups_default, { title: "Associated Names", icon: iconName3, children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+      affiliated_people_table_default,
+      {
+        attendees: group,
+        model: attendees.model
+      },
+      group.role
+    )) }) : null });
   };
   var attendees_default3 = Attendees3;
 
@@ -56279,18 +56314,25 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default4 = Chart6;
 
   // assets/scripts/components/sources/entities.tsx
-  var import_react46 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
   var import_jsx_runtime88 = __toESM(require_jsx_runtime());
   var Entities2 = ({ entities, source }) => {
     const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
     const hasEntities = "entities" in source && Boolean(source.entities);
     const hasRecords = hasEntities && entities.values.some((v) => v.records.length);
-    (0, import_react46.useEffect)(() => {
+    (0, import_react45.useEffect)(() => {
       if (!hasEntities) {
         trigger({ id: source.id });
       }
     }, [hasEntities, source, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_group_default, { group: entities, children: entities.values.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(affiliated_entities_table_default, { entities: group }, i)) }) : null });
+    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_group_default, { group: entities, children: entities.values.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+      affiliated_entities_table_default,
+      {
+        entities: group,
+        model: entities.model
+      },
+      i
+    )) }) : null });
   };
   var entities_default4 = Entities2;
 
@@ -56351,7 +56393,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/detail.tsx
   var import_jsx_runtime90 = __toESM(require_jsx_runtime());
   var Detail4 = () => {
-    const incidentsRef = (0, import_react47.useRef)(null);
+    const incidentsRef = (0, import_react46.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const source = useSelector((state) => selectors4.selectById(state, numericId));
