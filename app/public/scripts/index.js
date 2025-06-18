@@ -6,10 +6,9 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __commonJS = (cb, mod) => (function __require() {
+  var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  });
+  };
   var __copyProps = (to2, from3, except, desc) => {
     if (from3 && typeof from3 === "object" || typeof from3 === "function") {
       for (let key of __getOwnPropNames(from3))
@@ -26,7 +25,6 @@
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
-  var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 
   // node_modules/scheduler/cjs/scheduler.development.js
   var require_scheduler_development = __commonJS({
@@ -892,7 +890,7 @@
             ReactSharedInternals.thrownErrors.push(error);
           }
           if (0 < ReactSharedInternals.thrownErrors.length)
-            throw (popActScope(prevActQueue, prevActScopeDepth), callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2);
+            throw popActScope(prevActQueue, prevActScopeDepth), callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2;
           if (null !== result && "object" === typeof result && "function" === typeof result.then) {
             var thenable = result;
             queueSeveralMicrotasks(function() {
@@ -945,7 +943,7 @@
             ));
           }), ReactSharedInternals.actQueue = null);
           if (0 < ReactSharedInternals.thrownErrors.length)
-            throw (callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2);
+            throw callback2 = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback2;
           return {
             then: function(resolve2, reject) {
               didAwaitActCall = true;
@@ -1039,9 +1037,9 @@
           i = {};
           node2 = null;
           if (null != config2)
-            for (propName in (didWarnAboutOldJSXRuntime || !("__self" in config2) || "key" in config2 || (didWarnAboutOldJSXRuntime = true, console.warn(
+            for (propName in didWarnAboutOldJSXRuntime || !("__self" in config2) || "key" in config2 || (didWarnAboutOldJSXRuntime = true, console.warn(
               "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
-            )), hasValidKey(config2) && (checkKeyStringCoercion(config2.key), node2 = "" + config2.key), config2))
+            )), hasValidKey(config2) && (checkKeyStringCoercion(config2.key), node2 = "" + config2.key), config2)
               hasOwnProperty.call(config2, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config2[propName]);
           var childrenLength = arguments.length - 2;
           if (1 === childrenLength) i.children = children;
@@ -1052,7 +1050,7 @@
             i.children = childArray;
           }
           if (type && type.defaultProps)
-            for (propName in (childrenLength = type.defaultProps, childrenLength))
+            for (propName in childrenLength = type.defaultProps, childrenLength)
               void 0 === i[propName] && (i[propName] = childrenLength[propName]);
           node2 && defineKeyPropWarningGetter(
             i,
@@ -4227,9 +4225,9 @@
         }
         function getRootForUpdatedFiber(sourceFiber) {
           if (nestedUpdateCount > NESTED_UPDATE_LIMIT)
-            throw (nestedPassiveUpdateCount = nestedUpdateCount = 0, rootWithPassiveNestedUpdates = rootWithNestedUpdates = null, Error(
+            throw nestedPassiveUpdateCount = nestedUpdateCount = 0, rootWithPassiveNestedUpdates = rootWithNestedUpdates = null, Error(
               "Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
-            ));
+            );
           nestedPassiveUpdateCount > NESTED_PASSIVE_UPDATE_LIMIT && (nestedPassiveUpdateCount = 0, rootWithPassiveNestedUpdates = null, console.error(
             "Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render."
           ));
@@ -5053,7 +5051,7 @@
             case "fulfilled":
               return thenable.value;
             case "rejected":
-              throw (thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2);
+              throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
             default:
               if ("string" === typeof thenable.status)
                 thenable.then(noop$3, noop$3);
@@ -5086,7 +5084,7 @@
                 case "fulfilled":
                   return thenable.value;
                 case "rejected":
-                  throw (thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2);
+                  throw thenableState2 = thenable.reason, checkIfUseWrappedInAsyncCatch(thenableState2), thenableState2;
               }
               suspendedThenable = thenable;
               needsToResetSuspendedThenableDEV = true;
@@ -8388,14 +8386,14 @@
               if (null !== JSCompiler_object_inline_digest_2451 && (JSCompiler_object_inline_stack_2452 = renderLanes2 & -renderLanes2, JSCompiler_object_inline_stack_2452 = 0 !== (JSCompiler_object_inline_stack_2452 & 42) ? 1 : getBumpedLaneForHydrationByLane(
                 JSCompiler_object_inline_stack_2452
               ), JSCompiler_object_inline_stack_2452 = 0 !== (JSCompiler_object_inline_stack_2452 & (JSCompiler_object_inline_digest_2451.suspendedLanes | renderLanes2)) ? 0 : JSCompiler_object_inline_stack_2452, 0 !== JSCompiler_object_inline_stack_2452 && JSCompiler_object_inline_stack_2452 !== prevState.retryLane))
-                throw (prevState.retryLane = JSCompiler_object_inline_stack_2452, enqueueConcurrentRenderForLane(
+                throw prevState.retryLane = JSCompiler_object_inline_stack_2452, enqueueConcurrentRenderForLane(
                   current3,
                   JSCompiler_object_inline_stack_2452
                 ), scheduleUpdateOnFiber(
                   JSCompiler_object_inline_digest_2451,
                   current3,
                   JSCompiler_object_inline_stack_2452
-                ), SelectiveHydrationException);
+                ), SelectiveHydrationException;
               JSCompiler_object_inline_message_2450.data === SUSPENSE_PENDING_START_DATA || renderDidSuspendDelayIfPossible();
               workInProgress2 = retrySuspenseComponentWithoutHydrating(
                 current3,
@@ -9206,7 +9204,7 @@
           else if (workInProgress2.flags |= 16777216, !preloadResource(resource)) {
             resource = suspenseHandlerStackCursor.current;
             if (null !== resource && ((workInProgressRootRenderLanes & 4194048) === workInProgressRootRenderLanes ? null !== shellBoundary : (workInProgressRootRenderLanes & 62914560) !== workInProgressRootRenderLanes && 0 === (workInProgressRootRenderLanes & 536870912) || resource !== shellBoundary))
-              throw (suspendedThenable = noopSuspenseyCommitThenable, SuspenseyCommitException);
+              throw suspendedThenable = noopSuspenseyCommitThenable, SuspenseyCommitException;
             workInProgress2.flags |= 8192;
           }
         }
@@ -12171,7 +12169,7 @@
               return;
             }
           } catch (error) {
-            if (null !== returnFiber) throw (workInProgress = returnFiber, error);
+            if (null !== returnFiber) throw workInProgress = returnFiber, error;
             workInProgressRootExitStatus = RootFatalErrored;
             logUncaughtError(
               root2,
@@ -15520,15 +15518,15 @@
                   );
                 }
                 if (currentProps && null === currentResource)
-                  throw (pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
+                  throw pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
                     "Expected <link> not to update to be updated to a stylesheet with precedence. Check the `rel`, `href`, and `precedence` props of this component. Alternatively, check whether two different <link> components render in the same slot or share the same key." + pendingProps
-                  ));
+                  );
                 return _resource;
               }
               if (currentProps && null !== currentResource)
-                throw (pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
+                throw pendingProps = "\n\n  - " + describeLinkForResourceErrorDEV(currentProps) + "\n  + " + describeLinkForResourceErrorDEV(pendingProps), Error(
                   "Expected stylesheet with precedence to not be updated to a different kind of <link>. Check the `rel`, `href`, and `precedence` props of this component. Alternatively, check whether two different <link> components render in the same slot or share the same key." + pendingProps
-                ));
+                );
               return null;
             case "script":
               return currentProps = pendingProps.async, pendingProps = pendingProps.src, "string" === typeof pendingProps && currentProps && "function" !== typeof currentProps && "symbol" !== typeof currentProps ? (pendingProps = getScriptKey(pendingProps), currentProps = getResourcesFromRoot(resourceRoot).hoistableScripts, currentResource = currentProps.get(pendingProps), currentResource || (currentResource = {
@@ -19610,7 +19608,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment26 = REACT_FRAGMENT_TYPE;
+          var Fragment23 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19669,7 +19667,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment26;
+          exports.Fragment = Fragment23;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -21041,7 +21039,7 @@
   var ContextKey = /* @__PURE__ */ Symbol.for(`react-redux-context`);
   var gT = typeof globalThis !== "undefined" ? globalThis : (
     /* fall back to a per-module scope (pre-8.1 behaviour) if `globalThis` is not available */
-    ({})
+    {}
   );
   function getContext() {
     if (!React.createContext) return {};
@@ -21110,7 +21108,7 @@
   function createStoreHook(context = ReactReduxContext) {
     const useReduxContext2 = context === ReactReduxContext ? useReduxContext : (
       // @ts-ignore
-      (createReduxContextHook(context))
+      createReduxContextHook(context)
     );
     const useStore2 = () => {
       const { store: store2 } = useReduxContext2();
@@ -21304,7 +21302,7 @@
       pathname: typeof current2 === "string" ? current2 : current2.pathname,
       search: "",
       hash: "",
-      ...(typeof to2 === "string" ? parsePath(to2) : to2),
+      ...typeof to2 === "string" ? parsePath(to2) : to2,
       state,
       // TODO: This could be cleaned up.  push/replace should probably just take
       // full Locations now and avoid the need to run through this flow at all
@@ -21683,11 +21681,11 @@
       // first. This allows people to have fine-grained control over the matching
       // behavior by simply putting routes with identical paths in the order they
       // want them tried.
-      (a[a.length - 1] - b[b.length - 1])
+      a[a.length - 1] - b[b.length - 1]
     ) : (
       // Otherwise, it doesn't really make sense to rank non-siblings by index,
       // so they sort equally.
-      (0)
+      0
     );
   }
   function matchRouteBranch(branch, pathname, allowPartial = false) {
@@ -22403,7 +22401,7 @@
       let loadingNavigation = opts && opts.overrideNavigation;
       let matches2 = opts?.initialHydration && state.matches && state.matches.length > 0 && !initialMatchesIsFOW ? (
         // `matchRoutes()` has already been called if we're in here via `router.initialize()`
-        (state.matches)
+        state.matches
       ) : matchRoutes(routesToUse, location2, basename);
       let flushSync = (opts && opts.flushSync) === true;
       if (matches2 && state.initialized && !isRevalidationRequired && isHashChangeOnly(state.location, location2) && !(opts && opts.submission && isMutationMethod(opts.submission.formMethod))) {
@@ -22645,7 +22643,7 @@
           updateState(
             {
               navigation: loadingNavigation,
-              ...(actionData !== void 0 ? { actionData } : {})
+              ...actionData !== void 0 ? { actionData } : {}
             },
             {
               flushSync
@@ -22717,7 +22715,7 @@
             // Commit pending error if we're short circuiting
             errors: pendingActionResult && isErrorResult(pendingActionResult[1]) ? { [pendingActionResult[0]]: pendingActionResult[1].error } : null,
             ...getActionDataForCommit(pendingActionResult),
-            ...(updatedFetchers2 ? { fetchers: new Map(state.fetchers) } : {})
+            ...updatedFetchers2 ? { fetchers: new Map(state.fetchers) } : {}
           },
           { flushSync }
         );
@@ -22799,7 +22797,7 @@
         matches: matches2,
         loaderData,
         errors: errors2,
-        ...(shouldUpdateFetchers ? { fetchers: new Map(state.fetchers) } : {})
+        ...shouldUpdateFetchers ? { fetchers: new Map(state.fetchers) } : {}
       };
     }
     function getUpdatedActionData(pendingActionResult) {
@@ -23774,8 +23772,11 @@
         }
         let text2 = typeof opts.body === "string" ? opts.body : opts.body instanceof FormData || opts.body instanceof URLSearchParams ? (
           // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#plain-text-form-data
-          (Array.from(opts.body.entries()).reduce((acc, [name, value]) => `${acc}${name}=${value}
-`, ""))
+          Array.from(opts.body.entries()).reduce(
+            (acc, [name, value]) => `${acc}${name}=${value}
+`,
+            ""
+          )
         ) : String(opts.body);
         return {
           path,
@@ -23908,8 +23909,8 @@
       }
       let defaultShouldRevalidate = shouldSkipRevalidation ? false : (
         // Forced revalidation due to submission, useRevalidator, or X-Remix-Revalidate
-        (isRevalidationRequired || currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
-        currentUrl.search !== nextUrl.search || isNewRouteInstance(state.matches[index], match2))
+        isRevalidationRequired || currentUrl.pathname + currentUrl.search === nextUrl.pathname + nextUrl.search || // Search params affect all loaders
+        currentUrl.search !== nextUrl.search || isNewRouteInstance(state.matches[index], match2)
       );
       let shouldRevalidateArgs = {
         ...baseShouldRevalidateArgs,
@@ -24036,8 +24037,8 @@
   function isNewLoader(currentLoaderData, currentMatch, match2) {
     let isNew = (
       // [a] -> [a, b]
-      (// [a, b] -> [a, c]
-      (!currentMatch || match2.route.id !== currentMatch.route.id))
+      !currentMatch || // [a, b] -> [a, c]
+      match2.route.id !== currentMatch.route.id
     );
     let isMissingData = !currentLoaderData.hasOwnProperty(match2.route.id);
     return isNew || isMissingData;
@@ -24046,9 +24047,9 @@
     let currentPath = currentMatch.route.path;
     return (
       // param change for this match, /users/123 -> /users/456
-      // splat param changed, which is not present in match.path
+      currentMatch.pathname !== match2.pathname || // splat param changed, which is not present in match.path
       // e.g. /files/images/avatar.jpg -> files/finances.xls
-      (currentMatch.pathname !== match2.pathname || currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match2.params["*"])
+      currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match2.params["*"]
     );
   }
   function shouldRevalidateLoader(loaderMatch, arg) {
@@ -24539,7 +24540,7 @@
             params: match2.params,
             context: scopedContext
           },
-          ...(ctx !== void 0 ? [ctx] : [])
+          ...ctx !== void 0 ? [ctx] : []
         );
       };
       let handlerPromise = (async () => {
@@ -26205,9 +26206,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     let matchPathChanged = (match2, index) => {
       return (
         // param change, /users/123 -> /users/456
-        // splat param changed, which is not present in match.path
+        currentMatches[index].pathname !== match2.pathname || // splat param changed, which is not present in match.path
         // e.g. /files/images/avatar.jpg -> files/finances.xls
-        (currentMatches[index].pathname !== match2.pathname || currentMatches[index].route.path?.endsWith("*") && currentMatches[index].params["*"] !== match2.params["*"])
+        currentMatches[index].route.path?.endsWith("*") && currentMatches[index].params["*"] !== match2.params["*"]
       );
     };
     if (mode === "assets") {
@@ -26512,19 +26513,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       [newMatchesForAssets, manifest]
     );
     let keyedPrefetchLinks = useKeyedPrefetchLinks(newMatchesForAssets);
-    return (
-      /* @__PURE__ */ (React9.createElement(
-        React9.Fragment,
-        null,
-        dataHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "prefetch", as: "fetch", href: href2, ...linkProps })),
-        moduleHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "modulepreload", href: href2, ...linkProps })),
-        keyedPrefetchLinks.map(({ key, link }) => (
-            // these don't spread `linkProps` because they are full link descriptors
-            // already with their own props
-            /* @__PURE__ */ (React9.createElement("link", { key, ...link }))
-          ))
-      ))
-    );
+    return /* @__PURE__ */ React9.createElement(React9.Fragment, null, dataHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "prefetch", as: "fetch", href: href2, ...linkProps })), moduleHrefs.map((href2) => /* @__PURE__ */ React9.createElement("link", { key: href2, rel: "modulepreload", href: href2, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
+      // these don't spread `linkProps` because they are full link descriptors
+      // already with their own props
+      /* @__PURE__ */ React9.createElement("link", { key, ...link })
+    )));
   }
   function mergeRefs(...refs) {
     return (value) => {
@@ -26693,15 +26686,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
       let link = (
         // eslint-disable-next-line jsx-a11y/anchor-has-content
-        /* @__PURE__ */ (React10.createElement("a", {
-        ...rest,
-        ...prefetchHandlers,
-        href: absoluteHref || href2,
-        onClick: isExternal || reloadDocument ? onClick : handleClick,
-        ref: mergeRefs(forwardedRef, prefetchRef),
-        target,
-        "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
-      }))
+        /* @__PURE__ */ React10.createElement(
+          "a",
+          {
+            ...rest,
+            ...prefetchHandlers,
+            href: absoluteHref || href2,
+            onClick: isExternal || reloadDocument ? onClick : handleClick,
+            ref: mergeRefs(forwardedRef, prefetchRef),
+            target,
+            "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
+          }
+        )
       );
       return shouldPrefetch && !isAbsolute ? /* @__PURE__ */ React10.createElement(React10.Fragment, null, link, /* @__PURE__ */ React10.createElement(PrefetchPageLinks, { page: href2 })) : link;
     }
@@ -26948,10 +26944,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         // Only merge in the defaults if we haven't yet called setSearchParams.
         // Once we call that we want those to take precedence, otherwise you can't
         // remove a param with setSearchParams({}) if it has an initial value
-        (getSearchParamsForLocation(
+        getSearchParamsForLocation(
           location2.search,
           hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
-        ))
+        )
       ),
       [location2.search]
     );
@@ -27999,7 +27995,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return desc ? `value` in desc ? desc.value : (
       // This is a very special case, if the prop is a getter defined by the
       // prototype, we should invoke it with the draft as context!
-      (desc.get?.call(state.draft_))
+      desc.get?.call(state.draft_)
     ) : void 0;
   }
   function getDescriptorFromProto(source, prop) {
@@ -28795,12 +28791,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         return {
           type,
           payload: prepared.payload,
-          ...("meta" in prepared && {
+          ..."meta" in prepared && {
             meta: prepared.meta
-          }),
-          ...("error" in prepared && {
+          },
+          ..."error" in prepared && {
             error: prepared.error
-          })
+          }
         };
       }
       return {
@@ -29134,7 +29130,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isBoolean(x2) {
     return typeof x2 === "boolean";
   }
-  var buildGetDefaultMiddleware = () => (function getDefaultMiddleware(options2) {
+  var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options2) {
     const {
       thunk: thunk2 = true,
       immutableCheck = true,
@@ -29173,7 +29169,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     return middlewareArray;
-  });
+  };
   var SHOULD_AUTOBATCH = "RTK_autoBatch";
   var prepareAutoBatched = () => (payload) => ({
     payload,
@@ -29196,7 +29192,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const listeners = /* @__PURE__ */ new Set();
     const queueCallback = options2.type === "tick" ? queueMicrotask : options2.type === "raf" ? (
       // requestAnimationFrame won't exist in SSR environments. Fall back to a vague approximation just to keep from erroring.
-      (typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10))
+      typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10)
     ) : options2.type === "callback" ? options2.queueNotification : createQueueWithTimer(options2.timeout);
     const notifyListeners = () => {
       notificationQueued = false;
@@ -29236,7 +29232,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     });
   };
-  var buildGetDefaultEnhancers = (middlewareEnhancer) => (function getDefaultEnhancers(options2) {
+  var buildGetDefaultEnhancers = (middlewareEnhancer) => function getDefaultEnhancers(options2) {
     const {
       autoBatch = true
     } = options2 ?? {};
@@ -29245,7 +29241,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       enhancerArray.push(autoBatchEnhancer(typeof autoBatch === "object" ? autoBatch : void 0));
     }
     return enhancerArray;
-  });
+  };
   function configureStore(options2) {
     const getDefaultMiddleware = buildGetDefaultMiddleware();
     const {
@@ -29293,7 +29289,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       finalCompose = composeWithDevTools({
         // Enable capture of stack traces for dispatched Redux actions
         trace: true,
-        ...(typeof devTools === "object" && devTools)
+        ...typeof devTools === "object" && devTools
       });
     }
     const middlewareEnhancer = applyMiddleware(...finalMiddleware);
@@ -29505,25 +29501,25 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var commonProperties = ["name", "message", "stack", "code"];
   var RejectWithValue = class {
     constructor(payload, meta) {
-      /*
-      type-only property to distinguish between RejectWithValue and FulfillWithMeta
-      does not exist at runtime
-      */
-      __publicField(this, "_type");
       this.payload = payload;
       this.meta = meta;
     }
+    /*
+    type-only property to distinguish between RejectWithValue and FulfillWithMeta
+    does not exist at runtime
+    */
+    _type;
   };
   var FulfillWithMeta = class {
     constructor(payload, meta) {
-      /*
-      type-only property to distinguish between RejectWithValue and FulfillWithMeta
-      does not exist at runtime
-      */
-      __publicField(this, "_type");
       this.payload = payload;
       this.meta = meta;
     }
+    /*
+    type-only property to distinguish between RejectWithValue and FulfillWithMeta
+    does not exist at runtime
+    */
+    _type;
   };
   var miniSerializeError = (value) => {
     if (typeof value === "object" && value !== null) {
@@ -29545,7 +29541,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const fulfilled = createAction(typePrefix + "/fulfilled", (payload, requestId, arg, meta) => ({
         payload,
         meta: {
-          ...(meta || {}),
+          ...meta || {},
           arg,
           requestId,
           requestStatus: "fulfilled"
@@ -29554,7 +29550,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const pending = createAction(typePrefix + "/pending", (requestId, arg, meta) => ({
         payload: void 0,
         meta: {
-          ...(meta || {}),
+          ...meta || {},
           arg,
           requestId,
           requestStatus: "pending"
@@ -29564,7 +29560,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         payload,
         error: (options2 && options2.serializeError || miniSerializeError)(error || "Rejected"),
         meta: {
-          ...(meta || {}),
+          ...meta || {},
           arg,
           requestId,
           rejectedWithValue: !!payload,
@@ -30400,16 +30396,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // node_modules/@standard-schema/utils/dist/index.js
   var SchemaError = class extends Error {
     /**
+     * The schema issues.
+     */
+    issues;
+    /**
      * Creates a schema error with useful information.
      *
      * @param issues The schema issues.
      */
     constructor(issues) {
       super(issues[0].message);
-      /**
-       * The schema issues.
-       */
-      __publicField(this, "issues");
       this.name = "SchemaError";
       this.issues = issues;
     }
@@ -30496,7 +30492,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var defaultValidateStatus = (response) => response.status >= 200 && response.status <= 299;
   var defaultIsJsonContentType = (headers) => (
     /*applicat*/
-    (/ion\/(vnd\.api\+)?json/.test(headers.get("content-type") || ""))
+    /ion\/(vnd\.api\+)?json/.test(headers.get("content-type") || "")
   );
   function stripUndefined(obj) {
     if (!isPlainObject(obj)) {
@@ -30558,7 +30554,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         ...rest
       };
       headers = new Headers(stripUndefined(headers));
-      config2.headers = (await prepareHeaders(headers, {
+      config2.headers = await prepareHeaders(headers, {
         getState,
         arg,
         extra,
@@ -30566,7 +30562,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         forced,
         type,
         extraOptions
-      })) || headers;
+      }) || headers;
       const isJsonifiable = (body) => typeof body === "object" && (isPlainObject(body) || Array.isArray(body) || typeof body.toJSON === "function");
       if (!config2.headers.has("content-type") && isJsonifiable(config2.body)) {
         config2.headers.set("content-type", jsonContentType);
@@ -30808,15 +30804,15 @@ You must add the middleware for RTK-Query to function correctly!`);
         const statePromise = Object.assign(forceQueryFn ? (
           // a query has been forced (upsertQueryData)
           // -> we want to resolve it once data has been written with the data that will be written
-          (thunkResult.then(selectFromState))
+          thunkResult.then(selectFromState)
         ) : skippedSynchronously && !runningQuery ? (
           // a query has been skipped due to a condition and we do not have any currently running query
           // -> we want to resolve it immediately with the current data
-          (Promise.resolve(stateAfter))
+          Promise.resolve(stateAfter)
         ) : (
           // query just started or one is already in flight
           // -> wait for the running query, then resolve with data from after that
-          (Promise.all([runningQuery, thunkResult]).then(selectFromState))
+          Promise.all([runningQuery, thunkResult]).then(selectFromState)
         ), {
           arg,
           requestId,
@@ -31187,7 +31183,7 @@ You must add the middleware for RTK-Query to function correctly!`);
           const cachedData = selectors5.selectQueryEntry(getState(), arg.queryCacheKey)?.data;
           const isForcedQueryNeedingRefetch = (
             // arg.forceRefetch
-            (isForcedQuery(arg, getState()) && !arg.direction)
+            isForcedQuery(arg, getState()) && !arg.direction
           );
           const existingData = isForcedQueryNeedingRefetch || !cachedData ? blankData : cachedData;
           if ("direction" in arg && arg.direction && existingData.pages.length) {
@@ -31303,9 +31299,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           const endpointDefinition = endpointDefinitions[arg.endpointName];
           return addShouldAutoBatch({
             startedTimeStamp: Date.now(),
-            ...(isInfiniteQueryDefinition(endpointDefinition) ? {
+            ...isInfiniteQueryDefinition(endpointDefinition) ? {
               direction: arg.direction
-            } : {})
+            } : {}
           });
         },
         condition(queryThunkArg, {
@@ -31459,10 +31455,10 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         substate.status = "pending";
         substate.requestId = upserting && substate.requestId ? (
           // for `upsertQuery` **updates**, keep the current `requestId`
-          (substate.requestId)
+          substate.requestId
         ) : (
           // for normal queries or `upsertQuery` **inserts** always update the `requestId`
-          (meta.requestId)
+          meta.requestId
         );
         if (arg.originalArgs !== void 0) {
           substate.originalArgs = arg.originalArgs;
@@ -32013,10 +32009,10 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         }
         let invalidateSubscriptions = (tag.id !== void 0 ? (
           // id given: invalidate all queries that provide this type & id
-          (provided[tag.id])
+          provided[tag.id]
         ) : (
           // no id: invalidate all queries that provide this type
-          (flatten(Object.values(provided)))
+          flatten(Object.values(provided))
         )) ?? [];
         for (const invalidate of invalidateSubscriptions) {
           toInvalidate.add(invalidate);
@@ -32107,7 +32103,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           }
           return finalSerializeQueryArgs(queryArgsApi);
         },
-        tagTypes: [...(options2.tagTypes || [])]
+        tagTypes: [...options2.tagTypes || []]
       };
       const context = {
         endpointDefinitions: {},
@@ -33347,9 +33343,9 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           const promise = dispatch(initiate(stableArg, {
             subscriptionOptions: stableSubscriptionOptions,
             forceRefetch: refetchOnMountOrArgChange,
-            ...(isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
+            ...isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
               initialPageParam: stableInitialPageParam
-            } : {})
+            } : {}
           }));
           promiseRef.current = promise;
         } else if (stableSubscriptionOptions !== lastSubscriptionOptions) {
@@ -33373,7 +33369,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           // already casting this selector to be `Selector<any>` anyway,
           // so the inconsistencies don't matter here
           // @ts-ignore
-          (createSelector2([
+          createSelector2([
             // @ts-ignore
             select(stableArg),
             (_, lastResult) => lastResult,
@@ -33382,7 +33378,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             memoizeOptions: {
               resultEqualityCheck: shallowEqual
             }
-          }))
+          })
         ), [select, stableArg]);
         const querySelector = (0, import_react.useMemo)(() => selectFromResult ? createSelector2([selectDefaultResult], selectFromResult, {
           devModeChecks: {
@@ -34646,13 +34642,13 @@ Hook ${hookName} was either not provided or not a function.`);
   );
   var getEntitiesFromPerson = (state, person) => {
     if (person?.entities) {
-      return Object.values(person.entities).flat().map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
+      return person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters.adaptOne(state, entity));
     }
     return [];
   };
   var getEntitiesFromSource = (state, source) => {
     if (source?.entities) {
-      return source.entities.flat().map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
+      return source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
     }
     return [];
   };
@@ -35209,9 +35205,9 @@ Hook ${hookName} was either not provided or not a function.`);
       var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
       return (
         // allows for nested Transitions
-        /* @__PURE__ */ (import_react8.default.createElement(TransitionGroupContext_default.Provider, {
-            value: null
-          }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps)))
+        /* @__PURE__ */ import_react8.default.createElement(TransitionGroupContext_default.Provider, {
+          value: null
+        }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps))
       );
     };
     return Transition2;
@@ -42627,6 +42623,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentActivityGroup = ({
     children,
     className,
+    group,
     icon: icon2,
     title
   }) => {
@@ -42637,7 +42634,7 @@ Hook ${hookName} was either not provided or not a function.`);
         className: cx("incident-activity-stat-group", className),
         subtitle: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
           hasIcon && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(icon_default, { name: icon2 }),
-          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "item-text", children: title })
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { className: "item-text", children: title || group.label })
         ] }),
         children: children && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(item_subsection_default, { children })
       }
@@ -42664,10 +42661,7 @@ Hook ${hookName} was either not provided or not a function.`);
         title: "Associated Names",
         description: `These people appear in lobbying reports related to ${entity.name}${entity.name.endsWith(".") ? "" : "."}`,
         icon: iconName3,
-        children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(incident_activity_group_default, { title: attendees.label, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(affiliated_people_table_default, { attendees: attendees.officials }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(affiliated_people_table_default, { attendees: attendees.lobbyists })
-        ] }) : null
+        children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }) : null
       }
     );
   };
@@ -46197,6 +46191,9 @@ Hook ${hookName} was either not provided or not a function.`);
     values: null
   };
   var DatasetController = class {
+    static defaults = {};
+    static datasetElementType = null;
+    static dataElementType = null;
     constructor(chart, datasetIndex) {
       this.chart = chart;
       this._ctx = chart.ctx;
@@ -46789,9 +46786,6 @@ Hook ${hookName} was either not provided or not a function.`);
       ]);
     }
   };
-  __publicField(DatasetController, "defaults", {});
-  __publicField(DatasetController, "datasetElementType", null);
-  __publicField(DatasetController, "dataElementType", null);
   function getAllScaleValues(scale, type) {
     if (!scale._cache.$bar) {
       const visibleMetas = scale.getMatchingVisibleMetas(type);
@@ -46993,6 +46987,41 @@ Hook ${hookName} was either not provided or not a function.`);
     properties.inflateAmount = inflateAmount === "auto" ? ratio === 1 ? 0.33 : 0 : inflateAmount;
   }
   var BarController = class extends DatasetController {
+    static id = "bar";
+    static defaults = {
+      datasetElementType: false,
+      dataElementType: "bar",
+      categoryPercentage: 0.8,
+      barPercentage: 0.9,
+      grouped: true,
+      animations: {
+        numbers: {
+          type: "number",
+          properties: [
+            "x",
+            "y",
+            "base",
+            "width",
+            "height"
+          ]
+        }
+      }
+    };
+    static overrides = {
+      scales: {
+        _index_: {
+          type: "category",
+          offset: true,
+          grid: {
+            offset: true
+          }
+        },
+        _value_: {
+          type: "linear",
+          beginAtZero: true
+        }
+      }
+    };
     parsePrimitiveData(meta, data2, start, count) {
       return parseArrayOrPrimitive(meta, data2, start, count);
     }
@@ -47251,42 +47280,24 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     }
   };
-  __publicField(BarController, "id", "bar");
-  __publicField(BarController, "defaults", {
-    datasetElementType: false,
-    dataElementType: "bar",
-    categoryPercentage: 0.8,
-    barPercentage: 0.9,
-    grouped: true,
-    animations: {
-      numbers: {
-        type: "number",
-        properties: [
-          "x",
-          "y",
-          "base",
-          "width",
-          "height"
-        ]
-      }
-    }
-  });
-  __publicField(BarController, "overrides", {
-    scales: {
-      _index_: {
-        type: "category",
-        offset: true,
-        grid: {
-          offset: true
-        }
-      },
-      _value_: {
-        type: "linear",
-        beginAtZero: true
-      }
-    }
-  });
   var LineController = class extends DatasetController {
+    static id = "line";
+    static defaults = {
+      datasetElementType: "line",
+      dataElementType: "point",
+      showLine: true,
+      spanGaps: false
+    };
+    static overrides = {
+      scales: {
+        _index_: {
+          type: "category"
+        },
+        _value_: {
+          type: "linear"
+        }
+      }
+    };
     initialize() {
       this.enableOptionSharing = true;
       this.supportsDecimation = true;
@@ -47374,31 +47385,10 @@ Hook ${hookName} was either not provided or not a function.`);
       super.draw();
     }
   };
-  __publicField(LineController, "id", "line");
-  __publicField(LineController, "defaults", {
-    datasetElementType: "line",
-    dataElementType: "point",
-    showLine: true,
-    spanGaps: false
-  });
-  __publicField(LineController, "overrides", {
-    scales: {
-      _index_: {
-        type: "category"
-      },
-      _value_: {
-        type: "linear"
-      }
-    }
-  });
   function abstract() {
     throw new Error("This method is not implemented: Check that a complete date adapter is provided.");
   }
   var DateAdapterBase = class _DateAdapterBase {
-    constructor(options2) {
-      __publicField(this, "options");
-      this.options = options2 || {};
-    }
     /**
     * Override default date adapter methods.
     * Accepts type parameter to define options type.
@@ -47411,6 +47401,10 @@ Hook ${hookName} was either not provided or not a function.`);
     */
     static override(members) {
       Object.assign(_DateAdapterBase.prototype, members);
+    }
+    options;
+    constructor(options2) {
+      this.options = options2 || {};
     }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     init() {
@@ -48295,13 +48289,13 @@ Hook ${hookName} was either not provided or not a function.`);
     return DomPlatform;
   }
   var Element2 = class {
-    constructor() {
-      __publicField(this, "x");
-      __publicField(this, "y");
-      __publicField(this, "active", false);
-      __publicField(this, "options");
-      __publicField(this, "$animations");
-    }
+    static defaults = {};
+    static defaultRoutes = void 0;
+    x;
+    y;
+    active = false;
+    options;
+    $animations;
     tooltipPosition(useFinalPosition) {
       const { x: x2, y } = this.getProps([
         "x",
@@ -48327,8 +48321,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return ret;
     }
   };
-  __publicField(Element2, "defaults", {});
-  __publicField(Element2, "defaultRoutes");
   function autoSkip(scale, ticks) {
     const tickOpts = scale.options.ticks;
     const determinedMaxTicks = determineMaxTicks(scale);
@@ -50228,7 +50220,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return cachedKeys(`${type}-plugin-${id}`, () => [
         [
           `plugins.${id}`,
-          ...(plugin.additionalOptionScopes || [])
+          ...plugin.additionalOptionScopes || []
         ]
       ]);
     }
@@ -50408,6 +50400,12 @@ Hook ${hookName} was either not provided or not a function.`);
     return e;
   }
   var Chart = class {
+    static defaults = defaults;
+    static instances = instances;
+    static overrides = overrides;
+    static registry = registry;
+    static version = version2;
+    static getChart = getChart;
     static register(...items) {
       registry.add(...items);
       invalidatePlugins();
@@ -51221,12 +51219,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return this.getElementsAtEventForMode(e, hoverOptions.mode, hoverOptions, useFinalPosition);
     }
   };
-  __publicField(Chart, "defaults", defaults);
-  __publicField(Chart, "instances", instances);
-  __publicField(Chart, "overrides", overrides);
-  __publicField(Chart, "registry", registry);
-  __publicField(Chart, "version", version2);
-  __publicField(Chart, "getChart", getChart);
   function invalidatePlugins() {
     return each2(Chart.instances, (chart) => chart._plugins.invalidate());
   }
@@ -51383,6 +51375,28 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   }
   var LineElement = class extends Element2 {
+    static id = "line";
+    static defaults = {
+      borderCapStyle: "butt",
+      borderDash: [],
+      borderDashOffset: 0,
+      borderJoinStyle: "miter",
+      borderWidth: 3,
+      capBezierPoints: true,
+      cubicInterpolationMode: "default",
+      fill: false,
+      spanGaps: false,
+      stepped: false,
+      tension: 0
+    };
+    static defaultRoutes = {
+      backgroundColor: "backgroundColor",
+      borderColor: "borderColor"
+    };
+    static descriptors = {
+      _scriptable: true,
+      _indexable: (name) => name !== "borderDash" && name !== "fill"
+    };
     constructor(cfg) {
       super();
       this.animated = true;
@@ -51493,28 +51507,6 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     }
   };
-  __publicField(LineElement, "id", "line");
-  __publicField(LineElement, "defaults", {
-    borderCapStyle: "butt",
-    borderDash: [],
-    borderDashOffset: 0,
-    borderJoinStyle: "miter",
-    borderWidth: 3,
-    capBezierPoints: true,
-    cubicInterpolationMode: "default",
-    fill: false,
-    spanGaps: false,
-    stepped: false,
-    tension: 0
-  });
-  __publicField(LineElement, "defaultRoutes", {
-    backgroundColor: "backgroundColor",
-    borderColor: "borderColor"
-  });
-  __publicField(LineElement, "descriptors", {
-    _scriptable: true,
-    _indexable: (name) => name !== "borderDash" && name !== "fill"
-  });
   function inRange$1(el, pos, axis, useFinalPosition) {
     const options2 = el.options;
     const { [axis]: value } = el.getProps([
@@ -51523,11 +51515,31 @@ Hook ${hookName} was either not provided or not a function.`);
     return Math.abs(pos - value) < options2.radius + options2.hitRadius;
   }
   var PointElement = class extends Element2 {
+    static id = "point";
+    parsed;
+    skip;
+    stop;
+    /**
+    * @type {any}
+    */
+    static defaults = {
+      borderWidth: 1,
+      hitRadius: 1,
+      hoverBorderWidth: 1,
+      hoverRadius: 4,
+      pointStyle: "circle",
+      radius: 3,
+      rotation: 0
+    };
+    /**
+    * @type {any}
+    */
+    static defaultRoutes = {
+      backgroundColor: "backgroundColor",
+      borderColor: "borderColor"
+    };
     constructor(cfg) {
       super();
-      __publicField(this, "parsed");
-      __publicField(this, "skip");
-      __publicField(this, "stop");
       this.options = void 0;
       this.parsed = void 0;
       this.skip = void 0;
@@ -51582,26 +51594,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return options2.radius + options2.hitRadius;
     }
   };
-  __publicField(PointElement, "id", "point");
-  /**
-  * @type {any}
-  */
-  __publicField(PointElement, "defaults", {
-    borderWidth: 1,
-    hitRadius: 1,
-    hoverBorderWidth: 1,
-    hoverRadius: 4,
-    pointStyle: "circle",
-    radius: 3,
-    rotation: 0
-  });
-  /**
-  * @type {any}
-  */
-  __publicField(PointElement, "defaultRoutes", {
-    backgroundColor: "backgroundColor",
-    borderColor: "borderColor"
-  });
   function getBarBounds(bar, useFinalPosition) {
     const { x: x2, y, base, width, height } = bar.getProps([
       "x",
@@ -51716,6 +51708,18 @@ Hook ${hookName} was either not provided or not a function.`);
     };
   }
   var BarElement = class extends Element2 {
+    static id = "bar";
+    static defaults = {
+      borderSkipped: "start",
+      borderWidth: 0,
+      borderRadius: 0,
+      inflateAmount: "auto",
+      pointStyle: void 0
+    };
+    static defaultRoutes = {
+      backgroundColor: "backgroundColor",
+      borderColor: "borderColor"
+    };
     constructor(cfg) {
       super();
       this.options = void 0;
@@ -51772,18 +51776,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return axis === "x" ? this.width / 2 : this.height / 2;
     }
   };
-  __publicField(BarElement, "id", "bar");
-  __publicField(BarElement, "defaults", {
-    borderSkipped: "start",
-    borderWidth: 0,
-    borderRadius: 0,
-    inflateAmount: "auto",
-    pointStyle: void 0
-  });
-  __publicField(BarElement, "defaultRoutes", {
-    backgroundColor: "backgroundColor",
-    borderColor: "borderColor"
-  });
   var getBoxSize = (labelOpts, fontSize) => {
     let { boxHeight = fontSize, boxWidth = fontSize } = labelOpts;
     if (labelOpts.usePointStyle) {
@@ -52786,6 +52778,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return result;
   }
   var Tooltip = class extends Element2 {
+    static positioners = positioners;
     constructor(config2) {
       super();
       this.opacity = 0;
@@ -53325,7 +53318,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return position2 !== false && (caretX !== position2.x || caretY !== position2.y);
     }
   };
-  __publicField(Tooltip, "positioners", positioners);
   var plugin_tooltip = {
     id: "tooltip",
     _element: Tooltip,
@@ -53481,6 +53473,12 @@ Hook ${hookName} was either not provided or not a function.`);
     return value;
   }
   var CategoryScale = class extends Scale {
+    static id = "category";
+    static defaults = {
+      ticks: {
+        callback: _getLabelForValue
+      }
+    };
     constructor(cfg) {
       super(cfg);
       this._startValue = void 0;
@@ -53567,12 +53565,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return this.bottom;
     }
   };
-  __publicField(CategoryScale, "id", "category");
-  __publicField(CategoryScale, "defaults", {
-    ticks: {
-      callback: _getLabelForValue
-    }
-  });
   function generateTicks$1(generationOptions, dataRange) {
     const ticks = [];
     const MIN_SPACING = 1e-14;
@@ -53796,6 +53788,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   };
   var LinearScale = class extends LinearScaleBase {
+    static id = "linear";
+    static defaults = {
+      ticks: {
+        callback: Ticks.formatters.numeric
+      }
+    };
     determineDataLimits() {
       const { min, max } = this.getMinMax(true);
       this.min = isNumberFinite(min) ? min : 0;
@@ -53817,12 +53815,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return this._startValue + this.getDecimalForPixel(pixel) * this._valueRange;
     }
   };
-  __publicField(LinearScale, "id", "linear");
-  __publicField(LinearScale, "defaults", {
-    ticks: {
-      callback: Ticks.formatters.numeric
-    }
-  });
   var log10Floor = (v) => Math.floor(log10(v));
   var changeExponent = (v, m) => Math.pow(10, log10Floor(v) + m);
   function isMajor(tickVal) {
@@ -53885,6 +53877,15 @@ Hook ${hookName} was either not provided or not a function.`);
     return ticks;
   }
   var LogarithmicScale = class extends Scale {
+    static id = "logarithmic";
+    static defaults = {
+      ticks: {
+        callback: Ticks.formatters.logarithmic,
+        major: {
+          enabled: true
+        }
+      }
+    };
     constructor(cfg) {
       super(cfg);
       this.start = void 0;
@@ -53982,15 +53983,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return Math.pow(10, this._startValue + decimal * this._valueRange);
     }
   };
-  __publicField(LogarithmicScale, "id", "logarithmic");
-  __publicField(LogarithmicScale, "defaults", {
-    ticks: {
-      callback: Ticks.formatters.logarithmic,
-      major: {
-        enabled: true
-      }
-    }
-  });
   function getTickBackdropHeight(opts) {
     const tickOpts = opts.ticks;
     if (tickOpts.display && opts.display) {
@@ -54244,6 +54236,49 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   }
   var RadialLinearScale = class extends LinearScaleBase {
+    static id = "radialLinear";
+    static defaults = {
+      display: true,
+      animate: true,
+      position: "chartArea",
+      angleLines: {
+        display: true,
+        lineWidth: 1,
+        borderDash: [],
+        borderDashOffset: 0
+      },
+      grid: {
+        circular: false
+      },
+      startAngle: 0,
+      ticks: {
+        showLabelBackdrop: true,
+        callback: Ticks.formatters.numeric
+      },
+      pointLabels: {
+        backdropColor: void 0,
+        backdropPadding: 2,
+        display: true,
+        font: {
+          size: 10
+        },
+        callback(label) {
+          return label;
+        },
+        padding: 5,
+        centerPointLabels: false
+      }
+    };
+    static defaultRoutes = {
+      "angleLines.color": "borderColor",
+      "pointLabels.color": "color",
+      "ticks.color": "color"
+    };
+    static descriptors = {
+      angleLines: {
+        _fallback: "grid"
+      }
+    };
     constructor(cfg) {
       super(cfg);
       this.xCenter = void 0;
@@ -54440,49 +54475,6 @@ Hook ${hookName} was either not provided or not a function.`);
     drawTitle() {
     }
   };
-  __publicField(RadialLinearScale, "id", "radialLinear");
-  __publicField(RadialLinearScale, "defaults", {
-    display: true,
-    animate: true,
-    position: "chartArea",
-    angleLines: {
-      display: true,
-      lineWidth: 1,
-      borderDash: [],
-      borderDashOffset: 0
-    },
-    grid: {
-      circular: false
-    },
-    startAngle: 0,
-    ticks: {
-      showLabelBackdrop: true,
-      callback: Ticks.formatters.numeric
-    },
-    pointLabels: {
-      backdropColor: void 0,
-      backdropPadding: 2,
-      display: true,
-      font: {
-        size: 10
-      },
-      callback(label) {
-        return label;
-      },
-      padding: 5,
-      centerPointLabels: false
-    }
-  });
-  __publicField(RadialLinearScale, "defaultRoutes", {
-    "angleLines.color": "borderColor",
-    "pointLabels.color": "color",
-    "ticks.color": "color"
-  });
-  __publicField(RadialLinearScale, "descriptors", {
-    angleLines: {
-      _fallback: "grid"
-    }
-  });
   var INTERVALS = {
     millisecond: {
       common: true,
@@ -54619,6 +54611,26 @@ Hook ${hookName} was either not provided or not a function.`);
     return ilen === 0 || !majorUnit ? ticks : setMajorTicks(scale, ticks, map2, majorUnit);
   }
   var TimeScale = class extends Scale {
+    static id = "time";
+    static defaults = {
+      bounds: "data",
+      adapters: {},
+      time: {
+        parser: false,
+        unit: false,
+        round: false,
+        isoWeekday: false,
+        minUnit: "millisecond",
+        displayFormats: {}
+      },
+      ticks: {
+        source: "auto",
+        callback: false,
+        major: {
+          enabled: false
+        }
+      }
+    };
     constructor(props) {
       super(props);
       this._cache = {
@@ -54885,26 +54897,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return _arrayUnique(values.sort(sorter));
     }
   };
-  __publicField(TimeScale, "id", "time");
-  __publicField(TimeScale, "defaults", {
-    bounds: "data",
-    adapters: {},
-    time: {
-      parser: false,
-      unit: false,
-      round: false,
-      isoWeekday: false,
-      minUnit: "millisecond",
-      displayFormats: {}
-    },
-    ticks: {
-      source: "auto",
-      callback: false,
-      major: {
-        enabled: false
-      }
-    }
-  });
   function interpolate2(table, val, reverse) {
     let lo = 0;
     let hi = table.length - 1;
@@ -54926,6 +54918,8 @@ Hook ${hookName} was either not provided or not a function.`);
     return span ? prevTarget + (nextTarget - prevTarget) * (val - prevSource) / span : prevTarget;
   }
   var TimeSeriesScale = class extends TimeScale {
+    static id = "timeseries";
+    static defaults = TimeScale.defaults;
     constructor(props) {
       super(props);
       this._table = [];
@@ -55011,8 +55005,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return interpolate2(this._table, decimal * this._tableRange + this._minPos, true);
     }
   };
-  __publicField(TimeSeriesScale, "id", "timeseries");
-  __publicField(TimeSeriesScale, "defaults", TimeScale.defaults);
 
   // node_modules/react-chartjs-2/dist/index.js
   var import_react32 = __toESM(require_react(), 1);
@@ -56000,12 +55992,10 @@ Hook ${hookName} was either not provided or not a function.`);
     person
   }) => {
     const [trigger] = api_default.useLazyGetPersonAttendeesByIdQuery();
-    const hasAttendees = "attendees" in person;
+    const hasAttendees = "attendees" in person && Boolean(person.attendees);
     const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
     const isOfficial = person.roles?.includes("official" /* Official */);
-    const hasLobbyistRecords = isLobbyist && hasAttendees && Boolean(person.attendees.asLobbyist.lobbyists.records.length || person.attendees.asLobbyist.officials.records.length);
-    const hasOfficialRecords = isOfficial && hasAttendees && Boolean(person.attendees.asOfficial.lobbyists.records.length || person.attendees.asOfficial.officials.records.length);
-    const hasRecords = hasLobbyistRecords || hasOfficialRecords;
+    const hasRecords = hasAttendees && attendees.roles.some((role) => role.values.some((v) => v.records.length));
     const description = [
       "According to the lobbying activity reports published by the City of Portland,",
       person.name
@@ -56029,23 +56019,7 @@ Hook ${hookName} was either not provided or not a function.`);
         title: "Associated Names",
         description: `${person.name} is named in lobbying reports that also include these people.`,
         icon: iconName3,
-        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(import_jsx_runtime79.Fragment, { children: [
-          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(incident_activity_group_default, { title: attendees.asLobbyist.label, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.officials }),
-            /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: attendees.asLobbyist.lobbyists })
-          ] }),
-          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(
-            incident_activity_group_default,
-            {
-              icon: "landmark",
-              title: attendees.asOfficial.label,
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.lobbyists }),
-                /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: attendees.asOfficial.officials })
-              ]
-            }
-          )
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+        children: hasRecords ? attendees.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(incident_activity_group_default, { group: role, children: role.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
           incident_activity_group_default,
           {
             title: "No record of associated names was found."
@@ -56108,33 +56082,31 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const ref = (0, import_react41.useRef)(null);
     const hasPerson = Boolean(person);
-    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.map((item, i) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "affiliated-items", ref, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_table_default, { hasAnotherIcon: hasPerson && hasLobbyist, children: entities.records.map((item, i) => {
       const hasTotal = Boolean(item.total);
       return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("tr", { children: [
-        hasPerson ? hasLobbyist ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(import_jsx_runtime81.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
-            "div",
-            {
-              className: "icons",
-              title: `${item.entity.name} is or was registered to lobby the City`,
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}),
-                /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
-              ]
-            }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
-            "div",
-            {
-              className: "icons",
-              title: `${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`,
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}),
-                /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
-              ]
-            }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}) })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+          "div",
+          {
+            className: "icons",
+            title: `${item.entity.name} is or was registered to lobby the City`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}),
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
+            ]
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}) }),
+        hasPerson && hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("td", { className: "cell-type", children: item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+          "div",
+          {
+            className: "icons",
+            title: `${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`,
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}),
+              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
+            ]
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}) }),
         /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("td", { className: "cell-name", children: [
           /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_link_default2, { item: item.entity, className: "item-entity", children: item.entity.name }),
           /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("div", { className: "item-description", children: item.registrations })
@@ -56149,12 +56121,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime82 = __toESM(require_jsx_runtime());
   var Entities = ({ entities, person }) => {
     const [trigger] = api_default.useLazyGetPersonEntitiesByIdQuery();
-    const hasEntities = "entities" in person;
-    const isLobbyist = person.roles?.includes("lobbyist" /* Lobbyist */);
-    const isOfficial = person.roles?.includes("official" /* Official */);
-    const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
-    const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
-    const hasRecords = hasLobbyistRecords || hasOfficialRecords;
+    const hasEntities = "entities" in person && Boolean(person.entities);
+    const hasRecords = hasEntities && entities.roles.some((role) => role.values.some((v) => v.records.length));
     (0, import_react42.useEffect)(() => {
       if (!hasRecords) {
         trigger({ id: person.id });
@@ -56166,29 +56134,15 @@ Hook ${hookName} was either not provided or not a function.`);
         title: "Associated Entities",
         description: `${person.name} is named in lobbying reports related to these entities.`,
         icon: iconName,
-        children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_jsx_runtime82.Fragment, { children: [
-          isLobbyist && /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
-            incident_activity_group_default,
-            {
-              title: `As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`,
-              children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
-                affiliated_entities_table_default,
-                {
-                  entities: entities.asLobbyist,
-                  hasLobbyist: true,
-                  person
-                }
-              )
-            }
-          ),
-          isOfficial && /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
-            incident_activity_group_default,
-            {
-              title: `As a City official, ${person.name} was lobbied by representatives of these entities`,
-              children: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(affiliated_entities_table_default, { entities: entities.asOfficial })
-            }
-          )
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
+        children: hasRecords ? entities.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(incident_activity_group_default, { group: role, children: role.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
+          affiliated_entities_table_default,
+          {
+            entities: group,
+            hasLobbyist: group.role === "lobbyist" /* Lobbyist */,
+            person
+          },
+          group.role
+        )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
           incident_activity_group_default,
           {
             title: "No record of associated entities was found."
@@ -56315,10 +56269,7 @@ Hook ${hookName} was either not provided or not a function.`);
         trigger({ id: numericId });
       }
     }, [hasAttendees, numericId, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_groups_default, { title: "Associated Names", icon: iconName3, children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(incident_activity_group_default, { title: attendees.label, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(affiliated_people_table_default, { attendees: attendees.officials }),
-      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(affiliated_people_table_default, { attendees: attendees.lobbyists })
-    ] }) : null });
+    return /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_groups_default, { title: "Associated Names", icon: iconName3, children: attendees ? /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(incident_activity_group_default, { group: attendees, children: attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(affiliated_people_table_default, { attendees: group }, group.role)) }) : null });
   };
   var attendees_default3 = Attendees3;
 
@@ -56332,19 +56283,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime88 = __toESM(require_jsx_runtime());
   var Entities2 = ({ entities, source }) => {
     const [trigger] = api_default.useLazyGetSourceEntitiesByIdQuery();
-    const hasEntities = entities?.length > 0;
+    const hasEntities = "entities" in source && Boolean(source.entities);
+    const hasRecords = hasEntities && entities.values.some((v) => v.records.length);
     (0, import_react46.useEffect)(() => {
       if (!hasEntities) {
         trigger({ id: source.id });
       }
     }, [hasEntities, source, trigger]);
-    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: entities ? /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
-      incident_activity_group_default,
-      {
-        title: `These entities appear in ${source.title}`,
-        children: /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(affiliated_entities_table_default, { entities })
-      }
-    ) : null });
+    return /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(incident_activity_group_default, { group: entities, children: entities.values.map((group, i) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(affiliated_entities_table_default, { entities: group }, i)) }) : null });
   };
   var entities_default4 = Entities2;
 

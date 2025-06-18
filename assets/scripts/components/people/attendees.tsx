@@ -21,12 +21,10 @@ const Attendees = ({
 }: Props) => {
   const [trigger] = api.useLazyGetPersonAttendeesByIdQuery();
 
-  const hasAttendees = 'attendees' in person;
+  const hasAttendees = 'attendees' in person && Boolean(person.attendees);
   const isLobbyist = person.roles?.includes(Role.Lobbyist);
   const isOfficial = person.roles?.includes(Role.Official);
-  const hasLobbyistRecords = isLobbyist && hasAttendees && Boolean(person.attendees.asLobbyist.lobbyists.records.length || person.attendees.asLobbyist.officials.records.length);
-  const hasOfficialRecords = isOfficial && hasAttendees && Boolean(person.attendees.asOfficial.lobbyists.records.length || person.attendees.asOfficial.officials.records.length);
-  const hasRecords = hasLobbyistRecords || hasOfficialRecords;
+  const hasRecords = hasAttendees && attendees.roles.some(role => role.values.some(v => v.records.length));
 
   const description = [
     'According to the lobbying activity reports published by the City of Portland,',
@@ -56,23 +54,13 @@ const Attendees = ({
       icon={iconName}
     >
       {hasRecords ? (
-        <>
-          {isLobbyist && (
-            <IncidentActivityGroup title={attendees.asLobbyist.label}>
-              <AffiliatedPeopleTable attendees={attendees.asLobbyist.officials} />
-              <AffiliatedPeopleTable attendees={attendees.asLobbyist.lobbyists} />
-            </IncidentActivityGroup>
-          )}
-          {isOfficial && (
-            <IncidentActivityGroup
-              icon='landmark'
-              title={attendees.asOfficial.label}
-            >
-              <AffiliatedPeopleTable attendees={attendees.asOfficial.lobbyists} />
-              <AffiliatedPeopleTable attendees={attendees.asOfficial.officials} />
-            </IncidentActivityGroup>
-          )}
-        </>
+        attendees.roles.map(role => (
+          <IncidentActivityGroup key={role.role} group={role}>
+            {role.values.map(group => (
+              <AffiliatedPeopleTable key={group.role} attendees={group} />
+            ))}
+          </IncidentActivityGroup>
+        ))
       ) : (
         <IncidentActivityGroup
           title='No record of associated names was found.'

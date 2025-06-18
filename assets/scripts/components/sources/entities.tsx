@@ -7,17 +7,18 @@ import { iconName } from '../entities/icon';
 
 import api from '../../services/api';
 
-import type { AffiliatedItem, Source } from '../../types';
+import type { Source, SourceEntities } from '../../types';
 
 interface Props {
-  entities: AffiliatedItem[];
+  entities: SourceEntities;
   source: Source;
 }
 
 const Entities = ({ entities, source }: Props) => {
   const [trigger] = api.useLazyGetSourceEntitiesByIdQuery();
 
-  const hasEntities = entities?.length > 0;
+  const hasEntities = 'entities' in source && Boolean(source.entities);
+  const hasRecords = hasEntities && entities.values.some(v => v.records.length);
 
   useEffect(() => {
     if (!hasEntities) {
@@ -27,11 +28,11 @@ const Entities = ({ entities, source }: Props) => {
 
   return (
     <IncidentActivityGroups title='Associated Entities' icon={iconName}>
-      {entities ? (
-        <IncidentActivityGroup
-          title={`These entities appear in ${source.title}`}
-        >
-          <AffiliatedEntitiesTable entities={entities} />
+      {hasRecords ? (
+        <IncidentActivityGroup group={entities}>
+          {entities.values.map((group, i: number) =>(
+            <AffiliatedEntitiesTable key={i} entities={group} />
+          ))}
         </IncidentActivityGroup>
       ) : null}
     </IncidentActivityGroups>

@@ -11,10 +11,10 @@ import {
 import PersonIcon from './people/icon';
 import StatBox from './stat-box';
 
-import type { AffiliatedItem, Person } from '../types';
+import type { AffiliatedEntityValue, Person } from '../types';
 
 interface Props {
-  entities: AffiliatedItem[];
+  entities: AffiliatedEntityValue;
   hasLobbyist?: boolean;
   person?: Person;
   title?: string;
@@ -36,49 +36,37 @@ const AffiliatedEntitiesTable = ({
     <StatBox title={title}>
       <div className='affiliated-items' ref={ref}>
         <ItemTable hasAnotherIcon={hasPerson && hasLobbyist}>
-          {entities.map((item, i) => {
+          {entities.records.map((item, i) => {
             const hasTotal = Boolean(item.total);
 
             return (
               <tr key={i}>
-                {hasPerson ? (
-                  hasLobbyist ? (
-                    <>
-                      <td className='cell-type'>
-                        {item.entity.isRegistered ? (
-                          <div
-                            className='icons'
-                            title={`${item.entity.name} is or was registered to lobby the City`}
-                          >
-                            <EntityIcon />
-                            <RegisteredIcon />
-                          </div>
-                        ) : (
-                          <EntityIcon />
-                        )}
-                      </td>
-                      <td className='cell-type'>
-                        {item.isRegistered ? (
-                          <div
-                            className='icons'
-                            title={`${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`}
-                          >
-                            <PersonIcon />
-                            <RegisteredIcon />
-                          </div>
-                        ) : (
-                          <PersonIcon />
-                        )}
-                      </td>
-                    </>
-                  ) : (
-                    <td className='cell-type'>
+                <td className='cell-type'>
+                  {item.entity.isRegistered ? (
+                    <div
+                      className='icons'
+                      title={`${item.entity.name} is or was registered to lobby the City`}
+                    >
                       <EntityIcon />
-                    </td>
-                  )
-                ) : (
-                  <td className='cell-type'>
+                      <RegisteredIcon />
+                    </div>
+                  ) : (
                     <EntityIcon />
+                  )}
+                </td>
+                {hasPerson && hasLobbyist && (
+                  <td className='cell-type'>
+                    {item.isRegistered ? (
+                      <div
+                        className='icons'
+                        title={`${person.name} is or was registered to lobby the City on behalf of ${item.entity.name}`}
+                      >
+                        <PersonIcon />
+                        <RegisteredIcon />
+                      </div>
+                    ) : (
+                      <PersonIcon />
+                    )}
                   </td>
                 )}
                 <td className='cell-name'>

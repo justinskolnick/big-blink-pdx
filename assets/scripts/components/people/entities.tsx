@@ -18,12 +18,8 @@ interface Props {
 const Entities = ({ entities, person }: Props) => {
   const [trigger] = api.useLazyGetPersonEntitiesByIdQuery();
 
-  const hasEntities = 'entities' in person;
-  const isLobbyist = person.roles?.includes(Role.Lobbyist);
-  const isOfficial = person.roles?.includes(Role.Official);
-  const hasLobbyistRecords = isLobbyist && hasEntities && Boolean(person.entities.asLobbyist.length || person.entities.asLobbyist.length);
-  const hasOfficialRecords = isOfficial && hasEntities && Boolean(person.entities.asOfficial.length || person.entities.asOfficial.length);
-  const hasRecords = hasLobbyistRecords || hasOfficialRecords;
+  const hasEntities = 'entities' in person && Boolean(person.entities);
+  const hasRecords = hasEntities && entities.roles.some(role => role.values.some(v => v.records.length));
 
   useEffect(() => {
     if (!hasRecords) {
@@ -38,26 +34,18 @@ const Entities = ({ entities, person }: Props) => {
       icon={iconName}
     >
       {hasRecords ? (
-        <>
-          {isLobbyist && (
-            <IncidentActivityGroup
-              title={`As a lobbyist, ${person.name} interacted with City officials on behalf of these entities`}
-            >
+        entities.roles.map(role => (
+          <IncidentActivityGroup key={role.role} group={role}>
+            {role.values.map(group => (
               <AffiliatedEntitiesTable
-                entities={entities.asLobbyist}
-                hasLobbyist
+                key={group.role}
+                entities={group}
+                hasLobbyist={group.role === Role.Lobbyist}
                 person={person}
               />
-            </IncidentActivityGroup>
-          )}
-          {isOfficial && (
-            <IncidentActivityGroup
-              title={`As a City official, ${person.name} was lobbied by representatives of these entities`}
-            >
-              <AffiliatedEntitiesTable entities={entities.asOfficial} />
-            </IncidentActivityGroup>
-          )}
-        </>
+            ))}
+          </IncidentActivityGroup>
+        ))
       ) : (
         <IncidentActivityGroup
           title='No record of associated entities was found.'

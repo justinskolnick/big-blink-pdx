@@ -43,9 +43,10 @@ const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
 
 const getEntitiesFromPerson = (state: RootState, person: Person) => {
   if (person?.entities) {
-    return Object.values(person.entities)
-      .flat()
-      .map(entry => entry.entity)
+    return person.entities.roles
+      .flatMap(role => role.values)
+      .flatMap(value => value.records)
+      .map(record => record.entity)
       .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
   }
 
@@ -54,8 +55,8 @@ const getEntitiesFromPerson = (state: RootState, person: Person) => {
 
 const getEntitiesFromSource = (state: RootState, source: Source) => {
   if (source?.entities) {
-     return source.entities
-      .flat()
+    return source.entities.values
+      .flatMap(value => value.records)
       .map(entry => entry.entity)
       .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
   }

@@ -1,15 +1,17 @@
 import React, { ReactNode } from 'react';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import Icon from './icon';
 import ItemSubsection from './item-subsection';
 import StatGroup from './stat-group';
 
-import { IconName } from '@fortawesome/fontawesome-svg-core';
+import type { Attendees, PersonEntityRole, SourceEntities } from '../types';
 
 interface Props {
   children?: ReactNode;
   className?: string;
+  group?: Attendees | PersonEntityRole | SourceEntities;
   icon?: IconName;
   title?: string | ReactNode;
 }
@@ -17,6 +19,7 @@ interface Props {
 export const IncidentActivityGroup = ({
   children,
   className,
+  group,
   icon,
   title,
 }: Props) => {
@@ -28,7 +31,7 @@ export const IncidentActivityGroup = ({
       subtitle={
         <>
           {hasIcon && <Icon name={icon} />}
-          <span className='item-text'>{title}</span>
+          <span className='item-text'>{title || group.label}</span>
         </>
       }
     >

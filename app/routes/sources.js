@@ -10,6 +10,8 @@ const {
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
   SECTION_SOURCES,
 } = require('../config/constants');
 
@@ -220,14 +222,19 @@ router.get('/:id/attendees', async (req, res, next) => {
       record = source.adapted;
       record.attendees = {
         label: `These people appear in ${record.title}`,
-        lobbyists: {
-          label: 'Lobbyists',
-          records: attendees.lobbyists.records.map(adaptItemPerson),
-        },
-        officials: {
-          label: 'City Officials',
-          records: attendees.officials.records.map(adaptItemPerson),
-        },
+        type: 'source',
+        values: [
+          {
+            label: 'Lobbyists',
+            records: attendees.lobbyists.records.map(adaptItemPerson),
+            role: ROLE_LOBBYIST,
+          },
+          {
+            label: 'City Officials',
+            records: attendees.officials.records.map(adaptItemPerson),
+            role: ROLE_OFFICIAL,
+          },
+        ],
       };
 
       data = {
@@ -262,7 +269,14 @@ router.get('/:id/entities', async (req, res, next) => {
       entities = await sources.getEntitiesForId(id);
 
       record = source.adapted;
-      record.entities = entities.map(adaptItemEntity);
+      record.entities = {
+        label: `These entities appear in ${record.title}`,
+        values: [
+          {
+            records: entities.map(adaptItemEntity),
+          },
+        ],
+      };
 
       data = {
         source: {

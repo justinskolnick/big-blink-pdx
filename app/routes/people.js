@@ -284,31 +284,59 @@ router.get('/:id/attendees', async (req, res, next) => {
       asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST });
       asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL });
 
+      const lobbyist = {
+        lobbyists: asLobbyist.lobbyists.records.map(adaptItemPerson),
+        officials: asLobbyist.officials.records.map(adaptItemPerson),
+      };
+      const official = {
+        lobbyists: asOfficial.lobbyists.records.map(adaptItemPerson),
+        officials: asOfficial.officials.records.map(adaptItemPerson),
+      };
+
       record = person.adapted;
       record.attendees = {
-        asLobbyist: {
-          label: `As a lobbyist, ${record.name} ...`,
-          lobbyists: {
-            label: 'Alongside these lobbyists',
-            records: asLobbyist.lobbyists.records.map(adaptItemPerson),
-          },
-          officials: {
-            label: 'Lobbied these City officials',
-            records: asLobbyist.officials.records.map(adaptItemPerson),
-          },
-        },
-        asOfficial: {
-          label: `As a City official, ${record.name} ...`,
-          lobbyists: {
-            label: 'Was lobbied by these lobbyists',
-            records: asOfficial.lobbyists.records.map(adaptItemPerson),
-          },
-          officials: {
-            label: 'Alongside these City officials',
-            records: asOfficial.officials.records.map(adaptItemPerson),
-          },
-        },
+        roles: [],
       };
+
+      if (lobbyist.lobbyists.length || lobbyist.officials.length) {
+        record.attendees.roles.push({
+          label: `As a lobbyist, ${record.name} ...`,
+          role: ROLE_LOBBYIST,
+          type: 'person',
+          values: [
+            {
+              label: '... lobbied alongside these lobbyists',
+              records: lobbyist.lobbyists,
+              role: ROLE_LOBBYIST,
+            },
+            {
+              label: '... met with these City officials',
+              records: lobbyist.officials,
+              role: ROLE_OFFICIAL,
+            },
+          ],
+        });
+      }
+
+      if (official.lobbyists.length || official.officials.length) {
+        record.attendees.roles.push({
+          label: `As a City official, ${record.name} ...`,
+          role: ROLE_OFFICIAL,
+          type: 'person',
+          values: [
+            {
+              label: '... was lobbied by these lobbyists',
+              records: official.lobbyists,
+              role: ROLE_LOBBYIST,
+            },
+            {
+              label: '... was lobbied alongside these City officials',
+              records: official.officials,
+              role: ROLE_OFFICIAL,
+            },
+          ],
+        });
+      }
 
       data = {
         person: {
@@ -343,11 +371,43 @@ router.get('/:id/entities', async (req, res, next) => {
       asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST });
       asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL });
 
+      const lobbyist = {
+        records: asLobbyist.map(adaptItemEntity),
+      };
+      const official = {
+        records: asOfficial.map(adaptItemEntity),
+      };
+
       record = person.adapted;
       record.entities = {
-        asLobbyist: asLobbyist.map(adaptItemEntity),
-        asOfficial: asOfficial.map(adaptItemEntity),
+        roles: [],
       };
+
+      if (lobbyist.records.length) {
+        record.entities.roles.push({
+          label: `As a lobbyist, ${record.name} interacted with City officials on behalf of these entities`,
+          role: ROLE_LOBBYIST,
+          values: [
+            {
+              records: lobbyist.records,
+              role: ROLE_LOBBYIST,
+            },
+          ],
+        });
+      }
+
+      if (official.records.length) {
+        record.entities.roles.push({
+          label: `As a City official, ${record.name} was lobbied by representatives of these entities`,
+          role: ROLE_OFFICIAL,
+          values: [
+            {
+              records: official.records,
+              role: ROLE_OFFICIAL,
+            },
+          ],
+        });
+      }
 
       data = {
         person: {

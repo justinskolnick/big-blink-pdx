@@ -82,12 +82,13 @@ export type Attendee = {
 export type AttendeeGroup = {
   label?: string;
   records: Attendee[];
+  role: Role;
 }
 
 export type Attendees = {
-  label?: string;
-  lobbyists: AttendeeGroup;
-  officials: AttendeeGroup;
+  label: string;
+  type: 'entity' | 'person' | 'source';
+  values: AttendeeGroup[];
 }
 
 type Details = {
@@ -109,7 +110,10 @@ export type Incident = {
   sourceId: number;
   topic: string;
   notes: string;
-  attendees?: Attendees;
+  attendees?: {
+    officials: AttendeeGroup;
+    lobbyists: AttendeeGroup;
+  };
   details?: Details;
   links?: LinkObject;
 };
@@ -345,17 +349,6 @@ export type EntityWithIncidentRecords = Entity & {
 
 export type Entities = Entity[];
 
-export type PersonAttendees = {
-  asLobbyist: Attendees;
-  asOfficial: Attendees;
-};
-
-export type PersonEntity = {
-  entity: Entity;
-  isRegistered?: boolean;
-  total?: number;
-};
-
 type Interest = {
   category: string;
   topic: string;
@@ -370,15 +363,42 @@ export type AffiliatedItem = {
   total?: number;
 };
 
-export type PersonEntities = {
-  asLobbyist: PersonEntity[];
-  asOfficial: PersonEntity[];
-};
-
 export enum Role {
   Lobbyist = 'lobbyist',
   Official = 'official',
 }
+
+type AffiliatedEntityRecord = {
+  entity: Entity;
+  isRegistered?: boolean;
+  registrations?: string;
+  total?: number;
+};
+
+export type AffiliatedEntityValue = {
+  records: AffiliatedEntityRecord[];
+  role?: Role;
+};
+
+export type AffiliatedEntityValues = AffiliatedEntityValue[];
+
+export type PersonEntityRole = {
+  label: string;
+  role: Role;
+  values: AffiliatedEntityValues;
+};
+
+export type PersonEntities = {
+  roles: PersonEntityRole[];
+};
+
+type PersonAttendeesRole = Attendees & {
+  role: Role;
+};
+
+export type PersonAttendees = {
+  roles: PersonAttendeesRole[];
+};
 
 export type Person = Item & {
   roles?: Role[];
@@ -403,6 +423,11 @@ export enum DataFormat {
 
 type DataFormatStrings = keyof typeof DataFormat;
 
+export type SourceEntities = {
+  label: string;
+  values: AffiliatedEntityValues;
+};
+
 export type Source = {
   id: number;
   type: 'activity' | 'registration';
@@ -415,7 +440,7 @@ export type Source = {
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
   details?: Details;
-  entities?: AffiliatedItem[];
+  entities?: SourceEntities;
   overview?: ItemOverview;
   links?: LinkObject;
 }

@@ -8,6 +8,8 @@ const {
   PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
   PARAM_SORT,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
   SECTION_INCIDENTS,
 } = require('../config/constants');
 
@@ -150,9 +152,11 @@ router.get('/:id', async (req, res, next) => {
       record.attendees = {
         lobbyists: {
           records: attendeesResult.lobbyists,
+          role: ROLE_LOBBYIST,
         },
         officials: {
           records: attendeesResult.officials,
+          role: ROLE_OFFICIAL,
         },
       };
 
