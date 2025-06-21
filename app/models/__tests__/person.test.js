@@ -172,7 +172,7 @@ describe('adapt()', () => {
 
 describe('setData()', () => {
   const result = {
-    id: 1,
+    id: 321,
     identical_id: null, // eslint-disable-line camelcase
     pernr: 1020304,
     type: 'person',
@@ -192,7 +192,7 @@ describe('setData()', () => {
     expect(person.hasLinks()).toBe(true);
 
     expect(person.data).toEqual({
-      id: 1,
+      id: 321,
       identical_id: null, // eslint-disable-line camelcase
       pernr: 1020304,
       name: 'John Doe',
@@ -201,13 +201,15 @@ describe('setData()', () => {
       z: 'abc',
     });
 
+    expect(person.id).toEqual(321);
+
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 321,
       name: 'John Doe',
       roles: [],
       type: 'person',
       links: {
-        self: '/people/1'
+        self: '/people/321'
       },
     });
   });

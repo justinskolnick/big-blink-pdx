@@ -39,6 +39,10 @@ class Person extends IncidentedObject {
   get pernr() {
     return this.data.pernr;
   }
+
+  get id() {
+    return this.data.id;
+  }
 }
 
 module.exports = Person;
