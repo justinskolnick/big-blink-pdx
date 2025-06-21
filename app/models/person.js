@@ -9,6 +9,7 @@ class Person extends IncidentedObject {
   static fieldNames = {
     id:           { select: true, },
     identical_id: { select: true, adapt: false }, // eslint-disable-line camelcase
+    pernr:        { select: true, adapt: false },
     type:         { select: true, },
     name:         { select: true, },
   };
@@ -29,6 +30,14 @@ class Person extends IncidentedObject {
 
   get identicalId() {
     return this.data.identical_id;
+  }
+
+  get hasPernr() {
+    return this.data.pernr !== null;
+  }
+
+  get pernr() {
+    return this.data.pernr;
   }
 }
 

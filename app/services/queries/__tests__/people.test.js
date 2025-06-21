@@ -12,7 +12,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.type, people.name',
+          'people.id, people.identical_id, people.pernr, people.type, people.name',
           'FROM people',
           'WHERE',
           'people.identical_id IS NULL',
@@ -29,7 +29,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.type, people.name',
+          'people.id, people.identical_id, people.pernr, people.type, people.name',
           'FROM people',
           'WHERE',
           'people.identical_id IS NULL',
@@ -45,7 +45,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'people.id, people.identical_id, people.type, people.name',
+            'people.id, people.identical_id, people.pernr, people.type, people.name',
             'FROM people',
             'WHERE',
             'people.identical_id IS NULL',
@@ -66,7 +66,7 @@ describe('getAllQuery()', () => {
       })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.type, people.name',
+          'people.id, people.identical_id, people.pernr, people.type, people.name',
           'FROM people',
           'LEFT JOIN incident_attendees',
           'ON incident_attendees.person_id = people.id',
@@ -92,7 +92,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
-            'people.id, people.identical_id, people.type, people.name',
+            'people.id, people.identical_id, people.pernr, people.type, people.name',
             'FROM people',
             'LEFT JOIN incident_attendees',
             'ON incident_attendees.person_id = people.id',
@@ -119,7 +119,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeCount: true })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.type, people.name, COUNT(incident_attendees.id) AS total',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, COUNT(incident_attendees.id) AS total',
           'FROM people',
           'LEFT JOIN incident_attendees',
           'ON incident_attendees.person_id = people.id',
@@ -142,7 +142,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'people.id, people.identical_id, people.type, people.name, COUNT(incident_attendees.id) AS total',
+              'people.id, people.identical_id, people.pernr, people.type, people.name, COUNT(incident_attendees.id) AS total',
               'FROM people',
               'LEFT JOIN incident_attendees',
               'ON incident_attendees.person_id = people.id',
@@ -166,7 +166,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'people.id, people.identical_id, people.type, people.name, COUNT(incident_attendees.id) AS total',
+              'people.id, people.identical_id, people.pernr, people.type, people.name, COUNT(incident_attendees.id) AS total',
               'FROM people',
               'LEFT JOIN incident_attendees',
               'ON incident_attendees.person_id = people.id',
@@ -196,7 +196,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.type, people.name, GROUP_CONCAT(distinct incident_attendees.role) AS roles',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, GROUP_CONCAT(distinct incident_attendees.role) AS roles',
           'FROM people',
           'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
           'WHERE people.id = ?',

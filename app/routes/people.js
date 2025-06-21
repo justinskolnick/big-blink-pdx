@@ -216,7 +216,7 @@ router.get('/:id', async (req, res, next) => {
         hasBeenEmployee,
         hasBeenLobbied,
         hasLobbied,
-      } = await people.getHasLobbiedOrBeenLobbied(id);
+      } = await people.getHasLobbiedOrBeenLobbied(person);
 
       person.setOverview(incidentsStats);
 

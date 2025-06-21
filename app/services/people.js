@@ -27,26 +27,42 @@ const getAtId = async (id) => {
   return new Person(result);
 };
 
-const getHasLobbiedOrBeenLobbied = async (id) => {
-  const results = await Promise.all([
-    entityLobbyistRegistrations.getHasBeenCityEmployee({
-      personId: id,
-    }),
+const getHasLobbiedOrBeenLobbied = async (person) => {
+  const requests = [
     incidentAttendees.getHasLobbiedOrBeenLobbied({
-      personId: id,
+      personId: person.id,
       role: ROLE_OFFICIAL,
     }),
     incidentAttendees.getHasLobbiedOrBeenLobbied({
-      personId: id,
+      personId: person.id,
       role: ROLE_LOBBYIST,
     }),
-  ]);
+  ];
 
-  const [
-    hasBeenEmployee,
-    hasBeenLobbied,
-    hasLobbied,
-  ] = results;
+  if (!person.hasPernr) {
+    requests.unshift(entityLobbyistRegistrations.getHasBeenCityEmployee({
+      personId: person.id,
+    }));
+  }
+
+  const results = await Promise.all(requests);
+
+  let hasBeenEmployee = person.hasPernr;
+  let hasBeenLobbied;
+  let hasLobbied;
+
+  if (person.hasPernr) {
+    [
+      hasBeenLobbied,
+      hasLobbied,
+    ] = results;
+  } else {
+    [
+      hasBeenEmployee,
+      hasBeenLobbied,
+      hasLobbied,
+    ] = results;
+  }
 
   return {
     hasBeenEmployee,
