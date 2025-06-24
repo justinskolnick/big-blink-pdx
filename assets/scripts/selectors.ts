@@ -4,6 +4,7 @@ import { sortQuarterAscendingTypeDecending } from './lib/sorting';
 
 import { RootState } from './lib/store';
 import type { Ids, Id, Source } from './types';
+import { SourceTypes } from './types';
 
 type Stat = {
   dataSourceId?: Id;
@@ -60,31 +61,41 @@ export const getSourcesDataForChart = createSelector(
   (labels, data) => ({ labels, data, })
 );
 
+
 type SourcesByYear = {
-  year: number;
+  year: Source['year'];
   items: Source[];
 };
 
-export const getSourcesByYear = createSelector(
-  getSources, (sources) => {
-    const sourcesByYear = Object.values(sources.entities)
-      .reduce((byYear, item) => {
-        if (!(item.year in byYear)) {
-          byYear[item.year] = {
-            year: item.year,
-            items: [],
-          };
-        }
+type SourcesByType = Record<string, {
+  type: Capitalize<Source['type']>;
+  years: Record<Source['year'], SourcesByYear>;
+}>;
 
-        byYear[item.year].items.push(item);
-        byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
+export const getSourcesByType = createSelector(getSources, (sources) => {
+  const types = Object.values(sources.entities).reduce((byType, item) => {
+    if (!(item.type in byType)) {
+      byType[item.type] = {
+        type: SourceTypes[item.type],
+        years: {},
+      };
+    }
 
-        return byYear;
-      }, {} as { [year: number]: SourcesByYear; });
+    if (! ( item.year in byType[item.type].years )) {
+      byType[item.type].years[item.year] = {
+        year: item.year,
+        items: [],
+      };
+    }
 
-    return Object.values(sourcesByYear);
-  }
-);
+    byType[item.type].years[item.year].items.push(item);
+    byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
+
+    return byType;
+  }, {} as SourcesByType);
+
+  return Object.values(types);
+});
 
 type Value = {
   id: Id;

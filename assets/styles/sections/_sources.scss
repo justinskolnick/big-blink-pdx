@@ -5,12 +5,15 @@
         color: var(--color-accent);
       }
 
+      .item-subhead + .item-index-group,
+      .item-subhead + .item-index-subgroup,
       .item-subhead + .section-index-list {
-        margin-top: 18px;
+        margin-top: var(--gap);
       }
 
-      .item-index-group + .item-index-group {
-        margin-top: 36px;
+      .item-index-group + .item-index-group,
+      .item-index-subgroup + .item-index-subgroup {
+        margin-top: calc(var(--gap) * 2);
       }
 
       .section-index-list {

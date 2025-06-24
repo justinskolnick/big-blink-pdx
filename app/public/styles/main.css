@@ -2402,11 +2402,16 @@ body.has-alert .alert-root {
   color: olivedrab;
   color: var(--color-accent);
 }
+.section.section-sources .section-index .item-subhead + .item-index-group,
+.section.section-sources .section-index .item-subhead + .item-index-subgroup,
 .section.section-sources .section-index .item-subhead + .section-index-list {
   margin-top: 18px;
+  margin-top: var(--gap);
 }
-.section.section-sources .section-index .item-index-group + .item-index-group {
-  margin-top: 36px;
+.section.section-sources .section-index .item-index-group + .item-index-group,
+.section.section-sources .section-index .item-index-subgroup + .item-index-subgroup {
+  margin-top: calc(18px * 2);
+  margin-top: calc(var(--gap) * 2);
 }
 .section.section-sources .section-index .section-index-list {
   display: grid;

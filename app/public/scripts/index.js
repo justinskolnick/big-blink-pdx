@@ -34206,6 +34206,17 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/lib/sorting.ts
   var sortQuarterAscendingTypeDecending = (a, b) => a.quarter - b.quarter || b.type.localeCompare(a.type);
 
+  // assets/scripts/types.ts
+  var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
+    DataFormat2["csv"] = "CSV";
+    return DataFormat2;
+  })(DataFormat || {});
+  var SourceTypes = /* @__PURE__ */ ((SourceTypes2) => {
+    SourceTypes2["activity"] = "Activity";
+    SourceTypes2["registration"] = "Registration";
+    return SourceTypes2;
+  })(SourceTypes || {});
+
   // assets/scripts/selectors.ts
   var getEntities = (state) => state.entities;
   var getIncidents = (state) => state.incidents;
@@ -34249,23 +34260,26 @@ Hook ${hookName} was either not provided or not a function.`);
     [getSourcesChartLabels, getSourcesChartData],
     (labels, data2) => ({ labels, data: data2 })
   );
-  var getSourcesByYear = createSelector(
-    getSources,
-    (sources) => {
-      const sourcesByYear = Object.values(sources.entities).reduce((byYear, item) => {
-        if (!(item.year in byYear)) {
-          byYear[item.year] = {
-            year: item.year,
-            items: []
-          };
-        }
-        byYear[item.year].items.push(item);
-        byYear[item.year].items.sort(sortQuarterAscendingTypeDecending);
-        return byYear;
-      }, {});
-      return Object.values(sourcesByYear);
-    }
-  );
+  var getSourcesByType = createSelector(getSources, (sources) => {
+    const types = Object.values(sources.entities).reduce((byType, item) => {
+      if (!(item.type in byType)) {
+        byType[item.type] = {
+          type: SourceTypes[item.type],
+          years: {}
+        };
+      }
+      if (!(item.year in byType[item.type].years)) {
+        byType[item.type].years[item.year] = {
+          year: item.year,
+          items: []
+        };
+      }
+      byType[item.type].years[item.year].items.push(item);
+      byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
+      return byType;
+    }, {});
+    return Object.values(types);
+  });
   var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
     const match2 = values.find((value) => value.id === id);
     indexed[id] = sourceIds.map((sourceId) => {
@@ -34524,7 +34538,8 @@ Hook ${hookName} was either not provided or not a function.`);
     name: "sources",
     initialState: adapter4.getInitialState({
       pageIds: [],
-      pagination: null
+      pagination: null,
+      types: SourceTypes
     }),
     reducers: {
       set: (state, action) => {
@@ -41290,12 +41305,6 @@ Hook ${hookName} was either not provided or not a function.`);
     return getQueryParams(location2, newParams, replace4);
   };
   var use_query_params_default = useQueryParams;
-
-  // assets/scripts/types.ts
-  var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
-    DataFormat2["csv"] = "CSV";
-    return DataFormat2;
-  })(DataFormat || {});
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
@@ -56271,13 +56280,16 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/index.tsx
   var import_jsx_runtime85 = __toESM(require_jsx_runtime());
   var Index4 = () => {
-    const byYear = useSelector(getSourcesByYear);
-    const hasSources = byYear.length > 0;
+    const byType = useSelector(getSourcesByType);
+    const hasSources = byType.length > 0;
     use_fetch_and_scroll_on_route_change_default();
-    return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(section_index_default, { isLoading: !hasSources, children: byYear.map((sources) => /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)("div", { className: "item-index-group", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(item_subhead_default, { title: sources.year }),
-      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("div", { className: "section-index-list", children: sources.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(item_default, { id: source.id }, source.id)) })
-    ] }, sources.year)) });
+    return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(section_index_default, { isLoading: !hasSources, children: byType.map((type) => /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)("div", { className: "item-index-group", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(item_subhead_default, { title: type.type }),
+      Object.values(type.years).map((year) => /* @__PURE__ */ (0, import_jsx_runtime85.jsxs)("div", { className: "item-index-subgroup", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(item_subhead_default, { subtitle: year.year }),
+        /* @__PURE__ */ (0, import_jsx_runtime85.jsx)("div", { className: "section-index-list", children: year.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(item_default, { id: source.id }, source.id)) })
+      ] }, year.year))
+    ] }, type.type)) });
   };
   var sources_default2 = Index4;
 

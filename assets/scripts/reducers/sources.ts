@@ -14,6 +14,7 @@ import type {
   Sources,
   SourceWithIncidentRecords,
 } from '../types';
+import { SourceTypes } from '../types';
 
 export const adapter = createEntityAdapter<Source>();
 export const selectors = adapter.getSelectors(getSources);
@@ -60,6 +61,7 @@ export const sourcesSlice = createSlice({
   initialState: adapter.getInitialState({
     pageIds: [],
     pagination: null,
+    types: SourceTypes,
   }),
   reducers: {
     set: (state, action: PayloadAction<Source>) => {

@@ -7,27 +7,33 @@ import ItemSubhead from '../item-subhead';
 import SectionIndex from '../section-index';
 import Source from './item';
 
-import { getSourcesByYear } from '../../selectors';
+import { getSourcesByType } from '../../selectors';
 
 const Index = () => {
-  const byYear = useSelector(getSourcesByYear);
-  const hasSources = byYear.length > 0;
+  const byType = useSelector(getSourcesByType);
+
+  const hasSources = byType.length > 0;
 
   useFetchAndScrollOnRouteChange();
 
   return (
     <SectionIndex isLoading={!hasSources}>
-      {byYear.map(sources => (
-          <div key={sources.year} className='item-index-group'>
-            <ItemSubhead title={sources.year} />
+      {byType.map((type) => (
+        <div key={type.type} className='item-index-group'>
+          <ItemSubhead title={type.type} />
+          {Object.values(type.years).map(year => (
+            <div key={year.year} className='item-index-subgroup'>
+              <ItemSubhead subtitle={year.year} />
 
-            <div className='section-index-list'>
-              {sources.items.map(source => (
-                <Source key={source.id} id={source.id} />
-              ))}
+              <div className='section-index-list'>
+                {year.items.map(source => (
+                  <Source key={source.id} id={source.id} />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      ))}
     </SectionIndex>
   );
 };

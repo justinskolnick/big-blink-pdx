@@ -431,9 +431,14 @@ export type SourceEntities = {
   values: AffiliatedEntityValues;
 };
 
+export enum SourceTypes {
+  activity = 'Activity',
+  registration = 'Registration',
+}
+
 export type Source = {
   id: number;
-  type: 'activity' | 'registration';
+  type: keyof typeof SourceTypes;
   title: string;
   format: DataFormatStrings;
   quarter: number;
