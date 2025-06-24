@@ -1,8 +1,15 @@
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
 
 export type Id = number;
 
 export type Ids = Id[];
+
+type KeyLabelValue = {
+  key: string;
+  label: string;
+  value?: string;
+  values?: [];
+};
 
 type WithIds = {
   ids: number[];
@@ -267,17 +274,15 @@ export type Leaderboard = {
   values: LeaderboardValues;
 };
 
-export type IncidentsStatsValue = {
-  key: string;
-  label: string;
+export type IncidentsStatsValue = KeyLabelValue & {
   value: Incident;
 };
 
-type IncidentsPercentageValue = IncidentsStatsValue & {
+type IncidentsPercentageValue = KeyLabelValue & {
   value: string;
 };
 
-type IncidentsTotalValue = IncidentsStatsValue & {
+type IncidentsTotalValue = KeyLabelValue & {
   value: number;
 };
 
@@ -431,14 +436,11 @@ export type SourceEntities = {
   values: AffiliatedEntityValues;
 };
 
-export enum SourceTypes {
-  activity = 'Activity',
-  registration = 'Registration',
-}
+export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
 
 export type Source = {
   id: number;
-  type: keyof typeof SourceTypes;
+  type: string;
   title: string;
   format: DataFormatStrings;
   quarter: number;
@@ -458,6 +460,15 @@ export type SourceWithIncidentRecords = Source & {
 }
 
 export type Sources = Source[];
+
+export type SourcesByYear = {
+  year: Source['year'];
+  items: Source[];
+};
+export type SourcesByType = {
+  type: Source['type'];
+  years: Record<Source['year'], SourcesByYear>;
+};
 
 export type ErrorType = {
   customMessage?: string;
@@ -490,6 +501,14 @@ export type MetaType = {
     section: string;
   };
 };
+
+export interface Fn {
+  (): void;
+}
+
+export interface FnRef {
+  (ref: RefObject<HTMLElement>): void;
+}
 
 export interface OutletContext {
   className?: string;

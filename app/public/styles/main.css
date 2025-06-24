@@ -1218,7 +1218,8 @@ body.has-alert .alert-root {
   font-size: 18px;
   line-height: 21px;
 }
-.section-index-introduction p {
+.section-index-introduction p,
+.section-index-introduction li {
   font-size: 14px;
   line-height: 21px;
 }
@@ -1236,9 +1237,16 @@ body.has-alert .alert-root {
 }
 .section-index-introduction p + p,
 .section-index-introduction p + blockquote,
-.section-index-introduction blockquote + p {
+.section-index-introduction blockquote + p,
+.section-index-introduction p + ul,
+.section-index-introduction ul + p {
   margin-top: 18px;
   margin-top: var(--gap);
+}
+.section-index-introduction ul {
+  margin-left: 18px;
+  margin-left: var(--gap);
+  list-style-type: disc;
 }
 .section-index-introduction + .item-content {
   margin-top: calc(2 * 18px);
@@ -2404,16 +2412,29 @@ body.has-alert .alert-root {
 }
 .section.section-sources .section-index .item-subhead + .item-index-group,
 .section.section-sources .section-index .item-subhead + .item-index-subgroup,
-.section.section-sources .section-index .item-subhead + .section-index-list {
+.section.section-sources .section-index .item-subhead + .item-index-group-grid {
   margin-top: 18px;
   margin-top: var(--gap);
 }
-.section.section-sources .section-index .item-index-group + .item-index-group,
+.section.section-sources .section-index .item-index-group > .item-subhead .item-subhead-content {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+}
+.section.section-sources .section-index .item-index-group > .item-subhead .item-subhead-content p {
+  font-size: 14px;
+  line-height: 21px;
+}
+.section.section-sources .section-index .item-index-group + .item-index-group {
+  margin-top: calc(18px * 2);
+  margin-top: calc(var(--gap) * 2);
+}
 .section.section-sources .section-index .item-index-subgroup + .item-index-subgroup {
   margin-top: calc(18px * 2);
   margin-top: calc(var(--gap) * 2);
 }
-.section.section-sources .section-index .section-index-list {
+.section.section-sources .section-index .item-index-group-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: calc(18px / 2);
@@ -2422,7 +2443,7 @@ body.has-alert .alert-root {
   gap: calc(var(--gap) / 2);
 }
 @media screen and (max-width: 780px) {
-  .section.section-sources .section-index .section-index-list {
+  .section.section-sources .section-index .item-index-group-grid {
     grid-template-columns: 1fr;
   }
 }

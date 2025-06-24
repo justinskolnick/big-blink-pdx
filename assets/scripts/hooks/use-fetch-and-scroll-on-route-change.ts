@@ -16,15 +16,9 @@ import {
   DETAIL_ROUTE_PATTERN,
 } from '../config/patterns';
 
+import { scrollToRef, scrollToTop } from '../lib/dom';
+
 import type { LocationPathname } from '../types';
-
-interface Fn {
-  (): void;
-}
-
-interface FnRef {
-  (ref: RefObject<HTMLElement>): void;
-}
 
 interface ActionCallback {
   (ref?: RefObject<HTMLElement>): void;
@@ -59,14 +53,6 @@ const defaultFetch: FetchWithCallback = (callback) => {
   if (callback) {
     callback();
   }
-};
-
-const scrollToTop: Fn = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-const scrollToRef: FnRef = (ref) => {
-  ref.current.scrollIntoView({ behavior: 'smooth' });
 };
 
 const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch) => {

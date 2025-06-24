@@ -9,18 +9,18 @@ enum DataFormatIcon {
   csv = 'file-csv',
 }
 
-enum SourceDisclaimers {
-  activity ='Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
-  registration ='Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
-}
-
 interface Props {
   source: Source;
   title: string;
 }
 
+const sourceDisclaimers = {
+  activity: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+  registration: 'Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+} as Record<Source['type'], string>;
+
 const SourceInformationBox = ({ source, title }: Props) => {
-  const disclaimers = SourceDisclaimers[source.type];
+  const disclaimers = sourceDisclaimers[source.type];
   const format = DataFormat[source.format];
   const icon = DataFormatIcon[source.format];
 

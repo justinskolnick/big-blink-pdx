@@ -12,9 +12,9 @@ import type {
   Pagination,
   Source,
   Sources,
+  SourceTypeObject,
   SourceWithIncidentRecords,
 } from '../types';
-import { SourceTypes } from '../types';
 
 export const adapter = createEntityAdapter<Source>();
 export const selectors = adapter.getSelectors(getSources);
@@ -61,7 +61,7 @@ export const sourcesSlice = createSlice({
   initialState: adapter.getInitialState({
     pageIds: [],
     pagination: null,
-    types: SourceTypes,
+    types: {} as SourceTypeObject,
   }),
   reducers: {
     set: (state, action: PayloadAction<Source>) => {
@@ -76,9 +76,12 @@ export const sourcesSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
+    setTypes: (state, action: PayloadAction<SourceTypeObject>) => {
+      state.types = action.payload;
+    },
   },
 });
 
-export const { set, setAll, setPageIds, setPagination } = sourcesSlice.actions;
+export const { set, setAll, setPageIds, setPagination, setTypes } = sourcesSlice.actions;
 
 export default sourcesSlice.reducer;

@@ -11,6 +11,8 @@ describe('getLabel()', () => {
     expect(Source.getLabel('incident_percentage')).toBe('Share of total');
     expect(Source.getLabel('incident_total')).toBe('Incident count');
     expect(Source.getLabel('totals')).toBe('Totals');
+    expect(Source.getLabel('activity')).toBe('Lobbying activity');
+    expect(Source.getLabel('registration')).toBe('Lobbying registration');
   });
 });
 

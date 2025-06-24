@@ -3,7 +3,22 @@ import { cx } from '@emotion/css';
 
 import Loading from './loading';
 import Pagination from './pagination';
+
 import type { Pagination as PaginationType } from '../types';
+
+interface IndexProps {
+  className?: string;
+  children: ReactNode;
+}
+
+interface IntroductionProps {
+  children: ReactNode;
+}
+
+interface ContentProps {
+  children: ReactNode;
+  isLoading?: boolean;
+}
 
 interface Props {
   children: ReactNode;
@@ -13,6 +28,29 @@ interface Props {
   pagination?: PaginationType;
 }
 
+export const Index = ({ className, children }: IndexProps) => (
+  <section className={cx('section-index', className)}>
+    {children}
+  </section>
+);
+
+export const Introduction = ({ children }: IntroductionProps) => (
+  <section
+    className='section-index-introduction'
+    id='section-introduction'
+  >
+    <h4>Introduction</h4>
+
+    {children}
+  </section>
+);
+
+export const Content = ({ children, isLoading }: ContentProps) => (
+  <div className='item-content'>
+    {isLoading ? <Loading /> : children}
+  </div>
+);
+
 const SectionIndex = ({
   children,
   className,
@@ -20,25 +58,21 @@ const SectionIndex = ({
   isLoading = true,
   pagination,
 }: Props) => (
-  <section className={cx('section-index', className)}>
+  <Index className={className}>
     {introduction && (
-      <section className='section-index-introduction'>
-        <h4>Introduction</h4>
-
-        {introduction}
-      </section>
+      <Introduction>{introduction}</Introduction>
     )}
 
-    <div className='item-content'>
-      {isLoading ? <Loading /> : children}
-    </div>
+    <Content isLoading={isLoading}>
+      {children}
+    </Content>
 
     {pagination && (
       <footer className='item-footer'>
         <Pagination pagination={pagination} />
       </footer>
     )}
-  </section>
+  </Index>
 );
 
 export default SectionIndex;

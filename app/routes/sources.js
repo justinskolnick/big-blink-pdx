@@ -22,6 +22,7 @@ const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
+const { unique } = require('../lib/array');
 const headers = require('../lib/headers');
 
 const Entity = require('../models/entity');
@@ -66,6 +67,8 @@ router.get('/', async (req, res, next) => {
   let activitySourcesResult;
   let registrationSourcesResult;
   let sourceTotal;
+  let records;
+  let types;
   let data;
   let meta;
 
@@ -93,10 +96,22 @@ router.get('/', async (req, res, next) => {
         types: [Source.types.activity, Source.types.registration],
       });
 
+      records = [].concat(activitySourcesResult, registrationSourcesResult);
+
+      types = unique(records.map(record => record.type)).reduce((all, type) => {
+        all[type] = {
+          key: type,
+          label: Source.getLabel(type),
+        };
+
+        return all;
+      }, {});
+
       data = {
         sources: {
-          records: [].concat(activitySourcesResult, registrationSourcesResult),
+          records,
           total: sourceTotal,
+          types,
         }
       };
       meta = {

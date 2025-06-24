@@ -3,8 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { sortQuarterAscendingTypeDecending } from './lib/sorting';
 
 import { RootState } from './lib/store';
-import type { Ids, Id, Source } from './types';
-import { SourceTypes } from './types';
+import type { Ids, Id, SourcesByType } from './types';
 
 type Stat = {
   dataSourceId?: Id;
@@ -61,27 +60,17 @@ export const getSourcesDataForChart = createSelector(
   (labels, data) => ({ labels, data, })
 );
 
-
-type SourcesByYear = {
-  year: Source['year'];
-  items: Source[];
-};
-
-type SourcesByType = Record<string, {
-  type: Capitalize<Source['type']>;
-  years: Record<Source['year'], SourcesByYear>;
-}>;
-
+export const getSourceTypes = createSelector(getSources, (sources) => sources.types);
 export const getSourcesByType = createSelector(getSources, (sources) => {
   const types = Object.values(sources.entities).reduce((byType, item) => {
     if (!(item.type in byType)) {
       byType[item.type] = {
-        type: SourceTypes[item.type],
+        type: item.type,
         years: {},
       };
     }
 
-    if (! ( item.year in byType[item.type].years )) {
+    if (!(item.year in byType[item.type].years )) {
       byType[item.type].years[item.year] = {
         year: item.year,
         items: [],
@@ -92,7 +81,7 @@ export const getSourcesByType = createSelector(getSources, (sources) => {
     byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
 
     return byType;
-  }, {} as SourcesByType);
+  }, {} as Record<string, SourcesByType>);
 
   return Object.values(types);
 });

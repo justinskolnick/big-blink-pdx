@@ -1218,7 +1218,8 @@ body.has-alert .alert-root {
   font-size: 18px;
   line-height: 21px;
 }
-.section-index-introduction p {
+.section-index-introduction p,
+.section-index-introduction li {
   font-size: 14px;
   line-height: 21px;
 }
@@ -1236,9 +1237,16 @@ body.has-alert .alert-root {
 }
 .section-index-introduction p + p,
 .section-index-introduction p + blockquote,
-.section-index-introduction blockquote + p {
+.section-index-introduction blockquote + p,
+.section-index-introduction p + ul,
+.section-index-introduction ul + p {
   margin-top: 18px;
   margin-top: var(--gap);
+}
+.section-index-introduction ul {
+  margin-left: 18px;
+  margin-left: var(--gap);
+  list-style-type: disc;
 }
 .section-index-introduction + .item-content {
   margin-top: calc(2 * 18px);

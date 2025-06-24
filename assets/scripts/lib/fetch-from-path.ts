@@ -190,6 +190,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
         dispatch(sourceActions.setPageIds(ids));
         dispatch(sourceActions.setPagination(data.sources.pagination));
       }
+
+      if ('types' in data.sources) {
+        dispatch(sourceActions.setTypes(data.sources.types));
+      }
     }
   }
 
