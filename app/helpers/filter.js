@@ -149,9 +149,9 @@ const getQuarterFilter = searchParams => {
         fields: null,
         labels: [
           getLabelText('during'),
-          getLabel(`Q${parts.at(0)}`),
+          getLabel(`Q${parts.quarter}`),
           getLabelText('of'),
-          getLabel(parts.at(1)),
+          getLabel(parts.year),
         ],
         model: null,
         values: {

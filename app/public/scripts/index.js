@@ -34833,7 +34833,7 @@ Hook ${hookName} was either not provided or not a function.`);
         () => "overview"
       )),
       getLeaderboard: builder.query(getAncillaryRoute(
-        () => "leaderboard"
+        ({ search }) => `leaderboard${search}`
       )),
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityById: builder.query(getAncillaryRoute(
@@ -42037,7 +42037,7 @@ Hook ${hookName} was either not provided or not a function.`);
         triggerOverview(null);
       }
       if (leaderboardResult.isUninitialized) {
-        triggerLeaderboard(null);
+        triggerLeaderboard({ search: location2.search });
       }
     }, [
       leaderboardResult,

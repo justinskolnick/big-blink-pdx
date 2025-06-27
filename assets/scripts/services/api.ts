@@ -11,7 +11,7 @@ interface LocationOptions {
 }
 
 interface QueryFnOptions {
-  id: Id;
+  id?: Id;
   search?: string;
 }
 
@@ -67,7 +67,7 @@ const api = createApi({
       () => 'overview'
     )),
     getLeaderboard: builder.query(getAncillaryRoute(
-      () => 'leaderboard'
+      ({ search }) => `leaderboard${search}`
     )),
     getPrimary: builder.query(getPrimaryRoute()),
 

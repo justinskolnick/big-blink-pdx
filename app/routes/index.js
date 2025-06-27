@@ -3,18 +3,21 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  PARAM_QUARTER_ALT,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SORT_BY_TOTAL,
 } = require('../config/constants');
 
 const metaHelper = require('../helpers/meta');
+const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
 const people = require('../services/people');
+const quarters = require('../services/quarters');
 const sources = require('../services/sources');
 
 const title = 'Remixing lobbying data published by the City of Portland, Oregon';
@@ -82,19 +85,42 @@ router.get('/overview', async (req, res, next) => {
 });
 
 router.get('/leaderboard', async (req, res, next) => {
+  const quarter = req.query.get(PARAM_QUARTER_ALT);
+
   if (req.get('Content-Type') === headers.json) {
     let incidentCountResult;
     let data;
+    let dateRangeFrom;
+    let dateRangeTo;
+    let period = '2014–25';
 
     try {
-      incidentCountResult = await incidents.getTotal();
-
+      const incidentCountOptions = {};
       const options = {
         page: 1,
         perPage: 5,
         includeCount: true,
         sortBy: SORT_BY_TOTAL,
       };
+
+      if (paramHelper.hasYearAndQuarter(quarter)) {
+        const quarterOptions = paramHelper.getQuarterAndYear(quarter);
+        const quarterResult = await quarters.getQuarter(quarterOptions);
+
+        dateRangeFrom = quarterResult.getData('date_start');
+        dateRangeTo = quarterResult.getData('date_end');
+
+        if (dateRangeFrom && dateRangeTo) {
+          options.dateRangeFrom = dateRangeFrom;
+          options.dateRangeTo = dateRangeTo;
+          incidentCountOptions.dateRangeFrom = dateRangeFrom;
+          incidentCountOptions.dateRangeTo = dateRangeTo;
+
+          period = quarterResult.readablePeriod;
+        }
+      }
+
+      incidentCountResult = await incidents.getTotal(incidentCountOptions);
 
       const callback = (item) => {
         item.setGlobalIncidentCount(incidentCountResult);
@@ -120,7 +146,7 @@ router.get('/leaderboard', async (req, res, next) => {
         leaderboard: {
           labels: {
             title: 'Leaderboard',
-            period: '2014–25',
+            period,
           },
           values: {
             entities: {

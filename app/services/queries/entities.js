@@ -11,14 +11,17 @@ const Incident = require('../../models/incident');
 
 const getAllQuery = (options = {}) => {
   const {
+    dateRangeFrom,
+    dateRangeTo,
+    includeCount = false,
+    limit,
     page,
     perPage,
-    limit,
-    includeCount = false,
     sort,
     sortBy = SORT_BY_NAME,
     year,
   } = options;
+  const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasLimit = Boolean(limit);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
@@ -43,14 +46,27 @@ const getAllQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${Entity.tableName}`);
 
-  if (includeCount || hasYear) {
+  if (includeCount || hasDateRange || hasYear) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
     clauses.push(`ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
 
-    if (hasYear) {
+    if (hasDateRange || hasYear) {
       clauses.push('WHERE');
-      clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-      params.push(year);
+
+      if (hasDateRange) {
+        const dateFields = ['contact_date', 'contact_date_end'];
+        const dateClauseSegments = [];
+
+        dateFields.forEach(fieldName => {
+          dateClauseSegments.push(`${Incident.field(fieldName)} BETWEEN ? AND ?`);
+        });
+
+        clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
+      } else if (hasYear) {
+        clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+        params.push(year);
+      }
     }
 
     clauses.push(`GROUP BY ${Entity.primaryKey()}`);

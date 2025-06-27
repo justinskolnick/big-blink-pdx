@@ -11,20 +11,30 @@ const {
 const {
   DATE_PATTERN,
   QUARTER_PATTERN,
+  QUARTER_PATTERN_ALT,
   YEAR_PATTERN,
 } = require('../config/patterns');
 
 const hasParam = (param) => param?.length > 0;
 const hasDate = (param) => hasParam(param) && DATE_PATTERN.test(param);
 const hasInteger = (param) => hasParam(param) && Number.isInteger(Number(param));
+const hasQuarter = (param) => hasParam(param) && (QUARTER_PATTERN.test(param) || QUARTER_PATTERN_ALT.test(param));
 const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
 const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
+const hasYearAndQuarter = (param) => hasParam(param) && QUARTER_PATTERN_ALT.test(param);
 
 const getQuarterAndYear = (param) => {
-  if (hasQuarterAndYear(param)) {
-    const [quarter, year] = param.match(QUARTER_PATTERN).slice(1,3);
+  let quarter;
+  let year;
 
-    return [quarter, year].map(Number);
+  if (hasQuarterAndYear(param)) {
+    [quarter, year] = param.match(QUARTER_PATTERN).slice(1,3).map(Number);
+  } else if (hasYearAndQuarter(param)) {
+    [year, quarter] = param.match(QUARTER_PATTERN_ALT).slice(1,3).map(Number);
+  }
+
+  if (quarter && year) {
+    return { quarter, year };
   }
 
   return null;
@@ -100,8 +110,10 @@ module.exports = {
   getSortBy,
   hasDate,
   hasInteger,
+  hasQuarter,
   hasQuarterAndYear,
   hasSort,
   hasSortBy,
   hasYear,
+  hasYearAndQuarter,
 };

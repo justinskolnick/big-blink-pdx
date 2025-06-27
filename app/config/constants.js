@@ -5,6 +5,7 @@ const PARAM_DATE_RANGE_FROM = 'date_range_from';
 const PARAM_DATE_RANGE_TO = 'date_range_to';
 const PARAM_PAGE = 'page';
 const PARAM_QUARTER = 'quarter';
+const PARAM_QUARTER_ALT = 'quarter';
 const PARAM_SORT = 'sort';
 const PARAM_SORT_BY = 'sort_by';
 const PARAM_WITH_ENTITY_ID = 'with_entity_id';
@@ -25,7 +26,7 @@ const PARAM_OPTIONS = {
     validate: 'hasInteger',
   },
   [PARAM_QUARTER]: {
-    validate: 'hasQuarterAndYear',
+    validate: 'hasQuarter',
   },
   [PARAM_SORT]: {
     validate: 'hasSort',
@@ -84,6 +85,7 @@ module.exports = {
   PARAM_OPTIONS,
   PARAM_PAGE,
   PARAM_QUARTER,
+  PARAM_QUARTER_ALT,
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,

@@ -13,22 +13,30 @@ describe('fields()', () => {
       'quarters.year',
       'quarters.quarter',
       'quarters.slug',
+      'quarters.date_start',
+      'quarters.date_end',
     ]);
   });
 });
 
 describe('adapt()', () => {
+  /* eslint-disable camelcase */
   const result = {
+    date_end: '2014-06-30',
+    date_start: '2014-04-01',
     id: 1,
     year: 2014,
     quarter: 2,
     slug: '2014-q2',
   };
+  /* eslint-enable camelcase */
 
   test('adapts a result', () => {
     const quarter = new Quarter(result);
 
     expect(quarter.adapted).toEqual({
+      dateEnd: 'June 30, 2014',
+      dateStart: 'April 1, 2014',
       id: 1,
       year: 2014,
       quarter: 2,
@@ -37,9 +45,32 @@ describe('adapt()', () => {
   });
 });
 
+describe('getData()', () => {
+  test('sets data', () => {
+    /* eslint-disable camelcase */
+    const quarter = new Quarter({
+      date_end: '2014-06-30',
+      date_start: '2014-04-01',
+      id: 1,
+      year: 2014,
+      quarter: 2,
+      slug: '2014-q2',
+      x: 'y',
+    });
+    /* eslint-enable camelcase */
+
+    expect(quarter.getData('date_end')).toEqual('2014-06-30');
+    expect(quarter.getData('year')).toEqual(2014);
+    expect(quarter.getData('x')).toEqual('y');
+  });
+});
+
 describe('setData()', () => {
   test('sets data', () => {
+    /* eslint-disable camelcase */
     const quarter = new Quarter({
+      date_end: '2014-06-30',
+      date_start: '2014-04-01',
       id: 1,
       year: 2014,
       quarter: 2,
@@ -50,6 +81,8 @@ describe('setData()', () => {
     quarter.setData('z', 'abc');
 
     expect(quarter.data).toEqual({
+      date_end: '2014-06-30',
+      date_start: '2014-04-01',
       id: 1,
       quarter: 2,
       slug: '2014-q2',
@@ -57,12 +90,32 @@ describe('setData()', () => {
       year: 2014,
       z: 'abc',
     });
+    /* eslint-enable camelcase */
 
     expect(quarter.adapted).toEqual({
+      dateEnd: 'June 30, 2014',
+      dateStart: 'April 1, 2014',
       id: 1,
       quarter: 2,
       slug: '2014-q2',
       year: 2014,
     });
+  });
+});
+
+describe('readablePeriod()', () => {
+  test('sets readable period', () => {
+    /* eslint-disable camelcase */
+    const quarter = new Quarter({
+      date_end: '2014-06-30',
+      date_start: '2014-04-01',
+      id: 1,
+      year: 2014,
+      quarter: 2,
+      slug: '2014-q2',
+    });
+    /* eslint-enable camelcase */
+
+    expect(quarter.readablePeriod).toEqual('2014 Q2');
   });
 });

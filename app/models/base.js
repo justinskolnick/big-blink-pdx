@@ -144,6 +144,12 @@ class Base {
     return Object.keys(this.data).length > 0;
   }
 
+  getData(key) {
+    if (this.hasData(key)) {
+      return this.data[key];
+    }
+  }
+
   setLinksObject() {
     const key = this.constructor.linkKey;
 

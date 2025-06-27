@@ -3,14 +3,17 @@ const {
   getInvalidValueMessage,
   getParams,
   getParamsFromFilters,
+  getQuarterAndYear,
   getQuarterSlug,
   getSort,
   getSortBy,
   hasDate,
+  hasQuarter,
   hasQuarterAndYear,
   hasSort,
   hasSortBy,
   hasYear,
+  hasYearAndQuarter,
 } = require('../param');
 
 describe('getInvalidValueMessage()', () => {
@@ -74,6 +77,13 @@ describe('getParamsFromFilters()', () => {
   });
 });
 
+describe('getQuarterAndYear()', () => {
+  test('with param values', () => {
+    expect(getQuarterAndYear('2021-Q4', true)).toEqual({ quarter: 4, year: 2021 });
+    expect(getQuarterAndYear('Q4-2021', true)).toEqual({ quarter: 4, year: 2021 });
+  });
+});
+
 describe('getQuarterSlug()', () => {
   test('with a param value', () => {
     expect(getQuarterSlug('Q4-2021')).toEqual('2021-q4');
@@ -114,6 +124,15 @@ describe('hasDate()', () => {
   });
 });
 
+describe('hasQuarter()', () => {
+  test('with a param value', () => {
+    expect(hasQuarter(null)).toBe(false);
+    expect(hasQuarter('Q4-2021')).toBe(true);
+    expect(hasQuarter('Q42021')).toBe(false);
+    expect(hasQuarter('2021-Q4')).toBe(true);
+  });
+});
+
 describe('hasQuarterAndYear()', () => {
   test('with a param value', () => {
     expect(hasQuarterAndYear(null)).toBe(false);
@@ -146,5 +165,14 @@ describe('hasYear()', () => {
     expect(hasYear('202')).toBe(false);
     expect(hasYear('20')).toBe(false);
     expect(hasYear('20201')).toBe(false);
+  });
+});
+
+describe('hasYearAndQuarter()', () => {
+  test('with a param value', () => {
+    expect(hasYearAndQuarter(null)).toBe(false);
+    expect(hasYearAndQuarter('Q4-2021')).toBe(false);
+    expect(hasYearAndQuarter('Q42021')).toBe(false);
+    expect(hasYearAndQuarter('2021-Q4')).toBe(true);
   });
 });

@@ -37,7 +37,7 @@ const App = () => {
       triggerOverview(null);
     }
     if (leaderboardResult.isUninitialized) {
-      triggerLeaderboard(null);
+      triggerLeaderboard({ search: location.search });
     }
   }, [
     leaderboardResult,

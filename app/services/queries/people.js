@@ -7,6 +7,8 @@ const Person = require('../../models/person');
 
 const getAllQuery = (options = {}) => {
   const {
+    dateRangeFrom,
+    dateRangeTo,
     includeCount = false,
     page,
     perPage,
@@ -15,6 +17,7 @@ const getAllQuery = (options = {}) => {
     sortBy,
     year,
   } = options;
+  const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
   const hasRole = Boolean(role);
@@ -35,12 +38,12 @@ const getAllQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${Person.tableName}`);
 
-  if (includeCount || hasRole || hasYear) {
+  if (includeCount || hasRole || hasDateRange || hasYear) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
     clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
   }
 
-  if (hasYear) {
+  if (hasDateRange || hasYear) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
     clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
@@ -48,17 +51,30 @@ const getAllQuery = (options = {}) => {
   clauses.push('WHERE');
   clauses.push(`${Person.field('identical_id')} IS NULL`);
 
-  if (includeCount || hasRole || hasYear) {
+  if (includeCount || hasRole || hasDateRange || hasYear) {
     if (hasRole) {
       clauses.push('AND');
       clauses.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
     }
 
-    if (hasYear) {
+    if (hasDateRange || hasYear) {
       clauses.push('AND');
-      clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-      params.push(year);
+
+      if (hasDateRange) {
+        const dateFields = ['contact_date', 'contact_date_end'];
+        const dateClauseSegments = [];
+
+        dateFields.forEach(fieldName => {
+          dateClauseSegments.push(`${Incident.field(fieldName)} BETWEEN ? AND ?`);
+        });
+
+        clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
+      } else if (hasYear) {
+        clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+        params.push(year);
+      }
     }
 
     clauses.push(`GROUP BY ${Person.primaryKey()}`);

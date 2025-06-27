@@ -59,6 +59,74 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a date range', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({
+        dateRangeFrom: '2016-04-01',
+        dateRangeTo: '2016-06-30',
+      })).toEqual({
+        clauses: [
+          'SELECT',
+          'people.id, people.identical_id, people.pernr, people.type, people.name',
+          'FROM people',
+          'LEFT JOIN incident_attendees',
+          'ON incident_attendees.person_id = people.id',
+          'LEFT JOIN incidents',
+          'ON incidents.id = incident_attendees.incident_id',
+          'WHERE',
+          'people.identical_id IS NULL',
+          'AND',
+          '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
+          'GROUP BY people.id',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
+        ],
+        params: [
+          '2016-04-01',
+          '2016-06-30',
+          '2016-04-01',
+          '2016-06-30',
+        ],
+      });
+    });
+
+    describe('with a role', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({
+          dateRangeFrom: '2016-04-01',
+          dateRangeTo: '2016-06-30',
+          role: 'lobbyist',
+        })).toEqual({
+          clauses: [
+            'SELECT',
+            'people.id, people.identical_id, people.pernr, people.type, people.name',
+            'FROM people',
+            'LEFT JOIN incident_attendees',
+            'ON incident_attendees.person_id = people.id',
+            'LEFT JOIN incidents',
+            'ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'people.identical_id IS NULL',
+            'AND',
+            'incident_attendees.role = ?',
+            'AND',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
+            'GROUP BY people.id',
+            'ORDER BY',
+            'people.family ASC, people.given ASC',
+          ],
+          params: [
+            'lobbyist',
+            '2016-04-01',
+            '2016-06-30',
+            '2016-04-01',
+            '2016-06-30',
+          ],
+        });
+      });
+    });
+  });
+
   describe('with a year', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({
