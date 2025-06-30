@@ -1,4 +1,3 @@
-const paramHelper = require('../../helpers/param');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const Source = require('../../models/source');
@@ -88,11 +87,9 @@ const getEntitiesForIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getIdForQuarterQuery = (quarter) => {
+const getIdForQuarterQuery = (quarterSlug) => {
   const clauses = [];
   const params = [];
-
-  const quarterSlug = paramHelper.getQuarterSlug(quarter);
 
   clauses.push('SELECT');
   clauses.push(Source.field('id'));

@@ -32,7 +32,7 @@ const Chart = ({ label }: Props) => {
   };
 
   const handleClick = (value: string) => {
-    setQuarter(value.replace(' ', '-'));
+    setQuarter(value.split(' ').sort().join('-'));
   };
 
   useEffect(() => {

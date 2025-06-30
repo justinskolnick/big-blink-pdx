@@ -55318,7 +55318,7 @@ Hook ${hookName} was either not provided or not a function.`);
       data: data2
     };
     const handleClick = (value) => {
-      setQuarter(value.replace(" ", "-"));
+      setQuarter(value.split(" ").sort().join("-"));
     };
     (0, import_react34.useEffect)(() => {
       if (!hasData) {
@@ -56093,7 +56093,7 @@ Hook ${hookName} was either not provided or not a function.`);
       data: data2
     };
     const handleClick = (value) => {
-      setQuarter(value.replace(" ", "-"));
+      setQuarter(value.split(" ").sort().join("-"));
     };
     (0, import_react40.useEffect)(() => {
       if (!hasData) {

@@ -14,7 +14,7 @@ const {
   getQuarterAndYear,
   hasDate,
   hasInteger,
-  hasQuarterAndYear,
+  hasValidQuarter,
 } = require('./param');
 
 const getLabel = value => ({
@@ -142,8 +142,10 @@ const getPeopleFilter = searchParams => {
 
 const getQuarterFilter = searchParams => {
   if (searchParams.has(PARAM_QUARTER)) {
-    if (hasQuarterAndYear(searchParams.get(PARAM_QUARTER))) {
-      const parts = getQuarterAndYear(searchParams.get(PARAM_QUARTER));
+    const param = searchParams.get(PARAM_QUARTER);
+
+    if (hasValidQuarter(param)) {
+      const parts = getQuarterAndYear(param);
 
       return {
         fields: null,
@@ -155,7 +157,7 @@ const getQuarterFilter = searchParams => {
         ],
         model: null,
         values: {
-          [PARAM_QUARTER]: searchParams.get(PARAM_QUARTER),
+          [PARAM_QUARTER]: param,
         },
       };
     }

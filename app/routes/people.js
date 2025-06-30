@@ -192,8 +192,10 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (req.get('Content-Type') === headers.json) {
-    if (paramHelper.hasQuarterAndYear(quarter)) {
-      quarterSourceId = await sources.getIdForQuarter(quarter);
+    quarterSlug = paramHelper.migrateQuarterSlug(quarter);
+
+    if (quarterSlug) {
+      quarterSourceId = await sources.getIdForQuarter(quarterSlug);
     }
 
     try {
@@ -458,8 +460,10 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   if (req.get('Content-Type') === headers.json) {
-    if (paramHelper.hasQuarterAndYear(quarter)) {
-      quarterSourceId = await sources.getIdForQuarter(quarter);
+    quarterSlug = paramHelper.migrateQuarterSlug(quarter);
+
+    if (quarterSlug) {
+      quarterSourceId = await sources.getIdForQuarter(quarterSlug);
     }
 
     try {

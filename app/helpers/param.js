@@ -22,6 +22,7 @@ const hasQuarter = (param) => hasParam(param) && (QUARTER_PATTERN.test(param) ||
 const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
 const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
 const hasYearAndQuarter = (param) => hasParam(param) && QUARTER_PATTERN_ALT.test(param);
+const hasValidQuarter = (param) => hasQuarterAndYear(param) || hasYearAndQuarter(param);
 
 const getQuarterAndYear = (param) => {
   let quarter;
@@ -42,6 +43,14 @@ const getQuarterAndYear = (param) => {
 
 const getQuarterSlug = (param) =>
   param.toLowerCase().split('-').sort().join('-');
+
+const migrateQuarterSlug = param => {
+  if (hasValidQuarter(param)) {
+    return getQuarterSlug(param);
+  }
+
+  return null;
+};
 
 const hasSort = (param) => param in SORT_OPTIONS;
 const hasSortBy = (param) => param in SORT_BY_OPTIONS;
@@ -114,6 +123,8 @@ module.exports = {
   hasQuarterAndYear,
   hasSort,
   hasSortBy,
+  hasValidQuarter,
   hasYear,
   hasYearAndQuarter,
+  migrateQuarterSlug,
 };

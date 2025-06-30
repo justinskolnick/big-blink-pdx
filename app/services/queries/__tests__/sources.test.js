@@ -93,7 +93,7 @@ describe('getIdForQuarterQuery()', () => {
 
   describe('with an quarter', () => {
     test('returns the expected SQL', () => {
-      expect(getIdForQuarterQuery('Q2-2023')).toEqual({
+      expect(getIdForQuarterQuery('2023-q2')).toEqual({
         clauses: [
           'SELECT',
           'data_sources.id',

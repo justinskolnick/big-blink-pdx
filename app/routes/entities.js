@@ -301,6 +301,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
+  let quarterSlug;
   let quarterSourceId;
   let paginationTotal;
   let entityIncidents;
@@ -311,8 +312,10 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   if (req.get('Content-Type') === headers.json) {
-    if (paramHelper.hasQuarterAndYear(quarter)) {
-      quarterSourceId = await sources.getIdForQuarter(quarter);
+    quarterSlug = paramHelper.migrateQuarterSlug(quarter);
+
+    if (quarterSlug) {
+      quarterSourceId = await sources.getIdForQuarter(quarterSlug);
     }
 
     try {
