@@ -5,7 +5,7 @@ const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person');
 
-const getAllQuery = (options = {}) => {
+const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
     dateRangeTo,
@@ -15,6 +15,7 @@ const getAllQuery = (options = {}) => {
     role,
     sort,
     sortBy,
+    totalOnly = false,
     year,
   } = options;
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
@@ -29,13 +30,18 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(...Person.fields());
+  if (totalOnly) {
+    clauses.push(`COUNT(${Person.primaryKey()}) AS total`);
+  } else {
+    selections.push(...Person.fields());
 
-  if (includeCount) {
-    selections.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
+    if (includeCount) {
+      selections.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
+    }
+
+    clauses.push(selections.join(', '));
   }
 
-  clauses.push(selections.join(', '));
   clauses.push(`FROM ${Person.tableName}`);
 
   if (includeCount || hasRole || hasDateRange || hasYear) {
@@ -62,14 +68,11 @@ const getAllQuery = (options = {}) => {
       clauses.push('AND');
 
       if (hasDateRange) {
-        const dateFields = ['contact_date', 'contact_date_end'];
-        const dateClauseSegments = [];
+        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+          `${fieldName} BETWEEN ? AND ?`
+        )).join(' OR ');
 
-        dateFields.forEach(fieldName => {
-          dateClauseSegments.push(`${Incident.field(fieldName)} BETWEEN ? AND ?`);
-        });
-
-        clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+        clauses.push(`(${dateClauseSegments})`);
         params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
       } else if (hasYear) {
         clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
@@ -80,23 +83,27 @@ const getAllQuery = (options = {}) => {
     clauses.push(`GROUP BY ${Person.primaryKey()}`);
   }
 
-  clauses.push('ORDER BY');
+  if (!totalOnly) {
+    clauses.push('ORDER BY');
 
-  if (includeCount && sortBy === SORT_BY_TOTAL) {
-    clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
-  } else {
-    clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
-  }
+    if (includeCount && sortBy === SORT_BY_TOTAL) {
+      clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
+    } else {
+      clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
+    }
 
-  if (hasPage && hasPerPage) {
-    const offset = queryHelper.getOffset(page, perPage);
+    if (hasPage && hasPerPage) {
+      const offset = queryHelper.getOffset(page, perPage);
 
-    clauses.push('LIMIT ?,?');
-    params.push(offset, perPage);
+      clauses.push('LIMIT ?,?');
+      params.push(offset, perPage);
+    }
   }
 
   return { clauses, params };
 };
+
+const getAllQuery = (options = {}) => buildQuery(options);
 
 const getAtIdQuery = (id) => {
   const clauses = [];
@@ -121,7 +128,11 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getTotalQuery = () => `SELECT COUNT(${Person.primaryKey()}) AS total FROM ${Person.tableName} WHERE ${Person.field('identical_id')} IS NULL`;
+const getTotalQuery = (options = {}) => {
+  options.totalOnly = true;
+
+  return buildQuery(options);
+};
 
 module.exports = {
   getAllQuery,

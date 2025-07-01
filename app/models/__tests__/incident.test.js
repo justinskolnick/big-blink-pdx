@@ -25,6 +25,15 @@ describe('fields()', () => {
   });
 });
 
+describe('dateRangeFields()', () => {
+  test('returns the expected fields', () => {
+    expect(Incident.dateRangeFields()).toEqual([
+      'incidents.contact_date',
+      'incidents.contact_date_end',
+    ]);
+  });
+});
+
 describe('adapt()', () => {
   /* eslint-disable camelcase */
   const result = {

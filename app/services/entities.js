@@ -21,8 +21,8 @@ const getAtId = async (id) => {
 };
 
 const getTotal = async () => {
-  const sql = getTotalQuery();
-  const result = await db.get(sql);
+  const { clauses, params } = getTotalQuery();
+  const result = await db.get(clauses, params);
 
   return result.total;
 };

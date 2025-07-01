@@ -21,6 +21,11 @@ class Incident extends Base {
     notes:            { select: true, },
   };
 
+  static dateRangeFields() {
+    return ['contact_date', 'contact_date_end']
+      .map(fieldName => this.field(fieldName, true));
+  }
+
   adaptReadableDateRange(result) {
     if (result.contact_date_end) {
       return this.constructor.readableDateRange(result.contact_date, result.contact_date_end);

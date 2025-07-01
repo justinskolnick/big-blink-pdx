@@ -208,8 +208,13 @@ describe('getAtIdQuery()', () => {
 
 describe('getTotalQuery()', () => {
   test('returns the expected SQL', () => {
-    expect(getTotalQuery()).toEqual(
-      'SELECT COUNT(entities.id) AS total FROM entities',
-    );
+    expect(getTotalQuery()).toEqual({
+      clauses: [
+        'SELECT',
+        'COUNT(entities.id) AS total',
+        'FROM entities',
+      ],
+      params: [],
+    });
   });
 });

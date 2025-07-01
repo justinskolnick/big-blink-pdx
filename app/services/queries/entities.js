@@ -9,7 +9,7 @@ const queryHelper = require('../../helpers/query');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 
-const getAllQuery = (options = {}) => {
+const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
     dateRangeTo,
@@ -19,6 +19,7 @@ const getAllQuery = (options = {}) => {
     perPage,
     sort,
     sortBy = SORT_BY_NAME,
+    totalOnly = false,
     year,
   } = options;
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
@@ -33,17 +34,22 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(...Entity.fields());
+  if (totalOnly) {
+    clauses.push(`COUNT(${Entity.primaryKey()}) AS total`);
+  } else {
+    selections.push(...Entity.fields());
 
-  if (includeCount) {
-    selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
+    if (includeCount) {
+      selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
+    }
+
+    if (!sortBy || sortBy === SORT_BY_NAME) {
+      selections.push(`CASE WHEN ${Entity.field('name')} LIKE 'The %' THEN TRIM(SUBSTR(${Entity.field('name')} FROM 4)) ELSE ${Entity.field('name')} END AS sort_name`);
+    }
+
+    clauses.push(selections.join(', '));
   }
 
-  if (!sortBy || sortBy === SORT_BY_NAME) {
-    selections.push(`CASE WHEN ${Entity.field('name')} LIKE 'The %' THEN TRIM(SUBSTR(${Entity.field('name')} FROM 4)) ELSE ${Entity.field('name')} END AS sort_name`);
-  }
-
-  clauses.push(selections.join(', '));
   clauses.push(`FROM ${Entity.tableName}`);
 
   if (includeCount || hasDateRange || hasYear) {
@@ -54,14 +60,11 @@ const getAllQuery = (options = {}) => {
       clauses.push('WHERE');
 
       if (hasDateRange) {
-        const dateFields = ['contact_date', 'contact_date_end'];
-        const dateClauseSegments = [];
+        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+          `${fieldName} BETWEEN ? AND ?`
+        )).join(' OR ');
 
-        dateFields.forEach(fieldName => {
-          dateClauseSegments.push(`${Incident.field(fieldName)} BETWEEN ? AND ?`);
-        });
-
-        clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+        clauses.push(`(${dateClauseSegments})`);
         params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
       } else if (hasYear) {
         clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
@@ -72,26 +75,32 @@ const getAllQuery = (options = {}) => {
     clauses.push(`GROUP BY ${Entity.primaryKey()}`);
   }
 
-  clauses.push('ORDER BY');
+  if (!totalOnly) {
+    clauses.push('ORDER BY');
 
-  if (includeCount && sortBy === SORT_BY_TOTAL) {
-    clauses.push(`total ${sort || SORT_DESC}`);
-  } else {
-    clauses.push(`sort_name ${sort || SORT_ASC}`);
+    if (includeCount && sortBy === SORT_BY_TOTAL) {
+      clauses.push(`total ${sort || SORT_DESC}`);
+    } else {
+      clauses.push(`sort_name ${sort || SORT_ASC}`);
+    }
   }
 
-  if (hasPage && hasPerPage) {
-    const offset = queryHelper.getOffset(page, perPage);
+  if ((hasPage && hasPerPage) || hasLimit) {
+    clauses.push('LIMIT ?,?');
 
-    clauses.push('LIMIT ?,?');
-    params.push(offset, perPage);
-  } else if (hasLimit) {
-    clauses.push('LIMIT ?,?');
-    params.push(0, limit);
+    if (hasPage && hasPerPage) {
+      const offset = queryHelper.getOffset(page, perPage);
+
+      params.push(offset, perPage);
+    } else if (hasLimit) {
+      params.push(0, limit);
+    }
   }
 
   return { clauses, params };
 };
+
+const getAllQuery = (options = {}) => buildQuery(options);
 
 const getAtIdQuery = (id) => {
   const clauses = [];
@@ -108,7 +117,11 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getTotalQuery = () => `SELECT COUNT(${Entity.primaryKey()}) AS total FROM ${Entity.tableName}`;
+const getTotalQuery = (options = {}) => {
+  options.totalOnly = true;
+
+  return buildQuery(options);
+};
 
 module.exports = {
   getAllQuery,
