@@ -48,16 +48,21 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
-            'AND',
             'incident_attendees.person_id = ?',
+            'AND',
+            '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: ['2019-02-20', '2019-02-20', 321],
+          params: [
+            321,
+            '2019-02-20',
+            '2019-02-20',
+          ],
         });
       });
     });
@@ -87,23 +92,42 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
-            'AND',
             'incident_attendees.person_id = ?',
+            'AND',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
           params: [
-            '2019-02-20',
-            '2019-02-28',
-            '2019-02-20',
-            '2019-02-28',
             321,
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
           ],
         });
+      });
+    });
+  });
+
+  describe('with a year', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ year: '2016' })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+          'FROM incidents',
+          'WHERE',
+          'SUBSTRING(incidents.contact_date, 1, 4) = ?',
+          'ORDER BY',
+          'incidents.contact_date',
+          'ASC',
+        ],
+        params: ['2016'],
       });
     });
   });
@@ -133,19 +157,19 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
-            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
-            'AND',
             'incidents.data_source_id = ?',
+            'AND',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
           params: [
-            '2019-02-20',
-            '2019-02-28',
-            '2019-02-20',
-            '2019-02-28',
             123,
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
           ],
         });
       });
@@ -158,7 +182,8 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incident_attendees.person_id = ?',
             'AND',
@@ -180,7 +205,8 @@ describe('getAllQuery()', () => {
           'SELECT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
-          'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+          'LEFT JOIN incident_attendees',
+          'ON incidents.id = incident_attendees.incident_id',
           'WHERE',
           'incident_attendees.person_id = ?',
           'ORDER BY',
@@ -198,21 +224,22 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
-            'AND',
             'incident_attendees.person_id = ?',
+            'AND',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
           params: [
-            '2019-02-20',
-            '2019-02-28',
-            '2019-02-20',
-            '2019-02-28',
             123,
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
           ],
         });
       });
@@ -225,7 +252,8 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
             'AND',
@@ -265,19 +293,19 @@ describe('getAllQuery()', () => {
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
-            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
-            'AND',
             'incidents.entity_id = ?',
+            'AND',
+            '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
           params: [
-            '2019-02-20',
-            '2019-02-28',
-            '2019-02-20',
-            '2019-02-28',
             123,
+            '2019-02-20',
+            '2019-02-28',
+            '2019-02-20',
+            '2019-02-28',
           ],
         });
       });
@@ -290,7 +318,8 @@ describe('getAllQuery()', () => {
             'SELECT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
-            'LEFT JOIN incident_attendees ON incidents.id = incident_attendees.incident_id',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
             'incidents.entity_id = ?',
             'AND',
@@ -544,11 +573,11 @@ describe('getTotalQuery()', () => {
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
-            'incidents.data_source_id = ?',
-            'AND',
             'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
           ],
-          params: [3, 123],
+          params: [123, 3],
         });
       });
     });
@@ -570,7 +599,7 @@ describe('getTotalQuery()', () => {
       });
     });
 
-    describe('and a withEntityId', () => {
+    describe('and an withEntityId', () => {
       test('returns the expected SQL', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateOn: '2019-02-20' })).toEqual({
           clauses: [
@@ -578,13 +607,13 @@ describe('getTotalQuery()', () => {
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
-            'incidents.data_source_id = ?',
-            'AND',
             'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
             'AND',
             '(incidents.contact_date = ? OR incidents.contact_date_end = ?)',
           ],
-          params: [3, 123, '2019-02-20', '2019-02-20'],
+          params: [123, 3, '2019-02-20', '2019-02-20'],
         });
       });
     });
@@ -621,7 +650,7 @@ describe('getTotalQuery()', () => {
       });
     });
 
-    describe('and a withEntityId', () => {
+    describe('and an withEntityId', () => {
       test('returns the expected SQL', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
@@ -629,19 +658,19 @@ describe('getTotalQuery()', () => {
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
-            'incidents.data_source_id = ?',
-            'AND',
             'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
             'AND',
             '(incidents.contact_date BETWEEN ? AND ? OR incidents.contact_date_end BETWEEN ? AND ?)',
           ],
-          params: [3, 123, '2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
+          params: [123, 3, '2019-02-20', '2019-02-28', '2019-02-20', '2019-02-28'],
         });
       });
     });
   });
 
-  describe('with a withEntityId', () => {
+  describe('with an withEntityId', () => {
     test('returns the expected SQL', () => {
       expect(getTotalQuery({ withEntityId: 123 })).toEqual({
         clauses: [
@@ -682,11 +711,11 @@ describe('getTotalQuery()', () => {
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
-            'incidents.data_source_id = ?',
-            'AND',
             'incidents.entity_id = ?',
+            'AND',
+            'incidents.data_source_id = ?',
           ],
-          params: [3, 123],
+          params: [123, 3],
         });
       });
     });

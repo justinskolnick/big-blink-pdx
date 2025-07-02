@@ -3,8 +3,12 @@ const Incident = require('../../models/incident');
 const Source = require('../../models/source');
 const Quarter = require('../../models/quarter');
 
-const getAllQuery = (options = {}) => {
-  const { includeCount = false, types = [] } = options;
+const buildQuery = (options = {}) => {
+  const {
+    includeCount = false,
+    totalOnly = false,
+    types = [],
+  } = options;
 
   const clauses = [];
   const selections = [];
@@ -12,13 +16,18 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(...Source.fields());
+  if (totalOnly) {
+    clauses.push(`COUNT(${Source.primaryKey()}) AS total`);
+  } else {
+    selections.push(...Source.fields());
 
-  if (includeCount) {
-    selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
+    if (includeCount) {
+      selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
+    }
+
+    clauses.push(selections.join(', '));
   }
 
-  clauses.push(selections.join(', '));
   clauses.push(`FROM ${Source.tableName}`);
 
   if (includeCount) {
@@ -37,14 +46,18 @@ const getAllQuery = (options = {}) => {
     params.push(...types);
   }
 
-  if (includeCount) {
-    clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
-  }
+  if (!totalOnly) {
+    if (includeCount) {
+      clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
+    }
 
-  clauses.push(`ORDER BY ${Source.tableName}.id ASC`);
+    clauses.push(`ORDER BY ${Source.tableName}.id ASC`);
+  }
 
   return { clauses, params };
 };
+
+const getAllQuery = (options = {}) => buildQuery(options);
 
 const getAtIdQuery = (id) => {
   const clauses = [];
@@ -134,28 +147,9 @@ const getStatsQuery = () => {
 };
 
 const getTotalQuery = (options = {}) => {
-  const { types = [] } = options;
+  options.totalOnly = true;
 
-  const clauses = [];
-  const params = [];
-
-  clauses.push('SELECT');
-  clauses.push(`COUNT(${Source.primaryKey()}) AS total`);
-  clauses.push(`FROM ${Source.tableName}`);
-
-  if (types.length > 0) {
-    clauses.push('WHERE');
-
-    if (types.length > 1) {
-      clauses.push('type in (' + Array(types.length).fill('?').join(',') + ')');
-    } else {
-      clauses.push('type = ?');
-    }
-
-    params.push(...types);
-  }
-
-  return { clauses, params };
+  return buildQuery(options);
 };
 
 module.exports = {
