@@ -104,7 +104,7 @@ const getEntities = async (options = {}) => {
       result.isRegistered = personRegistrationResults.length > 0;
 
       if (result.isRegistered) {
-        result.registrations = `Registered to lobby on behalf of this entity for ${getRangeStatement(getRangesByYearSet(personRegistrationResults))}`;
+        result.registrations = `Registered to lobby on behalf of ${result.entity.name} for ${getRangeStatement(getRangesByYearSet(personRegistrationResults))}`;
       } else {
         result.registrations = 'No record of registration was found';
       }

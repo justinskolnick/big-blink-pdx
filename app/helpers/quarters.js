@@ -70,8 +70,21 @@ const getRangeStatement = sets => {
   });
 
   sets.forEach(set => {
-    const ranges = set.map(range => (
-      `Q${range.quarter}\xa0${range.year}`
+    const byYear = set.reduce((all, values) => {
+      if (!(values.year in all)) {
+        all[values.year] = {
+          year: values.year,
+          quarters: [],
+        };
+      }
+
+      all[values.year].quarters.push(values.quarter);
+
+      return all;
+    }, {});
+
+    const ranges = Object.values(byYear).map(values => (
+      `${values.year}\xa0Q${values.quarters.join('–')}`
     ));
 
     segments.push(ranges.join('\xa0–\xa0'));
