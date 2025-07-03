@@ -34,6 +34,7 @@ const buildQuery = (options = {}) => {
   const hasDateOption = hasDateOn || hasDateRange || hasYear;
 
   const clauses = [];
+  const conditions = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -56,31 +57,19 @@ const buildQuery = (options = {}) => {
 
     if (hasForeignKeyOption) {
       if (hasEntityId) {
-        clauses.push(`${Incident.field('entity_id')} = ?`);
+        conditions.push(`${Incident.field('entity_id')} = ?`);
         params.push(entityId || withEntityId);
-
-        if (hasPersonId || hasSourceId) {
-          clauses.push('AND');
-        }
       }
 
       if (hasPersonId) {
-        clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+        conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
         params.push(personId || withPersonId);
-
-        if (hasSourceId) {
-          clauses.push('AND');
-        }
       }
 
       if (hasSourceId) {
-        clauses.push(`${Incident.field('data_source_id')} = ?`);
+        conditions.push(`${Incident.field('data_source_id')} = ?`);
         params.push(sourceId || quarterSourceId);
       }
-    }
-
-    if (hasForeignKeyOption && hasDateOption) {
-      clauses.push('AND');
     }
 
     if (hasDateOn) {
@@ -88,20 +77,24 @@ const buildQuery = (options = {}) => {
         `${fieldName} = ?`
       )).join(' OR ');
 
-      clauses.push(`(${dateClauseSegments})`);
+      conditions.push(`(${dateClauseSegments})`);
       params.push(dateOn, dateOn);
     } else if (hasDateRange) {
       const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
         `${fieldName} BETWEEN ? AND ?`
       )).join(' OR ');
 
-      clauses.push(`(${dateClauseSegments})`);
+      conditions.push(`(${dateClauseSegments})`);
       params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
     } else if (hasYear) {
-      clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+      conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
       params.push(year);
     }
   }
+
+  queryHelper.joinConditions(conditions).forEach(condition => {
+    clauses.push(condition);
+  });
 
   if (!totalOnly) {
     clauses.push('ORDER BY');

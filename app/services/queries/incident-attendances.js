@@ -20,11 +20,15 @@ const getAllQuery = (options = {}) => {
   const hasDateOn = Boolean(dateOn);
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasPersonId = Boolean(personId);
-  const hasQuarterSourceId = Boolean(quarterSourceId);
-  const hasWithEntityId = Boolean(withEntityId);
+  const hasSourceId = Boolean(quarterSourceId);
+  const hasEntityId = Boolean(withEntityId);
   const hasWithPersonId = Boolean(withPersonId);
 
+  const hasForeignKeyOption = hasEntityId || hasPersonId || hasSourceId;
+  const hasDateOption = hasDateOn || hasDateRange /*|| hasYear*/;
+
   const clauses = [];
+  const conditions = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -33,53 +37,41 @@ const getAllQuery = (options = {}) => {
   clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
   clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
 
-  if (hasDateOn || hasDateRange || hasPersonId || hasWithEntityId || hasWithPersonId) {
+  if (hasForeignKeyOption || hasDateOption || hasWithPersonId) {
     clauses.push('WHERE');
 
+    if (hasEntityId) {
+      conditions.push(`${Incident.field('entity_id')} = ?`);
+      params.push(withEntityId);
+    }
+
     if (hasPersonId) {
-      clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+      conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
       params.push(personId);
-
-      if (hasQuarterSourceId) {
-        clauses.push('AND');
-        clauses.push(`${Incident.field('data_source_id')} = ?`);
-        params.push(quarterSourceId);
-      }
-
-      if (hasDateOn || hasDateRange) {
-        clauses.push('AND');
-      }
     }
 
-    if (hasDateOn || hasDateRange) {
-      const dateFields = ['contact_date', 'contact_date_end'];
-      const dateClauseSegments = [];
-
-      if (hasDateOn) {
-        dateFields.forEach(fieldName => {
-          dateClauseSegments.push(`${Incident.field(fieldName)} = ?`);
-        });
-
-        params.push(dateOn, dateOn);
-      } else if (hasDateRange) {
-        dateFields.forEach(fieldName => {
-          dateClauseSegments.push(`${Incident.field(fieldName)} BETWEEN ? AND ?`);
-        });
-
-        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
-      }
-
-      clauses.push(`(${dateClauseSegments.join(' OR ')})`);
+    if (hasSourceId) {
+      conditions.push(`${Incident.field('data_source_id')} = ?`);
+      params.push(quarterSourceId);
     }
 
-    if (hasPersonId && (hasWithEntityId || hasWithPersonId)) {
-      clauses.push('AND');
+    if (hasDateOn) {
+      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+        `${fieldName} = ?`
+      )).join(' OR ');
 
-      if (hasWithEntityId) {
-        clauses.push(`${Incident.field('entity_id')} = ?`);
-        params.push(withEntityId);
-      }
+      conditions.push(`(${dateClauseSegments})`);
+      params.push(dateOn, dateOn);
+    } else if (hasDateRange) {
+      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+        `${fieldName} BETWEEN ? AND ?`
+      )).join(' OR ');
 
+      conditions.push(`(${dateClauseSegments})`);
+      params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
+    }
+
+    if (hasPersonId && hasWithPersonId) {
       if (hasWithPersonId) {
         const withClauses = [
           `SELECT ${IncidentAttendee.field('incident_id')}`,
@@ -88,11 +80,15 @@ const getAllQuery = (options = {}) => {
         ];
         const statement = withClauses.join(' ');
 
-        clauses.push(`${Incident.primaryKey()} IN (${statement} INTERSECT ${statement})`);
+        conditions.push(`${Incident.primaryKey()} IN (${statement} INTERSECT ${statement})`);
         params.push(personId, withPersonId);
       }
     }
   }
+
+  queryHelper.joinConditions(conditions).forEach(condition => {
+    clauses.push(condition);
+  });
 
   clauses.push('ORDER BY');
   clauses.push(`${Incident.field('contact_date')}`);
@@ -126,6 +122,7 @@ const getTotalQuery = (options = {}) => {
   const hasWithPersonId = Boolean(withPersonId);
 
   const clauses = [];
+  const conditions = [];
   const params = [];
 
   if (hasPersonId) {
@@ -145,11 +142,19 @@ const getTotalQuery = (options = {}) => {
         dateClauses.push(`SELECT ${Incident.primaryKey()} FROM ${Incident.tableName} WHERE`);
 
         if (hasDateOn) {
-          dateClauses.push(`${Incident.field('contact_date')} = ?`);
-          params.push(dateOn);
+          const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+            `${fieldName} = ?`
+          )).join(' OR ');
+
+          dateClauses.push(`(${dateClauseSegments})`);
+          params.push(dateOn, dateOn);
         } else if (hasDateRange) {
-          dateClauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
-          params.push(dateRangeFrom, dateRangeTo);
+          const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+            `${fieldName} BETWEEN ? AND ?`
+          )).join(' OR ');
+
+          dateClauses.push(`(${dateClauseSegments})`);
+          params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
         }
 
         const dateStatement = dateClauses.join(' ');
@@ -171,32 +176,37 @@ const getTotalQuery = (options = {}) => {
       }
 
       clauses.push('WHERE');
-      clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+
+      conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
       params.push(personId);
 
-      if (hasQuarterSourceId || hasWithEntityId) {
-        clauses.push('AND');
-      }
-
       if (hasQuarterSourceId) {
-        clauses.push(`${Incident.field('data_source_id')} = ?`);
+        conditions.push(`${Incident.field('data_source_id')} = ?`);
         params.push(quarterSourceId);
       } else if (hasWithEntityId) {
-        clauses.push(`${Incident.field('entity_id')} = ?`);
+        conditions.push(`${Incident.field('entity_id')} = ?`);
         params.push(withEntityId);
       }
 
-      if (hasDateOn || hasDateRange) {
-        clauses.push('AND');
+      if (hasDateOn) {
+        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+          `${fieldName} = ?`
+        )).join(' OR ');
 
-        if (hasDateOn) {
-          clauses.push(`${Incident.field('contact_date')} = ?`);
-          params.push(dateOn);
-        } else if (hasDateRange) {
-          clauses.push(`${Incident.field('contact_date')} BETWEEN ? AND ?`);
-          params.push(dateRangeFrom, dateRangeTo);
-        }
+        conditions.push(`(${dateClauseSegments})`);
+        params.push(dateOn, dateOn);
+      } else if (hasDateRange) {
+        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+          `${fieldName} BETWEEN ? AND ?`
+        )).join(' OR ');
+
+        conditions.push(`(${dateClauseSegments})`);
+        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
       }
+
+      queryHelper.joinConditions(conditions).forEach(condition => {
+        clauses.push(condition);
+      });
     }
   }
 

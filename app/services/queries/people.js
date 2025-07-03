@@ -25,6 +25,7 @@ const buildQuery = (options = {}) => {
   const hasYear = Boolean(year);
 
   const clauses = [];
+  const conditions = [];
   const selections = [];
   const params = [];
 
@@ -55,31 +56,33 @@ const buildQuery = (options = {}) => {
   }
 
   clauses.push('WHERE');
-  clauses.push(`${Person.field('identical_id')} IS NULL`);
+
+  conditions.push(`${Person.field('identical_id')} IS NULL`);
 
   if (includeCount || hasRole || hasDateRange || hasYear) {
     if (hasRole) {
-      clauses.push('AND');
-      clauses.push(`${IncidentAttendee.field('role')} = ?`);
+      conditions.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
     }
 
-    if (hasDateRange || hasYear) {
-      clauses.push('AND');
+    if (hasDateRange) {
+      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
+        `${fieldName} BETWEEN ? AND ?`
+      )).join(' OR ');
 
-      if (hasDateRange) {
-        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
-          `${fieldName} BETWEEN ? AND ?`
-        )).join(' OR ');
-
-        clauses.push(`(${dateClauseSegments})`);
-        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
-      } else if (hasYear) {
-        clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-        params.push(year);
-      }
+      conditions.push(`(${dateClauseSegments})`);
+      params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
+    } else if (hasYear) {
+      conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+      params.push(year);
     }
+  }
 
+  queryHelper.joinConditions(conditions).forEach(condition => {
+    clauses.push(condition);
+  });
+
+  if (includeCount || hasRole || hasDateRange || hasYear) {
     clauses.push(`GROUP BY ${Person.primaryKey()}`);
   }
 
