@@ -31,7 +31,6 @@ const Entity = require('../models/entity');
 const Incident = require('../models/incident');
 const Person = require('../models/person');
 
-const incidentAttendances = require('../services/incident-attendances');
 const incidentAttendees = require('../services/incident-attendees');
 const incidents = require('../services/incidents');
 const people = require('../services/people');
@@ -150,19 +149,11 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
   const page = Number(req.query.get(PARAM_PAGE) || 1);
-  const dateOn = req.query.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
-  const quarter = req.query.get(PARAM_QUARTER);
-  const sort = req.query.get(PARAM_SORT);
-  const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
-  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
 
   const errors = [];
   const warnings = [];
   const perPage = Incident.perPage;
 
-  let quarterSourceId;
   let person;
   let adapted;
   let description;
@@ -192,28 +183,11 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (req.get('Content-Type') === headers.json) {
-    quarterSlug = paramHelper.migrateQuarterSlug(quarter);
-
-    if (quarterSlug) {
-      quarterSourceId = await sources.getIdForQuarter(quarterSlug);
-    }
-
     try {
       incidentsStats = await stats.getIncidentsStats({
         personId: id,
       });
-      personIncidents = await incidentAttendances.getAll({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        page,
-        perPage,
-        personId: id,
-        quarterSourceId,
-        sort,
-        withEntityId,
-        withPersonId,
-      });
+
       const {
         hasBeenEmployee,
         hasBeenLobbied,
@@ -476,7 +450,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         withEntityId,
         withPersonId,
       });
-      personIncidents = await incidentAttendances.getAll({
+      personIncidents = await incidents.getAll({
         dateOn,
         dateRangeFrom,
         dateRangeTo,

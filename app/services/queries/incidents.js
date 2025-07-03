@@ -1,32 +1,73 @@
 const { SORT_ASC, SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
+
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Source = require('../../models/source');
+
+const buildDateConditions = (options = {}) => {
+  const {
+    dateOn,
+    dateRangeFrom,
+    dateRangeTo,
+    year,
+  } = options;
+  const hasDateOn = Boolean(dateOn);
+  const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
+  const hasYear = Boolean(year);
+
+  const conditions = [];
+  const params = [];
+
+  if (hasDateOn) {
+    const segments = Incident.dateRangeFields().map(fieldName => (
+      `${fieldName} = ?`
+    )).join(' OR ');
+
+    conditions.push(`(${segments})`);
+    params.push(dateOn, dateOn);
+  } else if (hasDateRange) {
+    const segments = Incident.dateRangeFields().map(fieldName => (
+      `${fieldName} BETWEEN ? AND ?`
+    )).join(' OR ');
+
+    conditions.push(`(${segments})`);
+    params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
+  } else if (hasYear) {
+    conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+    params.push(year);
+  }
+
+  return { conditions, params };
+};
 
 const buildQuery = (options = {}) => {
   const {
     dateOn,
     dateRangeFrom,
     dateRangeTo,
+    entityId,
     page,
     perPage,
-    sourceId,
     personId,
-    entityId,
+    primaryKeyOnly = false,
     quarterSourceId,
     sort = SORT_ASC,
+    sourceId,
     totalOnly = false,
     withEntityId,
     withPersonId,
     year,
   } = options;
+  const personIds = [personId, withPersonId].filter(Boolean);
+
   const hasDateOn = Boolean(dateOn);
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasEntityId = Boolean(entityId || withEntityId);
-  const hasPersonId = Boolean(personId || withPersonId);
+  const hasPersonId = personIds.length > 0;
+  const hasPersonIds = personIds.length > 1;
   const hasSourceId = Boolean(sourceId || quarterSourceId);
   const hasYear = Boolean(year);
 
@@ -39,7 +80,9 @@ const buildQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (primaryKeyOnly) {
+    clauses.push(Incident.primaryKey());
+  } else if (totalOnly) {
     clauses.push(`COUNT(${Incident.primaryKey()}) AS total`);
   } else {
     clauses.push(Incident.fields().join(', '));
@@ -61,42 +104,48 @@ const buildQuery = (options = {}) => {
         params.push(entityId || withEntityId);
       }
 
-      if (hasPersonId) {
-        conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
-        params.push(personId || withPersonId);
-      }
-
       if (hasSourceId) {
         conditions.push(`${Incident.field('data_source_id')} = ?`);
         params.push(sourceId || quarterSourceId);
       }
+
+      if (hasPersonId) {
+        conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
+        params.push(personIds.at(0));
+      }
+
+      if (hasPersonIds) {
+        const intersectionClauses = [
+          'SELECT',
+          IncidentAttendee.field('incident_id'),
+          `FROM ${IncidentAttendee.tableName}`,
+          'WHERE',
+          `${IncidentAttendee.field('person_id')} = ?`,
+        ];
+        const statement = intersectionClauses.join(' ');
+        const statements = `${statement} INTERSECT ${statement}`;
+
+        conditions.push(`${Incident.primaryKey()} IN (${statements})`);
+        params.push(...personIds);
+      }
     }
 
-    if (hasDateOn) {
-      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
-        `${fieldName} = ?`
-      )).join(' OR ');
+    if (hasDateOption) {
+      const dateConditions = buildDateConditions(options);
 
-      conditions.push(`(${dateClauseSegments})`);
-      params.push(dateOn, dateOn);
-    } else if (hasDateRange) {
-      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
-        `${fieldName} BETWEEN ? AND ?`
-      )).join(' OR ');
-
-      conditions.push(`(${dateClauseSegments})`);
-      params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
-    } else if (hasYear) {
-      conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-      params.push(year);
+      conditions.push(...dateConditions.conditions);
+      params.push(...dateConditions.params);
     }
   }
 
-  queryHelper.joinConditions(conditions).forEach(condition => {
-    clauses.push(condition);
-  });
+  clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (!totalOnly) {
+  if (!primaryKeyOnly && !totalOnly) {
+    if (hasPersonIds) {
+      clauses.push('GROUP BY');
+      clauses.push(Incident.primaryKey());
+    }
+
     clauses.push('ORDER BY');
     clauses.push(`${Incident.field('contact_date')}`);
     clauses.push(sort);
@@ -200,6 +249,7 @@ const getTotalQuery = (options = {}) => {
 };
 
 module.exports = {
+  buildDateConditions,
   getAllQuery,
   getAtIdQuery,
   getFirstAndLastDatesQuery,

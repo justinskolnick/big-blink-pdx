@@ -1,7 +1,8 @@
 const { percentage } = require('../lib/number');
+
 const { getStatsQuery } = require('./queries/stats');
+
 const db = require('./db');
-const incidentAttendances = require('./incident-attendances');
 const incidents = require('./incidents');
 
 const getStats = async (options = {}) => {
@@ -37,7 +38,7 @@ const getIncidentsStats = async (options = {}) => {
 
   if (hasPersonId) {
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ personId });
-    total = await incidentAttendances.getTotal({ personId });
+    total = await incidents.getTotal({ personId });
   }
 
   if (hasSourceId) {
@@ -82,7 +83,7 @@ const getPaginationStats = async (options = {}) => {
       withPersonId,
     });
   } else if (hasPersonId) {
-    paginationTotal = await incidentAttendances.getTotal({
+    paginationTotal = await incidents.getTotal({
       dateOn,
       dateRangeFrom,
       dateRangeTo,

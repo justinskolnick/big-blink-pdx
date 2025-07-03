@@ -185,14 +185,17 @@ describe('getAllQuery()', () => {
             'LEFT JOIN incident_attendees',
             'ON incidents.id = incident_attendees.incident_id',
             'WHERE',
-            'incident_attendees.person_id = ?',
-            'AND',
             'incidents.data_source_id = ?',
+            'AND',
+            'incident_attendees.person_id = ?',
             'ORDER BY',
             'incidents.contact_date',
             'ASC',
           ],
-          params: [321, 123],
+          params: [
+            123,
+            321,
+          ],
         });
       });
     });
@@ -263,6 +266,34 @@ describe('getAllQuery()', () => {
             'ASC',
           ],
           params: [321, 123],
+        });
+      });
+    });
+
+    describe('and a withPersonId', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, withPersonId: 321 })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
+            'incidents.id IN (SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ?)',
+            'GROUP BY',
+            'incidents.id',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: [
+            123,
+            123,
+            321,
+          ],
         });
       });
     });
@@ -445,6 +476,23 @@ describe('getAllQuery()', () => {
           'DESC',
         ],
         params: [],
+      });
+    });
+  });
+
+  describe('with primaryKeyOnly', () => {
+    test('returns the expected sql', () => {
+      expect(getAllQuery({ primaryKeyOnly: true, entityId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.id',
+          'FROM incidents',
+          'WHERE',
+          'incidents.entity_id = ?',
+        ],
+        params: [
+          123,
+        ],
       });
     });
   });

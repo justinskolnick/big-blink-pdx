@@ -1,4 +1,5 @@
 const queryHelper = require('../../helpers/query');
+
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');

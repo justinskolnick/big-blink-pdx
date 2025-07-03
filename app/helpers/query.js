@@ -15,7 +15,7 @@ const joinConditions = conditions => (
 );
 
 const query = async (clauses, params = []) => {
-  const sql = Array.isArray(clauses) ? clauses.join(' ') : clauses;
+  const sql = Array.isArray(clauses) ? clauses.filter(Boolean).join(' ') : clauses;
   const results = await execute(sql, params);
 
   return results;

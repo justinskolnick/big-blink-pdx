@@ -78,9 +78,7 @@ const buildQuery = (options = {}) => {
     }
   }
 
-  queryHelper.joinConditions(conditions).forEach(condition => {
-    clauses.push(condition);
-  });
+  clauses.push(...queryHelper.joinConditions(conditions));
 
   if (includeCount || hasRole || hasDateRange || hasYear) {
     clauses.push(`GROUP BY ${Person.primaryKey()}`);
