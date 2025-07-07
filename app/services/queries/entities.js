@@ -9,6 +9,8 @@ const queryHelper = require('../../helpers/query');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 
+const { buildDateConditions } = require('./incidents');
+
 const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
@@ -28,7 +30,10 @@ const buildQuery = (options = {}) => {
   const hasPerPage = Boolean(perPage);
   const hasYear = Boolean(year);
 
+  const hasDateOption = hasDateRange || hasYear;
+
   const clauses = [];
+  const conditions = [];
   const selections = [];
   const params = [];
 
@@ -52,25 +57,20 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Entity.tableName}`);
 
-  if (includeCount || hasDateRange || hasYear) {
+  if (includeCount || hasDateOption) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
     clauses.push(`ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
 
-    if (hasDateRange || hasYear) {
+    if (hasDateOption) {
+      const dateConditions = buildDateConditions(options);
+
+      conditions.push(...dateConditions.conditions);
+      params.push(...dateConditions.params);
+
       clauses.push('WHERE');
-
-      if (hasDateRange) {
-        const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
-          `${fieldName} BETWEEN ? AND ?`
-        )).join(' OR ');
-
-        clauses.push(`(${dateClauseSegments})`);
-        params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
-      } else if (hasYear) {
-        clauses.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-        params.push(year);
-      }
     }
+
+    clauses.push(...queryHelper.joinConditions(conditions));
 
     clauses.push(`GROUP BY ${Entity.primaryKey()}`);
   }

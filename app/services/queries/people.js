@@ -5,6 +5,8 @@ const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person');
 
+const { buildDateConditions } = require('./incidents');
+
 const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
@@ -23,6 +25,8 @@ const buildQuery = (options = {}) => {
   const hasPerPage = Boolean(perPage);
   const hasRole = Boolean(role);
   const hasYear = Boolean(year);
+
+  const hasDateOption = hasDateRange || hasYear;
 
   const clauses = [];
   const conditions = [];
@@ -45,12 +49,12 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Person.tableName}`);
 
-  if (includeCount || hasRole || hasDateRange || hasYear) {
+  if (includeCount || hasRole || hasDateOption) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
     clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
   }
 
-  if (hasDateRange || hasYear) {
+  if (hasDateOption) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
     clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
@@ -59,28 +63,23 @@ const buildQuery = (options = {}) => {
 
   conditions.push(`${Person.field('identical_id')} IS NULL`);
 
-  if (includeCount || hasRole || hasDateRange || hasYear) {
+  if (includeCount || hasRole || hasDateOption) {
     if (hasRole) {
       conditions.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
     }
 
-    if (hasDateRange) {
-      const dateClauseSegments = Incident.dateRangeFields().map(fieldName => (
-        `${fieldName} BETWEEN ? AND ?`
-      )).join(' OR ');
+    if (hasDateOption) {
+      const dateConditions = buildDateConditions(options);
 
-      conditions.push(`(${dateClauseSegments})`);
-      params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
-    } else if (hasYear) {
-      conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
-      params.push(year);
+      conditions.push(...dateConditions.conditions);
+      params.push(...dateConditions.params);
     }
   }
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (includeCount || hasRole || hasDateRange || hasYear) {
+  if (includeCount || hasRole || hasDateOption) {
     clauses.push(`GROUP BY ${Person.primaryKey()}`);
   }
 
