@@ -35,19 +35,16 @@ const AffiliatedEntitiesTable = ({
 
   if (entities.role === Role.Lobbyist) {
     auxiliary = {
-      TypeAuxiliaryCell: ({ item }: { item: AffiliatedEntityRecord }) => (
-        item.isRegistered ? (
-          <div
-            className='icons'
-            title={`${lobbyistName} is or was registered to lobby the City on behalf of ${item.entity.name}`}
-          >
-            <PersonIcon />
-            <RegisteredIcon />
-          </div>
-        ) : (
+      TypeAuxiliaryCell: ({ item }: { item: AffiliatedEntityRecord }) =>
+      (
+        <div
+          className='icons'
+          title={item.isRegistered ? 'Lobbyist has been registered' : item.registrations}
+        >
           <PersonIcon />
-        )
-      ),
+          {item.isRegistered && <RegisteredIcon />}
+        </div>
+      )
     };
   }
 
@@ -60,7 +57,7 @@ const AffiliatedEntitiesTable = ({
           item.entity.isRegistered ? (
             <div
               className='icons'
-              title={`${item.entity.name} is or was registered to lobby the City`}
+              title='Entity has been registered'
             >
               <EntityIcon />
               <RegisteredIcon />

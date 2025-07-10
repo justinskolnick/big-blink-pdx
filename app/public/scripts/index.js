@@ -56141,17 +56141,17 @@ Hook ${hookName} was either not provided or not a function.`);
     let auxiliary;
     if (entities.role === "lobbyist" /* Lobbyist */) {
       auxiliary = {
-        TypeAuxiliaryCell: ({ item }) => item.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
+        TypeAuxiliaryCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(
           "div",
           {
             className: "icons",
-            title: `${lobbyistName} is or was registered to lobby the City on behalf of ${item.entity.name}`,
+            title: item.isRegistered ? "Lobbyist has been registered" : item.registrations,
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {}),
-              /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
+              item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
             ]
           }
-        ) : /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default4, {})
+        )
       };
     }
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
@@ -56163,7 +56163,7 @@ Hook ${hookName} was either not provided or not a function.`);
           "div",
           {
             className: "icons",
-            title: `${item.entity.name} is or was registered to lobby the City`,
+            title: "Entity has been registered",
             children: [
               /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(icon_default2, {}),
               /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(RegisteredIcon, {})
