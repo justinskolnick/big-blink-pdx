@@ -71,8 +71,8 @@ const getHasLobbiedOrBeenLobbied = async (person) => {
   };
 };
 
-const getTotal = async () => {
-  const { clauses, params } = getTotalQuery();
+const getTotal = async (options = {}) => {
+  const { clauses, params } = getTotalQuery(options);
   const result = await db.get(clauses, params);
 
   return result.total;

@@ -2252,10 +2252,10 @@ body.has-alert .alert-root {
 .leaderboard-more .icon + .item-text {
   margin-left: 2.5ch;
 }
-.leaderboard-section .leaderboard-section-header {
+.leaderboard-section .header-overview {
   display: flex;
 }
-.leaderboard-section .leaderboard-section-header .icon {
+.leaderboard-section .header-overview .icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2271,7 +2271,7 @@ body.has-alert .alert-root {
   font-size: calc(var(--header-section-icon-size) / 9 * 4);
   text-align: center;
 }
-.leaderboard-section .leaderboard-section-header .leaderboard-section-header-content {
+.leaderboard-section .header-overview .header-content {
   display: inline-flex;
   flex-wrap: wrap;
   padding-top: calc(18px / 2);
@@ -2279,34 +2279,34 @@ body.has-alert .alert-root {
   padding-bottom: calc(18px / 2);
   padding-bottom: calc(var(--gap) / 2);
 }
-.leaderboard-section .leaderboard-section-header .icon + .leaderboard-section-header-content {
+.leaderboard-section .header-overview .icon + .header-content {
   margin-left: 18px;
   margin-left: var(--header-section-icon-space-after);
 }
-.leaderboard-section .leaderboard-section-header h4 {
+.leaderboard-section .header-overview h4 {
   font-weight: 100;
 }
-.leaderboard-section .leaderboard-section-header h3::after {
+.leaderboard-section .header-overview h3::after {
   content: "\b7";
   margin-left: 0.5ch;
   margin-right: 0.5ch;
 }
 @media screen and (min-width: 613px) {
-  .leaderboard-section .leaderboard-section-header h3,
-  .leaderboard-section .leaderboard-section-header h4 {
+  .leaderboard-section .header-overview h3,
+  .leaderboard-section .header-overview h4 {
     font-size: 45px;
   }
-  .leaderboard-section .leaderboard-section-header + .leaderboard-subsection {
+  .leaderboard-section .header + .leaderboard-subsection {
     margin-top: calc(18px * 3);
     margin-top: calc(var(--gap) * 3);
   }
 }
 @media screen and (max-width: 612px) {
-  .leaderboard-section .leaderboard-section-header h3,
-  .leaderboard-section .leaderboard-section-header h4 {
+  .leaderboard-section .header-overview h3,
+  .leaderboard-section .header-overview h4 {
     font-size: 27px;
   }
-  .leaderboard-section .leaderboard-section-header + .leaderboard-subsection {
+  .leaderboard-section .header + .leaderboard-subsection {
     margin-top: calc(18px * 2);
     margin-top: calc(var(--gap) * 2);
   }
@@ -2323,6 +2323,11 @@ body.has-alert .alert-root {
     grid-gap: calc(var(--gap) * 2);
   }
 }
+.leaderboard-subsection-group .item-subhead-content h6 {
+  color: dimgray;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
 .leaderboard-subsection-group .item-subhead + .item-table {
   margin-top: 18px;
   margin-top: var(--gap);
@@ -2330,6 +2335,13 @@ body.has-alert .alert-root {
 .leaderboard-subsection-group .item-table + .leaderboard-more {
   margin-top: 18px;
   margin-top: var(--gap);
+}
+@media screen and (min-width: 401px) {
+  .leaderboard-subsection-group .item-subhead-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 .section.section-home .header-overview + .header-intro {
   margin-top: calc(18px * 2);

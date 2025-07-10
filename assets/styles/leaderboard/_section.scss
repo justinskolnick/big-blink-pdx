@@ -1,5 +1,5 @@
 .leaderboard-section {
-  .leaderboard-section-header {
+  .header-overview {
     display: flex;
 
     .icon {
@@ -17,14 +17,14 @@
       text-align: center;
     }
 
-    .leaderboard-section-header-content {
+    .header-content {
       display: inline-flex;
       flex-wrap: wrap;
       padding-top: calc(var(--gap) / 2);
       padding-bottom: calc(var(--gap) / 2);
     }
 
-    .icon + .leaderboard-section-header-content {
+    .icon + .header-content {
       margin-left: var(--header-section-icon-space-after);
     }
 
@@ -43,27 +43,27 @@
 
 
   @media screen and (min-width: 613px) {
-    .leaderboard-section-header {
+    .header-overview {
       h3,
       h4 {
         font-size: 45px;
       }
     }
 
-    .leaderboard-section-header + .leaderboard-subsection {
+    .header + .leaderboard-subsection {
       margin-top: calc(var(--gap) * 3);
     }
   }
 
   @media screen and (max-width: 612px) {
-    .leaderboard-section-header {
+    .header-overview {
       h3,
       h4 {
         font-size: 27px;
       }
     }
 
-    .leaderboard-section-header + .leaderboard-subsection {
+    .header + .leaderboard-subsection {
       margin-top: calc(var(--gap) * 2);
     }
   }

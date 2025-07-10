@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
@@ -11,6 +12,8 @@ import LeaderboardSubsectionGroup from './subsection-group';
 import { LinkToEntities, LinkToPeople } from '../links';
 import { PersonItem } from '../people/index';
 import SubsectionSubhead from '../subsection-subhead';
+
+import { getLeaderboardLabels } from '../../selectors';
 
 import { Sections } from '../../types';
 import type { LeaderboardSet } from '../../types';
@@ -42,6 +45,9 @@ const Rankings = ({
   rankings,
   section,
 }: Props) => {
+  const { period } = useSelector(getLeaderboardLabels);
+  const hasPeriod = Boolean(period);
+
   const ids = rankings?.ids;
   const labels = rankings?.labels;
 
@@ -60,7 +66,9 @@ const Rankings = ({
       </SubsectionSubhead>
 
       <LeaderboardSubsectionGroup>
-        <ItemSubhead subtitle={labels.table.title} />
+        <ItemSubhead subtitle={labels.table.title}>
+          {hasPeriod && <h6>{period}</h6>}
+        </ItemSubhead>
 
         <ItemSubsection>
           <ItemTable hasPercent labels={labels.table}>

@@ -1,9 +1,24 @@
 .leaderboard-subsection-group {
+  .item-subhead-content {
+    h6 {
+      color: var(--color-text-light);
+      font-weight: 400;
+    }
+  }
+
   .item-subhead + .item-table {
     margin-top: var(--gap);
   }
 
   .item-table + .leaderboard-more {
     margin-top: var(--gap);
+  }
+
+  @media screen and (min-width: 401px) {
+    .item-subhead-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 }

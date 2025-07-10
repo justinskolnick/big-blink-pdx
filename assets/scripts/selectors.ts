@@ -55,6 +55,10 @@ const getSourcesChartData = createSelector(
   getSourcesStats,
   stats => stats.map(value => value.total)
 );
+export const getHasSourcesChartData = createSelector(
+  getSourcesStats,
+  stats => stats.length > 0
+);
 export const getSourcesDataForChart = createSelector(
   [getSourcesChartLabels, getSourcesChartData],
   (labels, data) => ({ labels, data, })

@@ -34245,6 +34245,10 @@ Hook ${hookName} was either not provided or not a function.`);
     getSourcesStats,
     (stats) => stats.map((value) => value.total)
   );
+  var getHasSourcesChartData = createSelector(
+    getSourcesStats,
+    (stats) => stats.length > 0
+  );
   var getSourcesDataForChart = createSelector(
     [getSourcesChartLabels, getSourcesChartData],
     (labels, data2) => ({ labels, data: data2 })
@@ -55703,12 +55707,15 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime63 = __toESM(require_jsx_runtime());
   var Header2 = () => {
     const labels = useSelector(getLeaderboardLabels);
-    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("header", { className: "leaderboard-section-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(icon_default, { name: "trophy" }),
-      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "leaderboard-section-header-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h3", { children: labels.title }),
-        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h4", { children: labels.period })
-      ] })
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("header", { className: "header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "header-overview leaderboard-section-header", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(icon_default, { name: "trophy" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "header-content", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h3", { children: labels.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h4", { children: labels.period })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("div", { className: "header-intro", children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: labels.description }) })
     ] });
   };
   var header_default2 = Header2;
@@ -55828,6 +55835,8 @@ Hook ${hookName} was either not provided or not a function.`);
     rankings,
     section
   }) => {
+    const { period } = useSelector(getLeaderboardLabels);
+    const hasPeriod = Boolean(period);
     const ids = rankings?.ids;
     const labels = rankings?.labels;
     const hasIds = ids?.length > 0;
@@ -55838,7 +55847,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(subsection_default, { isGrid, children: [
       /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(subsection_subhead_default, { title: labels.title, children: labels.subtitle }),
       /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(subsection_group_default, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_subhead_default, { subtitle: labels.table.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_subhead_default, { subtitle: labels.table.title, children: hasPeriod && /* @__PURE__ */ (0, import_jsx_runtime69.jsx)("h6", { children: period }) }),
         /* @__PURE__ */ (0, import_jsx_runtime69.jsxs)(item_subsection_default, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_table_default, { hasPercent: true, labels: labels.table, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(Item2, { id }, id)) }),
           /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(more_default, { children: /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime69.jsx)(ItemsLink, { children: labels.links.more }) }) })
@@ -55904,18 +55913,22 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/home/index.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
-  var Home = () => /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
-    section_default,
-    {
-      icon: "handshake",
-      title: "Lobbying in Portland, Oregon",
-      className: "section-home",
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default2, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(leaderboard_default2, {})
-      ]
-    }
-  );
+  var Home = () => {
+    const hasChartData = useSelector(getHasSourcesChartData);
+    const hasLeaderboardData = useSelector(getHasLeaderboardData);
+    return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(
+      section_default,
+      {
+        icon: "handshake",
+        title: "Lobbying in Portland, Oregon",
+        className: "section-home",
+        children: [
+          hasChartData && /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default2, {}),
+          hasChartData && hasLeaderboardData && /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(leaderboard_default2, {})
+        ]
+      }
+    );
+  };
   var home_default = Home;
 
   // assets/scripts/components/incidents/index.tsx

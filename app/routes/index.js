@@ -88,10 +88,13 @@ router.get('/leaderboard', async (req, res, next) => {
   const quarter = req.query.get(PARAM_QUARTER_ALT);
 
   if (req.get('Content-Type') === headers.json) {
+    const descriptionClauses = [];
     let incidentCountResult;
     let data;
     let dateRangeFrom;
     let dateRangeTo;
+    let description;
+    let hasValidPeriod = false;
     let period = '2014–25';
 
     try {
@@ -102,8 +105,13 @@ router.get('/leaderboard', async (req, res, next) => {
         includeCount: true,
         sortBy: SORT_BY_TOTAL,
       };
+      const totalOptions = {};
 
       if (paramHelper.hasYearAndQuarter(quarter)) {
+        hasValidPeriod = true;
+      }
+
+      if (hasValidPeriod) {
         const quarterOptions = paramHelper.getQuarterAndYear(quarter);
         const quarterResult = await quarters.getQuarter(quarterOptions);
 
@@ -115,7 +123,8 @@ router.get('/leaderboard', async (req, res, next) => {
           options.dateRangeTo = dateRangeTo;
           incidentCountOptions.dateRangeFrom = dateRangeFrom;
           incidentCountOptions.dateRangeTo = dateRangeTo;
-
+          totalOptions.dateRangeFrom = dateRangeFrom;
+          totalOptions.dateRangeTo = dateRangeTo;
           period = quarterResult.readablePeriod;
         }
       }
@@ -140,13 +149,45 @@ router.get('/leaderboard', async (req, res, next) => {
           role: ROLE_OFFICIAL,
         }),
       ]);
-      const [entitiesResult, lobbyistsResult, officialsResult] = results.map(result => result.map(callback));
+      const [
+        entitiesResult,
+        lobbyistsResult,
+        officialsResult,
+      ] = results.map(result => result.map(callback));
+
+      const totalResults = await Promise.all([
+        entities.getTotal(totalOptions),
+        people.getTotal({
+          ...totalOptions,
+          role: ROLE_LOBBYIST,
+        }),
+        people.getTotal({
+          ...totalOptions,
+          role: ROLE_OFFICIAL,
+        }),
+      ]);
+      const [
+        entitiesTotalResult,
+        lobbyistsTotalResult,
+        officialsTotalResult,
+      ] = totalResults;
+
+      if (hasValidPeriod) {
+        descriptionClauses.push(`In ${period}`);
+      } else {
+        descriptionClauses.push('Since 2014');
+      }
+
+      descriptionClauses.push(`${lobbyistsTotalResult} lobbyists representing ${entitiesTotalResult} entities reported lobbying ${officialsTotalResult} City of Portland officials across ${incidentCountResult} reported incidents.`);
+
+      description = descriptionClauses.join(', ');
 
       data = {
         leaderboard: {
           labels: {
             title: 'Leaderboard',
             period,
+            description,
           },
           values: {
             entities: {

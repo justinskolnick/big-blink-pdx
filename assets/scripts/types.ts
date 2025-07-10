@@ -238,6 +238,7 @@ type LeaderboardColumnLabels = {
 };
 
 type LeaderboardLabels = {
+  description: string;
   period: string;
   title: string;
 };

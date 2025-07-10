@@ -9,12 +9,18 @@ const Header = () => {
   const labels = useSelector(getLeaderboardLabels);
 
   return (
-    <header className='leaderboard-section-header'>
-      <Icon name='trophy' />
+    <header className='header'>
+      <div className='header-overview leaderboard-section-header'>
+        <Icon name='trophy' />
 
-      <div className='leaderboard-section-header-content'>
-        <h3>{labels.title}</h3>
-        <h4>{labels.period}</h4>
+        <div className='header-content'>
+          <h3>{labels.title}</h3>
+          <h4>{labels.period}</h4>
+        </div>
+      </div>
+
+      <div className='header-intro'>
+        <p>{labels.description}</p>
       </div>
     </header>
   );

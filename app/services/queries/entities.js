@@ -40,7 +40,7 @@ const buildQuery = (options = {}) => {
   clauses.push('SELECT');
 
   if (totalOnly) {
-    clauses.push(`COUNT(${Entity.primaryKey()}) AS total`);
+    clauses.push(`COUNT(DISTINCT(${Entity.primaryKey()})) AS total`);
   } else {
     selections.push(...Entity.fields());
 
@@ -72,7 +72,9 @@ const buildQuery = (options = {}) => {
 
     clauses.push(...queryHelper.joinConditions(conditions));
 
-    clauses.push(`GROUP BY ${Entity.primaryKey()}`);
+    if (!totalOnly) {
+      clauses.push(`GROUP BY ${Entity.primaryKey()}`);
+    }
   }
 
   if (!totalOnly) {

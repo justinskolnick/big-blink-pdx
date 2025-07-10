@@ -211,7 +211,7 @@ describe('getTotalQuery()', () => {
     expect(getTotalQuery()).toEqual({
       clauses: [
         'SELECT',
-        'COUNT(entities.id) AS total',
+        'COUNT(DISTINCT(entities.id)) AS total',
         'FROM entities',
       ],
       params: [],

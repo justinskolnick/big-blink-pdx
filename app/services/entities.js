@@ -20,8 +20,8 @@ const getAtId = async (id) => {
   return new Entity(result);
 };
 
-const getTotal = async () => {
-  const { clauses, params } = getTotalQuery();
+const getTotal = async (options = {}) => {
+  const { clauses, params } = getTotalQuery(options);
   const result = await db.get(clauses, params);
 
   return result.total;

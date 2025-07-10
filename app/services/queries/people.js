@@ -36,7 +36,7 @@ const buildQuery = (options = {}) => {
   clauses.push('SELECT');
 
   if (totalOnly) {
-    clauses.push(`COUNT(${Person.primaryKey()}) AS total`);
+    clauses.push(`COUNT(DISTINCT(${Person.primaryKey()})) AS total`);
   } else {
     selections.push(...Person.fields());
 
@@ -80,7 +80,9 @@ const buildQuery = (options = {}) => {
   clauses.push(...queryHelper.joinConditions(conditions));
 
   if (includeCount || hasRole || hasDateOption) {
-    clauses.push(`GROUP BY ${Person.primaryKey()}`);
+    if (!totalOnly) {
+      clauses.push(`GROUP BY ${Person.primaryKey()}`);
+    }
   }
 
   if (!totalOnly) {
