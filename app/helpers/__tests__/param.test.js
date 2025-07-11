@@ -1,6 +1,7 @@
 const { getFilters } = require('../filter');
 const {
   getInvalidValueMessage,
+  getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
   getQuarterAndYear,
@@ -21,6 +22,12 @@ const {
 describe('getInvalidValueMessage()', () => {
   test('with a param value', () => {
     expect(getInvalidValueMessage('name', 123)).toEqual('<strong>123</strong> is not a valid value for <code>name</code>');
+  });
+});
+
+describe('getOutOfRangeValueMessage()', () => {
+  test('with a param value', () => {
+    expect(getOutOfRangeValueMessage('name', 123)).toEqual('<strong>123</strong> is out of range for <code>name</code>');
   });
 });
 

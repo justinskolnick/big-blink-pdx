@@ -87,6 +87,9 @@ router.get('/overview', async (req, res, next) => {
 router.get('/leaderboard', async (req, res, next) => {
   const quarter = req.query.get(PARAM_QUARTER_ALT);
 
+  const errors = [];
+  const warnings = [];
+
   if (req.get('Content-Type') === headers.json) {
     const descriptionClauses = [];
     let incidentCountResult;
@@ -95,6 +98,7 @@ router.get('/leaderboard', async (req, res, next) => {
     let dateRangeTo;
     let description;
     let hasValidPeriod = false;
+    let meta;
     let period = '2014–25';
 
     try {
@@ -108,24 +112,27 @@ router.get('/leaderboard', async (req, res, next) => {
       const totalOptions = {};
 
       if (paramHelper.hasYearAndQuarter(quarter)) {
-        hasValidPeriod = true;
-      }
-
-      if (hasValidPeriod) {
         const quarterOptions = paramHelper.getQuarterAndYear(quarter);
         const quarterResult = await quarters.getQuarter(quarterOptions);
 
-        dateRangeFrom = quarterResult.getData('date_start');
-        dateRangeTo = quarterResult.getData('date_end');
+        hasValidPeriod = quarterResult.hasData();
 
-        if (dateRangeFrom && dateRangeTo) {
-          options.dateRangeFrom = dateRangeFrom;
-          options.dateRangeTo = dateRangeTo;
-          incidentCountOptions.dateRangeFrom = dateRangeFrom;
-          incidentCountOptions.dateRangeTo = dateRangeTo;
-          totalOptions.dateRangeFrom = dateRangeFrom;
-          totalOptions.dateRangeTo = dateRangeTo;
-          period = quarterResult.readablePeriod;
+        if (hasValidPeriod) {
+          dateRangeFrom = quarterResult.getData('date_start');
+          dateRangeTo = quarterResult.getData('date_end');
+
+          if (dateRangeFrom && dateRangeTo) {
+            [options, incidentCountOptions, totalOptions].forEach(optionSet => {
+              optionSet.dateRangeFrom = dateRangeFrom;
+              optionSet.dateRangeTo = dateRangeTo;
+            });
+
+            period = quarterResult.readablePeriod;
+          }
+        } else {
+          warnings.push({
+            message: paramHelper.getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter),
+          });
         }
       }
 
@@ -253,8 +260,12 @@ router.get('/leaderboard', async (req, res, next) => {
           records: [].concat(lobbyistsResult, officialsResult),
         },
       };
+      meta = {
+        errors,
+        warnings,
+      };
 
-      res.status(200).json({ data });
+      res.status(200).json({ data, meta });
     } catch (err) {
       console.error('Error while getting people:', err.message); // eslint-disable-line no-console
       next(createError(err));

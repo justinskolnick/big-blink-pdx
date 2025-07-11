@@ -108,9 +108,11 @@ const getParamsFromFilters = (searchParams, filters) => {
 };
 
 const getInvalidValueMessage = (param, value) => `<strong>${value}</strong> is not a valid value for <code>${param}</code>`;
+const getOutOfRangeValueMessage = (param, value) => `<strong>${value}</strong> is out of range for <code>${param}</code>`;
 
 module.exports = {
   getInvalidValueMessage,
+  getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
   getQuarterAndYear,
