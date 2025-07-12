@@ -511,6 +511,10 @@ export interface FnRef {
   (ref: RefObject<HTMLElement>): void;
 }
 
+export interface FnRefDelay {
+  (ref: RefObject<HTMLElement>, delay?: number): void;
+}
+
 export interface OutletContext {
   className?: string;
   label?: string;

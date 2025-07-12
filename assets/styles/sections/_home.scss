@@ -6,13 +6,15 @@
 
     @media screen and (min-width: 613px) {
       .chart-section + .leaderboard-section {
-        margin-top: calc(var(--gap) * 4);
+        margin-top: calc(var(--gap) * 2);
+        padding-top: calc(var(--gap) * 2);
       }
     }
 
     @media screen and (max-width: 612px) {
       .chart-section + .leaderboard-section {
-        margin-top: calc(var(--gap) * 3);
+        margin-top: calc(var(--gap) * 1.5);
+        padding-top: calc(var(--gap) * 1.5);
       }
     }
   }

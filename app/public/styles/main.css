@@ -2252,10 +2252,10 @@ body.has-alert .alert-root {
 .leaderboard-more .icon + .item-text {
   margin-left: 2.5ch;
 }
-.leaderboard-section .header-overview {
-  display: flex;
+.leaderboard-section .header .header-overview {
+  flex-direction: row;
 }
-.leaderboard-section .header-overview .icon {
+.leaderboard-section .header .header-overview .icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2271,7 +2271,7 @@ body.has-alert .alert-root {
   font-size: calc(var(--header-section-icon-size) / 9 * 4);
   text-align: center;
 }
-.leaderboard-section .header-overview .header-content {
+.leaderboard-section .header .header-overview .header-content {
   display: inline-flex;
   flex-wrap: wrap;
   padding-top: calc(18px / 2);
@@ -2279,14 +2279,14 @@ body.has-alert .alert-root {
   padding-bottom: calc(18px / 2);
   padding-bottom: calc(var(--gap) / 2);
 }
-.leaderboard-section .header-overview .icon + .header-content {
+.leaderboard-section .header .header-overview .icon + .header-content {
   margin-left: 18px;
   margin-left: var(--header-section-icon-space-after);
 }
-.leaderboard-section .header-overview h4 {
+.leaderboard-section .header .header-overview h4 {
   font-weight: 100;
 }
-.leaderboard-section .header-overview h3::after {
+.leaderboard-section .header .header-overview h3::after {
   content: "\b7";
   margin-left: 0.5ch;
   margin-right: 0.5ch;
@@ -2349,14 +2349,18 @@ body.has-alert .alert-root {
 }
 @media screen and (min-width: 613px) {
   .section.section-home .chart-section + .leaderboard-section {
-    margin-top: calc(18px * 4);
-    margin-top: calc(var(--gap) * 4);
+    margin-top: calc(18px * 2);
+    margin-top: calc(var(--gap) * 2);
+    padding-top: calc(18px * 2);
+    padding-top: calc(var(--gap) * 2);
   }
 }
 @media screen and (max-width: 612px) {
   .section.section-home .chart-section + .leaderboard-section {
-    margin-top: calc(18px * 3);
-    margin-top: calc(var(--gap) * 3);
+    margin-top: calc(18px * 1.5);
+    margin-top: calc(var(--gap) * 1.5);
+    padding-top: calc(18px * 1.5);
+    padding-top: calc(var(--gap) * 1.5);
   }
 }
 .section.section-incidents .item-detail {

@@ -3,8 +3,8 @@ import { useLocation } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
-import Header from './header';
-import HeaderIntro from './header-intro';
+import Header from './section-header';
+import HeaderIntro from './section-header-intro';
 
 interface Props {
   children: ReactNode;

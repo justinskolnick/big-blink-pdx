@@ -1,18 +1,26 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router';
+
+import { delayedScrollToRef } from '../../lib/dom';
+import { hasQuarterSearchParam } from '../../lib/params';
 
 import Chart from './chart';
 import Leaderboard from './leaderboard';
 import Section from '../section';
 
-import {
-  getHasLeaderboardData,
-  getHasSourcesChartData,
-} from '../../selectors';
-
 const Home = () => {
-  const hasChartData = useSelector(getHasSourcesChartData);
-  const hasLeaderboardData = useSelector(getHasLeaderboardData);
+  const ref = useRef(null);
+
+  const [searchParams] = useSearchParams();
+  const hasQuarterParam = hasQuarterSearchParam(searchParams);
+
+  useEffect(() => {
+    const hasRef = Boolean(ref?.current);
+
+    if (hasQuarterParam && hasRef) {
+      delayedScrollToRef(ref);
+    }
+  }, [hasQuarterParam, ref]);
 
   return (
     <Section
@@ -20,8 +28,8 @@ const Home = () => {
       title='Lobbying in Portland, Oregon'
       className='section-home'
     >
-      {hasChartData && <Chart />}
-      {hasChartData && hasLeaderboardData && <Leaderboard />}
+      <Chart />
+      <Leaderboard ref={ref} />
     </Section>
   );
 };

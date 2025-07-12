@@ -1,24 +1,13 @@
 import { useEffect, useState, RefObject } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 
-import {
-  dateOnParam,
-  dateRangeFromParam,
-  dateRangeToParam,
-  pageParam,
-  quarterParam,
-  sortByParam,
-  sortParam,
-  withEntityIdParam,
-  withPersonIdParam,
-} from '../config/constants';
-import {
-  DETAIL_ROUTE_PATTERN,
-} from '../config/patterns';
-
 import { scrollToRef, scrollToTop } from '../lib/dom';
-
-import type { LocationPathname } from '../types';
+import {
+  isDetailRoute,
+  hasPageSearchParams,
+  hasSortSearchParams,
+  hasIncidentFilterSearchParams,
+} from '../lib/params';
 
 interface ActionCallback {
   (ref?: RefObject<HTMLElement>): void;
@@ -27,27 +16,6 @@ interface ActionCallback {
 export interface FetchWithCallback {
   (callback: ActionCallback): void;
 }
-
-const PAGE_PARAMS = [
-  pageParam,
-];
-const SORT_PARAMS = [
-  sortByParam,
-  sortParam,
-];
-const INCIDENT_FILTER_PARAMS = [
-  dateOnParam,
-  dateRangeFromParam,
-  dateRangeToParam,
-  quarterParam,
-  withEntityIdParam,
-  withPersonIdParam,
-];
-
-const isDetailRoute = (pathname: LocationPathname) => DETAIL_ROUTE_PATTERN.test(pathname);
-const hasPageSearchParams = (searchParams: URLSearchParams) => PAGE_PARAMS.some(p => searchParams.has(p));
-const hasSortSearchParams = (searchParams: URLSearchParams) => SORT_PARAMS.some(p => searchParams.has(p));
-const hasIncidentFilterSearchParams = (searchParams: URLSearchParams) => INCIDENT_FILTER_PARAMS.some(p => searchParams.has(p));
 
 const defaultFetch: FetchWithCallback = (callback) => {
   if (callback) {

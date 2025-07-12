@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { RefObject } from 'react';
+import { useSelector } from 'react-redux';
 
-import LeaderboardSection from '../leaderboard/section';
+import Section from '../leaderboard/section';
 import EntitiesLeaderboard from '../leaderboard/leaderboard-entities';
 import LobbyistsLeaderboard from '../leaderboard/leaderboard-lobbyists';
 import OfficialsLeaderboard from '../leaderboard/leaderboard-officials';
 
-const Leaderboard = () => (
-  <LeaderboardSection>
-    <EntitiesLeaderboard />
-    <LobbyistsLeaderboard />
-    <OfficialsLeaderboard />
-  </LeaderboardSection>
-);
+import {
+  getHasLeaderboardData,
+  getHasSourcesChartData,
+} from '../../selectors';
+
+interface Props {
+  ref?: RefObject<HTMLElement>
+}
+
+const Leaderboard = ({ ref }: Props) => {
+  const hasChartData = useSelector(getHasSourcesChartData);
+  const hasLeaderboardData = useSelector(getHasLeaderboardData);
+
+  const isReady = hasChartData && hasLeaderboardData;
+
+  return (
+    <Section ref={ref}>
+      {isReady && (
+        <>
+          <EntitiesLeaderboard />
+          <LobbyistsLeaderboard />
+          <OfficialsLeaderboard />
+        </>
+      )}
+    </Section>
+  );
+};
 
 export default Leaderboard;

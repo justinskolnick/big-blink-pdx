@@ -1,25 +1,17 @@
-import React, { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
-
-import { getHasLeaderboardData } from '../../selectors';
+import React, { ReactNode, RefObject } from 'react';
 
 import Header from './header';
 
 interface Props {
   children: ReactNode;
+  ref?: RefObject<HTMLElement>
 }
 
-const Section = ({ children }: Props) => {
-  const hasData = useSelector(getHasLeaderboardData);
-
-  if (!hasData) return null;
-
-  return (
-    <section className='leaderboard-section'>
-      <Header />
-      {children}
-    </section>
-  );
-};
+const Section = ({ children, ref }: Props) => (
+  <section className='leaderboard-section' ref={ref}>
+    <Header />
+    {children}
+  </section>
+);
 
 export default Section;

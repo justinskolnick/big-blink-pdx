@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 
+import { scrollToRef } from '../lib/dom';
+
 import DateBox from './incident-date-box';
 import IncidentActivityChart from './incident-activity-chart';
 import IncidentStatGroup from './incident-stat-group';
@@ -27,9 +29,7 @@ const ActivityOverview = ({
   const hasAppearances = Object.values(overview?.appearances?.values ?? {})?.some(value => value.value);
   const hasTotals = Object.values(overview?.totals?.values ?? {})?.some(value => value.value);
 
-  const scrollToRef = () => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToIncidents = () => scrollToRef(ref);
 
   if (!hasOverview) return null;
 
@@ -52,7 +52,7 @@ const ActivityOverview = ({
                     <StatBox
                       key={item.key}
                       className={isInteractive && 'is-interactive'}
-                      onClick={isInteractive ? scrollToRef : undefined}
+                      onClick={isInteractive ? scrollToIncidents : undefined}
                       title={item.label}
                     >
                       {item.value}

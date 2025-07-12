@@ -1,6 +1,8 @@
 import React, { useRef, useState, ReactElement, ReactNode, RefObject } from 'react';
 import { cx } from '@emotion/css';
 
+import { delayedScrollToRef } from '../lib/dom';
+
 import ItemTable from './item-table';
 
 import type { AffiliatedItem } from '../types';
@@ -49,11 +51,7 @@ const AffiliatedItemTable = ({
 
   const hasAuxiliaryType = Boolean(TypeAuxiliaryCell);
 
-  const scrollToRef = () => {
-    setTimeout(() => {
-      ref.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 250);
-  };
+  const scrollToRef = () => delayedScrollToRef(ref);
 
   return hasItems ? (
     <AffiliatedItems ref={ref}>

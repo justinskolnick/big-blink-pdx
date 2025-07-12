@@ -1,29 +1,31 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import Header, { HeaderOverview } from '../header';
+
 import { getLeaderboardLabels } from '../../selectors';
 
 import Icon from '../icon';
 
-const Header = () => {
+const LeaderboardHeader = () => {
   const labels = useSelector(getLeaderboardLabels);
 
   return (
-    <header className='header'>
-      <div className='header-overview leaderboard-section-header'>
+    <Header>
+      <HeaderOverview>
         <Icon name='trophy' />
 
         <div className='header-content'>
           <h3>{labels.title}</h3>
           <h4>{labels.period}</h4>
         </div>
-      </div>
+      </HeaderOverview>
 
       <div className='header-intro'>
         <p>{labels.description}</p>
       </div>
-    </header>
+    </Header>
   );
 };
 
-export default Header;
+export default LeaderboardHeader;
