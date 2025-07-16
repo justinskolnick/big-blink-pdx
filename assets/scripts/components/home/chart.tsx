@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import Icon from '../icon';
 import IncidentActivityChart from '../incident-activity-chart';
-import ItemChart from '../item-chart';
+import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
 import ItemSubhead from '../item-subhead';
 
 import {
@@ -15,6 +15,7 @@ const Chart = () => {
   const hasData = useSelector(getHasSourcesChartData);
   const sources = useSelector(getSourcesDataForChart);
   const data = sources?.data;
+
   const lineProps = {
     data,
   };
@@ -35,7 +36,9 @@ const Chart = () => {
           )} />
 
           <IncidentActivityChart>
-            <ItemChart lineProps={lineProps} />
+            <IncidentQuarterlyActivityChart
+              lineProps={lineProps}
+            />
           </IncidentActivityChart>
         </>
       )}

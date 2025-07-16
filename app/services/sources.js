@@ -43,7 +43,7 @@ const getStats = async () => {
 
   return results.map(result => ({
     id: result.id,
-    label: 'Q' + result.quarter + ' ' + result.year,
+    label: `${result.year} Q${result.quarter}`,
     total: result.total,
   }));
 };

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
-import ItemChart from '../item-chart';
+import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
 
 import { getEntitiesChartData } from '../../selectors';
 
@@ -18,10 +18,6 @@ const Chart = ({ label }: Props) => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const quarterParam = searchParams.get('quarter');
-  const [quarter, setQuarter] = useState(quarterParam);
-
   const entitiesData = useSelector(getEntitiesChartData);
   const data = entitiesData?.[numericId];
   const hasData = data?.length > 0;
@@ -31,28 +27,14 @@ const Chart = ({ label }: Props) => {
     data,
   };
 
-  const handleClick = (value: string) => {
-    setQuarter(value.split(' ').sort().join('-'));
-  };
-
   useEffect(() => {
     if (!hasData) {
       trigger({ id: numericId });
     }
   }, [hasData, numericId, trigger]);
 
-  useEffect(() => {
-    if (quarter) {
-      if (!quarterParam || (quarterParam && quarter && quarterParam !== quarter)) {
-        setSearchParams({ quarter });
-      }
-
-      setQuarter(null);
-    }
-  }, [quarterParam, quarter, setSearchParams]);
-
   return (
-    <ItemChart lineProps={lineProps} handleClick={handleClick} />
+    <IncidentQuarterlyActivityChart lineProps={lineProps} />
   );
 };
 
