@@ -2291,6 +2291,25 @@ body.has-alert .alert-root {
   margin-left: 0.5ch;
   margin-right: 0.5ch;
 }
+.leaderboard-section .filters {
+  display: inline-flex;
+  color: gray;
+  color: var(--color-light);
+}
+.leaderboard-section .filters .filter-label {
+  font-weight: 400;
+}
+.leaderboard-section .filters .filter-intro + .filter {
+  margin-left: 0.4ch;
+}
+.leaderboard-section .header + .filters {
+  margin-top: 18px;
+  margin-top: var(--gap);
+}
+.leaderboard-section .filters + .leaderboard-subsection {
+  margin-top: calc(18px * 2);
+  margin-top: calc(var(--gap) * 2);
+}
 @media screen and (min-width: 613px) {
   .leaderboard-section .header-overview h3,
   .leaderboard-section .header-overview h4 {

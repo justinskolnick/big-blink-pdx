@@ -9,6 +9,7 @@ const {
   SORT_BY_TOTAL,
 } = require('../config/constants');
 
+const filterHelper = require('../helpers/filter');
 const metaHelper = require('../helpers/meta');
 const paramHelper = require('../helpers/param');
 
@@ -97,6 +98,7 @@ router.get('/leaderboard', async (req, res, next) => {
     let dateRangeFrom;
     let dateRangeTo;
     let description;
+    let filters;
     let hasValidPeriod = false;
     let meta;
     let period = '2014–25';
@@ -189,13 +191,19 @@ router.get('/leaderboard', async (req, res, next) => {
 
       description = descriptionClauses.join(', ');
 
+      filters = filterHelper.getLeaderboardFilters(req.query);
+
       data = {
         leaderboard: {
           labels: {
             title: 'Leaderboard',
             period,
             description,
+            filters: {
+              intro: 'Showing activity',
+            }
           },
+          filters,
           values: {
             entities: {
               ids: entitiesResult.map(item => item.id),

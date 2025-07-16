@@ -1,7 +1,7 @@
 import { useEffect, useState, RefObject } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 
-import { scrollToRef, scrollToTop } from '../lib/dom';
+import { delayedScrollToRef, delayedScrollToTop } from '../lib/dom';
 import {
   isDetailRoute,
   hasPageSearchParams,
@@ -23,7 +23,7 @@ const defaultFetch: FetchWithCallback = (callback) => {
   }
 };
 
-const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch) => {
+const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll: boolean = true) => {
   const hasFetch = Boolean(fetch);
 
   const location = useLocation();
@@ -44,7 +44,7 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch) => {
 
     const hasParams = hasPageParams || hasSortParams || hasIncidentFilterParams;
 
-    setTimeout(() => {
+    if (scroll) {
       if (location.pathname === lastPathname) {
         const hadPageParams = hasPageSearchParams(lastSearchParams);
         const hadSortParams = hasSortSearchParams(lastSearchParams);
@@ -52,18 +52,18 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch) => {
         const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
 
         if (isDetail && hasRef && (hasParams || hadParams)) {
-          scrollToRef(ref);
+          delayedScrollToRef(ref);
         } else {
-          scrollToTop();
+          delayedScrollToTop();
         }
       } else {
         if (isDetail && hasRef && hasParams) { // eslint-disable-line no-lonely-if
-          scrollToRef(ref);
+          delayedScrollToRef(ref);
         } else {
-          scrollToTop();
+          delayedScrollToTop();
         }
       }
-    }, 250);
+    }
 
     setLastPathname(location.pathname);
     setLastSearchParams(searchParams);

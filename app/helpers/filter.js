@@ -140,7 +140,7 @@ const getPeopleFilter = searchParams => {
   }
 };
 
-const getQuarterFilter = searchParams => {
+const getQuarterFilter = (searchParams) => {
   if (searchParams.has(PARAM_QUARTER)) {
     const param = searchParams.get(PARAM_QUARTER);
 
@@ -171,6 +171,11 @@ const getFilters = searchParams => ({
   quarter: getQuarterFilter(searchParams),
 });
 
+const getLeaderboardFilters = searchParams => ({
+  quarter: getQuarterFilter(searchParams),
+});
+
 module.exports = {
   getFilters,
+  getLeaderboardFilters,
 };

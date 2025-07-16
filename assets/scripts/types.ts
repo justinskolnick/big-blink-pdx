@@ -239,6 +239,9 @@ type LeaderboardColumnLabels = {
 
 type LeaderboardLabels = {
   description: string;
+  filters: {
+    intro: string;
+  };
   period: string;
   title: string;
 };
@@ -271,6 +274,7 @@ type LeaderboardValues = {
 };
 
 export type Leaderboard = {
+  filters: Filters;
   labels: LeaderboardLabels;
   values: LeaderboardValues;
 };
@@ -505,6 +509,10 @@ export type MetaType = {
 
 export interface Fn {
   (): void;
+}
+
+export interface FnDelay {
+  (delay?: number): void;
 }
 
 export interface FnRef {

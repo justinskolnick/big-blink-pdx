@@ -43,6 +43,26 @@
     }
   }
 
+  .filters {
+    display: inline-flex;
+    color: var(--color-light);
+
+    .filter-label {
+      font-weight: 400;
+    }
+
+    .filter-intro + .filter {
+      margin-left: 0.4ch;
+    }
+  }
+
+  .header + .filters {
+    margin-top: var(--gap);
+  }
+
+  .filters + .leaderboard-subsection {
+    margin-top: calc(var(--gap) * 2);
+  }
 
   @media screen and (min-width: 613px) {
     .header-overview {

@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { Leaderboard } from '../types';
 
 const initialState = {
+  filters: {},
   labels: {},
   values: {},
 } as Leaderboard;
@@ -17,6 +18,7 @@ export const actions = {
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setLeaderboard, (state, action: PayloadAction<Leaderboard>) => {
+      state.filters = action.payload.filters;
       state.labels = action.payload.labels;
       state.values = action.payload.values;
     });

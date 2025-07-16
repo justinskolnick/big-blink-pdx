@@ -5,6 +5,7 @@ import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';
 import { RootState } from '../lib/store';
+import { isEmpty } from '../lib/util';
 
 import { LinkToQueryParams } from './links';
 
@@ -217,7 +218,7 @@ const FilterLabels = ({ filter, handleActionClick }: FilterLabelsProps) => {
   const { labels, model, values } = filter;
 
   const hasValues = Boolean(values);
-  const isRemovable = hasValues && Object.values(values).length > 0;
+  const isRemovable = hasValues && !isEmpty(values);
   const newParamsBase = {
     page: null,
   } as Record<NewParamsKey, null>;
@@ -239,6 +240,12 @@ const FilterLabels = ({ filter, handleActionClick }: FilterLabelsProps) => {
     </>
   );
 };
+
+export const FilterIntro = ({ children }: FilterTextProps) => (
+  <div className='filter-intro'>
+    {children}
+  </div>
+);
 
 export const Filters = ({ children, className }: FiltersProps) => (
   <div className={cx('filters', className)}>
