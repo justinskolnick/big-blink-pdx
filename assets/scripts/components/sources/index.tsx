@@ -49,9 +49,8 @@ interface SourcesProps {
 
 const useTypeLabel = (type: SourceTypeKey) => {
   const types = useSelector(getSourceTypes);
-  const label = types[type].label;
 
-  return label;
+  return types[type]?.label ?? '';
 };
 
 const SourceTypeYear = ({ year }: SourceTypeYearProps) => (

@@ -56377,8 +56377,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime88 = __toESM(require_jsx_runtime());
   var useTypeLabel = (type) => {
     const types = useSelector(getSourceTypes);
-    const label = types[type].label;
-    return label;
+    return types[type]?.label ?? "";
   };
   var SourceTypeYear = ({ year }) => /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)("div", { className: "item-index-subgroup", children: [
     /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(item_subhead_default, { subtitle: year.year }),
