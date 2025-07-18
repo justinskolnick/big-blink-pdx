@@ -18,11 +18,6 @@ class Source extends IncidentedObject {
     retrieved_at: { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } }, // eslint-disable-line camelcase
   };
 
-  static labels = {
-    activity: 'Lobbying activity',
-    registration: 'Lobbying registration',
-  };
-
   static types = {
     activity: 'activity',
     registration: 'registration',

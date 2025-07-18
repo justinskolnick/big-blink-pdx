@@ -8,11 +8,11 @@ describe('tableName', () => {
 
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
-    expect(Source.getLabel('incident_percentage')).toBe('Share of total');
-    expect(Source.getLabel('incident_total')).toBe('Incident count');
+    expect(Source.getLabel('percentage', 'incidents')).toBe('Share of total');
+    expect(Source.getLabel('total', 'incidents')).toBe('Incident count');
     expect(Source.getLabel('totals')).toBe('Totals');
-    expect(Source.getLabel('activity')).toBe('Lobbying activity');
-    expect(Source.getLabel('registration')).toBe('Lobbying registration');
+    expect(Source.getLabel('activity', 'lobbying')).toBe('Lobbying activity');
+    expect(Source.getLabel('registration', 'lobbying')).toBe('Lobbying registration');
   });
 });
 
@@ -70,7 +70,10 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const source = new Source(resultWithTotal);
 
-    source.setOverview();
+    source.setOverview({}, {
+      totals: 'Grand total',
+      total: 'percentage',
+    });
 
     expect(source.adapted).toEqual({
       id: 1,
@@ -87,11 +90,11 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         totals: {
-          label: 'Totals',
+          label: 'Grand total',
           values: {
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Share of total',
               value: 114,
             },
           },

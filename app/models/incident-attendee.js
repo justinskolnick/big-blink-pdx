@@ -3,7 +3,7 @@ const {
   ROLE_OFFICIAL,
 } = require('../config/constants');
 
-const Base = require('./base');
+const Base = require('./shared/base');
 const Person = require('./person');
 
 class IncidentAttendee extends Base {

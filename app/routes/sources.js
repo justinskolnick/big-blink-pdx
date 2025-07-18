@@ -101,7 +101,7 @@ router.get('/', async (req, res, next) => {
       types = unique(records.map(record => record.type)).reduce((all, type) => {
         all[type] = {
           key: type,
-          label: Source.getLabel(type),
+          label: Source.getLabel(type, 'lobbying'),
         };
 
         return all;
@@ -175,7 +175,10 @@ router.get('/:id', async (req, res, next) => {
           sourceId: id,
         });
 
-        source.setOverview(incidentsStats);
+        source.setOverview(incidentsStats, {
+          first: 'first_incident',
+          last: 'last_incident',
+        });
 
         data = {
           source: {

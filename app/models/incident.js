@@ -1,4 +1,4 @@
-const Base = require('./base');
+const Base = require('./shared/base');
 
 class Incident extends Base {
   static tableName = 'incidents';

@@ -1,0 +1,13 @@
+{
+  "appearances": "Appearances",
+  "appearances__first": "First appearance",
+  "appearances__first_incident": "First incident",
+  "appearances__last": "Most recent appearance",
+  "appearances__last_incident": "Last incident",
+  "incidents__percentage": "Share of total",
+  "incidents__total": "Incident count",
+  "lobbying__activity": "Lobbying activity",
+  "lobbying__registration": "Lobbying registration",
+  "overview": "Overview",
+  "totals": "Totals"
+}

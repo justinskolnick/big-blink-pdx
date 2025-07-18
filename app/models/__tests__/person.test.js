@@ -8,8 +8,8 @@ describe('tableName', () => {
 
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
-    expect(Person.getLabel('incident_percentage')).toBe('Share of total');
-    expect(Person.getLabel('incident_total')).toBe('Incident count');
+    expect(Person.getLabel('percentage', 'incidents')).toBe('Share of total');
+    expect(Person.getLabel('total', 'incidents')).toBe('Incident count');
     expect(Person.getLabel('totals')).toBe('Totals');
   });
 });

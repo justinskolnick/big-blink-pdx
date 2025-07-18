@@ -1,32 +1,19 @@
 const camelCase = require('lodash.camelcase');
 
-const dateHelper = require('../helpers/date');
-const linkHelper = require('../helpers/links');
+const dateHelper = require('../../helpers/date');
+const linkHelper = require('../../helpers/links');
+
+const Labels = require('./labels');
 
 class Base {
   static primaryKeyField = 'id';
 
-  static baseLabels = {
-    /* eslint-disable camelcase */
-    appearances: 'Appearances',
-    incident_first: 'First appearance',
-    incident_last: 'Most recent appearance',
-    incident_percentage: 'Share of total',
-    incident_total: 'Incident count',
-    overview: 'Overview',
-    totals: 'Totals',
-    /* eslint-enable camelcase */
-  };
+  static {
+    this.labels = new Labels();
+  }
 
-  static labels = {};
-
-  static getLabel(key) {
-    const labels = {
-      ...this.baseLabels,
-      ...this.labels,
-    };
-
-    return labels[key];
+  static getLabel(key, prefix = '') {
+    return this.labels.getLabel(key, prefix);
   }
 
   static field(fieldName, prefix = true) {
