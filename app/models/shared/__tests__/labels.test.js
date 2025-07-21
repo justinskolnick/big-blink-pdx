@@ -1,3 +1,5 @@
+const mockConsole = require('jest-mock-console');
+
 const Labels = require('../labels');
 
 describe('getLabel()', () => {
@@ -12,28 +14,28 @@ describe('getLabel()', () => {
 
   describe('with a missing string key', () => {
     test('logs to the console', () => {
+      const restoreConsole = mockConsole();
       const labels = new Labels();
-      const log = jest.spyOn(global.console, 'warn');
 
       labels.getLabel('nully_nimwit');
 
-      expect(log).toHaveBeenCalledTimes(1);
-      expect(log).toHaveBeenCalledWith('label key not found for "nully_nimwit"');
+      expect(console.warn).toHaveBeenCalledTimes(1);
+      expect(console.warn).toHaveBeenCalledWith('label key not found for "nully_nimwit"');
 
-      log.mockRestore();
+      restoreConsole();
     });
 
     describe('and a prefix', () => {
       test('logs to the console', () => {
+        const restoreConsole = mockConsole();
         const labels = new Labels();
-        const log = jest.spyOn(global.console, 'warn');
 
         labels.getLabel('nully_nimwit', 'nope');
 
-        expect(log).toHaveBeenCalledTimes(1);
-        expect(log).toHaveBeenCalledWith('label key not found for "nully_nimwit" using prefix "nope"');
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith('label key not found for "nully_nimwit" using prefix "nope"');
 
-        log.mockRestore();
+        restoreConsole();
       });
     });
   });

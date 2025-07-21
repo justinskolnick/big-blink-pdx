@@ -1,3 +1,5 @@
+const mockConsole = require('jest-mock-console');
+
 const Source = require('../source');
 
 describe('tableName', () => {
@@ -68,6 +70,7 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total', () => {
+    const restoreConsole = mockConsole();
     const source = new Source(resultWithTotal);
 
     source.setOverview({}, {
@@ -101,6 +104,11 @@ describe('adapt()', () => {
         },
       },
     });
+
+    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(console.warn).toHaveBeenCalledWith('label key not found for "Grand total"');
+
+    restoreConsole();
   });
 
   test('adapts a result with a total and a percentage', () => {

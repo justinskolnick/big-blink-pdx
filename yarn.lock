@@ -3514,6 +3514,7 @@ __metadata:
     globals: "npm:^16.2.0"
     http-errors: "npm:~2.0.0"
     jest: "npm:^30.0.0"
+    jest-mock-console: "npm:^2.0.0"
     lodash.camelcase: "npm:^4.3.0"
     morgan: "npm:~1.10.0"
     mysql2: "npm:^3.14.1"
@@ -7038,6 +7039,15 @@ __metadata:
     slash: "npm:^3.0.0"
     stack-utils: "npm:^2.0.6"
   checksum: 10c0/32ddafdaeea73dcb133de4a19603759c99dc97a336c5484757e1fd490c55ad937290737ad9fb378a8fdc39d36dbacfaa498320b1c852a78d620151a53df7c138
+  languageName: node
+  linkType: hard
+
+"jest-mock-console@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "jest-mock-console@npm:2.0.0"
+  peerDependencies:
+    jest: ">= 22.4.2"
+  checksum: 10c0/2d54620b70f46d550ec61d59efefd4492c222f1cfbe979e681c635d8a69af55621b5beb761d6424ee2187e0bf93022f231c65f951150b7a1364c5e8d49671d16
   languageName: node
   linkType: hard
 
