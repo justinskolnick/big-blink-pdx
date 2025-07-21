@@ -105,8 +105,10 @@ describe('adapt()', () => {
       },
     });
 
+    /* eslint-disable no-console */
     expect(console.warn).toHaveBeenCalledTimes(1);
     expect(console.warn).toHaveBeenCalledWith('label key not found for "Grand total"');
+    /* eslint-enable no-console */
 
     restoreConsole();
   });
