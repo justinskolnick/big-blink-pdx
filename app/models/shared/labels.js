@@ -1,5 +1,7 @@
 const labelStrings = require('../../config/strings.json');
 
+const { snakeCase } = require('../../lib/string');
+
 class Labels {
   labels = {};
 
@@ -18,11 +20,25 @@ class Labels {
     return prefix.length ? [prefix, key].join('__') : key;
   }
 
-  getLabel(key, prefix = '') {
+  getInterpolatedLabel(str, values = {}) {
+    return Object.entries(values).reduce((acc, [key, value]) => {
+      const symbol = snakeCase(key);
+
+      return acc.replace(`:${symbol}`, value);
+    }, str).replace(/[\s]+/, ' ');
+  }
+
+  getLabel(key, prefix = '', values = null) {
     const labelKey = this.prefixLabelKey(key, prefix);
 
     if (labelKey in this.labels) {
-      return this.labels[labelKey];
+      const label = this.labels[labelKey];
+
+      if (values !== null) {
+        return this.getInterpolatedLabel(label, values);
+      }
+
+      return label;
     } else if (prefix.length) {
       console.warn(`label key not found for "${key}" using prefix "${prefix}"`); // eslint-disable-line no-console
     } else {

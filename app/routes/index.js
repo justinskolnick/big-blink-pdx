@@ -15,6 +15,8 @@ const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 
+const Leaderboard = require('../models/leaderboard/leaderboard');
+
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
 const people = require('../services/people');
@@ -92,14 +94,12 @@ router.get('/leaderboard', async (req, res, next) => {
   const warnings = [];
 
   if (req.get('Content-Type') === headers.json) {
-    const descriptionClauses = [];
     let incidentCountResult;
     let data;
     let dateRangeFrom;
     let dateRangeTo;
-    let description;
     let filters;
-    let hasValidPeriod = false;
+    let periodIsValid = false;
     let meta;
     let period = '2014–25';
 
@@ -117,9 +117,9 @@ router.get('/leaderboard', async (req, res, next) => {
         const quarterOptions = paramHelper.getQuarterAndYear(quarter);
         const quarterResult = await quarters.getQuarter(quarterOptions);
 
-        hasValidPeriod = quarterResult.hasData();
+        periodIsValid = quarterResult.hasData();
 
-        if (hasValidPeriod) {
+        if (periodIsValid) {
           dateRangeFrom = quarterResult.getData('date_start');
           dateRangeTo = quarterResult.getData('date_end');
 
@@ -181,84 +181,25 @@ router.get('/leaderboard', async (req, res, next) => {
         officialsTotalResult,
       ] = totalResults;
 
-      if (hasValidPeriod) {
-        descriptionClauses.push(`In ${period}`);
-      } else {
-        descriptionClauses.push('Since 2014');
-      }
-
-      descriptionClauses.push(`${lobbyistsTotalResult} lobbyists representing ${entitiesTotalResult} entities reported lobbying ${officialsTotalResult} City of Portland officials across ${incidentCountResult} reported incidents.`);
-
-      description = descriptionClauses.join(', ');
+      const descriptionValues = {
+        entitiesTotalResult,
+        incidentCountResult,
+        lobbyistsTotalResult,
+        officialsTotalResult,
+        period,
+        periodIsValid,
+      };
 
       filters = filterHelper.getLeaderboardFilters(req.query);
 
       data = {
         leaderboard: {
-          labels: {
-            title: 'Leaderboard',
-            period,
-            description,
-            filters: {
-              intro: 'Showing activity',
-            }
-          },
+          labels: Leaderboard.getSectionLabels(descriptionValues),
           filters,
           values: {
-            entities: {
-              ids: entitiesResult.map(item => item.id),
-              labels: {
-                title: 'Lobbying Entities',
-                subtitle: 'Lobbying entities are ranked by total number of lobbying incident appearances.',
-                table: {
-                  title: 'Portland’s most active lobbying entities',
-                  column: {
-                    name: 'Name of the lobbying entity',
-                    total: 'Total number of lobbying incidents reported for this entity',
-                    percentage: `Share of ${incidentCountResult} incidents`,
-                  },
-                },
-                links: {
-                  more: 'View the full list of lobbying entities',
-                }
-              },
-            },
-            lobbyists: {
-              ids: lobbyistsResult.map(item => item.id),
-              labels: {
-                title: 'Lobbyists',
-                subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
-                table: {
-                  title: 'Portland’s most active lobbyists',
-                  column: {
-                    name: 'Name of the lobbyist',
-                    total: 'Total number of lobbying incidents reported for this lobbyist',
-                    percentage: `Share of ${incidentCountResult} incidents`,
-                  },
-                },
-                links: {
-                  more: 'View all lobbyists in the full list of people',
-                },
-              },
-            },
-            officials: {
-              ids: officialsResult.map(item => item.id),
-              labels: {
-                title: 'City Officials',
-                subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
-                table: {
-                  title: 'Portland’s most lobbied officials',
-                  column: {
-                    name: 'Name of the lobbied official',
-                    total: 'Total number of lobbying incidents reported for this official',
-                    percentage: `Share of ${incidentCountResult} incidents`,
-                  },
-                },
-                links: {
-                  more: 'View all officials in the full list of people',
-                },
-              },
-            },
+            entities: Leaderboard.getValuesForEntities(entitiesResult, incidentCountResult),
+            lobbyists: Leaderboard.getValuesForLobbyists(lobbyistsResult, incidentCountResult),
+            officials: Leaderboard.getValuesForOfficials(officialsResult, incidentCountResult),
           },
         },
         entities: {
