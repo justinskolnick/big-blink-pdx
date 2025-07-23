@@ -1,8 +1,8 @@
-const Base = require('./shared/base');
+const Base = require('./base');
 
-const { percentage } = require('../lib/number');
+const { percentage } = require('../../lib/number');
 
-class IncidentedObject extends Base {
+class IncidentedBase extends Base {
   static linkKey = null;
 
   overviewProps = [
@@ -61,18 +61,18 @@ class IncidentedObject extends Base {
     });
   }
 
-  setOverviewAppearances(stats, labelKeys = {}) {
+  setOverviewAppearances(stats) {
     this.data.overview.appearances = {
-      label: this.constructor.getLabel(labelKeys?.appearances ?? 'appearances'),
+      label: this.constructor.getLabel('appearances'),
       values: {},
     };
 
     if (this.statsHasFirstIncident(stats)) {
-      this.setOverviewAppearanceValue(labelKeys?.first ?? 'first', stats.first);
+      this.setOverviewAppearanceValue('first', stats.first);
     }
 
     if (this.statsHasLastIncident(stats)) {
-      this.setOverviewAppearanceValue(labelKeys?.last ?? 'last', stats.last);
+      this.setOverviewAppearanceValue('last', stats.last);
     }
   }
 
@@ -84,13 +84,13 @@ class IncidentedObject extends Base {
     };
   }
 
-  setOverviewTotals(labelKeys = {}) {
+  setOverviewTotals() {
     this.data.overview.totals = {
-      label: this.constructor.getLabel(labelKeys?.totals ?? 'totals'),
+      label: this.constructor.getLabel('totals'),
       values: {},
     };
 
-    this.setOverviewTotalValue(this.data.total, labelKeys);
+    this.setOverviewTotalValue(this.data.total);
 
     if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
       let value;
@@ -102,28 +102,28 @@ class IncidentedObject extends Base {
       }
 
       if (value) {
-        this.setOverviewPercentageValue(value, labelKeys);
+        this.setOverviewPercentageValue(value);
       }
     }
   }
 
-  setOverviewTotalValue(value, labelKeys = {}) {
+  setOverviewTotalValue(value) {
     this.data.overview.totals.values.total = {
       key: 'total',
-      label: this.constructor.getLabel(labelKeys?.total ?? 'total', 'incidents'),
+      label: this.constructor.getLabel('total', 'incidents'),
       value,
     };
   }
 
-  setOverviewPercentageValue(value, labelKeys = {}) {
+  setOverviewPercentageValue(value) {
     this.data.overview.totals.values.percentage = {
       key: 'percentage',
-      label: this.constructor.getLabel(labelKeys?.percentage ?? 'percentage', 'incidents'),
+      label: this.constructor.getLabel('percentage', 'incidents'),
       value: `${value}%`,
     };
   }
 
-  setOverview(stats = {}, labelKeys = {}) {
+  setOverview(stats = {}) {
     if (this.dataHasTotal() || this.overviewProps.some(prop => prop in stats)) {
       this.setOverviewObject();
 
@@ -140,11 +140,11 @@ class IncidentedObject extends Base {
     }
 
     if (this.statsHasFirstOrLastIncident(stats)) {
-      this.setOverviewAppearances(stats, labelKeys);
+      this.setOverviewAppearances(stats);
     }
 
     if (this.dataHasTotal()) {
-      this.setOverviewTotals(labelKeys);
+      this.setOverviewTotals();
     }
   }
 
@@ -161,4 +161,4 @@ class IncidentedObject extends Base {
   }
 }
 
-module.exports = IncidentedObject;
+module.exports = IncidentedBase;

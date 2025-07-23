@@ -65,6 +65,16 @@ describe('setLabels()', () => {
   });
 });
 
+describe('hasKey()', () => {
+  test('returns true when the key exists', () => {
+    const labels = new Labels();
+
+    expect(labels.hasKey('appearances')).toBe(true);
+    expect(labels.hasKey('first_incident', 'appearances')).toBe(true);
+    expect(labels.hasKey('first_incident', 'lobbying')).toBe(false);
+    expect(labels.hasKey('first_incident')).toBe(false);
+  });
+});
 
 describe('getInterpolatedLabel()', () => {
   test('returns the expected labels', () => {

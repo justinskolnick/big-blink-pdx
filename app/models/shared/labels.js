@@ -20,6 +20,12 @@ class Labels {
     return prefix.length ? [prefix, key].join('__') : key;
   }
 
+  hasKey(key, prefix = '') {
+    const labelKey = this.prefixLabelKey(key, prefix);
+
+    return labelKey in this.labels;
+  }
+
   getInterpolatedLabel(str, values = {}) {
     return Object.entries(values).reduce((acc, [key, value]) => {
       const symbol = snakeCase(key);
@@ -29,9 +35,8 @@ class Labels {
   }
 
   getLabel(key, prefix = '', values = null) {
-    const labelKey = this.prefixLabelKey(key, prefix);
-
-    if (labelKey in this.labels) {
+    if (this.hasKey(key, prefix)) {
+      const labelKey = this.prefixLabelKey(key, prefix);
       const label = this.labels[labelKey];
 
       if (values !== null) {

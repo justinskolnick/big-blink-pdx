@@ -1,6 +1,6 @@
-const IncidentedObject = require('./incidented-object');
+const IncidentedBase = require('./shared/base-incidented');
 
-class Source extends IncidentedObject {
+class Source extends IncidentedBase {
   static tableName = 'data_sources';
   static linkKey = 'source';
 
@@ -36,6 +36,15 @@ class Source extends IncidentedObject {
     }
 
     return adapted;
+  }
+
+  configureLabels() {
+    /* eslint-disable camelcase */
+    this.constructor.setLabelKeySubstitutions({
+      appearances__first: ['first_incident', 'appearances'],
+      appearances__last: ['last_incident', 'appearances'],
+    });
+    /* eslint-enable camelcase */
   }
 }
 

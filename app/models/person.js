@@ -1,6 +1,6 @@
-const IncidentedObject = require('./incidented-object');
+const IncidentedBase = require('./shared/base-incidented');
 
-class Person extends IncidentedObject {
+class Person extends IncidentedBase {
   static tableName = 'people';
   static linkKey = 'person';
 

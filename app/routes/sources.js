@@ -175,10 +175,7 @@ router.get('/:id', async (req, res, next) => {
           sourceId: id,
         });
 
-        source.setOverview(incidentsStats, {
-          first: 'first_incident',
-          last: 'last_incident',
-        });
+        source.setOverview(incidentsStats);
 
         data = {
           source: {

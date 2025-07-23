@@ -10,9 +10,27 @@ class Base {
 
   static {
     this.labels = new Labels();
+    this.labelKeySubstitutions = {};
+  }
+
+  static setLabelKeySubstitutions(keys = {}) {
+    this.labelKeySubstitutions = {
+      ...this.labelKeySubstitutions,
+      ...keys,
+    };
   }
 
   static getLabel(key, prefix = '') {
+    const labelKey = this.labels.prefixLabelKey(key, prefix);
+
+    if (labelKey in this.labelKeySubstitutions) {
+      const [substituteKey, substitutePrefix] = this.labelKeySubstitutions[labelKey];
+
+      if (this.labels.hasKey(substituteKey, substitutePrefix)) {
+        return this.labels.getLabel(substituteKey, substitutePrefix);
+      }
+    }
+
     return this.labels.getLabel(key, prefix);
   }
 
@@ -116,7 +134,8 @@ class Base {
   constructor(data = {}) {
     this.data = data;
 
-    this.setLinksObject();
+    this.configureLabels();
+    this.configureLinksObject();
   }
 
   setData(key, value) {
@@ -137,7 +156,9 @@ class Base {
     }
   }
 
-  setLinksObject() {
+  configureLabels() {}
+
+  configureLinksObject() {
     const key = this.constructor.linkKey;
 
     if (key !== null) {

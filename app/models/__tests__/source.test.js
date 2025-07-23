@@ -1,5 +1,3 @@
-const mockConsole = require('jest-mock-console');
-
 const Source = require('../source');
 
 describe('tableName', () => {
@@ -15,6 +13,8 @@ describe('getLabel()', () => {
     expect(Source.getLabel('totals')).toBe('Totals');
     expect(Source.getLabel('activity', 'lobbying')).toBe('Lobbying activity');
     expect(Source.getLabel('registration', 'lobbying')).toBe('Lobbying registration');
+    expect(Source.getLabel('first_incident', 'appearances')).toBe('First incident');
+    expect(Source.getLabel('last_incident', 'appearances')).toBe('Last incident');
   });
 });
 
@@ -70,13 +70,9 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total', () => {
-    const restoreConsole = mockConsole();
     const source = new Source(resultWithTotal);
 
-    source.setOverview({}, {
-      totals: 'Grand total',
-      total: 'percentage',
-    });
+    source.setOverview();
 
     expect(source.adapted).toEqual({
       id: 1,
@@ -93,24 +89,17 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         totals: {
-          label: 'Grand total',
+          label: 'Totals',
           values: {
             total: {
               key: 'total',
-              label: 'Share of total',
+              label: 'Incident count',
               value: 114,
             },
           },
         },
       },
     });
-
-    /* eslint-disable no-console */
-    expect(console.warn).toHaveBeenCalledTimes(1);
-    expect(console.warn).toHaveBeenCalledWith('label key not found for "Grand total"');
-    /* eslint-enable no-console */
-
-    restoreConsole();
   });
 
   test('adapts a result with a total and a percentage', () => {
