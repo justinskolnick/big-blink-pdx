@@ -87,16 +87,29 @@ router.get('/', async (req, res, next) => {
         return source.adapted;
       });
 
+      personnelSourcesResult = await sources.getAll({
+        types: [Source.types.personnel],
+      });
+      personnelSourcesResult = personnelSourcesResult.map(source => source.adapted);
+
       registrationSourcesResult = await sources.getAll({
         types: [Source.types.registration],
       });
       registrationSourcesResult = registrationSourcesResult.map(source => source.adapted);
 
       sourceTotal = await sources.getTotal({
-        types: [Source.types.activity, Source.types.registration],
+        types: [
+          Source.types.activity,
+          Source.types.personnel,
+          Source.types.registration,
+        ],
       });
 
-      records = [].concat(activitySourcesResult, registrationSourcesResult);
+      records = [].concat(
+        activitySourcesResult,
+        personnelSourcesResult,
+        registrationSourcesResult
+      );
 
       types = unique(records.map(record => record.type)).reduce((all, type) => {
         all[type] = {

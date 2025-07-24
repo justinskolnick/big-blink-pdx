@@ -15,7 +15,7 @@ class Source extends IncidentedBase {
     quarter:                { select: true, },
     quarter_id:             { select: false, }, // eslint-disable-line camelcase
     public_url:             { select: true, }, // eslint-disable-line camelcase
-    is_via_public_records:  { select: true, }, // eslint-disable-line camelcase
+    is_via_public_records:  { select: true, adapt: { method: this.readableBoolean } }, // eslint-disable-line camelcase
     retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } }, // eslint-disable-line camelcase
   };
 
@@ -51,7 +51,7 @@ class Source extends IncidentedBase {
   }
 
   isViaPRR() {
-    return this.getData('is_via_public_records') === true;
+    return this.getData('is_via_public_records') === 1;
   }
 
   adaptDisclaimer(result, adapted) {

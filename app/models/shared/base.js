@@ -116,6 +116,10 @@ class Base {
     return value;
   }
 
+  static readableBoolean(value) {
+    return ['1', 1, 'true', true].includes(value);
+  }
+
   static readableDate(str) {
     return dateHelper.formatDateString(str);
   }

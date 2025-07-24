@@ -25,8 +25,8 @@ describe('getLabel()', () => {
     expect(Source.getLabel('info_public_records_request', 'source', {
       format: 'Excel',
       retrievedDate: 'July 22, 2025',
-    })).toBe('Data was retrieved on <strong>July 22, 2025</strong> in <strong>Excel</strong> format via City of Portland public records request.');
-    expect(Source.getLabel('personnel_disclaimer', 'source')).toBe('Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.');
+    })).toBe('Data was received from the City of Portland on <strong>July 22, 2025</strong> in <strong>Excel</strong> format via public records request.');
+    expect(Source.getLabel('personnel_disclaimer', 'source')).toBe('Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.');
     expect(Source.getLabel('registration_disclaimer', 'source')).toBe('Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.');
   });
 });
@@ -239,7 +239,7 @@ describe('adaptDisclaimer()', () => {
       year: null,
       quarter: null,
       public_url: null,
-      is_via_public_records: true,
+      is_via_public_records: 1,
       retrieved_at: '2025-06-18 02:19:00',
     };
     /* eslint-enable camelcase */
@@ -258,7 +258,7 @@ describe('adaptDisclaimer()', () => {
         type: 'personnel',
         year: null,
         labels: {
-          disclaimer: 'Data was retrieved on <strong>June 18, 2025</strong> in <strong>Excel</strong> format via City of Portland public records request. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+          disclaimer: 'Data was received from the City of Portland on <strong>June 18, 2025</strong> in <strong>Excel</strong> format via public records request. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.',
         },
         links: {
           self: '/sources/1',

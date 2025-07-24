@@ -21,7 +21,7 @@
   "leaderboard__view_full_list": "View the full list of :group",
   "leaderboard__view_full_list_with_subset": "View all :subset in the full list of :group",
   "lobbying__activity": "Lobbying activity",
-  "lobbying__activity": "Lobbying activity",
+  "lobbying__personnel": "City personnel",
   "lobbying__registration": "Lobbying registration",
   "lobbyist": "lobbyist",
   "lobbyists": "lobbyists",
@@ -33,8 +33,8 @@
   "people": "people",
   "source__activity_disclaimer": "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
   "source__info_linked": "Data was retrieved on <strong>:retrieved_date</strong> in <strong>:format</strong> format from <a href=\":public_url\" target=\"_blank\" rel=\"noreferrer\">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href=\"https://www.portland.gov/what-works-cities/making-data-publicly-accessible\" target=\"_blank\" rel=\"noreferrer\">Open Data Policy</a>.",
-  "source__info_public_records_request": "Data was retrieved on <strong>:retrieved_date</strong> in <strong>:format</strong> format via City of Portland public records request.",
-  "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
+  "source__info_public_records_request": "Data was received from the City of Portland on <strong>:retrieved_date</strong> in <strong>:format</strong> format via public records request.",
+  "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.",
   "source__registration_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
   "totals": "Totals"
 }
