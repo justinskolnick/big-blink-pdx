@@ -430,10 +430,11 @@ export type PersonWithIncidentRecords = Person & {
 export type People = Person[];
 
 export enum DataFormat {
-  csv = 'CSV'
+  csv = 'csv',
+  excel = 'excel',
 }
 
-type DataFormatStrings = keyof typeof DataFormat;
+export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
 
 export type SourceEntities = {
   label: string;
@@ -441,24 +442,26 @@ export type SourceEntities = {
   values: AffiliatedEntityValues;
 };
 
-export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
-
 export type Source = {
   id: number;
   type: string;
   title: string;
-  format: DataFormatStrings;
-  quarter: number;
+  format: DataFormat;
+  quarter?: number;
   year: number;
-  publicUrl: string;
+  publicUrl?: string;
+  isViaPublicRecords: boolean;
   retrievedDate: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
   details?: Details;
   entities?: SourceEntities;
   overview?: ItemOverview;
+  labels: {
+    disclaimer: string;
+  };
   links?: LinkObject;
-}
+};
 
 export type SourceWithIncidentRecords = Source & {
   incidents: IncidentsOverview & IncidentRecords & IncidentPagination;

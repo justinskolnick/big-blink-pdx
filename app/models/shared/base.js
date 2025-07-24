@@ -20,7 +20,7 @@ class Base {
     };
   }
 
-  static getLabel(key, prefix = '') {
+  static getLabel(key, prefix = '', values = null) {
     const labelKey = this.labels.prefixLabelKey(key, prefix);
 
     if (labelKey in this.labelKeySubstitutions) {
@@ -31,7 +31,7 @@ class Base {
       }
     }
 
-    return this.labels.getLabel(key, prefix);
+    return this.labels.getLabel(key, prefix, values);
   }
 
   static field(fieldName, prefix = true) {
@@ -172,6 +172,10 @@ class Base {
     }
   }
 
+  getLabel(key, prefix = '', values = null) {
+    return this.constructor.getLabel(key, prefix, values);
+  }
+
   setLinks(links) {
     this.links = links;
   }
@@ -195,6 +199,10 @@ class Base {
 
     if (typeof this.adaptOtherValues === 'function') {
       adapted = this.adaptOtherValues(result, adapted);
+    }
+
+    if (typeof this.adaptLabels === 'function') {
+      adapted = this.adaptLabels(result, adapted);
     }
 
     if (this.hasLinks()) {

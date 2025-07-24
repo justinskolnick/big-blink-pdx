@@ -30,7 +30,7 @@ class Labels {
     return Object.entries(values).reduce((acc, [key, value]) => {
       const symbol = snakeCase(key);
 
-      return acc.replace(`:${symbol}`, value);
+      return acc.replaceAll(`:${symbol}`, value);
     }, str).replace(/[\s]+/, ' ');
   }
 

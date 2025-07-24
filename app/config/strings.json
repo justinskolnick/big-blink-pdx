@@ -31,5 +31,10 @@
   "officials_city_portland": "Portland City officials",
   "overview": "Overview",
   "people": "people",
+  "source__activity_disclaimer": "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
+  "source__info_linked": "Data was retrieved on <strong>:retrieved_date</strong> in <strong>:format</strong> format from <a href=\":public_url\" target=\"_blank\" rel=\"noreferrer\">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href=\"https://www.portland.gov/what-works-cities/making-data-publicly-accessible\" target=\"_blank\" rel=\"noreferrer\">Open Data Policy</a>.",
+  "source__info_public_records_request": "Data was retrieved on <strong>:retrieved_date</strong> in <strong>:format</strong> format via City of Portland public records request.",
+  "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
+  "source__registration_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
   "totals": "Totals"
 }

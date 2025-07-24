@@ -82,5 +82,6 @@ describe('getInterpolatedLabel()', () => {
 
     expect(labels.getInterpolatedLabel('One :item', { item: 'hat' })).toBe('One hat');
     expect(labels.getInterpolatedLabel('One :item and two :paired_items', { item: 'hat', pairedItems: 'shoes' })).toBe('One hat and two shoes');
+    expect(labels.getInterpolatedLabel('One :item two :item', { item: 'hat' })).toBe('One hat two hat');
   });
 });

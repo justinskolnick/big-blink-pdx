@@ -16,7 +16,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery(options)).toEqual({
         clauses: [
           'SELECT',
-          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at',
+          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.is_via_public_records, data_sources.retrieved_at',
           'FROM data_sources',
           'WHERE',
           'type in (?,?)',
@@ -35,7 +35,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery(options)).toEqual({
         clauses: [
           'SELECT',
-          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at, COUNT(incidents.id) AS total',
+          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.is_via_public_records, data_sources.retrieved_at, COUNT(incidents.id) AS total',
           'FROM data_sources',
           'LEFT JOIN incidents ON incidents.data_source_id = data_sources.id',
           'WHERE',
@@ -56,7 +56,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery()).toEqual({
         clauses: [
           'SELECT',
-          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at',
+          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.is_via_public_records, data_sources.retrieved_at',
           'FROM data_sources',
           'WHERE',
           'id = ?',
@@ -72,7 +72,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.retrieved_at',
+          'data_sources.id, data_sources.type, data_sources.format, data_sources.title, data_sources.year, data_sources.quarter, data_sources.public_url, data_sources.is_via_public_records, data_sources.retrieved_at',
           'FROM data_sources',
           'WHERE',
           'id = ?',

@@ -34204,7 +34204,8 @@ Hook ${hookName} was either not provided or not a function.`);
   }
 
   // assets/scripts/lib/sorting.ts
-  var sortQuarterAscendingTypeDecending = (a, b) => a.quarter - b.quarter || b.type.localeCompare(a.type);
+  var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
+  var sortQuarterAscendingTypeDecending = (a, b) => demoteIfQuarterIsNull(a) - demoteIfQuarterIsNull(b) || a.type.localeCompare(b.type);
 
   // assets/scripts/selectors.ts
   var getEntities = (state) => state.entities;
@@ -40136,6 +40137,11 @@ Hook ${hookName} was either not provided or not a function.`);
     iconName: "filter",
     icon: [512, 512, [], "f0b0", "M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z"]
   };
+  var faFileExcel = {
+    prefix: "fas",
+    iconName: "file-excel",
+    icon: [384, 512, [], "f1c3", "M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM155.7 250.2L192 302.1l36.3-51.9c7.6-10.9 22.6-13.5 33.4-5.9s13.5 22.6 5.9 33.4L221.3 344l46.4 66.2c7.6 10.9 5 25.8-5.9 33.4s-25.8 5-33.4-5.9L192 385.8l-36.3 51.9c-7.6 10.9-22.6 13.5-33.4 5.9s-13.5-22.6-5.9-33.4L162.7 344l-46.4-66.2c-7.6-10.9-5-25.8 5.9-33.4s25.8-5 33.4 5.9z"]
+  };
   var faChartLine = {
     prefix: "fas",
     iconName: "chart-line",
@@ -40247,6 +40253,7 @@ Hook ${hookName} was either not provided or not a function.`);
     faCircleQuestion,
     faDatabase,
     faFileCsv,
+    faFileExcel,
     faFilter,
     faHandshake,
     faLandmark,
@@ -40273,6 +40280,7 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["circle-question"] = "fas" /* Solid */;
     SetForIcon2["database"] = "fas" /* Solid */;
     SetForIcon2["file-csv"] = "fas" /* Solid */;
+    SetForIcon2["file-excel"] = "fas" /* Solid */;
     SetForIcon2["filter"] = "fas" /* Solid */;
     SetForIcon2["handshake"] = "fas" /* Solid */;
     SetForIcon2["landmark"] = "fas" /* Solid */;
@@ -41308,12 +41316,6 @@ Hook ${hookName} was either not provided or not a function.`);
     return getQueryParams(location2, newParams, replace4);
   };
   var use_query_params_default = useQueryParams;
-
-  // assets/scripts/types.ts
-  var DataFormat = /* @__PURE__ */ ((DataFormat2) => {
-    DataFormat2["csv"] = "CSV";
-    return DataFormat2;
-  })(DataFormat || {});
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
@@ -56531,43 +56533,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime92 = __toESM(require_jsx_runtime());
   var DataFormatIcon = /* @__PURE__ */ ((DataFormatIcon2) => {
     DataFormatIcon2["csv"] = "file-csv";
+    DataFormatIcon2["excel"] = "file-excel";
     return DataFormatIcon2;
   })(DataFormatIcon || {});
-  var sourceDisclaimers = {
-    activity: "Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.",
-    registration: "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability."
-  };
   var SourceInformationBox = ({ source, title }) => {
-    const disclaimers = sourceDisclaimers[source.type];
-    const format = DataFormat[source.format];
     const icon2 = DataFormatIcon[source.format];
-    return /* @__PURE__ */ (0, import_jsx_runtime92.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(
       MetaSectionBox,
       {
         className: "source-information-box",
         icon: icon2,
         title,
-        children: [
-          "Data was retrieved on",
-          " ",
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("strong", { children: source.retrievedDate }),
-          " ",
-          "in",
-          " ",
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("strong", { children: format }),
-          " format",
-          " ",
-          "from",
-          " ",
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("strong", { children: /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("a", { href: source.publicUrl, target: "_blank", rel: "noreferrer", children: source.publicUrl }) }),
-          " ",
-          "as published by the City of Portland\u2019s Auditor\u2019s Office in accordance with the City\u2019s",
-          " ",
-          /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("a", { href: "https://www.portland.gov/what-works-cities/making-data-publicly-accessible", children: "Open Data Policy" }),
-          ".",
-          " ",
-          disclaimers
-        ]
+        children: /* @__PURE__ */ (0, import_jsx_runtime92.jsx)("span", { dangerouslySetInnerHTML: { __html: source.labels.disclaimer } })
       }
     );
   };

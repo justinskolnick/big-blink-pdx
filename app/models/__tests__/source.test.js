@@ -15,6 +15,19 @@ describe('getLabel()', () => {
     expect(Source.getLabel('registration', 'lobbying')).toBe('Lobbying registration');
     expect(Source.getLabel('first_incident', 'appearances')).toBe('First incident');
     expect(Source.getLabel('last_incident', 'appearances')).toBe('Last incident');
+
+    expect(Source.getLabel('activity_disclaimer', 'source')).toBe('Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.');
+    expect(Source.getLabel('info_linked', 'source', {
+      format: 'CSV',
+      publicUrl: 'https://foo.bar',
+      retrievedDate: 'July 21, 2025',
+    })).toBe('Data was retrieved on <strong>July 21, 2025</strong> in <strong>CSV</strong> format from <a href="https://foo.bar" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>.');
+    expect(Source.getLabel('info_public_records_request', 'source', {
+      format: 'Excel',
+      retrievedDate: 'July 22, 2025',
+    })).toBe('Data was retrieved on <strong>July 22, 2025</strong> in <strong>Excel</strong> format via City of Portland public records request.');
+    expect(Source.getLabel('personnel_disclaimer', 'source')).toBe('Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.');
+    expect(Source.getLabel('registration_disclaimer', 'source')).toBe('Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.');
   });
 });
 
@@ -28,6 +41,7 @@ describe('fields()', () => {
       'data_sources.year',
       'data_sources.quarter',
       'data_sources.public_url',
+      'data_sources.is_via_public_records',
       'data_sources.retrieved_at',
     ]);
   });
@@ -43,6 +57,7 @@ describe('adapt()', () => {
     year: 2014,
     quarter: 1,
     public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      is_via_public_records: false,
     retrieved_at: '2023-03-28 02:19:00',
   };
   const resultWithTotal = {
@@ -62,7 +77,11 @@ describe('adapt()', () => {
       year: 2014,
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      labels: {
+        disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+      },
       links: {
         self: '/sources/1'
       },
@@ -82,7 +101,11 @@ describe('adapt()', () => {
       year: 2014,
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      labels: {
+        disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+      },
       links: {
         self: '/sources/1'
       },
@@ -119,7 +142,11 @@ describe('adapt()', () => {
       year: 2014,
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      labels: {
+        disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+      },
       links: {
         self: '/sources/1'
       },
@@ -133,7 +160,11 @@ describe('adapt()', () => {
       year: 2014,
       quarter: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      labels: {
+        disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+      },
       links: {
         self: '/sources/1'
       },
@@ -155,6 +186,122 @@ describe('adapt()', () => {
           },
         },
       },
+    });
+  });
+});
+
+describe('adaptDisclaimer()', () => {
+  describe('with an activity source', () => {
+    /* eslint-disable camelcase */
+    const result = {
+      id: 1,
+      type: 'activity',
+      format: 'csv',
+      title: 'Lobbying Activity Report for Q1 2014',
+      year: 2014,
+      quarter: 1,
+      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      is_via_public_records: false,
+      retrieved_at: '2023-03-28 02:19:00',
+    };
+    /* eslint-enable camelcase */
+
+    const source = new Source(result);
+
+    test('adapts the result', () => {
+      expect(source.adapted).toEqual({
+        format: 'csv',
+        id: 1,
+        publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+        isViaPublicRecords: false,
+        quarter: 1,
+        retrievedDate: 'March 28, 2023',
+        title: 'Lobbying Activity Report for Q1 2014',
+        type: 'activity',
+        year: 2014,
+        labels: {
+          disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        },
+        links: {
+          self: '/sources/1',
+        },
+      });
+    });
+  });
+
+  describe('with a personnel source', () => {
+    /* eslint-disable camelcase */
+    const result = {
+      id: 1,
+      type: 'personnel',
+      format: 'excel',
+      title: 'Personnel List',
+      year: null,
+      quarter: null,
+      public_url: null,
+      is_via_public_records: true,
+      retrieved_at: '2025-06-18 02:19:00',
+    };
+    /* eslint-enable camelcase */
+
+    const source = new Source(result);
+
+    test('adapts the result', () => {
+      expect(source.adapted).toEqual({
+        format: 'excel',
+        id: 1,
+        publicUrl: null,
+        isViaPublicRecords: true,
+        quarter: null,
+        retrievedDate: 'June 18, 2025',
+        title: 'Personnel List',
+        type: 'personnel',
+        year: null,
+        labels: {
+          disclaimer: 'Data was retrieved on <strong>June 18, 2025</strong> in <strong>Excel</strong> format via City of Portland public records request. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+        },
+        links: {
+          self: '/sources/1',
+        },
+      });
+    });
+  });
+
+  describe('with a registration source', () => {
+    /* eslint-disable camelcase */
+    const result = {
+      id: 1,
+      type: 'registration',
+      format: 'csv',
+      title: 'Lobbying Registration Report for Q1 2014',
+      year: 2014,
+      quarter: 1,
+      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=registration&registrationQtr=1&registrationYear=2014&submit=View%20Report',
+      is_via_public_records: false,
+      retrieved_at: '2023-06-26 02:19:00',
+    };
+    /* eslint-enable camelcase */
+
+    const source = new Source(result);
+
+    test('adapts the result', () => {
+      expect(source.adapted).toEqual({
+        format: 'csv',
+        id: 1,
+        publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=registration&registrationQtr=1&registrationYear=2014&submit=View%20Report',
+        isViaPublicRecords: false,
+        quarter: 1,
+        retrievedDate: 'June 26, 2023',
+        title: 'Lobbying Registration Report for Q1 2014',
+        type: 'registration',
+        year: 2014,
+        labels: {
+          disclaimer: 'Data was retrieved on <strong>June 26, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=registration&registrationQtr=1&registrationYear=2014&submit=View%20Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+        },
+        links: {
+          self: '/sources/1',
+        },
+      });
     });
   });
 });
@@ -198,6 +345,7 @@ describe('setData()', () => {
       year: 2014,
       quarter: 1,
       public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      is_via_public_records: false,
       retrieved_at: '2023-03-28 02:19:00',
       total: 114,
       x: 'y',
@@ -219,6 +367,7 @@ describe('setData()', () => {
       year: 2014,
       quarter: 1,
       public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      is_via_public_records: false,
       retrieved_at: '2025-02-14 02:19:00',
       total: 114,
       x: 'y',
@@ -230,11 +379,15 @@ describe('setData()', () => {
       format: 'csv',
       id: 1,
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
+      isViaPublicRecords: false,
       quarter: 1,
       retrievedDate: 'February 14, 2025',
       title: 'Lobbying Activity Report for Q1 2014',
       type: 'activity',
       year: 2014,
+      labels: {
+        disclaimer: 'Data was retrieved on <strong>February 14, 2025</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+      },
       links: {
         self: '/sources/1'
       },

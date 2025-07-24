@@ -83,6 +83,7 @@ export const getSourcesByType = createSelector(getSources, (sources) => {
     }
 
     byType[item.type].years[item.year].items.push(item);
+
     byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
 
     return byType;
