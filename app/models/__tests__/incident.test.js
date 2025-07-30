@@ -64,7 +64,9 @@ describe('adapt()', () => {
       contactDate: 'January 14, 2014',
       contactDateEnd: null,
       contactDateRange: null,
-      contactType: 'Email',
+      contactTypes: [
+        'Email',
+      ],
       category: 'Business and Economic Development',
       topic: 'Office Space',
       officials: 'Mayor Mercury; Orbit, Henry',
@@ -133,6 +135,28 @@ describe('adapt()', () => {
       });
     });
   });
+
+  describe('with multiple contact types', () => {
+    test('adapts a result', () => {
+      const resultWithMultipleTypes = {
+        ...result,
+        contact_type: 'Communication Preparation; Email; Goodwill Building (non-lobbying); Meeting Preparation; Telephone; Virtual Meeting', // eslint-disable-line camelcase
+      };
+
+      const incidentWithMultipleTypes = new Incident(resultWithMultipleTypes);
+
+      expect(incidentWithMultipleTypes.adapted).toEqual(expect.objectContaining({
+        contactTypes: [
+          'Communication Preparation',
+          'Email',
+          'Goodwill Building (non-lobbying)',
+          'Meeting Preparation',
+          'Telephone',
+          'Virtual Meeting',
+        ],
+      }));
+    });
+  });
 });
 
 describe('setData()', () => {
@@ -182,7 +206,9 @@ describe('setData()', () => {
       contactDate: 'February 14, 2025',
       contactDateEnd: null,
       contactDateRange: null,
-      contactType: 'Email',
+      contactTypes: [
+        'Email',
+      ],
       entity: 'Spacely Sprockets',
       entityId: 3,
       entityName: 'Spacely Sprockets',

@@ -11,6 +11,7 @@ interface Props {
 
 const IncidentTable = ({ incident }: Props) => {
   const hasDateRange = Boolean(incident.contactDateRange);
+  const hasMultipleTypes = incident.contactTypes.length > 1;
 
   return (
     <table className='incident-table' cellPadding='0' cellSpacing='0'>
@@ -33,8 +34,23 @@ const IncidentTable = ({ incident }: Props) => {
           </tr>
         )}
         <tr>
-          <th>Type</th>
-          <td>{incident.contactType}</td>
+          {hasMultipleTypes ? (
+            <>
+              <th>Types</th>
+              <td>
+                <ul className='incident-types'>
+                  {incident.contactTypes.map(type => (
+                    <li key={type}>{type}</li>
+                  ))}
+                </ul>
+              </td>
+            </>
+          ) : (
+            <>
+              <th>Type</th>
+              <td>{incident.contactTypes.join()}</td>
+            </>
+          )}
         </tr>
         <tr>
           <th>Category</th>

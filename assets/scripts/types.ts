@@ -109,7 +109,7 @@ export type Incident = {
   contactDate: string;
   contactDateEnd?: string;
   contactDateRange?: string;
-  contactType: string;
+  contactTypes: string[];
   entity: string;
   entityId: number;
   id: number;

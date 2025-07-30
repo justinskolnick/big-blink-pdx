@@ -19449,7 +19449,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment25 = REACT_FRAGMENT_TYPE;
+          var Fragment26 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19508,7 +19508,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment25;
+          exports.Fragment = Fragment26;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -42711,6 +42711,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime26 = __toESM(require_jsx_runtime());
   var IncidentTable = ({ incident }) => {
     const hasDateRange = Boolean(incident.contactDateRange);
+    const hasMultipleTypes = incident.contactTypes.length > 1;
     return /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tbody", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tr", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Entity" }),
@@ -42723,10 +42724,13 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Date" }),
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: incident.contactDate })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("tr", { children: hasMultipleTypes ? /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Types" }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("ul", { className: "incident-types", children: incident.contactTypes.map((type) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("li", { children: type }, type)) }) })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Type" }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: incident.contactType })
-      ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: incident.contactTypes.join() })
+      ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tr", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Category" }),
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: incident.category })

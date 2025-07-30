@@ -1938,6 +1938,9 @@ body.has-alert .alert-root {
 .incident-table td a {
   font-weight: 600;
 }
+ul.incident-types {
+  list-style: disc inside;
+}
 .affiliated-items.no-results {
   padding-bottom: 6px;
   padding-top: 6px;
