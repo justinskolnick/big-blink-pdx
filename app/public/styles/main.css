@@ -1665,7 +1665,7 @@ body.has-alert .alert-root {
   padding: 9px;
 }
 .incident-list-table-frame .cell-date {
-  width: 17ch;
+  width: 20ch;
   white-space: nowrap;
 }
 .incident-list-table-frame .cell-date .has-notes {
