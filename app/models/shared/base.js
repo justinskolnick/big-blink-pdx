@@ -3,6 +3,8 @@ const camelCase = require('lodash.camelcase');
 const dateHelper = require('../../helpers/date');
 const linkHelper = require('../../helpers/links');
 
+const { isTruthy } = require('../../lib/util');
+
 const Labels = require('./labels');
 
 class Base {
@@ -117,7 +119,7 @@ class Base {
   }
 
   static readableBoolean(value) {
-    return ['1', 1, 'true', true].includes(value);
+    return isTruthy(value);
   }
 
   static readableDate(str) {

@@ -19,6 +19,12 @@ const result = {
   is_chief: 1,
   role: 'Chief of Staff',
 };
+const resultWhenElected = {
+  ...result,
+  is_elected: 1,
+  responsible_to_pernr: null,
+  role: 'Mayor',
+};
 /* eslint-enable camelcase */
 
 const adapted = {
@@ -26,12 +32,13 @@ const adapted = {
   name: 'John Doe',
   dateStart: '2015-01-01T00:00:00.000Z',
   dateEnd: '2017-09-15T00:00:00.000Z',
-  isWithdrawn: true,
-  isElected: false,
+  dates: {
+    dateFrom: 'January 1, 2015',
+    dateTo: 'September 15, 2017',
+  },
   office: 'Mayor',
   position: null,
   district: null,
-  responsibleToPernr: 654321,
   area: 'Office and Policy Management',
   assignment: null,
   classification: null,
@@ -43,6 +50,12 @@ const adapted = {
 describe('tableName', () => {
   test('returns the expected tableName', () => {
     expect(OfficialPosition.tableName).toBe('official_positions');
+  });
+});
+
+describe('getLabel()', () => {
+  test('returns the expected labels', () => {
+    expect(OfficialPosition.getLabel('unknown', 'official_positions')).toBe('unknown');
   });
 });
 
@@ -75,6 +88,51 @@ describe('adapt()', () => {
 
     expect(officialPosition.adapted).toEqual(adapted);
   });
+
+  describe('with a null end date', () => {
+    describe('and a withdrawal', () => {
+      const resultWithNullEndDate = {
+        ...result,
+        date_end: null, // eslint-disable-line camelcase
+      };
+      const adaptedWithNullEndDate = {
+        ...adapted,
+        dateEnd: null,
+        dates: {
+          ...adapted.dates,
+          dateTo: 'unknown',
+        },
+      };
+
+      test('adapts a result', () => {
+        const officialPosition = new OfficialPosition(resultWithNullEndDate);
+
+        expect(officialPosition.adapted).toEqual(adaptedWithNullEndDate);
+      });
+    });
+
+    describe('and no withdrawal', () => {
+      const resultWithNullEndDate = {
+        ...result,
+        date_end: null, // eslint-disable-line camelcase
+        is_withdrawn: 0, // eslint-disable-line camelcase
+      };
+      const adaptedWithNullEndDate = {
+        ...adapted,
+        dateEnd: null,
+        dates: {
+          ...adapted.dates,
+          dateTo: null,
+        },
+      };
+
+      test('adapts a result', () => {
+        const officialPosition = new OfficialPosition(resultWithNullEndDate);
+
+        expect(officialPosition.adapted).toEqual(adaptedWithNullEndDate);
+      });
+    });
+  });
 });
 
 describe('setData()', () => {
@@ -96,5 +154,41 @@ describe('setData()', () => {
     });
 
     expect(officialPosition.adapted).toEqual(adapted);
+  });
+});
+
+describe('isElected()', () => {
+  describe('when not elected', () => {
+    test('sets data', () => {
+      const officialPosition = new OfficialPosition(result);
+
+      expect(officialPosition.isElected).toBe(false);
+    });
+  });
+
+  describe('when elected', () => {
+    test('sets data', () => {
+      const officialPosition = new OfficialPosition(resultWhenElected);
+
+      expect(officialPosition.isElected).toBe(true);
+    });
+  });
+});
+
+describe('isSubordinate()', () => {
+  describe('when not elected', () => {
+    test('sets data', () => {
+      const officialPosition = new OfficialPosition(result);
+
+      expect(officialPosition.isSubordinate).toBe(true);
+    });
+  });
+
+  describe('when elected', () => {
+    test('sets data', () => {
+      const officialPosition = new OfficialPosition(resultWhenElected);
+
+      expect(officialPosition.isSubordinate).toBe(false);
+    });
   });
 });
