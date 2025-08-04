@@ -148,7 +148,7 @@ class Base {
     this.data[key] = value;
   }
 
-  hasData(key = '') {
+  hasKey(key = '') {
     if (key.length) {
       return key in this.data;
     }
@@ -156,10 +156,20 @@ class Base {
     return Object.keys(this.data).length > 0;
   }
 
-  getData(key) {
-    if (this.hasData(key)) {
-      return this.data[key];
+  hasData(key = '') {
+    if (this.hasKey(key)) {
+      if (key.length) {
+        return isTruthy(this.getData(key));
+      }
+
+      return Object.values(this.data).some(isTruthy);
     }
+
+    return false;
+  }
+
+  getData(key) {
+    return this.data[key];
   }
 
   configureLabels() {}
@@ -223,6 +233,10 @@ class Base {
 
   adapt(result) {
     return this.adaptResult(result);
+  }
+
+  toPhrase(parts) {
+    return parts.filter(Boolean).join(' ');
   }
 
   get adapted() {

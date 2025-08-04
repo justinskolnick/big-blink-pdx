@@ -26,6 +26,8 @@
   "lobbyist": "lobbyist",
   "lobbyists": "lobbyists",
   "official": "official",
+  "official_positions__for_area": "(:area)",
+  "official_positions__for_district": "for District :district",
   "official_positions__unknown": "unknown",
   "officials": "officials",
   "officials_city": "City officials",

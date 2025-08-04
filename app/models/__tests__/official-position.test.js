@@ -1,51 +1,11 @@
+const resultCouncilor = require('../__mocks__/official-position/result-councilor');
+const resultCouncilorCos = require('../__mocks__/official-position/result-councilor-cos');
+const resultDca = require('../__mocks__/official-position/result-dca');
+const resultMayorCos = require('../__mocks__/official-position/result-mayor-cos');
+const resultMayor = require('../__mocks__/official-position/result-mayor');
+const adaptedMayorCos = require('../__mocks__/official-position/adapted-mayor-cos');
+
 const OfficialPosition = require('../official-position');
-
-/* eslint-disable camelcase */
-const result = {
-  pernr: 123456,
-  name: 'John Doe',
-  date_start: '2015-01-01T00:00:00.000Z',
-  date_end: '2017-09-15T00:00:00.000Z',
-  is_withdrawn: 1,
-  is_elected: 0,
-  office: 'Mayor',
-  position: null,
-  district: null,
-  responsible_to_pernr: 654321,
-  area: 'Office and Policy Management',
-  assignment: null,
-  classification: null,
-  rank: null,
-  is_chief: 1,
-  role: 'Chief of Staff',
-};
-const resultWhenElected = {
-  ...result,
-  is_elected: 1,
-  responsible_to_pernr: null,
-  role: 'Mayor',
-};
-/* eslint-enable camelcase */
-
-const adapted = {
-  pernr: 123456,
-  name: 'John Doe',
-  dateStart: '2015-01-01T00:00:00.000Z',
-  dateEnd: '2017-09-15T00:00:00.000Z',
-  dates: {
-    dateFrom: 'January 1, 2015',
-    dateTo: 'September 15, 2017',
-  },
-  office: 'Mayor',
-  position: null,
-  district: null,
-  area: 'Office and Policy Management',
-  assignment: null,
-  classification: null,
-  rank: null,
-  isChief: true,
-  role: 'Chief of Staff',
-};
 
 describe('tableName', () => {
   test('returns the expected tableName', () => {
@@ -84,22 +44,22 @@ describe('fields()', () => {
 
 describe('adapt()', () => {
   test('adapts a result', () => {
-    const officialPosition = new OfficialPosition(result);
+    const officialPosition = new OfficialPosition(resultMayorCos);
 
-    expect(officialPosition.adapted).toEqual(adapted);
+    expect(officialPosition.adapted).toEqual(adaptedMayorCos);
   });
 
   describe('with a null end date', () => {
     describe('and a withdrawal', () => {
       const resultWithNullEndDate = {
-        ...result,
+        ...resultMayorCos,
         date_end: null, // eslint-disable-line camelcase
       };
       const adaptedWithNullEndDate = {
-        ...adapted,
+        ...adaptedMayorCos,
         dateEnd: null,
         dates: {
-          ...adapted.dates,
+          ...adaptedMayorCos.dates,
           dateTo: 'unknown',
         },
       };
@@ -113,15 +73,15 @@ describe('adapt()', () => {
 
     describe('and no withdrawal', () => {
       const resultWithNullEndDate = {
-        ...result,
+        ...resultMayorCos,
         date_end: null, // eslint-disable-line camelcase
         is_withdrawn: 0, // eslint-disable-line camelcase
       };
       const adaptedWithNullEndDate = {
-        ...adapted,
+        ...adaptedMayorCos,
         dateEnd: null,
         dates: {
-          ...adapted.dates,
+          ...adaptedMayorCos.dates,
           dateTo: null,
         },
       };
@@ -138,7 +98,7 @@ describe('adapt()', () => {
 describe('setData()', () => {
   test('sets data', () => {
     const resultWithExtra = {
-      ...result,
+      ...resultMayorCos,
       x: 'y',
     };
     const officialPosition = new OfficialPosition(resultWithExtra);
@@ -153,42 +113,109 @@ describe('setData()', () => {
       z: 'abc',
     });
 
-    expect(officialPosition.adapted).toEqual(adapted);
+    expect(officialPosition.adapted).toEqual(adaptedMayorCos);
   });
 });
 
-describe('isElected()', () => {
-  describe('when not elected', () => {
-    test('sets data', () => {
-      const officialPosition = new OfficialPosition(result);
+describe('setName()', () => {
+  test('sets the new name', () => {
+    const resultToBeChanged = {
+      ...resultDca,
+    };
+    const officialPosition = new OfficialPosition(resultToBeChanged);
 
-      expect(officialPosition.isElected).toBe(false);
-    });
-  });
+    expect(officialPosition.personalName).toBe('John Doe');
 
-  describe('when elected', () => {
-    test('sets data', () => {
-      const officialPosition = new OfficialPosition(resultWhenElected);
+    officialPosition.setName('Jonathan Z. Doe');
 
-      expect(officialPosition.isElected).toBe(true);
-    });
+    expect(officialPosition.personalName).toBe('Jonathan Z. Doe');
   });
 });
 
-describe('isSubordinate()', () => {
-  describe('when not elected', () => {
-    test('sets data', () => {
-      const officialPosition = new OfficialPosition(result);
+describe('positions', () => {
+  const councilor = new OfficialPosition(resultCouncilor);
+  const councilorCos = new OfficialPosition(resultCouncilorCos);
+  const dca = new OfficialPosition(resultDca);
+  const mayor = new OfficialPosition(resultMayor);
+  const mayorCos = new OfficialPosition(resultMayorCos);
 
-      expect(officialPosition.isSubordinate).toBe(true);
+  describe('hasDistrict()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.hasDistrict).toBe(true);
+      expect(councilorCos.hasDistrict).toBe(true);
+      expect(dca.hasDistrict).toBe(false);
+      expect(mayor.hasDistrict).toBe(false);
+      expect(mayorCos.hasDistrict).toBe(false);
     });
   });
 
-  describe('when elected', () => {
-    test('sets data', () => {
-      const officialPosition = new OfficialPosition(resultWhenElected);
+  describe('isElected()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.isElected).toBe(true);
+      expect(councilorCos.isElected).toBe(false);
+      expect(dca.isElected).toBe(false);
+      expect(mayor.isElected).toBe(true);
+      expect(mayorCos.isElected).toBe(false);
+    });
+  });
 
-      expect(officialPosition.isSubordinate).toBe(false);
+  describe('isSubordinate()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.isSubordinate).toBe(false);
+      expect(councilorCos.isSubordinate).toBe(true);
+      expect(dca.isSubordinate).toBe(false);
+      expect(mayor.isSubordinate).toBe(false);
+      expect(mayorCos.isSubordinate).toBe(true);
+    });
+  });
+
+  describe('isWithdrawn()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.isWithdrawn).toBe(false);
+      expect(councilorCos.isWithdrawn).toBe(false);
+      expect(dca.isWithdrawn).toBe(false);
+      expect(mayor.isWithdrawn).toBe(true);
+      expect(mayorCos.isWithdrawn).toBe(true);
+    });
+  });
+
+  describe('district()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.district).toBe(3);
+      expect(councilorCos.district).toBe(3);
+      expect(dca.district).toBe(null);
+      expect(mayor.district).toBe(null);
+      expect(mayorCos.district).toBe(null);
+    });
+  });
+
+  describe('role()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.role).toBe('Councilor');
+      expect(councilorCos.role).toBe('Senior Council Aide');
+      expect(dca.role).toBe('Deputy City Administrator');
+      expect(mayor.role).toBe('Mayor');
+      expect(mayorCos.role).toBe('Chief of Staff');
+    });
+  });
+
+  describe('roleStatement()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.roleStatement).toBe('Councilor for District 3');
+      expect(councilorCos.roleStatement).toBe('Senior Council Aide for District 3');
+      expect(dca.roleStatement).toBe('Deputy City Administrator (Community and Economic Development)');
+      expect(mayor.roleStatement).toBe('Mayor');
+      expect(mayorCos.roleStatement).toBe('Chief of Staff');
+    });
+  });
+
+  describe('titleAsSupervisor()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.titleAsSupervisor).toBe('Councilor June Doe');
+      expect(councilorCos.titleAsSupervisor).toBe(null);
+      expect(dca.titleAsSupervisor).toBe('Deputy City Administrator John Doe');
+      expect(mayor.titleAsSupervisor).toBe('Mayor Jane Doe');
+      expect(mayorCos.titleAsSupervisor).toBe(null);
     });
   });
 });
