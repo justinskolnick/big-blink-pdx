@@ -3,7 +3,9 @@ interface Fn {
 }
 
 export const isEmpty: Fn = (item) => {
-  if (Array.isArray(item)) {
+  if (!item) {
+    return true;
+  } else if (Array.isArray(item)) {
     return item.length === 0;
   } else if (typeof item === 'object') {
     return isEmpty(Object.values(item));

@@ -1,6 +1,6 @@
 module.exports = {
-  pernr: 123456,
-  name: 'Julian Doe',
+  pernr: 987654,
+  name: 'Jack Doe',
   dates: {
     start: {
       label: 'January 1, 2015',
@@ -11,11 +11,11 @@ module.exports = {
       value: '2017-09-15T00:00:00.000Z',
     },
   },
-  office: 'Mayor',
-  area: 'Office and Policy Management',
+  office: 'City Council',
+  area: null,
   assignment: null,
   role: {
-    statement: 'Chief of Staff',
-    value: 'Chief of Staff',
+    statement: 'Senior Council Aide for District 3',
+    value: 'Senior Council Aide',
   },
 };

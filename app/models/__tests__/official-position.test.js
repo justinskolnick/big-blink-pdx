@@ -4,6 +4,7 @@ const resultDca = require('../__mocks__/official-position/result-dca');
 const resultMayorCos = require('../__mocks__/official-position/result-mayor-cos');
 const resultMayor = require('../__mocks__/official-position/result-mayor');
 const adaptedMayorCos = require('../__mocks__/official-position/adapted-mayor-cos');
+const adaptedCouncilorCos = require('../__mocks__/official-position/adapted-councilor-cos');
 
 const OfficialPosition = require('../official-position');
 
@@ -44,9 +45,11 @@ describe('fields()', () => {
 
 describe('adapt()', () => {
   test('adapts a result', () => {
-    const officialPosition = new OfficialPosition(resultMayorCos);
+    const mayorCos = new OfficialPosition(resultMayorCos);
+    const councilorCos = new OfficialPosition(resultCouncilorCos);
 
-    expect(officialPosition.adapted).toEqual(adaptedMayorCos);
+    expect(mayorCos.adapted).toEqual(adaptedMayorCos);
+    expect(councilorCos.adapted).toEqual(adaptedCouncilorCos);
   });
 
   describe('with a null end date', () => {
@@ -57,10 +60,12 @@ describe('adapt()', () => {
       };
       const adaptedWithNullEndDate = {
         ...adaptedMayorCos,
-        dateEnd: null,
         dates: {
           ...adaptedMayorCos.dates,
-          dateTo: 'unknown',
+          end: {
+            label: 'unknown',
+            value: null,
+          },
         },
       };
 
@@ -79,10 +84,12 @@ describe('adapt()', () => {
       };
       const adaptedWithNullEndDate = {
         ...adaptedMayorCos,
-        dateEnd: null,
         dates: {
           ...adaptedMayorCos.dates,
-          dateTo: null,
+          end: {
+            label: null,
+            value: null,
+          },
         },
       };
 
@@ -138,6 +145,9 @@ describe('positions', () => {
   const dca = new OfficialPosition(resultDca);
   const mayor = new OfficialPosition(resultMayor);
   const mayorCos = new OfficialPosition(resultMayorCos);
+
+  councilorCos.setSupervisor(councilor.asSupervisor);
+  mayorCos.setSupervisor(mayor.asSupervisor);
 
   describe('hasDistrict()', () => {
     test('returns the expected value', () => {
@@ -202,10 +212,10 @@ describe('positions', () => {
   describe('roleStatement()', () => {
     test('returns the expected value', () => {
       expect(councilor.roleStatement).toBe('Councilor for District 3');
-      expect(councilorCos.roleStatement).toBe('Senior Council Aide for District 3');
-      expect(dca.roleStatement).toBe('Deputy City Administrator (Community and Economic Development)');
+      expect(councilorCos.roleStatement).toBe('Senior Council Aide for Councilor June Doe (District 3)');
+      expect(dca.roleStatement).toBe('Deputy City Administrator of Community and Economic Development');
       expect(mayor.roleStatement).toBe('Mayor');
-      expect(mayorCos.roleStatement).toBe('Chief of Staff');
+      expect(mayorCos.roleStatement).toBe('Chief of Staff for Mayor Jane Doe');
     });
   });
 

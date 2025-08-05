@@ -4,6 +4,8 @@ import {
 
 describe('isEmpty()', () => {
   test('returns true if object or array is empty', () => {
+    expect(isEmpty(null)).toBe(true);
+    expect(isEmpty(undefined)).toBe(true);
     expect(isEmpty([1, 2, 3, 3])).toBe(false);
     expect(isEmpty([1])).toBe(false);
     expect(isEmpty([])).toBe(true);

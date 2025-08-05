@@ -1,4 +1,4 @@
-const { isTruthy } = require('../lib/util');
+const { isEmpty, isTruthy } = require('../lib/util');
 
 const Base = require('./shared/base');
 
@@ -12,25 +12,31 @@ class OfficialPosition extends Base {
     id:                   { select: false, },
     pernr:                { select: true, },
     name:                 { select: true, },
-    date_start:           { select: true, },
-    date_end:             { select: true, },
+    date_start:           { select: true, adapt: false, },
+    date_end:             { select: true, adapt: false, },
     is_withdrawn:         { select: true, adapt: false, },
     is_elected:           { select: true, adapt: false, },
     office:               { select: true, },
-    position:             { select: true, },
-    district:             { select: true, },
+    position:             { select: true, adapt: false, },
+    district:             { select: true, adapt: false, },
     responsible_to_pernr: { select: true, adapt: false, },
     area:                 { select: true, },
     assignment:           { select: true, },
-    classification:       { select: true, },
-    rank:                 { select: true, },
-    is_chief:             { select: true, adapt: { method: this.readableBoolean }, },
-    role:                 { select: true, },
+    classification:       { select: true, adapt: false, },
+    rank:                 { select: true, adapt: false, },
+    is_chief:             { select: true, adapt: false, },
+    role:                 { select: true, adapt: false, },
   };
   /* eslint-enable camelcase */
 
+  supervisor = null;
+
   setName(value) {
     this.setData('name', value);
+  }
+
+  setSupervisor(value) {
+    this.supervisor = value;
   }
 
   adaptReadableConditionalDate(result, fieldName) {
@@ -50,10 +56,27 @@ class OfficialPosition extends Base {
   adapt(result) {
     return this.adaptResult(result, {
       dates: {
-        dateFrom: this.adaptReadableConditionalDate(result, 'date_start'),
-        dateTo: this.adaptReadableConditionalDate(result, 'date_end'),
+        start: {
+          label: this.adaptReadableConditionalDate(result, 'date_start'),
+          value: this.getData('date_start'),
+        },
+        end: {
+          label: this.adaptReadableConditionalDate(result, 'date_end'),
+          value: this.getData('date_end'),
+        },
+      },
+      role: {
+        statement: this.roleStatement,
+        value: this.role,
       },
     });
+  }
+
+  get asSupervisor() {
+    return {
+      district: this.district,
+      title: this.titleAsSupervisor,
+    };
   }
 
   get hasArea() {
@@ -66,6 +89,10 @@ class OfficialPosition extends Base {
 
   get hasRank() {
     return this.hasData('rank');
+  }
+
+  get hasSupervisor() {
+    return !isEmpty(this.supervisor);
   }
 
   get isElected() {
@@ -130,7 +157,16 @@ class OfficialPosition extends Base {
       parts.push(this.getLabel('for_area', prefix, { area: this.area }));
     }
 
-    if (this.hasDistrict) {
+    if (this.hasSupervisor) {
+      if (this.hasDistrict) {
+        parts.push(this.getLabel('for_district_supervisor', prefix, {
+          district: this.supervisor.district,
+          supervisor: this.supervisor.title
+        }));
+      } else {
+        parts.push(this.getLabel('for_supervisor', prefix, { supervisor: this.supervisor.title }));
+      }
+    } else if (this.hasDistrict) {
       parts.push(this.getLabel('for_district', prefix, { district: this.district }));
     }
 

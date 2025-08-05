@@ -1,3 +1,17 @@
+const isEmpty = (item) => {
+  if (!item) {
+    return true;
+  } else if (Array.isArray(item)) {
+    return item.length === 0;
+  } else if (typeof item === 'object') {
+    return isEmpty(Object.values(item));
+  } else if (typeof item === 'string') {
+    return item.length === 0;
+  }
+
+  return null;
+};
+
 const isFalsyValue = (value) => ['0', 0, 'false', false].includes(value);
 const isFalsy = (value) => {
   if (isFalsyValue(value)) return true;
@@ -15,6 +29,7 @@ const isTruthy = (value) => {
 };
 
 module.exports = {
+  isEmpty,
   isFalsy,
   isTruthy,
 };
