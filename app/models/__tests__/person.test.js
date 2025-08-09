@@ -1,3 +1,6 @@
+const resultLobbyist = require('../__mocks__/person/result-lobbyist');
+const resultOfficial = require('../__mocks__/person/result-official');
+
 const Person = require('../person');
 
 describe('tableName', () => {
@@ -27,50 +30,41 @@ describe('fields()', () => {
 });
 
 describe('adapt()', () => {
-  const result = {
-    id: 1,
-    identical_id: null, // eslint-disable-line camelcase
-    pernr: null,
-    type: 'person',
-    name: 'John Doe',
-  };
-  const resultWithPernr = {
-    ...result,
-    pernr: 1020304,
-  };
   const resultWithRoles = {
-    ...result,
+    ...resultLobbyist,
     roles: 'official,lobbyist',
   };
   const resultWithTotal = {
-    ...result,
+    ...resultLobbyist,
     total: 123,
   };
 
   test('adapts a result', () => {
-    const person = new Person(result);
+    const person = new Person(resultLobbyist);
 
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 123,
       type: 'person',
       name: 'John Doe',
+      pernr: null,
       roles: [],
       links: {
-        self: '/people/1'
+        self: '/people/123'
       },
     });
   });
 
   test('adapts a result with a PERNR', () => {
-    const person = new Person(resultWithPernr);
+    const person = new Person(resultOfficial);
 
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 321,
       type: 'person',
       name: 'John Doe',
+      pernr: 1020304,
       roles: [],
       links: {
-        self: '/people/1'
+        self: '/people/321'
       },
     });
   });
@@ -79,15 +73,16 @@ describe('adapt()', () => {
     const person = new Person(resultWithRoles);
 
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 123,
       type: 'person',
       name: 'John Doe',
+      pernr: null,
       roles: [
         'official',
         'lobbyist',
       ],
       links: {
-        self: '/people/1'
+        self: '/people/123'
       },
     });
   });
@@ -98,9 +93,10 @@ describe('adapt()', () => {
     person.setOverview();
 
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 123,
       type: 'person',
       name: 'John Doe',
+      pernr: null,
       roles: [],
       overview: {
         label: 'Overview',
@@ -116,13 +112,13 @@ describe('adapt()', () => {
         },
       },
       links: {
-        self: '/people/1'
+        self: '/people/123'
       },
     });
   });
 
   test('adapts a result with a total and a percentage', () => {
-    const person = new Person(result);
+    const person = new Person(resultLobbyist);
     const personWithTotal = new Person(resultWithTotal);
 
     const incidentCountResult = 246;
@@ -131,19 +127,21 @@ describe('adapt()', () => {
     personWithTotal.setOverview();
 
     expect(person.adapted).toEqual({
-      id: 1,
+      id: 123,
       type: 'person',
       name: 'John Doe',
+      pernr: null,
       roles: [],
       links: {
-        self: '/people/1'
+        self: '/people/123'
       },
     });
 
     expect(personWithTotal.adapted).toEqual({
-      id: 1,
+      id: 123,
       type: 'person',
       name: 'John Doe',
+      pernr: null,
       roles: [],
       overview: {
         label: 'Overview',
@@ -164,22 +162,15 @@ describe('adapt()', () => {
         },
       },
       links: {
-        self: '/people/1'
+        self: '/people/123'
       },
     });
   });
 });
 
 describe('setData()', () => {
-  const result = {
-    id: 321,
-    identical_id: null, // eslint-disable-line camelcase
-    pernr: 1020304,
-    type: 'person',
-    name: 'John Doe',
-  };
   const resultWithJunk = {
-    ...result,
+    ...resultOfficial,
     x: 'y',
   };
 
@@ -194,8 +185,8 @@ describe('setData()', () => {
     expect(person.data).toEqual({
       id: 321,
       identical_id: null, // eslint-disable-line camelcase
-      pernr: 1020304,
       name: 'John Doe',
+      pernr: 1020304,
       type: 'person',
       x: 'y',
       z: 'abc',
@@ -206,6 +197,7 @@ describe('setData()', () => {
     expect(person.adapted).toEqual({
       id: 321,
       name: 'John Doe',
+      pernr: 1020304,
       roles: [],
       type: 'person',
       links: {
@@ -216,51 +208,32 @@ describe('setData()', () => {
 });
 
 describe('hasMoved() and identicalId()', () => {
-  const result = {
-    id: 3,
-    identical_id: null, // eslint-disable-line camelcase
-    pernr: null,
-    type: 'person',
-    name: 'John Doe',
-  };
   const resultWithIdenticalId = {
-    ...result,
+    ...resultLobbyist,
     identical_id: 1, // eslint-disable-line camelcase
   };
 
   test('returns the expected values', () => {
-    const person1 = new Person(result);
-    const person2 = new Person(resultWithIdenticalId);
+    const lobbyist = new Person(resultLobbyist);
+    const lobbyistDupe = new Person(resultWithIdenticalId);
 
-    expect(person1.hasMoved).toBe(false);
-    expect(person2.hasMoved).toBe(true);
+    expect(lobbyist.hasMoved).toBe(false);
+    expect(lobbyistDupe.hasMoved).toBe(true);
 
-    expect(person1.identicalId).toBe(null);
-    expect(person2.identicalId).toBe(1);
+    expect(lobbyist.identicalId).toBe(null);
+    expect(lobbyistDupe.identicalId).toBe(1);
   });
 });
 
 describe('hasPernr() and perner()', () => {
-  const result = {
-    id: 3,
-    identical_id: null, // eslint-disable-line camelcase
-    pernr: null,
-    type: 'person',
-    name: 'John Doe',
-  };
-  const resultWithPernr = {
-    ...result,
-    pernr: 1020304,
-  };
-
   test('returns the expected values', () => {
-    const person1 = new Person(result);
-    const person2 = new Person(resultWithPernr);
+    const lobbyist = new Person(resultLobbyist);
+    const official = new Person(resultOfficial);
 
-    expect(person1.hasPernr).toBe(false);
-    expect(person2.hasPernr).toBe(true);
+    expect(lobbyist.hasPernr).toBe(false);
+    expect(official.hasPernr).toBe(true);
 
-    expect(person1.pernr).toBe(null);
-    expect(person2.pernr).toBe(1020304);
+    expect(lobbyist.pernr).toBe(null);
+    expect(official.pernr).toBe(1020304);
   });
 });

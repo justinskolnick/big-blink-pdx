@@ -8,8 +8,8 @@ class Person extends IncidentedBase {
 
   static fieldNames = {
     id:           { select: true, },
-    identical_id: { select: true, adapt: false }, // eslint-disable-line camelcase
-    pernr:        { select: true, adapt: false },
+    identical_id: { select: true, adapt: false, }, // eslint-disable-line camelcase
+    pernr:        { select: true, },
     type:         { select: true, },
     name:         { select: true, },
   };
@@ -25,23 +25,23 @@ class Person extends IncidentedBase {
   }
 
   get hasMoved() {
-    return Boolean(this.data.identical_id);
+    return this.hasData('identical_id');
   }
 
   get identicalId() {
-    return this.data.identical_id;
+    return this.getData('identical_id');
   }
 
   get hasPernr() {
-    return this.data.pernr !== null;
+    return this.hasData('pernr');
   }
 
   get pernr() {
-    return this.data.pernr;
+    return this.getData('pernr');
   }
 
   get id() {
-    return this.data.id;
+    return this.getData('id');
   }
 }
 
