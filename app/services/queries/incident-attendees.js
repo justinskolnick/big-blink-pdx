@@ -6,31 +6,45 @@ const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person');
 
 const getAllQuery = (options = {}) => {
-  const { page, perPage, incidentId } = options;
+  const {
+    page,
+    perPage,
+    incidentId,
+  } = options;
+
+  const hasIncidentId = Boolean(incidentId);
+  const hasPage = Boolean(page);
+  const hasPerPage = Boolean(perPage);
 
   const clauses = [];
+  const conditions = [];
+  const selections = [];
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(
-    [
-      ...IncidentAttendee.fields(),
-      `${Person.field('id')} AS person_id`,
-      Person.field('name'),
-      Person.field('type'),
-    ].join(', ')
-  );
+
+  selections.push(...IncidentAttendee.fields());
+  selections.push(`${Person.field('id')} AS person_id`);
+  selections.push(...IncidentAttendee.personFields(['id']));
+
+  clauses.push(selections.join(', '));
+
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
   clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
 
-  if (incidentId) {
-    clauses.push('WHERE incident_id = ?');
+  if (hasIncidentId) {
+    clauses.push('WHERE');
+
+    conditions.push(`${IncidentAttendee.field('incident_id')} = ?`);
     params.push(incidentId);
+
+    clauses.push(...queryHelper.joinConditions(conditions));
   }
 
-  clauses.push(`ORDER BY ${IncidentAttendee.field('role')} ASC, ${Person.field('family')} ASC`);
+  clauses.push('ORDER BY');
+  clauses.push(`${IncidentAttendee.field('role')} ASC, ${Person.field('family')} ASC`);
 
-  if (page && perPage) {
+  if (hasPage && hasPerPage) {
     const offset = queryHelper.getOffset(page, perPage);
 
     clauses.push('LIMIT ?,?');
@@ -41,34 +55,51 @@ const getAllQuery = (options = {}) => {
 };
 
 const getEntitiesQuery = (options = {}) => {
-  const { personId, personRole } = options;
+  const {
+    personId,
+    personRole,
+  } = options;
+
+  const hasPersonId = Boolean(personId);
+  const hasPersonRole = Boolean(personRole);
 
   const clauses = [];
+  const selections = [];
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${Entity.field('id')}, ${Entity.field('name')}`);
+
+  selections.push(Entity.field('id'));
+  selections.push(Entity.field('name'));
+
+  clauses.push(selections.join(', '));
+
   clauses.push(`FROM ${Incident.tableName}`);
   clauses.push(`LEFT JOIN ${Entity.tableName}`);
   clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field('entity_id')}`);
 
-  if (personId) {
-    const segments = [];
-    segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
-    segments.push('WHERE person_id = ?');
+  if (hasPersonId) {
+    const subqueryClauses = [];
+
+    subqueryClauses.push('SELECT');
+    subqueryClauses.push(`${IncidentAttendee.field('incident_id')} AS id`);
+    subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
+    subqueryClauses.push('WHERE');
+    subqueryClauses.push(`${IncidentAttendee.field('person_id')} = ?`);
     params.push(personId);
 
-    if (personRole) {
-      segments.push('AND role = ?');
+    if (hasPersonRole) {
+      subqueryClauses.push('AND');
+      subqueryClauses.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(personRole);
     }
 
-    clauses.push(`WHERE ${Incident.primaryKey()} IN`);
-    clauses.push('(' + segments.join(' ') + ')');
+    clauses.push('WHERE');
+    clauses.push(`${Incident.primaryKey()} IN (${subqueryClauses.join(' ')})`);
   }
 
-  clauses.push(`ORDER BY ${Entity.field('name')} ASC`);
+  clauses.push('ORDER BY');
+  clauses.push(`${Entity.field('name')} ASC`);
 
   return { clauses, params };
 };
@@ -78,6 +109,7 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
     personId,
     role,
   } = options;
+
   const hasPersonId = Boolean(personId);
   const hasRole = Boolean(role);
 
@@ -107,56 +139,91 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
 };
 
 const getPeopleQuery = (options = {}) => {
-  const { entityId, personId, personRole, role, sourceId } = options;
+  const {
+    entityId,
+    personId,
+    personRole,
+    role,
+    sourceId,
+  } = options;
+
+  const hasEntityId = Boolean(entityId);
+  const hasPersonId = Boolean(personId);
+  const hasRole = Boolean(role);
+  const hasSourceId = Boolean(sourceId);
 
   const clauses = [];
+  const selections = [];
+  const conditions = [];
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${Person.field('name')}, ${IncidentAttendee.field('person_id')} AS id, ${Person.field('type')}`);
+
+  selections.push(`${IncidentAttendee.field('person_id')} AS id`);
+  selections.push(Person.field('name'));
+  selections.push(Person.field('type'));
+
+  clauses.push(selections.join(', '));
+
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
   clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
 
-  if (entityId || personId || sourceId) {
-    clauses.push(`WHERE ${IncidentAttendee.field('incident_id')} IN`);
-  }
+  if (hasEntityId || hasPersonId || hasRole || hasSourceId) {
+    const subqueryClauses = [];
 
-  if (entityId) {
-    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE entity_id = ?)`);
-    params.push(entityId);
-  }
+    clauses.push('WHERE');
 
-  if (personId) {
-    const segments = [];
-    segments.push('SELECT');
-    segments.push(`incident_id AS id FROM ${IncidentAttendee.tableName}`);
-    segments.push('WHERE person_id = ?');
-    params.push(personId);
+    if (hasEntityId || hasSourceId) {
+      subqueryClauses.push('SELECT');
+      subqueryClauses.push(Incident.field('id'));
+      subqueryClauses.push(`FROM ${Incident.tableName}`);
+      subqueryClauses.push('WHERE');
 
-    if (personRole) {
-      segments.push('AND role = ?');
-      params.push(personRole);
+      if (hasEntityId) {
+        subqueryClauses.push(`${Incident.field('entity_id')} = ?`);
+        params.push(entityId);
+      }
+
+      if (hasSourceId) {
+        subqueryClauses.push(`${Incident.field('data_source_id')} = ?`);
+        params.push(sourceId);
+      }
     }
 
-    clauses.push('(' + segments.join(' ') + ')');
+    if (hasPersonId) {
+      subqueryClauses.push('SELECT');
+      subqueryClauses.push(`${IncidentAttendee.field('incident_id')} AS id`);
+      subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
+      subqueryClauses.push('WHERE');
+      subqueryClauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+      params.push(personId);
+
+      if (personRole) {
+        subqueryClauses.push('AND');
+        subqueryClauses.push(`${IncidentAttendee.field('role')} = ?`);
+        params.push(personRole);
+      }
+    }
+
+    if (subqueryClauses.length) {
+      conditions.push(`${IncidentAttendee.field('incident_id')} IN (${subqueryClauses.join(' ')})`);
+    }
+
+    if (hasPersonId) {
+      conditions.push(`${IncidentAttendee.field('person_id')} != ?`);
+      params.push(personId);
+    }
+
+    if (hasRole) {
+      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+      params.push(role);
+    }
   }
 
-  if (personId) {
-    clauses.push(`AND ${IncidentAttendee.field('person_id')} != ?`);
-    params.push(personId);
-  }
+  clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (sourceId) {
-    clauses.push(`(SELECT id FROM ${Incident.tableName} WHERE data_source_id = ?)`);
-    params.push(sourceId);
-  }
-
-  if (role) {
-    clauses.push(`AND ${IncidentAttendee.field('role')} = ?`);
-    params.push(role);
-  }
-
-  clauses.push(`ORDER BY ${IncidentAttendee.field('person_id')} ASC`);
+  clauses.push('ORDER BY');
+  clauses.push(`${IncidentAttendee.field('person_id')} ASC`);
 
   return { clauses, params };
 };

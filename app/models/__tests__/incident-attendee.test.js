@@ -16,6 +16,27 @@ describe('fields()', () => {
   });
 });
 
+describe('personFields()', () => {
+  test('returns the expected fields', () => {
+    expect(IncidentAttendee.personFields()).toEqual([
+      'people.id',
+      'people.name',
+      'people.pernr',
+      'people.type',
+    ]);
+  });
+
+  describe('with an excluded field', () => {
+    test('returns the expected fields', () => {
+      expect(IncidentAttendee.personFields(['id'])).toEqual([
+        'people.name',
+        'people.pernr',
+        'people.type',
+      ]);
+    });
+  });
+});
+
 describe('adapt()', () => {
   /* eslint-disable camelcase */
   const result = {
