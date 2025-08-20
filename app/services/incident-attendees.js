@@ -18,6 +18,14 @@ const {
   getPeopleQuery,
 } = require('./queries/incident-attendees');
 
+const getAttendee = (result) => {
+  const attendee = new IncidentAttendee(result);
+
+  attendee.setPersonObject();
+
+  return attendee;
+};
+
 const getAll = async (options = {}) => {
   const { clauses, params } = getAllQuery(options);
 
@@ -26,14 +34,9 @@ const getAll = async (options = {}) => {
     .map(result => result.role)
     .reduce((all, role) => {
       const key = pluralize(role);
+      const byRole = results.filter(result => result.role === role);
 
-      all[key] = results
-        .filter(result => result.role === role)
-        .map(result => {
-          const attendee = new IncidentAttendee(result);
-
-          return attendee.adapted;
-        });
+      all[key] = byRole.map(getAttendee);
 
       return all;
     }, {});
@@ -41,20 +44,22 @@ const getAll = async (options = {}) => {
   return groupedResults;
 };
 
+const getAllForIncident = async (incident) => {
+  const result = await getAll({ incidentId: incident.id });
+
+  incident.attendees = Object.entries(result).reduce((attendees, [key, values]) => {
+    attendees[key] = {
+      records: values.map(value => value.adapted),
+    };
+
+    return attendees;
+  }, {});
+
+  return incident;
+};
+
 const getAllForIncidents = async (incidents) => {
-  const amended = await Promise.all(incidents.map(async (incident) => {
-    const result = await getAll({ incidentId: incident.id });
-
-    incident.attendees = Object.entries(result).reduce((attendees, [key, values]) => {
-      attendees[key] = {
-        records: values,
-      };
-
-      return attendees;
-    }, {});
-
-    return incident;
-  }));
+  const amended = await Promise.all(incidents.map(getAllForIncident));
 
   return amended;
 };

@@ -1,3 +1,5 @@
+const result = require('../__mocks__/incident-attendee/result-official');
+
 const IncidentAttendee = require('../incident-attendee');
 
 describe('tableName', () => {
@@ -38,19 +40,9 @@ describe('personFields()', () => {
 });
 
 describe('adapt()', () => {
-  /* eslint-disable camelcase */
-  const result = {
-    id: 123,
-    appears_as: 'Orbit, Henry',
-    role: 'official',
-    person_id: 321,
-    name: 'Henry Orbit',
-    type: 'person',
-  };
-  /* eslint-enable camelcase */
-
   test('adapts a result', () => {
     const incidentAttendee = new IncidentAttendee(result);
+    incidentAttendee.setPersonObject();
 
     expect(incidentAttendee.adapted).toEqual({
       id: 123,
@@ -61,6 +53,7 @@ describe('adapt()', () => {
           self: '/people/321',
         },
         name: 'Henry Orbit',
+        pernr: 654987,
         roles: [
           'official',
         ],
@@ -72,19 +65,14 @@ describe('adapt()', () => {
 
 describe('setData()', () => {
   test('sets data', () => {
-    /* eslint-disable camelcase */
-    const incidentAttendee = new IncidentAttendee({
-      id: 123,
-      appears_as: 'Orbit, Henry',
-      role: 'official',
-      person_id: 321,
-      name: 'Henry Orbit',
-      type: 'person',
+    const resultWithExtraData = {
+      ...result,
       x: 'y',
-    });
-    /* eslint-enable camelcase */
+    };
 
+    const incidentAttendee = new IncidentAttendee(resultWithExtraData);
     incidentAttendee.setData('z', 'abc');
+    incidentAttendee.setPersonObject();
 
     /* eslint-disable camelcase */
     expect(incidentAttendee.data).toEqual({
@@ -92,6 +80,7 @@ describe('setData()', () => {
       id: 123,
       name: 'Henry Orbit',
       person_id: 321,
+      pernr: 654987,
       role: 'official',
       type: 'person',
       x: 'y',
@@ -108,11 +97,22 @@ describe('setData()', () => {
           self: '/people/321',
         },
         name: 'Henry Orbit',
+        pernr: 654987,
         roles: [
           'official',
         ],
         type: 'person',
       },
     });
+  });
+});
+
+describe('hasPerson()', () => {
+  test('returns the expected object', () => {
+
+    const incidentAttendee = new IncidentAttendee(result);
+    incidentAttendee.setPersonObject();
+
+    expect(incidentAttendee.hasPerson).toBe(true);
   });
 });

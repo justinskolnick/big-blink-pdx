@@ -148,14 +148,19 @@ router.get('/:id', async (req, res, next) => {
     try {
       attendeesResult = await incidentAttendees.getAll({ incidentId: id });
 
+      const {
+        lobbyists,
+        officials,
+      } = attendeesResult;
+
       record = incidentResult.adapted;
       record.attendees = {
         lobbyists: {
-          records: attendeesResult.lobbyists,
+          records: lobbyists.map(value => value.adapted),
           role: ROLE_LOBBYIST,
         },
         officials: {
-          records: attendeesResult.officials,
+          records: officials.map(value => value.adapted),
           role: ROLE_OFFICIAL,
         },
       };

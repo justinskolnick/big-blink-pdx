@@ -3,6 +3,8 @@ const {
   ROLE_OFFICIAL,
 } = require('../config/constants');
 
+const { isEmpty } = require('../lib/util');
+
 const Base = require('./shared/base');
 const Person = require('./person');
 
@@ -37,23 +39,37 @@ class IncidentAttendee extends Base {
       .map(fieldName => Person.field(fieldName));
   }
 
-  adapt(result) {
-    const data = {
-      id: result.person_id,
-      name: result.name,
-      pernr: result.pernr,
-      roles: result.role,
-      type: result.type,
-    };
-    const person = new Person(data);
+  person = null;
 
+  setPerson(values) {
+    this.person = new Person(values);
+  }
+
+  setPersonObject() {
+    const values = {
+      id: this.getData('person_id'),
+      name: this.getData('name'),
+      pernr: this.getData('pernr'),
+      roles: this.getData('role'),
+      type: this.getData('type'),
+    };
+
+    this.setPerson(values);
+  }
+
+  adapt(result) {
+    const person = this.hasPerson ? this.person.adapted : this.person;
     const adapted = this.adaptResult(result, {
-      person: person.adapted,
+      person,
     });
 
     delete adapted.role;
 
     return adapted;
+  }
+
+  get hasPerson() {
+    return !isEmpty(this.person);
   }
 }
 
