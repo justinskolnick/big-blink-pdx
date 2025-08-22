@@ -32,6 +32,9 @@ const getAtPernrQuery = (pernr, dateOn = null) => {
   clauses.push('GROUP BY');
   clauses.push(selections.join(', '));
 
+  clauses.push('ORDER BY');
+  clauses.push(`${OfficialPosition.field('date_start')} ASC`);
+
   return { clauses, params };
 };
 

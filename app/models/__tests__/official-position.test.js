@@ -199,6 +199,16 @@ describe('positions', () => {
     });
   });
 
+  describe('responsibleToPernr()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.responsibleToPernr).toBe(null);
+      expect(councilorCos.responsibleToPernr).toBe(654321);
+      expect(dca.responsibleToPernr).toBe(null);
+      expect(mayor.responsibleToPernr).toBe(null);
+      expect(mayorCos.responsibleToPernr).toBe(654321);
+    });
+  });
+
   describe('role()', () => {
     test('returns the expected value', () => {
       expect(councilor.role).toBe('Councilor');
@@ -216,6 +226,16 @@ describe('positions', () => {
       expect(dca.roleStatement).toBe('Deputy City Administrator of Community and Economic Development');
       expect(mayor.roleStatement).toBe('Mayor');
       expect(mayorCos.roleStatement).toBe('Chief of Staff for Mayor Jane Doe');
+    });
+  });
+
+  describe('startDate()', () => {
+    test('returns the expected value', () => {
+      expect(councilor.startDate).toBe('2015-01-01T00:00:00.000Z');
+      expect(councilorCos.startDate).toBe('2015-01-01T00:00:00.000Z');
+      expect(dca.startDate).toBe('2015-01-01T00:00:00.000Z');
+      expect(mayor.startDate).toBe('2015-01-01T00:00:00.000Z');
+      expect(mayorCos.startDate).toBe('2015-01-01T00:00:00.000Z');
     });
   });
 

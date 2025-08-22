@@ -33,6 +33,7 @@ const Person = require('../models/person');
 
 const incidentAttendees = require('../services/incident-attendees');
 const incidents = require('../services/incidents');
+const officialPositions = require('../services/official-positions');
 const people = require('../services/people');
 const sources = require('../services/sources');
 const stats = require('../services/stats');
@@ -502,6 +503,39 @@ router.get('/:id/incidents', async (req, res, next) => {
     }
   } else {
     res.render(template, { title, robots: headers.robots });
+  }
+});
+
+router.get('/:id/official-positions', async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  if (req.get('Content-Type') === headers.json) {
+    let personResult;
+    let officialPositionsResult;
+    let records;
+    let data;
+    let meta;
+
+    try {
+      personResult = await people.getAtId(id);
+      officialPositionsResult = await officialPositions.getAllAtPernr(personResult.pernr);
+      records = officialPositionsResult.map(result => result.adapted);
+
+      data = {
+        person: {
+          id,
+          officialPositions: records,
+        },
+      };
+      meta = { id, view };
+
+      res.status(200).json({ title, data, meta });
+    } catch (err) {
+      console.error('Error while getting person official positions:', err.message); // eslint-disable-line no-console
+      next(createError(err));
+    }
+  } else {
+    res.redirect(`/people/${id}`);
   }
 });
 

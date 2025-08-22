@@ -139,6 +139,14 @@ class OfficialPosition extends Base {
     return null;
   }
 
+  get responsibleToPernr() {
+    if (this.isSubordinate) {
+      return this.getData('responsible_to_pernr');
+    }
+
+    return null;
+  }
+
   get role() {
     return this.toPhrase([
       this.rank,
@@ -171,6 +179,10 @@ class OfficialPosition extends Base {
     }
 
     return this.toPhrase(parts);
+  }
+
+  get startDate() {
+    return this.getData('date_start');
   }
 
   get titleAsSupervisor() {
