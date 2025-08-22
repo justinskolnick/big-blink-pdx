@@ -97,6 +97,9 @@ const api = createApi({
     getPersonIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `people/${id}/incidents${search}`
     )),
+    getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
+      ({ id }) => `people/${id}/official-positions`
+    )),
     getPersonStatsById: builder.query(getAncillaryRoute(
       ({ id }) => `people/${id}/stats`
     )),

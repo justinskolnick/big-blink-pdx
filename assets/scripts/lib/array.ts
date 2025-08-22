@@ -1,3 +1,1 @@
-type item = number | string;
-
-export const unique = (arr: item[]) => [...new Set(arr)];
+export const unique = <Type>(arr: Array<Type>): Array<Type> => [...new Set(arr)];

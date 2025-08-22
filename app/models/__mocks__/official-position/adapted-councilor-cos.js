@@ -1,5 +1,4 @@
 module.exports = {
-  pernr: 987654,
   name: 'Jack Doe',
   dates: {
     start: {
@@ -11,9 +10,6 @@ module.exports = {
       value: '2017-09-15T00:00:00.000Z',
     },
   },
-  office: 'City Council',
-  area: null,
-  assignment: null,
   role: {
     statement: 'Senior Council Aide for District 3',
     value: 'Senior Council Aide',

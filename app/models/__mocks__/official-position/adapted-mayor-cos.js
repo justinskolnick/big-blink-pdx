@@ -1,5 +1,4 @@
 module.exports = {
-  pernr: 123456,
   name: 'Julian Doe',
   dates: {
     start: {
@@ -7,13 +6,10 @@ module.exports = {
       value: '2015-01-01T00:00:00.000Z',
     },
     end: {
-      label: 'September 15, 2017',
-      value: '2017-09-15T00:00:00.000Z',
+      label: null,
+      value: null,
     },
   },
-  office: 'Mayor',
-  area: 'Office and Policy Management',
-  assignment: null,
   role: {
     statement: 'Chief of Staff',
     value: 'Chief of Staff',

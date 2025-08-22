@@ -1,8 +1,12 @@
 const queryHelper = require('../../helpers/query');
 
 const OfficialPosition = require('../../models/official-position');
+const Person = require('../../models/person');
 
-const getAtPernrQuery = (pernr, dateOn = null) => {
+const getAtPernrQuery = (pernr, options = {}) => {
+  const {
+    dateOn,
+  } = options;
   const hasDateOn = Boolean(dateOn);
 
   const clauses = [];
@@ -13,9 +17,14 @@ const getAtPernrQuery = (pernr, dateOn = null) => {
   clauses.push('SELECT');
 
   selections.push(...OfficialPosition.fields());
+  selections.push(`${Person.field('name')} as personal_name`);
+
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${OfficialPosition.tableName}`);
+  clauses.push(`LEFT JOIN ${Person.tableName}`);
+  clauses.push(`ON ${Person.field('pernr')} = ${OfficialPosition.field('pernr')}`);
+
   clauses.push('WHERE');
 
   conditions.push(`${OfficialPosition.field('pernr')} = ?`);
@@ -30,7 +39,7 @@ const getAtPernrQuery = (pernr, dateOn = null) => {
 
   // group by all fields to address duplicate rows
   clauses.push('GROUP BY');
-  clauses.push(selections.join(', '));
+  clauses.push([...OfficialPosition.fields()].join(', '));
 
   clauses.push('ORDER BY');
   clauses.push(`${OfficialPosition.field('date_start')} ASC`);

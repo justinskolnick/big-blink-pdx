@@ -6,6 +6,7 @@ import api from '../services/api';
 import entities from '../reducers/entities';
 import incidents from '../reducers/incidents';
 import leaderboard from '../reducers/leaderboard';
+import officialPositions from '../reducers/official-positions';
 import people from '../reducers/people';
 import sources from '../reducers/sources';
 import stats from '../reducers/stats';
@@ -17,6 +18,7 @@ export const store = configureStore({
     entities,
     incidents,
     leaderboard,
+    officialPositions,
     people,
     sources,
     stats,

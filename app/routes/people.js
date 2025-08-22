@@ -523,8 +523,10 @@ router.get('/:id/official-positions', async (req, res, next) => {
 
       data = {
         person: {
-          id,
-          officialPositions: records,
+          record: {
+            id,
+            officialPositions: records,
+          },
         },
       };
       meta = { id, view };

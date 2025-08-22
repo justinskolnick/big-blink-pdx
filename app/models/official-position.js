@@ -10,18 +10,18 @@ class OfficialPosition extends Base {
   /* eslint-disable camelcase */
   static fieldNames = {
     id:                   { select: false, },
-    pernr:                { select: true, },
+    pernr:                { select: true, adapt: false, },
     name:                 { select: true, },
     date_start:           { select: true, adapt: false, },
     date_end:             { select: true, adapt: false, },
     is_withdrawn:         { select: true, adapt: false, },
     is_elected:           { select: true, adapt: false, },
-    office:               { select: true, },
+    office:               { select: true, adapt: false, },
     position:             { select: true, adapt: false, },
     district:             { select: true, adapt: false, },
     responsible_to_pernr: { select: true, adapt: false, },
-    area:                 { select: true, },
-    assignment:           { select: true, },
+    area:                 { select: true, adapt: false, },
+    assignment:           { select: true, adapt: false, },
     classification:       { select: true, adapt: false, },
     rank:                 { select: true, adapt: false, },
     is_chief:             { select: true, adapt: false, },
@@ -46,7 +46,7 @@ class OfficialPosition extends Base {
 
     if (hasValue) {
       return this.constructor.readableDate(value);
-    } else if (this.isWithdrawn && isEndDate) {
+    } else if (isEndDate && this.isWithdrawn) {
       return this.getLabel('unknown', this.constructor.labelPrefix);
     }
 
@@ -95,6 +95,10 @@ class OfficialPosition extends Base {
     return !isEmpty(this.supervisor);
   }
 
+  get isAssumedCurrent() {
+    return this.dateEnd === null && !this.isWithdrawn;
+  }
+
   get isElected() {
     return isTruthy(this.getData('is_elected'));
   }
@@ -119,6 +123,14 @@ class OfficialPosition extends Base {
     return null;
   }
 
+  get dateStart() {
+    return this.getData('date_start');
+  }
+
+  get dateEnd() {
+    return this.getData('date_end');
+  }
+
   get district() {
     if (this.hasDistrict) {
       return this.getData('district');
@@ -128,6 +140,10 @@ class OfficialPosition extends Base {
   }
 
   get personalName() {
+    if (this.hasData('personal_name')) {
+      return this.getData('personal_name');
+    }
+
     return this.getData('name');
   }
 
@@ -179,10 +195,6 @@ class OfficialPosition extends Base {
     }
 
     return this.toPhrase(parts);
-  }
-
-  get startDate() {
-    return this.getData('date_start');
   }
 
   get titleAsSupervisor() {

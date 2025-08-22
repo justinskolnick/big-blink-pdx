@@ -3,9 +3,20 @@ const { getAtPernrQuery } = require('./queries/official-positions');
 
 const db = require('./db');
 
+const now = (new Date()).toISOString();
+
 const appendSupervisor = async (record) => {
   if (record.isSubordinate) {
-    const supervisor = await getAtPernr(record.responsibleToPernr, record.startDate);
+    const pernr = record.responsibleToPernr;
+    const options = {
+      dateOn: record.dateStart,
+    };
+
+    if (record.isAssumedCurrent) {
+      options.dateOn = now;
+    }
+
+    const supervisor = await getAtPernr(pernr, options);
 
     if (supervisor) {
       record.setSupervisor(supervisor.asSupervisor);
@@ -17,11 +28,15 @@ const appendSupervisor = async (record) => {
   return record;
 };
 
-const getAtPernr = async (pernr, dateOn = null) => {
-  const { clauses, params } = getAtPernrQuery(pernr, dateOn);
+const getAtPernr = async (pernr, options = {}) => {
+  const { clauses, params } = getAtPernrQuery(pernr, options);
   const result = await db.get(clauses, params);
 
-  return new OfficialPosition(result);
+  if (result) {
+    return new OfficialPosition(result);
+  }
+
+  return null;
 };
 
 const getAllAtPernr = async (pernr) => {

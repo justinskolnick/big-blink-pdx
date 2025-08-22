@@ -16,6 +16,7 @@ type Stat = {
 export const getEntities = (state: RootState) => state.entities;
 export const getIncidents = (state: RootState) => state.incidents;
 export const getLeaderboard = (state: RootState) => state.leaderboard;
+export const getOfficialPositions = (state: RootState) => state.officialPositions;
 export const getPeople = (state: RootState) => state.people;
 export const getSources = (state: RootState) => state.sources;
 export const getStats = (state: RootState) => state.stats;
@@ -39,6 +40,13 @@ export const getHasLeaderboardData = createSelector(getLeaderboard, leaderboard 
 export const getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, values => values.entities);
 export const getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, values => values.lobbyists);
 export const getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, values => values.officials);
+
+export const getOfficialPositionsLookupCompleted = createSelector(
+  getOfficialPositions, officialPositions => officialPositions.completed
+);
+export const getOfficialPositionsLookupQueue = createSelector(
+  getOfficialPositions, officialPositions => officialPositions.queue
+);
 
 export const getPeoplePagination = createSelector(getPeople, people => people.pagination);
 export const getPeoplePageIds = createSelector(getPeople, people => people.pageIds);

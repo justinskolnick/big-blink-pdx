@@ -1,18 +1,49 @@
-import type { Person } from '../types';
+import type { Id, Ids, Person } from '../types';
 import { MiddlewareHandlerFn } from '../types';
+
+import { unique } from '../lib/array';
+
+import { actions } from '../reducers/official-positions';
+
+import {
+  getOfficialPositionsLookupCompleted,
+  getOfficialPositionsLookupQueue,
+} from '../selectors';
 
 export const hasPernr = (person: Person) => person.pernr !== null;
 
-export const lookupOfficialPositions = (person: Person) => {
-  console.log('->',person.id);
+export interface MiddlewareHandlerIdsFn {
+  (store: any, idOrIds: Id | Ids): void;
+}
+
+export const lookupOfficialPositionsForId: MiddlewareHandlerIdsFn = (store, idOrIds) => {
+  const { dispatch, getState } = store;
+
+  const queue = getOfficialPositionsLookupQueue(getState());
+  const completed = getOfficialPositionsLookupCompleted(getState());
+
+  let ids = [] as Ids;
+
+  if (Array.isArray(idOrIds)) {
+    ids = unique(idOrIds.filter(id => !queue.includes(id) && !completed.includes(id)));
+  } else if (Number.isInteger(idOrIds)) {
+    if (!queue.includes(idOrIds) && !completed.includes(idOrIds)) {
+      ids.push(idOrIds);
+    }
+  }
+
+  if (ids.length) {
+    dispatch(actions.addToLookupQueue(ids));
+  }
 };
 
 const handleSetPerson: MiddlewareHandlerFn = (store, action) => {
   const { payload } = action;
+
   const person = payload as Person;
 
   if (hasPernr(person)) {
-    lookupOfficialPositions(person);
+    lookupOfficialPositionsForId(store, person.id);
   }
 };
 
