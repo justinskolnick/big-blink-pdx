@@ -30359,6 +30359,620 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
   var ORIGINAL_STATE = Symbol.for("rtk-state-proxy-original");
 
+  // assets/scripts/middleware/handle-set-person.ts
+  var hasPernr = (person) => person.pernr !== null;
+  var lookupOfficialPositions = (person) => {
+    console.log("->", person.id);
+  };
+  var handleSetPerson = (store2, action) => {
+    const { payload } = action;
+    const person = payload;
+    if (hasPernr(person)) {
+      lookupOfficialPositions(person);
+    }
+  };
+  var handle_set_person_default = handleSetPerson;
+
+  // assets/scripts/middleware/handle-set-people.ts
+  var handleSetPeople = (store2, action) => {
+    const { payload } = action;
+    const people = payload;
+    const peopleWithPernr = people.filter(hasPernr);
+    peopleWithPernr.forEach((person) => {
+      lookupOfficialPositions(person);
+    });
+  };
+  var handle_set_people_default = handleSetPeople;
+
+  // node_modules/map-obj/index.js
+  var isObject = (value) => typeof value === "object" && value !== null;
+  var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+  var mapObjectSkip = Symbol("mapObjectSkip");
+  var _mapObject = (object, mapper, options2, isSeen = /* @__PURE__ */ new WeakMap()) => {
+    options2 = {
+      deep: false,
+      target: {},
+      ...options2
+    };
+    if (isSeen.has(object)) {
+      return isSeen.get(object);
+    }
+    isSeen.set(object, options2.target);
+    const { target } = options2;
+    delete options2.target;
+    const mapArray = (array) => array.map((element) => isObjectCustom(element) ? _mapObject(element, mapper, options2, isSeen) : element);
+    if (Array.isArray(object)) {
+      return mapArray(object);
+    }
+    for (const [key, value] of Object.entries(object)) {
+      const mapResult = mapper(key, value, object);
+      if (mapResult === mapObjectSkip) {
+        continue;
+      }
+      let [newKey, newValue, { shouldRecurse = true } = {}] = mapResult;
+      if (newKey === "__proto__") {
+        continue;
+      }
+      if (options2.deep && shouldRecurse && isObjectCustom(newValue)) {
+        newValue = Array.isArray(newValue) ? mapArray(newValue) : _mapObject(newValue, mapper, options2, isSeen);
+      }
+      target[newKey] = newValue;
+    }
+    return target;
+  };
+  function mapObject(object, mapper, options2) {
+    if (!isObject(object)) {
+      throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
+    }
+    return _mapObject(object, mapper, options2);
+  }
+
+  // node_modules/camelcase/index.js
+  var UPPERCASE = /[\p{Lu}]/u;
+  var LOWERCASE = /[\p{Ll}]/u;
+  var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
+  var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
+  var SEPARATORS = /[_.\- ]+/;
+  var LEADING_SEPARATORS = new RegExp("^" + SEPARATORS.source);
+  var SEPARATORS_AND_IDENTIFIER = new RegExp(SEPARATORS.source + IDENTIFIER.source, "gu");
+  var NUMBERS_AND_IDENTIFIER = new RegExp("\\d+" + IDENTIFIER.source, "gu");
+  var preserveCamelCase = (string, toLowerCase, toUpperCase, preserveConsecutiveUppercase2) => {
+    let isLastCharLower = false;
+    let isLastCharUpper = false;
+    let isLastLastCharUpper = false;
+    let isLastLastCharPreserved = false;
+    for (let index = 0; index < string.length; index++) {
+      const character2 = string[index];
+      isLastLastCharPreserved = index > 2 ? string[index - 3] === "-" : true;
+      if (isLastCharLower && UPPERCASE.test(character2)) {
+        string = string.slice(0, index) + "-" + string.slice(index);
+        isLastCharLower = false;
+        isLastLastCharUpper = isLastCharUpper;
+        isLastCharUpper = true;
+        index++;
+      } else if (isLastCharUpper && isLastLastCharUpper && LOWERCASE.test(character2) && (!isLastLastCharPreserved || preserveConsecutiveUppercase2)) {
+        string = string.slice(0, index - 1) + "-" + string.slice(index - 1);
+        isLastLastCharUpper = isLastCharUpper;
+        isLastCharUpper = false;
+        isLastCharLower = true;
+      } else {
+        isLastCharLower = toLowerCase(character2) === character2 && toUpperCase(character2) !== character2;
+        isLastLastCharUpper = isLastCharUpper;
+        isLastCharUpper = toUpperCase(character2) === character2 && toLowerCase(character2) !== character2;
+      }
+    }
+    return string;
+  };
+  var preserveConsecutiveUppercase = (input, toLowerCase) => {
+    LEADING_CAPITAL.lastIndex = 0;
+    return input.replaceAll(LEADING_CAPITAL, (match2) => toLowerCase(match2));
+  };
+  var postProcess = (input, toUpperCase) => {
+    SEPARATORS_AND_IDENTIFIER.lastIndex = 0;
+    NUMBERS_AND_IDENTIFIER.lastIndex = 0;
+    return input.replaceAll(NUMBERS_AND_IDENTIFIER, (match2, pattern, offset) => ["_", "-"].includes(input.charAt(offset + match2.length)) ? match2 : toUpperCase(match2)).replaceAll(SEPARATORS_AND_IDENTIFIER, (_, identifier2) => toUpperCase(identifier2));
+  };
+  function camelCase(input, options2) {
+    if (!(typeof input === "string" || Array.isArray(input))) {
+      throw new TypeError("Expected the input to be `string | string[]`");
+    }
+    options2 = {
+      pascalCase: false,
+      preserveConsecutiveUppercase: false,
+      ...options2
+    };
+    if (Array.isArray(input)) {
+      input = input.map((x2) => x2.trim()).filter((x2) => x2.length).join("-");
+    } else {
+      input = input.trim();
+    }
+    if (input.length === 0) {
+      return "";
+    }
+    const toLowerCase = options2.locale === false ? (string) => string.toLowerCase() : (string) => string.toLocaleLowerCase(options2.locale);
+    const toUpperCase = options2.locale === false ? (string) => string.toUpperCase() : (string) => string.toLocaleUpperCase(options2.locale);
+    if (input.length === 1) {
+      if (SEPARATORS.test(input)) {
+        return "";
+      }
+      return options2.pascalCase ? toUpperCase(input) : toLowerCase(input);
+    }
+    const hasUpperCase = input !== toLowerCase(input);
+    if (hasUpperCase) {
+      input = preserveCamelCase(input, toLowerCase, toUpperCase, options2.preserveConsecutiveUppercase);
+    }
+    input = input.replace(LEADING_SEPARATORS, "");
+    input = options2.preserveConsecutiveUppercase ? preserveConsecutiveUppercase(input, toLowerCase) : toLowerCase(input);
+    if (options2.pascalCase) {
+      input = toUpperCase(input.charAt(0)) + input.slice(1);
+    }
+    return postProcess(input, toUpperCase);
+  }
+
+  // node_modules/quick-lru/index.js
+  var QuickLRU = class extends Map {
+    constructor(options2 = {}) {
+      super();
+      if (!(options2.maxSize && options2.maxSize > 0)) {
+        throw new TypeError("`maxSize` must be a number greater than 0");
+      }
+      if (typeof options2.maxAge === "number" && options2.maxAge === 0) {
+        throw new TypeError("`maxAge` must be a number greater than 0");
+      }
+      this.maxSize = options2.maxSize;
+      this.maxAge = options2.maxAge || Number.POSITIVE_INFINITY;
+      this.onEviction = options2.onEviction;
+      this.cache = /* @__PURE__ */ new Map();
+      this.oldCache = /* @__PURE__ */ new Map();
+      this._size = 0;
+    }
+    // TODO: Use private class methods when targeting Node.js 16.
+    _emitEvictions(cache4) {
+      if (typeof this.onEviction !== "function") {
+        return;
+      }
+      for (const [key, item] of cache4) {
+        this.onEviction(key, item.value);
+      }
+    }
+    _deleteIfExpired(key, item) {
+      if (typeof item.expiry === "number" && item.expiry <= Date.now()) {
+        if (typeof this.onEviction === "function") {
+          this.onEviction(key, item.value);
+        }
+        return this.delete(key);
+      }
+      return false;
+    }
+    _getOrDeleteIfExpired(key, item) {
+      const deleted = this._deleteIfExpired(key, item);
+      if (deleted === false) {
+        return item.value;
+      }
+    }
+    _getItemValue(key, item) {
+      return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
+    }
+    _peek(key, cache4) {
+      const item = cache4.get(key);
+      return this._getItemValue(key, item);
+    }
+    _set(key, value) {
+      this.cache.set(key, value);
+      this._size++;
+      if (this._size >= this.maxSize) {
+        this._size = 0;
+        this._emitEvictions(this.oldCache);
+        this.oldCache = this.cache;
+        this.cache = /* @__PURE__ */ new Map();
+      }
+    }
+    _moveToRecent(key, item) {
+      this.oldCache.delete(key);
+      this._set(key, item);
+    }
+    *_entriesAscending() {
+      for (const item of this.oldCache) {
+        const [key, value] = item;
+        if (!this.cache.has(key)) {
+          const deleted = this._deleteIfExpired(key, value);
+          if (deleted === false) {
+            yield item;
+          }
+        }
+      }
+      for (const item of this.cache) {
+        const [key, value] = item;
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield item;
+        }
+      }
+    }
+    get(key) {
+      if (this.cache.has(key)) {
+        const item = this.cache.get(key);
+        return this._getItemValue(key, item);
+      }
+      if (this.oldCache.has(key)) {
+        const item = this.oldCache.get(key);
+        if (this._deleteIfExpired(key, item) === false) {
+          this._moveToRecent(key, item);
+          return item.value;
+        }
+      }
+    }
+    set(key, value, { maxAge = this.maxAge } = {}) {
+      const expiry = typeof maxAge === "number" && maxAge !== Number.POSITIVE_INFINITY ? Date.now() + maxAge : void 0;
+      if (this.cache.has(key)) {
+        this.cache.set(key, {
+          value,
+          expiry
+        });
+      } else {
+        this._set(key, { value, expiry });
+      }
+      return this;
+    }
+    has(key) {
+      if (this.cache.has(key)) {
+        return !this._deleteIfExpired(key, this.cache.get(key));
+      }
+      if (this.oldCache.has(key)) {
+        return !this._deleteIfExpired(key, this.oldCache.get(key));
+      }
+      return false;
+    }
+    peek(key) {
+      if (this.cache.has(key)) {
+        return this._peek(key, this.cache);
+      }
+      if (this.oldCache.has(key)) {
+        return this._peek(key, this.oldCache);
+      }
+    }
+    delete(key) {
+      const deleted = this.cache.delete(key);
+      if (deleted) {
+        this._size--;
+      }
+      return this.oldCache.delete(key) || deleted;
+    }
+    clear() {
+      this.cache.clear();
+      this.oldCache.clear();
+      this._size = 0;
+    }
+    resize(newSize) {
+      if (!(newSize && newSize > 0)) {
+        throw new TypeError("`maxSize` must be a number greater than 0");
+      }
+      const items = [...this._entriesAscending()];
+      const removeCount = items.length - newSize;
+      if (removeCount < 0) {
+        this.cache = new Map(items);
+        this.oldCache = /* @__PURE__ */ new Map();
+        this._size = items.length;
+      } else {
+        if (removeCount > 0) {
+          this._emitEvictions(items.slice(0, removeCount));
+        }
+        this.oldCache = new Map(items.slice(removeCount));
+        this.cache = /* @__PURE__ */ new Map();
+        this._size = 0;
+      }
+      this.maxSize = newSize;
+    }
+    *keys() {
+      for (const [key] of this) {
+        yield key;
+      }
+    }
+    *values() {
+      for (const [, value] of this) {
+        yield value;
+      }
+    }
+    *[Symbol.iterator]() {
+      for (const item of this.cache) {
+        const [key, value] = item;
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield [key, value.value];
+        }
+      }
+      for (const item of this.oldCache) {
+        const [key, value] = item;
+        if (!this.cache.has(key)) {
+          const deleted = this._deleteIfExpired(key, value);
+          if (deleted === false) {
+            yield [key, value.value];
+          }
+        }
+      }
+    }
+    *entriesDescending() {
+      let items = [...this.cache];
+      for (let i2 = items.length - 1; i2 >= 0; --i2) {
+        const item = items[i2];
+        const [key, value] = item;
+        const deleted = this._deleteIfExpired(key, value);
+        if (deleted === false) {
+          yield [key, value.value];
+        }
+      }
+      items = [...this.oldCache];
+      for (let i2 = items.length - 1; i2 >= 0; --i2) {
+        const item = items[i2];
+        const [key, value] = item;
+        if (!this.cache.has(key)) {
+          const deleted = this._deleteIfExpired(key, value);
+          if (deleted === false) {
+            yield [key, value.value];
+          }
+        }
+      }
+    }
+    *entriesAscending() {
+      for (const [key, value] of this._entriesAscending()) {
+        yield [key, value.value];
+      }
+    }
+    get size() {
+      if (!this._size) {
+        return this.oldCache.size;
+      }
+      let oldCacheSize = 0;
+      for (const key of this.oldCache.keys()) {
+        if (!this.cache.has(key)) {
+          oldCacheSize++;
+        }
+      }
+      return Math.min(this._size + oldCacheSize, this.maxSize);
+    }
+    entries() {
+      return this.entriesAscending();
+    }
+    forEach(callbackFunction, thisArgument = this) {
+      for (const [key, value] of this.entriesAscending()) {
+        callbackFunction.call(thisArgument, value, key, this);
+      }
+    }
+    get [Symbol.toStringTag]() {
+      return JSON.stringify([...this.entriesAscending()]);
+    }
+  };
+
+  // node_modules/camelcase-keys/index.js
+  var has2 = (array, key) => array.some((element) => {
+    if (typeof element === "string") {
+      return element === key;
+    }
+    element.lastIndex = 0;
+    return element.test(key);
+  });
+  var cache = new QuickLRU({ maxSize: 1e5 });
+  var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+  var transform = (input, options2 = {}) => {
+    if (!isObject2(input)) {
+      return input;
+    }
+    const {
+      exclude,
+      pascalCase = false,
+      stopPaths,
+      deep = false,
+      preserveConsecutiveUppercase: preserveConsecutiveUppercase2 = false
+    } = options2;
+    const stopPathsSet = new Set(stopPaths);
+    const makeMapper = (parentPath) => (key, value) => {
+      if (deep && isObject2(value)) {
+        const path = parentPath === void 0 ? key : `${parentPath}.${key}`;
+        if (!stopPathsSet.has(path)) {
+          value = mapObject(value, makeMapper(path));
+        }
+      }
+      if (!(exclude && has2(exclude, key))) {
+        const cacheKey = pascalCase ? `${key}_` : key;
+        if (cache.has(cacheKey)) {
+          key = cache.get(cacheKey);
+        } else {
+          const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
+          if (key.length < 100) {
+            cache.set(cacheKey, returnValue);
+          }
+          key = returnValue;
+        }
+      }
+      return [key, value];
+    };
+    return mapObject(input, makeMapper(void 0));
+  };
+  function camelcaseKeys(input, options2) {
+    if (Array.isArray(input)) {
+      return Object.keys(input).map((key) => transform(input[key], options2));
+    }
+    return transform(input, options2);
+  }
+
+  // assets/scripts/lib/sorting.ts
+  var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
+  var sortQuarterAscendingTypeDecending = (a2, b2) => demoteIfQuarterIsNull(a2) - demoteIfQuarterIsNull(b2) || a2.type.localeCompare(b2.type);
+
+  // assets/scripts/selectors.ts
+  var getEntities = (state) => state.entities;
+  var getIncidents = (state) => state.incidents;
+  var getLeaderboard = (state) => state.leaderboard;
+  var getPeople = (state) => state.people;
+  var getSources = (state) => state.sources;
+  var getStats = (state) => state.stats;
+  var getUI = (state) => state.ui;
+  var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
+  var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
+  var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
+  var getIncidentsPageIds = createSelector(getIncidents, (incidents) => incidents.pageIds);
+  var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
+  var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
+  var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
+  var getLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => leaderboard.labels);
+  var getLeaderboardFilters = createSelector(getLeaderboard, (leaderboard) => leaderboard.filters);
+  var getLeaderboardValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values);
+  var getHasLeaderboardData = createSelector(
+    getLeaderboard,
+    (leaderboard) => Object.values(leaderboard.labels).length > 0 && Object.values(leaderboard.values).length > 0
+  );
+  var getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, (values) => values.entities);
+  var getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, (values) => values.lobbyists);
+  var getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, (values) => values.officials);
+  var getPeoplePagination = createSelector(getPeople, (people) => people.pagination);
+  var getPeoplePageIds = createSelector(getPeople, (people) => people.pageIds);
+  var getSourcesStats = createSelector(getStats, (stats) => stats.sources);
+  var getSourcesChartIds = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.id)
+  );
+  var getSourcesChartLabels = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.label)
+  );
+  var getSourcesChartData = createSelector(
+    getSourcesStats,
+    (stats) => stats.map((value) => value.total)
+  );
+  var getHasSourcesChartData = createSelector(
+    getSourcesStats,
+    (stats) => stats.length > 0
+  );
+  var getSourcesDataForChart = createSelector(
+    [getSourcesChartLabels, getSourcesChartData],
+    (labels, data2) => ({ labels, data: data2 })
+  );
+  var getSourceTypes = createSelector(getSources, (sources) => sources.types);
+  var getSourcesByType = createSelector(getSources, (sources) => {
+    const types2 = Object.values(sources.entities).reduce((byType, item) => {
+      if (!(item.type in byType)) {
+        byType[item.type] = {
+          type: item.type,
+          years: {}
+        };
+      }
+      if (!(item.year in byType[item.type].years)) {
+        byType[item.type].years[item.year] = {
+          year: item.year,
+          items: []
+        };
+      }
+      byType[item.type].years[item.year].items.push(item);
+      byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
+      return byType;
+    }, {});
+    return Object.values(types2);
+  });
+  var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
+    const match2 = values.find((value) => value.id === id);
+    indexed[id] = sourceIds.map((sourceId) => {
+      const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
+      return data2 ? data2.total : null;
+    });
+    return indexed;
+  }, {});
+  var getEntitiesStats = createSelector(getStats, (stats) => stats.entities);
+  var getEntitiesChartData = createSelector(
+    [getSourcesChartIds, getEntitiesStats],
+    getIndexedTotals
+  );
+  var getPeopleStats = createSelector(getStats, (stats) => stats.people);
+  var getPeopleChartData = createSelector(
+    [getSourcesChartIds, getPeopleStats],
+    getIndexedTotals
+  );
+  var getDescription = createSelector(getUI, (ui) => ui.description);
+  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
+  var getErrors = createSelector(getUI, (ui) => ui.errors);
+  var getMessages = createSelector(getUI, (ui) => ui.messages);
+  var getSection = createSelector(getUI, (ui) => ui.section);
+  var getWarnings = createSelector(getUI, (ui) => ui.warnings);
+
+  // assets/scripts/reducers/people.ts
+  var adapter = createEntityAdapter();
+  var selectors = adapter.getSelectors(getPeople);
+  var adapters = {
+    adaptOne: (state, entry) => {
+      const savedEntry = selectors.selectById(state, entry.id);
+      const adapted = { ...entry };
+      if ("incidents" in adapted) {
+        const {
+          filters,
+          pagination,
+          records,
+          stats
+        } = adapted.incidents;
+        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
+        adapted.incidents = {
+          filters,
+          pagination,
+          stats,
+          ...ids
+        };
+      }
+      if (savedEntry && "overview" in savedEntry) {
+        adapted.overview = {
+          ...savedEntry.overview,
+          ...adapted.overview
+        };
+      }
+      return camelcaseKeys(adapted, { deep: false });
+    },
+    getIds: (people) => people.map((person) => person.id),
+    getIncidents: (person) => person.incidents?.records ?? []
+  };
+  var initialState = {
+    pageIds: [],
+    pagination: null
+  };
+  var peopleSlice = createSlice({
+    name: "people",
+    initialState: adapter.getInitialState(initialState),
+    reducers: {
+      set: (state, action) => {
+        adapter.upsertOne(state, action.payload);
+      },
+      setAll: (state, action) => {
+        adapter.upsertMany(state, action.payload);
+      },
+      setPageIds: (state, action) => {
+        state.pageIds = action.payload;
+      },
+      setPagination: (state, action) => {
+        state.pagination = { ...action.payload };
+      }
+    }
+  });
+  var {
+    set: set2,
+    setAll,
+    setPageIds,
+    setPagination
+  } = peopleSlice.actions;
+  var people_default = peopleSlice.reducer;
+
+  // assets/scripts/lib/middleware.ts
+  var isAllowed = isAnyOf(
+    set2,
+    setAll
+  );
+  var types = {
+    "people/set": handle_set_person_default,
+    "people/setAll": handle_set_people_default
+  };
+  var handlers = (store2) => (next2) => (action) => {
+    if (isAllowed(action) && action.type in types) {
+      types[action.type](store2, action);
+    }
+    return next2(action);
+  };
+  var middleware_default = handlers;
+
   // node_modules/@standard-schema/utils/dist/index.js
   var SchemaError = class extends Error {
     /**
@@ -31396,7 +32010,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       update(substate);
     }
   }
-  var initialState = {};
+  var initialState2 = {};
   function buildSlice({
     reducerPath,
     queryThunk,
@@ -31473,7 +32087,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     }
     const querySlice = createSlice({
       name: `${reducerPath}/queries`,
-      initialState,
+      initialState: initialState2,
       reducers: {
         removeQueryResult: {
           reducer(draft, {
@@ -31608,7 +32222,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     });
     const mutationSlice = createSlice({
       name: `${reducerPath}/mutations`,
-      initialState,
+      initialState: initialState2,
       reducers: {
         removeMutationResult: {
           reducer(draft, {
@@ -31777,7 +32391,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     }
     const subscriptionSlice = createSlice({
       name: `${reducerPath}/subscriptions`,
-      initialState,
+      initialState: initialState2,
       reducers: {
         updateSubscriptionOptions(d2, a2) {
         },
@@ -31789,7 +32403,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     });
     const internalSubscriptionsSlice = createSlice({
       name: `${reducerPath}/internalSubscriptions`,
-      initialState,
+      initialState: initialState2,
       reducers: {
         subscriptionsUpdated: {
           reducer(state, action) {
@@ -32008,13 +32622,13 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       return getPreviousPageParam(options2, data2, queryArg) != null;
     }
   }
-  var cache = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
+  var cache2 = WeakMap ? /* @__PURE__ */ new WeakMap() : void 0;
   var defaultSerializeQueryArgs = ({
     endpointName,
     queryArgs
   }) => {
     let serialized = "";
-    const cached = cache?.get(queryArgs);
+    const cached = cache2?.get(queryArgs);
     if (typeof cached === "string") {
       serialized = cached;
     } else {
@@ -32029,7 +32643,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         return value;
       });
       if (isPlainObject(queryArgs)) {
-        cache?.set(queryArgs, stringified);
+        cache2?.set(queryArgs, stringified);
       }
       serialized = stringified;
     }
@@ -32836,7 +33450,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         refetchQuery,
         isThisApiSliceAction
       };
-      const handlers = handlerBuilders.map((build3) => build3(builderArgs));
+      const handlers2 = handlerBuilders.map((build3) => build3(builderArgs));
       const batchedActionsHandler = buildBatchedActionsHandler(builderArgs);
       const windowEventsHandler = buildWindowEventHandler(builderArgs);
       return (next2) => {
@@ -32863,7 +33477,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           if (!!mwApi.getState()[reducerPath]) {
             windowEventsHandler(action, mwApiWithNext, stateBefore);
             if (isThisApiSliceAction(action) || context.hasRehydrationInfo(action)) {
-              for (const handler of handlers) {
+              for (const handler of handlers2) {
                 handler(action, mwApiWithNext, stateBefore);
               }
             }
@@ -33758,521 +34372,12 @@ Hook ${hookName} was either not provided or not a function.`);
     return error;
   };
 
-  // node_modules/map-obj/index.js
-  var isObject = (value) => typeof value === "object" && value !== null;
-  var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
-  var mapObjectSkip = Symbol("mapObjectSkip");
-  var _mapObject = (object, mapper, options2, isSeen = /* @__PURE__ */ new WeakMap()) => {
-    options2 = {
-      deep: false,
-      target: {},
-      ...options2
-    };
-    if (isSeen.has(object)) {
-      return isSeen.get(object);
-    }
-    isSeen.set(object, options2.target);
-    const { target } = options2;
-    delete options2.target;
-    const mapArray = (array) => array.map((element) => isObjectCustom(element) ? _mapObject(element, mapper, options2, isSeen) : element);
-    if (Array.isArray(object)) {
-      return mapArray(object);
-    }
-    for (const [key, value] of Object.entries(object)) {
-      const mapResult = mapper(key, value, object);
-      if (mapResult === mapObjectSkip) {
-        continue;
-      }
-      let [newKey, newValue, { shouldRecurse = true } = {}] = mapResult;
-      if (newKey === "__proto__") {
-        continue;
-      }
-      if (options2.deep && shouldRecurse && isObjectCustom(newValue)) {
-        newValue = Array.isArray(newValue) ? mapArray(newValue) : _mapObject(newValue, mapper, options2, isSeen);
-      }
-      target[newKey] = newValue;
-    }
-    return target;
-  };
-  function mapObject(object, mapper, options2) {
-    if (!isObject(object)) {
-      throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
-    }
-    return _mapObject(object, mapper, options2);
-  }
-
-  // node_modules/camelcase/index.js
-  var UPPERCASE = /[\p{Lu}]/u;
-  var LOWERCASE = /[\p{Ll}]/u;
-  var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
-  var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
-  var SEPARATORS = /[_.\- ]+/;
-  var LEADING_SEPARATORS = new RegExp("^" + SEPARATORS.source);
-  var SEPARATORS_AND_IDENTIFIER = new RegExp(SEPARATORS.source + IDENTIFIER.source, "gu");
-  var NUMBERS_AND_IDENTIFIER = new RegExp("\\d+" + IDENTIFIER.source, "gu");
-  var preserveCamelCase = (string, toLowerCase, toUpperCase, preserveConsecutiveUppercase2) => {
-    let isLastCharLower = false;
-    let isLastCharUpper = false;
-    let isLastLastCharUpper = false;
-    let isLastLastCharPreserved = false;
-    for (let index = 0; index < string.length; index++) {
-      const character2 = string[index];
-      isLastLastCharPreserved = index > 2 ? string[index - 3] === "-" : true;
-      if (isLastCharLower && UPPERCASE.test(character2)) {
-        string = string.slice(0, index) + "-" + string.slice(index);
-        isLastCharLower = false;
-        isLastLastCharUpper = isLastCharUpper;
-        isLastCharUpper = true;
-        index++;
-      } else if (isLastCharUpper && isLastLastCharUpper && LOWERCASE.test(character2) && (!isLastLastCharPreserved || preserveConsecutiveUppercase2)) {
-        string = string.slice(0, index - 1) + "-" + string.slice(index - 1);
-        isLastLastCharUpper = isLastCharUpper;
-        isLastCharUpper = false;
-        isLastCharLower = true;
-      } else {
-        isLastCharLower = toLowerCase(character2) === character2 && toUpperCase(character2) !== character2;
-        isLastLastCharUpper = isLastCharUpper;
-        isLastCharUpper = toUpperCase(character2) === character2 && toLowerCase(character2) !== character2;
-      }
-    }
-    return string;
-  };
-  var preserveConsecutiveUppercase = (input, toLowerCase) => {
-    LEADING_CAPITAL.lastIndex = 0;
-    return input.replaceAll(LEADING_CAPITAL, (match2) => toLowerCase(match2));
-  };
-  var postProcess = (input, toUpperCase) => {
-    SEPARATORS_AND_IDENTIFIER.lastIndex = 0;
-    NUMBERS_AND_IDENTIFIER.lastIndex = 0;
-    return input.replaceAll(NUMBERS_AND_IDENTIFIER, (match2, pattern, offset) => ["_", "-"].includes(input.charAt(offset + match2.length)) ? match2 : toUpperCase(match2)).replaceAll(SEPARATORS_AND_IDENTIFIER, (_, identifier2) => toUpperCase(identifier2));
-  };
-  function camelCase(input, options2) {
-    if (!(typeof input === "string" || Array.isArray(input))) {
-      throw new TypeError("Expected the input to be `string | string[]`");
-    }
-    options2 = {
-      pascalCase: false,
-      preserveConsecutiveUppercase: false,
-      ...options2
-    };
-    if (Array.isArray(input)) {
-      input = input.map((x2) => x2.trim()).filter((x2) => x2.length).join("-");
-    } else {
-      input = input.trim();
-    }
-    if (input.length === 0) {
-      return "";
-    }
-    const toLowerCase = options2.locale === false ? (string) => string.toLowerCase() : (string) => string.toLocaleLowerCase(options2.locale);
-    const toUpperCase = options2.locale === false ? (string) => string.toUpperCase() : (string) => string.toLocaleUpperCase(options2.locale);
-    if (input.length === 1) {
-      if (SEPARATORS.test(input)) {
-        return "";
-      }
-      return options2.pascalCase ? toUpperCase(input) : toLowerCase(input);
-    }
-    const hasUpperCase = input !== toLowerCase(input);
-    if (hasUpperCase) {
-      input = preserveCamelCase(input, toLowerCase, toUpperCase, options2.preserveConsecutiveUppercase);
-    }
-    input = input.replace(LEADING_SEPARATORS, "");
-    input = options2.preserveConsecutiveUppercase ? preserveConsecutiveUppercase(input, toLowerCase) : toLowerCase(input);
-    if (options2.pascalCase) {
-      input = toUpperCase(input.charAt(0)) + input.slice(1);
-    }
-    return postProcess(input, toUpperCase);
-  }
-
-  // node_modules/quick-lru/index.js
-  var QuickLRU = class extends Map {
-    constructor(options2 = {}) {
-      super();
-      if (!(options2.maxSize && options2.maxSize > 0)) {
-        throw new TypeError("`maxSize` must be a number greater than 0");
-      }
-      if (typeof options2.maxAge === "number" && options2.maxAge === 0) {
-        throw new TypeError("`maxAge` must be a number greater than 0");
-      }
-      this.maxSize = options2.maxSize;
-      this.maxAge = options2.maxAge || Number.POSITIVE_INFINITY;
-      this.onEviction = options2.onEviction;
-      this.cache = /* @__PURE__ */ new Map();
-      this.oldCache = /* @__PURE__ */ new Map();
-      this._size = 0;
-    }
-    // TODO: Use private class methods when targeting Node.js 16.
-    _emitEvictions(cache4) {
-      if (typeof this.onEviction !== "function") {
-        return;
-      }
-      for (const [key, item] of cache4) {
-        this.onEviction(key, item.value);
-      }
-    }
-    _deleteIfExpired(key, item) {
-      if (typeof item.expiry === "number" && item.expiry <= Date.now()) {
-        if (typeof this.onEviction === "function") {
-          this.onEviction(key, item.value);
-        }
-        return this.delete(key);
-      }
-      return false;
-    }
-    _getOrDeleteIfExpired(key, item) {
-      const deleted = this._deleteIfExpired(key, item);
-      if (deleted === false) {
-        return item.value;
-      }
-    }
-    _getItemValue(key, item) {
-      return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
-    }
-    _peek(key, cache4) {
-      const item = cache4.get(key);
-      return this._getItemValue(key, item);
-    }
-    _set(key, value) {
-      this.cache.set(key, value);
-      this._size++;
-      if (this._size >= this.maxSize) {
-        this._size = 0;
-        this._emitEvictions(this.oldCache);
-        this.oldCache = this.cache;
-        this.cache = /* @__PURE__ */ new Map();
-      }
-    }
-    _moveToRecent(key, item) {
-      this.oldCache.delete(key);
-      this._set(key, item);
-    }
-    *_entriesAscending() {
-      for (const item of this.oldCache) {
-        const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
-          if (deleted === false) {
-            yield item;
-          }
-        }
-      }
-      for (const item of this.cache) {
-        const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
-        if (deleted === false) {
-          yield item;
-        }
-      }
-    }
-    get(key) {
-      if (this.cache.has(key)) {
-        const item = this.cache.get(key);
-        return this._getItemValue(key, item);
-      }
-      if (this.oldCache.has(key)) {
-        const item = this.oldCache.get(key);
-        if (this._deleteIfExpired(key, item) === false) {
-          this._moveToRecent(key, item);
-          return item.value;
-        }
-      }
-    }
-    set(key, value, { maxAge = this.maxAge } = {}) {
-      const expiry = typeof maxAge === "number" && maxAge !== Number.POSITIVE_INFINITY ? Date.now() + maxAge : void 0;
-      if (this.cache.has(key)) {
-        this.cache.set(key, {
-          value,
-          expiry
-        });
-      } else {
-        this._set(key, { value, expiry });
-      }
-      return this;
-    }
-    has(key) {
-      if (this.cache.has(key)) {
-        return !this._deleteIfExpired(key, this.cache.get(key));
-      }
-      if (this.oldCache.has(key)) {
-        return !this._deleteIfExpired(key, this.oldCache.get(key));
-      }
-      return false;
-    }
-    peek(key) {
-      if (this.cache.has(key)) {
-        return this._peek(key, this.cache);
-      }
-      if (this.oldCache.has(key)) {
-        return this._peek(key, this.oldCache);
-      }
-    }
-    delete(key) {
-      const deleted = this.cache.delete(key);
-      if (deleted) {
-        this._size--;
-      }
-      return this.oldCache.delete(key) || deleted;
-    }
-    clear() {
-      this.cache.clear();
-      this.oldCache.clear();
-      this._size = 0;
-    }
-    resize(newSize) {
-      if (!(newSize && newSize > 0)) {
-        throw new TypeError("`maxSize` must be a number greater than 0");
-      }
-      const items = [...this._entriesAscending()];
-      const removeCount = items.length - newSize;
-      if (removeCount < 0) {
-        this.cache = new Map(items);
-        this.oldCache = /* @__PURE__ */ new Map();
-        this._size = items.length;
-      } else {
-        if (removeCount > 0) {
-          this._emitEvictions(items.slice(0, removeCount));
-        }
-        this.oldCache = new Map(items.slice(removeCount));
-        this.cache = /* @__PURE__ */ new Map();
-        this._size = 0;
-      }
-      this.maxSize = newSize;
-    }
-    *keys() {
-      for (const [key] of this) {
-        yield key;
-      }
-    }
-    *values() {
-      for (const [, value] of this) {
-        yield value;
-      }
-    }
-    *[Symbol.iterator]() {
-      for (const item of this.cache) {
-        const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
-        if (deleted === false) {
-          yield [key, value.value];
-        }
-      }
-      for (const item of this.oldCache) {
-        const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
-          if (deleted === false) {
-            yield [key, value.value];
-          }
-        }
-      }
-    }
-    *entriesDescending() {
-      let items = [...this.cache];
-      for (let i2 = items.length - 1; i2 >= 0; --i2) {
-        const item = items[i2];
-        const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
-        if (deleted === false) {
-          yield [key, value.value];
-        }
-      }
-      items = [...this.oldCache];
-      for (let i2 = items.length - 1; i2 >= 0; --i2) {
-        const item = items[i2];
-        const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
-          if (deleted === false) {
-            yield [key, value.value];
-          }
-        }
-      }
-    }
-    *entriesAscending() {
-      for (const [key, value] of this._entriesAscending()) {
-        yield [key, value.value];
-      }
-    }
-    get size() {
-      if (!this._size) {
-        return this.oldCache.size;
-      }
-      let oldCacheSize = 0;
-      for (const key of this.oldCache.keys()) {
-        if (!this.cache.has(key)) {
-          oldCacheSize++;
-        }
-      }
-      return Math.min(this._size + oldCacheSize, this.maxSize);
-    }
-    entries() {
-      return this.entriesAscending();
-    }
-    forEach(callbackFunction, thisArgument = this) {
-      for (const [key, value] of this.entriesAscending()) {
-        callbackFunction.call(thisArgument, value, key, this);
-      }
-    }
-    get [Symbol.toStringTag]() {
-      return JSON.stringify([...this.entriesAscending()]);
-    }
-  };
-
-  // node_modules/camelcase-keys/index.js
-  var has2 = (array, key) => array.some((element) => {
-    if (typeof element === "string") {
-      return element === key;
-    }
-    element.lastIndex = 0;
-    return element.test(key);
-  });
-  var cache2 = new QuickLRU({ maxSize: 1e5 });
-  var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
-  var transform = (input, options2 = {}) => {
-    if (!isObject2(input)) {
-      return input;
-    }
-    const {
-      exclude,
-      pascalCase = false,
-      stopPaths,
-      deep = false,
-      preserveConsecutiveUppercase: preserveConsecutiveUppercase2 = false
-    } = options2;
-    const stopPathsSet = new Set(stopPaths);
-    const makeMapper = (parentPath) => (key, value) => {
-      if (deep && isObject2(value)) {
-        const path = parentPath === void 0 ? key : `${parentPath}.${key}`;
-        if (!stopPathsSet.has(path)) {
-          value = mapObject(value, makeMapper(path));
-        }
-      }
-      if (!(exclude && has2(exclude, key))) {
-        const cacheKey = pascalCase ? `${key}_` : key;
-        if (cache2.has(cacheKey)) {
-          key = cache2.get(cacheKey);
-        } else {
-          const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
-          if (key.length < 100) {
-            cache2.set(cacheKey, returnValue);
-          }
-          key = returnValue;
-        }
-      }
-      return [key, value];
-    };
-    return mapObject(input, makeMapper(void 0));
-  };
-  function camelcaseKeys(input, options2) {
-    if (Array.isArray(input)) {
-      return Object.keys(input).map((key) => transform(input[key], options2));
-    }
-    return transform(input, options2);
-  }
-
-  // assets/scripts/lib/sorting.ts
-  var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
-  var sortQuarterAscendingTypeDecending = (a2, b2) => demoteIfQuarterIsNull(a2) - demoteIfQuarterIsNull(b2) || a2.type.localeCompare(b2.type);
-
-  // assets/scripts/selectors.ts
-  var getEntities = (state) => state.entities;
-  var getIncidents = (state) => state.incidents;
-  var getLeaderboard = (state) => state.leaderboard;
-  var getPeople = (state) => state.people;
-  var getSources = (state) => state.sources;
-  var getStats = (state) => state.stats;
-  var getUI = (state) => state.ui;
-  var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
-  var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
-  var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
-  var getIncidentsPageIds = createSelector(getIncidents, (incidents) => incidents.pageIds);
-  var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
-  var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
-  var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
-  var getLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => leaderboard.labels);
-  var getLeaderboardFilters = createSelector(getLeaderboard, (leaderboard) => leaderboard.filters);
-  var getLeaderboardValues = createSelector(getLeaderboard, (leaderboard) => leaderboard.values);
-  var getHasLeaderboardData = createSelector(
-    getLeaderboard,
-    (leaderboard) => Object.values(leaderboard.labels).length > 0 && Object.values(leaderboard.values).length > 0
-  );
-  var getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, (values) => values.entities);
-  var getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, (values) => values.lobbyists);
-  var getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, (values) => values.officials);
-  var getPeoplePagination = createSelector(getPeople, (people) => people.pagination);
-  var getPeoplePageIds = createSelector(getPeople, (people) => people.pageIds);
-  var getSourcesStats = createSelector(getStats, (stats) => stats.sources);
-  var getSourcesChartIds = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.id)
-  );
-  var getSourcesChartLabels = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.label)
-  );
-  var getSourcesChartData = createSelector(
-    getSourcesStats,
-    (stats) => stats.map((value) => value.total)
-  );
-  var getHasSourcesChartData = createSelector(
-    getSourcesStats,
-    (stats) => stats.length > 0
-  );
-  var getSourcesDataForChart = createSelector(
-    [getSourcesChartLabels, getSourcesChartData],
-    (labels, data2) => ({ labels, data: data2 })
-  );
-  var getSourceTypes = createSelector(getSources, (sources) => sources.types);
-  var getSourcesByType = createSelector(getSources, (sources) => {
-    const types = Object.values(sources.entities).reduce((byType, item) => {
-      if (!(item.type in byType)) {
-        byType[item.type] = {
-          type: item.type,
-          years: {}
-        };
-      }
-      if (!(item.year in byType[item.type].years)) {
-        byType[item.type].years[item.year] = {
-          year: item.year,
-          items: []
-        };
-      }
-      byType[item.type].years[item.year].items.push(item);
-      byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
-      return byType;
-    }, {});
-    return Object.values(types);
-  });
-  var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
-    const match2 = values.find((value) => value.id === id);
-    indexed[id] = sourceIds.map((sourceId) => {
-      const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
-      return data2 ? data2.total : null;
-    });
-    return indexed;
-  }, {});
-  var getEntitiesStats = createSelector(getStats, (stats) => stats.entities);
-  var getEntitiesChartData = createSelector(
-    [getSourcesChartIds, getEntitiesStats],
-    getIndexedTotals
-  );
-  var getPeopleStats = createSelector(getStats, (stats) => stats.people);
-  var getPeopleChartData = createSelector(
-    [getSourcesChartIds, getPeopleStats],
-    getIndexedTotals
-  );
-  var getDescription = createSelector(getUI, (ui) => ui.description);
-  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
-  var getErrors = createSelector(getUI, (ui) => ui.errors);
-  var getMessages = createSelector(getUI, (ui) => ui.messages);
-  var getSection = createSelector(getUI, (ui) => ui.section);
-  var getWarnings = createSelector(getUI, (ui) => ui.warnings);
-
   // assets/scripts/reducers/entities.ts
-  var adapter = createEntityAdapter();
-  var selectors = adapter.getSelectors(getEntities);
-  var adapters = {
+  var adapter2 = createEntityAdapter();
+  var selectors2 = adapter2.getSelectors(getEntities);
+  var adapters2 = {
     adaptOne: (state, entry) => {
-      const savedEntry = selectors.selectById(state, entry.id);
+      const savedEntry = selectors2.selectById(state, entry.id);
       const adapted = { ...entry };
       if ("incidents" in adapted) {
         const {
@@ -34300,52 +34405,13 @@ Hook ${hookName} was either not provided or not a function.`);
     getIds: (entities) => entities.map((entity) => entity.id),
     getIncidents: (entity) => entity.incidents?.records ?? []
   };
-  var initialState2 = {
+  var initialState3 = {
     pageIds: [],
     pagination: null
   };
   var entitiesSlice = createSlice({
     name: "entities",
-    initialState: adapter.getInitialState(initialState2),
-    reducers: {
-      set: (state, action) => {
-        adapter.upsertOne(state, action.payload);
-      },
-      setAll: (state, action) => {
-        adapter.upsertMany(state, action.payload);
-      },
-      setPageIds: (state, action) => {
-        state.pageIds = action.payload;
-      },
-      setPagination: (state, action) => {
-        state.pagination = { ...action.payload };
-      }
-    }
-  });
-  var {
-    set: set2,
-    setAll,
-    setPageIds,
-    setPagination
-  } = entitiesSlice.actions;
-  var entities_default = entitiesSlice.reducer;
-
-  // assets/scripts/reducers/incidents.ts
-  var adapters2 = {
-    adaptOne: (incident) => incident,
-    getIds: (people) => people.map((incident) => incident.id)
-  };
-  var adapter2 = createEntityAdapter();
-  var selectors2 = adapter2.getSelectors(getIncidents);
-  var incidentsSlice = createSlice({
-    name: "incidents",
-    initialState: adapter2.getInitialState({
-      pageIds: [],
-      pagination: null,
-      first: null,
-      last: null,
-      total: 0
-    }),
+    initialState: adapter2.getInitialState(initialState3),
     reducers: {
       set: (state, action) => {
         adapter2.upsertOne(state, action.payload);
@@ -34358,90 +34424,33 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       setPagination: (state, action) => {
         state.pagination = { ...action.payload };
-      },
-      setFirst(state, action) {
-        state.first = action.payload;
-        adapter2.upsertOne(state, action.payload);
-      },
-      setLast(state, action) {
-        state.last = action.payload;
-        adapter2.upsertOne(state, action.payload);
-      },
-      setTotal(state, action) {
-        state.total = action.payload;
       }
     }
   });
   var {
     set: set3,
     setAll: setAll2,
-    setFirst,
-    setLast,
     setPageIds: setPageIds2,
-    setPagination: setPagination2,
-    setTotal
-  } = incidentsSlice.actions;
-  var incidents_default = incidentsSlice.reducer;
+    setPagination: setPagination2
+  } = entitiesSlice.actions;
+  var entities_default = entitiesSlice.reducer;
 
-  // assets/scripts/reducers/leaderboard.ts
-  var initialState3 = {
-    filters: {},
-    labels: {},
-    values: {}
-  };
-  var setLeaderboard = createAction("ui/setLeaderboard");
-  var actions = {
-    setLeaderboard
-  };
-  var reducer = createReducer(initialState3, (builder) => {
-    builder.addCase(setLeaderboard, (state, action) => {
-      state.filters = action.payload.filters;
-      state.labels = action.payload.labels;
-      state.values = action.payload.values;
-    });
-  });
-  var leaderboard_default = reducer;
-
-  // assets/scripts/reducers/people.ts
-  var adapter3 = createEntityAdapter();
-  var selectors3 = adapter3.getSelectors(getPeople);
+  // assets/scripts/reducers/incidents.ts
   var adapters3 = {
-    adaptOne: (state, entry) => {
-      const savedEntry = selectors3.selectById(state, entry.id);
-      const adapted = { ...entry };
-      if ("incidents" in adapted) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = adapted.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        adapted.incidents = {
-          filters,
-          pagination,
-          stats,
-          ...ids
-        };
-      }
-      if (savedEntry && "overview" in savedEntry) {
-        adapted.overview = {
-          ...savedEntry.overview,
-          ...adapted.overview
-        };
-      }
-      return camelcaseKeys(adapted, { deep: false });
-    },
-    getIds: (people) => people.map((person) => person.id),
-    getIncidents: (person) => person.incidents?.records ?? []
+    adaptOne: (incident) => incident,
+    getIds: (people) => people.map((incident) => incident.id)
   };
-  var initialState4 = {
-    pageIds: [],
-    pagination: null
-  };
-  var peopleSlice = createSlice({
-    name: "people",
-    initialState: adapter3.getInitialState(initialState4),
+  var adapter3 = createEntityAdapter();
+  var selectors3 = adapter3.getSelectors(getIncidents);
+  var incidentsSlice = createSlice({
+    name: "incidents",
+    initialState: adapter3.getInitialState({
+      pageIds: [],
+      pagination: null,
+      first: null,
+      last: null,
+      total: 0
+    }),
     reducers: {
       set: (state, action) => {
         adapter3.upsertOne(state, action.payload);
@@ -34454,16 +34463,49 @@ Hook ${hookName} was either not provided or not a function.`);
       },
       setPagination: (state, action) => {
         state.pagination = { ...action.payload };
+      },
+      setFirst(state, action) {
+        state.first = action.payload;
+        adapter3.upsertOne(state, action.payload);
+      },
+      setLast(state, action) {
+        state.last = action.payload;
+        adapter3.upsertOne(state, action.payload);
+      },
+      setTotal(state, action) {
+        state.total = action.payload;
       }
     }
   });
   var {
     set: set4,
     setAll: setAll3,
+    setFirst,
+    setLast,
     setPageIds: setPageIds3,
-    setPagination: setPagination3
-  } = peopleSlice.actions;
-  var people_default = peopleSlice.reducer;
+    setPagination: setPagination3,
+    setTotal
+  } = incidentsSlice.actions;
+  var incidents_default = incidentsSlice.reducer;
+
+  // assets/scripts/reducers/leaderboard.ts
+  var initialState4 = {
+    filters: {},
+    labels: {},
+    values: {}
+  };
+  var setLeaderboard = createAction("ui/setLeaderboard");
+  var actions = {
+    setLeaderboard
+  };
+  var reducer = createReducer(initialState4, (builder) => {
+    builder.addCase(setLeaderboard, (state, action) => {
+      state.filters = action.payload.filters;
+      state.labels = action.payload.labels;
+      state.values = action.payload.values;
+    });
+  });
+  var leaderboard_default = reducer;
 
   // assets/scripts/reducers/sources.ts
   var adapter4 = createEntityAdapter();
@@ -34620,17 +34662,17 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/lib/fetch-from-path.ts
   var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
-    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adapters3.adaptOne(state, person))
+    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adapters.adaptOne(state, person))
   );
   var getEntitiesFromPerson = (state, person) => {
     if (person?.entities) {
-      return person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters.adaptOne(state, entity));
+      return person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters2.adaptOne(state, entity));
     }
     return [];
   };
   var getEntitiesFromSource = (state, source) => {
     if (source?.entities) {
-      return source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters.adaptOne(state, entity));
+      return source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters2.adaptOne(state, entity));
     }
     return [];
   };
@@ -34654,27 +34696,27 @@ Hook ${hookName} was either not provided or not a function.`);
         dispatch(actions.setLeaderboard(data2.leaderboard));
       }
       if ("entity" in data2) {
-        const entity = adapters.adaptOne(state, data2.entity.record);
-        const incidents = adapters.getIncidents(data2.entity.record);
+        const entity = adapters2.adaptOne(state, data2.entity.record);
+        const incidents = adapters2.getIncidents(data2.entity.record);
         const people = getPeopleFromIncidents(state, incidents);
-        dispatch(set2(entity));
-        dispatch(setAll2(incidents));
-        dispatch(setAll3(people));
+        dispatch(set3(entity));
+        dispatch(setAll3(incidents));
+        dispatch(setAll(people));
       }
       if ("entities" in data2) {
-        const entities = data2.entities.records.map((entity) => adapters.adaptOne(state, entity));
-        dispatch(setAll(entities));
+        const entities = data2.entities.records.map((entity) => adapters2.adaptOne(state, entity));
+        dispatch(setAll2(entities));
         if ("pagination" in data2.entities) {
-          const ids = adapters.getIds(entities);
-          dispatch(setPageIds(ids));
-          dispatch(setPagination(data2.entities.pagination));
+          const ids = adapters2.getIds(entities);
+          dispatch(setPageIds2(ids));
+          dispatch(setPagination2(data2.entities.pagination));
         }
       }
       if ("incident" in data2) {
-        const incident = adapters2.adaptOne(data2.incident.record);
+        const incident = adapters3.adaptOne(data2.incident.record);
         const people = getPeopleFromIncidents(state, [incident]);
-        dispatch(set3(incident));
-        dispatch(setAll3(people));
+        dispatch(set4(incident));
+        dispatch(setAll(people));
       }
       if ("incidents" in data2) {
         if ("first" in data2.incidents) {
@@ -34687,31 +34729,31 @@ Hook ${hookName} was either not provided or not a function.`);
           dispatch(setTotal(data2.incidents.total));
         }
         if ("records" in data2.incidents) {
-          dispatch(setAll2(data2.incidents.records));
+          dispatch(setAll3(data2.incidents.records));
           if ("pagination" in data2.incidents) {
-            const ids = adapters2.getIds(data2.incidents.records);
-            dispatch(setPageIds2(ids));
-            dispatch(setPagination2(data2.incidents.pagination));
+            const ids = adapters3.getIds(data2.incidents.records);
+            dispatch(setPageIds3(ids));
+            dispatch(setPagination3(data2.incidents.pagination));
           }
         }
       }
       if ("person" in data2) {
-        const person = adapters3.adaptOne(state, data2.person.record);
-        const incidents = adapters3.getIncidents(data2.person.record);
+        const person = adapters.adaptOne(state, data2.person.record);
+        const incidents = adapters.getIncidents(data2.person.record);
         const people = getPeopleFromIncidents(state, incidents);
         const entities = getEntitiesFromPerson(state, person);
-        dispatch(set4(person));
-        dispatch(setAll2(incidents));
-        dispatch(setAll3(people));
-        dispatch(setAll(entities));
+        dispatch(set2(person));
+        dispatch(setAll3(incidents));
+        dispatch(setAll(people));
+        dispatch(setAll2(entities));
       }
       if ("people" in data2) {
-        const people = data2.people.records.map((person) => adapters3.adaptOne(state, person));
-        dispatch(setAll3(people));
+        const people = data2.people.records.map((person) => adapters.adaptOne(state, person));
+        dispatch(setAll(people));
         if ("pagination" in data2.people) {
-          const ids = adapters3.getIds(data2.people.records);
-          dispatch(setPageIds3(ids));
-          dispatch(setPagination3(data2.people.pagination));
+          const ids = adapters.getIds(data2.people.records);
+          dispatch(setPageIds(ids));
+          dispatch(setPagination(data2.people.pagination));
         }
       }
       if ("source" in data2) {
@@ -34720,9 +34762,9 @@ Hook ${hookName} was either not provided or not a function.`);
         const people = getPeopleFromIncidents(state, incidents);
         const entities = getEntitiesFromSource(state, data2.source.record);
         dispatch(set5(source));
-        dispatch(setAll2(incidents));
-        dispatch(setAll3(people));
-        dispatch(setAll(entities));
+        dispatch(setAll3(incidents));
+        dispatch(setAll(people));
+        dispatch(setAll2(entities));
       }
       if ("sources" in data2) {
         const sources = data2.sources.records.map((source) => adapters4.adaptOne(state, source));
@@ -34865,7 +34907,7 @@ Hook ${hookName} was either not provided or not a function.`);
       stats: stats_default,
       ui: ui_default
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api_default.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api_default.middleware, middleware_default),
     devTools: true
   });
   var store_default = store;
@@ -42505,7 +42547,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var PeopleIcon = ({ person }) => {
     const { id } = useParams();
     const numericId = Number(id);
-    const personAtId = useSelector((state) => selectors3.selectById(state, numericId));
+    const personAtId = useSelector((state) => selectors.selectById(state, numericId));
     const name = getIconName2(person || personAtId);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name });
   };
@@ -42544,11 +42586,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var getItemSelectors = (section) => {
     let selectors5 = null;
     if (section?.slug === "entities" /* Entities */) {
-      selectors5 = selectors;
-    } else if (section?.slug === "incidents" /* Incidents */) {
       selectors5 = selectors2;
-    } else if (section?.slug === "people" /* People */) {
+    } else if (section?.slug === "incidents" /* Incidents */) {
       selectors5 = selectors3;
+    } else if (section?.slug === "people" /* People */) {
+      selectors5 = selectors;
     } else if (section?.slug === "sources" /* Sources */) {
       selectors5 = selectors4;
     }
@@ -42697,7 +42739,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentEntity = ({ incident }) => {
     const [trigger] = api_default.useLazyGetEntityByIdQuery();
     const id = incident.entityId;
-    const entity = useSelector((state) => selectors.selectById(state, id));
+    const entity = useSelector((state) => selectors2.selectById(state, id));
     const hasEntity = Boolean(entity);
     (0, import_react20.useEffect)(() => {
       if (entity || !id) return;
@@ -42821,7 +42863,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime29 = __toESM(require_jsx_runtime());
   var IncidentModal = ({ deactivate, id, isActive }) => {
     const [trigger] = api_default.useLazyGetIncidentByIdQuery();
-    const incident = useSelector((state) => selectors2.selectById(state, id));
+    const incident = useSelector((state) => selectors3.selectById(state, id));
     const hasIncident = Boolean(incident && "attendees" in incident);
     const hasNotes = Boolean(incident?.notes);
     (0, import_react22.useEffect)(() => {
@@ -43237,7 +43279,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/index.tsx
   var import_jsx_runtime36 = __toESM(require_jsx_runtime());
   var EntityItem = ({ id }) => {
-    const entity = useSelector((state) => selectors.selectById(state, id));
+    const entity = useSelector((state) => selectors2.selectById(state, id));
     const hasTotal = Boolean(entity?.overview?.totals?.values.total.value);
     if (!entity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
@@ -49260,12 +49302,12 @@ Hook ${hookName} was either not provided or not a function.`);
     addEventListener(chart, type, listener3) {
       this.removeEventListener(chart, type);
       const proxies = chart.$proxies || (chart.$proxies = {});
-      const handlers = {
+      const handlers2 = {
         attach: createAttachObserver,
         detach: createDetachObserver,
         resize: createResizeObserver
       };
-      const handler = handlers[type] || createProxyAndListen;
+      const handler = handlers2[type] || createProxyAndListen;
       proxies[type] = handler(chart, type, listener3);
     }
     removeEventListener(chart, type) {
@@ -49274,12 +49316,12 @@ Hook ${hookName} was either not provided or not a function.`);
       if (!proxy) {
         return;
       }
-      const handlers = {
+      const handlers2 = {
         attach: releaseObserver,
         detach: releaseObserver,
         resize: releaseObserver
       };
-      const handler = handlers[type] || removeListener2;
+      const handler = handlers2[type] || removeListener2;
       handler(chart, type, proxy);
       proxies[type] = void 0;
     }
@@ -56329,7 +56371,9 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/lib/util.ts
   var isEmpty = (item) => {
-    if (Array.isArray(item)) {
+    if (!item) {
+      return true;
+    } else if (Array.isArray(item)) {
       return item.length === 0;
     } else if (typeof item === "object") {
       return isEmpty(Object.values(item));
@@ -56358,12 +56402,12 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   );
   var Entity = ({ id }) => {
-    const entity = useSelector((state) => selectors.selectById(state, id));
+    const entity = useSelector((state) => selectors2.selectById(state, id));
     if (!entity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabel, { label: entity.name });
   };
   var Person = ({ id }) => {
-    const person = useSelector((state) => selectors3.selectById(state, id));
+    const person = useSelector((state) => selectors.selectById(state, id));
     if (!person) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabel, { label: person.name });
   };
@@ -56506,7 +56550,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime59 = __toESM(require_jsx_runtime());
   var IncidentRow = ({ id }) => {
     const [isSelected, setIsSelected] = (0, import_react37.useState)(false);
-    const incident = useSelector((state) => selectors2.selectById(state, id));
+    const incident = useSelector((state) => selectors3.selectById(state, id));
     const hasDateRange = Boolean(incident?.contactDateRange);
     const hasNotes = Boolean(incident?.notes);
     const deactivate = () => setIsSelected(false);
@@ -56641,7 +56685,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const incidentsRef = (0, import_react38.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
-    const entity = useSelector((state) => selectors.selectById(state, numericId));
+    const entity = useSelector((state) => selectors2.selectById(state, numericId));
     const hasEntity = Boolean(entity);
     if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(item_detail_default, { children: [
@@ -56772,7 +56816,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/index.tsx
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var PersonItem = ({ id }) => {
-    const person = useSelector((state) => selectors3.selectById(state, id));
+    const person = useSelector((state) => selectors.selectById(state, id));
     const hasTotal = Boolean(person?.overview?.totals?.values.total.value);
     if (!person) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("tr", { children: [
@@ -57045,7 +57089,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var Detail2 = () => {
     const { id } = useParams();
     const numericId = Number(id);
-    const incident = useSelector((state) => selectors2.selectById(state, numericId));
+    const incident = useSelector((state) => selectors3.selectById(state, numericId));
     if (!incident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
@@ -57256,7 +57300,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const incidentsRef = (0, import_react44.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
-    const person = useSelector((state) => selectors3.selectById(state, numericId));
+    const person = useSelector((state) => selectors.selectById(state, numericId));
     const hasPerson = Boolean(person);
     if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(item_detail_default, { children: [
@@ -57336,8 +57380,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/index.tsx
   var import_jsx_runtime88 = __toESM(require_jsx_runtime());
   var useTypeLabel = (type) => {
-    const types = useSelector(getSourceTypes);
-    return types[type]?.label ?? "";
+    const types2 = useSelector(getSourceTypes);
+    return types2[type]?.label ?? "";
   };
   var SourceTypeYear = ({ year }) => /* @__PURE__ */ (0, import_jsx_runtime88.jsxs)("div", { className: "item-index-subgroup", children: [
     /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(item_subhead_default, { subtitle: year.year }),
@@ -57374,9 +57418,9 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var Sources = ({ isLoading, types }) => {
+  var Sources = ({ isLoading, types: types2 }) => {
     const refs = (0, import_react46.useRef)(null);
-    const keys = types.map((type) => type.type);
+    const keys = types2.map((type) => type.type);
     const scrollToList = (type) => {
       const map2 = getMap();
       const node2 = map2.get(type);
@@ -57399,7 +57443,7 @@ Hook ${hookName} was either not provided or not a function.`);
           }
         ) }, key)) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Content, { isLoading, children: types.map((type) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(Content, { isLoading, children: types2.map((type) => /* @__PURE__ */ (0, import_jsx_runtime88.jsx)(
         SourceType,
         {
           handleScroll: scrollToTop,

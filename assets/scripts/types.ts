@@ -1,4 +1,5 @@
 import { ReactNode, RefObject } from 'react';
+import type { UnknownAction } from '@reduxjs/toolkit';
 
 export type Id = number;
 
@@ -413,6 +414,7 @@ export type PersonAttendees = {
 };
 
 export type Person = Item & {
+  pernr?: number;
   roles?: Role[];
   type: 'group' | 'person' | 'unknown';
   attendees?: PersonAttendees;
@@ -524,6 +526,10 @@ export interface FnRef {
 
 export interface FnRefDelay {
   (ref: RefObject<HTMLElement>, delay?: number): void;
+}
+
+export interface MiddlewareHandlerFn {
+  (store: any, action: UnknownAction): void;
 }
 
 export interface OutletContext {

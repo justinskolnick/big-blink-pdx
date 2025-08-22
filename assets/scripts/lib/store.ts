@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import handlers from './middleware';
+
 import api from '../services/api';
 import entities from '../reducers/entities';
 import incidents from '../reducers/incidents';
@@ -21,7 +23,8 @@ export const store = configureStore({
     ui,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware()
+      .concat(api.middleware, handlers),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
