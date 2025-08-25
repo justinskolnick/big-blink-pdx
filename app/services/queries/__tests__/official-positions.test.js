@@ -17,7 +17,7 @@ describe('getAtPernrQuery()', () => {
           'GROUP BY',
           'official_positions.pernr, official_positions.name, official_positions.date_start, official_positions.date_end, official_positions.is_withdrawn, official_positions.is_elected, official_positions.office, official_positions.position, official_positions.district, official_positions.responsible_to_pernr, official_positions.area, official_positions.assignment, official_positions.classification, official_positions.rank, official_positions.is_chief, official_positions.role',
           'ORDER BY',
-          'official_positions.date_start ASC',
+          'official_positions.date_start ASC, official_positions.date_end ASC',
         ],
         params: [
           123456,
@@ -41,7 +41,7 @@ describe('getAtPernrQuery()', () => {
             'GROUP BY',
             'official_positions.pernr, official_positions.name, official_positions.date_start, official_positions.date_end, official_positions.is_withdrawn, official_positions.is_elected, official_positions.office, official_positions.position, official_positions.district, official_positions.responsible_to_pernr, official_positions.area, official_positions.assignment, official_positions.classification, official_positions.rank, official_positions.is_chief, official_positions.role',
             'ORDER BY',
-            'official_positions.date_start ASC',
+            'official_positions.date_start ASC, official_positions.date_end ASC',
           ],
           params: [
             123456,

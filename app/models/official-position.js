@@ -29,6 +29,30 @@ class OfficialPosition extends Base {
   };
   /* eslint-enable camelcase */
 
+  static collect(results) {
+    return results.reduce((collected, item, i) => {
+      if (i > 0) {
+        const prev = collected.at(-1);
+        const fields = this.fields(false);
+
+        fields.splice(fields.indexOf('date_start'), 1);
+        fields.splice(fields.indexOf('date_end'), 1);
+
+        if (prev.dateStart === item.dateStart && prev.dateEnd === item.dateEnd) {
+          if (!fields.every(field => item.getData(field) === prev.getData(field))) {
+            collected.push(item);
+          }
+        } else {
+          collected.push(item);
+        }
+      } else {
+        collected.push(item);
+      }
+
+      return collected;
+    }, []);
+  }
+
   supervisor = null;
 
   setName(value) {

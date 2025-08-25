@@ -29,6 +29,7 @@ const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
+const OfficialPosition = require('../models/official-position');
 const Person = require('../models/person');
 
 const incidentAttendees = require('../services/incident-attendees');
@@ -519,7 +520,7 @@ router.get('/:id/official-positions', async (req, res, next) => {
     try {
       personResult = await people.getAtId(id);
       officialPositionsResult = await officialPositions.getAllAtPernr(personResult.pernr);
-      records = officialPositionsResult.map(result => result.adapted);
+      records = OfficialPosition.collect(officialPositionsResult).map(result => result.adapted);
 
       data = {
         person: {

@@ -12,6 +12,7 @@ const getAtPernrQuery = (pernr, options = {}) => {
   const clauses = [];
   const selections = [];
   const conditions = [];
+  const sortColumns = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -42,7 +43,11 @@ const getAtPernrQuery = (pernr, options = {}) => {
   clauses.push([...OfficialPosition.fields()].join(', '));
 
   clauses.push('ORDER BY');
-  clauses.push(`${OfficialPosition.field('date_start')} ASC`);
+
+  sortColumns.push(`${OfficialPosition.field('date_start')} ASC`);
+  sortColumns.push(`${OfficialPosition.field('date_end')} ASC`);
+
+  clauses.push(sortColumns.join(', '));
 
   return { clauses, params };
 };
