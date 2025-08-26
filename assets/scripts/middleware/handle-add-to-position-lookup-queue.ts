@@ -1,4 +1,5 @@
-import { actions } from '../reducers/official-positions';
+import * as actions from '../reducers/people';
+
 import api from '../services/api';
 
 import type { Ids } from '../types';
@@ -13,18 +14,22 @@ const handleAddToPositionLookupQueue: MiddlewareHandlerFn = async (store, action
 
   const ids = payload as Ids;
 
-  await Promise.all(ids.map(async (id) => {
-    const promise = dispatch(endpoint.initiate({ id }));
-    const result = await promise;
+  try {
+    await Promise.all(ids.map(async (id) => {
+      const promise = dispatch(endpoint.initiate({ id }));
+      const result = await promise;
 
-    if (result.isSuccess) {
-      dispatch(actions.addToLookupCompleted(result.originalArgs.id));
-    }
+      if (result.isSuccess) {
+        dispatch(actions.addToLookupCompleted(result.originalArgs.id));
+      }
 
-    promise.unsubscribe();
+      promise.unsubscribe();
 
-    return result;
-  }));
+      return result;
+    }));
+  } catch (error) {
+    console.error('Failed to fetch:', error.message); // eslint-disable-line no-console
+  }
 };
 
 export default handleAddToPositionLookupQueue;

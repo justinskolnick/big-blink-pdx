@@ -3,7 +3,7 @@ import { MiddlewareHandlerFn } from '../types';
 
 import { unique } from '../lib/array';
 
-import { actions } from '../reducers/official-positions';
+import * as actions from '../reducers/people';
 
 import {
   getOfficialPositionsLookupCompleted,

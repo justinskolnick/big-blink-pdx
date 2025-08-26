@@ -4,8 +4,10 @@ import camelcaseKeys from 'camelcase-keys';
 
 import { getPeople } from '../selectors';
 
-import { RootState } from '../lib/store';
+import { unique } from '../lib/array';
+import type { RootState } from '../lib/store';
 import type {
+  Id,
   Ids,
   Incident,
   Incidents,
@@ -18,6 +20,10 @@ import type {
 type InitialState = {
   pageIds: Ids;
   pagination?: Pagination;
+  positionLookup: {
+    completed: Ids;
+    queue: Ids;
+  };
 };
 
 export const adapter = createEntityAdapter<Person>();
@@ -63,6 +69,10 @@ export const adapters = {
 const initialState = {
   pageIds: [],
   pagination: null,
+  positionLookup: {
+    completed: [],
+    queue: [],
+  },
 } as InitialState;
 
 export const peopleSlice = createSlice({
@@ -81,10 +91,19 @@ export const peopleSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
+    addToLookupCompleted: (state, action: PayloadAction<Id>) => {
+      state.positionLookup.queue = state.positionLookup.queue.filter(id => id !== action.payload);
+      state.positionLookup.completed.push(action.payload);
+    },
+    addToLookupQueue: (state, action: PayloadAction<Ids>) => {
+      state.positionLookup.queue = unique([].concat(state.positionLookup.queue, action.payload));
+    },
   },
 });
 
 export const {
+  addToLookupCompleted,
+  addToLookupQueue,
   set,
   setAll,
   setPageIds,
