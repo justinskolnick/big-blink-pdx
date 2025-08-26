@@ -11,7 +11,7 @@ class OfficialPosition extends Base {
   static fieldNames = {
     id:                   { select: false, },
     pernr:                { select: true, adapt: false, },
-    name:                 { select: true, },
+    name:                 { select: true, adapt: false, },
     date_start:           { select: true, adapt: false, },
     date_end:             { select: true, adapt: false, },
     is_withdrawn:         { select: true, adapt: false, },
@@ -80,19 +80,10 @@ class OfficialPosition extends Base {
   adapt(result) {
     return this.adaptResult(result, {
       dates: {
-        start: {
-          label: this.adaptReadableConditionalDate(result, 'date_start'),
-          value: this.getData('date_start'),
-        },
-        end: {
-          label: this.adaptReadableConditionalDate(result, 'date_end'),
-          value: this.getData('date_end'),
-        },
+        start: this.getData('date_start'),
+        end: this.getData('date_end'),
       },
-      role: {
-        statement: this.roleStatement,
-        value: this.role,
-      },
+      role: this.roleStatement,
     });
   }
 

@@ -66,10 +66,7 @@ describe('adapt()', () => {
         ...adaptedMayorCos,
         dates: {
           ...adaptedMayorCos.dates,
-          end: {
-            label: 'unknown',
-            value: null,
-          },
+          end: null,
         },
       };
 
@@ -90,10 +87,7 @@ describe('adapt()', () => {
         ...adaptedMayorCos,
         dates: {
           ...adaptedMayorCos.dates,
-          end: {
-            label: null,
-            value: null,
-          },
+          end: null,
         },
       };
 
@@ -328,71 +322,31 @@ describe('collect', () => {
     expect(adapted).toEqual([
       {
         dates: {
-          end: {
-            label: 'June 30, 2016',
-            value: '2016-06-30T00:00:00.000Z',
-          },
-          start: {
-            label: 'June 6, 2013',
-            value: '2013-06-06T00:00:00.000Z',
-          },
+          end: '2016-06-30T00:00:00.000Z',
+          start: '2013-06-06T00:00:00.000Z',
         },
-        name: 'Steven Novick',
-        role: {
-          statement: 'Commissioner',
-          value: 'Commissioner',
-        },
+        role: 'Commissioner',
       },
       {
         dates: {
-          end: {
-            label: 'December 31, 2016',
-            value: '2016-12-31T00:00:00.000Z',
-          },
-          start: {
-            label: 'July 1, 2016',
-            value: '2016-07-01T00:00:00.000Z',
-          },
+          end: '2016-12-31T00:00:00.000Z',
+          start: '2016-07-01T00:00:00.000Z',
         },
-        name: 'Steven Novick',
-        role: {
-          statement: 'Commissioner',
-          value: 'Commissioner',
-        },
+        role: 'Commissioner',
       },
       {
         dates: {
-          end: {
-            label: 'December 31, 2024',
-            value: '2024-12-31T00:00:00.000Z',
-          },
-          start: {
-            label: 'January 1, 2017',
-            value: '2017-01-01T00:00:00.000Z',
-          },
+          end: '2024-12-31T00:00:00.000Z',
+          start: '2017-01-01T00:00:00.000Z',
         },
-        name: 'Steven Novick',
-        role: {
-          statement: 'Commissioner',
-          value: 'Commissioner',
-        },
+        role: 'Commissioner',
       },
       {
         dates: {
-          end: {
-            label: null,
-            value: null,
-          },
-          start: {
-            label: 'January 1, 2025',
-            value: '2025-01-01T00:00:00.000Z',
-          },
+          end: null,
+          start: '2025-01-01T00:00:00.000Z',
         },
-        name: 'Steven Novick',
-        role: {
-          statement: 'Councilor for District 3',
-          value: 'Councilor',
-        },
+        role: 'Councilor for District 3',
       },
     ]);
   });
