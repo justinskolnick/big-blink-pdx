@@ -156,11 +156,11 @@ router.get('/:id', async (req, res, next) => {
       record = incidentResult.adapted;
       record.attendees = {
         lobbyists: {
-          records: lobbyists.map(value => value.adapted),
+          records: lobbyists?.map(value => value.adapted) ?? [],
           role: ROLE_LOBBYIST,
         },
         officials: {
-          records: officials.map(value => value.adapted),
+          records: officials?.map(value => value.adapted) ?? [],
           role: ROLE_OFFICIAL,
         },
       };

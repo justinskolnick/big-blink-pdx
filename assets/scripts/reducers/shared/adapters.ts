@@ -1,19 +1,23 @@
 import type {
+  Attendee,
   Attendees,
   Incident,
   Incidented,
 } from '../../types';
 
+export const adaptAttendeeRecords = (records: Attendee[]) =>
+  records.map(record => ({
+    ...record,
+    person: {
+      id: record.person.id,
+    },
+  }));
+
 export const adaptAttendees = (attendees: Attendees) => ({
   ...attendees,
   values: attendees.values.map(value => ({
     ...value,
-    records: value.records.map(record => ({
-      ...record,
-      person: {
-        id: record.person.id,
-      },
-    }))
+    records: adaptAttendeeRecords(value.records),
   })),
 } as Attendees);
 

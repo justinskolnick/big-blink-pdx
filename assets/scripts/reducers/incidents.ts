@@ -2,20 +2,46 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
+import { adaptAttendeeRecords } from './shared/adapters';
+
 import { getIncidents } from '../selectors';
 
 import type { RootState } from '../lib/store';
 import type {
+  AttendeeGroup,
   Id,
   Ids,
   Incident,
+  IncidentAttendees,
   Incidents,
   Pagination,
 } from '../types';
 
+type AttendeesTuple = [
+  key: keyof IncidentAttendees,
+  value: AttendeeGroup
+];
+
+const adaptAttendees = (attendees: IncidentAttendees) =>
+  Object.entries(attendees).reduce((all, [key, value]: AttendeesTuple) => {
+    all[key] = {
+      ...value,
+      records: adaptAttendeeRecords(value.records),
+    };
+
+    return all;
+  }, {} as IncidentAttendees);
+
 export const adapters = {
-  adaptOne: (incident: Incident): Incident =>
-    incident,
+  adaptOne: (state: RootState, entry: Incident): Incident => {
+    const adapted = { ...entry };
+
+    if ('attendees' in entry) {
+      adapted.attendees = adaptAttendees(adapted.attendees);
+    }
+
+    return adapted;
+  },
   getIds: (people: Incidents): Ids =>
     people.map((incident: Incident) => incident.id),
 };

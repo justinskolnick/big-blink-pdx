@@ -68,6 +68,9 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
 
+const adaptIncidents = (state: RootState, incidents: Incidents) =>
+  incidents.map(incident => incidentActions.adapters.adaptOne(state, incident));
+
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
   const state = store.getState();
@@ -106,7 +109,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
 
       if (incidents.length) {
-        dispatch(incidentActions.setAll(incidents));
+        dispatch(incidentActions.setAll(adaptIncidents(state, incidents)));
       }
 
       if (people.length) {
@@ -128,7 +131,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('incident' in data) {
-      const incident = incidentActions.adapters.adaptOne(data.incident.record);
+      const incident = incidentActions.adapters.adaptOne(state, data.incident.record);
       const people = getPeopleFromIncidents(state, [incident]);
 
       dispatch(incidentActions.set(incident));
@@ -149,7 +152,12 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
 
       if ('records' in data.incidents) {
-        dispatch(incidentActions.setAll(data.incidents.records));
+        const incidents = data.incidents.records;
+        const people = getPeopleFromIncidents(state, incidents);
+
+        dispatch(incidentActions.setAll(adaptIncidents(state, incidents)));
+        dispatch(personActions.setAll(people));
+
 
         if ('pagination' in data.incidents) {
           const ids = incidentActions.adapters.getIds(data.incidents.records);
@@ -184,7 +192,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
 
       if (incidents.length) {
-        dispatch(incidentActions.setAll(incidents));
+        dispatch(incidentActions.setAll(adaptIncidents(state, incidents)));
       }
 
       if (people.length) {
@@ -229,7 +237,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
 
       if (incidents.length) {
-        dispatch(incidentActions.setAll(incidents));
+        dispatch(incidentActions.setAll(adaptIncidents(state, incidents)));
       }
 
       if (people.length) {

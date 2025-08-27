@@ -83,7 +83,7 @@ type LinkObject = {
 
 export type Attendee = {
   as?: string;
-  person: Person;
+  person: Pick<Person, 'id'>;
   total?: number;
 }
 
@@ -105,6 +105,11 @@ type Details = {
   domain?: string;
 };
 
+export type IncidentAttendees = {
+  officials: AttendeeGroup;
+  lobbyists: AttendeeGroup;
+};
+
 export type Incident = {
   category: string;
   contactDate: string;
@@ -119,10 +124,7 @@ export type Incident = {
   sourceId: number;
   topic: string;
   notes: string;
-  attendees?: {
-    officials: AttendeeGroup;
-    lobbyists: AttendeeGroup;
-  };
+  attendees?: IncidentAttendees;
   details?: Details;
   links?: LinkObject;
 };

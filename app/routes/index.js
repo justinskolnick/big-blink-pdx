@@ -216,7 +216,7 @@ router.get('/leaderboard', async (req, res, next) => {
 
       res.status(200).json({ data, meta });
     } catch (err) {
-      console.error('Error while getting people:', err.message); // eslint-disable-line no-console
+      console.error('Error while getting leaderboard:', err.message); // eslint-disable-line no-console
       next(createError(err));
     }
   } else {
