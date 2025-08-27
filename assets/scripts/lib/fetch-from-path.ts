@@ -12,6 +12,7 @@ import { actions as uiActions } from '../reducers/ui';
 import { RootState } from '../lib/store';
 import type {
   AttendeeGroup,
+  Entity,
   EntityWithIncidentRecords,
   ErrorType,
   Incident,
@@ -41,28 +42,31 @@ const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
       .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person))
   );
 
-const getEntitiesFromPerson = (state: RootState, person: Person) => {
-  if (person?.entities) {
-    return person.entities.roles
-      .flatMap(role => role.values)
-      .flatMap(value => value.records)
-      .map(record => record.entity)
-      .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
-  }
+const getAttendeesFromPerson = (state: RootState, person: Person) =>
+  person.attendees.roles
+    .flatMap(role => role.values)
+    .flatMap(value => value.records)
+    .map(record => record.person)
+    .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
 
-  return [];
-};
+const getEntitiesFromPerson = (state: RootState, person: Person) =>
+  person.entities.roles
+    .flatMap(role => role.values)
+    .flatMap(value => value.records)
+    .map(record => record.entity)
+    .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
 
-const getEntitiesFromSource = (state: RootState, source: Source) => {
-  if (source?.entities) {
-    return source.entities.values
-      .flatMap(value => value.records)
-      .map(entry => entry.entity)
-      .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
-  }
+const getAttendeesFromRecord = (state: RootState, record: Entity | Source) =>
+  record.attendees.values
+    .flatMap(value => value.records)
+    .map(entry => entry.person)
+    .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
 
-  return [];
-};
+const getEntitiesFromSource = (state: RootState, source: Source) =>
+  source.entities.values
+    .flatMap(value => value.records)
+    .map(entry => entry.entity)
+    .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
@@ -92,8 +96,22 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       const people = getPeopleFromIncidents(state, incidents);
 
       dispatch(entityActions.set(entity));
-      dispatch(incidentActions.setAll(incidents));
-      dispatch(personActions.setAll(people));
+
+      if ('attendees' in data.entity.record) {
+        const attendees = getAttendeesFromRecord(state, data.entity.record);
+
+        if (attendees.length) {
+          dispatch(personActions.setAll(attendees));
+        }
+      }
+
+      if (incidents.length) {
+        dispatch(incidentActions.setAll(incidents));
+      }
+
+      if (people.length) {
+        dispatch(personActions.setAll(people));
+      }
     }
 
     if ('entities' in data) {
@@ -146,12 +164,32 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       const person = personActions.adapters.adaptOne(state, data.person.record);
       const incidents = personActions.adapters.getIncidents(data.person.record);
       const people = getPeopleFromIncidents(state, incidents);
-      const entities = getEntitiesFromPerson(state, person);
 
       dispatch(personActions.set(person));
-      dispatch(incidentActions.setAll(incidents));
-      dispatch(personActions.setAll(people));
-      dispatch(entityActions.setAll(entities));
+
+      if ('entities' in data.person.record) {
+        const entities = getEntitiesFromPerson(state, data.person.record);
+
+        if (entities.length) {
+          dispatch(entityActions.setAll(entities));
+        }
+      }
+
+      if ('attendees' in data.person.record) {
+        const attendees = getAttendeesFromPerson(state, data.person.record);
+
+        if (attendees.length) {
+          dispatch(personActions.setAll(attendees));
+        }
+      }
+
+      if (incidents.length) {
+        dispatch(incidentActions.setAll(incidents));
+      }
+
+      if (people.length) {
+        dispatch(personActions.setAll(people));
+      }
     }
 
     if ('people' in data) {
@@ -171,12 +209,32 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       const source = sourceActions.adapters.adaptOne(state, data.source.record);
       const incidents = sourceActions.adapters.getIncidents(data.source.record);
       const people = getPeopleFromIncidents(state, incidents);
-      const entities = getEntitiesFromSource(state, data.source.record);
 
       dispatch(sourceActions.set(source));
-      dispatch(incidentActions.setAll(incidents));
-      dispatch(personActions.setAll(people));
-      dispatch(entityActions.setAll(entities));
+
+      if ('entities' in data.source.record) {
+        const entities = getEntitiesFromSource(state, data.source.record);
+
+        if (entities.length) {
+          dispatch(entityActions.setAll(entities));
+        }
+      }
+
+      if ('attendees' in data.source.record) {
+        const attendees = getAttendeesFromRecord(state, data.source.record);
+
+        if (attendees.length) {
+          dispatch(personActions.setAll(attendees));
+        }
+      }
+
+      if (incidents.length) {
+        dispatch(incidentActions.setAll(incidents));
+      }
+
+      if (people.length) {
+        dispatch(personActions.setAll(people));
+      }
     }
 
     if ('sources' in data) {

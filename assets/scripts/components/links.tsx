@@ -14,10 +14,11 @@ import useQueryParams from '../hooks/use-query-params';
 import ItemTextWithIcon from './item-text-with-icon';
 
 import type {
-  AffiliatedItem,
+  Entity,
   Id,
   LocationState,
   NewParams,
+  Person,
   SortValue,
 } from '../types';
 import { SortByValues, SortValues } from '../types';
@@ -61,11 +62,11 @@ interface LinkIdProps extends LinkProps {
   id: Id;
 }
 
-export const getWithEntityParams = (item: AffiliatedItem) => ({
-  [withEntityIdParam]: item.entity.id,
+export const getWithEntityParams = (entity: Entity) => ({
+  [withEntityIdParam]: entity.id,
 });
-export const getWithPersonParams = (item: AffiliatedItem) => ({
-  [withPersonIdParam]: item.person.id,
+export const getWithPersonParams = (person: Person) => ({
+  [withPersonIdParam]: person.id,
 });
 
 export const BetterLink = ({

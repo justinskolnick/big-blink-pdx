@@ -1,16 +1,21 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
+import {
+  adaptAttendees,
+  adaptIncidents,
+} from './shared/adapters';
 import { getEntities } from '../selectors';
 
-import { RootState } from '../lib/store';
+import type { RootState } from '../lib/store';
 import type {
   Entities,
   Entity,
   EntityWithIncidentRecords,
+  Id,
   Ids,
-  Incident,
   Incidents,
   Pagination,
 } from '../types';
@@ -23,26 +28,23 @@ type InitialState = {
 const adapter = createEntityAdapter<Entity>();
 export const selectors = adapter.getSelectors(getEntities);
 
+export const useGetEntityById = (id: Id): Entity => {
+  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+
+  return entity;
+};
+
 export const adapters = {
   adaptOne: (state: RootState, entry: EntityWithIncidentRecords): Entity => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 
-    if ('incidents' in adapted) {
-      const {
-        filters,
-        pagination,
-        records,
-        stats,
-      } = adapted.incidents;
-      const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
+    if ('attendees' in entry) {
+      adapted.attendees = adaptAttendees(adapted.attendees);
+    }
 
-      adapted.incidents = {
-        filters,
-        pagination,
-        stats,
-        ...ids,
-      };
+    if ('incidents' in adapted) {
+      adapted.incidents = adaptIncidents(adapted.incidents);
     }
 
     if (savedEntry && 'overview' in savedEntry) {

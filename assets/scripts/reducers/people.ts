@@ -1,19 +1,23 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
+import { unique } from '../lib/array';
+
+import { adaptIncidents } from './shared/adapters';
 import { getPeople } from '../selectors';
 
-import { unique } from '../lib/array';
 import type { RootState } from '../lib/store';
 import type {
   Id,
   Ids,
-  Incident,
   Incidents,
   Pagination,
   People,
   Person,
+  PersonAttendees,
+  PersonEntities,
   PersonWithIncidentRecords,
 } from '../types';
 
@@ -29,26 +33,53 @@ type InitialState = {
 export const adapter = createEntityAdapter<Person>();
 export const selectors = adapter.getSelectors(getPeople);
 
+export const useGetPersonById = (id: Id): Person => {
+  const person = useSelector((state: RootState) => selectors.selectById(state, id));
+
+  return person;
+};
+
 export const adapters = {
   adaptOne: (state: RootState, entry: PersonWithIncidentRecords): Person => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 
-    if ('incidents' in adapted) {
-      const {
-        filters,
-        pagination,
-        records,
-        stats,
-      } = adapted.incidents;
-      const ids = records ? { ids: records.map((record: Incident) => record.id) } : undefined;
+    if ('attendees' in entry) {
+      adapted.attendees = {
+        roles: adapted.attendees.roles.map(role => ({
+          ...role,
+          values: role.values.map(value => ({
+            ...value,
+            records: value.records.map(record => ({
+              ...record,
+              person: {
+                id: record.person.id,
+              },
+            }))
+          })),
+        })),
+      } as PersonAttendees;
+    }
 
-      adapted.incidents = {
-        filters,
-        pagination,
-        stats,
-        ...ids,
-      };
+    if ('entities' in entry) {
+      adapted.entities = {
+        roles: adapted.entities.roles.map(role => ({
+          ...role,
+          values: role.values.map(value => ({
+            ...value,
+            records: value.records.map(record => ({
+              ...record,
+              entity: {
+                id: record.entity.id,
+              },
+            }))
+          })),
+        })),
+      } as PersonEntities;
+    }
+
+    if ('incidents' in adapted) {
+      adapted.incidents = adaptIncidents(adapted.incidents);
     }
 
     if (savedEntry && 'overview' in savedEntry) {

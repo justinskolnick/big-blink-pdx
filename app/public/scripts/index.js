@@ -456,7 +456,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement3(type, key, self, source, owner, props, debugStack, debugTask) {
+        function ReactElement2(type, key, self, source, owner, props, debugStack, debugTask) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -498,7 +498,7 @@
           return type;
         }
         function cloneAndReplaceKey(oldElement, newKey) {
-          newKey = ReactElement3(
+          newKey = ReactElement2(
             oldElement.type,
             newKey,
             void 0,
@@ -997,7 +997,7 @@
               JSCompiler_inline_result[i2] = arguments[i2 + 2];
             props.children = JSCompiler_inline_result;
           }
-          props = ReactElement3(
+          props = ReactElement2(
             element.type,
             key,
             void 0,
@@ -1057,7 +1057,7 @@
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
           var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return ReactElement3(
+          return ReactElement2(
             type,
             node2,
             void 0,
@@ -19449,7 +19449,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment26 = REACT_FRAGMENT_TYPE;
+          var Fragment27 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -19508,7 +19508,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment26;
+          exports.Fragment = Fragment27;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -20276,7 +20276,7 @@
           componentName = this.props.ref;
           return void 0 !== componentName ? componentName : null;
         }
-        function ReactElement3(type, key, self, source, owner, props, debugStack, debugTask) {
+        function ReactElement2(type, key, self, source, owner, props, debugStack, debugTask) {
           self = props.ref;
           type = {
             $$typeof: REACT_ELEMENT_TYPE,
@@ -20356,7 +20356,7 @@
             maybeKey,
             "function" === typeof type ? type.displayName || type.name || "Unknown" : type
           );
-          return ReactElement3(
+          return ReactElement2(
             type,
             children,
             self,
@@ -30770,6 +30770,38 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return transform(input, options2);
   }
 
+  // assets/scripts/lib/array.ts
+  var unique = (arr) => [...new Set(arr)];
+
+  // assets/scripts/reducers/shared/adapters.ts
+  var adaptAttendees = (attendees) => ({
+    ...attendees,
+    values: attendees.values.map((value) => ({
+      ...value,
+      records: value.records.map((record) => ({
+        ...record,
+        person: {
+          id: record.person.id
+        }
+      }))
+    }))
+  });
+  var adaptIncidents = (incidents) => {
+    const {
+      filters,
+      pagination,
+      records,
+      stats
+    } = incidents;
+    const ids = records ? { ids: records.map((record) => record.id) } : void 0;
+    return {
+      filters,
+      pagination,
+      stats,
+      ...ids
+    };
+  };
+
   // assets/scripts/lib/sorting.ts
   var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
   var sortQuarterAscendingTypeDecending = (a2, b2) => demoteIfQuarterIsNull(a2) - demoteIfQuarterIsNull(b2) || a2.type.localeCompare(b2.type);
@@ -30880,30 +30912,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var getSection = createSelector(getUI, (ui) => ui.section);
   var getWarnings = createSelector(getUI, (ui) => ui.warnings);
 
-  // assets/scripts/lib/array.ts
-  var unique = (arr) => [...new Set(arr)];
-
   // assets/scripts/reducers/people.ts
   var adapter = createEntityAdapter();
   var selectors = adapter.getSelectors(getPeople);
+  var useGetPersonById = (id) => {
+    const person = useSelector((state) => selectors.selectById(state, id));
+    return person;
+  };
   var adapters = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors.selectById(state, entry.id);
       const adapted = { ...entry };
-      if ("incidents" in adapted) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = adapted.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        adapted.incidents = {
-          filters,
-          pagination,
-          stats,
-          ...ids
+      if ("attendees" in entry) {
+        adapted.attendees = {
+          roles: adapted.attendees.roles.map((role) => ({
+            ...role,
+            values: role.values.map((value) => ({
+              ...value,
+              records: value.records.map((record) => ({
+                ...record,
+                person: {
+                  id: record.person.id
+                }
+              }))
+            }))
+          }))
         };
+      }
+      if ("entities" in entry) {
+        adapted.entities = {
+          roles: adapted.entities.roles.map((role) => ({
+            ...role,
+            values: role.values.map((value) => ({
+              ...value,
+              records: value.records.map((record) => ({
+                ...record,
+                entity: {
+                  id: record.entity.id
+                }
+              }))
+            }))
+          }))
+        };
+      }
+      if ("incidents" in adapted) {
+        adapted.incidents = adaptIncidents(adapted.incidents);
       }
       if (savedEntry && "overview" in savedEntry) {
         adapted.overview = {
@@ -34361,24 +34414,19 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/reducers/entities.ts
   var adapter2 = createEntityAdapter();
   var selectors2 = adapter2.getSelectors(getEntities);
+  var useGetEntityById = (id) => {
+    const entity = useSelector((state) => selectors2.selectById(state, id));
+    return entity;
+  };
   var adapters2 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors2.selectById(state, entry.id);
       const adapted = { ...entry };
+      if ("attendees" in entry) {
+        adapted.attendees = adaptAttendees(adapted.attendees);
+      }
       if ("incidents" in adapted) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = adapted.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        adapted.incidents = {
-          filters,
-          pagination,
-          stats,
-          ...ids
-        };
+        adapted.incidents = adaptIncidents(adapted.incidents);
       }
       if (savedEntry && "overview" in savedEntry) {
         adapted.overview = {
@@ -34500,20 +34548,25 @@ Hook ${hookName} was either not provided or not a function.`);
     adaptOne: (state, entry) => {
       const savedEntry = selectors4.selectById(state, entry.id);
       const adapted = { ...entry };
-      if ("incidents" in adapted) {
-        const {
-          filters,
-          pagination,
-          records,
-          stats
-        } = adapted.incidents;
-        const ids = records ? { ids: records.map((record) => record.id) } : void 0;
-        adapted.incidents = {
-          filters,
-          pagination,
-          stats,
-          ...ids
+      if ("attendees" in entry) {
+        adapted.attendees = adaptAttendees(adapted.attendees);
+      }
+      if ("entities" in entry) {
+        adapted.entities = {
+          ...adapted.entities,
+          values: adapted.entities.values.map((value) => ({
+            ...value,
+            records: value.records.map((record) => ({
+              ...record,
+              entity: {
+                id: record.entity.id
+              }
+            }))
+          }))
         };
+      }
+      if ("incidents" in adapted) {
+        adapted.incidents = adaptIncidents(adapted.incidents);
       }
       if (savedEntry && "overview" in savedEntry) {
         adapted.overview = {
@@ -34650,18 +34703,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
     (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adapters.adaptOne(state, person))
   );
-  var getEntitiesFromPerson = (state, person) => {
-    if (person?.entities) {
-      return person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters2.adaptOne(state, entity));
-    }
-    return [];
-  };
-  var getEntitiesFromSource = (state, source) => {
-    if (source?.entities) {
-      return source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters2.adaptOne(state, entity));
-    }
-    return [];
-  };
+  var getAttendeesFromPerson = (state, person) => person.attendees.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.person).map((person2) => adapters.adaptOne(state, person2));
+  var getEntitiesFromPerson = (state, person) => person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters2.adaptOne(state, entity));
+  var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adapters.adaptOne(state, person));
+  var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters2.adaptOne(state, entity));
   var handleResult = (result, isPrimary) => {
     const dispatch = store_default.dispatch;
     const state = store_default.getState();
@@ -34686,8 +34731,18 @@ Hook ${hookName} was either not provided or not a function.`);
         const incidents = adapters2.getIncidents(data2.entity.record);
         const people = getPeopleFromIncidents(state, incidents);
         dispatch(set3(entity));
-        dispatch(setAll3(incidents));
-        dispatch(setAll(people));
+        if ("attendees" in data2.entity.record) {
+          const attendees = getAttendeesFromRecord(state, data2.entity.record);
+          if (attendees.length) {
+            dispatch(setAll(attendees));
+          }
+        }
+        if (incidents.length) {
+          dispatch(setAll3(incidents));
+        }
+        if (people.length) {
+          dispatch(setAll(people));
+        }
       }
       if ("entities" in data2) {
         const entities = data2.entities.records.map((entity) => adapters2.adaptOne(state, entity));
@@ -34727,11 +34782,25 @@ Hook ${hookName} was either not provided or not a function.`);
         const person = adapters.adaptOne(state, data2.person.record);
         const incidents = adapters.getIncidents(data2.person.record);
         const people = getPeopleFromIncidents(state, incidents);
-        const entities = getEntitiesFromPerson(state, person);
         dispatch(set2(person));
-        dispatch(setAll3(incidents));
-        dispatch(setAll(people));
-        dispatch(setAll2(entities));
+        if ("entities" in data2.person.record) {
+          const entities = getEntitiesFromPerson(state, data2.person.record);
+          if (entities.length) {
+            dispatch(setAll2(entities));
+          }
+        }
+        if ("attendees" in data2.person.record) {
+          const attendees = getAttendeesFromPerson(state, data2.person.record);
+          if (attendees.length) {
+            dispatch(setAll(attendees));
+          }
+        }
+        if (incidents.length) {
+          dispatch(setAll3(incidents));
+        }
+        if (people.length) {
+          dispatch(setAll(people));
+        }
       }
       if ("people" in data2) {
         const people = data2.people.records.map((person) => adapters.adaptOne(state, person));
@@ -34746,11 +34815,25 @@ Hook ${hookName} was either not provided or not a function.`);
         const source = adapters4.adaptOne(state, data2.source.record);
         const incidents = adapters4.getIncidents(data2.source.record);
         const people = getPeopleFromIncidents(state, incidents);
-        const entities = getEntitiesFromSource(state, data2.source.record);
         dispatch(set5(source));
-        dispatch(setAll3(incidents));
-        dispatch(setAll(people));
-        dispatch(setAll2(entities));
+        if ("entities" in data2.source.record) {
+          const entities = getEntitiesFromSource(state, data2.source.record);
+          if (entities.length) {
+            dispatch(setAll2(entities));
+          }
+        }
+        if ("attendees" in data2.source.record) {
+          const attendees = getAttendeesFromRecord(state, data2.source.record);
+          if (attendees.length) {
+            dispatch(setAll(attendees));
+          }
+        }
+        if (incidents.length) {
+          dispatch(setAll3(incidents));
+        }
+        if (people.length) {
+          dispatch(setAll(people));
+        }
       }
       if ("sources" in data2) {
         const sources = data2.sources.records.map((source) => adapters4.adaptOne(state, source));
@@ -42375,11 +42458,11 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var getWithEntityParams = (item) => ({
-    [withEntityIdParam]: item.entity.id
+  var getWithEntityParams = (entity) => ({
+    [withEntityIdParam]: entity.id
   });
-  var getWithPersonParams = (item) => ({
-    [withPersonIdParam]: item.person.id
+  var getWithPersonParams = (person) => ({
+    [withPersonIdParam]: person.id
   });
   var BetterLink = ({
     onClick,
@@ -43639,31 +43722,19 @@ Hook ${hookName} was either not provided or not a function.`);
     ref
   }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: cx("affiliated-items", className), ref, children });
   var AffiliatedItemTable = ({
-    affiliatedItems,
-    TypeCell,
-    TypeAuxiliaryCell,
-    TitleCell,
-    TotalCell,
+    children,
+    hasAuxiliaryType,
+    itemCount,
     label
   }) => {
     const ref = (0, import_react30.useRef)(null);
     const [showAll, setShowAll] = (0, import_react30.useState)(false);
     const initialCount = 5;
-    const items = showAll ? affiliatedItems : affiliatedItems.slice(0, initialCount);
-    const hasMoreToShow = affiliatedItems.length > initialCount;
-    const hasItems = affiliatedItems.length > 0;
-    const hasAuxiliaryType = Boolean(TypeAuxiliaryCell);
+    const hasItems = itemCount > 0;
+    const hasMoreToShow = itemCount > initialCount;
     const scrollToRef2 = () => delayedScrollToRef(ref);
     return hasItems ? /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(AffiliatedItems, { ref, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: items.map((item, i2) => {
-        const hasTotal = Boolean(item.total);
-        return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("tr", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(TypeCell, { item }) }),
-          hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(TypeAuxiliaryCell, { item }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(TitleCell, { item }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("td", { className: "cell-total", children: hasTotal ? TotalCell ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(TotalCell, { item }) : item.total : "-" })
-        ] }, i2);
-      }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(initialCount, showAll) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
         scrollToRef2();
@@ -43675,7 +43746,7 @@ Hook ${hookName} was either not provided or not a function.`);
         label
       ] }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(import_jsx_runtime48.Fragment, { children: [
         "View all ",
-        affiliatedItems.length,
+        itemCount,
         " ",
         label
       ] }) })
@@ -43685,14 +43756,29 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/affiliated-people-table.tsx
   var import_jsx_runtime49 = __toESM(require_jsx_runtime());
+  var AffiliatedPerson = ({ item }) => {
+    const person = useGetPersonById(item.person.id);
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(icon_default4, { person }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_link_default, { item: person, children: person.name }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPersonParams(person), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
+    ] });
+  };
   var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
     affiliated_item_table_default,
     {
-      affiliatedItems: attendees.records,
+      itemCount: attendees.records.length,
       label: model,
-      TypeCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(icon_default4, { person: item.person }),
-      TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_link_default, { item: item.person, children: item.person.name }),
-      TotalCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPersonParams(item), hasIcon: true, children: item.total })
+      children: (initialCount, showAll) => {
+        const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
+        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+          AffiliatedPerson,
+          {
+            item
+          },
+          i2
+        ));
+      }
     }
   ) });
   var affiliated_people_table_default = AffiliatedPeopleTable;
@@ -57261,51 +57347,68 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/affiliated-entities-table.tsx
   var import_jsx_runtime84 = __toESM(require_jsx_runtime());
   var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default, { name: "check", className: "icon-registered" });
+  var AffiliatedEntity = ({
+    hasAuxiliaryType,
+    hasLobbyist,
+    item
+  }) => {
+    const entity = useGetEntityById(item.entity.id);
+    return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("td", { className: "cell-type", children: entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+        "div",
+        {
+          className: "icons",
+          title: "Entity has been registered",
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default2, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(RegisteredIcon, {})
+          ]
+        }
+      ) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default2, {}) }),
+      hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
+        "div",
+        {
+          className: "icons",
+          title: item.isRegistered ? "Lobbyist has been registered" : item.registrations,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default4, {}),
+            item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(RegisteredIcon, {})
+          ]
+        }
+      ) }),
+      /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)("td", { className: "cell-name", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(item_link_default2, { item: entity, children: entity.name }),
+        hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "item-description", children: item.registrations })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(FilterLink, { newParams: getWithEntityParams(entity), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_jsx_runtime84.Fragment, { children: "-" }) })
+    ] });
+  };
   var AffiliatedEntitiesTable = ({
     entities,
     lobbyistName,
     model,
     title
   }) => {
+    const hasAuxiliaryType = entities.role === "lobbyist" /* Lobbyist */;
     const hasLobbyist = Boolean(lobbyistName);
-    let auxiliary;
-    if (entities.role === "lobbyist" /* Lobbyist */) {
-      auxiliary = {
-        TypeAuxiliaryCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
-          "div",
-          {
-            className: "icons",
-            title: item.isRegistered ? "Lobbyist has been registered" : item.registrations,
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default4, {}),
-              item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(RegisteredIcon, {})
-            ]
-          }
-        )
-      };
-    }
     return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
       affiliated_item_table_default,
       {
-        affiliatedItems: entities.records,
+        hasAuxiliaryType,
+        itemCount: entities.records.length,
         label: model,
-        TypeCell: ({ item }) => item.entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(
-          "div",
-          {
-            className: "icons",
-            title: "Entity has been registered",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default2, {}),
-              /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(RegisteredIcon, {})
-            ]
-          }
-        ) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(icon_default2, {}),
-        ...auxiliary,
-        TitleCell: ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)(import_jsx_runtime84.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(item_link_default2, { item: item.entity, children: item.entity.name }),
-          hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "item-description", children: item.registrations })
-        ] }),
-        TotalCell: ({ item }) => item.total ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(FilterLink, { newParams: getWithEntityParams(item), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_jsx_runtime84.Fragment, { children: "-" })
+        children: (initialCount, showAll) => {
+          const items = showAll ? entities.records : entities.records.slice(0, initialCount);
+          return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+            AffiliatedEntity,
+            {
+              hasAuxiliaryType,
+              hasLobbyist,
+              item
+            },
+            i2
+          ));
+        }
       }
     ) });
   };

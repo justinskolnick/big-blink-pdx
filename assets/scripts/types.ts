@@ -325,6 +325,8 @@ type IncidentPagination = {
   pagination: Pagination;
 };
 
+export type Incidented = IncidentsOverview & IncidentRecords & IncidentPagination;
+
 export type ItemOverview = {
   label: string;
   appearances?: {
@@ -356,24 +358,10 @@ export type Entity = Item & {
 }
 
 export type EntityWithIncidentRecords = Entity & {
-  incidents: IncidentsOverview & IncidentRecords & IncidentPagination;
+  incidents: Incidented;
 }
 
 export type Entities = Entity[];
-
-type Interest = {
-  category: string;
-  topic: string;
-};
-
-export type AffiliatedItem = {
-  entity?: Pick<Entity, 'id' | 'name' | 'isRegistered'>;
-  isRegistered?: boolean;
-  registrations?: string;
-  person?: Pick<Person, 'id' | 'name' | 'type'>;
-  values?: Interest;
-  total?: number;
-};
 
 export enum Role {
   Lobbyist = 'lobbyist',
@@ -381,8 +369,14 @@ export enum Role {
 }
 
 export type AffiliatedEntityRecord = {
-  entity: Entity;
+  entity: Pick<Entity, 'id'>;
   isRegistered?: boolean;
+  registrations?: string;
+  total?: number;
+};
+
+export type AffiliatedPersonRecord = {
+  person: Pick<Person, 'id'>;
   registrations?: string;
   total?: number;
 };
@@ -426,7 +420,7 @@ export type Person = Item & {
 }
 
 export type PersonWithIncidentRecords = Person & {
-  incidents: IncidentsOverview & IncidentRecords & IncidentPagination;
+  incidents: Incidented;
 }
 
 export type People = Person[];
@@ -466,7 +460,7 @@ export type Source = {
 };
 
 export type SourceWithIncidentRecords = Source & {
-  incidents: IncidentsOverview & IncidentRecords & IncidentPagination;
+  incidents: Incidented;
 }
 
 export type Sources = Source[];
