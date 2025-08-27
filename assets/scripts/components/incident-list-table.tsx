@@ -1,8 +1,5 @@
 import React, { useState, MouseEvent } from 'react';
-import { useSelector } from 'react-redux';
 import { cx } from '@emotion/css';
-
-import { RootState } from '../lib/store';
 
 import Icon from './icon';
 import IncidentModal from './incident-modal';
@@ -11,7 +8,7 @@ import {
   SortLink,
 } from './links';
 
-import { selectors } from '../reducers/incidents';
+import { useGetIncidentById } from '../reducers/incidents';
 
 import { SortByValues, SortValues } from '../types';
 import type { Id, Ids } from '../types';
@@ -28,7 +25,9 @@ interface IncidentListTableProps {
 const IncidentRow = ({ id }: IncidentRowProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
-  const incident = useSelector((state: RootState) => selectors.selectById(state, id));
+  const incident = useGetIncidentById(id);
+
+  const hasIncident = Boolean(incident);
   const hasDateRange = Boolean(incident?.contactDateRange);
   const hasNotes = Boolean(incident?.notes);
 
@@ -44,7 +43,7 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
     }
   };
 
-  if (!incident) return null;
+  if (!hasIncident) return null;
 
   return (
     <>

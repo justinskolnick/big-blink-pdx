@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-import { RootState } from '../../lib/store';
 
 import Icon from './icon';
 import ItemLink from './item-link';
 
-import { selectors } from '../../reducers/sources';
+import { useGetSourceById } from '../../reducers/sources';
 import api from '../../services/api';
 
 import type { Id } from '../../types';
@@ -18,7 +15,9 @@ interface Props {
 const Item = ({ id }: Props) => {
   const [trigger] = api.useLazyGetSourceByIdQuery();
 
-  const source = useSelector((state: RootState) => selectors.selectById(state, id));
+  const source = useGetSourceById(id);
+
+  const hasSource = Boolean(source);
   const hasTotals = Boolean(source?.overview?.totals.values.total.value);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const Item = ({ id }: Props) => {
     trigger({ id });
   }, [id, source, trigger]);
 
-  if (!source) return null;
+  if (!hasSource) return null;
 
   return (
     <ItemLink item={source} className='item-source-quarter'>

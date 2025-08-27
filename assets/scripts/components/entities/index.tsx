@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../../lib/store';
-
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import EntityIcon from './icon';
@@ -10,7 +8,7 @@ import ItemLink from './item-link';
 import { SortLink } from '../links';
 import SectionIndex from '../section-index';
 
-import { selectors } from '../../reducers/entities';
+import { useGetEntityById } from '../../reducers/entities';
 
 import {
   getEntitiesPageIds,
@@ -24,10 +22,12 @@ interface ItemProps {
 }
 
 export const EntityItem = ({ id }: ItemProps) => {
-  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+  const entity = useGetEntityById(id);
+
+  const hasEntity = Boolean(entity);
   const hasTotal = Boolean(entity?.overview?.totals?.values.total.value);
 
-  if (!entity) return null;
+  if (!hasEntity) return null;
 
   return (
     <tr>

@@ -1,8 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 
 import { getIncidents } from '../selectors';
+
+import type { RootState } from '../lib/store';
 import type {
+  Id,
   Ids,
   Incident,
   Incidents,
@@ -18,7 +22,12 @@ export const adapters = {
 
 export const adapter = createEntityAdapter<Incident>();
 
-export const selectors = adapter.getSelectors(getIncidents);
+const selectors = adapter.getSelectors(getIncidents);
+export const useGetIncidentById = (id: Id): Incident => {
+  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+
+  return entity;
+};
 
 export const incidentsSlice = createSlice({
   name: 'incidents',

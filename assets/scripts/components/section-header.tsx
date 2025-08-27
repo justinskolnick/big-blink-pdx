@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
-import { RootState } from '../lib/store';
-
 import Eyes from './eyes';
 import Header, { HeaderOverview } from './header';
 import {
@@ -18,10 +16,10 @@ import {
 import SectionIcon from './section-icon';
 
 import { getSection } from '../selectors';
-import { selectors as entitiesSelectors } from '../reducers/entities';
-import { selectors as incidentsSelectors } from '../reducers/incidents';
-import { selectors as peopleSelectors } from '../reducers/people';
-import { selectors as sourcesSelectors } from '../reducers/sources';
+import { useGetEntityById } from '../reducers/entities';
+import { useGetIncidentById } from '../reducers/incidents';
+import { useGetPersonById } from '../reducers/people';
+import { useGetSourceById } from '../reducers/sources';
 
 import { Sections } from '../types';
 import type { SectionType } from '../types';
@@ -41,20 +39,20 @@ interface DescriptionProps {
   section: SectionType;
 }
 
-const getItemSelectors = (section?: SectionType) => {
-  let selectors = null;
+const getItemSelector = (section?: SectionType) => {
+  let selector = null;
 
   if (section?.slug === Sections.Entities) {
-    selectors = entitiesSelectors;
+    selector = useGetEntityById;
   } else if (section?.slug === Sections.Incidents) {
-    selectors = incidentsSelectors;
+    selector = useGetIncidentById;
   } else if (section?.slug === Sections.People) {
-    selectors = peopleSelectors;
+    selector = useGetPersonById;
   } else if (section?.slug === Sections.Sources) {
-    selectors = sourcesSelectors;
+    selector = useGetSourceById;
   }
 
-  return selectors;
+  return selector;
 };
 
 const useGetSectionLink = (slug: string) => {
@@ -70,15 +68,15 @@ const useGetSectionLink = (slug: string) => {
 };
 
 const SectionItemLink = ({ children, section }: ItemLinkProps) => {
-  const selectors = getItemSelectors(section);
-  const item = useSelector((state: RootState) => selectors?.selectById(state, section.id));
+  const selector = getItemSelector(section);
+  const item = selector(section.id);
 
   return <Link to={item.links.self}>{children}</Link>;
 };
 
 const SectionDescription = ({ section }: DescriptionProps) => {
-  const selectors = getItemSelectors(section);
-  const item = useSelector((state: RootState) => selectors?.selectById(state, section.id));
+  const selector = getItemSelector(section);
+  const item = selector(section.id);
 
   const hasDetails = Object.keys(item.details || {}).length > 0;
 

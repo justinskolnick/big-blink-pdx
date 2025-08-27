@@ -34476,6 +34476,10 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var adapter3 = createEntityAdapter();
   var selectors3 = adapter3.getSelectors(getIncidents);
+  var useGetIncidentById = (id) => {
+    const entity = useSelector((state) => selectors3.selectById(state, id));
+    return entity;
+  };
   var incidentsSlice = createSlice({
     name: "incidents",
     initialState: adapter3.getInitialState({
@@ -34544,6 +34548,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/reducers/sources.ts
   var adapter4 = createEntityAdapter();
   var selectors4 = adapter4.getSelectors(getSources);
+  var useGetSourceById = (id) => {
+    const entity = useSelector((state) => selectors4.selectById(state, id));
+    return entity;
+  };
   var adapters4 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors4.selectById(state, entry.id);
@@ -42690,7 +42698,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var PeopleIcon = ({ person }) => {
     const { id } = useParams();
     const numericId = Number(id);
-    const personAtId = useSelector((state) => selectors.selectById(state, numericId));
+    const personAtId = useGetPersonById(numericId);
     const name = getIconName2(person || personAtId);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name });
   };
@@ -42726,18 +42734,18 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/section-header.tsx
   var import_jsx_runtime19 = __toESM(require_jsx_runtime());
-  var getItemSelectors = (section) => {
-    let selectors5 = null;
+  var getItemSelector = (section) => {
+    let selector = null;
     if (section?.slug === "entities" /* Entities */) {
-      selectors5 = selectors2;
+      selector = useGetEntityById;
     } else if (section?.slug === "incidents" /* Incidents */) {
-      selectors5 = selectors3;
+      selector = useGetIncidentById;
     } else if (section?.slug === "people" /* People */) {
-      selectors5 = selectors;
+      selector = useGetPersonById;
     } else if (section?.slug === "sources" /* Sources */) {
-      selectors5 = selectors4;
+      selector = useGetSourceById;
     }
-    return selectors5;
+    return selector;
   };
   var useGetSectionLink = (slug) => {
     if (slug === "entities" /* Entities */) {
@@ -42751,13 +42759,13 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   };
   var SectionItemLink = ({ children, section }) => {
-    const selectors5 = getItemSelectors(section);
-    const item = useSelector((state) => selectors5?.selectById(state, section.id));
+    const selector = getItemSelector(section);
+    const item = selector(section.id);
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(BetterLink, { to: item.links.self, children });
   };
   var SectionDescription = ({ section }) => {
-    const selectors5 = getItemSelectors(section);
-    const item = useSelector((state) => selectors5?.selectById(state, section.id));
+    const selector = getItemSelector(section);
+    const item = selector(section.id);
     const hasDetails = Object.keys(item.details || {}).length > 0;
     if (!hasDetails) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("h4", { children: Object.values(item.details).map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { className: "header-section-detail", children: detail }, i2)) });
@@ -42882,7 +42890,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentEntity = ({ incident }) => {
     const [trigger] = api_default.useLazyGetEntityByIdQuery();
     const id = incident.entityId;
-    const entity = useSelector((state) => selectors2.selectById(state, id));
+    const entity = useGetEntityById(id);
     const hasEntity = Boolean(entity);
     (0, import_react20.useEffect)(() => {
       if (entity || !id) return;
@@ -43006,14 +43014,15 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime29 = __toESM(require_jsx_runtime());
   var IncidentModal = ({ deactivate, id, isActive }) => {
     const [trigger] = api_default.useLazyGetIncidentByIdQuery();
-    const incident = useSelector((state) => selectors3.selectById(state, id));
-    const hasIncident = Boolean(incident && "attendees" in incident);
+    const incident = useGetIncidentById(id);
+    const hasIncident = Boolean(incident);
+    const hasAttendees = Boolean(incident && "attendees" in incident);
     const hasNotes = Boolean(incident?.notes);
     (0, import_react22.useEffect)(() => {
-      if (hasIncident) return;
+      if (hasAttendees) return;
       trigger({ id });
-    }, [hasIncident, id, trigger]);
-    if (!incident) return null;
+    }, [hasAttendees, id, trigger]);
+    if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(modal_default, { className: "incident-modal", deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { className: "modal-incident", children: [
       /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(item_subhead_default, { title: /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(import_jsx_runtime29.Fragment, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(icon_default3, {}),
@@ -43422,9 +43431,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/index.tsx
   var import_jsx_runtime36 = __toESM(require_jsx_runtime());
   var EntityItem = ({ id }) => {
-    const entity = useSelector((state) => selectors2.selectById(state, id));
+    const entity = useGetEntityById(id);
+    const hasEntity = Boolean(entity);
     const hasTotal = Boolean(entity?.overview?.totals?.values.total.value);
-    if (!entity) return null;
+    if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(icon_default2, {}) }),
       /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { className: "cell-name", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(item_link_default2, { item: entity, children: entity.name }) : entity.name }),
@@ -56548,13 +56558,15 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   );
   var Entity = ({ id }) => {
-    const entity = useSelector((state) => selectors2.selectById(state, id));
-    if (!entity) return null;
+    const entity = useGetEntityById(id);
+    const hasEntity = Boolean(entity);
+    if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabel, { label: entity.name });
   };
   var Person = ({ id }) => {
-    const person = useSelector((state) => selectors.selectById(state, id));
-    if (!person) return null;
+    const person = useGetPersonById(id);
+    const hasPerson = Boolean(person);
+    if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabel, { label: person.name });
   };
   var FilterModelId = ({ label, model }) => {
@@ -56696,7 +56708,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime59 = __toESM(require_jsx_runtime());
   var IncidentRow = ({ id }) => {
     const [isSelected, setIsSelected] = (0, import_react37.useState)(false);
-    const incident = useSelector((state) => selectors3.selectById(state, id));
+    const incident = useGetIncidentById(id);
+    const hasIncident = Boolean(incident);
     const hasDateRange = Boolean(incident?.contactDateRange);
     const hasNotes = Boolean(incident?.notes);
     const deactivate = () => setIsSelected(false);
@@ -56709,7 +56722,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
     };
-    if (!incident) return null;
+    if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(import_jsx_runtime59.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(
       "tr",
       {
@@ -56831,7 +56844,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const incidentsRef = (0, import_react38.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
-    const entity = useSelector((state) => selectors2.selectById(state, numericId));
+    const entity = useGetEntityById(numericId);
     const hasEntity = Boolean(entity);
     if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(item_detail_default, { children: [
@@ -56962,9 +56975,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/index.tsx
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var PersonItem = ({ id }) => {
-    const person = useSelector((state) => selectors.selectById(state, id));
+    const person = useGetPersonById(id);
+    const hasPerson = Boolean(person);
     const hasTotal = Boolean(person?.overview?.totals?.values.total.value);
-    if (!person) return null;
+    if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default4, { person }) }),
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("td", { className: "cell-name", children: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(item_link_default, { item: person, children: person.name }) : person.name }),
@@ -57212,12 +57226,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentSourceBox = ({ incident, title }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const id = incident?.sourceId;
-    const source = useSelector((state) => selectors4.selectById(state, id));
+    const source = useGetSourceById(id);
+    const hasSource = Boolean(source);
     (0, import_react40.useEffect)(() => {
       if (source || !id) return;
       trigger({ id });
     }, [id, source, trigger]);
-    if (!source) return null;
+    if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
       MetaSectionBox,
       {
@@ -57235,8 +57250,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var Detail2 = () => {
     const { id } = useParams();
     const numericId = Number(id);
-    const incident = useSelector((state) => selectors3.selectById(state, numericId));
-    if (!incident) return null;
+    const incident = useGetIncidentById(numericId);
+    const hasIncident = Boolean(incident);
+    if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
         /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(item_subhead_default, { title: "Details" }),
@@ -57463,7 +57479,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const incidentsRef = (0, import_react44.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
-    const person = useSelector((state) => selectors.selectById(state, numericId));
+    const person = useGetPersonById(numericId);
     const hasPerson = Boolean(person);
     if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime86.jsxs)(item_detail_default, { children: [
@@ -57520,13 +57536,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime87 = __toESM(require_jsx_runtime());
   var Item = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
-    const source = useSelector((state) => selectors4.selectById(state, id));
+    const source = useGetSourceById(id);
+    const hasSource = Boolean(source);
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
     (0, import_react45.useEffect)(() => {
       if (source) return;
       trigger({ id });
     }, [id, source, trigger]);
-    if (!source) return null;
+    if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
       /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(icon_default5, {}) }),
       /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)("div", { className: "item-source-quarter-description", children: [
@@ -57721,7 +57738,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const incidentsRef = (0, import_react49.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
-    const source = useSelector((state) => selectors4.selectById(state, numericId));
+    const source = useGetSourceById(numericId);
     const hasSource = Boolean(source);
     const label = source ? `Q${source.quarter} ${source.year}` : null;
     const isActivity = source?.type === "activity";

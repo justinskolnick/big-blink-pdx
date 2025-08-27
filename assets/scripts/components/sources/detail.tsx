@@ -1,8 +1,5 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
-
-import { RootState } from '../../lib/store';
 
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
@@ -15,7 +12,7 @@ import ItemDetail from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
 
-import { selectors } from '../../reducers/sources';
+import { useGetSourceById } from '../../reducers/sources';
 
 const Detail = () => {
   const incidentsRef = useRef<HTMLDivElement>(null);
@@ -23,7 +20,7 @@ const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const source = useSelector((state: RootState) => selectors.selectById(state, numericId));
+  const source = useGetSourceById(numericId);
   const hasSource = Boolean(source);
 
   const label = source ? `Q${source.quarter} ${source.year}` : null;

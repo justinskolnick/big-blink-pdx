@@ -26,8 +26,8 @@ type InitialState = {
 };
 
 const adapter = createEntityAdapter<Entity>();
-export const selectors = adapter.getSelectors(getEntities);
 
+const selectors = adapter.getSelectors(getEntities);
 export const useGetEntityById = (id: Id): Entity => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
 

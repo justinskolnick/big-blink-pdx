@@ -31,8 +31,8 @@ type InitialState = {
 };
 
 export const adapter = createEntityAdapter<Person>();
-export const selectors = adapter.getSelectors(getPeople);
 
+const selectors = adapter.getSelectors(getPeople);
 export const useGetPersonById = (id: Id): Person => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
 

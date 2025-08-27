@@ -1,9 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../../lib/store';
-import { selectors } from '../../reducers/incidents';
+import { useGetIncidentById } from '../../reducers/incidents';
 
 import IncidentNotesBox from '../incident-notes-box';
 import IncidentSourceBox from '../incident-source-box';
@@ -12,14 +10,15 @@ import IncidentTable from '../incident-table';
 import ItemDetail from '../item-detail';
 import ItemSubhead from '../item-subhead';
 
-
 const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const incident = useSelector((state: RootState) => selectors.selectById(state, numericId));
+  const incident = useGetIncidentById(numericId);
 
-  if (!incident) return null;
+  const hasIncident = Boolean(incident);
+
+  if (!hasIncident) return null;
 
   return (
     <ItemDetail>

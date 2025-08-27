@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../lib/store';
-import { selectors } from '../reducers/incidents';
+import { useGetIncidentById } from '../reducers/incidents';
+
 import api from '../services/api';
 
 import Icon from './incidents/icon';
@@ -25,17 +24,19 @@ interface Props {
 const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   const [trigger] = api.useLazyGetIncidentByIdQuery();
 
-  const incident = useSelector((state: RootState) => selectors.selectById(state, id));
-  const hasIncident = Boolean(incident && 'attendees' in incident);
+  const incident = useGetIncidentById(id);
+
+  const hasIncident = Boolean(incident);
+  const hasAttendees = Boolean(incident && 'attendees' in incident);
   const hasNotes = Boolean(incident?.notes);
 
   useEffect(() => {
-    if (hasIncident) return;
+    if (hasAttendees) return;
 
     trigger({ id });
-  }, [hasIncident, id, trigger]);
+  }, [hasAttendees, id, trigger]);
 
-  if (!incident) return null;
+  if (!hasIncident) return null;
 
   return (
     <Modal className='incident-modal' deactivate={deactivate} isActive={isActive}>

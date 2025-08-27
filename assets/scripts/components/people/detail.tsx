@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../../lib/store';
-import { selectors } from '../../reducers/people';
+import { useGetPersonById } from '../../reducers/people';
 
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
@@ -20,7 +18,7 @@ const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const person = useSelector((state: RootState) => selectors.selectById(state, numericId));
+  const person = useGetPersonById(numericId);
   const hasPerson = Boolean(person);
 
   if (!hasPerson) return null;

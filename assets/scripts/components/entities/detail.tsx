@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../../lib/store';
-import { selectors } from '../../reducers/entities';
+import { useGetEntityById } from '../../reducers/entities';
 
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
@@ -19,7 +17,7 @@ const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const entity = useSelector((state: RootState) => selectors.selectById(state, numericId));
+  const entity = useGetEntityById(numericId);
   const hasEntity = Boolean(entity);
 
   if (!hasEntity) return null;

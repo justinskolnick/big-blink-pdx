@@ -1,16 +1,14 @@
 import React, { useEffect, useState, Fragment, MouseEvent, ReactElement, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
 
 import { getQueryParams } from '../lib/links';
-import { RootState } from '../lib/store';
 import { isEmpty } from '../lib/util';
 
 import { LinkToQueryParams } from './links';
 
-import { selectors as entitiesSelectors } from '../reducers/entities';
-import { selectors as peopleSelectors } from '../reducers/people';
+import { useGetEntityById } from '../reducers/entities';
+import { useGetPersonById } from '../reducers/people';
 
 import { FiltersLabelTypes, Sections } from '../types';
 import type {
@@ -122,17 +120,21 @@ const FilterRemove = ({ newParams }: FilterRemoveProps) => (
 );
 
 const Entity = ({ id }: { id: Id }) => {
-  const entity = useSelector((state: RootState) => entitiesSelectors.selectById(state, id));
+  const entity = useGetEntityById(id);
 
-  if (!entity) return null;
+  const hasEntity = Boolean(entity);
+
+  if (!hasEntity) return null;
 
   return <FilterLabel label={entity.name} />;
 };
 
 const Person = ({ id }: { id: Id }) => {
-  const person = useSelector((state: RootState) => peopleSelectors.selectById(state, id));
+  const person = useGetPersonById(id);
 
-  if (!person) return null;
+  const hasPerson = Boolean(person);
+
+  if (!hasPerson) return null;
 
   return <FilterLabel label={person.name} />;
 };

@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
 import {
@@ -10,6 +11,7 @@ import { getSources } from '../selectors';
 
 import { RootState } from '../lib/store';
 import type {
+  Id,
   Ids,
   Incidents,
   Pagination,
@@ -21,7 +23,13 @@ import type {
 } from '../types';
 
 export const adapter = createEntityAdapter<Source>();
-export const selectors = adapter.getSelectors(getSources);
+
+const selectors = adapter.getSelectors(getSources);
+export const useGetSourceById = (id: Id): Source => {
+  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+
+  return entity;
+};
 
 export const adapters = {
   adaptOne: (state: RootState, entry: SourceWithIncidentRecords): Source => {

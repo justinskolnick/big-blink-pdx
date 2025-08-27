@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../../lib/store';
-
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import Icon from './icon';
@@ -10,7 +8,7 @@ import ItemLink from './item-link';
 import SectionIndex from '../section-index';
 import { SortLink } from '../links';
 
-import { selectors } from '../../reducers/people';
+import { useGetPersonById } from '../../reducers/people';
 import {
   getPeoplePageIds,
   getPeoplePagination,
@@ -23,10 +21,12 @@ interface PersonItemProps {
 }
 
 export const PersonItem = ({ id }: PersonItemProps) => {
-  const person = useSelector((state: RootState) => selectors.selectById(state, id));
+  const person = useGetPersonById(id);
+
+  const hasPerson = Boolean(person);
   const hasTotal = Boolean(person?.overview?.totals?.values.total.value);
 
-  if (!person) return null;
+  if (!hasPerson) return null;
 
   return (
     <tr>
