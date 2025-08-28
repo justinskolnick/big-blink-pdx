@@ -68,8 +68,10 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
 
+const adaptIncident = (state: RootState, incident: Incident) =>
+  incidentActions.adapters.adaptOne(state, incident);
 const adaptIncidents = (state: RootState, incidents: Incidents) =>
-  incidents.map(incident => incidentActions.adapters.adaptOne(state, incident));
+  incidents.map(incident => adaptIncident(state, incident));
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
@@ -140,11 +142,17 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
     if ('incidents' in data) {
       if ('first' in data.incidents) {
-        dispatch(incidentActions.setFirst(data.incidents.first));
+        const firstPeople = getPeopleFromIncidents(state, [data.incidents.first]);
+
+        dispatch(incidentActions.setFirst(adaptIncident(state, data.incidents.first)));
+        dispatch(personActions.setAll(firstPeople));
       }
 
       if ('last' in data.incidents) {
-        dispatch(incidentActions.setLast(data.incidents.last));
+        const lastPeople = getPeopleFromIncidents(state, [data.incidents.last]);
+
+        dispatch(incidentActions.setLast(adaptIncident(state, data.incidents.last)));
+        dispatch(personActions.setAll(lastPeople));
       }
 
       if ('total' in data.incidents) {

@@ -34729,7 +34729,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var getEntitiesFromPerson = (state, person) => person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters2.adaptOne(state, entity));
   var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adapters.adaptOne(state, person));
   var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters2.adaptOne(state, entity));
-  var adaptIncidents2 = (state, incidents) => incidents.map((incident) => adapters3.adaptOne(state, incident));
+  var adaptIncident = (state, incident) => adapters3.adaptOne(state, incident);
+  var adaptIncidents2 = (state, incidents) => incidents.map((incident) => adaptIncident(state, incident));
   var handleResult = (result, isPrimary) => {
     const dispatch = store_default.dispatch;
     const state = store_default.getState();
@@ -34784,10 +34785,14 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       if ("incidents" in data2) {
         if ("first" in data2.incidents) {
-          dispatch(setFirst(data2.incidents.first));
+          const firstPeople = getPeopleFromIncidents(state, [data2.incidents.first]);
+          dispatch(setFirst(adaptIncident(state, data2.incidents.first)));
+          dispatch(setAll(firstPeople));
         }
         if ("last" in data2.incidents) {
-          dispatch(setLast(data2.incidents.last));
+          const lastPeople = getPeopleFromIncidents(state, [data2.incidents.last]);
+          dispatch(setLast(adaptIncident(state, data2.incidents.last)));
+          dispatch(setAll(lastPeople));
         }
         if ("total" in data2.incidents) {
           dispatch(setTotal(data2.incidents.total));

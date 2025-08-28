@@ -19,6 +19,7 @@ const Leaderboard = require('../models/leaderboard/leaderboard');
 
 const entities = require('../services/entities');
 const incidents = require('../services/incidents');
+const incidentAttendees = require('../services/incident-attendees');
 const people = require('../services/people');
 const quarters = require('../services/quarters');
 const sources = require('../services/sources');
@@ -44,11 +45,15 @@ router.get('/', async (req, res, next) => {
         incidents.getFirstAndLastDates(),
       ]);
       const [total, firstAndLast] = results;
+      const [first, last] = await incidentAttendees.getAllForIncidents([
+        firstAndLast.first,
+        firstAndLast.last,
+      ]);
 
       data = {
         incidents: {
-          first: firstAndLast.first,
-          last: firstAndLast.last,
+          first,
+          last,
           total,
         },
       };
