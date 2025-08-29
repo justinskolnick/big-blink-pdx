@@ -43,6 +43,8 @@ class Incident extends Base {
       contactDateRange: this.adaptReadableDateRange(result),
       entityName: result.entity,
       raw: {
+        dateStart: result.contact_date,
+        dateEnd: result.contact_date_end,
         officials: result.officials,
         lobbyists: result.lobbyists,
       },

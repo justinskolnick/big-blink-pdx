@@ -73,6 +73,8 @@ describe('adapt()', () => {
       lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
       notes: 'None',
       raw: {
+        dateStart: '2014-01-14',
+        dateEnd: null,
         officials: 'Mayor Mercury; Orbit, Henry',
         lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
       },
@@ -219,6 +221,8 @@ describe('setData()', () => {
       sourceId: 1,
       topic: 'Office Space',
       raw: {
+        dateStart: '2025-02-14',
+        dateEnd: null,
         lobbyists: 'George Jetson;Rosey the Robot;Miss Rivets',
         officials: 'Mayor Mercury; Orbit, Henry',
       },

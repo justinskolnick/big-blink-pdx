@@ -63,6 +63,7 @@
   --color-warning: var(--color-yellow);
 
   --color-divider: var(--color-light-gray);
+  --color-divider-lighter: rgba(var(--color-light-gray-rgb), 0.5);
 
   --gap: 18px;
   --grid-border: 3px solid var(--color-divider);

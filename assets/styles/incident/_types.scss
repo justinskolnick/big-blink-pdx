@@ -1,3 +1,7 @@
 ul.incident-types {
   list-style: disc inside;
+
+  ::marker {
+    color: var(--color-text-lighter);
+  }
 }

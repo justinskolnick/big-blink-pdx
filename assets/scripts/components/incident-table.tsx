@@ -3,6 +3,7 @@ import React from 'react';
 import Attendees from './incident-attendees';
 import Entity from './incident-entity';
 
+import { Role } from '../types';
 import type { Incident } from '../types';
 
 interface Props {
@@ -62,11 +63,11 @@ const IncidentTable = ({ incident }: Props) => {
         </tr>
         <tr>
           <th>Officials</th>
-          <td><Attendees attendees={incident.attendees?.officials} /></td>
+          <td><Attendees incident={incident} role={Role.Official} /></td>
         </tr>
         <tr>
           <th>Lobbyists</th>
-          <td><Attendees attendees={incident.attendees?.lobbyists} /></td>
+          <td><Attendees incident={incident} role={Role.Lobbyist} /></td>
         </tr>
       </tbody>
     </table>

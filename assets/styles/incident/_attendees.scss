@@ -1,7 +1,7 @@
 .incident-attendees {
   .incident-attendee {
-    span {
-      color: var(--color-text-lighter);
+    .attendee-name-reported-as {
+      color: var(--color-text-light);
       font-weight: 200;
       font-size: 12px;
 
@@ -14,12 +14,20 @@
       }
     }
 
-    a + span {
+    .attendee-role {
+      color: var(--color-text-light);
+      font-weight: 300;
+      font-size: 12px;
+    }
+
+    a + .attendee-name-reported-as {
       margin-left: 0.5ch;
     }
   }
 
   .incident-attendee + .incident-attendee {
-    margin-top: 3px;
+    margin-top: calc(var(--gap) / 6);
+    padding-top: calc(var(--gap) / 6);
+    border-top: 1px solid var(--color-divider-lighter);
   }
 }

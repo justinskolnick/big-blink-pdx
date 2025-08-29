@@ -222,6 +222,7 @@ table {
   --color-danger: var(--color-red);
   --color-warning: var(--color-yellow);
   --color-divider: var(--color-light-gray);
+  --color-divider-lighter: rgba(var(--color-light-gray-rgb), 0.5);
   --gap: 18px;
   --grid-border: 3px solid var(--color-divider);
   --color-table-accent: var(--color-gray);
@@ -1565,23 +1566,34 @@ body.has-alert .alert-root {
     margin-top: var(--gap);
   }
 }
-.incident-attendees .incident-attendee span {
-  color: gray;
-  color: var(--color-text-lighter);
+.incident-attendees .incident-attendee .attendee-name-reported-as {
+  color: dimgray;
+  color: var(--color-text-light);
   font-weight: 200;
   font-size: 12px;
 }
-.incident-attendees .incident-attendee span::before {
+.incident-attendees .incident-attendee .attendee-name-reported-as::before {
   content: "as \201c";
 }
-.incident-attendees .incident-attendee span::after {
+.incident-attendees .incident-attendee .attendee-name-reported-as::after {
   content: "\201d";
 }
-.incident-attendees .incident-attendee a + span {
+.incident-attendees .incident-attendee .attendee-role {
+  color: dimgray;
+  color: var(--color-text-light);
+  font-weight: 300;
+  font-size: 12px;
+}
+.incident-attendees .incident-attendee a + .attendee-name-reported-as {
   margin-left: 0.5ch;
 }
 .incident-attendees .incident-attendee + .incident-attendee {
-  margin-top: 3px;
+  margin-top: calc(18px / 6);
+  margin-top: calc(var(--gap) / 6);
+  padding-top: calc(18px / 6);
+  padding-top: calc(var(--gap) / 6);
+  border-top: 1px solid rgba(220, 220, 220, 0.5);
+  border-top: 1px solid var(--color-divider-lighter);
 }
 .incident-header {
   display: inline-block;
@@ -1940,6 +1952,10 @@ body.has-alert .alert-root {
 }
 ul.incident-types {
   list-style: disc inside;
+}
+ul.incident-types ::marker {
+  color: gray;
+  color: var(--color-text-lighter);
 }
 .affiliated-items.no-results {
   padding-bottom: 6px;

@@ -33,10 +33,26 @@ type InitialState = {
 export const adapter = createEntityAdapter<Person>();
 
 const selectors = adapter.getSelectors(getPeople);
+
 export const useGetPersonById = (id: Id): Person => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
 
   return person;
+};
+
+export const useGetPersonPosition = (id: Id, date: string) => {
+  const person = useGetPersonById(id);
+  let officialPosition = null;
+
+  if (person.officialPositions?.length) {
+    officialPosition = person.officialPositions.find(position => {
+      const { start, end } = position.dates;
+
+      return start <= date && (end >= date || end === null);
+    });
+  }
+
+  return officialPosition;
 };
 
 export const adapters = {

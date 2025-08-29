@@ -33,13 +33,24 @@ export type Result = {
   title?: string;
 };
 
+const adaptEntity = (state: RootState, entity: EntityWithIncidentRecords) =>
+  entityActions.adapters.adaptOne(state, entity);
+const adaptIncident = (state: RootState, incident: Incident) =>
+  incidentActions.adapters.adaptOne(state, incident);
+const adaptIncidents = (state: RootState, incidents: Incidents) =>
+  incidents.map(incident => adaptIncident(state, incident));
+const adaptPerson = (state: RootState, person: PersonWithIncidentRecords) =>
+  personActions.adapters.adaptOne(state, person);
+const adaptSource = (state: RootState, source: SourceWithIncidentRecords) =>
+  sourceActions.adapters.adaptOne(state, source);
+
 const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
   incidents.flatMap((incident: Incident) =>
     Object.values(incident.attendees)
       .filter((group: AttendeeGroup) => 'records' in group)
       .map((group: AttendeeGroup) => group.records).flat()
       .map(attendee => attendee?.person)
-      .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person))
+      .map((person: PersonWithIncidentRecords) => adaptPerson(state, person))
   );
 
 const getAttendeesFromPerson = (state: RootState, person: Person) =>
@@ -47,31 +58,26 @@ const getAttendeesFromPerson = (state: RootState, person: Person) =>
     .flatMap(role => role.values)
     .flatMap(value => value.records)
     .map(record => record.person)
-    .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
+    .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
 
 const getEntitiesFromPerson = (state: RootState, person: Person) =>
   person.entities.roles
     .flatMap(role => role.values)
     .flatMap(value => value.records)
     .map(record => record.entity)
-    .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
+    .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
 const getAttendeesFromRecord = (state: RootState, record: Entity | Source) =>
   record.attendees.values
     .flatMap(value => value.records)
     .map(entry => entry.person)
-    .map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
+    .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
 
 const getEntitiesFromSource = (state: RootState, source: Source) =>
   source.entities.values
     .flatMap(value => value.records)
     .map(entry => entry.entity)
-    .map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
-
-const adaptIncident = (state: RootState, incident: Incident) =>
-  incidentActions.adapters.adaptOne(state, incident);
-const adaptIncidents = (state: RootState, incidents: Incidents) =>
-  incidents.map(incident => adaptIncident(state, incident));
+    .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
@@ -96,7 +102,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('entity' in data) {
-      const entity = entityActions.adapters.adaptOne(state, data.entity.record);
+      const entity = adaptEntity(state, data.entity.record);
       const incidents = entityActions.adapters.getIncidents(data.entity.record);
       const people = getPeopleFromIncidents(state, incidents);
 
@@ -120,7 +126,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('entities' in data) {
-      const entities = data.entities.records.map((entity: EntityWithIncidentRecords) => entityActions.adapters.adaptOne(state, entity));
+      const entities = data.entities.records.map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
       dispatch(entityActions.setAll(entities));
 
@@ -133,8 +139,8 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('incident' in data) {
-      const incident = incidentActions.adapters.adaptOne(state, data.incident.record);
-      const people = getPeopleFromIncidents(state, [incident]);
+      const incident = adaptIncident(state, data.incident.record);
+      const people = getPeopleFromIncidents(state, [data.incident.record]);
 
       dispatch(incidentActions.set(incident));
       dispatch(personActions.setAll(people));
@@ -177,7 +183,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('person' in data) {
-      const person = personActions.adapters.adaptOne(state, data.person.record);
+      const person = adaptPerson(state, data.person.record);
       const incidents = personActions.adapters.getIncidents(data.person.record);
       const people = getPeopleFromIncidents(state, incidents);
 
@@ -209,7 +215,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('people' in data) {
-      const people = data.people.records.map((person: PersonWithIncidentRecords) => personActions.adapters.adaptOne(state, person));
+      const people = data.people.records.map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
 
       dispatch(personActions.setAll(people));
 
@@ -222,7 +228,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('source' in data) {
-      const source = sourceActions.adapters.adaptOne(state, data.source.record);
+      const source = adaptSource(state, data.source.record);
       const incidents = sourceActions.adapters.getIncidents(data.source.record);
       const people = getPeopleFromIncidents(state, incidents);
 
@@ -254,7 +260,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('sources' in data) {
-      const sources = data.sources.records.map((source: SourceWithIncidentRecords) => sourceActions.adapters.adaptOne(state, source));
+      const sources = data.sources.records.map((source: SourceWithIncidentRecords) => adaptSource(state, source));
 
       dispatch(sourceActions.setAll(sources));
 

@@ -127,6 +127,12 @@ export type Incident = {
   attendees?: IncidentAttendees;
   details?: Details;
   links?: LinkObject;
+  raw: {
+    dateStart: string;
+    dateEnd?: string;
+    officials: string;
+    lobbyists: string;
+  };
 };
 
 export type Incidents = Incident[];
@@ -409,6 +415,14 @@ export type PersonAttendees = {
   roles: PersonAttendeesRole[];
 };
 
+export type PersonOfficialPosition = {
+  dates: {
+    start: string;
+    end: string;
+  };
+  role: string;
+};
+
 export type Person = Item & {
   pernr?: number;
   roles?: Role[];
@@ -417,6 +431,7 @@ export type Person = Item & {
   details?: Details;
   entities?: PersonEntities;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  officialPositions?: PersonOfficialPosition[];
   overview?: ItemOverview;
   links?: LinkObject;
 }

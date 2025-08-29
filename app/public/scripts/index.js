@@ -30920,6 +30920,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const person = useSelector((state) => selectors.selectById(state, id));
     return person;
   };
+  var useGetPersonPosition = (id, date) => {
+    const person = useGetPersonById(id);
+    let officialPosition = null;
+    if (person.officialPositions?.length) {
+      officialPosition = person.officialPositions.find((position2) => {
+        const { start, end: end3 } = position2.dates;
+        return start <= date && (end3 >= date || end3 === null);
+      });
+    }
+    return officialPosition;
+  };
   var adapters = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors.selectById(state, entry.id);
@@ -34722,15 +34733,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var ui_default = uiReducer;
 
   // assets/scripts/lib/fetch-from-path.ts
-  var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
-    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adapters.adaptOne(state, person))
-  );
-  var getAttendeesFromPerson = (state, person) => person.attendees.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.person).map((person2) => adapters.adaptOne(state, person2));
-  var getEntitiesFromPerson = (state, person) => person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adapters2.adaptOne(state, entity));
-  var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adapters.adaptOne(state, person));
-  var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adapters2.adaptOne(state, entity));
+  var adaptEntity = (state, entity) => adapters2.adaptOne(state, entity);
   var adaptIncident = (state, incident) => adapters3.adaptOne(state, incident);
   var adaptIncidents2 = (state, incidents) => incidents.map((incident) => adaptIncident(state, incident));
+  var adaptPerson = (state, person) => adapters.adaptOne(state, person);
+  var adaptSource = (state, source) => adapters4.adaptOne(state, source);
+  var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
+    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adaptPerson(state, person))
+  );
+  var getAttendeesFromPerson = (state, person) => person.attendees.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.person).map((person2) => adaptPerson(state, person2));
+  var getEntitiesFromPerson = (state, person) => person.entities.roles.flatMap((role) => role.values).flatMap((value) => value.records).map((record) => record.entity).map((entity) => adaptEntity(state, entity));
+  var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adaptPerson(state, person));
+  var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adaptEntity(state, entity));
   var handleResult = (result, isPrimary) => {
     const dispatch = store_default.dispatch;
     const state = store_default.getState();
@@ -34751,7 +34765,7 @@ Hook ${hookName} was either not provided or not a function.`);
         dispatch(actions.setLeaderboard(data2.leaderboard));
       }
       if ("entity" in data2) {
-        const entity = adapters2.adaptOne(state, data2.entity.record);
+        const entity = adaptEntity(state, data2.entity.record);
         const incidents = adapters2.getIncidents(data2.entity.record);
         const people = getPeopleFromIncidents(state, incidents);
         dispatch(set3(entity));
@@ -34769,7 +34783,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("entities" in data2) {
-        const entities = data2.entities.records.map((entity) => adapters2.adaptOne(state, entity));
+        const entities = data2.entities.records.map((entity) => adaptEntity(state, entity));
         dispatch(setAll2(entities));
         if ("pagination" in data2.entities) {
           const ids = adapters2.getIds(entities);
@@ -34778,8 +34792,8 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("incident" in data2) {
-        const incident = adapters3.adaptOne(state, data2.incident.record);
-        const people = getPeopleFromIncidents(state, [incident]);
+        const incident = adaptIncident(state, data2.incident.record);
+        const people = getPeopleFromIncidents(state, [data2.incident.record]);
         dispatch(set4(incident));
         dispatch(setAll(people));
       }
@@ -34810,7 +34824,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("person" in data2) {
-        const person = adapters.adaptOne(state, data2.person.record);
+        const person = adaptPerson(state, data2.person.record);
         const incidents = adapters.getIncidents(data2.person.record);
         const people = getPeopleFromIncidents(state, incidents);
         dispatch(set2(person));
@@ -34834,7 +34848,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("people" in data2) {
-        const people = data2.people.records.map((person) => adapters.adaptOne(state, person));
+        const people = data2.people.records.map((person) => adaptPerson(state, person));
         dispatch(setAll(people));
         if ("pagination" in data2.people) {
           const ids = adapters.getIds(data2.people.records);
@@ -34843,7 +34857,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("source" in data2) {
-        const source = adapters4.adaptOne(state, data2.source.record);
+        const source = adaptSource(state, data2.source.record);
         const incidents = adapters4.getIncidents(data2.source.record);
         const people = getPeopleFromIncidents(state, incidents);
         dispatch(set5(source));
@@ -34867,7 +34881,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
       if ("sources" in data2) {
-        const sources = data2.sources.records.map((source) => adapters4.adaptOne(state, source));
+        const sources = data2.sources.records.map((source) => adaptSource(state, source));
         dispatch(setAll4(sources));
         if ("pagination" in data2.sources) {
           const ids = adapters4.getIds(data2.sources.records);
@@ -42882,20 +42896,41 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/incident-attendees.tsx
   var import_jsx_runtime23 = __toESM(require_jsx_runtime());
-  var IncidentAttendee = ({ attendee }) => {
+  var useGetAttendeesByRole = (incident, role) => {
+    if (role === "lobbyist" /* Lobbyist */) {
+      return incident.attendees.lobbyists;
+    } else if (role === "official" /* Official */) {
+      return incident.attendees.officials;
+    }
+    return null;
+  };
+  var IncidentAttendee = ({ attendee, children }) => {
     const person = useGetPersonById(attendee.person.id);
-    if (!person) return null;
+    const hasPerson = Boolean(person);
+    const hasReportedName = attendee.as !== person.name;
+    if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(import_jsx_runtime23.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(item_link_default, { item: person, children: person.name }),
-      attendee.as !== person.name && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { children: attendee.as })
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "attendee-name", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(item_link_default, { item: person, children: person.name }),
+        hasReportedName && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { className: "attendee-name-reported-as", children: attendee.as })
+      ] }),
+      children
     ] });
   };
-  var IncidentAttendees = ({ attendees }) => {
+  var IncidentRole = ({ attendee, date }) => {
+    const position2 = useGetPersonPosition(attendee.person.id, date);
+    const hasRole = Boolean(position2?.role);
+    if (!hasRole) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "attendee-role", children: position2.role });
+  };
+  var IncidentAttendees = ({ incident, role }) => {
+    const attendees = useGetAttendeesByRole(incident, role);
     const hasAttendees = attendees?.records?.length > 0;
+    const date = incident.raw.dateStart;
     if (!hasAttendees) {
       return "none";
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("ul", { className: "incident-attendees", children: attendees.records.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("li", { className: "incident-attendee", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(IncidentAttendee, { attendee }) }, attendee.person.id)) });
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("ul", { className: "incident-attendees", children: attendees.records.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("li", { className: "incident-attendee", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(IncidentAttendee, { attendee, children: role === "official" /* Official */ && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(IncidentRole, { attendee, date }) }) }, attendee.person.id)) });
   };
   var incident_attendees_default = IncidentAttendees;
 
@@ -42962,11 +42997,11 @@ Hook ${hookName} was either not provided or not a function.`);
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tr", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Officials" }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(incident_attendees_default, { attendees: incident.attendees?.officials }) })
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(incident_attendees_default, { incident, role: "official" /* Official */ }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("tr", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("th", { children: "Lobbyists" }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(incident_attendees_default, { attendees: incident.attendees?.lobbyists }) })
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(incident_attendees_default, { incident, role: "lobbyist" /* Lobbyist */ }) })
       ] })
     ] }) });
   };
