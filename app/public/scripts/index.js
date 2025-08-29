@@ -31024,6 +31024,39 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   } = peopleSlice.actions;
   var people_default = peopleSlice.reducer;
 
+  // assets/scripts/lib/util.ts
+  var isEmpty = (item) => {
+    if (!item) {
+      return true;
+    } else if (Array.isArray(item)) {
+      return item.length === 0;
+    } else if (typeof item === "object") {
+      return isEmpty(Object.values(item));
+    } else if (typeof item === "string") {
+      return item.length === 0;
+    }
+    return null;
+  };
+  var sleep = async (delay) => {
+    await new Promise((resolve2, reject) => {
+      setInterval(resolve2, delay);
+    });
+  };
+
+  // assets/scripts/lib/async.ts
+  var batchPromiseAll = async (items, callback2, increment = 5, delay = 250) => {
+    const allResults = [];
+    let index = 0;
+    while (index < items.length) {
+      const batchItems = items.slice(index, index + increment);
+      const results = await Promise.allSettled(batchItems.map((item) => callback2(item)));
+      allResults.push(...results);
+      index = index + increment;
+      await sleep(delay);
+    }
+    return allResults;
+  };
+
   // node_modules/@standard-schema/utils/dist/index.js
   var SchemaError = class extends Error {
     /**
@@ -35019,16 +35052,17 @@ Hook ${hookName} was either not provided or not a function.`);
     const { endpoints } = api_default;
     const endpoint = endpoints.getPersonOfficialPositionsById;
     const ids = payload;
+    const method = async (id) => {
+      const promise = dispatch(endpoint.initiate({ id }));
+      const result = await promise;
+      if (result.isSuccess) {
+        dispatch(addToLookupCompleted(result.originalArgs.id));
+      }
+      promise.unsubscribe();
+      return result;
+    };
     try {
-      await Promise.all(ids.map(async (id) => {
-        const promise = dispatch(endpoint.initiate({ id }));
-        const result = await promise;
-        if (result.isSuccess) {
-          dispatch(addToLookupCompleted(result.originalArgs.id));
-        }
-        promise.unsubscribe();
-        return result;
-      }));
+      await batchPromiseAll(ids, method);
     } catch (error) {
       console.error("Failed to fetch:", error.message);
     }
@@ -56587,22 +56621,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/filter.tsx
   var import_react36 = __toESM(require_react());
-
-  // assets/scripts/lib/util.ts
-  var isEmpty = (item) => {
-    if (!item) {
-      return true;
-    } else if (Array.isArray(item)) {
-      return item.length === 0;
-    } else if (typeof item === "object") {
-      return isEmpty(Object.values(item));
-    } else if (typeof item === "string") {
-      return item.length === 0;
-    }
-    return null;
-  };
-
-  // assets/scripts/components/filter.tsx
   var import_jsx_runtime57 = __toESM(require_jsx_runtime());
   var FilterAction = ({ action, children, handleClick }) => {
     const hasAction = Boolean(action);

@@ -1,8 +1,12 @@
-interface Fn {
+interface FnIsEmpty {
   (item: unknown): boolean | null;
 }
 
-export const isEmpty: Fn = (item) => {
+interface FnSleep {
+  (delay: number): void;
+}
+
+export const isEmpty: FnIsEmpty = (item) => {
   if (!item) {
     return true;
   } else if (Array.isArray(item)) {
@@ -14,4 +18,11 @@ export const isEmpty: Fn = (item) => {
   }
 
   return null;
+};
+
+export const sleep: FnSleep = async (delay) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  await new Promise((resolve, reject) => {
+    setInterval(resolve, delay);
+  });
 };

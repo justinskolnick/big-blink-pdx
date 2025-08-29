@@ -1,8 +1,9 @@
 import * as actions from '../reducers/people';
 
+import { batchPromiseAll } from '../lib/async';
 import api from '../services/api';
 
-import type { Ids } from '../types';
+import type { Id, Ids } from '../types';
 import { MiddlewareHandlerFn } from '../types';
 
 const handleAddToPositionLookupQueue: MiddlewareHandlerFn = async (store, action) => {
@@ -14,19 +15,21 @@ const handleAddToPositionLookupQueue: MiddlewareHandlerFn = async (store, action
 
   const ids = payload as Ids;
 
+  const method = async (id: Id) => {
+    const promise = dispatch(endpoint.initiate({ id }));
+    const result = await promise;
+
+    if (result.isSuccess) {
+      dispatch(actions.addToLookupCompleted(result.originalArgs.id));
+    }
+
+    promise.unsubscribe();
+
+    return result;
+  };
+
   try {
-    await Promise.all(ids.map(async (id) => {
-      const promise = dispatch(endpoint.initiate({ id }));
-      const result = await promise;
-
-      if (result.isSuccess) {
-        dispatch(actions.addToLookupCompleted(result.originalArgs.id));
-      }
-
-      promise.unsubscribe();
-
-      return result;
-    }));
+    await batchPromiseAll(ids, method);
   } catch (error) {
     console.error('Failed to fetch:', error.message); // eslint-disable-line no-console
   }
