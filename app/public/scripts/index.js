@@ -57662,7 +57662,7 @@ Hook ${hookName} was either not provided or not a function.`);
           id: person.id,
           ref: incidentsRef,
           trigger,
-          children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
+          children: "incidents" in person && /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
             detail_incidents_default,
             {
               filters: person.incidents?.filters,
@@ -57893,7 +57893,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const numericId = Number(id);
     const source = useGetSourceById(numericId);
     const hasSource = Boolean(source);
-    const label = source ? `Q${source.quarter} ${source.year}` : null;
+    const label = source ? `${source.year} Q${source.quarter}` : null;
     const isActivity = source?.type === "activity";
     if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(item_detail_default, { children: [

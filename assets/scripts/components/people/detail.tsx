@@ -49,15 +49,17 @@ const Detail = () => {
             ref={incidentsRef}
             trigger={trigger}
           >
-            <Incidents
-              filters={person.incidents?.filters}
-              hasSort
-              ids={person.incidents?.ids}
-              label={person.name}
-              pagination={person.incidents?.pagination}
-              ref={incidentsRef}
-              roleIsPrimary
-            />
+            {'incidents' in person && (
+              <Incidents
+                filters={person.incidents?.filters}
+                hasSort
+                ids={person.incidents?.ids}
+                label={person.name}
+                pagination={person.incidents?.pagination}
+                ref={incidentsRef}
+                roleIsPrimary
+              />
+            )}
           </IncidentsFetcher>
         )}
       </IncidentsTrigger>

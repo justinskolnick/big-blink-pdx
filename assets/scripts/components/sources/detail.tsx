@@ -23,7 +23,7 @@ const Detail = () => {
   const source = useGetSourceById(numericId);
   const hasSource = Boolean(source);
 
-  const label = source ? `Q${source.quarter} ${source.year}` : null;
+  const label = source ? `${source.year} Q${source.quarter}` : null;
 
   const isActivity = source?.type === 'activity';
 
