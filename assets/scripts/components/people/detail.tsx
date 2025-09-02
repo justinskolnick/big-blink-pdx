@@ -50,12 +50,13 @@ const Detail = () => {
             trigger={trigger}
           >
             <Incidents
-              ids={person.incidents?.ids}
               filters={person.incidents?.filters}
               hasSort
+              ids={person.incidents?.ids}
               label={person.name}
               pagination={person.incidents?.pagination}
               ref={incidentsRef}
+              roleIsPrimary
             />
           </IncidentsFetcher>
         )}

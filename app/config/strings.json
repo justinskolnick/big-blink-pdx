@@ -4,6 +4,8 @@
   "appearances__first_incident": "First incident",
   "appearances__last": "Most recent appearance",
   "appearances__last_incident": "Last incident",
+  "as_a": "as a",
+  "as_an": "as an",
   "entities": "entities",
   "entity": "entity",
   "incidents__percentage": "Share of total",

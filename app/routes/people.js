@@ -10,6 +10,7 @@ const {
   PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
   PARAM_QUARTER,
+  PARAM_ROLE,
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,
@@ -417,6 +418,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
   const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
   const quarter = req.query.get(PARAM_QUARTER);
+  const role = req.query.get(PARAM_ROLE);
   const sort = req.query.get(PARAM_SORT);
   const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
   const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
@@ -449,6 +451,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         dateRangeTo,
         personId: id,
         quarterSourceId,
+        role,
         withEntityId,
         withPersonId,
       });
@@ -460,6 +463,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         perPage,
         personId: id,
         quarterSourceId,
+        role,
         sort,
         withEntityId,
         withPersonId,

@@ -4,6 +4,7 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import {
+  roleParam,
   sortParam,
   sortByParam,
   withEntityIdParam,
@@ -21,7 +22,7 @@ import type {
   Person,
   SortValue,
 } from '../types';
-import { SortByValues, SortValues } from '../types';
+import { Role, SortByValues, SortValues } from '../types';
 
 interface LinkProps {
   children: ReactNode;
@@ -62,12 +63,29 @@ interface LinkIdProps extends LinkProps {
   id: Id;
 }
 
-export const getWithEntityParams = (entity: Entity) => ({
-  [withEntityIdParam]: entity.id,
-});
-export const getWithPersonParams = (person: Person) => ({
-  [withPersonIdParam]: person.id,
-});
+export const getWithEntityParams = (entity: Entity, role?: Role) => {
+  const params = {} as NewParams;
+
+  if (role) {
+    params[roleParam] = role;
+  }
+
+  params[withEntityIdParam] = entity.id;
+
+  return params;
+};
+
+export const getWithPersonParams = (person: Person, role?: Role) => {
+  const params = {} as NewParams;
+
+  if (role) {
+    params[roleParam] = role;
+  }
+
+  params[withPersonIdParam] = person.id;
+
+  return params;
+};
 
 export const BetterLink = ({
   onClick,

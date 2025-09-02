@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Filter, { Filters } from './filter';
-import IncidentsHeader from './incidents-header';
+import IncidentsHeader, { PrimaryAssociation } from './incidents-header';
 import IncidentList from './incident-list';
 
 import type {
@@ -17,6 +17,7 @@ interface Props {
   label: string;
   pagination: Pagination;
   ref: React.RefObject<HTMLElement>;
+  roleIsPrimary?: boolean;
 }
 
 const DetailIncidents = ({
@@ -26,12 +27,23 @@ const DetailIncidents = ({
   label,
   pagination,
   ref,
+  roleIsPrimary,
 }: Props) => (
   <section className='activity-stat-section incident-list-section' ref={ref}>
-    <IncidentsHeader label={label}>
+    <IncidentsHeader subtitle={
+      <PrimaryAssociation label={label}>
+        {roleIsPrimary && (
+          <Filter filter={filters?.role} inline />
+        )}
+      </PrimaryAssociation>
+    }>
       <Filters className='incidents-filters'>
         <Filter filter={filters?.entities} />
-        <Filter filter={filters?.people} />
+        {roleIsPrimary ? (
+          <Filter filter={filters?.people} />
+        ) : (
+          <Filter filter={filters?.people} filterRelated={filters?.role} />
+        )}
         <Filter filter={filters?.quarter} />
         <Filter filter={filters?.dates} />
       </Filters>

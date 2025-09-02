@@ -11,6 +11,7 @@ const {
   hasDate,
   hasQuarter,
   hasQuarterAndYear,
+  hasRole,
   hasSort,
   hasSortBy,
   hasValidQuarter,
@@ -34,10 +35,11 @@ describe('getOutOfRangeValueMessage()', () => {
 describe('getParams()', () => {
   describe('with a date', () => {
     test('should include the date', () => {
-      const queryParams = new URLSearchParams('date_on=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
+      const queryParams = new URLSearchParams('date_on=2015-11-12&role=lobbyist&sort=ASC&with_entity_id=123&with_person_id=321');
 
       expect(getParams(queryParams)).toEqual({
         date_on: '2015-11-12', // eslint-disable-line camelcase
+        role: 'lobbyist',
         sort: 'ASC',
         with_entity_id: 123, // eslint-disable-line camelcase
         with_person_id: 321, // eslint-disable-line camelcase
@@ -148,6 +150,16 @@ describe('hasQuarterAndYear()', () => {
     expect(hasQuarterAndYear('Q4-2021')).toBe(true);
     expect(hasQuarterAndYear('Q42021')).toBe(false);
     expect(hasQuarterAndYear('2021-Q4')).toBe(false);
+  });
+});
+
+describe('hasRole()', () => {
+  test('with a param value', () => {
+    expect(hasRole(null)).toBe(false);
+    expect(hasRole('official')).toBe(true);
+    expect(hasRole('officila')).toBe(false);
+    expect(hasRole('lobbyist')).toBe(true);
+    expect(hasRole('lobbying')).toBe(false);
   });
 });
 

@@ -54,6 +54,7 @@ const buildQuery = (options = {}) => {
     personId,
     primaryKeyOnly = false,
     quarterSourceId,
+    role,
     sort = SORT_ASC,
     sourceId,
     totalOnly = false,
@@ -68,6 +69,7 @@ const buildQuery = (options = {}) => {
   const hasEntityId = Boolean(entityId || withEntityId);
   const hasPersonId = personIds.length > 0;
   const hasPersonIds = personIds.length > 1;
+  const hasRole = Boolean(role);
   const hasSourceId = Boolean(sourceId || quarterSourceId);
   const hasYear = Boolean(year);
 
@@ -90,7 +92,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Incident.tableName}`);
 
-  if (hasPersonId) {
+  if (hasPersonId || hasRole) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
     clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
   }
@@ -112,6 +114,11 @@ const buildQuery = (options = {}) => {
       if (hasPersonId) {
         conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
         params.push(personIds.at(0));
+      }
+
+      if (hasRole) {
+        conditions.push(`${IncidentAttendee.field('role')} = ?`);
+        params.push(role);
       }
 
       if (hasPersonIds) {

@@ -63,6 +63,7 @@ const getPaginationStats = async (options = {}) => {
     personId,
     sourceId,
     quarterSourceId,
+    role,
     withEntityId,
     withPersonId,
   } = options;
@@ -79,6 +80,7 @@ const getPaginationStats = async (options = {}) => {
       dateRangeTo,
       entityId,
       quarterSourceId,
+      role,
       withEntityId,
       withPersonId,
     });
@@ -89,6 +91,7 @@ const getPaginationStats = async (options = {}) => {
       dateRangeTo,
       personId,
       quarterSourceId,
+      role,
       withEntityId,
       withPersonId,
     });
@@ -98,6 +101,7 @@ const getPaginationStats = async (options = {}) => {
       dateRangeFrom,
       dateRangeTo,
       sourceId,
+      role,
       withEntityId,
       withPersonId,
     });

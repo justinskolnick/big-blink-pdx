@@ -37,7 +37,10 @@ interface FiltersProps {
 }
 
 interface FilterProps {
+  children?: ReactNode;
   filter: FiltersObjects;
+  filterRelated?: FiltersObjects;
+  inline?: boolean;
 }
 
 interface FilterActionProps {
@@ -58,6 +61,7 @@ interface FilterTextProps {
 interface FilterLabelsProps {
   filter: FiltersObjects;
   handleActionClick?: FilterActionHandlerType;
+  filterRelated: FiltersObjects;
 }
 
 interface FilterLabelArrayProps {
@@ -216,23 +220,43 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
   );
 };
 
-const FilterLabels = ({ filter, handleActionClick }: FilterLabelsProps) => {
-  const { labels, model, values } = filter;
+const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabelsProps) => {
+  const hasOtherFilter = Boolean(filterRelated);
 
-  const hasValues = Boolean(values);
-  const isRemovable = hasValues && !isEmpty(values);
+  const hasValues = Boolean(filter.values);
+  const isRemovable = hasValues && !isEmpty(filter.values);
   const newParamsBase = {
     page: null,
   } as Record<NewParamsKey, null>;
-  const newParams = hasValues && Object.keys(values).reduce((all, key: NewParamsKey) => {
-    all[key] = null;
+  let newParams = newParamsBase;
 
-    return all;
-  }, newParamsBase);
+  if (hasValues) {
+    const keys = Object.keys(filter.values);
+    const otherKeys = Object.keys(filterRelated?.values ?? {});
+
+    newParams = [].concat(keys, otherKeys).reduce((all, key: NewParamsKey) => {
+      all[key] = null;
+
+      return all;
+    }, newParamsBase);
+  }
 
   return (
     <>
-      <FilterLabelArray labels={labels} model={model} handleActionClick={handleActionClick} />
+      <FilterLabelArray
+        labels={filter.labels}
+        model={filter.model}
+        handleActionClick={handleActionClick}
+      />
+      {hasOtherFilter && (
+        <>
+          {' '}
+          <FilterLabelArray
+            labels={filterRelated.labels}
+            model={filterRelated.model}
+          />
+        </>
+      )}
       {isRemovable && (
         <>
           {' '}
@@ -255,7 +279,7 @@ export const Filters = ({ children, className }: FiltersProps) => (
   </div>
 );
 
-const Filter = ({ filter }: FilterProps) => {
+const Filter = ({ children, filter, filterRelated, inline }: FilterProps) => {
   const hasFilter = Boolean(filter);
   const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
@@ -263,6 +287,8 @@ const Filter = ({ filter }: FilterProps) => {
   const [activeAction, setActiveAction] = useState<FiltersDatesActionValue>(null);
 
   const clearAction = () => setActiveAction(null);
+
+  const hasActiveAction = Boolean(activeAction);
 
   const handleActionClick: FilterActionHandlerType = (e, action) => {
     e.preventDefault();
@@ -277,7 +303,7 @@ const Filter = ({ filter }: FilterProps) => {
     clearAction();
   };
 
-  const hasActiveAction = Boolean(activeAction);
+  const Tag = inline ? 'span' : 'div';
 
   useEffect(() => {
     if (hasValues) {
@@ -288,13 +314,28 @@ const Filter = ({ filter }: FilterProps) => {
   if (!hasFilter) return null;
 
   return (
-    <div className={cx('filter', !hasValues && 'filter-option')}>
+    <Tag className={cx('filter', !hasValues && 'filter-option')}>
       {hasActiveAction && !hasValues && hasFields ? (
-        <FilterForm filter={filter} action={activeAction} handleCancel={handleCancelActionClick} handleActionClick={handleActionClick} />
+        <FilterForm
+          filter={filter}
+          action={activeAction}
+          handleCancel={handleCancelActionClick}
+          handleActionClick={handleActionClick}
+        />
       ) : (
-        <FilterLabels filter={filter} handleActionClick={handleActionClick} />
+        <FilterLabels
+          filter={filter}
+          filterRelated={filterRelated}
+          handleActionClick={handleActionClick}
+        />
       )}
-    </div>
+      {children && (
+        <>
+          {' '}
+          {children}
+        </>
+      )}
+    </Tag>
   );
 };
 

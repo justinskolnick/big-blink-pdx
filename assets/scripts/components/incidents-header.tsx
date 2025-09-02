@@ -7,37 +7,46 @@ import ItemSubhead from './item-subhead';
 import type { FiltersLabel } from '../types';
 
 interface PrimaryAssociationProps {
+  children?: ReactNode;
   label: FiltersLabel['value'];
 }
 
 interface Props {
   children?: ReactNode;
   label?: string;
+  subtitle: ReactNode;
 }
 
-export const PrimaryAssociation = ({ label }: PrimaryAssociationProps) => {
+export const PrimaryAssociation = ({
+  children,
+  label,
+}: PrimaryAssociationProps) => {
   if (!label) return null;
 
   return (
     <>
       <FilterText>associatied with</FilterText>
       {' '}
-      <span className='filter-label-set'>
-        <FilterLabel label={label} />
-      </span>
+      <FilterLabel label={label} />
+      {children && (
+        <>
+          {' '}
+          {children}
+        </>
+      )}
     </>
   );
 };
 
 const IncidentsHeader = ({
   children,
-  label,
+  subtitle,
 }: Props) => (
   <ItemSubhead
     className='incident-header'
     icon={iconName}
     title='Incidents'
-    subtitle={<PrimaryAssociation label={label} />}
+    subtitle={subtitle}
   >
     {children}
   </ItemSubhead>

@@ -5,15 +5,21 @@ const {
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
   PARAM_QUARTER,
+  PARAM_ROLE,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  ROLE_OFFICIAL,
 } = require('../config/constants');
+
+const Labels = require('../models/shared/labels');
+const labelsModel = new Labels();
 
 const dateHelper = require('./date');
 const {
   getQuarterAndYear,
   hasDate,
   hasInteger,
+  hasRole,
   hasValidQuarter,
 } = require('./param');
 
@@ -164,11 +170,37 @@ const getQuarterFilter = (searchParams) => {
   }
 };
 
+const getRoleFilter = searchParams => {
+  if (searchParams.has(PARAM_ROLE)) {
+    const param = searchParams.get(PARAM_ROLE);
+    let labelKey = 'as_a';
+
+    if (param === ROLE_OFFICIAL) {
+      labelKey = 'as_an';
+    }
+
+    if (hasRole(param)) {
+      return {
+        fields: null,
+        labels: [
+          getLabelText(labelsModel.getLabel(labelKey)),
+          getLabel(param),
+        ],
+        model: null,
+        values: {
+          [PARAM_ROLE]: param,
+        },
+      };
+    }
+  }
+};
+
 const getFilters = searchParams => ({
   dates: getDatesFilter(searchParams),
   entities: getEntitiesFilter(searchParams),
   people: getPeopleFilter(searchParams),
   quarter: getQuarterFilter(searchParams),
+  role: getRoleFilter(searchParams),
 });
 
 const getLeaderboardFilters = searchParams => ({

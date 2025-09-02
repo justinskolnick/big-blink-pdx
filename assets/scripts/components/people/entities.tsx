@@ -42,6 +42,7 @@ const Entities = ({ entities, person }: Props) => {
                 entities={group}
                 model={role.model}
                 lobbyistName={group.role === Role.Lobbyist ? person.name : null}
+                role={role.role}
               />
             ))}
           </IncidentActivityGroup>

@@ -3,7 +3,7 @@ const { getFilters } = require('../filter');
 describe('getFilters()', () => {
   describe('with a date', () => {
     test('should include the date', () => {
-      const queryParams = new URLSearchParams('date_on=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
+      const queryParams = new URLSearchParams('date_on=2015-11-12&role=official&sort=ASC&with_entity_id=123&with_person_id=321');
 
       expect(getFilters(queryParams)).toEqual({
         dates: {
@@ -58,6 +58,23 @@ describe('getFilters()', () => {
           },
         },
         quarter: undefined,
+        role: {
+          fields: null,
+          labels: [
+            {
+              type: 'text',
+              value: 'as an',
+            },
+            {
+              type: 'label',
+              value: 'official',
+            },
+          ],
+          model: null,
+          values: {
+            role: 'official',
+          },
+        },
       });
     });
   });

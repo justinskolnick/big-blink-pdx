@@ -42492,6 +42492,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var dateRangeToParam = "date_range_to";
   var pageParam = "page";
   var quarterParam = "quarter";
+  var roleParam = "role";
   var sortParam = "sort";
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
@@ -42537,12 +42538,22 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/links.tsx
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var getWithEntityParams = (entity) => ({
-    [withEntityIdParam]: entity.id
-  });
-  var getWithPersonParams = (person) => ({
-    [withPersonIdParam]: person.id
-  });
+  var getWithEntityParams = (entity, role) => {
+    const params = {};
+    if (role) {
+      params[roleParam] = role;
+    }
+    params[withEntityIdParam] = entity.id;
+    return params;
+  };
+  var getWithPersonParams = (person, role) => {
+    const params = {};
+    if (role) {
+      params[roleParam] = role;
+    }
+    params[withPersonIdParam] = person.id;
+    return params;
+  };
   var BetterLink = ({
     onClick,
     ...rest
@@ -43863,15 +43874,15 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/affiliated-people-table.tsx
   var import_jsx_runtime49 = __toESM(require_jsx_runtime());
-  var AffiliatedPerson = ({ item }) => {
+  var AffiliatedPerson = ({ item, role }) => {
     const person = useGetPersonById(item.person.id);
     return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(icon_default4, { person }) }),
       /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_link_default, { item: person, children: person.name }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPersonParams(person), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPersonParams(person, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
     ] });
   };
-  var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+  var AffiliatedPeopleTable = ({ attendees, model, role }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
     affiliated_item_table_default,
     {
       itemCount: attendees.records.length,
@@ -43881,7 +43892,8 @@ Hook ${hookName} was either not provided or not a function.`);
         return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
           AffiliatedPerson,
           {
-            item
+            item,
+            role
           },
           i2
         ));
@@ -43962,7 +43974,8 @@ Hook ${hookName} was either not provided or not a function.`);
           affiliated_people_table_default,
           {
             attendees: group,
-            model: attendees.model
+            model: attendees.model,
+            role: group.role
           },
           group.role
         )) }) : null
@@ -56711,19 +56724,41 @@ Hook ${hookName} was either not provided or not a function.`);
       )
     ] });
   };
-  var FilterLabels = ({ filter, handleActionClick }) => {
-    const { labels, model, values } = filter;
-    const hasValues = Boolean(values);
-    const isRemovable = hasValues && !isEmpty(values);
+  var FilterLabels = ({ filter, filterRelated, handleActionClick }) => {
+    const hasOtherFilter = Boolean(filterRelated);
+    const hasValues = Boolean(filter.values);
+    const isRemovable = hasValues && !isEmpty(filter.values);
     const newParamsBase = {
       page: null
     };
-    const newParams = hasValues && Object.keys(values).reduce((all, key) => {
-      all[key] = null;
-      return all;
-    }, newParamsBase);
+    let newParams = newParamsBase;
+    if (hasValues) {
+      const keys = Object.keys(filter.values);
+      const otherKeys = Object.keys(filterRelated?.values ?? {});
+      newParams = [].concat(keys, otherKeys).reduce((all, key) => {
+        all[key] = null;
+        return all;
+      }, newParamsBase);
+    }
     return /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabelArray, { labels, model, handleActionClick }),
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+        FilterLabelArray,
+        {
+          labels: filter.labels,
+          model: filter.model,
+          handleActionClick
+        }
+      ),
+      hasOtherFilter && /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+          FilterLabelArray,
+          {
+            labels: filterRelated.labels,
+            model: filterRelated.model
+          }
+        )
+      ] }),
       isRemovable && /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
         " ",
         /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterRemove, { newParams })
@@ -56732,12 +56767,13 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var FilterIntro = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: "filter-intro", children });
   var Filters = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: cx("filters", className), children });
-  var Filter = ({ filter }) => {
+  var Filter = ({ children, filter, filterRelated, inline }) => {
     const hasFilter = Boolean(filter);
     const hasFields = hasFilter && "fields" in filter;
     const hasValues = hasFilter && "values" in filter;
     const [activeAction, setActiveAction] = (0, import_react36.useState)(null);
     const clearAction = () => setActiveAction(null);
+    const hasActiveAction = Boolean(activeAction);
     const handleActionClick = (e2, action) => {
       e2.preventDefault();
       if (action) {
@@ -56748,37 +56784,65 @@ Hook ${hookName} was either not provided or not a function.`);
       e2.preventDefault();
       clearAction();
     };
-    const hasActiveAction = Boolean(activeAction);
+    const Tag = inline ? "span" : "div";
     (0, import_react36.useEffect)(() => {
       if (hasValues) {
         clearAction();
       }
     }, [hasValues, clearAction]);
     if (!hasFilter) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: cx("filter", !hasValues && "filter-option"), children: hasActiveAction && !hasValues && hasFields ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterForm, { filter, action: activeAction, handleCancel: handleCancelActionClick, handleActionClick }) : /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterLabels, { filter, handleActionClick }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(Tag, { className: cx("filter", !hasValues && "filter-option"), children: [
+      hasActiveAction && !hasValues && hasFields ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+        FilterForm,
+        {
+          filter,
+          action: activeAction,
+          handleCancel: handleCancelActionClick,
+          handleActionClick
+        }
+      ) : /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+        FilterLabels,
+        {
+          filter,
+          filterRelated,
+          handleActionClick
+        }
+      ),
+      children && /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+        " ",
+        children
+      ] })
+    ] });
   };
   var filter_default = Filter;
 
   // assets/scripts/components/incidents-header.tsx
   var import_jsx_runtime58 = __toESM(require_jsx_runtime());
-  var PrimaryAssociation = ({ label }) => {
+  var PrimaryAssociation = ({
+    children,
+    label
+  }) => {
     if (!label) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(import_jsx_runtime58.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(FilterText, { children: "associatied with" }),
       " ",
-      /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("span", { className: "filter-label-set", children: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(FilterLabel, { label }) })
+      /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(FilterLabel, { label }),
+      children && /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(import_jsx_runtime58.Fragment, { children: [
+        " ",
+        children
+      ] })
     ] });
   };
   var IncidentsHeader = ({
     children,
-    label
+    subtitle
   }) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(
     item_subhead_default,
     {
       className: "incident-header",
       icon: iconName2,
       title: "Incidents",
-      subtitle: /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(PrimaryAssociation, { label }),
+      subtitle,
       children
     }
   );
@@ -56875,11 +56939,12 @@ Hook ${hookName} was either not provided or not a function.`);
     ids,
     label,
     pagination,
-    ref
+    ref,
+    roleIsPrimary
   }) => /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("section", { className: "activity-stat-section incident-list-section", ref, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(incidents_header_default, { label, children: /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(Filters, { className: "incidents-filters", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(incidents_header_default, { subtitle: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(PrimaryAssociation, { label, children: roleIsPrimary && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.role, inline: true }) }), children: /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(Filters, { className: "incidents-filters", children: [
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.entities }),
-      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.people }),
+      roleIsPrimary ? /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.people }) : /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.people, filterRelated: filters?.role }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.quarter }),
       /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(filter_default, { filter: filters?.dates })
     ] }) }),
@@ -57401,7 +57466,8 @@ Hook ${hookName} was either not provided or not a function.`);
           affiliated_people_table_default,
           {
             attendees: group,
-            model: role.model
+            model: role.model,
+            role: role.role
           },
           group.role
         )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
@@ -57447,7 +57513,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var AffiliatedEntity = ({
     hasAuxiliaryType,
     hasLobbyist,
-    item
+    item,
+    role
   }) => {
     const entity = useGetEntityById(item.entity.id);
     return /* @__PURE__ */ (0, import_jsx_runtime84.jsxs)("tr", { children: [
@@ -57477,13 +57544,14 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(item_link_default2, { item: entity, children: entity.name }),
         hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "item-description", children: item.registrations })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(FilterLink, { newParams: getWithEntityParams(entity), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_jsx_runtime84.Fragment, { children: "-" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(FilterLink, { newParams: getWithEntityParams(entity, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(import_jsx_runtime84.Fragment, { children: "-" }) })
     ] });
   };
   var AffiliatedEntitiesTable = ({
     entities,
     lobbyistName,
     model,
+    role,
     title
   }) => {
     const hasAuxiliaryType = entities.role === "lobbyist" /* Lobbyist */;
@@ -57501,7 +57569,8 @@ Hook ${hookName} was either not provided or not a function.`);
             {
               hasAuxiliaryType,
               hasLobbyist,
-              item
+              item,
+              role
             },
             i2
           ));
@@ -57533,7 +57602,8 @@ Hook ${hookName} was either not provided or not a function.`);
           {
             entities: group,
             model: role.model,
-            lobbyistName: group.role === "lobbyist" /* Lobbyist */ ? person.name : null
+            lobbyistName: group.role === "lobbyist" /* Lobbyist */ ? person.name : null,
+            role: role.role
           },
           group.role
         )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
@@ -57595,12 +57665,13 @@ Hook ${hookName} was either not provided or not a function.`);
           children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
             detail_incidents_default,
             {
-              ids: person.incidents?.ids,
               filters: person.incidents?.filters,
               hasSort: true,
+              ids: person.incidents?.ids,
               label: person.name,
               pagination: person.incidents?.pagination,
-              ref: incidentsRef
+              ref: incidentsRef,
+              roleIsPrimary: true
             }
           )
         }
@@ -57750,7 +57821,8 @@ Hook ${hookName} was either not provided or not a function.`);
       affiliated_people_table_default,
       {
         attendees: group,
-        model: attendees.model
+        model: attendees.model,
+        role: group.role
       },
       group.role
     )) }) : null });

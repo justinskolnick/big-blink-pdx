@@ -159,12 +159,16 @@ type QuarterParams = {
   quarter?: string;
 };
 
+type RoleParams = {
+  role?: Role;
+};
+
 type SortParams = {
   sort?: SortValue;
   sort_by?: SortByValue;
 };
 
-export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & SortParams;
+export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams;
 
 export enum FiltersLabelTypes {
   Id = 'id',
@@ -231,11 +235,18 @@ type FiltersQuarter = {
   model: undefined;
   values: QuarterParams;
 };
+type FiltersRole = {
+  fields: undefined;
+  labels: FiltersLabel[];
+  model: undefined;
+  values: RoleParams;
+};
 export type Filters = {
   dates?: FiltersDates;
   entities?: FiltersEntities;
   people?: FiltersPeople;
   quarter?: FiltersQuarter;
+  role?: FiltersRole;
 };
 
 export type FiltersObjects = Filters[keyof Filters];

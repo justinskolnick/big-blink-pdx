@@ -2,9 +2,12 @@ const {
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
+  PARAM_ROLE,
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
   SORT_BY_OPTIONS,
   SORT_OPTIONS,
 } = require('../config/constants');
@@ -20,6 +23,7 @@ const hasDate = (param) => hasParam(param) && DATE_PATTERN.test(param);
 const hasInteger = (param) => hasParam(param) && Number.isInteger(Number(param));
 const hasQuarter = (param) => hasParam(param) && (QUARTER_PATTERN.test(param) || QUARTER_PATTERN_ALT.test(param));
 const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
+const hasRole = (param) => hasParam(param) && [ROLE_LOBBYIST, ROLE_OFFICIAL].includes(param);
 const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
 const hasYearAndQuarter = (param) => hasParam(param) && QUARTER_PATTERN_ALT.test(param);
 const hasValidQuarter = (param) => hasQuarterAndYear(param) || hasYearAndQuarter(param);
@@ -79,6 +83,12 @@ const getParams = searchParams => {
     }
   }
 
+  if (searchParams.has(PARAM_ROLE)) {
+    if (hasRole(searchParams.get(PARAM_ROLE))) {
+      values[PARAM_ROLE] = searchParams.get(PARAM_ROLE);
+    }
+  }
+
   if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
       values[PARAM_WITH_ENTITY_ID] = Number(searchParams.get(PARAM_WITH_ENTITY_ID));
@@ -123,6 +133,7 @@ module.exports = {
   hasInteger,
   hasQuarter,
   hasQuarterAndYear,
+  hasRole,
   hasSort,
   hasSortBy,
   hasValidQuarter,

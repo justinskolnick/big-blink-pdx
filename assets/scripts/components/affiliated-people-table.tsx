@@ -11,22 +11,24 @@ import StatBox from './stat-box';
 
 import { useGetPersonById } from '../reducers/people';
 
+import { Role, Sections } from '../types';
 import type {
   AffiliatedPersonRecord,
   AttendeeGroup,
 } from '../types';
-import { Sections } from '../types';
 
 interface Props {
   attendees: AttendeeGroup;
   model: Sections;
+  role?: Role;
 }
 
 interface AffiliatedPersonProps {
   item: AffiliatedPersonRecord;
+  role?: Role;
 }
 
-const AffiliatedPerson = ({ item }: AffiliatedPersonProps) => {
+const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
   const person = useGetPersonById(item.person.id);
 
   return (
@@ -41,7 +43,7 @@ const AffiliatedPerson = ({ item }: AffiliatedPersonProps) => {
       </td>
       <td className='cell-total'>
         {item.total ? (
-          <FilterLink newParams={getWithPersonParams(person)} hasIcon>
+          <FilterLink newParams={getWithPersonParams(person, role)} hasIcon>
             {item.total}
           </FilterLink>
         ) : <>-</>}
@@ -50,7 +52,7 @@ const AffiliatedPerson = ({ item }: AffiliatedPersonProps) => {
   );
 };
 
-const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
+const AffiliatedPeopleTable = ({ attendees, model, role }: Props) => (
   <StatBox title={attendees.label}>
     <AffiliatedItemTable
       itemCount={attendees.records.length}
@@ -63,6 +65,7 @@ const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
           <AffiliatedPerson
             item={item}
             key={i}
+            role={role}
           />
         ));
       }}

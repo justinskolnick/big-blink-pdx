@@ -24,12 +24,14 @@ interface AffiliatedEntityProps {
   hasAuxiliaryType: boolean;
   hasLobbyist: boolean;
   item: AffiliatedEntityRecord;
+  role?: Role;
 }
 
 interface Props {
   entities: AffiliatedEntityValue;
   lobbyistName?: Person['name'];
   model: Sections;
+  role?: Role;
   title?: string;
 }
 
@@ -39,6 +41,7 @@ const AffiliatedEntity = ({
   hasAuxiliaryType,
   hasLobbyist,
   item,
+  role,
 }: AffiliatedEntityProps) => {
   const entity = useGetEntityById(item.entity.id);
 
@@ -80,7 +83,7 @@ const AffiliatedEntity = ({
       </td>
       <td className='cell-total'>
         {item.total ? (
-          <FilterLink newParams={getWithEntityParams(entity)} hasIcon>
+          <FilterLink newParams={getWithEntityParams(entity, role)} hasIcon>
             {item.total}
           </FilterLink>
         ) : <>-</>}
@@ -93,6 +96,7 @@ const AffiliatedEntitiesTable = ({
   entities,
   lobbyistName,
   model,
+  role,
   title,
 }: Props) => {
   const hasAuxiliaryType = entities.role === Role.Lobbyist;
@@ -114,6 +118,7 @@ const AffiliatedEntitiesTable = ({
               hasLobbyist={hasLobbyist}
               item={item}
               key={i}
+              role={role}
             />
           ));
         }}

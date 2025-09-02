@@ -1,4 +1,9 @@
-const { SORT_ASC, SORT_DESC, SORT_BY_TOTAL } = require('../../../config/constants');
+const {
+  ROLE_OFFICIAL,
+  SORT_ASC,
+  SORT_DESC,
+  SORT_BY_TOTAL,
+} = require('../../../config/constants');
 
 const {
   getAllQuery,
@@ -244,6 +249,28 @@ describe('getAllQuery()', () => {
             '2019-02-20',
             '2019-02-28',
           ],
+        });
+      });
+    });
+
+    describe('and a role', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({ personId: 123, role: ROLE_OFFICIAL })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees',
+            'ON incidents.id = incident_attendees.incident_id',
+            'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
+            'incident_attendees.role = ?',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: [123, 'official'],
         });
       });
     });
