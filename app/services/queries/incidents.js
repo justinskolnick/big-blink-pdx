@@ -43,6 +43,29 @@ const buildDateConditions = (options = {}) => {
   return { conditions, params };
 };
 
+const buildIntersectionQuery = (options = {}) => {
+  const { personId } = options;
+
+  const hasPersonId = Boolean(personId);
+
+  const clauses = [];
+  const params = [];
+
+  clauses.push('SELECT');
+  clauses.push(IncidentAttendee.field('incident_id'));
+  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+
+  if (hasPersonId) {
+    clauses.push('WHERE');
+    clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+
+    params.push(personId);
+  }
+
+
+  return { clauses, params };
+};
+
 const buildQuery = (options = {}) => {
   const {
     dateOn,
@@ -122,18 +145,16 @@ const buildQuery = (options = {}) => {
       }
 
       if (hasPersonIds) {
-        const intersectionClauses = [
-          'SELECT',
-          IncidentAttendee.field('incident_id'),
-          `FROM ${IncidentAttendee.tableName}`,
-          'WHERE',
-          `${IncidentAttendee.field('person_id')} = ?`,
-        ];
-        const statement = intersectionClauses.join(' ');
-        const statements = `${statement} INTERSECT ${statement}`;
+        const statements = [];
 
-        conditions.push(`${Incident.primaryKey()} IN (${statements})`);
-        params.push(...personIds);
+        personIds.forEach(pId => {
+          const intersection = buildIntersectionQuery({ personId: pId });
+
+          statements.push(intersection.clauses.join(' '));
+          params.push(...intersection.params);
+        });
+
+        conditions.push(`${Incident.primaryKey()} IN (${statements.join(' INTERSECT ')})`);
       }
     }
 
