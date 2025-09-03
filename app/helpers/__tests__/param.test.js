@@ -4,11 +4,13 @@ const {
   getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
+  getPeople,
   getQuarterAndYear,
   getQuarterSlug,
   getSort,
   getSortBy,
   hasDate,
+  hasPeople,
   hasQuarter,
   hasQuarterAndYear,
   hasRole,
@@ -86,6 +88,32 @@ describe('getParamsFromFilters()', () => {
       with_person_id: 321, // eslint-disable-line camelcase
     });
   });
+
+  describe('with a roled id', () => {
+    const queryParams = new URLSearchParams('people=123:official,321:lobbyist,456');
+    const filters = getFilters(queryParams);
+
+    test('with param values', () => {
+      expect(getParamsFromFilters(queryParams, filters)).toEqual({
+        people: [
+          '123:official',
+          '321:lobbyist',
+          '456',
+        ],
+      });
+    });
+  });
+});
+
+describe('getPeople()', () => {
+  test('with param values', () => {
+    expect(getPeople('123')).toEqual([{ id: 123 }]);
+    expect(getPeople('321')).toEqual([{ id: 321 }]);
+    expect(getPeople('321,123')).toEqual([{ id: 321 }, { id: 123 }]);
+    expect(getPeople('123:lobbyist')).toEqual([{ id: 123, role: 'lobbyist' }]);
+    expect(getPeople('321:official')).toEqual([{ id: 321, role: 'official' }]);
+    expect(getPeople('321:officially')).toEqual([{ id: 321 }]);
+  });
 });
 
 describe('getQuarterAndYear()', () => {
@@ -132,6 +160,20 @@ describe('hasDate()', () => {
     expect(hasDate('2024-')).toBe(false);
     expect(hasDate('2024')).toBe(false);
     expect(hasDate('2021-Q4')).toBe(false);
+  });
+});
+
+describe('hasPeople()', () => {
+  test('with a param value', () => {
+    expect(hasPeople(null)).toBe(false);
+    expect(hasPeople('123')).toBe(true);
+    expect(hasPeople('321')).toBe(true);
+    expect(hasPeople('123,321')).toBe(true);
+    expect(hasPeople('123:lobbyist')).toBe(true);
+    expect(hasPeople('321:official')).toBe(true);
+    expect(hasPeople('123:lobbyist,321')).toBe(true);
+    expect(hasPeople('123:lobbyist,321:official')).toBe(true);
+    expect(hasPeople('123:lobbyist,')).toBe(true);
   });
 });
 

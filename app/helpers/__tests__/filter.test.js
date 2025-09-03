@@ -149,7 +149,7 @@ describe('getFilters()', () => {
     });
   });
 
-  describe('with am incomplete date range', () => {
+  describe('with an incomplete date range', () => {
     test('should ignore the date range', () => {
       const queryParams = new URLSearchParams('date_range_from=2015-11-12&sort=ASC&with_entity_id=123&with_person_id=321');
 
@@ -240,6 +240,138 @@ describe('getFilters()', () => {
           },
         },
         quarter: undefined,
+      });
+    });
+  });
+
+  describe('with a roled id', () => {
+    test('should include the roled id', () => {
+      const queryParams = new URLSearchParams('people=123:official,321:lobbyist,456');
+
+      expect(getFilters(queryParams)).toEqual({
+        dates: {
+          fields: {
+            'date-range-select': [
+              {
+                type: 'text',
+                value: 'between',
+              },
+              {
+                name: 'date_range_from',
+                type: 'input-date',
+              },
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                name: 'date_range_to',
+                type: 'input-date',
+              },
+            ],
+            'date-select': [
+              {
+                type: 'text',
+                value: 'on',
+              },
+              {
+                name: 'date_on',
+                type: 'input-date',
+              },
+            ],
+          },
+          labels: [
+            {
+              action: 'date-select',
+              to: null,
+              type: 'link',
+              value: 'on a date',
+            },
+            {
+              type: 'text',
+              value: 'or',
+            },
+            {
+              action: 'date-range-select',
+              to: null,
+              type: 'link',
+              value: 'between dates',
+            },
+          ],
+          model: null,
+        },
+        entities: undefined,
+        people: [
+          {
+            fields: null,
+            labels: [
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                type: 'id',
+                value: 123,
+              },
+              {
+                type: 'text',
+                value: 'as an',
+              },
+              {
+                type: 'label',
+                value: 'official',
+              },
+            ],
+            model: 'people',
+            values: {
+              people: '123:official',
+            },
+          },
+          {
+            fields: null,
+            labels: [
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                type: 'id',
+                value: 321,
+              },
+              {
+                type: 'text',
+                value: 'as a',
+              },
+              {
+                type: 'label',
+                value: 'lobbyist',
+              },
+            ],
+            model: 'people',
+            values: {
+              people: '321:lobbyist',
+            },
+          },
+          {
+            fields: null,
+            labels: [
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                type: 'id',
+                value: 456,
+              },
+            ],
+            model: 'people',
+            values: {
+              people: '456',
+            },
+          },
+        ],
+        quarter: undefined,
+        role: undefined,
       });
     });
   });

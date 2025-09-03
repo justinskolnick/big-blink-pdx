@@ -4,6 +4,7 @@ const {
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
+  PARAM_PEOPLE,
   PARAM_QUARTER,
   PARAM_ROLE,
   PARAM_WITH_ENTITY_ID,
@@ -16,6 +17,7 @@ const labelsModel = new Labels();
 
 const dateHelper = require('./date');
 const {
+  getPeople,
   getQuarterAndYear,
   hasDate,
   hasInteger,
@@ -41,6 +43,32 @@ const getLabelId = value => ({
   type: 'id',
   value: Number(value),
 });
+
+const getPeopleLabels = (value, role = null) => {
+  const labels = [
+    getLabelText('and'),
+    getLabelId(value),
+  ];
+
+  if (role) {
+    labels.push(...getRoleLabels(role));
+  }
+
+  return labels;
+};
+
+const getRoleLabels = (value) => {
+  let labelKey = 'as_a';
+
+  if (value === ROLE_OFFICIAL) {
+    labelKey = 'as_an';
+  }
+
+  return [
+    getLabelText(labelsModel.getLabel(labelKey)),
+    getLabel(value),
+  ];
+};
 
 const getDateOnFilter = searchParams => ({
   fields: null,
@@ -129,14 +157,29 @@ const getEntitiesFilter = searchParams => {
 };
 
 const getPeopleFilter = searchParams => {
-  if (searchParams.has(PARAM_WITH_PERSON_ID)) {
+  if (searchParams.has(PARAM_PEOPLE)) {
+    const people = getPeople(searchParams.get(PARAM_PEOPLE));
+
+    return people.map(person => {
+      const { id, role } = person;
+
+      return {
+        fields: null,
+        labels: getPeopleLabels(id, role),
+        model: MODEL_PEOPLE,
+        values: {
+          [PARAM_PEOPLE]: [
+          Number(id),
+          role,
+        ].filter(Boolean).join(':'),
+        },
+      };
+    });
+  } else if (searchParams.has(PARAM_WITH_PERSON_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_PERSON_ID))) {
       return {
         fields: null,
-        labels: [
-          getLabelText('and'),
-          getLabelId(searchParams.get(PARAM_WITH_PERSON_ID)),
-        ],
+        labels: getPeopleLabels(searchParams.get(PARAM_WITH_PERSON_ID)),
         model: MODEL_PEOPLE,
         values: {
           [PARAM_WITH_PERSON_ID]: Number(searchParams.get(PARAM_WITH_PERSON_ID)),
@@ -173,19 +216,11 @@ const getQuarterFilter = (searchParams) => {
 const getRoleFilter = searchParams => {
   if (searchParams.has(PARAM_ROLE)) {
     const param = searchParams.get(PARAM_ROLE);
-    let labelKey = 'as_a';
-
-    if (param === ROLE_OFFICIAL) {
-      labelKey = 'as_an';
-    }
 
     if (hasRole(param)) {
       return {
         fields: null,
-        labels: [
-          getLabelText(labelsModel.getLabel(labelKey)),
-          getLabel(param),
-        ],
+        labels: getRoleLabels(param),
         model: null,
         values: {
           [PARAM_ROLE]: param,

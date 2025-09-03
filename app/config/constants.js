@@ -4,6 +4,7 @@ const PARAM_DATE_ON = 'date_on';
 const PARAM_DATE_RANGE_FROM = 'date_range_from';
 const PARAM_DATE_RANGE_TO = 'date_range_to';
 const PARAM_PAGE = 'page';
+const PARAM_PEOPLE = 'people';
 const PARAM_QUARTER = 'quarter';
 const PARAM_QUARTER_ALT = 'quarter';
 const PARAM_ROLE = 'role';
@@ -25,6 +26,9 @@ const PARAM_OPTIONS = {
   },
   [PARAM_PAGE]: {
     validate: 'hasInteger',
+  },
+  [PARAM_PEOPLE]: {
+    validate: 'hasPeople',
   },
   [PARAM_QUARTER]: {
     validate: 'hasQuarter',
@@ -88,6 +92,7 @@ module.exports = {
   PARAM_DATE_RANGE_TO,
   PARAM_OPTIONS,
   PARAM_PAGE,
+  PARAM_PEOPLE,
   PARAM_QUARTER,
   PARAM_QUARTER_ALT,
   PARAM_ROLE,

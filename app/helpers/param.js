@@ -13,6 +13,7 @@ const {
 } = require('../config/constants');
 const {
   DATE_PATTERN,
+  PEOPLE_PATTERN,
   QUARTER_PATTERN,
   QUARTER_PATTERN_ALT,
   YEAR_PATTERN,
@@ -21,12 +22,32 @@ const {
 const hasParam = (param) => param?.length > 0;
 const hasDate = (param) => hasParam(param) && DATE_PATTERN.test(param);
 const hasInteger = (param) => hasParam(param) && Number.isInteger(Number(param));
+const hasPeople = (param) => hasParam(param) && param.split(',').filter(Boolean).every(entry => PEOPLE_PATTERN.test(entry));
 const hasQuarter = (param) => hasParam(param) && (QUARTER_PATTERN.test(param) || QUARTER_PATTERN_ALT.test(param));
 const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
 const hasRole = (param) => hasParam(param) && [ROLE_LOBBYIST, ROLE_OFFICIAL].includes(param);
 const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
 const hasYearAndQuarter = (param) => hasParam(param) && QUARTER_PATTERN_ALT.test(param);
 const hasValidQuarter = (param) => hasQuarterAndYear(param) || hasYearAndQuarter(param);
+
+const getPeople = (param) => {
+  if (hasPeople(param)) {
+    return param.split(',').filter(Boolean).map(entry => {
+      const [id, role] = entry.match(PEOPLE_PATTERN).slice(1,3);
+      const values = {
+        id: Number(id),
+      };
+
+      if (hasRole(role)) {
+        values.role = role;
+      }
+
+      return values;
+    });
+  }
+
+  return null;
+};
 
 const getQuarterAndYear = (param) => {
   let quarter;
@@ -105,9 +126,39 @@ const getParams = searchParams => {
 };
 
 const getParamsFromFilters = (searchParams, filters) => {
+  const hasValues = (domain) => {
+    if (Array.isArray(domain)) {
+      return domain.every(hasValues);
+    }
+
+    return 'values' in domain;
+  };
+
+  const getValues = (domain) => {
+    if (Array.isArray(domain)) {
+      return domain.map(entry => entry.values).reduce((all, entry) => {
+        const keys = Object.keys(entry);
+
+        keys.forEach(key => {
+          if (!(key in all)) {
+            all[key] = [];
+          }
+
+          if (!all[key].includes(entry[key])) {
+            all[key].push(entry[key]);
+          }
+        });
+
+        return all;
+      }, {});
+    }
+
+    return domain.values;
+  };
+
   const params = Object.entries(filters)
-    .filter(([, domain]) => domain && 'values' in domain)
-    .map(([, domain]) => domain.values)
+    .filter(([, domain]) => domain && hasValues(domain))
+    .map(([, domain]) => getValues(domain))
     .reduce((all, values) => Object.assign(all, values), {});
 
   if (searchParams.has(PARAM_SORT)) {
@@ -125,12 +176,14 @@ module.exports = {
   getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
+  getPeople,
   getQuarterAndYear,
   getQuarterSlug,
   getSort,
   getSortBy,
   hasDate,
   hasInteger,
+  hasPeople,
   hasQuarter,
   hasQuarterAndYear,
   hasRole,
