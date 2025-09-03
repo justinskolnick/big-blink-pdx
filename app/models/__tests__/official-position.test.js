@@ -47,6 +47,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(OfficialPosition.primaryKey()).toBe('official_positions.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(OfficialPosition.foreignKey()).toBe('official_position_id');
+  });
+});
+
 describe('adapt()', () => {
   test('adapts a result', () => {
     const mayorCos = new OfficialPosition(resultMayorCos);

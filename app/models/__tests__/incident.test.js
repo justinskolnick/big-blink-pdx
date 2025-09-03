@@ -34,6 +34,18 @@ describe('dateRangeFields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(Incident.primaryKey()).toBe('incidents.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(Incident.foreignKey()).toBe('incident_id');
+  });
+});
+
 describe('adapt()', () => {
   /* eslint-disable camelcase */
   const result = {

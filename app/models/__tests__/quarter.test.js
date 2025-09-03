@@ -19,6 +19,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(Quarter.primaryKey()).toBe('quarters.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(Quarter.foreignKey()).toBe('quarter_id');
+  });
+});
+
 describe('adapt()', () => {
   /* eslint-disable camelcase */
   const result = {

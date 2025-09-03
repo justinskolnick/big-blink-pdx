@@ -29,6 +29,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(Person.primaryKey()).toBe('people.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(Person.foreignKey()).toBe('person_id');
+  });
+});
+
 describe('adapt()', () => {
   const resultWithRoles = {
     ...resultLobbyist,

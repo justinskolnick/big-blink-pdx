@@ -16,6 +16,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(EntityLobbyistRegistration.primaryKey()).toBe('entity_lobbyist_registrations.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(EntityLobbyistRegistration.foreignKey()).toBe('entity_lobbyist_registration_id');
+  });
+});
+
 describe('adapt()', () => {
   test('adapts a result', () => {
     const result = {

@@ -1,3 +1,4 @@
+const Entity = require('../../models/entity');
 const EntityLobbyistLocation = require('../../models/entity-lobbyist-location');
 
 const getAllQuery = (options = {}) => {
@@ -13,7 +14,7 @@ const getAllQuery = (options = {}) => {
     clauses.push(EntityLobbyistLocation.fields().join(', '));
     clauses.push(`FROM ${EntityLobbyistLocation.tableName}`);
     clauses.push('WHERE');
-    clauses.push('entity_id = ?');
+    clauses.push(`${Entity.foreignKey()} = ?`);
     params.push(entityId);
 
     clauses.push('ORDER BY');

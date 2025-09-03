@@ -16,6 +16,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(EntityLobbyistLocation.primaryKey()).toBe('entity_lobbyist_locations.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(EntityLobbyistLocation.foreignKey()).toBe('entity_lobbyist_location_id');
+  });
+});
+
 describe('adapt()', () => {
   test('adapts a result', () => {
     const result = {

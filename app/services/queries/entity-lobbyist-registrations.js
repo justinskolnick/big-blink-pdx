@@ -1,4 +1,6 @@
+const Entity = require('../../models/entity');
 const EntityLobbyistRegistration = require('../../models/entity-lobbyist-registration');
+const Person = require('../../models/person');
 const Source = require('../../models/source');
 
 const SOURCES_FIELDS = [
@@ -28,19 +30,19 @@ const getQuartersQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
-  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.primaryKey()} = ${EntityLobbyistRegistration.field('data_source_id')}`);
+  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.primaryKey()} = ${EntityLobbyistRegistration.field(Source.foreignKey())}`);
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.field('entity_id')} = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field(Entity.foreignKey())} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.field('person_id')} = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -75,12 +77,12 @@ const getTotalQuery = (options = {}) => {
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.field('entity_id')} = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field(Entity.foreignKey())} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.field('person_id')} = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -108,7 +110,7 @@ const getHasBeenCityEmployeeQuery = (options = {}) => {
     clauses.push('WHERE');
     conditions.push(`${EntityLobbyistRegistration.field('was_city_employee')} = 1`);
     conditions.push(`${EntityLobbyistRegistration.field('length_of_employment')} IS NOT NULL`);
-    conditions.push(`${EntityLobbyistRegistration.field('person_id')} = ?`);
+    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
     params.push(personId);
   }
 

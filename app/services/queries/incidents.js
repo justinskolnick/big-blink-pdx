@@ -5,6 +5,7 @@ const queryHelper = require('../../helpers/query');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
+const Person = require('../../models/person');
 const Source = require('../../models/source');
 
 const buildDateConditions = (options = {}) => {
@@ -52,12 +53,12 @@ const buildIntersectionQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(IncidentAttendee.field('incident_id'));
+  clauses.push(IncidentAttendee.field(Incident.foreignKey()));
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
 
   if (hasPersonId) {
     clauses.push('WHERE');
-    clauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+    clauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
 
     params.push(personId);
   }
@@ -117,7 +118,7 @@ const buildQuery = (options = {}) => {
 
   if (hasPersonId || hasRole) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
-    clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
+    clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field(Incident.foreignKey())}`);
   }
 
   if (hasForeignKeyOption || hasDateOption) {
@@ -125,17 +126,17 @@ const buildQuery = (options = {}) => {
 
     if (hasForeignKeyOption) {
       if (hasEntityId) {
-        conditions.push(`${Incident.field('entity_id')} = ?`);
+        conditions.push(`${Incident.field(Entity.foreignKey())} = ?`);
         params.push(entityId || withEntityId);
       }
 
       if (hasSourceId) {
-        conditions.push(`${Incident.field('data_source_id')} = ?`);
+        conditions.push(`${Incident.field(Source.foreignKey())} = ?`);
         params.push(sourceId || quarterSourceId);
       }
 
       if (hasPersonId) {
-        conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
+        conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
         params.push(personIds.at(0));
       }
 
@@ -198,7 +199,7 @@ const getAtIdQuery = (id) => {
   clauses.push('SELECT');
   clauses.push(`${Incident.fields().join(', ')}, ${Entity.field('name')} AS entity_name`);
   clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Entity.primaryKey()} = ${Incident.field('entity_id')}`);
+  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Entity.primaryKey()} = ${Incident.field(Entity.foreignKey())}`);
   clauses.push(`WHERE ${Incident.primaryKey()} = ?`);
   clauses.push('LIMIT 1');
 
@@ -229,7 +230,7 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     'SELECT',
     Incident.fields().join(', '),
     `FROM ${Incident.tableName}`,
-    `LEFT JOIN ${Source.tableName} ON ${Incident.field('data_source_id')} = ${Source.primaryKey()}`
+    `LEFT JOIN ${Source.tableName} ON ${Incident.field(Source.foreignKey())} = ${Source.primaryKey()}`
   ].join(' ');
 
   [SORT_ASC, SORT_DESC].forEach(sort => {
@@ -240,18 +241,18 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ${Source.field('year')}`);
 
     if (hasEntityId) {
-      conditions.push(`${Incident.tableName}.entity_id = ?`);
+      conditions.push(`${Incident.field(Entity.foreignKey())} = ?`);
       params.push(entityId);
     }
 
     if (hasPersonId) {
-      segment.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.field('incident_id')} = ${Incident.primaryKey()}`);
-      conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
+      segment.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.field(Incident.foreignKey())} = ${Incident.primaryKey()}`);
+      conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
       params.push(personId);
     }
 
     if (hasSourceId) {
-      conditions.push(`${Incident.field('data_source_id')} = ?`);
+      conditions.push(`${Incident.field(Source.foreignKey())} = ?`);
       params.push(sourceId);
     }
 

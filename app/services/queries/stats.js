@@ -1,5 +1,8 @@
+const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
+const Person = require('../../models/person');
+const Source = require('../../models/source');
 
 const getStatsQuery = (options = {}) => {
   const { entityId, personId } = options;
@@ -11,7 +14,7 @@ const getStatsQuery = (options = {}) => {
 
   clauses.push('SELECT');
   columns.push(
-    `${Incident.field('data_source_id')}`,
+    `${Incident.field(Source.foreignKey())}`,
     `COUNT(${Incident.primaryKey()}) AS total`,
   );
 
@@ -21,17 +24,17 @@ const getStatsQuery = (options = {}) => {
   if (entityId) {
     id = entityId;
 
-    clauses.push(`WHERE ${Incident.field('entity_id')} = ?`);
+    clauses.push(`WHERE ${Incident.field(Entity.foreignKey())} = ?`);
     params.push(entityId);
   } else if (personId) {
     id = personId;
 
-    clauses.push(`WHERE ${Incident.primaryKey()} IN (SELECT incident_id FROM ${IncidentAttendee.tableName} WHERE person_id = ?)`);
+    clauses.push(`WHERE ${Incident.primaryKey()} IN (SELECT ${Incident.foreignKey()} FROM ${IncidentAttendee.tableName} WHERE ${Person.foreignKey()} = ?)`);
     params.push(personId);
   }
 
-  clauses.push(`GROUP BY ${Incident.field('data_source_id')}`);
-  clauses.push(`ORDER BY ${Incident.field('data_source_id')} ASC`);
+  clauses.push(`GROUP BY ${Incident.field(Source.foreignKey())}`);
+  clauses.push(`ORDER BY ${Incident.field(Source.foreignKey())} ASC`);
 
   return { clauses, params, id };
 };

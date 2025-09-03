@@ -47,6 +47,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(Source.primaryKey()).toBe('data_sources.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(Source.foreignKey()).toBe('data_source_id');
+  });
+});
+
 describe('adapt()', () => {
   /* eslint-disable camelcase */
   const result = {

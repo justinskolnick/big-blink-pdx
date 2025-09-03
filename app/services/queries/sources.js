@@ -31,7 +31,7 @@ const buildQuery = (options = {}) => {
   clauses.push(`FROM ${Source.tableName}`);
 
   if (includeCount) {
-    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.tableName}.data_source_id = ${Source.primaryKey()}`);
+    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field(Source.foreignKey())} = ${Source.primaryKey()}`);
   }
 
   if (types.length > 0) {
@@ -48,10 +48,10 @@ const buildQuery = (options = {}) => {
 
   if (!totalOnly) {
     if (includeCount) {
-      clauses.push(`GROUP BY ${Incident.tableName}.data_source_id`);
+      clauses.push(`GROUP BY ${Incident.field(Source.foreignKey())}`);
     }
 
-    clauses.push(`ORDER BY ${Source.tableName}.id ASC`);
+    clauses.push(`ORDER BY ${Source.field('id')} ASC`);
   }
 
   return { clauses, params };
@@ -84,17 +84,17 @@ const getEntitiesForIdQuery = (id) => {
 
   selections.push(`${Entity.field('id')}`);
   selections.push(`${Entity.field('name')}`);
-  selections.push(`COUNT(${Incident.field('entity_id')}) AS total`);
+  selections.push(`COUNT(${Incident.field(Entity.foreignKey())}) AS total`);
 
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
+  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Incident.field(Entity.foreignKey())} = ${Entity.primaryKey()}`);
   clauses.push('WHERE');
-  clauses.push(`${Incident.field('data_source_id')} = ?`);
+  clauses.push(`${Incident.field(Source.foreignKey())} = ?`);
   params.push(id);
 
-  clauses.push(`GROUP BY ${Incident.field('entity_id')}`);
+  clauses.push(`GROUP BY ${Incident.field(Entity.foreignKey())}`);
   clauses.push('ORDER BY total DESC');
 
   return { clauses, params };
@@ -107,7 +107,7 @@ const getIdForQuarterQuery = (quarterSlug) => {
   clauses.push('SELECT');
   clauses.push(Source.field('id'));
   clauses.push(`FROM ${Source.tableName}`);
-  clauses.push(`LEFT JOIN ${Quarter.tableName} ON ${Source.field('quarter_id')} = ${Quarter.primaryKey()}`);
+  clauses.push(`LEFT JOIN ${Quarter.tableName} ON ${Source.field(Quarter.foreignKey())} = ${Quarter.primaryKey()}`);
   clauses.push('WHERE');
   clauses.push(`${Quarter.field('slug')} = ?`);
   params.push(quarterSlug);
@@ -136,11 +136,11 @@ const getStatsQuery = () => {
 
   clauses.push(columns.join(', '));
   clauses.push(`FROM ${Source.tableName}`);
-  clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field('data_source_id')} = ${Source.primaryKey()}`);
+  clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field(Source.foreignKey())} = ${Source.primaryKey()}`);
   clauses.push('WHERE');
   clauses.push('type = ?');
   params.push(Source.types.activity);
-  clauses.push(`GROUP BY ${Incident.field('data_source_id')}`);
+  clauses.push(`GROUP BY ${Incident.field(Source.foreignKey())}`);
   clauses.push(`ORDER BY ${Source.field('id')} ASC`);
 
   return { clauses, params };

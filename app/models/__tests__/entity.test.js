@@ -24,6 +24,18 @@ describe('fields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(Entity.primaryKey()).toBe('entities.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(Entity.foreignKey()).toBe('entity_id');
+  });
+});
+
 describe('adapt()', () => {
   const result = {
     id: 1,

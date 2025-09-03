@@ -1,6 +1,7 @@
 const IncidentedBase = require('./shared/base-incidented');
 
 class Source extends IncidentedBase {
+  static foreignKeyBase = 'data_source';
   static tableName = 'data_sources';
   static linkKey = 'source';
 

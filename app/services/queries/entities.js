@@ -59,7 +59,7 @@ const buildQuery = (options = {}) => {
 
   if (includeCount || hasDateOption) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
-    clauses.push(`ON ${Incident.field('entity_id')} = ${Entity.primaryKey()}`);
+    clauses.push(`ON ${Incident.field(Entity.foreignKey())} = ${Entity.primaryKey()}`);
 
     if (hasDateOption) {
       const dateConditions = buildDateConditions(options);

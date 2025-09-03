@@ -3,6 +3,7 @@ const camelCase = require('lodash.camelcase');
 const dateHelper = require('../../helpers/date');
 const linkHelper = require('../../helpers/links');
 
+const { snakeCase } = require('../../lib/string');
 const { isTruthy } = require('../../lib/util');
 
 const Labels = require('./labels');
@@ -42,6 +43,14 @@ class Base {
 
   static primaryKey(prefix = true) {
     return this.field(this.primaryKeyField, prefix);
+  }
+
+  static foreignKey() {
+    const name = this.foreignKeyBase || this.name.replace(/^_/, '');
+    const primaryKey = this.primaryKeyField;
+    const key = [name, primaryKey].join(' ');
+
+    return snakeCase(key);
   }
 
   static fields(prefix = true) {

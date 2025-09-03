@@ -4,6 +4,7 @@ const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person');
+const Source = require('../../models/source');
 
 const getAllQuery = (options = {}) => {
   const {
@@ -24,18 +25,18 @@ const getAllQuery = (options = {}) => {
   clauses.push('SELECT');
 
   selections.push(...IncidentAttendee.fields());
-  selections.push(`${Person.field('id')} AS person_id`);
+  selections.push(`${Person.field('id')} AS ${Person.foreignKey()}`);
   selections.push(...IncidentAttendee.personFields(['id']));
 
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field(Person.foreignKey())}`);
 
   if (hasIncidentId) {
     clauses.push('WHERE');
 
-    conditions.push(`${IncidentAttendee.field('incident_id')} = ?`);
+    conditions.push(`${IncidentAttendee.field(Incident.foreignKey())} = ?`);
     params.push(incidentId);
 
     clauses.push(...queryHelper.joinConditions(conditions));
@@ -76,16 +77,16 @@ const getEntitiesQuery = (options = {}) => {
 
   clauses.push(`FROM ${Incident.tableName}`);
   clauses.push(`LEFT JOIN ${Entity.tableName}`);
-  clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field('entity_id')}`);
+  clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field(Entity.foreignKey())}`);
 
   if (hasPersonId) {
     const subqueryClauses = [];
 
     subqueryClauses.push('SELECT');
-    subqueryClauses.push(`${IncidentAttendee.field('incident_id')} AS id`);
+    subqueryClauses.push(`${IncidentAttendee.field(Incident.foreignKey())} AS id`);
     subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
     subqueryClauses.push('WHERE');
-    subqueryClauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+    subqueryClauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
     params.push(personId);
 
     if (hasPersonRole) {
@@ -127,7 +128,7 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
     conditions.push(`${IncidentAttendee.field('role')} = ?`);
     params.push(role);
 
-    conditions.push(`${IncidentAttendee.field('person_id')} = ?`);
+    conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -159,14 +160,14 @@ const getPeopleQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(`${IncidentAttendee.field('person_id')} AS id`);
+  selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
   selections.push(Person.field('name'));
   selections.push(Person.field('type'));
 
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field('person_id')}`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field(Person.foreignKey())}`);
 
   if (hasEntityId || hasPersonId || hasRole || hasSourceId) {
     const subqueryClauses = [];
@@ -180,22 +181,22 @@ const getPeopleQuery = (options = {}) => {
       subqueryClauses.push('WHERE');
 
       if (hasEntityId) {
-        subqueryClauses.push(`${Incident.field('entity_id')} = ?`);
+        subqueryClauses.push(`${Incident.field(Entity.foreignKey())} = ?`);
         params.push(entityId);
       }
 
       if (hasSourceId) {
-        subqueryClauses.push(`${Incident.field('data_source_id')} = ?`);
+        subqueryClauses.push(`${Incident.field(Source.foreignKey())} = ?`);
         params.push(sourceId);
       }
     }
 
     if (hasPersonId) {
       subqueryClauses.push('SELECT');
-      subqueryClauses.push(`${IncidentAttendee.field('incident_id')} AS id`);
+      subqueryClauses.push(`${IncidentAttendee.field(Incident.foreignKey())} AS id`);
       subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
       subqueryClauses.push('WHERE');
-      subqueryClauses.push(`${IncidentAttendee.field('person_id')} = ?`);
+      subqueryClauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
       params.push(personId);
 
       if (personRole) {
@@ -206,11 +207,11 @@ const getPeopleQuery = (options = {}) => {
     }
 
     if (subqueryClauses.length) {
-      conditions.push(`${IncidentAttendee.field('incident_id')} IN (${subqueryClauses.join(' ')})`);
+      conditions.push(`${IncidentAttendee.field(Incident.foreignKey())} IN (${subqueryClauses.join(' ')})`);
     }
 
     if (hasPersonId) {
-      conditions.push(`${IncidentAttendee.field('person_id')} != ?`);
+      conditions.push(`${IncidentAttendee.field(Person.foreignKey())} != ?`);
       params.push(personId);
     }
 
@@ -223,7 +224,7 @@ const getPeopleQuery = (options = {}) => {
   clauses.push(...queryHelper.joinConditions(conditions));
 
   clauses.push('ORDER BY');
-  clauses.push(`${IncidentAttendee.field('person_id')} ASC`);
+  clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
 
   return { clauses, params };
 };

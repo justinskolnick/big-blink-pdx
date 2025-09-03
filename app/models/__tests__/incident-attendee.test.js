@@ -39,6 +39,18 @@ describe('personFields()', () => {
   });
 });
 
+describe('primaryKey()', () => {
+  test('returns the expected field', () => {
+    expect(IncidentAttendee.primaryKey()).toBe('incident_attendees.id');
+  });
+});
+
+describe('foreignKey()', () => {
+  test('returns the expected field', () => {
+    expect(IncidentAttendee.foreignKey()).toBe('incident_attendee_id');
+  });
+});
+
 describe('adapt()', () => {
   test('adapts a result', () => {
     const incidentAttendee = new IncidentAttendee(result);

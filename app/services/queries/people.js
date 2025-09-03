@@ -51,12 +51,12 @@ const buildQuery = (options = {}) => {
 
   if (includeCount || hasRole || hasDateOption) {
     clauses.push(`LEFT JOIN ${IncidentAttendee.tableName}`);
-    clauses.push(`ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
+    clauses.push(`ON ${IncidentAttendee.field(Person.foreignKey())} = ${Person.primaryKey()}`);
   }
 
   if (hasDateOption) {
     clauses.push(`LEFT JOIN ${Incident.tableName}`);
-    clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field('incident_id')}`);
+    clauses.push(`ON ${Incident.primaryKey()} = ${IncidentAttendee.field(Incident.foreignKey())}`);
   }
 
   clauses.push('WHERE');
@@ -120,7 +120,7 @@ const getAtIdQuery = (id) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${Person.tableName}`);
-  clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.field('person_id')} = ${Person.primaryKey()}`);
+  clauses.push(`LEFT JOIN ${IncidentAttendee.tableName} ON ${IncidentAttendee.field(Person.foreignKey())} = ${Person.primaryKey()}`);
   clauses.push(`WHERE ${Person.field('id')} = ?`);
 
   params.push(id);
