@@ -14,6 +14,21 @@ const joinConditions = conditions => (
   }, [])
 );
 
+const leftJoin = (modelOne, modelTwo, reverseKeys = false) => {
+  const clauses = [];
+
+  clauses.push(`LEFT JOIN ${modelTwo.tableName}`);
+  clauses.push('ON');
+
+  if (reverseKeys) {
+    clauses.push(`${modelOne.field(modelTwo.foreignKey())} = ${modelTwo.primaryKey()}`);
+  } else {
+    clauses.push(`${modelTwo.field(modelOne.foreignKey())} = ${modelOne.primaryKey()}`);
+  }
+
+  return clauses.join(' ');
+};
+
 const query = async (clauses, params = []) => {
   const sql = Array.isArray(clauses) ? clauses.filter(Boolean).join(' ') : clauses;
   const results = await execute(sql, params);
@@ -24,5 +39,6 @@ const query = async (clauses, params = []) => {
 module.exports = {
   getOffset,
   joinConditions,
+  leftJoin,
   query,
 };

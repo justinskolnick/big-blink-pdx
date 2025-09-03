@@ -31,7 +31,7 @@ const getAllQuery = (options = {}) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field(Person.foreignKey())}`);
+  clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
 
   if (hasIncidentId) {
     clauses.push('WHERE');
@@ -76,8 +76,7 @@ const getEntitiesQuery = (options = {}) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(`LEFT JOIN ${Entity.tableName}`);
-  clauses.push(`ON ${Entity.primaryKey()} = ${Incident.field(Entity.foreignKey())}`);
+  clauses.push(queryHelper.leftJoin(Incident, Entity, true));
 
   if (hasPersonId) {
     const subqueryClauses = [];
@@ -167,7 +166,7 @@ const getPeopleQuery = (options = {}) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.primaryKey()} = ${IncidentAttendee.field(Person.foreignKey())}`);
+  clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
 
   if (hasEntityId || hasPersonId || hasRole || hasSourceId) {
     const subqueryClauses = [];

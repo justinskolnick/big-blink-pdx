@@ -1,3 +1,5 @@
+const queryHelper = require('../../helpers/query');
+
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const Source = require('../../models/source');
@@ -31,7 +33,7 @@ const buildQuery = (options = {}) => {
   clauses.push(`FROM ${Source.tableName}`);
 
   if (includeCount) {
-    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field(Source.foreignKey())} = ${Source.primaryKey()}`);
+    clauses.push(queryHelper.leftJoin(Source, Incident));
   }
 
   if (types.length > 0) {
@@ -89,7 +91,7 @@ const getEntitiesForIdQuery = (id) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(`LEFT JOIN ${Entity.tableName} ON ${Incident.field(Entity.foreignKey())} = ${Entity.primaryKey()}`);
+  clauses.push(queryHelper.leftJoin(Incident, Entity, true));
   clauses.push('WHERE');
   clauses.push(`${Incident.field(Source.foreignKey())} = ?`);
   params.push(id);
@@ -107,7 +109,7 @@ const getIdForQuarterQuery = (quarterSlug) => {
   clauses.push('SELECT');
   clauses.push(Source.field('id'));
   clauses.push(`FROM ${Source.tableName}`);
-  clauses.push(`LEFT JOIN ${Quarter.tableName} ON ${Source.field(Quarter.foreignKey())} = ${Quarter.primaryKey()}`);
+  clauses.push(queryHelper.leftJoin(Source, Quarter, true));
   clauses.push('WHERE');
   clauses.push(`${Quarter.field('slug')} = ?`);
   params.push(quarterSlug);
@@ -136,7 +138,7 @@ const getStatsQuery = () => {
 
   clauses.push(columns.join(', '));
   clauses.push(`FROM ${Source.tableName}`);
-  clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.field(Source.foreignKey())} = ${Source.primaryKey()}`);
+  clauses.push(queryHelper.leftJoin(Source, Incident));
   clauses.push('WHERE');
   clauses.push('type = ?');
   params.push(Source.types.activity);

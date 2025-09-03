@@ -1,3 +1,5 @@
+const queryHelper = require('../../helpers/query');
+
 const Entity = require('../../models/entity');
 const EntityLobbyistRegistration = require('../../models/entity-lobbyist-registration');
 const Person = require('../../models/person');
@@ -30,7 +32,7 @@ const getQuartersQuery = (options = {}) => {
   clauses.push(selections.join(', '));
   clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
 
-  clauses.push(`LEFT JOIN ${Source.tableName} ON ${Source.primaryKey()} = ${EntityLobbyistRegistration.field(Source.foreignKey())}`);
+  clauses.push(queryHelper.leftJoin(EntityLobbyistRegistration, Source, true));
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');

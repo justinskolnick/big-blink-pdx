@@ -23,8 +23,7 @@ const getAtPernrQuery = (pernr, options = {}) => {
   clauses.push(selections.join(', '));
 
   clauses.push(`FROM ${OfficialPosition.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName}`);
-  clauses.push(`ON ${Person.field('pernr')} = ${OfficialPosition.field('pernr')}`);
+  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.field('pernr')} = ${OfficialPosition.field('pernr')}`);
 
   clauses.push('WHERE');
 
