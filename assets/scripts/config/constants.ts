@@ -2,6 +2,7 @@ export const dateOnParam = 'date_on';
 export const dateRangeFromParam = 'date_range_from';
 export const dateRangeToParam = 'date_range_to';
 export const pageParam = 'page';
+export const peopleParam = 'people';
 export const quarterParam = 'quarter';
 export const roleParam = 'role';
 export const sortParam = 'sort';

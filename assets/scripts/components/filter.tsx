@@ -36,11 +36,18 @@ interface FiltersProps {
   className?: string;
 }
 
-interface FilterProps {
+interface FilterBaseProps {
   children?: ReactNode;
-  filter: FiltersObjects;
   filterRelated?: FiltersObjects;
   inline?: boolean;
+}
+
+interface FilterTagProps extends FilterBaseProps {
+  filter: FiltersObjects;
+}
+
+interface FilterProps extends FilterBaseProps {
+  filter: FiltersObjects | FiltersObjects[];
 }
 
 interface FilterActionProps {
@@ -279,7 +286,7 @@ export const Filters = ({ children, className }: FiltersProps) => (
   </div>
 );
 
-const Filter = ({ children, filter, filterRelated, inline }: FilterProps) => {
+const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) => {
   const hasFilter = Boolean(filter);
   const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
@@ -336,6 +343,31 @@ const Filter = ({ children, filter, filterRelated, inline }: FilterProps) => {
         </>
       )}
     </Tag>
+  );
+};
+
+const Filter = ({ children, filter, filterRelated, inline }: FilterProps) => {
+  if (Array.isArray(filter)) {
+    return filter.map((entry, i) => (
+      <FilterTag
+        filter={entry}
+        filterRelated={filterRelated}
+        inline={inline}
+        key={i}
+      >
+        {children}
+      </FilterTag>
+    ));
+  }
+
+  return (
+    <FilterTag
+      filter={filter}
+      filterRelated={filterRelated}
+      inline={inline}
+    >
+      {children}
+    </FilterTag>
   );
 };
 

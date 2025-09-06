@@ -45,11 +45,13 @@ const buildDateConditions = (options = {}) => {
 };
 
 const buildIntersectionQuery = (options = {}) => {
-  const { personId } = options;
+  const { id, role } = options;
 
-  const hasPersonId = Boolean(personId);
+  const hasPersonId = Boolean(id);
+  const hasRole = Boolean(role);
 
   const clauses = [];
+  const conditions = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -58,11 +60,16 @@ const buildIntersectionQuery = (options = {}) => {
 
   if (hasPersonId) {
     clauses.push('WHERE');
-    clauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+    conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+    params.push(id);
 
-    params.push(personId);
+    if (hasRole) {
+      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+      params.push(role);
+    }
   }
 
+  clauses.push(...queryHelper.joinConditions(conditions));
 
   return { clauses, params };
 };
@@ -74,6 +81,7 @@ const buildQuery = (options = {}) => {
     dateRangeTo,
     entityId,
     page,
+    people = [],
     perPage,
     personId,
     primaryKeyOnly = false,
@@ -91,6 +99,7 @@ const buildQuery = (options = {}) => {
   const hasDateOn = Boolean(dateOn);
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasEntityId = Boolean(entityId || withEntityId);
+  const hasPeople = people.length > 0;
   const hasPersonId = personIds.length > 0;
   const hasPersonIds = personIds.length > 1;
   const hasRole = Boolean(role);
@@ -144,17 +153,37 @@ const buildQuery = (options = {}) => {
         params.push(role);
       }
 
-      if (hasPersonIds) {
-        const statements = [];
+      if (hasPeople || hasPersonIds || hasPersonId) {
+        const subqueryStatements = [];
+        const subqueryClauses = [];
+        const subqueryConditions = [];
+        const intersections = [];
 
-        personIds.forEach(pId => {
-          const intersection = buildIntersectionQuery({ personId: pId });
+        if (hasPeople) {
+          if (hasPersonId) {
+            intersections.push(buildIntersectionQuery({ id: personIds.at(0) }));
+          }
 
-          statements.push(intersection.clauses.join(' '));
-          params.push(...intersection.params);
-        });
+          intersections.push(...people.map(buildIntersectionQuery));
+        }
 
-        conditions.push(`${Incident.primaryKey()} IN (${statements.join(' INTERSECT ')})`);
+        if (hasPersonIds) {
+          intersections.push(...personIds.map(pId =>
+            buildIntersectionQuery({ id: pId })
+          ));
+        }
+
+        if (intersections.length) {
+          intersections.forEach(intersection => {
+            subqueryStatements.push(intersection.clauses.join(' '));
+            subqueryClauses.push(...intersection.params);
+          });
+
+          subqueryConditions.push(`${Incident.primaryKey()} IN (${subqueryStatements.join(' INTERSECT ')})`);
+
+          conditions.push(...subqueryConditions);
+          params.push(...subqueryClauses);
+        }
       }
     }
 
@@ -169,7 +198,7 @@ const buildQuery = (options = {}) => {
   clauses.push(...queryHelper.joinConditions(conditions));
 
   if (!primaryKeyOnly && !totalOnly) {
-    if (hasPersonIds) {
+    if (hasPeople || hasPersonIds) {
       clauses.push('GROUP BY');
       clauses.push(Incident.primaryKey());
     }

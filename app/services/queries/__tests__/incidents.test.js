@@ -1,4 +1,5 @@
 const {
+  ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SORT_ASC,
   SORT_DESC,
@@ -312,6 +313,44 @@ describe('getAllQuery()', () => {
             123,
             123,
             321,
+          ],
+        });
+      });
+    });
+
+    describe('and people', () => {
+      test('returns the expected SQL', () => {
+        expect(getAllQuery({
+          personId: 123,
+          people: [
+            { id: 321 },
+            { id: 456, role: ROLE_OFFICIAL },
+            { id: 654, role: ROLE_LOBBYIST },
+          ],
+        })).toEqual({
+          clauses: [
+            'SELECT',
+            'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
+            'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
+            'incidents.id IN (SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ?)',
+            'GROUP BY',
+            'incidents.id',
+            'ORDER BY',
+            'incidents.contact_date',
+            'ASC',
+          ],
+          params: [
+            123,
+            123,
+            321,
+            456,
+            'official',
+            654,
+            'lobbyist',
           ],
         });
       });
@@ -644,6 +683,55 @@ describe('getTotalQuery()', () => {
             'incidents.data_source_id = ?',
           ],
           params: [123, 3],
+        });
+      });
+    });
+  });
+
+  describe('with a personId', () => {
+    test('returns the expected SQL', () => {
+      expect(getTotalQuery({ personId: 3 })).toEqual({
+        clauses: [
+          'SELECT',
+          'COUNT(incidents.id) AS total',
+          'FROM incidents',
+          'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
+          'WHERE',
+          'incident_attendees.person_id = ?',
+        ],
+        params: [3],
+      });
+    });
+
+    describe('and people', () => {
+      test('returns the expected SQL', () => {
+        expect(getTotalQuery({
+          personId: 123,
+          people: [
+            { id: 321 },
+            { id: 456, role: ROLE_OFFICIAL },
+            { id: 654, role: ROLE_LOBBYIST },
+          ],
+        })).toEqual({
+          clauses: [
+            'SELECT',
+            'COUNT(incidents.id) AS total',
+            'FROM incidents',
+            'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
+            'WHERE',
+            'incident_attendees.person_id = ?',
+            'AND',
+            'incidents.id IN (SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ? INTERSECT SELECT incident_attendees.incident_id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ?)',
+          ],
+          params: [
+            123,
+            123,
+            321,
+            456,
+            'official',
+            654,
+            'lobbyist',
+          ],
         });
       });
     });

@@ -42491,6 +42491,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var dateRangeFromParam = "date_range_from";
   var dateRangeToParam = "date_range_to";
   var pageParam = "page";
+  var peopleParam = "people";
   var quarterParam = "quarter";
   var roleParam = "role";
   var sortParam = "sort";
@@ -43369,6 +43370,7 @@ Hook ${hookName} was either not provided or not a function.`);
     dateOnParam,
     dateRangeFromParam,
     dateRangeToParam,
+    peopleParam,
     quarterParam,
     withEntityIdParam,
     withPersonIdParam
@@ -56767,7 +56769,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var FilterIntro = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: "filter-intro", children });
   var Filters = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: cx("filters", className), children });
-  var Filter = ({ children, filter, filterRelated, inline }) => {
+  var FilterTag = ({ children, filter, filterRelated, inline }) => {
     const hasFilter = Boolean(filter);
     const hasFields = hasFilter && "fields" in filter;
     const hasValues = hasFilter && "values" in filter;
@@ -56813,6 +56815,29 @@ Hook ${hookName} was either not provided or not a function.`);
         children
       ] })
     ] });
+  };
+  var Filter = ({ children, filter, filterRelated, inline }) => {
+    if (Array.isArray(filter)) {
+      return filter.map((entry, i2) => /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+        FilterTag,
+        {
+          filter: entry,
+          filterRelated,
+          inline,
+          children
+        },
+        i2
+      ));
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+      FilterTag,
+      {
+        filter,
+        filterRelated,
+        inline,
+        children
+      }
+    );
   };
   var filter_default = Filter;
 
