@@ -8,6 +8,7 @@ const {
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
+  PARAM_PEOPLE,
   PARAM_QUARTER,
   PARAM_ROLE,
   PARAM_SORT,
@@ -293,6 +294,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const dateOn = req.query.get(PARAM_DATE_ON);
   const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
   const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
+  const people = req.query.get(PARAM_PEOPLE);
   const quarter = req.query.get(PARAM_QUARTER);
   const role = req.query.get(PARAM_ROLE);
   const sort = req.query.get(PARAM_SORT);
@@ -303,6 +305,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
+  let peopleArray;
   let quarterSlug;
   let quarterSourceId;
   let paginationTotal;
@@ -314,6 +317,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   if (req.get('Content-Type') === headers.json) {
+    peopleArray = paramHelper.getPeople(people);
     quarterSlug = paramHelper.migrateQuarterSlug(quarter);
 
     if (quarterSlug) {
@@ -331,12 +335,13 @@ router.get('/:id/incidents', async (req, res, next) => {
         withPersonId,
       });
       entityIncidents = await incidents.getAll({
-        page,
-        perPage,
-        entityId: id,
         dateOn,
         dateRangeFrom,
         dateRangeTo,
+        entityId: id,
+        page,
+        people: peopleArray,
+        perPage,
         quarterSourceId,
         role,
         sort,

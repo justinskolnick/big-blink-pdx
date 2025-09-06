@@ -99,7 +99,7 @@ const buildQuery = (options = {}) => {
   const hasDateOn = Boolean(dateOn);
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasEntityId = Boolean(entityId || withEntityId);
-  const hasPeople = people.length > 0;
+  const hasPeople = people?.length > 0;
   const hasPersonId = personIds.length > 0;
   const hasPersonIds = personIds.length > 1;
   const hasRole = Boolean(role);

@@ -9,6 +9,7 @@ const {
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
   PARAM_PAGE,
+  PARAM_PEOPLE,
   PARAM_ROLE,
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
@@ -334,6 +335,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const dateOn = req.query.get(PARAM_DATE_ON);
   const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
   const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
+  const people = req.query.get(PARAM_PEOPLE);
   const role = req.query.get(PARAM_ROLE);
   const sort = req.query.get(PARAM_SORT);
   const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
@@ -344,6 +346,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
+  let peopleArray;
   let source;
   let paginationTotal;
   let sourceIncidents;
@@ -361,12 +364,15 @@ router.get('/:id/incidents', async (req, res, next) => {
   }
 
   if (req.get('Content-Type') === headers.json) {
+    peopleArray = paramHelper.getPeople(people);
+
     try {
       if (source.data.type === Source.types.activity) {
         paginationTotal = await stats.getPaginationStats({
           dateOn,
           dateRangeFrom,
           dateRangeTo,
+          people: peopleArray,
           role,
           sourceId: id,
           withEntityId,
@@ -377,6 +383,7 @@ router.get('/:id/incidents', async (req, res, next) => {
           dateRangeFrom,
           dateRangeTo,
           page,
+          people: peopleArray,
           perPage,
           role,
           sort,
