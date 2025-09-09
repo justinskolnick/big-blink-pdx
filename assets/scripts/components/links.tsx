@@ -4,11 +4,11 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import {
+  peopleParam,
   roleParam,
   sortParam,
   sortByParam,
   withEntityIdParam,
-  withPersonIdParam,
 } from '../config/constants';
 import useQueryParams from '../hooks/use-query-params';
 
@@ -75,14 +75,14 @@ export const getWithEntityParams = (entity: Entity, role?: Role) => {
   return params;
 };
 
-export const getWithPersonParams = (person: Person, role?: Role) => {
+export const getWithPeopleParams = (person: Person, role?: Role) => {
   const params = {} as NewParams;
 
   if (role) {
-    params[roleParam] = role;
+    params[peopleParam] = `${person.id}:${role}`;
+  } else {
+    params[peopleParam] = person.id;
   }
-
-  params[withPersonIdParam] = person.id;
 
   return params;
 };

@@ -61,7 +61,6 @@ const Attendees = ({
                 key={group.role}
                 attendees={group}
                 model={role.model}
-                role={role.role}
               />
             ))}
           </IncidentActivityGroup>

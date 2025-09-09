@@ -169,9 +169,11 @@ const getPeopleFilter = searchParams => {
         model: MODEL_PEOPLE,
         values: {
           [PARAM_PEOPLE]: [
-          Number(id),
-          role,
-        ].filter(Boolean).join(':'),
+            [
+              Number(id),
+              role,
+            ].filter(Boolean).join(':')
+          ],
         },
       };
     });

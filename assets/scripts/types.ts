@@ -147,11 +147,18 @@ type EntitiesParams = {
   with_entity_id?: Id;
 };
 
-type PaginationParams = {
+export type PaginationParams = {
   page?: string | number;
 };
 
 type PeopleParams = {
+  people?: Id | string | string[];
+};
+type PeopleFilterParams = {
+  people?: string[];
+};
+
+type WithPersonParams = {
   with_person_id?: Id;
 };
 
@@ -168,7 +175,8 @@ type SortParams = {
   sort_by?: SortByValue;
 };
 
-export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams;
+export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams & WithPersonParams;
+export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & QuarterParams & RoleParams & WithPersonParams;
 
 export enum FiltersLabelTypes {
   Id = 'id',
@@ -215,36 +223,48 @@ type FiltersDates = {
   fields: Record<FiltersDatesActionValue, DateFilterFieldLabel[]> | undefined;
   labels: DateFilterLabel[];
   model: undefined;
-  values?: DatesParams;
+  values: DatesParams;
 };
+
 type FiltersEntities = {
   fields: undefined;
   labels: ModelIdFilterLabel[];
   model: Sections.Entities;
   values: EntitiesParams;
 };
-type FiltersPeople = {
+
+type FiltersWithPerson = {
   fields: undefined;
   labels: ModelIdFilterLabel[];
   model: Sections.People;
-  values: PeopleParams;
+  values: WithPersonParams;
 };
+
+type FiltersWithPeople = {
+  fields: undefined;
+  labels: ModelIdFilterLabel[];
+  model: Sections.People;
+  values: PeopleFilterParams;
+};
+
 type FiltersQuarter = {
   fields: undefined;
   labels: FiltersLabel[];
   model: undefined;
   values: QuarterParams;
 };
+
 type FiltersRole = {
   fields: undefined;
   labels: FiltersLabel[];
   model: undefined;
   values: RoleParams;
 };
+
 export type Filters = {
   dates?: FiltersDates;
   entities?: FiltersEntities;
-  people?: FiltersPeople;
+  people?: FiltersWithPeople | FiltersWithPerson;
   quarter?: FiltersQuarter;
   role?: FiltersRole;
 };

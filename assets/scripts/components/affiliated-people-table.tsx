@@ -2,7 +2,7 @@ import React from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import {
-  getWithPersonParams,
+  getWithPeopleParams,
   FilterLink,
 } from './links';
 import PersonIcon from './people/icon';
@@ -20,7 +20,6 @@ import type {
 interface Props {
   attendees: AttendeeGroup;
   model: Sections;
-  role?: Role;
 }
 
 interface AffiliatedPersonProps {
@@ -43,7 +42,7 @@ const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
       </td>
       <td className='cell-total'>
         {item.total ? (
-          <FilterLink newParams={getWithPersonParams(person, role)} hasIcon>
+          <FilterLink newParams={getWithPeopleParams(person, role)} hasIcon>
             {item.total}
           </FilterLink>
         ) : <>-</>}
@@ -52,7 +51,7 @@ const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
   );
 };
 
-const AffiliatedPeopleTable = ({ attendees, model, role }: Props) => (
+const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
   <StatBox title={attendees.label}>
     <AffiliatedItemTable
       itemCount={attendees.records.length}
@@ -65,7 +64,7 @@ const AffiliatedPeopleTable = ({ attendees, model, role }: Props) => (
           <AffiliatedPerson
             item={item}
             key={i}
-            role={role}
+            role={attendees.role}
           />
         ));
       }}

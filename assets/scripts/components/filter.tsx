@@ -18,10 +18,11 @@ import type {
   FiltersLabelId,
   FiltersObjects,
   Id,
-  NewParams,
+  NewFilterParams,
+  PaginationParams,
 } from '../types';
 
-type NewParamsKey = keyof NewParams;
+type NewFilterParamsKey = keyof NewFilterParams & keyof PaginationParams;
 
 interface FilterActionHandlerType {
   (event: MouseEvent, action?: FiltersDatesActionValue): void;
@@ -94,7 +95,7 @@ interface FilterDateFieldProps {
 }
 
 interface FilterRemoveProps {
-  newParams: NewParams;
+  newParams: NewFilterParams;
 }
 
 const FilterAction = ({ action, children, handleClick }: FilterActionProps) => {
@@ -184,11 +185,9 @@ const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArray
 )).reduce((prev: ReactElement, curr: ReactElement): any => [prev, ' ', curr]);
 
 const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterFormProps) => {
-  const { fields } = filter;
-
-  const hasFields = Boolean(fields);
-  const hasAction = hasFields && action in fields;
-  const actionFields = hasAction && fields[action];
+  const hasFields = 'fields' in filter;
+  const hasAction = hasFields && action in filter.fields;
+  const actionFields = hasAction && filter.fields[action];
 
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
@@ -198,7 +197,7 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
     const params = {
       ...formParams,
       page: null,
-    } as NewParams;
+    } as NewFilterParams;
     const queryParams = getQueryParams(location, params, false);
 
     setSearchParams(queryParams.searchParams);
@@ -228,21 +227,32 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
 };
 
 const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabelsProps) => {
+  const [searchParams] = useSearchParams();
   const hasOtherFilter = Boolean(filterRelated);
 
-  const hasValues = Boolean(filter.values);
+  const hasValues = 'values' in filter && Boolean(filter.values);
   const isRemovable = hasValues && !isEmpty(filter.values);
   const newParamsBase = {
     page: null,
-  } as Record<NewParamsKey, null>;
+  } as Record<NewFilterParamsKey, null>;
   let newParams = newParamsBase;
 
   if (hasValues) {
     const keys = Object.keys(filter.values);
     const otherKeys = Object.keys(filterRelated?.values ?? {});
 
-    newParams = [].concat(keys, otherKeys).reduce((all, key: NewParamsKey) => {
-      all[key] = null;
+    newParams = [].concat(keys, otherKeys).reduce((all, key: NewFilterParamsKey) => {
+      const keyValues = searchParams.get(key);
+      const filterKeyValues = filter.values[key];
+      let newValue = null;
+
+      if (keyValues && Array.isArray(filterKeyValues)) {
+        const values = filterKeyValues as string[];
+
+        newValue = keyValues.split(',').filter(v => !values.includes(v)).join(',');
+      }
+
+      all[key] = newValue;
 
       return all;
     }, newParamsBase);

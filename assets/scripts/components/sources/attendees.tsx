@@ -37,7 +37,6 @@ const Attendees = ({ attendees }: Props) => {
               key={group.role}
               attendees={group}
               model={attendees.model}
-              role={group.role}
             />
           ))}
         </IncidentActivityGroup>

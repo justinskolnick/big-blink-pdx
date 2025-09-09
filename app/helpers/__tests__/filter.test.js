@@ -324,7 +324,9 @@ describe('getFilters()', () => {
             ],
             model: 'people',
             values: {
-              people: '123:official',
+              people: [
+                '123:official',
+              ],
             },
           },
           {
@@ -349,7 +351,9 @@ describe('getFilters()', () => {
             ],
             model: 'people',
             values: {
-              people: '321:lobbyist',
+              people: [
+                '321:lobbyist',
+              ],
             },
           },
           {
@@ -366,7 +370,9 @@ describe('getFilters()', () => {
             ],
             model: 'people',
             values: {
-              people: '456',
+              people: [
+                '456',
+              ],
             },
           },
         ],

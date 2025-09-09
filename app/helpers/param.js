@@ -140,12 +140,20 @@ const getParamsFromFilters = (searchParams, filters) => {
         const keys = Object.keys(entry);
 
         keys.forEach(key => {
+          const values = entry[key];
+
           if (!(key in all)) {
             all[key] = [];
           }
 
           if (!all[key].includes(entry[key])) {
-            all[key].push(entry[key]);
+            if (Array.isArray(values)) {
+              values.forEach(value => {
+                all[key].push(value);
+              });
+            } else {
+              all[key].push(values);
+            }
           }
         });
 

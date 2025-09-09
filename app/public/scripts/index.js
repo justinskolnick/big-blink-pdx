@@ -42547,12 +42547,13 @@ Hook ${hookName} was either not provided or not a function.`);
     params[withEntityIdParam] = entity.id;
     return params;
   };
-  var getWithPersonParams = (person, role) => {
+  var getWithPeopleParams = (person, role) => {
     const params = {};
     if (role) {
-      params[roleParam] = role;
+      params[peopleParam] = `${person.id}:${role}`;
+    } else {
+      params[peopleParam] = person.id;
     }
-    params[withPersonIdParam] = person.id;
     return params;
   };
   var BetterLink = ({
@@ -43881,10 +43882,10 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(icon_default4, { person }) }),
       /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_link_default, { item: person, children: person.name }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPersonParams(person, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPeopleParams(person, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
     ] });
   };
-  var AffiliatedPeopleTable = ({ attendees, model, role }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+  var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
     affiliated_item_table_default,
     {
       itemCount: attendees.records.length,
@@ -43895,7 +43896,7 @@ Hook ${hookName} was either not provided or not a function.`);
           AffiliatedPerson,
           {
             item,
-            role
+            role: attendees.role
           },
           i2
         ));
@@ -43976,8 +43977,7 @@ Hook ${hookName} was either not provided or not a function.`);
           affiliated_people_table_default,
           {
             attendees: group,
-            model: attendees.model,
-            role: group.role
+            model: attendees.model
           },
           group.role
         )) }) : null
@@ -56690,10 +56690,9 @@ Hook ${hookName} was either not provided or not a function.`);
     label.type === "text" /* Text */ && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(FilterText, { children: label.value })
   ] }, i2)).reduce((prev2, curr) => [prev2, " ", curr]);
   var FilterForm = ({ action, filter, handleActionClick, handleCancel }) => {
-    const { fields } = filter;
-    const hasFields = Boolean(fields);
-    const hasAction = hasFields && action in fields;
-    const actionFields = hasAction && fields[action];
+    const hasFields = "fields" in filter;
+    const hasAction = hasFields && action in filter.fields;
+    const actionFields = hasAction && filter.fields[action];
     const location2 = useLocation();
     const [, setSearchParams] = useSearchParams();
     const handleSubmit = (formData) => {
@@ -56727,8 +56726,9 @@ Hook ${hookName} was either not provided or not a function.`);
     ] });
   };
   var FilterLabels = ({ filter, filterRelated, handleActionClick }) => {
+    const [searchParams] = useSearchParams();
     const hasOtherFilter = Boolean(filterRelated);
-    const hasValues = Boolean(filter.values);
+    const hasValues = "values" in filter && Boolean(filter.values);
     const isRemovable = hasValues && !isEmpty(filter.values);
     const newParamsBase = {
       page: null
@@ -56738,7 +56738,14 @@ Hook ${hookName} was either not provided or not a function.`);
       const keys = Object.keys(filter.values);
       const otherKeys = Object.keys(filterRelated?.values ?? {});
       newParams = [].concat(keys, otherKeys).reduce((all, key) => {
-        all[key] = null;
+        const keyValues = searchParams.get(key);
+        const filterKeyValues = filter.values[key];
+        let newValue = null;
+        if (keyValues && Array.isArray(filterKeyValues)) {
+          const values = filterKeyValues;
+          newValue = keyValues.split(",").filter((v2) => !values.includes(v2)).join(",");
+        }
+        all[key] = newValue;
         return all;
       }, newParamsBase);
     }
@@ -57491,8 +57498,7 @@ Hook ${hookName} was either not provided or not a function.`);
           affiliated_people_table_default,
           {
             attendees: group,
-            model: role.model,
-            role: role.role
+            model: role.model
           },
           group.role
         )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
@@ -57846,8 +57852,7 @@ Hook ${hookName} was either not provided or not a function.`);
       affiliated_people_table_default,
       {
         attendees: group,
-        model: attendees.model,
-        role: group.role
+        model: attendees.model
       },
       group.role
     )) }) : null });
