@@ -346,8 +346,10 @@ router.get('/:id/incidents', async (req, res, next) => {
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
-  let peopleArray;
   let source;
+  let peopleArray;
+  let options;
+  let incidentsOptions;
   let paginationTotal;
   let sourceIncidents;
   let records;
@@ -365,32 +367,28 @@ router.get('/:id/incidents', async (req, res, next) => {
 
   if (req.get('Content-Type') === headers.json) {
     peopleArray = paramHelper.getPeople(people);
+    options = {
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
+      people: peopleArray,
+      role,
+      sourceId: id,
+      withEntityId,
+      withPersonId,
+    };
+    incidentsOptions = {
+      ...options,
+      page,
+      perPage,
+      sort,
+    };
 
     try {
       if (source.data.type === Source.types.activity) {
-        paginationTotal = await stats.getPaginationStats({
-          dateOn,
-          dateRangeFrom,
-          dateRangeTo,
-          people: peopleArray,
-          role,
-          sourceId: id,
-          withEntityId,
-          withPersonId,
-        });
-        sourceIncidents = await incidents.getAll({
-          dateOn,
-          dateRangeFrom,
-          dateRangeTo,
-          page,
-          people: peopleArray,
-          perPage,
-          role,
-          sort,
-          sourceId: id,
-          withEntityId,
-          withPersonId,
-        });
+        paginationTotal = await stats.getPaginationStats(options);
+        sourceIncidents = await incidents.getAll(incidentsOptions);
+
         sourceIncidents = sourceIncidents.map(incident => incident.adapted);
 
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);

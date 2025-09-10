@@ -431,7 +431,10 @@ router.get('/:id/incidents', async (req, res, next) => {
   const links = linkHelper.links;
 
   let peopleArray;
+  let quarterSlug;
   let quarterSourceId;
+  let options;
+  let incidentsOptions;
   let paginationTotal;
   let personIncidents;
   let records;
@@ -448,31 +451,28 @@ router.get('/:id/incidents', async (req, res, next) => {
       quarterSourceId = await sources.getIdForQuarter(quarterSlug);
     }
 
+    options = {
+      dateOn,
+      dateRangeFrom,
+      dateRangeTo,
+      people: peopleArray,
+      personId: id,
+      quarterSourceId,
+      role,
+      withEntityId,
+      withPersonId,
+    };
+    incidentsOptions = {
+      ...options,
+      page,
+      perPage,
+      sort,
+    };
+
     try {
-      paginationTotal = await stats.getPaginationStats({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        personId: id,
-        quarterSourceId,
-        role,
-        withEntityId,
-        withPersonId,
-      });
-      personIncidents = await incidents.getAll({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        page,
-        people: peopleArray,
-        perPage,
-        personId: id,
-        quarterSourceId,
-        role,
-        sort,
-        withEntityId,
-        withPersonId,
-      });
+      paginationTotal = await stats.getPaginationStats(options);
+      personIncidents = await incidents.getAll(incidentsOptions);
+
       personIncidents = personIncidents.map(incident => incident.adapted);
 
       records = await incidentAttendees.getAllForIncidents(personIncidents);

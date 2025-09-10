@@ -55,67 +55,7 @@ const getIncidentsStats = async (options = {}) => {
 };
 
 const getPaginationStats = async (options = {}) => {
-  const {
-    dateOn,
-    dateRangeFrom,
-    dateRangeTo,
-    entityId,
-    people,
-    personId,
-    sourceId,
-    quarterSourceId,
-    role,
-    withEntityId,
-    withPersonId,
-  } = options;
-  const hasEntityId = Boolean(entityId);
-  const hasPersonId = Boolean(personId);
-  const hasSourceId = Boolean(sourceId);
-
-  let paginationTotal;
-
-  if (hasEntityId) {
-    paginationTotal = await incidents.getTotal({
-      dateOn,
-      dateRangeFrom,
-      dateRangeTo,
-      entityId,
-      people,
-      quarterSourceId,
-      role,
-      withEntityId,
-      withPersonId,
-    });
-  } else if (hasPersonId) {
-    paginationTotal = await incidents.getTotal({
-      dateOn,
-      dateRangeFrom,
-      dateRangeTo,
-      people,
-      personId,
-      quarterSourceId,
-      role,
-      withEntityId,
-      withPersonId,
-    });
-  } else if (hasSourceId) {
-    paginationTotal = await incidents.getTotal({
-      dateOn,
-      dateRangeFrom,
-      dateRangeTo,
-      people,
-      sourceId,
-      role,
-      withEntityId,
-      withPersonId,
-    });
-  } else {
-    paginationTotal = await incidents.getTotal({
-      dateOn,
-      dateRangeFrom,
-      dateRangeTo,
-    });
-  }
+  const paginationTotal = await incidents.getTotal(options);
 
   return paginationTotal;
 };
