@@ -808,13 +808,16 @@
           return null;
         };
         deprecatedAPIs = {
-          "react-stack-bottom-frame": function(callStackForError) {
+          react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown, didWarnAboutOldJSXRuntime;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = deprecatedAPIs["react-stack-bottom-frame"].bind(deprecatedAPIs, UnknownOwner)();
+        var unknownOwnerDebugStack = deprecatedAPIs.react_stack_bottom_frame.bind(
+          deprecatedAPIs,
+          UnknownOwner
+        )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
         var didWarnAboutMaps = false, userProvidedKeyEscapeRegex = /\/+/g, reportGlobalError = "function" === typeof reportError ? reportError : function(error) {
           if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
@@ -1231,7 +1234,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.1.0";
+        exports.version = "19.1.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1487,7 +1490,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.1.0";
+        exports.version = "19.1.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1994,7 +1997,7 @@
         }
         function clz32Fallback(x2) {
           x2 >>>= 0;
-          return 0 === x2 ? 32 : 31 - (log2(x2) / LN2 | 0) | 0;
+          return 0 === x2 ? 32 : 31 - (log(x2) / LN2 | 0) | 0;
         }
         function getLabelForLane(lane) {
           if (lane & 1) return "SyncHydrationLane";
@@ -2588,7 +2591,7 @@
           error.startsWith("Error: react-stack-top-frame\n") && (error = error.slice(29));
           prevPrepareStackTrace = error.indexOf("\n");
           -1 !== prevPrepareStackTrace && (error = error.slice(prevPrepareStackTrace + 1));
-          prevPrepareStackTrace = error.indexOf("react-stack-bottom-frame");
+          prevPrepareStackTrace = error.indexOf("react_stack_bottom_frame");
           -1 !== prevPrepareStackTrace && (prevPrepareStackTrace = error.lastIndexOf(
             "\n",
             prevPrepareStackTrace
@@ -16454,7 +16457,7 @@
           action: null
         }), valueStack = [];
         var fiberStack = [];
-        var index$jscomp$0 = -1, contextStackCursor = createCursor(null), contextFiberStackCursor = createCursor(null), rootInstanceStackCursor = createCursor(null), hostTransitionProviderCursor = createCursor(null), hasOwnProperty = Object.prototype.hasOwnProperty, scheduleCallback$3 = Scheduler.unstable_scheduleCallback, cancelCallback$1 = Scheduler.unstable_cancelCallback, shouldYield = Scheduler.unstable_shouldYield, requestPaint = Scheduler.unstable_requestPaint, now$1 = Scheduler.unstable_now, getCurrentPriorityLevel = Scheduler.unstable_getCurrentPriorityLevel, ImmediatePriority = Scheduler.unstable_ImmediatePriority, UserBlockingPriority = Scheduler.unstable_UserBlockingPriority, NormalPriority$1 = Scheduler.unstable_NormalPriority, LowPriority = Scheduler.unstable_LowPriority, IdlePriority = Scheduler.unstable_IdlePriority, log$1 = Scheduler.log, unstable_setDisableYieldValue = Scheduler.unstable_setDisableYieldValue, rendererID = null, injectedHook = null, injectedProfilingHooks = null, hasLoggedError = false, isDevToolsPresent = "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__, clz32 = Math.clz32 ? Math.clz32 : clz32Fallback, log2 = Math.log, LN2 = Math.LN2, nextTransitionLane = 256, nextRetryLane = 4194304, DiscreteEventPriority = 2, ContinuousEventPriority = 8, DefaultEventPriority = 32, IdleEventPriority = 268435456, randomKey = Math.random().toString(36).slice(2), internalInstanceKey = "__reactFiber$" + randomKey, internalPropsKey = "__reactProps$" + randomKey, internalContainerInstanceKey = "__reactContainer$" + randomKey, internalEventHandlersKey = "__reactEvents$" + randomKey, internalEventHandlerListenersKey = "__reactListeners$" + randomKey, internalEventHandlesSetKey = "__reactHandles$" + randomKey, internalRootNodeResourcesKey = "__reactResources$" + randomKey, internalHoistableMarker = "__reactMarker$" + randomKey, allNativeEvents = /* @__PURE__ */ new Set(), registrationNameDependencies = {}, possibleRegistrationNames = {}, hasReadOnlyValue = {
+        var index$jscomp$0 = -1, contextStackCursor = createCursor(null), contextFiberStackCursor = createCursor(null), rootInstanceStackCursor = createCursor(null), hostTransitionProviderCursor = createCursor(null), hasOwnProperty = Object.prototype.hasOwnProperty, scheduleCallback$3 = Scheduler.unstable_scheduleCallback, cancelCallback$1 = Scheduler.unstable_cancelCallback, shouldYield = Scheduler.unstable_shouldYield, requestPaint = Scheduler.unstable_requestPaint, now$1 = Scheduler.unstable_now, getCurrentPriorityLevel = Scheduler.unstable_getCurrentPriorityLevel, ImmediatePriority = Scheduler.unstable_ImmediatePriority, UserBlockingPriority = Scheduler.unstable_UserBlockingPriority, NormalPriority$1 = Scheduler.unstable_NormalPriority, LowPriority = Scheduler.unstable_LowPriority, IdlePriority = Scheduler.unstable_IdlePriority, log$1 = Scheduler.log, unstable_setDisableYieldValue = Scheduler.unstable_setDisableYieldValue, rendererID = null, injectedHook = null, injectedProfilingHooks = null, hasLoggedError = false, isDevToolsPresent = "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__, clz32 = Math.clz32 ? Math.clz32 : clz32Fallback, log = Math.log, LN2 = Math.LN2, nextTransitionLane = 256, nextRetryLane = 4194304, DiscreteEventPriority = 2, ContinuousEventPriority = 8, DefaultEventPriority = 32, IdleEventPriority = 268435456, randomKey = Math.random().toString(36).slice(2), internalInstanceKey = "__reactFiber$" + randomKey, internalPropsKey = "__reactProps$" + randomKey, internalContainerInstanceKey = "__reactContainer$" + randomKey, internalEventHandlersKey = "__reactEvents$" + randomKey, internalEventHandlerListenersKey = "__reactListeners$" + randomKey, internalEventHandlesSetKey = "__reactHandles$" + randomKey, internalRootNodeResourcesKey = "__reactResources$" + randomKey, internalHoistableMarker = "__reactMarker$" + randomKey, allNativeEvents = /* @__PURE__ */ new Set(), registrationNameDependencies = {}, possibleRegistrationNames = {}, hasReadOnlyValue = {
           button: true,
           checkbox: true,
           image: true,
@@ -18644,7 +18647,7 @@
           }
         };
         var callComponent = {
-          "react-stack-bottom-frame": function(Component4, props, secondArg) {
+          react_stack_bottom_frame: function(Component4, props, secondArg) {
             var wasRendering = isRendering;
             isRendering = true;
             try {
@@ -18653,8 +18656,8 @@
               isRendering = wasRendering;
             }
           }
-        }, callComponentInDEV = callComponent["react-stack-bottom-frame"].bind(callComponent), callRender = {
-          "react-stack-bottom-frame": function(instance) {
+        }, callComponentInDEV = callComponent.react_stack_bottom_frame.bind(callComponent), callRender = {
+          react_stack_bottom_frame: function(instance) {
             var wasRendering = isRendering;
             isRendering = true;
             try {
@@ -18663,39 +18666,47 @@
               isRendering = wasRendering;
             }
           }
-        }, callRenderInDEV = callRender["react-stack-bottom-frame"].bind(callRender), callComponentDidMount = {
-          "react-stack-bottom-frame": function(finishedWork, instance) {
+        }, callRenderInDEV = callRender.react_stack_bottom_frame.bind(callRender), callComponentDidMount = {
+          react_stack_bottom_frame: function(finishedWork, instance) {
             try {
               instance.componentDidMount();
             } catch (error) {
               captureCommitPhaseError(finishedWork, finishedWork.return, error);
             }
           }
-        }, callComponentDidMountInDEV = callComponentDidMount["react-stack-bottom-frame"].bind(callComponentDidMount), callComponentDidUpdate = {
-          "react-stack-bottom-frame": function(finishedWork, instance, prevProps, prevState, snapshot) {
+        }, callComponentDidMountInDEV = callComponentDidMount.react_stack_bottom_frame.bind(
+          callComponentDidMount
+        ), callComponentDidUpdate = {
+          react_stack_bottom_frame: function(finishedWork, instance, prevProps, prevState, snapshot) {
             try {
               instance.componentDidUpdate(prevProps, prevState, snapshot);
             } catch (error) {
               captureCommitPhaseError(finishedWork, finishedWork.return, error);
             }
           }
-        }, callComponentDidUpdateInDEV = callComponentDidUpdate["react-stack-bottom-frame"].bind(callComponentDidUpdate), callComponentDidCatch = {
-          "react-stack-bottom-frame": function(instance, errorInfo) {
+        }, callComponentDidUpdateInDEV = callComponentDidUpdate.react_stack_bottom_frame.bind(
+          callComponentDidUpdate
+        ), callComponentDidCatch = {
+          react_stack_bottom_frame: function(instance, errorInfo) {
             var stack = errorInfo.stack;
             instance.componentDidCatch(errorInfo.value, {
               componentStack: null !== stack ? stack : ""
             });
           }
-        }, callComponentDidCatchInDEV = callComponentDidCatch["react-stack-bottom-frame"].bind(callComponentDidCatch), callComponentWillUnmount = {
-          "react-stack-bottom-frame": function(current3, nearestMountedAncestor, instance) {
+        }, callComponentDidCatchInDEV = callComponentDidCatch.react_stack_bottom_frame.bind(
+          callComponentDidCatch
+        ), callComponentWillUnmount = {
+          react_stack_bottom_frame: function(current3, nearestMountedAncestor, instance) {
             try {
               instance.componentWillUnmount();
             } catch (error) {
               captureCommitPhaseError(current3, nearestMountedAncestor, error);
             }
           }
-        }, callComponentWillUnmountInDEV = callComponentWillUnmount["react-stack-bottom-frame"].bind(callComponentWillUnmount), callCreate = {
-          "react-stack-bottom-frame": function(effect) {
+        }, callComponentWillUnmountInDEV = callComponentWillUnmount.react_stack_bottom_frame.bind(
+          callComponentWillUnmount
+        ), callCreate = {
+          react_stack_bottom_frame: function(effect) {
             null != effect.resourceKind && console.error(
               "Expected only SimpleEffects when enableUseEffectCRUDOverload is disabled, got %s",
               effect.resourceKind
@@ -18705,20 +18716,20 @@
             create = create();
             return effect.destroy = create;
           }
-        }, callCreateInDEV = callCreate["react-stack-bottom-frame"].bind(callCreate), callDestroy = {
-          "react-stack-bottom-frame": function(current3, nearestMountedAncestor, destroy) {
+        }, callCreateInDEV = callCreate.react_stack_bottom_frame.bind(callCreate), callDestroy = {
+          react_stack_bottom_frame: function(current3, nearestMountedAncestor, destroy) {
             try {
               destroy();
             } catch (error) {
               captureCommitPhaseError(current3, nearestMountedAncestor, error);
             }
           }
-        }, callDestroyInDEV = callDestroy["react-stack-bottom-frame"].bind(callDestroy), callLazyInit = {
-          "react-stack-bottom-frame": function(lazy) {
+        }, callDestroyInDEV = callDestroy.react_stack_bottom_frame.bind(callDestroy), callLazyInit = {
+          react_stack_bottom_frame: function(lazy) {
             var init = lazy._init;
             return init(lazy._payload);
           }
-        }, callLazyInitInDEV = callLazyInit["react-stack-bottom-frame"].bind(callLazyInit), thenableState = null, thenableIndexCounter = 0, currentDebugInfo = null, didWarnAboutMaps;
+        }, callLazyInitInDEV = callLazyInit.react_stack_bottom_frame.bind(callLazyInit), thenableState = null, thenableIndexCounter = 0, currentDebugInfo = null, didWarnAboutMaps;
         var didWarnAboutGenerators = didWarnAboutMaps = false;
         var ownerHasKeyUseWarning = {};
         var ownerHasFunctionTypeWarning = {};
@@ -19162,9 +19173,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React53.version;
-          if ("19.1.0" !== isomorphicReactPackageVersion)
+          if ("19.1.1" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.1.0\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.1.1\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -19185,13 +19196,13 @@
           componentOrElement = null === componentOrElement ? null : componentOrElement.stateNode;
           return componentOrElement;
         };
-        if (!function() {
+        if (!(function() {
           var internals = {
             bundleType: 1,
-            version: "19.1.0",
+            version: "19.1.1",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.1.0"
+            reconcilerVersion: "19.1.1"
           };
           internals.overrideHookState = overrideHookState;
           internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -19209,7 +19220,7 @@
           internals.getLaneLabelMap = getLaneLabelMap;
           internals.injectProfilingHooks = injectProfilingHooks;
           return injectInternals(internals);
-        }() && canUseDOM3 && window.top === window.self && (-1 < navigator.userAgent.indexOf("Chrome") && -1 === navigator.userAgent.indexOf("Edge") || -1 < navigator.userAgent.indexOf("Firefox"))) {
+        })() && canUseDOM3 && window.top === window.self && (-1 < navigator.userAgent.indexOf("Chrome") && -1 === navigator.userAgent.indexOf("Edge") || -1 < navigator.userAgent.indexOf("Firefox"))) {
           var protocol = window.location.protocol;
           /^(https?|file):$/.test(protocol) && console.info(
             "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools" + ("file:" === protocol ? "\nYou might need to use a local HTTP server (instead of file://): https://react.dev/link/react-devtools-faq" : ""),
@@ -19282,7 +19293,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.1.0";
+        exports.version = "19.1.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -20376,13 +20387,13 @@
           return null;
         };
         React53 = {
-          "react-stack-bottom-frame": function(callStackForError) {
+          react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React53["react-stack-bottom-frame"].bind(
+        var unknownOwnerDebugStack = React53.react_stack_bottom_frame.bind(
           React53,
           UnknownOwner
         )();
@@ -20431,86 +20442,6 @@
     }
   });
 
-  // node_modules/@fortawesome/fontawesome-svg-core/package.json
-  var require_package = __commonJS({
-    "node_modules/@fortawesome/fontawesome-svg-core/package.json"(exports, module) {
-      module.exports = {
-        description: "The iconic font, CSS, and SVG framework",
-        keywords: [
-          "font",
-          "awesome",
-          "fontawesome",
-          "icon",
-          "svg",
-          "bootstrap"
-        ],
-        homepage: "https://fontawesome.com",
-        bugs: {
-          url: "https://github.com/FortAwesome/Font-Awesome/issues"
-        },
-        author: "The Font Awesome Team (https://github.com/orgs/FortAwesome/people)",
-        repository: {
-          type: "git",
-          url: "https://github.com/FortAwesome/Font-Awesome"
-        },
-        engines: {
-          node: ">=6"
-        },
-        dependencies: {
-          "@fortawesome/fontawesome-common-types": "7.0.0"
-        },
-        version: "7.0.0",
-        name: "@fortawesome/fontawesome-svg-core",
-        main: "index.js",
-        module: "index.mjs",
-        "jsnext:main": "index.mjs",
-        style: "styles.css",
-        license: "MIT",
-        types: "./index.d.ts",
-        exports: {
-          ".": {
-            types: "./index.d.ts",
-            module: "./index.mjs",
-            import: "./index.mjs",
-            require: "./index.js",
-            style: "./styles.css",
-            default: "./index.js"
-          },
-          "./index": {
-            types: "./index.d.ts",
-            module: "./index.mjs",
-            import: "./index.mjs",
-            require: "./index.js",
-            default: "./index.js"
-          },
-          "./index.js": {
-            types: "./index.d.ts",
-            module: "./index.mjs",
-            import: "./index.mjs",
-            require: "./index.js",
-            default: "./index.js"
-          },
-          "./plugins": {
-            types: "./index.d.ts",
-            module: "./plugins.mjs",
-            import: "./plugins.mjs",
-            default: "./plugins.mjs"
-          },
-          "./import.macro": "./import.macro.js",
-          "./import.macro.js": "./import.macro.js",
-          "./styles": "./styles.css",
-          "./styles.css": "./styles.css",
-          "./package.json": "./package.json"
-        },
-        sideEffects: [
-          "./index.js",
-          "./index.mjs",
-          "./styles.css"
-        ]
-      };
-    }
-  });
-
   // node_modules/react-side-effect/lib/index.js
   var require_lib = __commonJS({
     "node_modules/react-side-effect/lib/index.js"(exports, module) {
@@ -20520,7 +20451,7 @@
       }
       var React53 = require_react();
       var React__default = _interopDefault(React53);
-      function _defineProperty3(obj, key, value) {
+      function _defineProperty2(obj, key, value) {
         if (key in obj) {
           Object.defineProperty(obj, key, {
             value,
@@ -20568,7 +20499,7 @@
               state = mapStateOnServer3(state);
             }
           }
-          var SideEffect = /* @__PURE__ */ function(_PureComponent) {
+          var SideEffect = /* @__PURE__ */ (function(_PureComponent) {
             _inheritsLoose2(SideEffect2, _PureComponent);
             function SideEffect2() {
               return _PureComponent.apply(this, arguments) || this;
@@ -20602,9 +20533,9 @@
               return React__default.createElement(WrappedComponent, this.props);
             };
             return SideEffect2;
-          }(React53.PureComponent);
-          _defineProperty3(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
-          _defineProperty3(SideEffect, "canUseDOM", canUseDOM3);
+          })(React53.PureComponent);
+          _defineProperty2(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
+          _defineProperty2(SideEffect, "canUseDOM", canUseDOM3);
           return SideEffect;
         };
       }
@@ -21150,7 +21081,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-C37GKA54.mjs
+  // node_modules/react-router/dist/development/chunk-PVWAREVJ.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -21370,6 +21301,10 @@
   }
   var _map;
   var unstable_RouterContextProvider = class {
+    /**
+     * Create a new `unstable_RouterContextProvider` instance
+     * @param init An optional initial context map to populate the provider with
+     */
     constructor(init) {
       __privateAdd(this, _map, /* @__PURE__ */ new Map());
       if (init) {
@@ -21378,6 +21313,14 @@
         }
       }
     }
+    /**
+     * Access a value from the context. If no value has been set for the context,
+     * it will return the context's `defaultValue` if provided, or throw an error
+     * if no `defaultValue` was set.
+     * @param context The context to get the value for
+     * @returns The value for the context, or the context's `defaultValue` if no
+     * value was set
+     */
     get(context) {
       if (__privateGet(this, _map).has(context)) {
         return __privateGet(this, _map).get(context);
@@ -21387,6 +21330,14 @@
       }
       throw new Error("No value found for context");
     }
+    /**
+     * Set a value for the context. If the context already has a value set, this
+     * will overwrite it.
+     *
+     * @param context The context to set the value for
+     * @param value The value to set for the context
+     * @returns {void}
+     */
     set(context, value) {
       __privateGet(this, _map).set(context, value);
     }
@@ -21492,11 +21443,12 @@
       pathname,
       params,
       data: loaderData[route.id],
+      loaderData: loaderData[route.id],
       handle: route.handle
     };
   }
-  function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "") {
-    let flattenRoute = (route, index, relativePath) => {
+  function flattenRoutes(routes, branches = [], parentsMeta = [], parentPath = "", _hasParentOptionalSegments = false) {
+    let flattenRoute = (route, index, hasParentOptionalSegments = _hasParentOptionalSegments, relativePath) => {
       let meta = {
         relativePath: relativePath === void 0 ? route.path || "" : relativePath,
         caseSensitive: route.caseSensitive === true,
@@ -21504,6 +21456,9 @@
         route
       };
       if (meta.relativePath.startsWith("/")) {
+        if (!meta.relativePath.startsWith(parentPath) && hasParentOptionalSegments) {
+          return;
+        }
         invariant(
           meta.relativePath.startsWith(parentPath),
           `Absolute route path "${meta.relativePath}" nested under path "${parentPath}" is not valid. An absolute child route path must start with the combined path of all its parent routes.`
@@ -21519,7 +21474,13 @@
           route.index !== true,
           `Index routes must not have child routes. Please remove all child routes from route path "${path}".`
         );
-        flattenRoutes(route.children, branches, routesMeta, path);
+        flattenRoutes(
+          route.children,
+          branches,
+          routesMeta,
+          path,
+          hasParentOptionalSegments
+        );
       }
       if (route.path == null && !route.index) {
         return;
@@ -21535,7 +21496,7 @@
         flattenRoute(route, index);
       } else {
         for (let exploded of explodeOptionalSegments(route.path)) {
-          flattenRoute(route, index, exploded);
+          flattenRoute(route, index, true, exploded);
         }
       }
     });
@@ -21699,7 +21660,7 @@
         params.push({ paramName, isOptional: isOptional != null });
         return isOptional ? "/?([^\\/]+)?" : "/([^\\/]+)";
       }
-    );
+    ).replace(/\/([\w-]+)\?(\/|$)/g, "(/$1)?$2");
     if (path.endsWith("*")) {
       params.push({ paramName: "*" });
       regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
@@ -21913,9 +21874,11 @@
     );
     let inFlightDataRoutes;
     let basename = init.basename || "/";
+    if (!basename.startsWith("/")) {
+      basename = `/${basename}`;
+    }
     let dataStrategyImpl = init.dataStrategy || defaultDataStrategyWithMiddleware;
     let future = {
-      unstable_middleware: false,
       ...init.future
     };
     let unlistenHistory = null;
@@ -22373,9 +22336,7 @@
         pendingNavigationController.signal,
         opts && opts.submission
       );
-      let scopedContext = new unstable_RouterContextProvider(
-        init.unstable_getContext ? await init.unstable_getContext() : void 0
-      );
+      let scopedContext = init.unstable_getContext ? await init.unstable_getContext() : new unstable_RouterContextProvider();
       let pendingActionResult;
       if (opts && opts.pendingError) {
         pendingActionResult = [
@@ -22464,6 +22425,19 @@
         if (discoverResult.type === "aborted") {
           return { shortCircuited: true };
         } else if (discoverResult.type === "error") {
+          if (discoverResult.partialMatches.length === 0) {
+            let { matches: matches22, route } = getShortCircuitMatches(dataRoutes);
+            return {
+              matches: matches22,
+              pendingActionResult: [
+                route.id,
+                {
+                  type: "error",
+                  error: discoverResult.error
+                }
+              ]
+            };
+          }
           let boundaryId = findNearestBoundary(discoverResult.partialMatches).route.id;
           return {
             matches: discoverResult.partialMatches,
@@ -22595,6 +22569,16 @@
         if (discoverResult.type === "aborted") {
           return { shortCircuited: true };
         } else if (discoverResult.type === "error") {
+          if (discoverResult.partialMatches.length === 0) {
+            let { matches: matches22, route } = getShortCircuitMatches(dataRoutes);
+            return {
+              matches: matches22,
+              loaderData: {},
+              errors: {
+                [route.id]: discoverResult.error
+              }
+            };
+          }
           let boundaryId = findNearestBoundary(discoverResult.partialMatches).route.id;
           return {
             matches: discoverResult.partialMatches,
@@ -22642,7 +22626,7 @@
         pendingActionResult
       );
       pendingNavigationLoadId = ++incrementingLoadId;
-      if (!init.dataStrategy && !dsMatches.some((m2) => m2.shouldLoad) && revalidatingFetchers.length === 0) {
+      if (!init.dataStrategy && !dsMatches.some((m2) => m2.shouldLoad) && !dsMatches.some((m2) => m2.route.unstable_middleware) && revalidatingFetchers.length === 0) {
         let updatedFetchers2 = markFetchRedirectsDone();
         completeNavigation(
           location2,
@@ -22796,9 +22780,7 @@
         setFetcherError(key, routeId, error, { flushSync });
         return;
       }
-      let scopedContext = new unstable_RouterContextProvider(
-        init.unstable_getContext ? await init.unstable_getContext() : void 0
-      );
+      let scopedContext = init.unstable_getContext ? await init.unstable_getContext() : new unstable_RouterContextProvider();
       let preventScrollReset = (opts && opts.preventScrollReset) === true;
       if (submission && isMutationMethod(submission.formMethod)) {
         await handleFetcherAction(
@@ -24227,105 +24209,104 @@
     if (!args.matches.some((m2) => m2.route.unstable_middleware)) {
       return defaultDataStrategy(args);
     }
+    return runClientMiddlewarePipeline(args, () => defaultDataStrategy(args));
+  }
+  function runClientMiddlewarePipeline(args, handler) {
     return runMiddlewarePipeline(
       args,
-      false,
-      () => defaultDataStrategy(args),
-      (error, routeId) => ({ [routeId]: { type: "error", result: error } })
+      handler,
+      (r2) => r2,
+      // No post-processing needed on the client
+      isDataStrategyResults,
+      errorHandler
     );
-  }
-  async function runMiddlewarePipeline(args, propagateResult, handler, errorHandler) {
-    let { matches: matches2, request, params, context } = args;
-    let middlewareState = {
-      handlerResult: void 0
-    };
-    try {
-      let tuples = matches2.flatMap(
-        (m2) => m2.route.unstable_middleware ? m2.route.unstable_middleware.map((fn) => [m2.route.id, fn]) : []
-      );
-      let result = await callRouteMiddleware(
-        { request, params, context },
-        tuples,
-        propagateResult,
-        middlewareState,
-        handler
-      );
-      return propagateResult ? result : middlewareState.handlerResult;
-    } catch (e2) {
-      if (!middlewareState.middlewareError) {
-        throw e2;
+    function errorHandler(error, routeId, nextResult) {
+      if (nextResult) {
+        return Promise.resolve(
+          Object.assign(nextResult.value, {
+            [routeId]: { type: "error", result: error }
+          })
+        );
+      } else {
+        let { matches: matches2 } = args;
+        let maxBoundaryIdx = Math.min(
+          // Throwing route
+          matches2.findIndex((m2) => m2.route.id === routeId) || 0,
+          // or the shallowest route that needs to load data
+          matches2.findIndex((m2) => m2.unstable_shouldCallHandler()) || 0
+        );
+        let boundaryRouteId = findNearestBoundary(
+          matches2,
+          matches2[maxBoundaryIdx].route.id
+        ).route.id;
+        return Promise.resolve({
+          [boundaryRouteId]: { type: "error", result: error }
+        });
       }
-      let result = await errorHandler(
-        middlewareState.middlewareError.error,
-        middlewareState.middlewareError.routeId
-      );
-      if (propagateResult || !middlewareState.handlerResult) {
-        return result;
-      }
-      return Object.assign(middlewareState.handlerResult, result);
     }
   }
-  async function callRouteMiddleware(args, middlewares, propagateResult, middlewareState, handler, idx = 0) {
+  async function runMiddlewarePipeline(args, handler, processResult2, isResult, errorHandler) {
+    let { matches: matches2, request, params, context } = args;
+    let tuples = matches2.flatMap(
+      (m2) => m2.route.unstable_middleware ? m2.route.unstable_middleware.map((fn) => [m2.route.id, fn]) : []
+    );
+    let result = await callRouteMiddleware(
+      { request, params, context },
+      tuples,
+      handler,
+      processResult2,
+      isResult,
+      errorHandler
+    );
+    return result;
+  }
+  async function callRouteMiddleware(args, middlewares, handler, processResult2, isResult, errorHandler, idx = 0) {
     let { request } = args;
     if (request.signal.aborted) {
-      if (request.signal.reason) {
-        throw request.signal.reason;
-      }
-      throw new Error(
-        `Request aborted without an \`AbortSignal.reason\`: ${request.method} ${request.url}`
-      );
+      throw request.signal.reason ?? new Error(`Request aborted: ${request.method} ${request.url}`);
     }
     let tuple = middlewares[idx];
     if (!tuple) {
-      middlewareState.handlerResult = await handler();
-      return middlewareState.handlerResult;
+      let result = await handler();
+      return result;
     }
     let [routeId, middleware2] = tuple;
-    let nextCalled = false;
-    let nextResult = void 0;
+    let nextResult;
     let next2 = async () => {
-      if (nextCalled) {
+      if (nextResult) {
         throw new Error("You may only call `next()` once per middleware");
       }
-      nextCalled = true;
-      let result = await callRouteMiddleware(
-        args,
-        middlewares,
-        propagateResult,
-        middlewareState,
-        handler,
-        idx + 1
-      );
-      if (propagateResult) {
-        nextResult = result;
-        return nextResult;
+      try {
+        let result = await callRouteMiddleware(
+          args,
+          middlewares,
+          handler,
+          processResult2,
+          isResult,
+          errorHandler,
+          idx + 1
+        );
+        nextResult = { value: result };
+        return nextResult.value;
+      } catch (error) {
+        nextResult = { value: await errorHandler(error, routeId, nextResult) };
+        return nextResult.value;
       }
     };
     try {
-      let result = await middleware2(
-        {
-          request: args.request,
-          params: args.params,
-          context: args.context
-        },
-        next2
-      );
-      if (nextCalled) {
-        if (result === void 0) {
-          return nextResult;
-        } else {
-          return result;
-        }
+      let value = await middleware2(args, next2);
+      let result = value != null ? processResult2(value) : void 0;
+      if (isResult(result)) {
+        return result;
+      } else if (nextResult) {
+        return result ?? nextResult.value;
       } else {
-        return next2();
+        nextResult = { value: await next2() };
+        return nextResult.value;
       }
     } catch (error) {
-      if (!middlewareState.middlewareError) {
-        middlewareState.middlewareError = { routeId, error };
-      } else if (middlewareState.middlewareError.error !== error) {
-        middlewareState.middlewareError = { routeId, error };
-      }
-      throw error;
+      let response = await errorHandler(error, routeId, nextResult);
+      return response;
     }
   }
   function getDataStrategyMatchLazyPromises(mapRouteProperties2, manifest, request, match2, lazyRoutePropertiesToSkip) {
@@ -24436,10 +24417,8 @@
       );
     } : (cb) => {
       let typedDataStrategyArgs = dataStrategyArgs;
-      return runMiddlewarePipeline(
-        typedDataStrategyArgs,
-        false,
-        () => cb({
+      return runClientMiddlewarePipeline(typedDataStrategyArgs, () => {
+        return cb({
           ...typedDataStrategyArgs,
           fetcherKey,
           unstable_runClientMiddleware: () => {
@@ -24447,11 +24426,8 @@
               "Cannot call `unstable_runClientMiddleware()` from within an `unstable_runClientMiddleware` handler"
             );
           }
-        }),
-        (error, routeId) => ({
-          [routeId]: { type: "error", result: error }
-        })
-      );
+        });
+      });
     };
     let results = await dataStrategyImpl({
       ...dataStrategyArgs,
@@ -24568,21 +24544,19 @@
     }
     return result;
   }
+  async function parseResponseBody(response) {
+    let contentType = response.headers.get("Content-Type");
+    if (contentType && /\bapplication\/json\b/.test(contentType)) {
+      return response.body == null ? null : response.json();
+    }
+    return response.text();
+  }
   async function convertDataStrategyResultToDataResult(dataStrategyResult) {
     let { result, type } = dataStrategyResult;
     if (isResponse(result)) {
       let data2;
       try {
-        let contentType = result.headers.get("Content-Type");
-        if (contentType && /\bapplication\/json\b/.test(contentType)) {
-          if (result.body == null) {
-            data2 = null;
-          } else {
-            data2 = await result.json();
-          }
-        } else {
-          data2 = await result.text();
-        }
+        data2 = await parseResponseBody(result);
       } catch (e2) {
         return { type: "error", error: e2 };
       }
@@ -24776,11 +24750,12 @@
     );
     revalidatingFetchers.filter((f2) => !f2.matches || f2.matches.some((m2) => m2.shouldLoad)).forEach((rf) => {
       let { key, match: match2, controller } = rf;
-      let result = fetcherResults[key];
-      invariant(result, "Did not find corresponding fetcher result");
       if (controller && controller.signal.aborted) {
         return;
-      } else if (isErrorResult(result)) {
+      }
+      let result = fetcherResults[key];
+      invariant(result, "Did not find corresponding fetcher result");
+      if (isErrorResult(result)) {
         let boundaryMatch = findNearestBoundary(state.matches, match2?.route.id);
         if (!(errors2 && errors2[boundaryMatch.route.id])) {
           errors2 = {
@@ -24909,6 +24884,14 @@
       return true;
     }
     return false;
+  }
+  function isDataStrategyResults(result) {
+    return result != null && typeof result === "object" && Object.entries(result).every(
+      ([key, value]) => typeof key === "string" && isDataStrategyResult(value)
+    );
+  }
+  function isDataStrategyResult(result) {
+    return result != null && typeof result === "object" && "type" in result && "result" in result && (result.type === "data" || result.type === "error");
   }
   function isRedirectDataStrategyResult(result) {
     return isResponse(result.result) && redirectStatusCodes.has(result.result.status);
@@ -25277,7 +25260,7 @@
       [to2, routePathnamesJson, locationPathname, relative]
     );
   }
-  function useRoutesImpl(routes, locationArg, dataRouterState, future) {
+  function useRoutesImpl(routes, locationArg, dataRouterState, unstable_onError, future) {
     invariant(
       useInRouterContext(),
       // TODO: This error is probably because they somehow have 2 versions of the
@@ -25349,6 +25332,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       ),
       parentMatches,
       dataRouterState,
+      unstable_onError,
       future
     );
     if (locationArg && renderedMatches) {
@@ -25418,11 +25402,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }
     componentDidCatch(error, errorInfo) {
-      console.error(
-        "React Router caught the following error during render",
-        error,
-        errorInfo
-      );
+      if (this.props.unstable_onError) {
+        this.props.unstable_onError(error, errorInfo);
+      } else {
+        console.error(
+          "React Router caught the following error during render",
+          error
+        );
+      }
     }
     render() {
       return this.state.error !== void 0 ? /* @__PURE__ */ React22.createElement(RouteContext.Provider, { value: this.props.routeContext }, /* @__PURE__ */ React22.createElement(
@@ -25441,7 +25428,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     return /* @__PURE__ */ React22.createElement(RouteContext.Provider, { value: routeContext }, children);
   }
-  function _renderMatches(matches2, parentMatches = [], dataRouterState = null, future = null) {
+  function _renderMatches(matches2, parentMatches = [], dataRouterState = null, unstable_onError = null, future = null) {
     if (matches2 == null) {
       if (!dataRouterState) {
         return null;
@@ -25553,7 +25540,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             component: errorElement,
             error,
             children: getChildren(),
-            routeContext: { outlet: null, matches: matches22, isDataRoute: true }
+            routeContext: { outlet: null, matches: matches22, isDataRoute: true },
+            unstable_onError
           }
         ) : getChildren();
       },
@@ -25741,7 +25729,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   };
   function RouterProvider({
     router: router2,
-    flushSync: reactDomFlushSyncImpl
+    flushSync: reactDomFlushSyncImpl,
+    unstable_onError
   }) {
     let [state, setStateImpl] = React3.useState(router2.state);
     let [pendingState, setPendingState] = React3.useState();
@@ -25752,6 +25741,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     let [transition, setTransition] = React3.useState();
     let [interruption, setInterruption] = React3.useState();
     let fetcherData = React3.useRef(/* @__PURE__ */ new Map());
+    let logErrorsAndSetState = React3.useCallback(
+      (newState) => {
+        setStateImpl((prevState) => {
+          if (newState.errors && unstable_onError) {
+            Object.entries(newState.errors).forEach(([routeId, error]) => {
+              if (prevState.errors?.[routeId] !== error) {
+                unstable_onError(error);
+              }
+            });
+          }
+          return newState;
+        });
+      },
+      [unstable_onError]
+    );
     let setState = React3.useCallback(
       (newState, { deletedFetchers, flushSync, viewTransitionOpts }) => {
         newState.fetchers.forEach((fetcher, key) => {
@@ -25771,9 +25775,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         );
         if (!viewTransitionOpts || !isViewTransitionAvailable) {
           if (reactDomFlushSyncImpl && flushSync) {
-            reactDomFlushSyncImpl(() => setStateImpl(newState));
+            reactDomFlushSyncImpl(() => logErrorsAndSetState(newState));
           } else {
-            React3.startTransition(() => setStateImpl(newState));
+            React3.startTransition(() => logErrorsAndSetState(newState));
           }
           return;
         }
@@ -25791,7 +25795,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             });
           });
           let t2 = router2.window.document.startViewTransition(() => {
-            reactDomFlushSyncImpl(() => setStateImpl(newState));
+            reactDomFlushSyncImpl(() => logErrorsAndSetState(newState));
           });
           t2.finished.finally(() => {
             reactDomFlushSyncImpl(() => {
@@ -25822,7 +25826,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           });
         }
       },
-      [router2.window, reactDomFlushSyncImpl, transition, renderDfd]
+      [
+        router2.window,
+        reactDomFlushSyncImpl,
+        transition,
+        renderDfd,
+        logErrorsAndSetState
+      ]
     );
     React3.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
     React3.useEffect(() => {
@@ -25835,7 +25845,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         let newState = pendingState;
         let renderPromise = renderDfd.promise;
         let transition2 = router2.window.document.startViewTransition(async () => {
-          React3.startTransition(() => setStateImpl(newState));
+          React3.startTransition(() => logErrorsAndSetState(newState));
           await renderPromise;
         });
         transition2.finished.finally(() => {
@@ -25846,7 +25856,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         });
         setTransition(transition2);
       }
-    }, [pendingState, renderDfd, router2.window]);
+    }, [pendingState, renderDfd, router2.window, logErrorsAndSetState]);
     React3.useEffect(() => {
       if (renderDfd && pendingState && state.location.key === pendingState.location.key) {
         renderDfd.resolve();
@@ -25886,9 +25896,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         router: router2,
         navigator: navigator2,
         static: false,
-        basename
+        basename,
+        unstable_onError
       }),
-      [router2, navigator2, basename]
+      [router2, navigator2, basename, unstable_onError]
     );
     return /* @__PURE__ */ React3.createElement(React3.Fragment, null, /* @__PURE__ */ React3.createElement(DataRouterContext.Provider, { value: dataRouterContext }, /* @__PURE__ */ React3.createElement(DataRouterStateContext.Provider, { value: state }, /* @__PURE__ */ React3.createElement(FetchersContext.Provider, { value: fetcherData.current }, /* @__PURE__ */ React3.createElement(ViewTransitionContext.Provider, { value: vtContext }, /* @__PURE__ */ React3.createElement(
       Router,
@@ -25903,7 +25914,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         {
           routes: router2.routes,
           future: router2.future,
-          state
+          state,
+          unstable_onError
         }
       )
     ))))), null);
@@ -25912,9 +25924,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function DataRoutes({
     routes,
     future,
-    state
+    state,
+    unstable_onError
   }) {
-    return useRoutesImpl(routes, void 0, state, future);
+    return useRoutesImpl(routes, void 0, state, unstable_onError, future);
   }
   function Outlet(props) {
     return useOutlet(props.context);
@@ -26476,7 +26489,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return /* @__PURE__ */ React8.createElement(React8.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })), moduleHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "modulepreload", href, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
       // these don't spread `linkProps` because they are full link descriptors
       // already with their own props
-      /* @__PURE__ */ React8.createElement("link", { key, ...link })
+      /* @__PURE__ */ React8.createElement("link", { key, nonce: linkProps.nonce, ...link })
     )));
   }
   function mergeRefs(...refs) {
@@ -26494,7 +26507,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.7.1";
+      "7.8.2";
     }
   } catch (e2) {
   }
@@ -29300,6 +29313,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         actionsMap[type] = reducer2;
         return builder;
       },
+      addAsyncThunk(asyncThunk, reducers) {
+        if (true) {
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(43) : "`builder.addAsyncThunk` should only be called before calling `builder.addDefaultCase`");
+          }
+        }
+        if (reducers.pending) actionsMap[asyncThunk.pending.type] = reducers.pending;
+        if (reducers.rejected) actionsMap[asyncThunk.rejected.type] = reducers.rejected;
+        if (reducers.fulfilled) actionsMap[asyncThunk.fulfilled.type] = reducers.fulfilled;
+        if (reducers.settled) actionMatchers.push({
+          matcher: asyncThunk.settled,
+          reducer: reducers.settled
+        });
+        return builder;
+      },
       addMatcher(matcher, reducer2) {
         if (true) {
           if (defaultCaseReducer) {
@@ -29556,7 +29584,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               });
             }
           }
-          const promise = async function() {
+          const promise = (async function() {
             let finalAction;
             try {
               let conditionResult = options2?.condition?.(arg, {
@@ -29622,7 +29650,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               dispatch(finalAction);
             }
             return finalAction;
-          }();
+          })();
           return Object.assign(promise, {
             abort,
             requestId,
@@ -30361,7 +30389,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // node_modules/map-obj/index.js
   var isObject = (value) => typeof value === "object" && value !== null;
-  var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+  var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date) && !(globalThis.Blob && value instanceof globalThis.Blob);
   var mapObjectSkip = Symbol("mapObjectSkip");
   var _mapObject = (object, mapper, options2, isSeen = /* @__PURE__ */ new WeakMap()) => {
     options2 = {
@@ -30398,6 +30426,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function mapObject(object, mapper, options2) {
     if (!isObject(object)) {
       throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
+    }
+    if (Array.isArray(object)) {
+      throw new TypeError("Expected an object, got an array");
     }
     return _mapObject(object, mapper, options2);
   }
@@ -30486,6 +30517,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // node_modules/quick-lru/index.js
   var QuickLRU = class extends Map {
+    #size = 0;
+    #cache = /* @__PURE__ */ new Map();
+    #oldCache = /* @__PURE__ */ new Map();
+    #maxSize;
+    #maxAge;
+    #onEviction;
     constructor(options2 = {}) {
       super();
       if (!(options2.maxSize && options2.maxSize > 0)) {
@@ -30494,149 +30531,155 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (typeof options2.maxAge === "number" && options2.maxAge === 0) {
         throw new TypeError("`maxAge` must be a number greater than 0");
       }
-      this.maxSize = options2.maxSize;
-      this.maxAge = options2.maxAge || Number.POSITIVE_INFINITY;
-      this.onEviction = options2.onEviction;
-      this.cache = /* @__PURE__ */ new Map();
-      this.oldCache = /* @__PURE__ */ new Map();
-      this._size = 0;
+      this.#maxSize = options2.maxSize;
+      this.#maxAge = options2.maxAge || Number.POSITIVE_INFINITY;
+      this.#onEviction = options2.onEviction;
     }
-    // TODO: Use private class methods when targeting Node.js 16.
-    _emitEvictions(cache4) {
-      if (typeof this.onEviction !== "function") {
+    // For tests.
+    get __oldCache() {
+      return this.#oldCache;
+    }
+    #emitEvictions(cache4) {
+      if (typeof this.#onEviction !== "function") {
         return;
       }
       for (const [key, item] of cache4) {
-        this.onEviction(key, item.value);
+        this.#onEviction(key, item.value);
       }
     }
-    _deleteIfExpired(key, item) {
+    #deleteIfExpired(key, item) {
       if (typeof item.expiry === "number" && item.expiry <= Date.now()) {
-        if (typeof this.onEviction === "function") {
-          this.onEviction(key, item.value);
+        if (typeof this.#onEviction === "function") {
+          this.#onEviction(key, item.value);
         }
         return this.delete(key);
       }
       return false;
     }
-    _getOrDeleteIfExpired(key, item) {
-      const deleted = this._deleteIfExpired(key, item);
+    #getOrDeleteIfExpired(key, item) {
+      const deleted = this.#deleteIfExpired(key, item);
       if (deleted === false) {
         return item.value;
       }
     }
-    _getItemValue(key, item) {
-      return item.expiry ? this._getOrDeleteIfExpired(key, item) : item.value;
+    #getItemValue(key, item) {
+      return item.expiry ? this.#getOrDeleteIfExpired(key, item) : item.value;
     }
-    _peek(key, cache4) {
+    #peek(key, cache4) {
       const item = cache4.get(key);
-      return this._getItemValue(key, item);
+      return this.#getItemValue(key, item);
     }
-    _set(key, value) {
-      this.cache.set(key, value);
-      this._size++;
-      if (this._size >= this.maxSize) {
-        this._size = 0;
-        this._emitEvictions(this.oldCache);
-        this.oldCache = this.cache;
-        this.cache = /* @__PURE__ */ new Map();
+    #set(key, value) {
+      this.#cache.set(key, value);
+      this.#size++;
+      if (this.#size >= this.#maxSize) {
+        this.#size = 0;
+        this.#emitEvictions(this.#oldCache);
+        this.#oldCache = this.#cache;
+        this.#cache = /* @__PURE__ */ new Map();
       }
     }
-    _moveToRecent(key, item) {
-      this.oldCache.delete(key);
-      this._set(key, item);
+    #moveToRecent(key, item) {
+      this.#oldCache.delete(key);
+      this.#set(key, item);
     }
-    *_entriesAscending() {
-      for (const item of this.oldCache) {
+    *#entriesAscending() {
+      for (const item of this.#oldCache) {
         const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
+        if (!this.#cache.has(key)) {
+          const deleted = this.#deleteIfExpired(key, value);
           if (deleted === false) {
             yield item;
           }
         }
       }
-      for (const item of this.cache) {
+      for (const item of this.#cache) {
         const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
+        const deleted = this.#deleteIfExpired(key, value);
         if (deleted === false) {
           yield item;
         }
       }
     }
     get(key) {
-      if (this.cache.has(key)) {
-        const item = this.cache.get(key);
-        return this._getItemValue(key, item);
+      if (this.#cache.has(key)) {
+        const item = this.#cache.get(key);
+        return this.#getItemValue(key, item);
       }
-      if (this.oldCache.has(key)) {
-        const item = this.oldCache.get(key);
-        if (this._deleteIfExpired(key, item) === false) {
-          this._moveToRecent(key, item);
+      if (this.#oldCache.has(key)) {
+        const item = this.#oldCache.get(key);
+        if (this.#deleteIfExpired(key, item) === false) {
+          this.#moveToRecent(key, item);
           return item.value;
         }
       }
     }
-    set(key, value, { maxAge = this.maxAge } = {}) {
+    set(key, value, { maxAge = this.#maxAge } = {}) {
       const expiry = typeof maxAge === "number" && maxAge !== Number.POSITIVE_INFINITY ? Date.now() + maxAge : void 0;
-      if (this.cache.has(key)) {
-        this.cache.set(key, {
+      if (this.#cache.has(key)) {
+        this.#cache.set(key, {
           value,
           expiry
         });
       } else {
-        this._set(key, { value, expiry });
+        this.#set(key, { value, expiry });
       }
       return this;
     }
     has(key) {
-      if (this.cache.has(key)) {
-        return !this._deleteIfExpired(key, this.cache.get(key));
+      if (this.#cache.has(key)) {
+        return !this.#deleteIfExpired(key, this.#cache.get(key));
       }
-      if (this.oldCache.has(key)) {
-        return !this._deleteIfExpired(key, this.oldCache.get(key));
+      if (this.#oldCache.has(key)) {
+        return !this.#deleteIfExpired(key, this.#oldCache.get(key));
       }
       return false;
     }
     peek(key) {
-      if (this.cache.has(key)) {
-        return this._peek(key, this.cache);
+      if (this.#cache.has(key)) {
+        return this.#peek(key, this.#cache);
       }
-      if (this.oldCache.has(key)) {
-        return this._peek(key, this.oldCache);
+      if (this.#oldCache.has(key)) {
+        return this.#peek(key, this.#oldCache);
+      }
+    }
+    expiresIn(key) {
+      const item = this.#cache.get(key) ?? this.#oldCache.get(key);
+      if (item) {
+        return item.expiry ? item.expiry - Date.now() : Number.POSITIVE_INFINITY;
       }
     }
     delete(key) {
-      const deleted = this.cache.delete(key);
+      const deleted = this.#cache.delete(key);
       if (deleted) {
-        this._size--;
+        this.#size--;
       }
-      return this.oldCache.delete(key) || deleted;
+      return this.#oldCache.delete(key) || deleted;
     }
     clear() {
-      this.cache.clear();
-      this.oldCache.clear();
-      this._size = 0;
+      this.#cache.clear();
+      this.#oldCache.clear();
+      this.#size = 0;
     }
     resize(newSize) {
       if (!(newSize && newSize > 0)) {
         throw new TypeError("`maxSize` must be a number greater than 0");
       }
-      const items = [...this._entriesAscending()];
+      const items = [...this.#entriesAscending()];
       const removeCount = items.length - newSize;
       if (removeCount < 0) {
-        this.cache = new Map(items);
-        this.oldCache = /* @__PURE__ */ new Map();
-        this._size = items.length;
+        this.#cache = new Map(items);
+        this.#oldCache = /* @__PURE__ */ new Map();
+        this.#size = items.length;
       } else {
         if (removeCount > 0) {
-          this._emitEvictions(items.slice(0, removeCount));
+          this.#emitEvictions(items.slice(0, removeCount));
         }
-        this.oldCache = new Map(items.slice(removeCount));
-        this.cache = /* @__PURE__ */ new Map();
-        this._size = 0;
+        this.#oldCache = new Map(items.slice(removeCount));
+        this.#cache = /* @__PURE__ */ new Map();
+        this.#size = 0;
       }
-      this.maxSize = newSize;
+      this.#maxSize = newSize;
     }
     *keys() {
       for (const [key] of this) {
@@ -30649,17 +30692,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     *[Symbol.iterator]() {
-      for (const item of this.cache) {
+      for (const item of this.#cache) {
         const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
+        const deleted = this.#deleteIfExpired(key, value);
         if (deleted === false) {
           yield [key, value.value];
         }
       }
-      for (const item of this.oldCache) {
+      for (const item of this.#oldCache) {
         const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
+        if (!this.#cache.has(key)) {
+          const deleted = this.#deleteIfExpired(key, value);
           if (deleted === false) {
             yield [key, value.value];
           }
@@ -30667,21 +30710,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     *entriesDescending() {
-      let items = [...this.cache];
+      let items = [...this.#cache];
       for (let i2 = items.length - 1; i2 >= 0; --i2) {
         const item = items[i2];
         const [key, value] = item;
-        const deleted = this._deleteIfExpired(key, value);
+        const deleted = this.#deleteIfExpired(key, value);
         if (deleted === false) {
           yield [key, value.value];
         }
       }
-      items = [...this.oldCache];
+      items = [...this.#oldCache];
       for (let i2 = items.length - 1; i2 >= 0; --i2) {
         const item = items[i2];
         const [key, value] = item;
-        if (!this.cache.has(key)) {
-          const deleted = this._deleteIfExpired(key, value);
+        if (!this.#cache.has(key)) {
+          const deleted = this.#deleteIfExpired(key, value);
           if (deleted === false) {
             yield [key, value.value];
           }
@@ -30689,21 +30732,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     *entriesAscending() {
-      for (const [key, value] of this._entriesAscending()) {
+      for (const [key, value] of this.#entriesAscending()) {
         yield [key, value.value];
       }
     }
     get size() {
-      if (!this._size) {
-        return this.oldCache.size;
+      if (!this.#size) {
+        return this.#oldCache.size;
       }
       let oldCacheSize = 0;
-      for (const key of this.oldCache.keys()) {
-        if (!this.cache.has(key)) {
+      for (const key of this.#oldCache.keys()) {
+        if (!this.#cache.has(key)) {
           oldCacheSize++;
         }
       }
-      return Math.min(this._size + oldCacheSize, this.maxSize);
+      return Math.min(this.#size + oldCacheSize, this.#maxSize);
+    }
+    get maxSize() {
+      return this.#maxSize;
     }
     entries() {
       return this.entriesAscending();
@@ -30714,7 +30760,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     get [Symbol.toStringTag]() {
-      return JSON.stringify([...this.entriesAscending()]);
+      return "QuickLRU";
+    }
+    toString() {
+      return `QuickLRU(${this.size}/${this.maxSize})`;
+    }
+    [Symbol.for("nodejs.util.inspect.custom")]() {
+      return this.toString();
     }
   };
 
@@ -30728,9 +30780,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
   var cache = new QuickLRU({ maxSize: 1e5 });
   var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
-  var transform = (input, options2 = {}) => {
+  var transform = (input, options2 = {}, isSeen = /* @__PURE__ */ new WeakMap(), parentPath) => {
     if (!isObject2(input)) {
       return input;
+    }
+    if (isSeen.has(input)) {
+      return isSeen.get(input);
     }
     const {
       exclude,
@@ -30740,14 +30795,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       preserveConsecutiveUppercase: preserveConsecutiveUppercase2 = false
     } = options2;
     const stopPathsSet = new Set(stopPaths);
-    const makeMapper = (parentPath) => (key, value) => {
+    if (Array.isArray(input)) {
+      const result2 = [];
+      isSeen.set(input, result2);
+      for (const item of input) {
+        result2.push(isObject2(item) ? transform(item, options2, isSeen, parentPath) : item);
+      }
+      return result2;
+    }
+    const result = {};
+    isSeen.set(input, result);
+    const makeMapper = (currentParentPath) => (key, value) => {
       if (deep && isObject2(value)) {
-        const path = parentPath === void 0 ? key : `${parentPath}.${key}`;
+        const path = currentParentPath === void 0 ? key : `${currentParentPath}.${key}`;
         if (!stopPathsSet.has(path)) {
-          value = mapObject(value, makeMapper(path));
+          value = Array.isArray(value) ? value.map((item) => isObject2(item) ? transform(item, options2, isSeen, path) : item) : transform(value, options2, isSeen, path);
         }
       }
-      if (!(exclude && has2(exclude, key))) {
+      if (typeof key === "string" && !(exclude && has2(exclude, key))) {
         const cacheKey = pascalCase ? `${key}_` : key;
         if (cache.has(cacheKey)) {
           key = cache.get(cacheKey);
@@ -30761,13 +30826,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return [key, value];
     };
-    return mapObject(input, makeMapper(void 0));
+    const mappedResult = mapObject(input, makeMapper(parentPath), { deep: false });
+    Object.assign(result, mappedResult);
+    const symbols = Object.getOwnPropertySymbols(input);
+    for (const symbol of symbols) {
+      result[symbol] = deep && isObject2(input[symbol]) ? transform(input[symbol], options2, isSeen, parentPath) : input[symbol];
+    }
+    return result;
   };
   function camelcaseKeys(input, options2) {
+    const isSeen = /* @__PURE__ */ new WeakMap();
     if (Array.isArray(input)) {
-      return Object.keys(input).map((key) => transform(input[key], options2));
+      return input.map((item, index) => isObject2(item) ? transform(item, options2, isSeen, String(index)) : item);
     }
-    return transform(input, options2);
+    return transform(input, options2, isSeen);
   }
 
   // assets/scripts/lib/array.ts
@@ -31152,6 +31224,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (map2.has(key)) return map2.get(key);
     return map2.set(key, value).get(key);
   }
+  function getOrInsertComputed2(map2, key, compute) {
+    if (map2.has(key)) return map2.get(key);
+    return map2.set(key, compute(key)).get(key);
+  }
+  var createNewMap = () => /* @__PURE__ */ new Map();
   var defaultFetchFn = (...args) => fetch(...args);
   var defaultValidateStatus = (response) => response.status >= 200 && response.status <= 299;
   var defaultIsJsonContentType = (headers) => (
@@ -31363,10 +31440,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     infiniteQueryThunk,
     mutationThunk,
     api: api3,
-    context
+    context,
+    internalState
   }) {
-    const runningQueries = /* @__PURE__ */ new Map();
-    const runningMutations = /* @__PURE__ */ new Map();
+    const {
+      runningQueries,
+      runningMutations
+    } = internalState;
     const {
       unsubscribeQueryResult,
       removeMutationResult,
@@ -31601,6 +31681,7 @@ You must add the middleware for RTK-Query to function correctly!`);
       this._bqMeta = _bqMeta;
     }
   };
+  var shouldSkip = (skipSchemaValidation, schemaName) => Array.isArray(skipSchemaValidation) ? skipSchemaValidation.includes(schemaName) : !!skipSchemaValidation;
   async function parseWithSchema(schema, data2, schemaName, bqMeta) {
     const result = await schema["~standard"].validate(data2);
     if (result.issues) {
@@ -31732,7 +31813,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         skipSchemaValidation = globalSkipSchemaValidation
       } = endpointDefinition;
       try {
-        let transformResponse = getTransformCallbackForEndpoint(endpointDefinition, "transformResponse");
+        let transformResponse = defaultTransformResponse;
         const baseQueryApi = {
           signal,
           abort,
@@ -31774,7 +31855,7 @@ You must add the middleware for RTK-Query to function correctly!`);
             rawResponseSchema,
             responseSchema
           } = endpointDefinition;
-          if (argSchema && !skipSchemaValidation) {
+          if (argSchema && !shouldSkip(skipSchemaValidation, "arg")) {
             finalQueryArg = await parseWithSchema(
               argSchema,
               finalQueryArg,
@@ -31786,6 +31867,7 @@ You must add the middleware for RTK-Query to function correctly!`);
           if (forceQueryFn) {
             result = forceQueryFn();
           } else if (endpointDefinition.query) {
+            transformResponse = getTransformCallbackForEndpoint(endpointDefinition, "transformResponse");
             result = await baseQuery(endpointDefinition.query(finalQueryArg), baseQueryApi, extraOptions);
           } else {
             result = await endpointDefinition.queryFn(finalQueryArg, baseQueryApi, extraOptions, (arg2) => baseQuery(arg2, baseQueryApi, extraOptions));
@@ -31820,11 +31902,11 @@ You must add the middleware for RTK-Query to function correctly!`);
           let {
             data: data2
           } = result;
-          if (rawResponseSchema && !skipSchemaValidation) {
+          if (rawResponseSchema && !shouldSkip(skipSchemaValidation, "rawResponse")) {
             data2 = await parseWithSchema(rawResponseSchema, result.data, "rawResponseSchema", result.meta);
           }
           let transformedResponse = await transformResponse(data2, result.meta, finalQueryArg);
-          if (responseSchema && !skipSchemaValidation) {
+          if (responseSchema && !shouldSkip(skipSchemaValidation, "response")) {
             transformedResponse = await parseWithSchema(responseSchema, transformedResponse, "responseSchema", result.meta);
           }
           return {
@@ -31877,7 +31959,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         } else {
           finalQueryReturnValue = await executeRequest(arg.originalArgs);
         }
-        if (metaSchema && !skipSchemaValidation && finalQueryReturnValue.meta) {
+        if (metaSchema && !shouldSkip(skipSchemaValidation, "meta") && finalQueryReturnValue.meta) {
           finalQueryReturnValue.meta = await parseWithSchema(metaSchema, finalQueryReturnValue.meta, "metaSchema", finalQueryReturnValue.meta);
         }
         return fulfillWithValue(finalQueryReturnValue.data, addShouldAutoBatch({
@@ -31897,14 +31979,14 @@ You must add the middleware for RTK-Query to function correctly!`);
             meta
           } = caughtError;
           try {
-            if (rawErrorResponseSchema && !skipSchemaValidation) {
+            if (rawErrorResponseSchema && !shouldSkip(skipSchemaValidation, "rawErrorResponse")) {
               value = await parseWithSchema(rawErrorResponseSchema, value, "rawErrorResponseSchema", meta);
             }
-            if (metaSchema && !skipSchemaValidation) {
+            if (metaSchema && !shouldSkip(skipSchemaValidation, "meta")) {
               meta = await parseWithSchema(metaSchema, meta, "metaSchema", meta);
             }
             let transformedErrorResponse = await transformErrorResponse(value, meta, arg.originalArgs);
-            if (errorResponseSchema && !skipSchemaValidation) {
+            if (errorResponseSchema && !shouldSkip(skipSchemaValidation, "errorResponse")) {
               transformedErrorResponse = await parseWithSchema(errorResponseSchema, transformedErrorResponse, "errorResponseSchema", meta);
             }
             return rejectWithValue(transformedErrorResponse, addShouldAutoBatch({
@@ -32416,7 +32498,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           const {
             provided
           } = extractRehydrationInfo(action);
-          for (const [type, incomingTags] of Object.entries(provided)) {
+          for (const [type, incomingTags] of Object.entries(provided.tags ?? {})) {
             for (const [id, cacheKeys] of Object.entries(incomingTags)) {
               const subscribedQueries = (draft.tags[type] ??= {})[id || "__internal_without_id"] ??= [];
               for (const queryCacheKey of cacheKeys) {
@@ -32424,6 +32506,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
                 if (!alreadySubscribed) {
                   subscribedQueries.push(queryCacheKey);
                 }
+                draft.keys[queryCacheKey] = provided.keys[queryCacheKey];
               }
             }
           }
@@ -32871,7 +32954,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
   var buildBatchedActionsHandler = ({
     api: api3,
     queryThunk,
-    internalState
+    internalState,
+    mwApi
   }) => {
     const subscriptionsPrefix = `${api3.reducerPath}/subscriptions`;
     let previousSubscriptions = null;
@@ -32880,15 +32964,16 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       updateSubscriptionOptions,
       unsubscribeQueryResult
     } = api3.internalActions;
-    const actuallyMutateSubscriptions = (mutableState, action) => {
+    const actuallyMutateSubscriptions = (currentSubscriptions, action) => {
       if (updateSubscriptionOptions.match(action)) {
         const {
           queryCacheKey,
           requestId,
           options: options2
         } = action.payload;
-        if (mutableState?.[queryCacheKey]?.[requestId]) {
-          mutableState[queryCacheKey][requestId] = options2;
+        const sub = currentSubscriptions.get(queryCacheKey);
+        if (sub?.has(requestId)) {
+          sub.set(requestId, options2);
         }
         return true;
       }
@@ -32897,13 +32982,14 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           queryCacheKey,
           requestId
         } = action.payload;
-        if (mutableState[queryCacheKey]) {
-          delete mutableState[queryCacheKey][requestId];
+        const sub = currentSubscriptions.get(queryCacheKey);
+        if (sub) {
+          sub.delete(requestId);
         }
         return true;
       }
       if (api3.internalActions.removeQueryResult.match(action)) {
-        delete mutableState[action.payload.queryCacheKey];
+        currentSubscriptions.delete(action.payload.queryCacheKey);
         return true;
       }
       if (queryThunk.pending.match(action)) {
@@ -32913,20 +32999,13 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
             requestId
           }
         } = action;
-        const substate = mutableState[arg.queryCacheKey] ??= {};
-        substate[`${requestId}_running`] = {};
+        const substate = getOrInsertComputed2(currentSubscriptions, arg.queryCacheKey, createNewMap);
         if (arg.subscribe) {
-          substate[requestId] = arg.subscriptionOptions ?? substate[requestId] ?? {};
+          substate.set(requestId, arg.subscriptionOptions ?? substate.get(requestId) ?? {});
         }
         return true;
       }
       let mutated = false;
-      if (queryThunk.fulfilled.match(action) || queryThunk.rejected.match(action)) {
-        const state = mutableState[action.meta.arg.queryCacheKey] || {};
-        const key = `${action.meta.requestId}_running`;
-        mutated ||= !!state[key];
-        delete state[key];
-      }
       if (queryThunk.rejected.match(action)) {
         const {
           meta: {
@@ -32936,8 +33015,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           }
         } = action;
         if (condition && arg.subscribe) {
-          const substate = mutableState[arg.queryCacheKey] ??= {};
-          substate[requestId] = arg.subscriptionOptions ?? substate[requestId] ?? {};
+          const substate = getOrInsertComputed2(currentSubscriptions, arg.queryCacheKey, createNewMap);
+          substate.set(requestId, arg.subscriptionOptions ?? substate.get(requestId) ?? {});
           mutated = true;
         }
       }
@@ -32946,24 +33025,28 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     const getSubscriptions = () => internalState.currentSubscriptions;
     const getSubscriptionCount = (queryCacheKey) => {
       const subscriptions = getSubscriptions();
-      const subscriptionsForQueryArg = subscriptions[queryCacheKey] ?? {};
-      return countObjectKeys(subscriptionsForQueryArg);
+      const subscriptionsForQueryArg = subscriptions.get(queryCacheKey);
+      return subscriptionsForQueryArg?.size ?? 0;
     };
     const isRequestSubscribed = (queryCacheKey, requestId) => {
       const subscriptions = getSubscriptions();
-      return !!subscriptions?.[queryCacheKey]?.[requestId];
+      return !!subscriptions?.get(queryCacheKey)?.get(requestId);
     };
     const subscriptionSelectors = {
       getSubscriptions,
       getSubscriptionCount,
       isRequestSubscribed
     };
-    return (action, mwApi) => {
+    function serializeSubscriptions(currentSubscriptions) {
+      return JSON.parse(JSON.stringify(Object.fromEntries([...currentSubscriptions].map(([k2, v2]) => [k2, Object.fromEntries(v2)]))));
+    }
+    return (action, mwApi2) => {
       if (!previousSubscriptions) {
-        previousSubscriptions = JSON.parse(JSON.stringify(internalState.currentSubscriptions));
+        previousSubscriptions = serializeSubscriptions(internalState.currentSubscriptions);
       }
       if (api3.util.resetApiState.match(action)) {
-        previousSubscriptions = internalState.currentSubscriptions = {};
+        previousSubscriptions = {};
+        internalState.currentSubscriptions.clear();
         updateSyncTimer = null;
         return [true, false];
       }
@@ -32972,12 +33055,15 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }
       const didMutate = actuallyMutateSubscriptions(internalState.currentSubscriptions, action);
       let actionShouldContinue = true;
+      if (false) {
+        return [false, internalState.currentPolls];
+      }
       if (didMutate) {
         if (!updateSyncTimer) {
           updateSyncTimer = setTimeout(() => {
-            const newSubscriptions = JSON.parse(JSON.stringify(internalState.currentSubscriptions));
+            const newSubscriptions = serializeSubscriptions(internalState.currentSubscriptions);
             const [, patches] = produceWithPatches(previousSubscriptions, () => newSubscriptions);
-            mwApi.next(api3.internalActions.subscriptionsUpdated(patches));
+            mwApi2.next(api3.internalActions.subscriptionsUpdated(patches));
             previousSubscriptions = newSubscriptions;
             updateSyncTimer = null;
           }, 500);
@@ -32989,12 +33075,6 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       return [actionShouldContinue, false];
     };
   };
-  function isObjectEmpty(obj) {
-    for (const k2 in obj) {
-      return false;
-    }
-    return true;
-  }
   var THIRTY_TWO_BIT_MAX_TIMER_SECONDS = 2147483647 / 1e3 - 1;
   var buildCacheCollectionHandler = ({
     reducerPath,
@@ -33005,21 +33085,29 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     selectors: {
       selectQueryEntry,
       selectConfig
-    }
+    },
+    getRunningQueryThunk,
+    mwApi
   }) => {
     const {
       removeQueryResult,
       unsubscribeQueryResult,
       cacheEntriesUpserted
     } = api3.internalActions;
+    const runningQueries = internalState.runningQueries.get(mwApi.dispatch);
     const canTriggerUnsubscribe = isAnyOf(unsubscribeQueryResult.match, queryThunk.fulfilled, queryThunk.rejected, cacheEntriesUpserted.match);
     function anySubscriptionsRemainingForKey(queryCacheKey) {
-      const subscriptions = internalState.currentSubscriptions[queryCacheKey];
-      return !!subscriptions && !isObjectEmpty(subscriptions);
+      const subscriptions = internalState.currentSubscriptions.get(queryCacheKey);
+      if (!subscriptions) {
+        return false;
+      }
+      const hasSubscriptions = subscriptions.size > 0;
+      const isRunning = runningQueries?.[queryCacheKey] !== void 0;
+      return hasSubscriptions || isRunning;
     }
     const currentRemovalTimeouts = {};
-    const handler = (action, mwApi, internalState2) => {
-      const state = mwApi.getState();
+    const handler = (action, mwApi2, internalState2) => {
+      const state = mwApi2.getState();
       const config2 = selectConfig(state);
       if (canTriggerUnsubscribe(action)) {
         let queryCacheKeys;
@@ -33031,7 +33119,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           } = unsubscribeQueryResult.match(action) ? action.payload : action.meta.arg;
           queryCacheKeys = [queryCacheKey];
         }
-        handleUnsubscribeMany(queryCacheKeys, mwApi, config2);
+        handleUnsubscribeMany(queryCacheKeys, mwApi2, config2);
       }
       if (api3.util.resetApiState.match(action)) {
         for (const [key, timeout2] of Object.entries(currentRemovalTimeouts)) {
@@ -33043,14 +33131,16 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         const {
           queries
         } = context.extractRehydrationInfo(action);
-        handleUnsubscribeMany(Object.keys(queries), mwApi, config2);
+        handleUnsubscribeMany(Object.keys(queries), mwApi2, config2);
       }
     };
     function handleUnsubscribeMany(cacheKeys, api22, config2) {
       const state = api22.getState();
       for (const queryCacheKey of cacheKeys) {
         const entry = selectQueryEntry(state, queryCacheKey);
-        handleUnsubscribe(queryCacheKey, entry?.endpointName, api22, config2);
+        if (entry?.endpointName) {
+          handleUnsubscribe(queryCacheKey, entry.endpointName, api22, config2);
+        }
       }
     }
     function handleUnsubscribe(queryCacheKey, endpointName, api22, config2) {
@@ -33067,6 +33157,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         }
         currentRemovalTimeouts[queryCacheKey] = setTimeout(() => {
           if (!anySubscriptionsRemainingForKey(queryCacheKey)) {
+            const entry = selectQueryEntry(api22.getState(), queryCacheKey);
+            if (entry?.endpointName) {
+              const runningQuery = api22.dispatch(getRunningQueryThunk(entry.endpointName, entry.originalArgs));
+              runningQuery?.abort();
+            }
             api22.dispatch(removeQueryResult({
               queryCacheKey
             }));
@@ -33271,9 +33366,9 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           queryCacheKey
         } of valuesArray) {
           const querySubState = state.queries[queryCacheKey];
-          const subscriptionSubState = internalState.currentSubscriptions[queryCacheKey] ?? {};
+          const subscriptionSubState = getOrInsertComputed2(internalState.currentSubscriptions, queryCacheKey, createNewMap);
           if (querySubState) {
-            if (countObjectKeys(subscriptionSubState) === 0) {
+            if (subscriptionSubState.size === 0) {
               mwApi.dispatch(removeQueryResult({
                 queryCacheKey
               }));
@@ -33293,25 +33388,49 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     refetchQuery,
     internalState
   }) => {
-    const currentPolls = {};
+    const {
+      currentPolls,
+      currentSubscriptions
+    } = internalState;
+    const pendingPollingUpdates = /* @__PURE__ */ new Set();
+    let pollingUpdateTimer = null;
     const handler = (action, mwApi) => {
       if (api3.internalActions.updateSubscriptionOptions.match(action) || api3.internalActions.unsubscribeQueryResult.match(action)) {
-        updatePollingInterval(action.payload, mwApi);
+        schedulePollingUpdate(action.payload.queryCacheKey, mwApi);
       }
       if (queryThunk.pending.match(action) || queryThunk.rejected.match(action) && action.meta.condition) {
-        updatePollingInterval(action.meta.arg, mwApi);
+        schedulePollingUpdate(action.meta.arg.queryCacheKey, mwApi);
       }
       if (queryThunk.fulfilled.match(action) || queryThunk.rejected.match(action) && !action.meta.condition) {
         startNextPoll(action.meta.arg, mwApi);
       }
       if (api3.util.resetApiState.match(action)) {
         clearPolls();
+        if (pollingUpdateTimer) {
+          clearTimeout(pollingUpdateTimer);
+          pollingUpdateTimer = null;
+        }
+        pendingPollingUpdates.clear();
       }
     };
+    function schedulePollingUpdate(queryCacheKey, api22) {
+      pendingPollingUpdates.add(queryCacheKey);
+      if (!pollingUpdateTimer) {
+        pollingUpdateTimer = setTimeout(() => {
+          for (const key of pendingPollingUpdates) {
+            updatePollingInterval({
+              queryCacheKey: key
+            }, api22);
+          }
+          pendingPollingUpdates.clear();
+          pollingUpdateTimer = null;
+        }, 0);
+      }
+    }
     function getCacheEntrySubscriptions(queryCacheKey, api22) {
       const state = api22.getState()[reducerPath];
       const querySubState = state.queries[queryCacheKey];
-      const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+      const subscriptions = currentSubscriptions.get(queryCacheKey);
       if (!querySubState || querySubState.status === "uninitialized") return;
       return subscriptions;
     }
@@ -33320,20 +33439,20 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     }, api22) {
       const state = api22.getState()[reducerPath];
       const querySubState = state.queries[queryCacheKey];
-      const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+      const subscriptions = currentSubscriptions.get(queryCacheKey);
       if (!querySubState || querySubState.status === "uninitialized") return;
       const {
         lowestPollingInterval,
         skipPollingIfUnfocused
       } = findLowestPollingInterval(subscriptions);
       if (!Number.isFinite(lowestPollingInterval)) return;
-      const currentPoll = currentPolls[queryCacheKey];
+      const currentPoll = currentPolls.get(queryCacheKey);
       if (currentPoll?.timeout) {
         clearTimeout(currentPoll.timeout);
         currentPoll.timeout = void 0;
       }
       const nextPollTimestamp = Date.now() + lowestPollingInterval;
-      currentPolls[queryCacheKey] = {
+      currentPolls.set(queryCacheKey, {
         nextPollTimestamp,
         pollingInterval: lowestPollingInterval,
         timeout: setTimeout(() => {
@@ -33344,25 +33463,30 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             queryCacheKey
           }, api22);
         }, lowestPollingInterval)
-      };
+      });
     }
     function updatePollingInterval({
       queryCacheKey
     }, api22) {
       const state = api22.getState()[reducerPath];
       const querySubState = state.queries[queryCacheKey];
-      const subscriptions = internalState.currentSubscriptions[queryCacheKey];
+      const subscriptions = currentSubscriptions.get(queryCacheKey);
       if (!querySubState || querySubState.status === "uninitialized") {
         return;
       }
       const {
         lowestPollingInterval
       } = findLowestPollingInterval(subscriptions);
+      if (false) {
+        const updateCounters = currentPolls.pollUpdateCounters ??= {};
+        updateCounters[queryCacheKey] ??= 0;
+        updateCounters[queryCacheKey]++;
+      }
       if (!Number.isFinite(lowestPollingInterval)) {
         cleanupPollForKey(queryCacheKey);
         return;
       }
-      const currentPoll = currentPolls[queryCacheKey];
+      const currentPoll = currentPolls.get(queryCacheKey);
       const nextPollTimestamp = Date.now() + lowestPollingInterval;
       if (!currentPoll || nextPollTimestamp < currentPoll.nextPollTimestamp) {
         startNextPoll({
@@ -33371,24 +33495,24 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       }
     }
     function cleanupPollForKey(key) {
-      const existingPoll = currentPolls[key];
+      const existingPoll = currentPolls.get(key);
       if (existingPoll?.timeout) {
         clearTimeout(existingPoll.timeout);
       }
-      delete currentPolls[key];
+      currentPolls.delete(key);
     }
     function clearPolls() {
-      for (const key of Object.keys(currentPolls)) {
+      for (const key of currentPolls.keys()) {
         cleanupPollForKey(key);
       }
     }
-    function findLowestPollingInterval(subscribers = {}) {
+    function findLowestPollingInterval(subscribers = /* @__PURE__ */ new Map()) {
       let skipPollingIfUnfocused = false;
       let lowestPollingInterval = Number.POSITIVE_INFINITY;
-      for (let key in subscribers) {
-        if (!!subscribers[key].pollingInterval) {
-          lowestPollingInterval = Math.min(subscribers[key].pollingInterval, lowestPollingInterval);
-          skipPollingIfUnfocused = subscribers[key].skipPollingIfUnfocused || skipPollingIfUnfocused;
+      for (const entry of subscribers.values()) {
+        if (!!entry.pollingInterval) {
+          lowestPollingInterval = Math.min(entry.pollingInterval, lowestPollingInterval);
+          skipPollingIfUnfocused = entry.skipPollingIfUnfocused || skipPollingIfUnfocused;
         }
       }
       return {
@@ -33489,13 +33613,14 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       const queries = state.queries;
       const subscriptions = internalState.currentSubscriptions;
       context.batch(() => {
-        for (const queryCacheKey of Object.keys(subscriptions)) {
+        for (const queryCacheKey of subscriptions.keys()) {
           const querySubState = queries[queryCacheKey];
-          const subscriptionSubState = subscriptions[queryCacheKey];
+          const subscriptionSubState = subscriptions.get(queryCacheKey);
           if (!subscriptionSubState || !querySubState) continue;
-          const shouldRefetch = Object.values(subscriptionSubState).some((sub) => sub[type] === true) || Object.values(subscriptionSubState).every((sub) => sub[type] === void 0) && state.config[type];
+          const values = [...subscriptionSubState.values()];
+          const shouldRefetch = values.some((sub) => sub[type] === true) || values.every((sub) => sub[type] === void 0) && state.config[type];
           if (shouldRefetch) {
-            if (countObjectKeys(subscriptionSubState) === 0) {
+            if (subscriptionSubState.size === 0) {
               api22.dispatch(removeQueryResult({
                 queryCacheKey
               }));
@@ -33513,7 +33638,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       reducerPath,
       queryThunk,
       api: api3,
-      context
+      context,
+      internalState
     } = input;
     const {
       apiUid
@@ -33525,14 +33651,12 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     const handlerBuilders = [buildDevCheckHandler, buildCacheCollectionHandler, buildInvalidationByTagsHandler, buildPollingHandler, buildCacheLifecycleHandler, buildQueryLifecycleHandler];
     const middleware2 = (mwApi) => {
       let initialized2 = false;
-      const internalState = {
-        currentSubscriptions: {}
-      };
       const builderArgs = {
         ...input,
         internalState,
         refetchQuery,
-        isThisApiSliceAction
+        isThisApiSliceAction,
+        mwApi
       };
       const handlers2 = handlerBuilders.map((build3) => build3(builderArgs));
       const batchedActionsHandler = buildBatchedActionsHandler(builderArgs);
@@ -33687,24 +33811,12 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         upsertQueryEntries: sliceActions.cacheEntriesUpserted
       });
       safeAssign(api3.internalActions, sliceActions);
-      const {
-        middleware: middleware2,
-        actions: middlewareActions
-      } = buildMiddleware({
-        reducerPath,
-        context,
-        queryThunk,
-        mutationThunk,
-        infiniteQueryThunk,
-        api: api3,
-        assertTagType,
-        selectors: selectors5
-      });
-      safeAssign(api3.util, middlewareActions);
-      safeAssign(api3, {
-        reducer: reducer2,
-        middleware: middleware2
-      });
+      const internalState = {
+        currentSubscriptions: /* @__PURE__ */ new Map(),
+        currentPolls: /* @__PURE__ */ new Map(),
+        runningQueries: /* @__PURE__ */ new Map(),
+        runningMutations: /* @__PURE__ */ new Map()
+      };
       const {
         buildInitiateQuery,
         buildInitiateInfiniteQuery,
@@ -33719,13 +33831,34 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         infiniteQueryThunk,
         api: api3,
         serializeQueryArgs,
-        context
+        context,
+        internalState
       });
       safeAssign(api3.util, {
         getRunningMutationThunk,
         getRunningMutationsThunk,
         getRunningQueryThunk,
         getRunningQueriesThunk
+      });
+      const {
+        middleware: middleware2,
+        actions: middlewareActions
+      } = buildMiddleware({
+        reducerPath,
+        context,
+        queryThunk,
+        mutationThunk,
+        infiniteQueryThunk,
+        api: api3,
+        assertTagType,
+        selectors: selectors5,
+        getRunningQueryThunk,
+        internalState
+      });
+      safeAssign(api3.util, middlewareActions);
+      safeAssign(api3, {
+        reducer: reducer2,
+        middleware: middleware2
       });
       return {
         name: coreModuleName,
@@ -33789,22 +33922,15 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     return Object.assign(target, ...args);
   }
   var UNINITIALIZED_VALUE = Symbol();
-  function useStableQueryArgs(queryArgs, serialize2, endpointDefinition, endpointName) {
-    const incoming = (0, import_react2.useMemo)(() => ({
-      queryArgs,
-      serialized: typeof queryArgs == "object" ? serialize2({
-        queryArgs,
-        endpointDefinition,
-        endpointName
-      }) : queryArgs
-    }), [queryArgs, serialize2, endpointDefinition, endpointName]);
-    const cache4 = (0, import_react2.useRef)(incoming);
+  function useStableQueryArgs(queryArgs) {
+    const cache4 = (0, import_react2.useRef)(queryArgs);
+    const copy2 = (0, import_react2.useMemo)(() => copyWithStructuralSharing(cache4.current, queryArgs), [queryArgs]);
     (0, import_react2.useEffect)(() => {
-      if (cache4.current.serialized !== incoming.serialized) {
-        cache4.current = incoming;
+      if (cache4.current !== copy2) {
+        cache4.current = copy2;
       }
-    }, [incoming]);
-    return cache4.current.serialized === incoming.serialized ? cache4.current.queryArgs : queryArgs;
+    }, [copy2]);
+    return copy2;
   }
   function useShallowStableValue(value) {
     const cache4 = (0, import_react3.useRef)(value);
@@ -33957,17 +34083,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         }
         subscriptionSelectorsRef.current = returnedValue;
       }
-      const stableArg = useStableQueryArgs(
-        skip2 ? skipToken : arg,
-        // Even if the user provided a per-endpoint `serializeQueryArgs` with
-        // a consistent return value, _here_ we want to use the default behavior
-        // so we can tell if _anything_ actually changed. Otherwise, we can end up
-        // with a case where the query args did change but the serialization doesn't,
-        // and then we never try to initiate a refetch.
-        defaultSerializeQueryArgs,
-        context.endpointDefinitions[endpointName],
-        endpointName
-      );
+      const stableArg = useStableQueryArgs(skip2 ? skipToken : arg);
       const stableSubscriptionOptions = useShallowStableValue({
         refetchOnReconnect,
         refetchOnFocus,
@@ -34026,7 +34142,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         const {
           select
         } = api3.endpoints[endpointName];
-        const stableArg = useStableQueryArgs(skip2 ? skipToken : arg, serializeQueryArgs, context.endpointDefinitions[endpointName], endpointName);
+        const stableArg = useStableQueryArgs(skip2 ? skipToken : arg);
         const lastValue = (0, import_react.useRef)(void 0);
         const selectDefaultResult = (0, import_react.useMemo)(() => (
           // Normally ts-ignores are bad and should be avoided, but we're
@@ -34198,17 +34314,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           return promise;
         }, [promiseRef, dispatch, initiate]);
         usePromiseRefUnsubscribeOnUnmount(promiseRef);
-        const stableArg = useStableQueryArgs(
-          options2.skip ? skipToken : arg,
-          // Even if the user provided a per-endpoint `serializeQueryArgs` with
-          // a consistent return value, _here_ we want to use the default behavior
-          // so we can tell if _anything_ actually changed. Otherwise, we can end up
-          // with a case where the query args did change but the serialization doesn't,
-          // and then we never try to initiate a refetch.
-          defaultSerializeQueryArgs,
-          context.endpointDefinitions[endpointName],
-          endpointName
-        );
+        const stableArg = useStableQueryArgs(options2.skip ? skipToken : arg);
         const refetch = (0, import_react.useCallback)(() => refetchOrErrorIfUnmounted(promiseRef), [promiseRef]);
         return (0, import_react.useMemo)(() => {
           const fetchNextPage = () => {
@@ -35255,7 +35361,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var ENTERING = "entering";
   var ENTERED = "entered";
   var EXITING = "exiting";
-  var Transition = /* @__PURE__ */ function(_React$Component) {
+  var Transition = /* @__PURE__ */ (function(_React$Component) {
     _inheritsLoose(Transition2, _React$Component);
     function Transition2(props, context) {
       var _this;
@@ -35463,7 +35569,7 @@ Hook ${hookName} was either not provided or not a function.`);
       );
     };
     return Transition2;
-  }(import_react8.default.Component);
+  })(import_react8.default.Component);
   Transition.contextType = TransitionGroupContext_default;
   Transition.propTypes = true ? {
     /**
@@ -35669,7 +35775,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return removeClass(node2, c2);
     });
   };
-  var CSSTransition = /* @__PURE__ */ function(_React$Component) {
+  var CSSTransition = /* @__PURE__ */ (function(_React$Component) {
     _inheritsLoose(CSSTransition2, _React$Component);
     function CSSTransition2() {
       var _this;
@@ -35789,7 +35895,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }));
     };
     return CSSTransition2;
-  }(import_react9.default.Component);
+  })(import_react9.default.Component);
   CSSTransition.defaultProps = {
     classNames: ""
   };
@@ -36015,7 +36121,7 @@ Hook ${hookName} was either not provided or not a function.`);
     tag.setAttribute("data-s", "");
     return tag;
   }
-  var StyleSheet = /* @__PURE__ */ function() {
+  var StyleSheet = /* @__PURE__ */ (function() {
     function StyleSheet2(options2) {
       var _this = this;
       this._insertTag = function(tag) {
@@ -36073,7 +36179,7 @@ Hook ${hookName} was either not provided or not a function.`);
       this.ctr = 0;
     };
     return StyleSheet2;
-  }();
+  })();
 
   // node_modules/stylis/src/Enum.js
   var MS = "-ms-";
@@ -37221,6 +37327,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var sheet = _createEmotion.sheet;
   var cache3 = _createEmotion.cache;
 
+  // node_modules/@fortawesome/react-fontawesome/dist/index.js
+  var import_react12 = __toESM(require_react(), 1);
+
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
   function _arrayLikeToArray(r2, a2) {
     (null == a2 || a2 > r2.length) && (a2 = r2.length);
@@ -38116,13 +38225,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var MUTATION_APPROACH_ASYNC = "async";
   var TAGNAMES_TO_SKIP_FOR_PSEUDOELEMENTS = ["HTML", "HEAD", "STYLE", "SCRIPT"];
   var PSEUDO_ELEMENTS = ["::before", "::after", ":before", ":after"];
-  var PRODUCTION = function() {
+  var PRODUCTION = (function() {
     try {
       return false;
     } catch (e$$1) {
       return false;
     }
-  }();
+  })();
   function familyProxy(obj) {
     return new Proxy(obj, {
       get: function get3(target, prop) {
@@ -38868,22 +38977,21 @@ Hook ${hookName} was either not provided or not a function.`);
 }
 
 .svg-inline--fa.fa-stack-1x {
+  --fa-width: 1.25em;
   height: 1em;
-  width: 1.25em;
+  width: var(--fa-width);
 }
 .svg-inline--fa.fa-stack-2x {
+  --fa-width: 2.5em;
   height: 2em;
-  width: 2.5em;
+  width: var(--fa-width);
 }
 
 .fa-stack-1x,
 .fa-stack-2x {
-  bottom: 0;
-  left: 0;
+  inset: 0;
   margin: auto;
   position: absolute;
-  right: 0;
-  top: 0;
   z-index: var(--fa-stack-z-index, auto);
 }`;
   function css2() {
@@ -39290,7 +39398,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return canonical;
   }
-  var Library = /* @__PURE__ */ function() {
+  var Library = /* @__PURE__ */ (function() {
     function Library2() {
       _classCallCheck(this, Library2);
       this.definitions = {};
@@ -39306,6 +39414,8 @@ Hook ${hookName} was either not provided or not a function.`);
         Object.keys(additions).forEach(function(key) {
           _this.definitions[key] = _objectSpread2(_objectSpread2({}, _this.definitions[key] || {}), additions[key]);
           defineIcons(key, additions[key]);
+          var longPrefix = PREFIX_TO_LONG_STYLE[a][key];
+          if (longPrefix) defineIcons(longPrefix, additions[key]);
           build();
         });
       }
@@ -39336,7 +39446,7 @@ Hook ${hookName} was either not provided or not a function.`);
         return additions;
       }
     }]);
-  }();
+  })();
   var _plugins = [];
   var _hooks = {};
   var providers = {};
@@ -39739,7 +39849,7 @@ Hook ${hookName} was either not provided or not a function.`);
     mark: noop$1,
     measure: noop$1
   };
-  var preamble = 'FA "7.0.0"';
+  var preamble = 'FA "7.0.1"';
   var begin = function begin2(name) {
     p$2.mark("".concat(preamble, " ").concat(name, " begins"));
     return function() {
@@ -40452,19 +40562,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var parseCSSRuleForPseudos = function parseCSSRuleForPseudos2(selectorText) {
     if (!selectorText) return [];
     var selectorSet = /* @__PURE__ */ new Set();
-    var selectors5 = [selectorText];
-    var splitters = [/(?=\s:)/, /(?<=\)\)?[^,]*,)/];
-    var _loop = function _loop2() {
-      var splitter = _splitters[_i];
-      selectors5 = selectors5.flatMap(function(selector2) {
-        return selector2.split(splitter).map(function(s$$1) {
-          return s$$1.replace(/,\s*$/, "").trim();
-        });
-      });
-    };
-    for (var _i = 0, _splitters = splitters; _i < _splitters.length; _i++) {
-      _loop();
-    }
+    var selectors5 = selectorText.split(/,(?![^()]*\))/).map(function(s$$1) {
+      return s$$1.trim();
+    });
     selectors5 = selectors5.flatMap(function(selector2) {
       return selector2.includes("(") ? selector2 : selector2.split(",").map(function(s$$1) {
         return s$$1.trim();
@@ -40939,315 +41039,284 @@ Hook ${hookName} was either not provided or not a function.`);
   var text = api2.text;
   var counter = api2.counter;
 
-  // node_modules/@fortawesome/react-fontawesome/index.es.js
-  var import_prop_types4 = __toESM(require_prop_types());
-  var import_react12 = __toESM(require_react());
-  function _arrayLikeToArray2(r2, a2) {
-    (null == a2 || a2 > r2.length) && (a2 = r2.length);
-    for (var e2 = 0, n2 = Array(a2); e2 < a2; e2++) n2[e2] = r2[e2];
-    return n2;
-  }
-  function _arrayWithHoles2(r2) {
-    if (Array.isArray(r2)) return r2;
-  }
-  function _arrayWithoutHoles2(r2) {
-    if (Array.isArray(r2)) return _arrayLikeToArray2(r2);
-  }
-  function _defineProperty2(e2, r2, t2) {
-    return (r2 = _toPropertyKey2(r2)) in e2 ? Object.defineProperty(e2, r2, {
-      value: t2,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    }) : e2[r2] = t2, e2;
-  }
-  function _iterableToArray2(r2) {
-    if ("undefined" != typeof Symbol && null != r2[Symbol.iterator] || null != r2["@@iterator"]) return Array.from(r2);
-  }
-  function _iterableToArrayLimit2(r2, l2) {
-    var t2 = null == r2 ? null : "undefined" != typeof Symbol && r2[Symbol.iterator] || r2["@@iterator"];
-    if (null != t2) {
-      var e2, n2, i2, u2, a2 = [], f2 = true, o2 = false;
-      try {
-        if (i2 = (t2 = t2.call(r2)).next, 0 === l2) {
-          if (Object(t2) !== t2) return;
-          f2 = false;
-        } else for (; !(f2 = (e2 = i2.call(t2)).done) && (a2.push(e2.value), a2.length !== l2); f2 = true) ;
-      } catch (r3) {
-        o2 = true, n2 = r3;
-      } finally {
-        try {
-          if (!f2 && null != t2.return && (u2 = t2.return(), Object(u2) !== u2)) return;
-        } finally {
-          if (o2) throw n2;
-        }
-      }
-      return a2;
-    }
-  }
-  function _nonIterableRest2() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _nonIterableSpread2() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function ownKeys2(e2, r2) {
-    var t2 = Object.keys(e2);
-    if (Object.getOwnPropertySymbols) {
-      var o2 = Object.getOwnPropertySymbols(e2);
-      r2 && (o2 = o2.filter(function(r3) {
-        return Object.getOwnPropertyDescriptor(e2, r3).enumerable;
-      })), t2.push.apply(t2, o2);
-    }
-    return t2;
-  }
-  function _objectSpread22(e2) {
-    for (var r2 = 1; r2 < arguments.length; r2++) {
-      var t2 = null != arguments[r2] ? arguments[r2] : {};
-      r2 % 2 ? ownKeys2(Object(t2), true).forEach(function(r3) {
-        _defineProperty2(e2, r3, t2[r3]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys2(Object(t2)).forEach(function(r3) {
-        Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
-      });
-    }
-    return e2;
-  }
-  function _objectWithoutProperties(e2, t2) {
-    if (null == e2) return {};
-    var o2, r2, i2 = _objectWithoutPropertiesLoose2(e2, t2);
-    if (Object.getOwnPropertySymbols) {
-      var n2 = Object.getOwnPropertySymbols(e2);
-      for (r2 = 0; r2 < n2.length; r2++) o2 = n2[r2], -1 === t2.indexOf(o2) && {}.propertyIsEnumerable.call(e2, o2) && (i2[o2] = e2[o2]);
-    }
-    return i2;
-  }
-  function _objectWithoutPropertiesLoose2(r2, e2) {
-    if (null == r2) return {};
-    var t2 = {};
-    for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
-      if (-1 !== e2.indexOf(n2)) continue;
-      t2[n2] = r2[n2];
-    }
-    return t2;
-  }
-  function _slicedToArray2(r2, e2) {
-    return _arrayWithHoles2(r2) || _iterableToArrayLimit2(r2, e2) || _unsupportedIterableToArray2(r2, e2) || _nonIterableRest2();
-  }
-  function _toConsumableArray2(r2) {
-    return _arrayWithoutHoles2(r2) || _iterableToArray2(r2) || _unsupportedIterableToArray2(r2) || _nonIterableSpread2();
-  }
-  function _toPrimitive2(t2, r2) {
-    if ("object" != typeof t2 || !t2) return t2;
-    var e2 = t2[Symbol.toPrimitive];
-    if (void 0 !== e2) {
-      var i2 = e2.call(t2, r2 || "default");
-      if ("object" != typeof i2) return i2;
-      throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return ("string" === r2 ? String : Number)(t2);
-  }
-  function _toPropertyKey2(t2) {
-    var i2 = _toPrimitive2(t2, "string");
-    return "symbol" == typeof i2 ? i2 : i2 + "";
-  }
-  function _typeof2(o2) {
-    "@babel/helpers - typeof";
-    return _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o3) {
-      return typeof o3;
-    } : function(o3) {
-      return o3 && "function" == typeof Symbol && o3.constructor === Symbol && o3 !== Symbol.prototype ? "symbol" : typeof o3;
-    }, _typeof2(o2);
-  }
-  function _unsupportedIterableToArray2(r2, a2) {
-    if (r2) {
-      if ("string" == typeof r2) return _arrayLikeToArray2(r2, a2);
-      var t2 = {}.toString.call(r2).slice(8, -1);
-      return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray2(r2, a2) : void 0;
-    }
-  }
-  var ICON_PACKS_STARTING_VERSION = "7.0.0-alpha1";
-  var SVG_CORE_VERSION;
-  try {
-    svgCorePackageJson = require_package();
-    SVG_CORE_VERSION = svgCorePackageJson.version;
-  } catch (e2) {
-    SVG_CORE_VERSION = process.env.FA_VERSION || "7.0.0-alpha8";
-  }
-  var svgCorePackageJson;
-  function classList(props) {
-    var beat = props.beat, fade = props.fade, beatFade = props.beatFade, bounce = props.bounce, shake = props.shake, flash = props.flash, spin = props.spin, spinPulse = props.spinPulse, spinReverse = props.spinReverse, pulse = props.pulse, fixedWidth = props.fixedWidth, inverse = props.inverse, border = props.border, listItem = props.listItem, flip = props.flip, size = props.size, rotation = props.rotation, pull = props.pull, swapOpacity = props.swapOpacity, rotateBy = props.rotateBy, widthAuto = props.widthAuto;
-    var isVersion7OrLater = versionCheckGte(SVG_CORE_VERSION, ICON_PACKS_STARTING_VERSION);
-    var classes = _defineProperty2(_defineProperty2(_defineProperty2(_defineProperty2(_defineProperty2(_defineProperty2({
-      "fa-beat": beat,
-      "fa-fade": fade,
-      "fa-beat-fade": beatFade,
-      "fa-bounce": bounce,
-      "fa-shake": shake,
-      "fa-flash": flash,
-      "fa-spin": spin,
-      "fa-spin-reverse": spinReverse,
-      "fa-spin-pulse": spinPulse,
-      "fa-pulse": pulse,
-      "fa-fw": fixedWidth,
-      "fa-inverse": inverse,
-      "fa-border": border,
-      "fa-li": listItem,
-      "fa-flip": flip === true,
-      "fa-flip-horizontal": flip === "horizontal" || flip === "both",
-      "fa-flip-vertical": flip === "vertical" || flip === "both"
-    }, "fa-".concat(size), typeof size !== "undefined" && size !== null), "fa-rotate-".concat(rotation), typeof rotation !== "undefined" && rotation !== null && rotation !== 0), "fa-pull-".concat(pull), typeof pull !== "undefined" && pull !== null), "fa-swap-opacity", swapOpacity), "fa-rotate-by", isVersion7OrLater && rotateBy), "fa-width-auto", isVersion7OrLater && widthAuto);
-    return Object.keys(classes).map(function(key) {
-      return classes[key] ? key : null;
-    }).filter(function(key) {
-      return key;
-    });
-  }
-  function versionCheckGte(version1, version22) {
-    var _version1$split = version1.split("-"), _version1$split2 = _slicedToArray2(_version1$split, 2), v1Base = _version1$split2[0], v1PreRelease = _version1$split2[1];
-    var _version2$split = version22.split("-"), _version2$split2 = _slicedToArray2(_version2$split, 2), v2Base = _version2$split2[0], v2PreRelease = _version2$split2[1];
-    var v1Parts = v1Base.split(".");
-    var v2Parts = v2Base.split(".");
-    for (var i2 = 0; i2 < Math.max(v1Parts.length, v2Parts.length); i2++) {
-      var v1Part = v1Parts[i2] || "0";
-      var v2Part = v2Parts[i2] || "0";
-      var v1Num = parseInt(v1Part, 10);
-      var v2Num = parseInt(v2Part, 10);
-      if (v1Num !== v2Num) {
-        return v1Num > v2Num;
-      }
-    }
-    for (var _i = 0; _i < Math.max(v1Parts.length, v2Parts.length); _i++) {
-      var _v1Part = v1Parts[_i] || "0";
-      var _v2Part = v2Parts[_i] || "0";
-      if (_v1Part !== _v2Part) {
-        if (_v1Part.length !== _v2Part.length) {
-          return _v1Part.length < _v2Part.length;
-        }
-      }
-    }
-    if (v1PreRelease && !v2PreRelease) return false;
-    if (!v1PreRelease && v2PreRelease) return true;
-    return true;
-  }
-  function _isNumerical(obj) {
-    obj = obj - 0;
-    return obj === obj;
+  // node_modules/@fortawesome/react-fontawesome/dist/index.js
+  function _isNumerical(object) {
+    object = object - 0;
+    return object === object;
   }
   function camelize(string) {
     if (_isNumerical(string)) {
       return string;
     }
-    string = string.replace(/[\-_\s]+(.)?/g, function(match2, chr) {
+    string = string.replaceAll(/[_-]+(.)?/g, (_, chr) => {
       return chr ? chr.toUpperCase() : "";
     });
-    return string.substr(0, 1).toLowerCase() + string.substr(1);
+    return string.charAt(0).toLowerCase() + string.slice(1);
   }
-  var _excluded = ["style"];
   function capitalize2(val) {
     return val.charAt(0).toUpperCase() + val.slice(1);
   }
+  var styleCache = /* @__PURE__ */ new Map();
+  var STYLE_CACHE_LIMIT = 1e3;
   function styleToObject(style) {
-    return style.split(";").map(function(s2) {
-      return s2.trim();
-    }).filter(function(s2) {
-      return s2;
-    }).reduce(function(acc, pair) {
-      var i2 = pair.indexOf(":");
-      var prop = camelize(pair.slice(0, i2));
-      var value = pair.slice(i2 + 1).trim();
-      prop.startsWith("webkit") ? acc[capitalize2(prop)] = value : acc[prop] = value;
-      return acc;
-    }, {});
+    if (styleCache.has(style)) {
+      return styleCache.get(style);
+    }
+    const result = {};
+    let start = 0;
+    const len = style.length;
+    while (start < len) {
+      const semicolonIndex = style.indexOf(";", start);
+      const end3 = semicolonIndex === -1 ? len : semicolonIndex;
+      const pair = style.slice(start, end3).trim();
+      if (pair) {
+        const colonIndex = pair.indexOf(":");
+        if (colonIndex > 0) {
+          const rawProp = pair.slice(0, colonIndex).trim();
+          const value = pair.slice(colonIndex + 1).trim();
+          if (rawProp && value) {
+            const prop = camelize(rawProp);
+            result[prop.startsWith("webkit") ? capitalize2(prop) : prop] = value;
+          }
+        }
+      }
+      start = end3 + 1;
+    }
+    if (styleCache.size === STYLE_CACHE_LIMIT) {
+      const oldestKey = styleCache.keys().next().value;
+      if (oldestKey) {
+        styleCache.delete(oldestKey);
+      }
+    }
+    styleCache.set(style, result);
+    return result;
   }
-  function convert(createElement13, element) {
-    var extraProps = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+  function convert(createElement13, element, extraProps = {}) {
     if (typeof element === "string") {
       return element;
     }
-    var children = (element.children || []).map(function(child) {
+    const children = (element.children || []).map((child) => {
       return convert(createElement13, child);
     });
-    var mixins = Object.keys(element.attributes || {}).reduce(function(acc, key) {
-      var val = element.attributes[key];
-      switch (key) {
-        case "class":
-          acc.attrs["className"] = val;
-          delete element.attributes["class"];
+    const elementAttributes = element.attributes || {};
+    const attrs = {};
+    for (const [key, val] of Object.entries(elementAttributes)) {
+      switch (true) {
+        case key === "class": {
+          attrs.className = val;
+          delete elementAttributes.class;
           break;
-        case "style":
-          acc.attrs["style"] = styleToObject(val);
+        }
+        case key === "style": {
+          attrs.style = styleToObject(String(val));
           break;
-        default:
-          if (key.indexOf("aria-") === 0 || key.indexOf("data-") === 0) {
-            acc.attrs[key.toLowerCase()] = val;
-          } else {
-            acc.attrs[camelize(key)] = val;
-          }
+        }
+        case key.startsWith("aria-"):
+        case key.startsWith("data-"): {
+          attrs[key.toLowerCase()] = val;
+          break;
+        }
+        default: {
+          attrs[camelize(key)] = val;
+        }
       }
-      return acc;
-    }, {
-      attrs: {}
-    });
-    var _extraProps$style = extraProps.style, existingStyle = _extraProps$style === void 0 ? {} : _extraProps$style, remaining = _objectWithoutProperties(extraProps, _excluded);
-    mixins.attrs["style"] = _objectSpread22(_objectSpread22({}, mixins.attrs["style"]), existingStyle);
-    return createElement13.apply(void 0, [element.tag, _objectSpread22(_objectSpread22({}, mixins.attrs), remaining)].concat(_toConsumableArray2(children)));
-  }
-  var PRODUCTION2 = false;
-  try {
-    PRODUCTION2 = false;
-  } catch (e2) {
-  }
-  function log() {
-    if (!PRODUCTION2 && console && typeof console.error === "function") {
-      var _console;
-      (_console = console).error.apply(_console, arguments);
     }
+    const {
+      style: existingStyle,
+      "aria-label": ariaLabel,
+      ...remaining
+    } = extraProps;
+    if (existingStyle) {
+      attrs.style = attrs.style ? { ...attrs.style, ...existingStyle } : existingStyle;
+    }
+    if (ariaLabel) {
+      attrs["aria-label"] = ariaLabel;
+      attrs["aria-hidden"] = "false";
+    }
+    return createElement13(element.tag, { ...remaining, ...attrs }, ...children);
   }
+  var useAccessibilityId = (id, hasAccessibleProps) => {
+    const generatedId = (0, import_react12.useId)();
+    return id || (hasAccessibleProps ? generatedId : void 0);
+  };
+  var Logger = class {
+    constructor(scope = "react-fontawesome") {
+      this.enabled = false;
+      let IS_DEV = false;
+      try {
+        IS_DEV = typeof process !== "undefined" && true;
+      } catch {
+      }
+      this.scope = scope;
+      this.enabled = IS_DEV;
+    }
+    /**
+     * Logs messages to the console if not in production.
+     * @param args - The message and/or data to log.
+     */
+    log(...args) {
+      if (!this.enabled) return;
+      console.log(`[${this.scope}]`, ...args);
+    }
+    /**
+     * Logs warnings to the console if not in production.
+     * @param args - The warning message and/or data to log.
+     */
+    warn(...args) {
+      if (!this.enabled) return;
+      console.warn(`[${this.scope}]`, ...args);
+    }
+    /**
+     * Logs errors to the console if not in production.
+     * @param args - The error message and/or data to log.
+     */
+    error(...args) {
+      if (!this.enabled) return;
+      console.error(`[${this.scope}]`, ...args);
+    }
+  };
+  typeof process !== "undefined" && process.env.FA_VERSION || "7.0.0";
+  var SVG_CORE_VERSION = (
+    // @ts-expect-error TS2872 - Expression is always truthy - This is true when v7 of SVGCore is used, but not when v6 is used.
+    // This is the point of this check - if the property exists on config, we have v7, otherwise we have v6.
+    // TS is checking this against the dev dependencies which uses v7, so it reports a false error here.
+    "searchPseudoElementsFullScan" in config$1 ? "7.0.0" : "6.0.0"
+  );
+  var IS_VERSION_7_OR_LATER = Number.parseInt(SVG_CORE_VERSION) >= 7;
+  var ANIMATION_CLASSES = {
+    beat: "fa-beat",
+    fade: "fa-fade",
+    beatFade: "fa-beat-fade",
+    bounce: "fa-bounce",
+    shake: "fa-shake",
+    spin: "fa-spin",
+    spinPulse: "fa-spin-pulse",
+    spinReverse: "fa-spin-reverse",
+    pulse: "fa-pulse"
+  };
+  var PULL_CLASSES = {
+    left: "fa-pull-left",
+    right: "fa-pull-right"
+  };
+  var ROTATE_CLASSES = {
+    "90": "fa-rotate-90",
+    "180": "fa-rotate-180",
+    "270": "fa-rotate-270"
+  };
+  var SIZE_CLASSES = {
+    "2xs": "fa-2xs",
+    xs: "fa-xs",
+    sm: "fa-sm",
+    lg: "fa-lg",
+    xl: "fa-xl",
+    "2xl": "fa-2xl",
+    "1x": "fa-1x",
+    "2x": "fa-2x",
+    "3x": "fa-3x",
+    "4x": "fa-4x",
+    "5x": "fa-5x",
+    "6x": "fa-6x",
+    "7x": "fa-7x",
+    "8x": "fa-8x",
+    "9x": "fa-9x",
+    "10x": "fa-10x"
+  };
+  var STYLE_CLASSES = {
+    border: "fa-border",
+    /** @deprecated */
+    fixedWidth: "fa-fw",
+    flip: "fa-flip",
+    flipHorizontal: "fa-flip-horizontal",
+    flipVertical: "fa-flip-vertical",
+    inverse: "fa-inverse",
+    rotateBy: "fa-rotate-by",
+    swapOpacity: "fa-swap-opacity",
+    widthAuto: "fa-width-auto"
+  };
+  function getClassListFromProps(props) {
+    const {
+      beat,
+      fade,
+      beatFade,
+      bounce,
+      shake,
+      spin,
+      spinPulse,
+      spinReverse,
+      pulse,
+      fixedWidth,
+      inverse,
+      border,
+      flip,
+      size,
+      rotation,
+      pull,
+      swapOpacity,
+      rotateBy,
+      widthAuto,
+      className
+    } = props;
+    const result = [];
+    if (className) result.push(...className.split(" "));
+    if (beat) result.push(ANIMATION_CLASSES.beat);
+    if (fade) result.push(ANIMATION_CLASSES.fade);
+    if (beatFade) result.push(ANIMATION_CLASSES.beatFade);
+    if (bounce) result.push(ANIMATION_CLASSES.bounce);
+    if (shake) result.push(ANIMATION_CLASSES.shake);
+    if (spin) result.push(ANIMATION_CLASSES.spin);
+    if (spinReverse) result.push(ANIMATION_CLASSES.spinReverse);
+    if (spinPulse) result.push(ANIMATION_CLASSES.spinPulse);
+    if (pulse) result.push(ANIMATION_CLASSES.pulse);
+    if (fixedWidth) result.push(STYLE_CLASSES.fixedWidth);
+    if (inverse) result.push(STYLE_CLASSES.inverse);
+    if (border) result.push(STYLE_CLASSES.border);
+    if (flip === true) result.push(STYLE_CLASSES.flip);
+    if (flip === "horizontal" || flip === "both") {
+      result.push(STYLE_CLASSES.flipHorizontal);
+    }
+    if (flip === "vertical" || flip === "both") {
+      result.push(STYLE_CLASSES.flipVertical);
+    }
+    if (size !== void 0 && size !== null) result.push(SIZE_CLASSES[size]);
+    if (rotation !== void 0 && rotation !== null && rotation !== 0) {
+      result.push(ROTATE_CLASSES[rotation]);
+    }
+    if (pull !== void 0 && pull !== null) result.push(PULL_CLASSES[pull]);
+    if (swapOpacity) result.push(STYLE_CLASSES.swapOpacity);
+    if (!IS_VERSION_7_OR_LATER) return result;
+    if (rotateBy) result.push(STYLE_CLASSES.rotateBy);
+    if (widthAuto) result.push(STYLE_CLASSES.widthAuto);
+    return result;
+  }
+  var isIconDefinition = (icon3) => typeof icon3 === "object" && "icon" in icon3 && !!icon3.icon;
   function normalizeIconArgs(icon3) {
-    if (icon3 && _typeof2(icon3) === "object" && icon3.prefix && icon3.iconName && icon3.icon) {
+    if (!icon3) {
+      return void 0;
+    }
+    if (isIconDefinition(icon3)) {
       return icon3;
     }
-    if (parse$1.icon) {
-      return parse$1.icon(icon3);
-    }
-    if (icon3 === null) {
-      return null;
-    }
-    if (icon3 && _typeof2(icon3) === "object" && icon3.prefix && icon3.iconName) {
-      return icon3;
-    }
-    if (Array.isArray(icon3) && icon3.length === 2) {
-      return {
-        prefix: icon3[0],
-        iconName: icon3[1]
-      };
-    }
-    if (typeof icon3 === "string") {
-      return {
-        prefix: "fas",
-        iconName: icon3
-      };
-    }
+    return parse$1.icon(icon3);
   }
-  function objectWithKey(key, value) {
-    return Array.isArray(value) && value.length > 0 || !Array.isArray(value) && value ? _defineProperty2({}, key, value) : {};
+  function typedObjectKeys(obj) {
+    return Object.keys(obj);
   }
-  var defaultProps = {
+  var logger = new Logger("FontAwesomeIcon");
+  var DEFAULT_PROPS = {
     border: false,
     className: "",
-    mask: null,
-    maskId: null,
-    // the fixedWidth property has been deprecated as of version 7
+    mask: void 0,
+    maskId: void 0,
     fixedWidth: false,
     inverse: false,
     flip: false,
-    icon: null,
+    icon: void 0,
     listItem: false,
-    pull: null,
+    pull: void 0,
     pulse: false,
-    rotation: null,
+    rotation: void 0,
     rotateBy: false,
-    size: null,
+    size: void 0,
     spin: false,
     spinPulse: false,
     spinReverse: false,
@@ -41258,72 +41327,57 @@ Hook ${hookName} was either not provided or not a function.`);
     shake: false,
     symbol: false,
     title: "",
-    titleId: null,
-    transform: null,
+    titleId: void 0,
+    transform: void 0,
     swapOpacity: false,
     widthAuto: false
   };
-  var FontAwesomeIcon = /* @__PURE__ */ import_react12.default.forwardRef(function(props, ref) {
-    var allProps = _objectSpread22(_objectSpread22({}, defaultProps), props);
-    var iconArgs = allProps.icon, maskArgs = allProps.mask, symbol = allProps.symbol, className = allProps.className, title = allProps.title, titleId = allProps.titleId, maskId = allProps.maskId;
-    var iconLookup = normalizeIconArgs(iconArgs);
-    var classes = objectWithKey("classes", [].concat(_toConsumableArray2(classList(allProps)), _toConsumableArray2((className || "").split(" "))));
-    var transform2 = objectWithKey("transform", typeof allProps.transform === "string" ? parse$1.transform(allProps.transform) : allProps.transform);
-    var mask = objectWithKey("mask", normalizeIconArgs(maskArgs));
-    var renderedIcon = icon2(iconLookup, _objectSpread22(_objectSpread22(_objectSpread22(_objectSpread22({}, classes), transform2), mask), {}, {
+  var DEFAULT_PROP_KEYS = new Set(Object.keys(DEFAULT_PROPS));
+  var FontAwesomeIcon = import_react12.default.forwardRef((props, ref) => {
+    const allProps = { ...DEFAULT_PROPS, ...props };
+    const {
+      icon: iconArgs,
+      mask: maskArgs,
+      symbol,
+      title,
+      titleId: titleIdFromProps,
+      maskId: maskIdFromProps,
+      transform: transform2
+    } = allProps;
+    const maskId = useAccessibilityId(maskIdFromProps, Boolean(maskArgs));
+    const titleId = useAccessibilityId(titleIdFromProps, Boolean(title));
+    const iconLookup = normalizeIconArgs(iconArgs);
+    if (!iconLookup) {
+      logger.error("Icon lookup is undefined", iconArgs);
+      return null;
+    }
+    const classList = getClassListFromProps(allProps);
+    const transformProps = typeof transform2 === "string" ? parse$1.transform(transform2) : transform2;
+    const normalizedMaskArgs = normalizeIconArgs(maskArgs);
+    const renderedIcon = icon2(iconLookup, {
+      ...classList.length > 0 && { classes: classList },
+      ...transformProps && { transform: transformProps },
+      ...normalizedMaskArgs && { mask: normalizedMaskArgs },
       symbol,
       title,
       titleId,
       maskId
-    }));
+    });
     if (!renderedIcon) {
-      log("Could not find icon", iconLookup);
+      logger.error("Could not find icon", iconLookup);
       return null;
     }
-    var abstract2 = renderedIcon.abstract;
-    var extraProps = {
-      ref
-    };
-    Object.keys(allProps).forEach(function(key) {
-      if (!defaultProps.hasOwnProperty(key)) {
-        extraProps[key] = allProps[key];
+    const { abstract: abstract2 } = renderedIcon;
+    const extraProps = { ref };
+    for (const key of typedObjectKeys(allProps)) {
+      if (DEFAULT_PROP_KEYS.has(key)) {
+        continue;
       }
-    });
+      extraProps[key] = allProps[key];
+    }
     return convertCurry(abstract2[0], extraProps);
   });
   FontAwesomeIcon.displayName = "FontAwesomeIcon";
-  FontAwesomeIcon.propTypes = {
-    beat: import_prop_types4.default.bool,
-    border: import_prop_types4.default.bool,
-    beatFade: import_prop_types4.default.bool,
-    bounce: import_prop_types4.default.bool,
-    className: import_prop_types4.default.string,
-    fade: import_prop_types4.default.bool,
-    flash: import_prop_types4.default.bool,
-    mask: import_prop_types4.default.oneOfType([import_prop_types4.default.object, import_prop_types4.default.array, import_prop_types4.default.string]),
-    maskId: import_prop_types4.default.string,
-    // the fixedWidth property has been deprecated as of version 7
-    fixedWidth: import_prop_types4.default.bool,
-    inverse: import_prop_types4.default.bool,
-    flip: import_prop_types4.default.oneOf([true, false, "horizontal", "vertical", "both"]),
-    icon: import_prop_types4.default.oneOfType([import_prop_types4.default.object, import_prop_types4.default.array, import_prop_types4.default.string]),
-    listItem: import_prop_types4.default.bool,
-    pull: import_prop_types4.default.oneOf(["right", "left"]),
-    pulse: import_prop_types4.default.bool,
-    rotation: import_prop_types4.default.oneOf([0, 90, 180, 270]),
-    rotateBy: import_prop_types4.default.bool,
-    shake: import_prop_types4.default.bool,
-    size: import_prop_types4.default.oneOf(["2xs", "xs", "sm", "lg", "xl", "2xl", "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "9x", "10x"]),
-    spin: import_prop_types4.default.bool,
-    spinPulse: import_prop_types4.default.bool,
-    spinReverse: import_prop_types4.default.bool,
-    symbol: import_prop_types4.default.oneOfType([import_prop_types4.default.bool, import_prop_types4.default.string]),
-    title: import_prop_types4.default.string,
-    titleId: import_prop_types4.default.string,
-    transform: import_prop_types4.default.oneOfType([import_prop_types4.default.string, import_prop_types4.default.object]),
-    swapOpacity: import_prop_types4.default.bool,
-    widthAuto: import_prop_types4.default.bool
-  };
   var convertCurry = convert.bind(null, import_react12.default.createElement);
 
   // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
@@ -41421,7 +41475,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var faTriangleExclamation = {
     prefix: "fas",
     iconName: "triangle-exclamation",
-    icon: [512, 512, [9888, "exclamation-triangle", "warning"], "f071", "M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.1-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 168c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm26.7 216a26.7 26.7 0 1 0 -53.3 0 26.7 26.7 0 1 0 53.3 0z"]
+    icon: [512, 512, [9888, "exclamation-triangle", "warning"], "f071", "M256 0c14.7 0 28.2 8.1 35.2 21l216 400c6.7 12.4 6.4 27.4-.8 39.5S486.1 480 472 480L40 480c-14.1 0-27.2-7.4-34.4-19.5s-7.5-27.1-.8-39.5l216-400c7-12.9 20.5-21 35.2-21zm0 352a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm0-192c-18.2 0-32.7 15.5-31.4 33.7l7.4 104c.9 12.5 11.4 22.3 23.9 22.3 12.6 0 23-9.7 23.9-22.3l7.4-104c1.3-18.2-13.1-33.7-31.4-33.7z"]
   };
   var faAsterisk = {
     prefix: "fas",
@@ -41640,7 +41694,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react26 = __toESM(require_react());
 
   // node_modules/react-helmet/es/Helmet.js
-  var import_prop_types5 = __toESM(require_prop_types());
+  var import_prop_types4 = __toESM(require_prop_types());
   var import_react_side_effect = __toESM(require_lib());
   var import_react_fast_compare = __toESM(require_react_fast_compare());
   var import_react15 = __toESM(require_react());
@@ -41701,7 +41755,7 @@ Hook ${hookName} was either not provided or not a function.`);
   }, {});
   var SELF_CLOSING_TAGS = [TAG_NAMES.NOSCRIPT, TAG_NAMES.SCRIPT, TAG_NAMES.STYLE];
   var HELMET_ATTRIBUTE = "data-react-helmet";
-  var _typeof3 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) {
+  var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function(obj) {
     return typeof obj;
   } : function(obj) {
     return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
@@ -41711,7 +41765,7 @@ Hook ${hookName} was either not provided or not a function.`);
       throw new TypeError("Cannot call a class as a function");
     }
   };
-  var createClass = /* @__PURE__ */ function() {
+  var createClass = /* @__PURE__ */ (function() {
     function defineProperties(target, props) {
       for (var i2 = 0; i2 < props.length; i2++) {
         var descriptor = props[i2];
@@ -41726,7 +41780,7 @@ Hook ${hookName} was either not provided or not a function.`);
       if (staticProps) defineProperties(Constructor, staticProps);
       return Constructor;
     };
-  }();
+  })();
   var _extends2 = Object.assign || function(target) {
     for (var i2 = 1; i2 < arguments.length; i2++) {
       var source = arguments[i2];
@@ -41824,7 +41878,7 @@ Hook ${hookName} was either not provided or not a function.`);
         return true;
       }
       if (typeof props[tagName] !== "undefined") {
-        warn("Helmet: " + tagName + ' should be of type "Array". Instead found type "' + _typeof3(props[tagName]) + '"');
+        warn("Helmet: " + tagName + ' should be of type "Array". Instead found type "' + _typeof2(props[tagName]) + '"');
       }
       return false;
     }).map(function(props) {
@@ -41897,7 +41951,7 @@ Hook ${hookName} was either not provided or not a function.`);
       titleAttributes: getAttributesFromPropsList(ATTRIBUTE_NAMES.TITLE, propsList)
     };
   };
-  var rafPolyfill = function() {
+  var rafPolyfill = (function() {
     var clock = Date.now();
     return function(callback2) {
       var currentTime = Date.now();
@@ -41910,7 +41964,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }, 0);
       }
     };
-  }();
+  })();
   var cafPolyfill = function cafPolyfill2(id) {
     return clearTimeout(id);
   };
@@ -42162,7 +42216,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var Helmet = function Helmet2(Component4) {
     var _class, _temp;
-    return _temp = _class = function(_React$Component) {
+    return _temp = _class = (function(_React$Component) {
       inherits(HelmetWrapper, _React$Component);
       function HelmetWrapper() {
         classCallCheck(this, HelmetWrapper);
@@ -42308,23 +42362,23 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }]);
       return HelmetWrapper;
-    }(import_react15.default.Component), _class.propTypes = {
-      base: import_prop_types5.default.object,
-      bodyAttributes: import_prop_types5.default.object,
-      children: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.node), import_prop_types5.default.node]),
-      defaultTitle: import_prop_types5.default.string,
-      defer: import_prop_types5.default.bool,
-      encodeSpecialCharacters: import_prop_types5.default.bool,
-      htmlAttributes: import_prop_types5.default.object,
-      link: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
-      meta: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
-      noscript: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
-      onChangeClientState: import_prop_types5.default.func,
-      script: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
-      style: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
-      title: import_prop_types5.default.string,
-      titleAttributes: import_prop_types5.default.object,
-      titleTemplate: import_prop_types5.default.string
+    })(import_react15.default.Component), _class.propTypes = {
+      base: import_prop_types4.default.object,
+      bodyAttributes: import_prop_types4.default.object,
+      children: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.node), import_prop_types4.default.node]),
+      defaultTitle: import_prop_types4.default.string,
+      defer: import_prop_types4.default.bool,
+      encodeSpecialCharacters: import_prop_types4.default.bool,
+      htmlAttributes: import_prop_types4.default.object,
+      link: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+      meta: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+      noscript: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+      onChangeClientState: import_prop_types4.default.func,
+      script: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+      style: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+      title: import_prop_types4.default.string,
+      titleAttributes: import_prop_types4.default.object,
+      titleTemplate: import_prop_types4.default.string
     }, _class.defaultProps = {
       defer: true,
       encodeSpecialCharacters: true
@@ -44971,14 +45025,14 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return Array.from(set8);
   }
-  var requestAnimFrame = function() {
+  var requestAnimFrame = (function() {
     if (typeof window === "undefined") {
       return function(callback2) {
         return callback2();
       };
     }
     return window.requestAnimationFrame;
-  }();
+  })();
   function throttled(fn, thisArg) {
     let argsToUse = [];
     let ticking = false;
@@ -46521,7 +46575,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return false;
   }
-  var supportsEventListenerOptions = function() {
+  var supportsEventListenerOptions = (function() {
     let passiveSupported = false;
     try {
       const options2 = {
@@ -46537,7 +46591,7 @@ Hook ${hookName} was either not provided or not a function.`);
     } catch (e2) {
     }
     return passiveSupported;
-  }();
+  })();
   function readUsedSize(element, property) {
     const value = getStyle(element, property);
     const matches2 = value && value.match(/^(\d+)(\.\d+)?px$/);
@@ -58157,10 +58211,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-C37GKA54.mjs:
+react-router/dist/development/chunk-PVWAREVJ.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.7.1
+   * react-router v7.8.2
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -58174,7 +58228,7 @@ react-router/dist/development/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
 @fortawesome/free-regular-svg-icons/index.mjs:
   (*!
-   * Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2025 Fonticons, Inc.
    *)
