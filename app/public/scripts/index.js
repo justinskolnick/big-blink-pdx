@@ -36062,7 +36062,13 @@ Hook ${hookName} was either not provided or not a function.`);
   }, ref) => {
     const elementRef = ref;
     const target = document.getElementById(alertPortalId);
-    const handleClick = () => {
+    const handleClick = (e2) => {
+      e2.stopPropagation();
+      if (e2.target instanceof HTMLElement) {
+        if (e2.target.tagName !== "A") {
+          e2.preventDefault();
+        }
+      }
       deactivate();
     };
     const handleKeyUp = (e2) => {

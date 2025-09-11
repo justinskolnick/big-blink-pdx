@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, KeyboardEvent, MutableRefObject, ReactNode } from 'react';
+import React, { forwardRef, useEffect, KeyboardEvent, MouseEvent, MutableRefObject, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 import useFixedBodyWhenHasClass from '../hooks/use-fixed-body-when-has-class';
@@ -23,7 +23,15 @@ const AlertPortal = forwardRef<HTMLDivElement, Props>(({
   const elementRef = ref as MutableRefObject<HTMLDivElement>;
   const target = document.getElementById(alertPortalId);
 
-  const handleClick = (): void => {
+  const handleClick = (e: MouseEvent): void => {
+    e.stopPropagation();
+
+    if (e.target instanceof HTMLElement) {
+      if (e.target.tagName !== 'A') {
+        e.preventDefault();
+      }
+    }
+
     deactivate();
   };
   const handleKeyUp = (e: KeyboardEvent): void => {
