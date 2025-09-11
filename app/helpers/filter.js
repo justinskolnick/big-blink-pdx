@@ -21,8 +21,8 @@ const {
   getQuarterAndYear,
   hasDate,
   hasInteger,
+  hasQuarter,
   hasRole,
-  hasValidQuarter,
 } = require('./param');
 
 const getLabel = value => ({
@@ -195,7 +195,7 @@ const getQuarterFilter = (searchParams) => {
   if (searchParams.has(PARAM_QUARTER)) {
     const param = searchParams.get(PARAM_QUARTER);
 
-    if (hasValidQuarter(param)) {
+    if (hasQuarter(param)) {
       const parts = getQuarterAndYear(param);
 
       return {

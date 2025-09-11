@@ -35,8 +35,10 @@ class Labels {
   }
 
   getLabel(key, prefix = '', values = null) {
-    if (this.hasKey(key, prefix)) {
-      const labelKey = this.prefixLabelKey(key, prefix);
+    const stablePrefix = prefix ? prefix : '';
+
+    if (this.hasKey(key, stablePrefix)) {
+      const labelKey = this.prefixLabelKey(key, stablePrefix);
       const label = this.labels[labelKey];
 
       if (values !== null) {
@@ -44,8 +46,8 @@ class Labels {
       }
 
       return label;
-    } else if (prefix.length) {
-      console.warn(`label key not found for "${key}" using prefix "${prefix}"`); // eslint-disable-line no-console
+    } else if (stablePrefix.length) {
+      console.warn(`label key not found for "${key}" using prefix "${stablePrefix}"`); // eslint-disable-line no-console
     } else {
       console.warn(`label key not found for "${key}"`); // eslint-disable-line no-console
     }

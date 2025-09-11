@@ -12,11 +12,10 @@ const {
   hasDate,
   hasPeople,
   hasQuarter,
-  hasQuarterAndYear,
+  hasQuarterAndYearDeprecated,
   hasRole,
   hasSort,
   hasSortBy,
-  hasValidQuarter,
   hasYear,
   hasYearAndQuarter,
   migrateQuarterSlug,
@@ -186,12 +185,12 @@ describe('hasQuarter()', () => {
   });
 });
 
-describe('hasQuarterAndYear()', () => {
+describe('hasQuarterAndYearDeprecated()', () => {
   test('with a param value', () => {
-    expect(hasQuarterAndYear(null)).toBe(false);
-    expect(hasQuarterAndYear('Q4-2021')).toBe(true);
-    expect(hasQuarterAndYear('Q42021')).toBe(false);
-    expect(hasQuarterAndYear('2021-Q4')).toBe(false);
+    expect(hasQuarterAndYearDeprecated(null)).toBe(false);
+    expect(hasQuarterAndYearDeprecated('Q4-2021')).toBe(true);
+    expect(hasQuarterAndYearDeprecated('Q42021')).toBe(false);
+    expect(hasQuarterAndYearDeprecated('2021-Q4')).toBe(false);
   });
 });
 
@@ -218,17 +217,6 @@ describe('hasSortBy()', () => {
     expect(hasSortBy('name')).toBe(true);
     expect(hasSortBy('total')).toBe(true);
     expect(hasSortBy('id')).toBe(false);
-  });
-});
-
-describe('hasValidQuarter()', () => {
-  test('with a param value', () => {
-    expect(hasValidQuarter(null)).toBe(false);
-    expect(hasValidQuarter('Q42021')).toBe(false);
-    expect(hasValidQuarter('q4-2021')).toBe(true);
-    expect(hasValidQuarter('Q4-2021')).toBe(true);
-    expect(hasValidQuarter('2021-q4')).toBe(true);
-    expect(hasValidQuarter('2021-Q4')).toBe(true);
   });
 });
 

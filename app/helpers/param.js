@@ -12,28 +12,52 @@ const {
   SORT_OPTIONS,
 } = require('../config/constants');
 const {
-  DATE_PATTERN,
-  PEOPLE_PATTERN,
-  QUARTER_PATTERN,
-  QUARTER_PATTERN_ALT,
-  YEAR_PATTERN,
-} = require('../config/patterns');
+  PARAM_OPTIONS,
+  QUARTER_PATTERN_DEPRECATED,
+  dateOptions,
+  peopleOptions,
+  quarterOptions,
+  yearOptions,
+} = require('../config/params');
+
+const Labels = require('../models/shared/labels');
+const labelsModel = new Labels();
 
 const hasParam = (param) => param?.length > 0;
-const hasDate = (param) => hasParam(param) && DATE_PATTERN.test(param);
-const hasInteger = (param) => hasParam(param) && Number.isInteger(Number(param));
-const hasPeople = (param) => hasParam(param) && param.split(',').filter(Boolean).every(entry => PEOPLE_PATTERN.test(entry));
-const hasQuarter = (param) => hasParam(param) && (QUARTER_PATTERN.test(param) || QUARTER_PATTERN_ALT.test(param));
-const hasQuarterAndYear = (param) => hasParam(param) && QUARTER_PATTERN.test(param);
-const hasRole = (param) => hasParam(param) && [ROLE_LOBBYIST, ROLE_OFFICIAL].includes(param);
-const hasYear = (param) => hasParam(param) && YEAR_PATTERN.test(param);
-const hasYearAndQuarter = (param) => hasParam(param) && QUARTER_PATTERN_ALT.test(param);
-const hasValidQuarter = (param) => hasQuarterAndYear(param) || hasYearAndQuarter(param);
+
+const validate = (param, definition) => {
+  if (!hasParam(param)) return false;
+
+  if (typeof definition === 'boolean') {
+    return definition;
+  } else if (typeof definition === 'function') {
+    return definition(param);
+  }
+
+  if (definition.delimiter) {
+    return param.split(definition.delimiter)
+      .filter(Boolean)
+      .every(entry => definition.pattern.test(entry));
+  }
+
+  return definition.pattern.test(param);
+};
+
+const hasDate = (param) => validate(param, dateOptions);
+const hasYear = (param) => validate(param, yearOptions);
+const hasYearAndQuarter = (param) => validate(param, quarterOptions);
+const hasInteger = (param) => validate(param, Number.isInteger(Number(param)));
+const hasPeople = (param) => validate(param, peopleOptions);
+const hasQuarterAndYearDeprecated = (param) => validate(param, QUARTER_PATTERN_DEPRECATED.test(param));
+const hasQuarter = (param) => validate(param, (hasYearAndQuarter(param) || hasQuarterAndYearDeprecated(param)));
+const hasRole = (param) => validate(param, [ROLE_LOBBYIST, ROLE_OFFICIAL].includes(param));
+
+const getInteger = (param) => Number.parseInt(param);
 
 const getPeople = (param) => {
   if (hasPeople(param)) {
-    return param.split(',').filter(Boolean).map(entry => {
-      const [id, role] = entry.match(PEOPLE_PATTERN).slice(1,3);
+    return param.split(peopleOptions.delimiter).filter(Boolean).map(entry => {
+      const [id, role] = entry.match(peopleOptions.pattern).slice(1,3);
       const values = {
         id: Number(id),
       };
@@ -53,10 +77,10 @@ const getQuarterAndYear = (param) => {
   let quarter;
   let year;
 
-  if (hasQuarterAndYear(param)) {
-    [quarter, year] = param.match(QUARTER_PATTERN).slice(1,3).map(Number);
+  if (hasQuarterAndYearDeprecated(param)) {
+    [quarter, year] = param.match(QUARTER_PATTERN_DEPRECATED).slice(1,3).map(Number);
   } else if (hasYearAndQuarter(param)) {
-    [year, quarter] = param.match(QUARTER_PATTERN_ALT).slice(1,3).map(Number);
+    [year, quarter] = param.match(quarterOptions.pattern).slice(1,3).map(Number);
   }
 
   if (quarter && year) {
@@ -70,7 +94,7 @@ const getQuarterSlug = (param) =>
   param.toLowerCase().split('-').sort().join('-');
 
 const migrateQuarterSlug = param => {
-  if (hasValidQuarter(param)) {
+  if (hasQuarter(param)) {
     return getQuarterSlug(param);
   }
 
@@ -83,44 +107,85 @@ const hasSortBy = (param) => param in SORT_BY_OPTIONS;
 const getSort = (param) => hasSort(param) ? SORT_OPTIONS[param] : null;
 const getSortBy = (param) => hasSortBy(param) ? SORT_BY_OPTIONS[param] : null;
 
+const adapters = {
+  getInteger,
+  getSort,
+};
+
+const validators = {
+  hasDate,
+  hasInteger,
+  hasPeople,
+  hasQuarter,
+  hasRole,
+  hasSort,
+  hasSortBy,
+  hasYear,
+};
+
+const getDefinition = (param) => {
+  if (param in PARAM_OPTIONS) {
+    return PARAM_OPTIONS[param];
+  }
+
+  return null;
+};
+
+const getParam = (searchParams, param) => {
+  const { adapt, validate } = getDefinition(param);
+  let value;
+
+  if (searchParams.has(param)) {
+    const candidate = searchParams.get(param);
+
+    if (validate && validators[validate]?.(candidate)) {
+      value = candidate;
+
+      if (adapt && adapt in adapters) {
+        value = adapters[adapt](value);
+      }
+    }
+  }
+
+  return value;
+};
+
+const getParamGroup = (searchParams, params) => {
+  let group;
+
+  const values = params.reduce((all, param) => {
+    all[param] = getParam(searchParams, param);
+
+    return all;
+  }, {});
+
+  if (Object.values(values).every(Boolean)) {
+    group = values;
+  }
+
+  return group;
+};
+
 const getParams = searchParams => {
-  const values = {};
+  let values = {};
 
-  if (searchParams.has(PARAM_SORT)) {
-    values.sort = getSort(searchParams.get(PARAM_SORT));
-  }
-
-  if (searchParams.has(PARAM_DATE_ON)) {
-    if (hasDate(searchParams.get(PARAM_DATE_ON))) {
-      values[PARAM_DATE_ON] = searchParams.get(PARAM_DATE_ON);
+  [
+    PARAM_SORT,
+    PARAM_DATE_ON,
+    [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO],
+    PARAM_ROLE,
+    PARAM_WITH_ENTITY_ID,
+    PARAM_WITH_PERSON_ID,
+  ].forEach(param => {
+    if (Array.isArray(param)) {
+      values = {
+        ...values,
+        ...getParamGroup(searchParams, param),
+      };
+    } else {
+      values[param] = getParam(searchParams, param);
     }
-  }
-
-  if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p))) {
-    if ([PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => hasDate(searchParams.get(p)))) {
-      [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].forEach(p => {
-        values[p] = searchParams.get(p);
-      });
-    }
-  }
-
-  if (searchParams.has(PARAM_ROLE)) {
-    if (hasRole(searchParams.get(PARAM_ROLE))) {
-      values[PARAM_ROLE] = searchParams.get(PARAM_ROLE);
-    }
-  }
-
-  if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
-    if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
-      values[PARAM_WITH_ENTITY_ID] = Number(searchParams.get(PARAM_WITH_ENTITY_ID));
-    }
-  }
-
-  if (searchParams.has(PARAM_WITH_PERSON_ID)) {
-    if (hasInteger(searchParams.get(PARAM_WITH_PERSON_ID))) {
-      values[PARAM_WITH_PERSON_ID] = Number(searchParams.get(PARAM_WITH_PERSON_ID));
-    }
-  }
+  });
 
   return values;
 };
@@ -176,8 +241,8 @@ const getParamsFromFilters = (searchParams, filters) => {
   return params;
 };
 
-const getInvalidValueMessage = (param, value) => `<strong>${value}</strong> is not a valid value for <code>${param}</code>`;
-const getOutOfRangeValueMessage = (param, value) => `<strong>${value}</strong> is out of range for <code>${param}</code>`;
+const getInvalidValueMessage = (param, value) => labelsModel.getLabel('param_value_invalid', null, { param, value });
+const getOutOfRangeValueMessage = (param, value) => labelsModel.getLabel('param_value_out_of_range', null, { param, value });
 
 module.exports = {
   getInvalidValueMessage,
@@ -193,11 +258,10 @@ module.exports = {
   hasInteger,
   hasPeople,
   hasQuarter,
-  hasQuarterAndYear,
+  hasQuarterAndYearDeprecated,
   hasRole,
   hasSort,
   hasSortBy,
-  hasValidQuarter,
   hasYear,
   hasYearAndQuarter,
   migrateQuarterSlug,

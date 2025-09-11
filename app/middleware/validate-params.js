@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 
-const { PARAM_OPTIONS } = require('../config/constants');
+const { PARAM_OPTIONS } = require('../config/params');
 
 const paramHelper = require('../helpers/param');
 

@@ -14,45 +14,6 @@ const PARAM_WITH_ENTITY_ID = 'with_entity_id';
 const PARAM_WITH_PERSON_ID = 'with_person_id';
 const PARAM_YEAR = 'year';
 
-const PARAM_OPTIONS = {
-  [PARAM_DATE_ON]: {
-    validate: 'hasDate',
-  },
-  [PARAM_DATE_RANGE_FROM]: {
-    validate: 'hasDate',
-  },
-  [PARAM_DATE_RANGE_TO]: {
-    validate: 'hasDate',
-  },
-  [PARAM_PAGE]: {
-    validate: 'hasInteger',
-  },
-  [PARAM_PEOPLE]: {
-    validate: 'hasPeople',
-  },
-  [PARAM_QUARTER]: {
-    validate: 'hasQuarter',
-  },
-  [PARAM_ROLE]: {
-    validate: 'hasRole',
-  },
-  [PARAM_SORT]: {
-    validate: 'hasSort',
-  },
-  [PARAM_SORT_BY]: {
-    validate: 'hasSortBy',
-  },
-  [PARAM_WITH_ENTITY_ID]: {
-    validate: 'hasInteger',
-  },
-  [PARAM_WITH_PERSON_ID]: {
-    validate: 'hasInteger',
-  },
-  [PARAM_YEAR]: {
-    validate: 'hasYear',
-  },
-};
-
 const QUARTERS = [1, 2, 3, 4];
 
 const SORT_ASC = 'ASC';
@@ -90,7 +51,6 @@ module.exports = {
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
-  PARAM_OPTIONS,
   PARAM_PAGE,
   PARAM_PEOPLE,
   PARAM_QUARTER,
@@ -100,6 +60,7 @@ module.exports = {
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  PARAM_YEAR,
   QUARTERS,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
