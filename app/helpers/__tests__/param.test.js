@@ -1,5 +1,6 @@
 const { getFilters } = require('../filter');
 const {
+  getDeprecatedParamMessage,
   getInvalidValueMessage,
   getOutOfRangeValueMessage,
   getParams,
@@ -18,8 +19,15 @@ const {
   hasSortBy,
   hasYear,
   hasYearAndQuarter,
+  isDeprecated,
   migrateQuarterSlug,
 } = require('../param');
+
+describe('getDeprecatedParamMessage()', () => {
+  test('with a param value', () => {
+    expect(getDeprecatedParamMessage('name')).toEqual('The <code>name</code> parameter has been deprecated and will be removed soon. Please recreate your filter and update your bookmarks.');
+  });
+});
 
 describe('getInvalidValueMessage()', () => {
   test('with a param value', () => {
@@ -238,6 +246,19 @@ describe('hasYearAndQuarter()', () => {
     expect(hasYearAndQuarter('2021-Q4')).toBe(true);
   });
 });
+
+describe('isDeprecated()', () => {
+  test('with a param value', () => {
+    const queryParams = new URLSearchParams('date_on=2015-11-12&role=lobbyist&sort=ASC&with_entity_id=123&with_person_id=321');
+
+    expect(isDeprecated(queryParams, 'date_on')).toBe(false);
+    expect(isDeprecated(queryParams, 'role')).toBe(false);
+    expect(isDeprecated(queryParams, 'sort')).toBe(false);
+    expect(isDeprecated(queryParams, 'with_entity_id')).toBe(false);
+    expect(isDeprecated(queryParams, 'with_person_id')).toBe(true);
+  });
+});
+
 
 describe('migrateQuarterSlug()', () => {
   test('with a param value', () => {

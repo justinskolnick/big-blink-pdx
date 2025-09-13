@@ -131,19 +131,42 @@ const getDefinition = (param) => {
   return null;
 };
 
-const getParam = (searchParams, param) => {
-  const { adapt, validate } = getDefinition(param);
+const isDeprecated = (searchParams, param) => {
+  if (searchParams.has(param)) {
+    const definition = getDefinition(param);
+
+    return 'deprecated' in definition && definition.deprecated;
+  }
+
+  return false;
+};
+
+const isValid = (searchParams, param) => {
+  if (searchParams.has(param)) {
+    const definition = getDefinition(param);
+
+    if ('validate' in definition) {
+      const value = searchParams.get(param);
+
+      if (definition.validate in validators) {
+        return validators[definition.validate](value);
+      }
+    }
+  }
+
+  return false;
+};
+
+const getParamValue = (searchParams, param) => {
   let value;
 
-  if (searchParams.has(param)) {
-    const candidate = searchParams.get(param);
+  if (isValid(searchParams, param)) {
+    const definition = getDefinition(param);
 
-    if (validate && validators[validate]?.(candidate)) {
-      value = candidate;
+    value = searchParams.get(param);
 
-      if (adapt && adapt in adapters) {
-        value = adapters[adapt](value);
-      }
+    if (definition.adapt in adapters) {
+      value = adapters[definition.adapt](value);
     }
   }
 
@@ -154,7 +177,7 @@ const getParamGroup = (searchParams, params) => {
   let group;
 
   const values = params.reduce((all, param) => {
-    all[param] = getParam(searchParams, param);
+    all[param] = getParamValue(searchParams, param);
 
     return all;
   }, {});
@@ -183,7 +206,7 @@ const getParams = searchParams => {
         ...getParamGroup(searchParams, param),
       };
     } else {
-      values[param] = getParam(searchParams, param);
+      values[param] = getParamValue(searchParams, param);
     }
   });
 
@@ -241,10 +264,12 @@ const getParamsFromFilters = (searchParams, filters) => {
   return params;
 };
 
-const getInvalidValueMessage = (param, value) => labelsModel.getLabel('param_value_invalid', null, { param, value });
-const getOutOfRangeValueMessage = (param, value) => labelsModel.getLabel('param_value_out_of_range', null, { param, value });
+const getDeprecatedParamMessage = (param) => labelsModel.getLabel('deprecated', 'param', { param });
+const getInvalidValueMessage = (param, value) => labelsModel.getLabel('value_invalid', 'param', { param, value });
+const getOutOfRangeValueMessage = (param, value) => labelsModel.getLabel('value_out_of_range', 'param', { param, value });
 
 module.exports = {
+  getDeprecatedParamMessage,
   getInvalidValueMessage,
   getOutOfRangeValueMessage,
   getParams,
@@ -264,5 +289,7 @@ module.exports = {
   hasSortBy,
   hasYear,
   hasYearAndQuarter,
+  isDeprecated,
+  isValid,
   migrateQuarterSlug,
 };

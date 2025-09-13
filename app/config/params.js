@@ -69,7 +69,10 @@ const PARAM_OPTIONS = {
   [PARAM_SORT]: sortOptions,
   [PARAM_SORT_BY]: sortByOptions,
   [PARAM_WITH_ENTITY_ID]: integerOptions,
-  [PARAM_WITH_PERSON_ID]: integerOptions,
+  [PARAM_WITH_PERSON_ID]: {
+    deprecated: true,
+    ...integerOptions,
+  },
   [PARAM_YEAR]: yearOptions,
 };
 
