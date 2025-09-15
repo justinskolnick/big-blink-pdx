@@ -16,9 +16,9 @@ const {
 const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
-const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+const searchParams = require('../lib/request/search-params');
 
 const Incident = require('../models/incident');
 
@@ -81,7 +81,7 @@ router.get('/', async (req, res, next) => {
       records = await incidentAttendees.getAllForIncidents(incidentsResult);
 
       filters = filterHelper.getFilters(req.query);
-      params = paramHelper.getParamsFromFilters(req.query, filters);
+      params = searchParams.getParamsFromFilters(req.query, filters);
 
       data = {
         incidents: {

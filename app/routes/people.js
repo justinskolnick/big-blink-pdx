@@ -24,10 +24,10 @@ const {
 const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
-const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
 const { toSentence } = require('../lib/string');
+const searchParams = require('../lib/request/search-params');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -107,11 +107,11 @@ router.get('/', async (req, res, next) => {
 
       personTotal = await people.getTotal();
 
-      if (paramHelper.hasSort(sort)) {
-        params.sort = paramHelper.getSort(sort);
+      if (searchParams.hasSort(sort)) {
+        params.sort = searchParams.getSort(sort);
       }
       if (sortBy) {
-        params.sort_by = paramHelper.getSortBy(sortBy); // eslint-disable-line camelcase
+        params.sort_by = searchParams.getSortBy(sortBy); // eslint-disable-line camelcase
       }
 
       data = {
@@ -444,8 +444,8 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   if (req.get('Content-Type') === headers.json) {
-    peopleArray = paramHelper.getPeople(people);
-    quarterSlug = paramHelper.migrateQuarterSlug(quarter);
+    peopleArray = searchParams.getPeople(people);
+    quarterSlug = searchParams.migrateQuarterSlug(quarter);
 
     if (quarterSlug) {
       quarterSourceId = await sources.getIdForQuarter(quarterSlug);
@@ -478,7 +478,7 @@ router.get('/:id/incidents', async (req, res, next) => {
       records = await incidentAttendees.getAllForIncidents(personIncidents);
 
       filters = filterHelper.getFilters(req.query);
-      params = paramHelper.getParamsFromFilters(req.query, filters);
+      params = searchParams.getParamsFromFilters(req.query, filters);
 
       data = {
         person: {

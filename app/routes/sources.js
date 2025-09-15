@@ -22,10 +22,10 @@ const {
 const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
-const paramHelper = require('../helpers/param');
 
 const { unique } = require('../lib/array');
 const headers = require('../lib/headers');
+const searchParams = require('../lib/request/search-params');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -366,7 +366,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   }
 
   if (req.get('Content-Type') === headers.json) {
-    peopleArray = paramHelper.getPeople(people);
+    peopleArray = searchParams.getPeople(people);
     options = {
       dateOn,
       dateRangeFrom,
@@ -394,7 +394,7 @@ router.get('/:id/incidents', async (req, res, next) => {
         records = await incidentAttendees.getAllForIncidents(sourceIncidents);
 
         filters = filterHelper.getFilters(req.query);
-        params = paramHelper.getParamsFromFilters(req.query, filters);
+        params = searchParams.getParamsFromFilters(req.query, filters);
 
         data = {
           source: {

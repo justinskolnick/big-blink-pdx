@@ -11,9 +11,10 @@ const {
 
 const filterHelper = require('../helpers/filter');
 const metaHelper = require('../helpers/meta');
-const paramHelper = require('../helpers/param');
 
 const headers = require('../lib/headers');
+const { getOutOfRangeValueMessage } = require('../lib/request/messages');
+const searchParams = require('../lib/request/search-params');
 
 const Leaderboard = require('../models/leaderboard/leaderboard');
 
@@ -118,8 +119,8 @@ router.get('/leaderboard', async (req, res, next) => {
       };
       const totalOptions = {};
 
-      if (paramHelper.hasYearAndQuarter(quarter)) {
-        const quarterOptions = paramHelper.getQuarterAndYear(quarter);
+      if (searchParams.hasYearAndQuarter(quarter)) {
+        const quarterOptions = searchParams.getQuarterAndYear(quarter);
         const quarterResult = await quarters.getQuarter(quarterOptions);
 
         periodIsValid = quarterResult.hasData();
@@ -138,7 +139,7 @@ router.get('/leaderboard', async (req, res, next) => {
           }
         } else {
           warnings.push({
-            message: paramHelper.getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter),
+            message: getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter),
           });
         }
       }

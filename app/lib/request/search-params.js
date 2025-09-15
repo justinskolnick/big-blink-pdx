@@ -10,7 +10,7 @@ const {
   ROLE_OFFICIAL,
   SORT_BY_OPTIONS,
   SORT_OPTIONS,
-} = require('../config/constants');
+} = require('../../config/constants');
 const {
   PARAM_OPTIONS,
   QUARTER_PATTERN_DEPRECATED,
@@ -18,10 +18,7 @@ const {
   peopleOptions,
   quarterOptions,
   yearOptions,
-} = require('../config/params');
-
-const Labels = require('../models/shared/labels');
-const labelsModel = new Labels();
+} = require('../../config/params');
 
 const hasParam = (param) => param?.length > 0;
 
@@ -264,14 +261,7 @@ const getParamsFromFilters = (searchParams, filters) => {
   return params;
 };
 
-const getDeprecatedParamMessage = (param) => labelsModel.getLabel('deprecated', 'param', { param });
-const getInvalidValueMessage = (param, value) => labelsModel.getLabel('value_invalid', 'param', { param, value });
-const getOutOfRangeValueMessage = (param, value) => labelsModel.getLabel('value_out_of_range', 'param', { param, value });
-
 module.exports = {
-  getDeprecatedParamMessage,
-  getInvalidValueMessage,
-  getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
   getPeople,

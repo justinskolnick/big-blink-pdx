@@ -1,8 +1,5 @@
-const { getFilters } = require('../filter');
+const { getFilters } = require('../../../helpers/filter');
 const {
-  getDeprecatedParamMessage,
-  getInvalidValueMessage,
-  getOutOfRangeValueMessage,
   getParams,
   getParamsFromFilters,
   getPeople,
@@ -21,25 +18,7 @@ const {
   hasYearAndQuarter,
   isDeprecated,
   migrateQuarterSlug,
-} = require('../param');
-
-describe('getDeprecatedParamMessage()', () => {
-  test('with a param value', () => {
-    expect(getDeprecatedParamMessage('name')).toEqual('The <code>name</code> parameter has been deprecated and will be removed soon. Please recreate your filter and update your bookmarks.');
-  });
-});
-
-describe('getInvalidValueMessage()', () => {
-  test('with a param value', () => {
-    expect(getInvalidValueMessage('name', 123)).toEqual('<strong>123</strong> is not a valid value for <code>name</code>');
-  });
-});
-
-describe('getOutOfRangeValueMessage()', () => {
-  test('with a param value', () => {
-    expect(getOutOfRangeValueMessage('name', 123)).toEqual('<strong>123</strong> is out of range for <code>name</code>');
-  });
-});
+} = require('../search-params');
 
 describe('getParams()', () => {
   describe('with a date', () => {
