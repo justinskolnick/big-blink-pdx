@@ -60,8 +60,14 @@ const yearOptions = {
 
 const PARAM_OPTIONS = {
   [PARAM_DATE_ON]: dateOptions,
-  [PARAM_DATE_RANGE_FROM]: dateOptions,
-  [PARAM_DATE_RANGE_TO]: dateOptions,
+  [PARAM_DATE_RANGE_FROM]: {
+    requires: PARAM_DATE_RANGE_TO,
+    ...dateOptions,
+  },
+  [PARAM_DATE_RANGE_TO]: {
+    requires: PARAM_DATE_RANGE_FROM,
+    ...dateOptions,
+  },
   [PARAM_PAGE]: integerOptions,
   [PARAM_PEOPLE]: peopleOptions,
   [PARAM_QUARTER]: quarterOptions,

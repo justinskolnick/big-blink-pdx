@@ -1,11 +1,5 @@
 const {
-  PARAM_DATE_ON,
-  PARAM_DATE_RANGE_FROM,
-  PARAM_DATE_RANGE_TO,
-  PARAM_ROLE,
   PARAM_SORT,
-  PARAM_WITH_ENTITY_ID,
-  PARAM_WITH_PERSON_ID,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SORT_BY_OPTIONS,
@@ -187,16 +181,24 @@ const getParamGroup = (searchParams, params) => {
 };
 
 const getParams = searchParams => {
+  const keys = [];
+  const sets = [];
   let values = {};
 
-  [
-    PARAM_SORT,
-    PARAM_DATE_ON,
-    [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO],
-    PARAM_ROLE,
-    PARAM_WITH_ENTITY_ID,
-    PARAM_WITH_PERSON_ID,
-  ].forEach(param => {
+  Object.entries(PARAM_OPTIONS).forEach(([key, definition]) => {
+    if (!keys.includes(key)) {
+      keys.push(key);
+
+      if ('requires' in definition) {
+        keys.push(definition.requires);
+        sets.push([key, definition.requires]);
+      } else {
+        sets.push(key);
+      }
+    }
+  });
+
+  sets.forEach(param => {
     if (Array.isArray(param)) {
       values = {
         ...values,
