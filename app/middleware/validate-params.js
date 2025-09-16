@@ -1,9 +1,13 @@
-const createError = require('http-errors');
-
 const { PARAM_OPTIONS } = require('../config/params');
 
-const { getInvalidValueMessage } = require('../lib/request/messages');
-const { isValid } = require('../lib/request/search-params');
+const {
+  getDeprecatedParamMessage,
+  getInvalidValueMessage,
+} = require('../lib/request/messages');
+const {
+  isDeprecated,
+  isValid,
+} = require('../lib/request/search-params');
 
 const validateParams = (req, res, next) => {
   Object.keys(PARAM_OPTIONS).forEach((param) => {
@@ -12,8 +16,9 @@ const validateParams = (req, res, next) => {
         const value = req.query.get(param);
 
         req.query.delete(param);
-
-        next(createError(422, getInvalidValueMessage(param, value)));
+        req.flash.setError(getInvalidValueMessage(param, value));
+      } else if (isDeprecated(req.query, param)) {
+        req.flash.setWarning(getDeprecatedParamMessage(param));
       }
     }
   });

@@ -10,7 +10,8 @@ const logger = require('morgan');
 
 const headers = require('./lib/headers');
 
-const validateParams = require('./middleware/validate-params');
+const setFlashMiddleware = require('./middleware/set-flash');
+const validateParamsMiddleware = require('./middleware/validate-params');
 
 const indexRouter = require('./routes/index');
 const entitiesRouter = require('./routes/entities');
@@ -19,7 +20,6 @@ const peopleRouter = require('./routes/people');
 const sourcesRouter = require('./routes/sources');
 
 const app = express();
-
 
 const errorCodes = {
   404: 'Not Found',
@@ -49,7 +49,8 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use('/', validateParams);
+app.use('/', setFlashMiddleware);
+app.use('/', validateParamsMiddleware);
 
 app.use('/', indexRouter);
 app.use('/entities', entitiesRouter);

@@ -96,9 +96,6 @@ router.get('/overview', async (req, res, next) => {
 router.get('/leaderboard', async (req, res, next) => {
   const quarter = req.query.get(PARAM_QUARTER_ALT);
 
-  const errors = [];
-  const warnings = [];
-
   if (req.get('Content-Type') === headers.json) {
     let incidentCountResult;
     let data;
@@ -138,9 +135,7 @@ router.get('/leaderboard', async (req, res, next) => {
             period = quarterResult.readablePeriod;
           }
         } else {
-          warnings.push({
-            message: getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter),
-          });
+          req.flash.setWarning(getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter));
         }
       }
 
@@ -216,8 +211,8 @@ router.get('/leaderboard', async (req, res, next) => {
         },
       };
       meta = {
-        errors,
-        warnings,
+        errors: req.flash.errors,
+        warnings: req.flash.warnings,
       };
 
       res.status(200).json({ data, meta });

@@ -154,8 +154,6 @@ router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
   const page = Number(req.query.get(PARAM_PAGE) || 1);
 
-  const errors = [];
-  const warnings = [];
   const perPage = Incident.perPage;
 
   let person;
@@ -224,14 +222,14 @@ router.get('/:id', async (req, res, next) => {
       };
       meta = {
         description,
-        errors,
+        errors: req.flash.errors,
         id,
         page,
         pageTitle: metaHelper.getPageTitle(section),
         perPage,
         section,
         view,
-        warnings,
+        warnings: req.flash.warnings,
       };
 
       res.status(200).json({ title, data, meta });
@@ -425,8 +423,6 @@ router.get('/:id/incidents', async (req, res, next) => {
   const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
   const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
 
-  const errors = [];
-  const warnings = [];
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
@@ -499,11 +495,11 @@ router.get('/:id/incidents', async (req, res, next) => {
         },
       };
       meta = {
-        errors,
+        errors: req.flash.errors,
         id,
         page,
         perPage,
-        warnings,
+        warnings: req.flash.warnings,
       };
 
       res.status(200).json({ title, data, meta });
