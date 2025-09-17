@@ -10,8 +10,9 @@ const {
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
   ROLE_OFFICIAL,
-} = require('../config/constants');
-
+} = require('../../config/constants');
+const dateHelper = require('../../helpers/date');
+const Labels = require('../../models/shared/labels');
 const {
   getPeople,
   getQuarterAndYear,
@@ -19,12 +20,9 @@ const {
   hasInteger,
   hasQuarter,
   hasRole,
-} = require('../lib/request/search-params');
+} = require('../request/search-params');
 
-const Labels = require('../models/shared/labels');
 const labelsModel = new Labels();
-
-const dateHelper = require('./date');
 
 const getLabel = value => ({
   type: 'label',

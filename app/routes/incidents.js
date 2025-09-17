@@ -13,11 +13,11 @@ const {
   SECTION_INCIDENTS,
 } = require('../config/constants');
 
-const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
+const { getFilters } = require('../lib/incident/filters');
 const searchParams = require('../lib/request/search-params');
 
 const Incident = require('../models/incident');
@@ -80,7 +80,7 @@ router.get('/', async (req, res, next) => {
       incidentCountResult = await incidents.getTotal();
       records = await incidentAttendees.getAllForIncidents(incidentsResult);
 
-      filters = filterHelper.getFilters(req.query);
+      filters = getFilters(req.query);
       params = searchParams.getParamsFromFilters(req.query, filters);
 
       data = {

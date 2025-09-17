@@ -9,10 +9,10 @@ const {
   SORT_BY_TOTAL,
 } = require('../config/constants');
 
-const filterHelper = require('../helpers/filter');
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
+const { getLeaderboardFilters } = require('../lib/incident/filters');
 const { getOutOfRangeValueMessage } = require('../lib/request/messages');
 const searchParams = require('../lib/request/search-params');
 
@@ -191,7 +191,7 @@ router.get('/leaderboard', async (req, res, next) => {
         periodIsValid,
       };
 
-      filters = filterHelper.getLeaderboardFilters(req.query);
+      filters = getLeaderboardFilters(req.query);
 
       data = {
         leaderboard: {

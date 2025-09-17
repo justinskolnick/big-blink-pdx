@@ -19,13 +19,13 @@ const {
   SECTION_ENTITIES,
 } = require('../config/constants');
 
-const filterHelper = require('../helpers/filter');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
-const { toSentence } = require('../lib/string');
+const { getFilters } = require('../lib/incident/filters');
 const searchParams = require('../lib/request/search-params');
+const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -347,7 +347,7 @@ router.get('/:id/incidents', async (req, res, next) => {
 
       records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
-      filters = filterHelper.getFilters(req.query);
+      filters = getFilters(req.query);
       params = searchParams.getParamsFromFilters(req.query, filters);
 
       data = {

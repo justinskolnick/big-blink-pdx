@@ -1,4 +1,4 @@
-const { getFilters } = require('../filter');
+const { getFilters } = require('../filters');
 
 describe('getFilters()', () => {
   describe('with a date', () => {
