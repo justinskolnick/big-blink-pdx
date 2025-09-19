@@ -14,8 +14,6 @@ const {
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
   SECTION_SOURCES,
 } = require('../config/constants');
 
@@ -258,12 +256,14 @@ router.get('/:id/attendees', async (req, res, next) => {
           {
             label: 'Lobbyists',
             records: attendees.lobbyists.records.map(adaptItemPerson),
-            role: ROLE_LOBBYIST,
+            role: attendees.lobbyists.role,
+            total: attendees.lobbyists.total,
           },
           {
             label: 'City Officials',
             records: attendees.officials.records.map(adaptItemPerson),
-            role: ROLE_OFFICIAL,
+            role: attendees.officials.role,
+            total: attendees.officials.total,
           },
         ],
       };
@@ -305,7 +305,8 @@ router.get('/:id/entities', async (req, res, next) => {
         model: MODEL_ENTITIES,
         values: [
           {
-            records: entities.map(adaptItemEntity),
+            records: entities.records.map(adaptItemEntity),
+            total: entities.total,
           },
         ],
       };

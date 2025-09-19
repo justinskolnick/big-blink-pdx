@@ -4,6 +4,7 @@ const {
   getAllQuery,
   getAtIdQuery,
   getEntitiesForIdQuery,
+  getEntitiesTotalForIdQuery,
   getIdForQuarterQuery,
   getStatsQuery,
   getTotalQuery,
@@ -23,11 +24,31 @@ const getAtId = async (id) => {
   return new Source(result);
 };
 
-const getEntitiesForId = async (id) => {
+const getEntitiesRecords = async (id) => {
   const { clauses, params } = getEntitiesForIdQuery(id);
   const results = await db.getAll(clauses, params);
 
   return results.map(Source.adaptEntity);
+};
+
+const getEntitiesTotal = async (id) => {
+  const { clauses, params } = getEntitiesTotalForIdQuery(id);
+  const result = await db.get(clauses, params);
+
+  return result.total;
+};
+
+const getEntitiesForId = async (id) => {
+  const results = await Promise.all([
+    getEntitiesTotal(id),
+    getEntitiesRecords(id),
+  ]);
+  const [total, records] = results;
+
+  return {
+    records,
+    total,
+  };
 };
 
 const getIdForQuarter = async (quarter) => {

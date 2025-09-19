@@ -14,8 +14,6 @@ const {
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_PERSON_ID,
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
   SECTION_ENTITIES,
 } = require('../config/constants');
 
@@ -245,11 +243,6 @@ router.get('/:id/attendees', async (req, res, next) => {
       entity = await entities.getAtId(id);
       attendees = await incidentAttendees.getAttendees({ entityId: id });
 
-      const lobbyist = {
-        lobbyists: attendees.lobbyists.records.map(adaptItemPerson),
-        officials: attendees.officials.records.map(adaptItemPerson),
-      };
-
       record = entity.adapted;
       record.attendees = {
         label: `As an entity, ${record.name} ...`,
@@ -258,13 +251,15 @@ router.get('/:id/attendees', async (req, res, next) => {
         values: [
           {
             label: '... authorized these lobbyists',
-            records: lobbyist.lobbyists,
-            role: ROLE_LOBBYIST,
+            records: attendees.lobbyists.records.map(adaptItemPerson),
+            role: attendees.lobbyists.role,
+            total: attendees.lobbyists.total,
           },
           {
             label: '... lobbied these City officials',
-            records: lobbyist.officials,
-            role: ROLE_OFFICIAL,
+            records: attendees.officials.records.map(adaptItemPerson),
+            role: attendees.officials.role,
+            total: attendees.officials.total,
           },
         ],
       };

@@ -14,8 +14,10 @@ const entityLobbyistRegistrations = require('./entity-lobbyist-registrations');
 const {
   getAllQuery,
   getEntitiesQuery,
+  getEntitiesTotalQuery,
   getHasLobbiedOrBeenLobbiedQuery,
   getPeopleQuery,
+  getPeopleTotalQuery,
 } = require('./queries/incident-attendees');
 
 const getAttendee = (result) => {
@@ -84,17 +86,34 @@ const collectEntities = entities => {
   return Object.values(unsorted).sort(sortTotalDescending);
 };
 
-const getEntities = async (options = {}) => {
-  const { personId, personRole } = options;
+const getEntitiesRecords = async (options = {}) => {
   const { clauses, params } = getEntitiesQuery(options);
-  const hasPersonId = Boolean(personId);
-
   const results = await db.getAll(clauses, params);
 
-  let collectedResults = collectEntities(results);
+  return results;
+};
+
+const getEntitiesTotal = async (options = {}) => {
+  const { clauses, params } = getEntitiesTotalQuery(options);
+  const result = await db.get(clauses, params);
+
+  return result.total;
+};
+
+const getEntities = async (options = {}) => {
+  const { personId, personRole } = options;
+  const hasPersonId = Boolean(personId);
+
+  const results = await Promise.all([
+    getEntitiesTotal(options),
+    getEntitiesRecords(options),
+  ]);
+  const [total, records] = results;
+
+  let collectedRecords = collectEntities(records);
 
   if (hasPersonId && personRole === IncidentAttendee.roles.lobbyist) {
-    collectedResults = await Promise.all(collectedResults.map(async (result) => {
+    collectedRecords = await Promise.all(collectedRecords.map(async (result) => {
       const entityRegistrationResults = await entityLobbyistRegistrations.getTotal({
         entityId: result.entity.id,
       });
@@ -118,7 +137,10 @@ const getEntities = async (options = {}) => {
     }));
   }
 
-  return collectedResults;
+  return {
+    records: collectedRecords,
+    total,
+  };
 };
 
 const getHasLobbiedOrBeenLobbied = async (options = {}) => {
@@ -128,7 +150,6 @@ const getHasLobbiedOrBeenLobbied = async (options = {}) => {
   return result.hasLobbiedOrBeenLobbied === 'true';
 };
 
-// todo: add count to query
 const collectPeople = people => {
   const unsorted = people
     .reduce((byKey, values) => {
@@ -145,37 +166,46 @@ const collectPeople = people => {
       return byKey;
     }, {});
 
-  return {
-    records: Object.values(unsorted).sort(sortTotalDescending),
-  };
+  return Object.values(unsorted).sort(sortTotalDescending);
 };
 
-const getPeople = async (options = {}) => {
+const getPeopleRecords = async (options = {}) => {
   const { clauses, params } = getPeopleQuery(options);
   const results = await db.getAll(clauses, params);
 
   return results;
 };
 
-const getLobbyists = async (options = {}) => {
-  options.role = IncidentAttendee.roles.lobbyist;
+const getPeopleTotal = async (options = {}) => {
+  const { clauses, params } = getPeopleTotalQuery(options);
+  const result = await db.get(clauses, params);
 
-  const people = await getPeople(options);
-
-  return collectPeople(people);
+  return result.total;
 };
 
-const getOfficials = async (options = {}) => {
-  options.role = IncidentAttendee.roles.official;
+const getAttendeesByRole = async (role, options = {}) => {
+  const roleOptions = {
+    ...options,
+    role,
+  };
 
-  const people = await getPeople(options);
+  const results = await Promise.all([
+    getPeopleTotal(roleOptions),
+    getPeopleRecords(roleOptions),
+  ]);
+  const [total, people] = results;
+  const records = collectPeople(people);
 
-  return collectPeople(people);
+  return {
+    records,
+    role,
+    total,
+  };
 };
 
 const getAttendees = async (options = {}) => {
-  const lobbyists = await getLobbyists(options);
-  const officials = await getOfficials(options);
+  const lobbyists = await getAttendeesByRole(IncidentAttendee.roles.lobbyist, options);
+  const officials = await getAttendeesByRole(IncidentAttendee.roles.official, options);
 
   return {
     lobbyists,

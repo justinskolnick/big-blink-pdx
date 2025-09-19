@@ -9,7 +9,6 @@ import {
   FilterLink,
 } from './links';
 import PersonIcon from './people/icon';
-import StatBox from './stat-box';
 
 import { useGetEntityById } from '../reducers/entities';
 
@@ -103,27 +102,26 @@ const AffiliatedEntitiesTable = ({
   const hasLobbyist = Boolean(lobbyistName);
 
   return (
-    <StatBox title={title}>
-      <AffiliatedItemTable
-        hasAuxiliaryType={hasAuxiliaryType}
-        itemCount={entities.records.length}
-        label={model}
-      >
-        {(initialCount, showAll) => {
-          const items = showAll ? entities.records : entities.records.slice(0, initialCount);
+    <AffiliatedItemTable
+      hasAuxiliaryType={hasAuxiliaryType}
+      label={model}
+      title={title}
+      total={entities.total}
+    >
+      {(initialCount, showAll) => {
+        const items = showAll ? entities.records : entities.records.slice(0, initialCount);
 
-          return items.map((item, i) => (
-            <AffiliatedEntity
-              hasAuxiliaryType={hasAuxiliaryType}
-              hasLobbyist={hasLobbyist}
-              item={item}
-              key={i}
-              role={role}
-            />
-          ));
-        }}
-      </AffiliatedItemTable>
-    </StatBox>
+        return items.map((item, i) => (
+          <AffiliatedEntity
+            hasAuxiliaryType={hasAuxiliaryType}
+            hasLobbyist={hasLobbyist}
+            item={item}
+            key={i}
+            role={role}
+          />
+        ));
+      }}
+    </AffiliatedItemTable>
   );
 };
 

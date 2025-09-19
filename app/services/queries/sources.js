@@ -77,18 +77,27 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getEntitiesForIdQuery = (id) => {
+const buildEntitiesForIdQuery = (options = {}) => {
+  const {
+    id,
+    totalOnly = false,
+  } = options;
+
   const clauses = [];
   const selections = [];
   const params = [];
 
   clauses.push('SELECT');
 
-  selections.push(`${Entity.field('id')}`);
-  selections.push(`${Entity.field('name')}`);
-  selections.push(`COUNT(${Incident.field(Entity.foreignKey())}) AS total`);
+  if (totalOnly) {
+    clauses.push(`COUNT(DISTINCT ${Incident.field(Entity.foreignKey())}) AS total`);
+  } else {
+    selections.push(`${Entity.field('id')}`);
+    selections.push(`${Entity.field('name')}`);
+    selections.push(`COUNT(${Incident.field(Entity.foreignKey())}) AS total`);
 
-  clauses.push(selections.join(', '));
+    clauses.push(selections.join(', '));
+  }
 
   clauses.push(`FROM ${Incident.tableName}`);
   clauses.push(queryHelper.leftJoin(Incident, Entity, true));
@@ -96,11 +105,20 @@ const getEntitiesForIdQuery = (id) => {
   clauses.push(`${Incident.field(Source.foreignKey())} = ?`);
   params.push(id);
 
-  clauses.push(`GROUP BY ${Incident.field(Entity.foreignKey())}`);
-  clauses.push('ORDER BY total DESC');
+  if (!totalOnly) {
+    clauses.push(`GROUP BY ${Incident.field(Entity.foreignKey())}`);
+    clauses.push('ORDER BY total DESC');
+  }
 
   return { clauses, params };
 };
+
+const getEntitiesForIdQuery = (id) => buildEntitiesForIdQuery({ id });
+
+const getEntitiesTotalForIdQuery = (id) => buildEntitiesForIdQuery({
+  id,
+  totalOnly: true,
+});
 
 const getIdForQuarterQuery = (quarterSlug) => {
   const clauses = [];
@@ -148,16 +166,16 @@ const getStatsQuery = () => {
   return { clauses, params };
 };
 
-const getTotalQuery = (options = {}) => {
-  options.totalOnly = true;
-
-  return buildQuery(options);
-};
+const getTotalQuery = (options = {}) => buildQuery({
+  ...options,
+  totalOnly: true,
+});
 
 module.exports = {
   getAllQuery,
   getAtIdQuery,
   getEntitiesForIdQuery,
+  getEntitiesTotalForIdQuery,
   getIdForQuarterQuery,
   getStatsQuery,
   getTotalQuery,

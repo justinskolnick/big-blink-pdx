@@ -91,6 +91,7 @@ export type AttendeeGroup = {
   label?: string;
   records: Attendee[];
   role: Role;
+  total: number;
 }
 
 export type Attendees = {
@@ -423,6 +424,7 @@ export type AffiliatedPersonRecord = {
 export type AffiliatedEntityValue = {
   records: AffiliatedEntityRecord[];
   role?: Role;
+  total: number;
 };
 
 export type AffiliatedEntityValues = AffiliatedEntityValue[];

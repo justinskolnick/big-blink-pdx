@@ -55,10 +55,11 @@ const getAllQuery = (options = {}) => {
   return { clauses, params };
 };
 
-const getEntitiesQuery = (options = {}) => {
+const buildEntitiesQuery = (options = {}) => {
   const {
     personId,
     personRole,
+    totalOnly = false,
   } = options;
 
   const hasPersonId = Boolean(personId);
@@ -70,10 +71,14 @@ const getEntitiesQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(Entity.field('id'));
-  selections.push(Entity.field('name'));
+  if (totalOnly) {
+    clauses.push(`COUNT(DISTINCT ${Entity.primaryKey()}) AS total`);
+  } else {
+    selections.push(Entity.field('id'));
+    selections.push(Entity.field('name'));
 
-  clauses.push(selections.join(', '));
+    clauses.push(selections.join(', '));
+  }
 
   clauses.push(`FROM ${Incident.tableName}`);
   clauses.push(queryHelper.leftJoin(Incident, Entity, true));
@@ -98,11 +103,20 @@ const getEntitiesQuery = (options = {}) => {
     clauses.push(`${Incident.primaryKey()} IN (${subqueryClauses.join(' ')})`);
   }
 
-  clauses.push('ORDER BY');
-  clauses.push(`${Entity.field('name')} ASC`);
+  if (!totalOnly) {
+    clauses.push('ORDER BY');
+    clauses.push(`${Entity.field('name')} ASC`);
+  }
 
   return { clauses, params };
 };
+
+const getEntitiesQuery = (options = {}) => buildEntitiesQuery(options);
+
+const getEntitiesTotalQuery = (options = {}) => buildEntitiesQuery({
+  ...options,
+  totalOnly: true,
+});
 
 const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
   const {
@@ -138,13 +152,14 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
   return { clauses, params };
 };
 
-const getPeopleQuery = (options = {}) => {
+const buildPeopleQuery = (options = {}) => {
   const {
     entityId,
     personId,
     personRole,
     role,
     sourceId,
+    totalOnly = false,
   } = options;
 
   const hasEntityId = Boolean(entityId);
@@ -159,11 +174,15 @@ const getPeopleQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
-  selections.push(Person.field('name'));
-  selections.push(Person.field('type'));
+  if (totalOnly) {
+    clauses.push(`COUNT(DISTINCT ${IncidentAttendee.field(Person.foreignKey())}) AS total`);
+  } else {
+    selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
+    selections.push(Person.field('name'));
+    selections.push(Person.field('type'));
 
-  clauses.push(selections.join(', '));
+    clauses.push(selections.join(', '));
+  }
 
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
   clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
@@ -222,15 +241,26 @@ const getPeopleQuery = (options = {}) => {
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  clauses.push('ORDER BY');
-  clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+  if (!totalOnly) {
+    clauses.push('ORDER BY');
+    clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+  }
 
   return { clauses, params };
 };
 
+const getPeopleQuery = (options = {}) => buildPeopleQuery(options);
+
+const getPeopleTotalQuery = (options = {}) => buildPeopleQuery({
+  ...options,
+  totalOnly: true,
+});
+
 module.exports = {
   getAllQuery,
   getEntitiesQuery,
+  getEntitiesTotalQuery,
   getHasLobbiedOrBeenLobbiedQuery,
   getPeopleQuery,
+  getPeopleTotalQuery,
 };

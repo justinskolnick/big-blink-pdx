@@ -7,7 +7,6 @@ import {
 } from './links';
 import PersonIcon from './people/icon';
 import ItemLink from './people/item-link';
-import StatBox from './stat-box';
 
 import { useGetPersonById } from '../reducers/people';
 
@@ -52,24 +51,23 @@ const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
 };
 
 const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
-  <StatBox title={attendees.label}>
-    <AffiliatedItemTable
-      itemCount={attendees.records.length}
-      label={model}
-    >
-      {(initialCount, showAll) => {
-        const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
+  <AffiliatedItemTable
+    label={model}
+    title={attendees.label}
+    total={attendees.total}
+  >
+    {(initialCount, showAll) => {
+      const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
 
-        return items.map((item, i) => (
-          <AffiliatedPerson
-            item={item}
-            key={i}
-            role={attendees.role}
-          />
-        ));
-      }}
-    </AffiliatedItemTable>
-  </StatBox>
+      return items.map((item, i) => (
+        <AffiliatedPerson
+          item={item}
+          key={i}
+          role={attendees.role}
+        />
+      ));
+    }}
+  </AffiliatedItemTable>
 );
 
 export default AffiliatedPeopleTable;

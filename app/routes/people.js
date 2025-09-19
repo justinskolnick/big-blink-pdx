@@ -264,21 +264,12 @@ router.get('/:id/attendees', async (req, res, next) => {
       asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST });
       asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL });
 
-      const lobbyist = {
-        lobbyists: asLobbyist.lobbyists.records.map(adaptItemPerson),
-        officials: asLobbyist.officials.records.map(adaptItemPerson),
-      };
-      const official = {
-        lobbyists: asOfficial.lobbyists.records.map(adaptItemPerson),
-        officials: asOfficial.officials.records.map(adaptItemPerson),
-      };
-
       record = person.adapted;
       record.attendees = {
         roles: [],
       };
 
-      if (lobbyist.lobbyists.length || lobbyist.officials.length) {
+      if (asLobbyist.lobbyists.total > 0 || asLobbyist.officials.total > 0) {
         record.attendees.roles.push({
           label: `As a lobbyist, ${record.name} ...`,
           model: MODEL_PEOPLE,
@@ -287,19 +278,21 @@ router.get('/:id/attendees', async (req, res, next) => {
           values: [
             {
               label: '... lobbied alongside these lobbyists',
-              records: lobbyist.lobbyists,
-              role: ROLE_LOBBYIST,
+              records: asLobbyist.lobbyists.records.map(adaptItemPerson),
+              role: asLobbyist.lobbyists.role,
+              total: asLobbyist.lobbyists.total,
             },
             {
               label: '... met with these City officials',
-              records: lobbyist.officials,
-              role: ROLE_OFFICIAL,
+              records: asLobbyist.officials.records.map(adaptItemPerson),
+              role: asLobbyist.officials.role,
+              total: asLobbyist.officials.total,
             },
           ],
         });
       }
 
-      if (official.lobbyists.length || official.officials.length) {
+      if (asOfficial.lobbyists.total > 0 || asOfficial.officials.total > 0) {
         record.attendees.roles.push({
           label: `As a City official, ${record.name} ...`,
           model: MODEL_PEOPLE,
@@ -308,13 +301,15 @@ router.get('/:id/attendees', async (req, res, next) => {
           values: [
             {
               label: '... was lobbied by these lobbyists',
-              records: official.lobbyists,
-              role: ROLE_LOBBYIST,
+              records: asOfficial.lobbyists.records.map(adaptItemPerson),
+              role: asOfficial.lobbyists.role,
+              total: asOfficial.lobbyists.total,
             },
             {
               label: '... was lobbied alongside these City officials',
-              records: official.officials,
-              role: ROLE_OFFICIAL,
+              records: asOfficial.officials.records.map(adaptItemPerson),
+              role: asOfficial.officials.role,
+              total: asOfficial.officials.total,
             },
           ],
         });
@@ -353,41 +348,36 @@ router.get('/:id/entities', async (req, res, next) => {
       asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST });
       asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL });
 
-      const lobbyist = {
-        records: asLobbyist.map(adaptItemEntity),
-      };
-      const official = {
-        records: asOfficial.map(adaptItemEntity),
-      };
-
       record = person.adapted;
       record.entities = {
         roles: [],
       };
 
-      if (lobbyist.records.length) {
+      if (asLobbyist.total) {
         record.entities.roles.push({
           label: `As a lobbyist, ${record.name} interacted with City officials on behalf of these entities`,
           model: MODEL_ENTITIES,
           role: ROLE_LOBBYIST,
           values: [
             {
-              records: lobbyist.records,
+              records: asLobbyist.records.map(adaptItemEntity),
               role: ROLE_LOBBYIST,
+              total: asLobbyist.total,
             },
           ],
         });
       }
 
-      if (official.records.length) {
+      if (asOfficial.total) {
         record.entities.roles.push({
           label: `As a City official, ${record.name} was lobbied by representatives of these entities`,
           model: MODEL_ENTITIES,
           role: ROLE_OFFICIAL,
           values: [
             {
-              records: official.records,
+              records: asOfficial.records.map(adaptItemEntity),
               role: ROLE_OFFICIAL,
+              total: asOfficial.total,
             },
           ],
         });

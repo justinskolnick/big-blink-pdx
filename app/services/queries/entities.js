@@ -118,11 +118,10 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
-const getTotalQuery = (options = {}) => {
-  options.totalOnly = true;
-
-  return buildQuery(options);
-};
+const getTotalQuery = (options = {}) => buildQuery({
+  ...options,
+  totalOnly: true,
+});
 
 module.exports = {
   getAllQuery,

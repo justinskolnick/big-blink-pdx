@@ -43905,16 +43905,17 @@ Hook ${hookName} was either not provided or not a function.`);
   var AffiliatedItemTable = ({
     children,
     hasAuxiliaryType,
-    itemCount,
-    label
+    label,
+    title,
+    total = 0
   }) => {
     const ref = (0, import_react30.useRef)(null);
     const [showAll, setShowAll] = (0, import_react30.useState)(false);
     const initialCount = 5;
-    const hasItems = itemCount > 0;
-    const hasMoreToShow = itemCount > initialCount;
+    const hasItems = total > 0;
+    const hasMoreToShow = total > initialCount;
     const scrollToRef2 = () => delayedScrollToRef(ref);
-    return hasItems ? /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(AffiliatedItems, { ref, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(AffiliatedItems, { ref, children: [
       /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(initialCount, showAll) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
@@ -43927,11 +43928,11 @@ Hook ${hookName} was either not provided or not a function.`);
         label
       ] }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)(import_jsx_runtime48.Fragment, { children: [
         "View all ",
-        itemCount,
+        total,
         " ",
         label
       ] }) })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(AffiliatedItems, { className: "no-results", children: "None found" });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(AffiliatedItems, { className: "no-results", children: "None found" }) });
   };
   var affiliated_item_table_default = AffiliatedItemTable;
 
@@ -43945,11 +43946,12 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(FilterLink, { newParams: getWithPeopleParams(person, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(import_jsx_runtime49.Fragment, { children: "-" }) })
     ] });
   };
-  var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(stat_box_default, { title: attendees.label, children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+  var AffiliatedPeopleTable = ({ attendees, model }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
     affiliated_item_table_default,
     {
-      itemCount: attendees.records.length,
       label: model,
+      title: attendees.label,
+      total: attendees.total,
       children: (initialCount, showAll) => {
         const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
         return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
@@ -43962,7 +43964,7 @@ Hook ${hookName} was either not provided or not a function.`);
         ));
       }
     }
-  ) });
+  );
   var affiliated_people_table_default = AffiliatedPeopleTable;
 
   // assets/scripts/components/incident-activity-groups.tsx
@@ -57647,12 +57649,13 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const hasAuxiliaryType = entities.role === "lobbyist" /* Lobbyist */;
     const hasLobbyist = Boolean(lobbyistName);
-    return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(stat_box_default, { title, children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
       affiliated_item_table_default,
       {
         hasAuxiliaryType,
-        itemCount: entities.records.length,
         label: model,
+        title,
+        total: entities.total,
         children: (initialCount, showAll) => {
           const items = showAll ? entities.records : entities.records.slice(0, initialCount);
           return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
@@ -57667,7 +57670,7 @@ Hook ${hookName} was either not provided or not a function.`);
           ));
         }
       }
-    ) });
+    );
   };
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
 

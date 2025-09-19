@@ -2,6 +2,7 @@ const {
   getAllQuery,
   getAtIdQuery,
   getEntitiesForIdQuery,
+  getEntitiesTotalForIdQuery,
   getIdForQuarterQuery,
   getStatsQuery,
   getTotalQuery,
@@ -123,6 +124,22 @@ describe('getEntitiesForIdQuery()', () => {
         'incidents.data_source_id = ?',
         'GROUP BY incidents.entity_id',
         'ORDER BY total DESC',
+      ],
+      params: [3],
+    });
+  });
+});
+
+describe('getEntitiesTotalForIdQuery()', () => {
+  test('returns the expected SQL', () => {
+    expect(getEntitiesTotalForIdQuery(3)).toEqual({
+      clauses: [
+        'SELECT',
+        'COUNT(DISTINCT incidents.entity_id) AS total',
+        'FROM incidents',
+        'LEFT JOIN entities ON incidents.entity_id = entities.id',
+        'WHERE',
+        'incidents.data_source_id = ?',
       ],
       params: [3],
     });

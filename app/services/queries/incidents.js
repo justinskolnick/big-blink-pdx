@@ -299,11 +299,10 @@ const getFirstAndLastDatesQuery = (options = {}) => {
   return { clauses, params };
 };
 
-const getTotalQuery = (options = {}) => {
-  options.totalOnly = true;
-
-  return buildQuery(options);
-};
+const getTotalQuery = (options = {}) => buildQuery({
+  ...options,
+  totalOnly: true,
+});
 
 module.exports = {
   buildDateConditions,
