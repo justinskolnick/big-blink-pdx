@@ -60,6 +60,16 @@ describe('getParams()', () => {
       });
     });
   });
+
+  describe('with a limit', () => {
+    test('should include the limit', () => {
+      const queryParams = new URLSearchParams('limit=5');
+
+      expect(getParams(queryParams)).toEqual({
+        limit: 5,
+      });
+    });
+  });
 });
 
 describe('getParamsFromFilters()', () => {

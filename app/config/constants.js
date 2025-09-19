@@ -3,6 +3,7 @@ const LOCALE = 'en-US';
 const PARAM_DATE_ON = 'date_on';
 const PARAM_DATE_RANGE_FROM = 'date_range_from';
 const PARAM_DATE_RANGE_TO = 'date_range_to';
+const PARAM_LIMIT = 'limit';
 const PARAM_PAGE = 'page';
 const PARAM_PEOPLE = 'people';
 const PARAM_QUARTER = 'quarter';
@@ -51,6 +52,7 @@ module.exports = {
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
+  PARAM_LIMIT,
   PARAM_PAGE,
   PARAM_PEOPLE,
   PARAM_QUARTER,

@@ -150,7 +150,8 @@ const getHasLobbiedOrBeenLobbied = async (options = {}) => {
   return result.hasLobbiedOrBeenLobbied === 'true';
 };
 
-const collectPeople = people => {
+const collectPeople = (people, limit = null) => {
+  const hasLimit = Number.isInteger(limit);
   const unsorted = people
     .reduce((byKey, values) => {
       const key = values.id;
@@ -165,8 +166,9 @@ const collectPeople = people => {
       }
       return byKey;
     }, {});
+  const sorted = Object.values(unsorted).sort(sortTotalDescending);
 
-  return Object.values(unsorted).sort(sortTotalDescending);
+  return hasLimit ? sorted.slice(0, limit) : sorted;
 };
 
 const getPeopleRecords = async (options = {}) => {
@@ -183,7 +185,7 @@ const getPeopleTotal = async (options = {}) => {
   return result.total;
 };
 
-const getAttendeesByRole = async (role, options = {}) => {
+const getAttendeesByRole = async (role, options = {}, limit = null) => {
   const roleOptions = {
     ...options,
     role,
@@ -194,7 +196,7 @@ const getAttendeesByRole = async (role, options = {}) => {
     getPeopleRecords(roleOptions),
   ]);
   const [total, people] = results;
-  const records = collectPeople(people);
+  const records = collectPeople(people, limit);
 
   return {
     records,
@@ -203,9 +205,9 @@ const getAttendeesByRole = async (role, options = {}) => {
   };
 };
 
-const getAttendees = async (options = {}) => {
-  const lobbyists = await getAttendeesByRole(IncidentAttendee.roles.lobbyist, options);
-  const officials = await getAttendeesByRole(IncidentAttendee.roles.official, options);
+const getAttendees = async (options = {}, limit = null) => {
+  const lobbyists = await getAttendeesByRole(IncidentAttendee.roles.lobbyist, options, limit);
+  const officials = await getAttendeesByRole(IncidentAttendee.roles.official, options, limit);
 
   return {
     lobbyists,

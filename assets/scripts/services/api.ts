@@ -12,6 +12,7 @@ interface LocationOptions {
 
 interface QueryFnOptions {
   id?: Id;
+  limit?: number;
   search?: string;
 }
 
@@ -50,6 +51,9 @@ const getAncillaryRoute = (query: QueryFn) => ({
   transformErrorResponse: handleError,
 });
 
+const getPathnameWithLimit = (pathname: string, limit?: number) =>
+  limit ? `${pathname}?limit=${limit}` : pathname;
+
 const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -75,7 +79,7 @@ const api = createApi({
       ({ id }) => `entities/${id}`
     )),
     getEntityAttendeesById: builder.query(getAncillaryRoute(
-      ({ id }) => `entities/${id}/attendees`
+      ({ id, limit }) => getPathnameWithLimit(`entities/${id}/attendees`, limit)
     )),
     getEntityIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `entities/${id}/incidents${search}`
@@ -89,7 +93,7 @@ const api = createApi({
     )),
 
     getPersonAttendeesById: builder.query(getAncillaryRoute(
-      ({ id }) => `people/${id}/attendees`
+      ({ id, limit }) => getPathnameWithLimit(`people/${id}/attendees`, limit)
     )),
     getPersonEntitiesById: builder.query(getAncillaryRoute(
       ({ id }) => `people/${id}/entities`
@@ -105,7 +109,7 @@ const api = createApi({
     )),
 
     getSourceAttendeesById: builder.query(getAncillaryRoute(
-      ({ id }) => `sources/${id}/attendees`
+      ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
       ({ id }) => `sources/${id}/entities`

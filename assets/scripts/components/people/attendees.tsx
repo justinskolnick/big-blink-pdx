@@ -5,6 +5,8 @@ import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import { iconName } from '../people/icon';
 
+import useSetLimit from '../../hooks/use-set-limit';
+
 import api from '../../services/api';
 
 import type { Person, PersonAttendees } from '../../types';
@@ -19,6 +21,8 @@ const Attendees = ({
   attendees,
   person,
 }: Props) => {
+  const { initialLimit, recordLimit, setRecordLimit } = useSetLimit(5);
+
   const [trigger] = api.useLazyGetPersonAttendeesByIdQuery();
 
   const hasAttendees = 'attendees' in person && Boolean(person.attendees);
@@ -42,10 +46,12 @@ const Attendees = ({
   description.push(roles.join(' and '));
 
   useEffect(() => {
-    if (!hasRecords) {
-      trigger({ id: person.id });
-    }
-  }, [hasRecords, person, trigger]);
+    trigger({ id: person.id, limit: recordLimit });
+  }, [
+    person,
+    recordLimit,
+    trigger,
+  ]);
 
   return (
     <IncidentActivityGroups
@@ -60,7 +66,9 @@ const Attendees = ({
               <AffiliatedPeopleTable
                 key={group.role}
                 attendees={group}
+                initialCount={initialLimit}
                 model={role.model}
+                setLimit={setRecordLimit}
               />
             ))}
           </IncidentActivityGroup>

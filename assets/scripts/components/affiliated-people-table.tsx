@@ -8,6 +8,8 @@ import {
 import PersonIcon from './people/icon';
 import ItemLink from './people/item-link';
 
+import { FnSetLimit } from '../hooks/use-set-limit';
+
 import { useGetPersonById } from '../reducers/people';
 
 import { Role, Sections } from '../types';
@@ -18,7 +20,9 @@ import type {
 
 interface Props {
   attendees: AttendeeGroup;
+  initialCount: number;
   model: Sections;
+  setLimit: FnSetLimit;
 }
 
 interface AffiliatedPersonProps {
@@ -50,9 +54,16 @@ const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
   );
 };
 
-const AffiliatedPeopleTable = ({ attendees, model }: Props) => (
+const AffiliatedPeopleTable = ({
+  attendees,
+  initialCount,
+  model,
+  setLimit,
+}: Props) => (
   <AffiliatedItemTable
+    initialCount={initialCount}
     label={model}
+    setLimit={setLimit}
     title={attendees.label}
     total={attendees.total}
   >

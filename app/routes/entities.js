@@ -7,6 +7,7 @@ const {
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
+  PARAM_LIMIT,
   PARAM_PAGE,
   PARAM_PEOPLE,
   PARAM_QUARTER,
@@ -232,7 +233,12 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/:id/attendees', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
-    const id = req.params.id;
+    const id = Number(req.params.id);
+    let limit = req.query.get(PARAM_LIMIT);
+
+    if (limit) {
+      limit = Number(limit);
+    }
 
     let entity;
     let attendees;
@@ -241,7 +247,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     try {
       entity = await entities.getAtId(id);
-      attendees = await incidentAttendees.getAttendees({ entityId: id });
+      attendees = await incidentAttendees.getAttendees({ entityId: id }, limit);
 
       record = entity.adapted;
       record.attendees = {

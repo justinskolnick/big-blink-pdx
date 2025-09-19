@@ -1,5 +1,7 @@
-import React, { useRef, useState, ReactNode, RefObject } from 'react';
+import React, { useEffect, useRef, useState, ReactNode, RefObject } from 'react';
 import { cx } from '@emotion/css';
+
+import { FnSetLimit } from '../hooks/use-set-limit';
 
 import { delayedScrollToRef } from '../lib/dom';
 
@@ -15,7 +17,9 @@ interface AffiliatedItemsProps {
 interface Props {
   children: (initialCount: number, showAll: boolean) => ReactNode;
   hasAuxiliaryType?: boolean;
+  initialCount?: number;
   label: string;
+  setLimit?: FnSetLimit;
   title: string;
   total: number;
 }
@@ -33,17 +37,25 @@ const AffiliatedItems = ({
 const AffiliatedItemTable = ({
   children,
   hasAuxiliaryType,
+  initialCount = 5,
   label,
+  setLimit,
   title,
   total = 0,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [showAll, setShowAll] = useState(false);
-  const initialCount = 5;
   const hasItems = total > 0;
   const hasMoreToShow = total > initialCount;
+  const canSetLimit = Boolean(setLimit);
 
   const scrollToRef = () => delayedScrollToRef(ref);
+
+  useEffect(() => {
+    if (canSetLimit && showAll) {
+      setLimit(null);
+    }
+  }, [canSetLimit, setLimit, showAll]);
 
   return (
     <StatBox title={title}>
