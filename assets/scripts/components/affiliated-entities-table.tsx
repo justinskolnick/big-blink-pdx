@@ -10,6 +10,8 @@ import {
 } from './links';
 import PersonIcon from './people/icon';
 
+import { FnSetLimit } from '../hooks/use-limited-query';
+
 import { useGetEntityById } from '../reducers/entities';
 
 import { Role, Sections } from '../types';
@@ -28,9 +30,11 @@ interface AffiliatedEntityProps {
 
 interface Props {
   entities: AffiliatedEntityValue;
+  initialCount: number;
   lobbyistName?: Person['name'];
   model: Sections;
   role?: Role;
+  setLimit: FnSetLimit;
   title?: string;
 }
 
@@ -93,9 +97,11 @@ const AffiliatedEntity = ({
 
 const AffiliatedEntitiesTable = ({
   entities,
+  initialCount,
   lobbyistName,
   model,
   role,
+  setLimit,
   title,
 }: Props) => {
   const hasAuxiliaryType = entities.role === Role.Lobbyist;
@@ -104,11 +110,13 @@ const AffiliatedEntitiesTable = ({
   return (
     <AffiliatedItemTable
       hasAuxiliaryType={hasAuxiliaryType}
+      initialCount={initialCount}
       label={model}
+      setLimit={setLimit}
       title={title}
       total={entities.total}
     >
-      {(initialCount, showAll) => {
+      {(showAll) => {
         const items = showAll ? entities.records : entities.records.slice(0, initialCount);
 
         return items.map((item, i) => (

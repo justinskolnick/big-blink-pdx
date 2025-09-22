@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import { iconName } from '../people/icon';
 
-import useSetLimit from '../../hooks/use-set-limit';
+import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
@@ -20,19 +20,14 @@ const Attendees = ({
   attendees,
   entity,
 }: Props) => {
-  const { initialLimit, recordLimit, setRecordLimit } = useSetLimit(5);
+  const query = api.useLazyGetEntityAttendeesByIdQuery;
 
-  const [trigger] = api.useLazyGetEntityAttendeesByIdQuery();
+  const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
+    id: entity.id,
+    limit: 5,
+  });
 
   const hasAttendees = 'attendees' in entity && Boolean(entity.attendees);
-
-  useEffect(() => {
-    trigger({ id: entity.id, limit: recordLimit });
-  }, [
-    entity,
-    recordLimit,
-    trigger,
-  ]);
 
   return (
     <IncidentActivityGroups

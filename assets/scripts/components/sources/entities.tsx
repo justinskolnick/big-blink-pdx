@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import { iconName } from '../entities/icon';
+
+import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
@@ -15,16 +17,15 @@ interface Props {
 }
 
 const Entities = ({ entities, source }: Props) => {
-  const [trigger] = api.useLazyGetSourceEntitiesByIdQuery();
+  const query = api.useLazyGetSourceEntitiesByIdQuery;
+
+  const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
+    id: source.id,
+    limit: 5,
+  });
 
   const hasEntities = 'entities' in source && Boolean(source.entities);
   const hasRecords = hasEntities && entities.values.some(v => v.records.length);
-
-  useEffect(() => {
-    if (!hasEntities) {
-      trigger({ id: source.id });
-    }
-  }, [hasEntities, source, trigger]);
 
   return (
     <IncidentActivityGroups title='Associated Entities' icon={iconName}>
@@ -34,7 +35,9 @@ const Entities = ({ entities, source }: Props) => {
             <AffiliatedEntitiesTable
               key={i}
               entities={group}
+              initialCount={initialLimit}
               model={entities.model}
+              setLimit={setRecordLimit}
             />
           ))}
         </IncidentActivityGroup>

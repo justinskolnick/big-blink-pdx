@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, ReactNode, RefObject } from 'react';
 import { cx } from '@emotion/css';
 
-import { FnSetLimit } from '../hooks/use-set-limit';
+import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { delayedScrollToRef } from '../lib/dom';
 
@@ -15,11 +15,11 @@ interface AffiliatedItemsProps {
 }
 
 interface Props {
-  children: (initialCount: number, showAll: boolean) => ReactNode;
+  children: (showAll: boolean) => ReactNode;
   hasAuxiliaryType?: boolean;
-  initialCount?: number;
+  initialCount: number;
   label: string;
-  setLimit?: FnSetLimit;
+  setLimit: FnSetLimit;
   title: string;
   total: number;
 }
@@ -37,7 +37,7 @@ const AffiliatedItems = ({
 const AffiliatedItemTable = ({
   children,
   hasAuxiliaryType,
-  initialCount = 5,
+  initialCount,
   label,
   setLimit,
   title,
@@ -62,7 +62,7 @@ const AffiliatedItemTable = ({
       {hasItems ? (
         <AffiliatedItems ref={ref}>
           <ItemTable hasAnotherIcon={hasAuxiliaryType}>
-            {children(initialCount, showAll)}
+            {children(showAll)}
           </ItemTable>
 
           {hasMoreToShow && (

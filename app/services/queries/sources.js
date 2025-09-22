@@ -80,8 +80,11 @@ const getAtIdQuery = (id) => {
 const buildEntitiesForIdQuery = (options = {}) => {
   const {
     id,
+    limit,
     totalOnly = false,
   } = options;
+
+  const hasLimit = Boolean(limit);
 
   const clauses = [];
   const selections = [];
@@ -110,10 +113,15 @@ const buildEntitiesForIdQuery = (options = {}) => {
     clauses.push('ORDER BY total DESC');
   }
 
+  if (hasLimit) {
+    clauses.push('LIMIT ?');
+    params.push(limit);
+  }
+
   return { clauses, params };
 };
 
-const getEntitiesForIdQuery = (id) => buildEntitiesForIdQuery({ id });
+const getEntitiesForIdQuery = (id, limit = null) => buildEntitiesForIdQuery({ id, limit });
 
 const getEntitiesTotalForIdQuery = (id) => buildEntitiesForIdQuery({
   id,

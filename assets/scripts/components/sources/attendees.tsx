@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
@@ -6,7 +6,7 @@ import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import { iconName } from '../people/icon';
 
-import useSetLimit from '../../hooks/use-set-limit';
+import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
@@ -17,22 +17,17 @@ interface Props {
 }
 
 const Attendees = ({ attendees }: Props) => {
-  const { initialLimit, recordLimit, setRecordLimit } = useSetLimit(5);
+  const params = useParams();
+  const id = Number(params.id);
 
-  const [trigger] = api.useLazyGetSourceAttendeesByIdQuery();
+  const query = api.useLazyGetSourceAttendeesByIdQuery;
 
-  const { id } = useParams();
-  const numericId = Number(id);
+  const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
+    id,
+    limit: 5,
+  });
 
   const hasAttendees = Boolean(attendees);
-
-  useEffect(() => {
-    trigger({ id: numericId, limit: recordLimit });
-  }, [
-    numericId,
-    recordLimit,
-    trigger,
-  ]);
 
   return (
     <IncidentActivityGroups title='Associated Names' icon={iconName}>

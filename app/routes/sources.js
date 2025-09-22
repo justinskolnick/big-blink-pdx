@@ -293,7 +293,12 @@ router.get('/:id/attendees', async (req, res, next) => {
 
 router.get('/:id/entities', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
-    const id = req.params.id;
+    const id = Number(req.params.id);
+    let limit = req.query.get(PARAM_LIMIT);
+
+    if (limit) {
+      limit = Number(limit);
+    }
 
     let source;
     let record;
@@ -303,7 +308,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
     try {
       source = await sources.getAtId(id);
-      entities = await sources.getEntitiesForId(id);
+      entities = await sources.getEntitiesForId(id, limit);
 
       record = source.adapted;
       record.entities = {

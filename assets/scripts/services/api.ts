@@ -96,7 +96,7 @@ const api = createApi({
       ({ id, limit }) => getPathnameWithLimit(`people/${id}/attendees`, limit)
     )),
     getPersonEntitiesById: builder.query(getAncillaryRoute(
-      ({ id }) => `people/${id}/entities`
+      ({ id, limit }) => getPathnameWithLimit(`people/${id}/entities`, limit)
     )),
     getPersonIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `people/${id}/incidents${search}`
@@ -112,7 +112,7 @@ const api = createApi({
       ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
-      ({ id }) => `sources/${id}/entities`
+      ({ id, limit }) => getPathnameWithLimit(`sources/${id}/entities`, limit)
     )),
     getSourceIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `sources/${id}/incidents${search}`

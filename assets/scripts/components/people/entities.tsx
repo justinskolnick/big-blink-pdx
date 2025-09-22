@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import { iconName } from '../entities/icon';
+
+import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
@@ -16,16 +18,15 @@ interface Props {
 }
 
 const Entities = ({ entities, person }: Props) => {
-  const [trigger] = api.useLazyGetPersonEntitiesByIdQuery();
+  const query = api.useLazyGetPersonEntitiesByIdQuery;
+
+  const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
+    id: person.id,
+    limit: 5,
+  });
 
   const hasEntities = 'entities' in person && Boolean(person.entities);
   const hasRecords = hasEntities && entities.roles.some(role => role.values.some(v => v.records.length));
-
-  useEffect(() => {
-    if (!hasRecords) {
-      trigger({ id: person.id });
-    }
-  }, [hasRecords, person, trigger]);
 
   return (
     <IncidentActivityGroups
@@ -40,9 +41,11 @@ const Entities = ({ entities, person }: Props) => {
               <AffiliatedEntitiesTable
                 key={group.role}
                 entities={group}
+                initialCount={initialLimit}
                 model={role.model}
                 lobbyistName={group.role === Role.Lobbyist ? person.name : null}
                 role={role.role}
+                setLimit={setRecordLimit}
               />
             ))}
           </IncidentActivityGroup>

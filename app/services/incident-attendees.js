@@ -66,8 +66,8 @@ const getAllForIncidents = async (incidents) => {
   return amended;
 };
 
-// todo: add count to query
-const collectEntities = entities => {
+const collectEntities = (entities, limit = null) => {
+  const hasLimit = Number.isInteger(limit);
   const unsorted = entities
     .reduce((byKey, values) => {
       const key = values.id;
@@ -83,7 +83,9 @@ const collectEntities = entities => {
       return byKey;
     }, {});
 
-  return Object.values(unsorted).sort(sortTotalDescending);
+  const sorted = Object.values(unsorted).sort(sortTotalDescending);
+
+  return hasLimit ? sorted.slice(0, limit) : sorted;
 };
 
 const getEntitiesRecords = async (options = {}) => {
@@ -100,7 +102,7 @@ const getEntitiesTotal = async (options = {}) => {
   return result.total;
 };
 
-const getEntities = async (options = {}) => {
+const getEntities = async (options = {}, limit = null) => {
   const { personId, personRole } = options;
   const hasPersonId = Boolean(personId);
 
@@ -110,7 +112,7 @@ const getEntities = async (options = {}) => {
   ]);
   const [total, records] = results;
 
-  let collectedRecords = collectEntities(records);
+  let collectedRecords = collectEntities(records, limit);
 
   if (hasPersonId && personRole === IncidentAttendee.roles.lobbyist) {
     collectedRecords = await Promise.all(collectedRecords.map(async (result) => {

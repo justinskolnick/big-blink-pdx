@@ -8,7 +8,7 @@ import {
 import PersonIcon from './people/icon';
 import ItemLink from './people/item-link';
 
-import { FnSetLimit } from '../hooks/use-set-limit';
+import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetPersonById } from '../reducers/people';
 
@@ -67,7 +67,7 @@ const AffiliatedPeopleTable = ({
     title={attendees.label}
     total={attendees.total}
   >
-    {(initialCount, showAll) => {
+    {(showAll) => {
       const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
 
       return items.map((item, i) => (

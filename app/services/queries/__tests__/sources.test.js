@@ -128,6 +128,25 @@ describe('getEntitiesForIdQuery()', () => {
       params: [3],
     });
   });
+
+  describe('with a limit', () => {
+    test('returns the expected SQL', () => {
+      expect(getEntitiesForIdQuery(3, 5)).toEqual({
+        clauses: [
+          'SELECT',
+          'entities.id, entities.name, COUNT(incidents.entity_id) AS total',
+          'FROM incidents',
+          'LEFT JOIN entities ON incidents.entity_id = entities.id',
+          'WHERE',
+          'incidents.data_source_id = ?',
+          'GROUP BY incidents.entity_id',
+          'ORDER BY total DESC',
+          'LIMIT ?',
+        ],
+        params: [3, 5],
+      });
+    });
+  });
 });
 
 describe('getEntitiesTotalForIdQuery()', () => {

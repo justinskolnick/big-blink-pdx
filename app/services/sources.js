@@ -24,8 +24,8 @@ const getAtId = async (id) => {
   return new Source(result);
 };
 
-const getEntitiesRecords = async (id) => {
-  const { clauses, params } = getEntitiesForIdQuery(id);
+const getEntitiesRecords = async (id, limit = null) => {
+  const { clauses, params } = getEntitiesForIdQuery(id, limit);
   const results = await db.getAll(clauses, params);
 
   return results.map(Source.adaptEntity);
@@ -38,10 +38,10 @@ const getEntitiesTotal = async (id) => {
   return result.total;
 };
 
-const getEntitiesForId = async (id) => {
+const getEntitiesForId = async (id, limit = null) => {
   const results = await Promise.all([
     getEntitiesTotal(id),
-    getEntitiesRecords(id),
+    getEntitiesRecords(id, limit),
   ]);
   const [total, records] = results;
 

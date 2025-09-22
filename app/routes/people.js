@@ -339,7 +339,12 @@ router.get('/:id/attendees', async (req, res, next) => {
 });
 
 router.get('/:id/entities', async (req, res, next) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
+  let limit = req.query.get(PARAM_LIMIT);
+
+  if (limit) {
+    limit = Number(limit);
+  }
 
   if (req.get('Content-Type') === headers.json) {
     let person;
@@ -351,8 +356,8 @@ router.get('/:id/entities', async (req, res, next) => {
 
     try {
       person = await people.getAtId(id);
-      asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST });
-      asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL });
+      asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST }, limit);
+      asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL }, limit);
 
       record = person.adapted;
       record.entities = {
