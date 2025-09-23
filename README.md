@@ -78,7 +78,7 @@ yarn build
 
 ## Ongoing Development
 
-Items on the UI wishlist include date range filters, localization, and better visualizations. Improvements to data fetching and transitions between routes are nearish-term goals.
+Items on the UI wishlist include ~date range filters,~ ✔︎ localization, and better visualizations. Improvements to data fetching and transitions between routes are nearish-term goals.
 
 Longish-term back-end development goals include ~a move away from the current model implementation, which makes heavy use of static methods (with some pretty obvious limitations)~ ✔︎; increased test coverage; and a TypeScript rebuild.
 
