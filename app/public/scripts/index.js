@@ -21081,7 +21081,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-PVWAREVJ.mjs
+  // node_modules/react-router/dist/development/chunk-NISHYRIK.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -21300,9 +21300,9 @@
     return new URL(href, base);
   }
   var _map;
-  var unstable_RouterContextProvider = class {
+  var RouterContextProvider = class {
     /**
-     * Create a new `unstable_RouterContextProvider` instance
+     * Create a new `RouterContextProvider` instance
      * @param init An optional initial context map to populate the provider with
      */
     constructor(init) {
@@ -21362,7 +21362,7 @@
     "path",
     "id",
     "index",
-    "unstable_middleware",
+    "middleware",
     "children"
   ]);
   function isUnsupportedLazyRouteFunctionKey(key) {
@@ -21924,7 +21924,7 @@
         }
       } else if (initialMatches.some((m2) => m2.route.lazy)) {
         initialized = false;
-      } else if (!initialMatches.some((m2) => m2.route.loader)) {
+      } else if (!initialMatches.some((m2) => routeHasLoaderOrMiddleware(m2.route))) {
         initialized = true;
       } else {
         let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
@@ -22336,7 +22336,7 @@
         pendingNavigationController.signal,
         opts && opts.submission
       );
-      let scopedContext = init.unstable_getContext ? await init.unstable_getContext() : new unstable_RouterContextProvider();
+      let scopedContext = init.getContext ? await init.getContext() : new RouterContextProvider();
       let pendingActionResult;
       if (opts && opts.pendingError) {
         pendingActionResult = [
@@ -22626,7 +22626,9 @@
         pendingActionResult
       );
       pendingNavigationLoadId = ++incrementingLoadId;
-      if (!init.dataStrategy && !dsMatches.some((m2) => m2.shouldLoad) && !dsMatches.some((m2) => m2.route.unstable_middleware) && revalidatingFetchers.length === 0) {
+      if (!init.dataStrategy && !dsMatches.some((m2) => m2.shouldLoad) && !dsMatches.some(
+        (m2) => m2.route.middleware && m2.route.middleware.length > 0
+      ) && revalidatingFetchers.length === 0) {
         let updatedFetchers2 = markFetchRedirectsDone();
         completeNavigation(
           location2,
@@ -22780,7 +22782,7 @@
         setFetcherError(key, routeId, error, { flushSync });
         return;
       }
-      let scopedContext = init.unstable_getContext ? await init.unstable_getContext() : new unstable_RouterContextProvider();
+      let scopedContext = init.getContext ? await init.getContext() : new RouterContextProvider();
       let preventScrollReset = (opts && opts.preventScrollReset) === true;
       if (submission && isMutationMethod(submission.formMethod)) {
         await handleFetcherAction(
@@ -23307,6 +23309,10 @@
       }
       return state.fetchers.get(key) || IDLE_FETCHER;
     }
+    function resetFetcher(key, opts) {
+      abortFetcher(key, opts?.reason);
+      updateFetcherState(key, getDoneFetcher(null));
+    }
     function deleteFetcher(key) {
       let fetcher = state.fetchers.get(key);
       if (fetchControllers.has(key) && !(fetcher && fetcher.state === "loading" && fetchReloadIds.has(key))) {
@@ -23329,10 +23335,10 @@
       }
       updateState({ fetchers: new Map(state.fetchers) });
     }
-    function abortFetcher(key) {
+    function abortFetcher(key, reason) {
       let controller = fetchControllers.get(key);
       if (controller) {
-        controller.abort();
+        controller.abort(reason);
         fetchControllers.delete(key);
       }
     }
@@ -23596,6 +23602,7 @@
       createHref: (to2) => init.history.createHref(to2),
       encodeLocation: (to2) => init.history.encodeLocation(to2),
       getFetcher,
+      resetFetcher,
       deleteFetcher: queueFetcherForDeletion,
       dispose,
       getBlocker,
@@ -23795,7 +23802,7 @@
         forceShouldLoad = false;
       } else if (route.lazy) {
         forceShouldLoad = true;
-      } else if (route.loader == null) {
+      } else if (!routeHasLoaderOrMiddleware(route)) {
         forceShouldLoad = false;
       } else if (initialHydration) {
         forceShouldLoad = shouldLoadRouteOnHydration(
@@ -23927,11 +23934,14 @@
     });
     return { dsMatches, revalidatingFetchers };
   }
+  function routeHasLoaderOrMiddleware(route) {
+    return route.loader != null || route.middleware != null && route.middleware.length > 0;
+  }
   function shouldLoadRouteOnHydration(route, loaderData, errors2) {
     if (route.lazy) {
       return true;
     }
-    if (!route.loader) {
+    if (!routeHasLoaderOrMiddleware(route)) {
       return false;
     }
     let hasData = loaderData != null && route.id in loaderData;
@@ -24206,7 +24216,7 @@
     return keyedResults;
   }
   async function defaultDataStrategyWithMiddleware(args) {
-    if (!args.matches.some((m2) => m2.route.unstable_middleware)) {
+    if (!args.matches.some((m2) => m2.route.middleware)) {
       return defaultDataStrategy(args);
     }
     return runClientMiddlewarePipeline(args, () => defaultDataStrategy(args));
@@ -24231,9 +24241,15 @@
         let { matches: matches2 } = args;
         let maxBoundaryIdx = Math.min(
           // Throwing route
-          matches2.findIndex((m2) => m2.route.id === routeId) || 0,
+          Math.max(
+            matches2.findIndex((m2) => m2.route.id === routeId),
+            0
+          ),
           // or the shallowest route that needs to load data
-          matches2.findIndex((m2) => m2.unstable_shouldCallHandler()) || 0
+          Math.max(
+            matches2.findIndex((m2) => m2.unstable_shouldCallHandler()),
+            0
+          )
         );
         let boundaryRouteId = findNearestBoundary(
           matches2,
@@ -24248,7 +24264,7 @@
   async function runMiddlewarePipeline(args, handler, processResult2, isResult, errorHandler) {
     let { matches: matches2, request, params, context } = args;
     let tuples = matches2.flatMap(
-      (m2) => m2.route.unstable_middleware ? m2.route.unstable_middleware.map((fn) => [m2.route.id, fn]) : []
+      (m2) => m2.route.middleware ? m2.route.middleware.map((fn) => [m2.route.id, fn]) : []
     );
     let result = await callRouteMiddleware(
       { request, params, context },
@@ -24311,7 +24327,7 @@
   }
   function getDataStrategyMatchLazyPromises(mapRouteProperties2, manifest, request, match2, lazyRoutePropertiesToSkip) {
     let lazyMiddlewarePromise = loadLazyRouteProperty({
-      key: "unstable_middleware",
+      key: "middleware",
       route: match2.route,
       manifest,
       mapRouteProperties: mapRouteProperties2
@@ -24357,7 +24373,10 @@
         return shouldRevalidateLoader(match2, unstable_shouldRevalidateArgs);
       },
       resolve(handlerOverride) {
-        if (isUsingNewApi || shouldLoad || handlerOverride && !isMutationMethod(request.method) && (match2.route.lazy || match2.route.loader)) {
+        let { lazy, loader, middleware: middleware2 } = match2.route;
+        let callHandler = isUsingNewApi || shouldLoad || handlerOverride && !isMutationMethod(request.method) && (lazy || loader);
+        let isMiddlewareOnlyRoute = middleware2 && middleware2.length > 0 && !loader && !lazy;
+        if (callHandler && !isMiddlewareOnlyRoute) {
           return callLoaderOrAction({
             request,
             match: match2,
@@ -24411,9 +24430,9 @@
       context: scopedContext,
       matches: matches2
     };
-    let unstable_runClientMiddleware = isStaticHandler ? () => {
+    let runClientMiddleware = isStaticHandler ? () => {
       throw new Error(
-        "You cannot call `unstable_runClientMiddleware()` from a static handler `dataStrategy`. Middleware is run outside of `dataStrategy` during SSR in order to bubble up the Response.  You can enable middleware via the `respond` API in `query`/`queryRoute`"
+        "You cannot call `runClientMiddleware()` from a static handler `dataStrategy`. Middleware is run outside of `dataStrategy` during SSR in order to bubble up the Response.  You can enable middleware via the `respond` API in `query`/`queryRoute`"
       );
     } : (cb) => {
       let typedDataStrategyArgs = dataStrategyArgs;
@@ -24421,9 +24440,9 @@
         return cb({
           ...typedDataStrategyArgs,
           fetcherKey,
-          unstable_runClientMiddleware: () => {
+          runClientMiddleware: () => {
             throw new Error(
-              "Cannot call `unstable_runClientMiddleware()` from within an `unstable_runClientMiddleware` handler"
+              "Cannot call `runClientMiddleware()` from within an `runClientMiddleware` handler"
             );
           }
         });
@@ -24432,7 +24451,7 @@
     let results = await dataStrategyImpl({
       ...dataStrategyArgs,
       fetcherKey,
-      unstable_runClientMiddleware
+      runClientMiddleware
     });
     try {
       await Promise.all(
@@ -25236,10 +25255,10 @@
   var OutletContext = React22.createContext(null);
   function useOutlet(context) {
     let outlet = React22.useContext(RouteContext).outlet;
-    if (outlet) {
-      return /* @__PURE__ */ React22.createElement(OutletContext.Provider, { value: context }, outlet);
-    }
-    return outlet;
+    return React22.useMemo(
+      () => outlet && /* @__PURE__ */ React22.createElement(OutletContext.Provider, { value: context }, outlet),
+      [outlet, context]
+    );
   }
   function useParams() {
     let { matches: matches2 } = React22.useContext(RouteContext);
@@ -25320,13 +25339,23 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           params: Object.assign({}, parentParams, match2.params),
           pathname: joinPaths([
             parentPathnameBase,
-            // Re-encode pathnames that were decoded inside matchRoutes
-            navigator2.encodeLocation ? navigator2.encodeLocation(match2.pathname).pathname : match2.pathname
+            // Re-encode pathnames that were decoded inside matchRoutes.
+            // Pre-encode `?` and `#` ahead of `encodeLocation` because it uses
+            // `new URL()` internally and we need to prevent it from treating
+            // them as separators
+            navigator2.encodeLocation ? navigator2.encodeLocation(
+              match2.pathname.replace(/\?/g, "%3F").replace(/#/g, "%23")
+            ).pathname : match2.pathname
           ]),
           pathnameBase: match2.pathnameBase === "/" ? parentPathnameBase : joinPaths([
             parentPathnameBase,
             // Re-encode pathnames that were decoded inside matchRoutes
-            navigator2.encodeLocation ? navigator2.encodeLocation(match2.pathnameBase).pathname : match2.pathnameBase
+            // Pre-encode `?` and `#` ahead of `encodeLocation` because it uses
+            // `new URL()` internally and we need to prevent it from treating
+            // them as separators
+            navigator2.encodeLocation ? navigator2.encodeLocation(
+              match2.pathnameBase.replace(/\?/g, "%3F").replace(/#/g, "%23")
+            ).pathname : match2.pathnameBase
           ])
         })
       ),
@@ -26507,14 +26536,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.8.2";
+      "7.9.3";
     }
   } catch (e2) {
   }
   function createBrowserRouter(routes, opts) {
     return createRouter({
       basename: opts?.basename,
-      unstable_getContext: opts?.unstable_getContext,
+      getContext: opts?.getContext,
       future: opts?.future,
       history: createBrowserHistory({ window: opts?.window }),
       hydrationData: opts?.hydrationData || parseHydrationData(),
@@ -39895,12 +39924,12 @@ Hook ${hookName} was either not provided or not a function.`);
   function createElementNS(tag) {
     return DOCUMENT.createElementNS("http://www.w3.org/2000/svg", tag);
   }
-  function createElement12(tag) {
+  function createElement13(tag) {
     return DOCUMENT.createElement(tag);
   }
   function convertSVG(abstractObj) {
     var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    var _params$ceFn = params.ceFn, ceFn = _params$ceFn === void 0 ? abstractObj.tag === "svg" ? createElementNS : createElement12 : _params$ceFn;
+    var _params$ceFn = params.ceFn, ceFn = _params$ceFn === void 0 ? abstractObj.tag === "svg" ? createElementNS : createElement13 : _params$ceFn;
     if (typeof abstractObj === "string") {
       return DOCUMENT.createTextNode(abstractObj);
     }
@@ -41098,12 +41127,12 @@ Hook ${hookName} was either not provided or not a function.`);
     styleCache.set(style, result);
     return result;
   }
-  function convert(createElement13, element, extraProps = {}) {
+  function convert(createElement14, element, extraProps = {}) {
     if (typeof element === "string") {
       return element;
     }
     const children = (element.children || []).map((child) => {
-      return convert(createElement13, child);
+      return convert(createElement14, child);
     });
     const elementAttributes = element.attributes || {};
     const attrs = {};
@@ -41140,7 +41169,7 @@ Hook ${hookName} was either not provided or not a function.`);
       attrs["aria-label"] = ariaLabel;
       attrs["aria-hidden"] = "false";
     }
-    return createElement13(element.tag, { ...remaining, ...attrs }, ...children);
+    return createElement14(element.tag, { ...remaining, ...attrs }, ...children);
   }
   var useAccessibilityId = (id, hasAccessibleProps) => {
     const generatedId = (0, import_react12.useId)();
@@ -46021,7 +46050,7 @@ Hook ${hookName} was either not provided or not a function.`);
       max: keepZero(max, change)
     };
   }
-  function createContext5(parentContext, context) {
+  function createContext6(parentContext, context) {
     return Object.assign(Object.create(parentContext), context);
   }
   function _createResolver(scopes, prefixes = [
@@ -46982,7 +47011,7 @@ Hook ${hookName} was either not provided or not a function.`);
       let style;
       for (i2 = start + 1; i2 <= segment.end; i2++) {
         const pt = points[i2 % count];
-        style = readStyle(segmentOptions.setContext(createContext5(chartContext, {
+        style = readStyle(segmentOptions.setContext(createContext6(chartContext, {
           type: "segment",
           p0: prev2,
           p1: pt,
@@ -47575,7 +47604,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return Object.keys(scales).filter((key) => scales[key].axis === axis).shift();
   }
   function createDatasetContext(parent, index) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       active: false,
       dataset: void 0,
       datasetIndex: index,
@@ -47585,7 +47614,7 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   }
   function createDataContext(parent, index, element) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       active: false,
       dataIndex: index,
       parsed: void 0,
@@ -49921,13 +49950,13 @@ Hook ${hookName} was either not provided or not a function.`);
     return lines * font.lineHeight + padding.height;
   }
   function createScaleContext(parent, scale) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       scale,
       type: "scale"
     });
   }
   function createTickContext(parent, index, tick) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       tick,
       index,
       type: "tick"
@@ -52380,7 +52409,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return meta;
     }
     getContext() {
-      return this.$context || (this.$context = createContext5(null, {
+      return this.$context || (this.$context = createContext6(null, {
         chart: this,
         type: "chart"
       }));
@@ -54127,7 +54156,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return pushOrConcat([], splitNewlines(callback2));
   }
   function createTooltipContext(parent, tooltip, tooltipItems) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       tooltip,
       tooltipItems,
       type: "tooltip"
@@ -55659,7 +55688,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ctx.restore();
   }
   function createPointLabelContext(parent, index, label) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       label,
       index,
       type: "pointLabel"
@@ -58267,10 +58296,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-PVWAREVJ.mjs:
+react-router/dist/development/chunk-NISHYRIK.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.8.2
+   * react-router v7.9.3
    *
    * Copyright (c) Remix Software Inc.
    *
