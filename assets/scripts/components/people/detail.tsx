@@ -32,10 +32,7 @@ const Detail = () => {
         <Chart label={person.name} />
       </ActivityOverview>
 
-      <Entities
-        entities={person.entities}
-        person={person}
-      />
+      <Entities person={person} />
 
       <Attendees
         attendees={person.attendees}

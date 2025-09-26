@@ -18,20 +18,20 @@ import { Role, Sections } from '../types';
 import type {
   AffiliatedEntityRecord,
   AffiliatedEntityValue,
-  Person,
 } from '../types';
 
 interface AffiliatedEntityProps {
-  hasAuxiliaryType: boolean;
-  hasLobbyist: boolean;
+  hasAuxiliaryType?: boolean;
+  hasLobbyist?: boolean;
   item: AffiliatedEntityRecord;
   role?: Role;
 }
 
 interface Props {
   entities: AffiliatedEntityValue;
+  hasAuxiliaryType?: boolean;
+  hasLobbyist?: boolean;
   initialCount: number;
-  lobbyistName?: Person['name'];
   model: Sections;
   role?: Role;
   setLimit: FnSetLimit;
@@ -97,40 +97,36 @@ const AffiliatedEntity = ({
 
 const AffiliatedEntitiesTable = ({
   entities,
+  hasAuxiliaryType,
+  hasLobbyist,
   initialCount,
-  lobbyistName,
   model,
   role,
   setLimit,
   title,
-}: Props) => {
-  const hasAuxiliaryType = entities.role === Role.Lobbyist;
-  const hasLobbyist = Boolean(lobbyistName);
+}: Props) => (
+  <AffiliatedItemTable
+    hasAuxiliaryType={hasAuxiliaryType}
+    initialCount={initialCount}
+    label={model}
+    setLimit={setLimit}
+    title={title}
+    total={entities.total}
+  >
+    {(showAll) => {
+      const items = showAll ? entities.records : entities.records.slice(0, initialCount);
 
-  return (
-    <AffiliatedItemTable
-      hasAuxiliaryType={hasAuxiliaryType}
-      initialCount={initialCount}
-      label={model}
-      setLimit={setLimit}
-      title={title}
-      total={entities.total}
-    >
-      {(showAll) => {
-        const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-
-        return items.map((item, i) => (
-          <AffiliatedEntity
-            hasAuxiliaryType={hasAuxiliaryType}
-            hasLobbyist={hasLobbyist}
-            item={item}
-            key={i}
-            role={role}
-          />
-        ));
-      }}
-    </AffiliatedItemTable>
-  );
-};
+      return items.map((item, i) => (
+        <AffiliatedEntity
+          hasAuxiliaryType={hasAuxiliaryType}
+          hasLobbyist={hasLobbyist}
+          item={item}
+          key={i}
+          role={role}
+        />
+      ));
+    }}
+  </AffiliatedItemTable>
+);
 
 export default AffiliatedEntitiesTable;

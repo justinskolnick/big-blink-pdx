@@ -8,6 +8,12 @@ import StatGroup from './stat-group';
 
 import type { Attendees, PersonEntityRole, SourceEntities } from '../types';
 
+interface RecordsGroupProps {
+  children: ReactNode;
+  item: Attendees | PersonEntityRole | SourceEntities;
+  notFoundLabel: string;
+}
+
 interface Props {
   children?: ReactNode;
   className?: string;
@@ -15,6 +21,22 @@ interface Props {
   icon?: IconName;
   title?: string | ReactNode;
 }
+
+export const RecordsGroup = ({
+  children,
+  item,
+  notFoundLabel,
+}: RecordsGroupProps) => {
+  const hasRecords = item.values.some(value => value.records.length);
+
+  return hasRecords ? (
+    <IncidentActivityGroup group={item}>
+      {children}
+    </IncidentActivityGroup>
+  ) : (
+    <IncidentActivityGroup title={notFoundLabel} />
+  );
+};
 
 const IncidentActivityGroup = ({
   children,

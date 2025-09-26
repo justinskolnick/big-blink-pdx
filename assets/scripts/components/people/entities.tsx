@@ -2,22 +2,21 @@ import React from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
-import IncidentActivityGroup from '../incident-activity-group';
+import { RecordsGroup } from '../incident-activity-group';
 import { iconName } from '../entities/icon';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
-import type { Person, PersonEntities } from '../../types';
+import type { Person } from '../../types';
 import { Role } from '../../types';
 
 interface Props {
-  entities: PersonEntities;
   person: Person;
 }
 
-const Entities = ({ entities, person }: Props) => {
+export const Entities = ({ person }: Props) => {
   const query = api.useLazyGetPersonEntitiesByIdQuery;
 
   const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
@@ -25,8 +24,10 @@ const Entities = ({ entities, person }: Props) => {
     limit: 5,
   });
 
-  const hasEntities = 'entities' in person && Boolean(person.entities);
-  const hasRecords = hasEntities && entities.roles.some(role => role.values.some(v => v.records.length));
+  const hasPerson = Boolean(person);
+  const hasEntities = hasPerson && 'entities' in person && Boolean(person.entities);
+
+  if (!hasEntities) return null;
 
   return (
     <IncidentActivityGroups
@@ -34,27 +35,26 @@ const Entities = ({ entities, person }: Props) => {
       description={`${person.name} is named in lobbying reports related to these entities.`}
       icon={iconName}
     >
-      {hasRecords ? (
-        entities.roles.map(role => (
-          <IncidentActivityGroup key={role.role} group={role}>
-            {role.values.map(group => (
-              <AffiliatedEntitiesTable
-                key={group.role}
-                entities={group}
-                initialCount={initialLimit}
-                model={role.model}
-                lobbyistName={group.role === Role.Lobbyist ? person.name : null}
-                role={role.role}
-                setLimit={setRecordLimit}
-              />
-            ))}
-          </IncidentActivityGroup>
-        ))
-      ) : (
-        <IncidentActivityGroup
-          title='No record of associated entities was found.'
-        />
-      )}
+      {person.entities.roles.map(role => (
+        <RecordsGroup
+          key={role.role}
+          notFoundLabel='No record of associated entities was found.'
+          item={role}
+        >
+          {role.values.map((group, i: number) => (
+            <AffiliatedEntitiesTable
+              key={i}
+              entities={group}
+              hasAuxiliaryType={group.role === Role.Lobbyist}
+              hasLobbyist={group.role === Role.Lobbyist}
+              initialCount={initialLimit}
+              model={role.model}
+              role={role.role}
+              setLimit={setRecordLimit}
+            />
+          ))}
+        </RecordsGroup>
+      ))}
     </IncidentActivityGroups>
   );
 };

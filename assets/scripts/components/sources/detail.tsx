@@ -47,10 +47,7 @@ const Detail = () => {
 
       {isActivity && (
         <>
-          <Entities
-            entities={source.entities}
-            source={source}
-          />
+          <Entities source={source} />
 
           <Attendees attendees={source.attendees} />
 

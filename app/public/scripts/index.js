@@ -44006,6 +44006,14 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/incident-activity-group.tsx
   var import_jsx_runtime52 = __toESM(require_jsx_runtime());
+  var RecordsGroup = ({
+    children,
+    item,
+    notFoundLabel
+  }) => {
+    const hasRecords = item.values.some((value) => value.records.length);
+    return hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(IncidentActivityGroup, { group: item, children }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(IncidentActivityGroup, { title: notFoundLabel });
+  };
   var IncidentActivityGroup = ({
     children,
     className,
@@ -57677,75 +57685,77 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var AffiliatedEntitiesTable = ({
     entities,
+    hasAuxiliaryType,
+    hasLobbyist,
     initialCount,
-    lobbyistName,
     model,
     role,
     setLimit,
     title
-  }) => {
-    const hasAuxiliaryType = entities.role === "lobbyist" /* Lobbyist */;
-    const hasLobbyist = Boolean(lobbyistName);
-    return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
-      affiliated_item_table_default,
-      {
-        hasAuxiliaryType,
-        initialCount,
-        label: model,
-        setLimit,
-        title,
-        total: entities.total,
-        children: (showAll) => {
-          const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-          return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
-            AffiliatedEntity,
-            {
-              hasAuxiliaryType,
-              hasLobbyist,
-              item,
-              role
-            },
-            i2
-          ));
-        }
+  }) => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+    affiliated_item_table_default,
+    {
+      hasAuxiliaryType,
+      initialCount,
+      label: model,
+      setLimit,
+      title,
+      total: entities.total,
+      children: (showAll) => {
+        const items = showAll ? entities.records : entities.records.slice(0, initialCount);
+        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+          AffiliatedEntity,
+          {
+            hasAuxiliaryType,
+            hasLobbyist,
+            item,
+            role
+          },
+          i2
+        ));
       }
-    );
-  };
+    }
+  );
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
   // assets/scripts/components/people/entities.tsx
   var import_jsx_runtime85 = __toESM(require_jsx_runtime());
-  var Entities = ({ entities, person }) => {
+  var Entities = ({ person }) => {
     const query = api_default.useLazyGetPersonEntitiesByIdQuery;
     const { initialLimit, setRecordLimit } = use_limited_query_default(query, {
       id: person.id,
       limit: 5
     });
-    const hasEntities = "entities" in person && Boolean(person.entities);
-    const hasRecords = hasEntities && entities.roles.some((role) => role.values.some((v2) => v2.records.length));
+    const hasPerson = Boolean(person);
+    const hasEntities = hasPerson && "entities" in person && Boolean(person.entities);
+    if (!hasEntities) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
       incident_activity_groups_default,
       {
         title: "Associated Entities",
         description: `${person.name} is named in lobbying reports related to these entities.`,
         icon: iconName,
-        children: hasRecords ? entities.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(incident_activity_group_default, { group: role, children: role.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
-          affiliated_entities_table_default,
+        children: person.entities.roles.map((role) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+          RecordsGroup,
           {
-            entities: group,
-            initialCount: initialLimit,
-            model: role.model,
-            lobbyistName: group.role === "lobbyist" /* Lobbyist */ ? person.name : null,
-            role: role.role,
-            setLimit: setRecordLimit
+            notFoundLabel: "No record of associated entities was found.",
+            item: role,
+            children: role.values.map((group, i2) => /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
+              affiliated_entities_table_default,
+              {
+                entities: group,
+                hasAuxiliaryType: group.role === "lobbyist" /* Lobbyist */,
+                hasLobbyist: group.role === "lobbyist" /* Lobbyist */,
+                initialCount: initialLimit,
+                model: role.model,
+                role: role.role,
+                setLimit: setRecordLimit
+              },
+              i2
+            ))
           },
-          group.role
-        )) }, role.role)) : /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(
-          incident_activity_group_default,
-          {
-            title: "No record of associated entities was found."
-          }
-        )
+          role.role
+        ))
       }
     );
   };
@@ -57776,13 +57786,7 @@ Hook ${hookName} was either not provided or not a function.`);
           children: /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(chart_default3, { label: person.name })
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
-        entities_default3,
-        {
-          entities: person.entities,
-          person
-        }
-      ),
+      /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(entities_default3, { person }),
       /* @__PURE__ */ (0, import_jsx_runtime86.jsx)(
         attendees_default2,
         {
@@ -57969,24 +57973,33 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/entities.tsx
   var import_jsx_runtime91 = __toESM(require_jsx_runtime());
-  var Entities2 = ({ entities, source }) => {
+  var Entities2 = ({ source }) => {
     const query = api_default.useLazyGetSourceEntitiesByIdQuery;
     const { initialLimit, setRecordLimit } = use_limited_query_default(query, {
       id: source.id,
       limit: 5
     });
-    const hasEntities = "entities" in source && Boolean(source.entities);
-    const hasRecords = hasEntities && entities.values.some((v2) => v2.records.length);
-    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_group_default, { group: entities, children: entities.values.map((group, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-      affiliated_entities_table_default,
+    const hasSource = Boolean(source);
+    const hasEntities = hasSource && "entities" in source && Boolean(source.entities);
+    if (!hasEntities) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_groups_default, { title: "Associated Entities", icon: iconName, children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+      RecordsGroup,
       {
-        entities: group,
-        initialCount: initialLimit,
-        model: entities.model,
-        setLimit: setRecordLimit
-      },
-      i2
-    )) }) : null });
+        item: source.entities,
+        notFoundLabel: "No record of associated entities was found.",
+        children: source.entities.values.map((group, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+          affiliated_entities_table_default,
+          {
+            entities: group,
+            hasAuxiliaryType: group.role === "lobbyist" /* Lobbyist */,
+            initialCount: initialLimit,
+            model: source.entities.model,
+            setLimit: setRecordLimit
+          },
+          i2
+        ))
+      }
+    ) });
   };
   var entities_default4 = Entities2;
 
@@ -58046,13 +58059,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       ),
       isActivity && /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(import_jsx_runtime93.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
-          entities_default4,
-          {
-            entities: source.entities,
-            source
-          }
-        ),
+        /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(entities_default4, { source }),
         /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(attendees_default3, { attendees: source.attendees }),
         /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
           detail_incidents_fetcher_default,
