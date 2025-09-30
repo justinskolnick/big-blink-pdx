@@ -2,7 +2,7 @@ import React from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
-import { RecordsGroup } from '../incident-activity-group';
+import AffiliatedRecordsGroup from '../affiliated-records-group';
 import { iconName } from '../entities/icon';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
@@ -31,8 +31,8 @@ const Entities = ({ source }: Props) => {
 
   return (
     <IncidentActivityGroups title='Associated Entities' icon={iconName}>
-      <RecordsGroup
-        item={source.entities}
+      <AffiliatedRecordsGroup
+        group={source.entities}
         notFoundLabel='No record of associated entities was found.'
       >
         {source.entities.values.map((group, i: number) =>(
@@ -45,7 +45,7 @@ const Entities = ({ source }: Props) => {
             setLimit={setRecordLimit}
           />
         ))}
-      </RecordsGroup>
+      </AffiliatedRecordsGroup>
     </IncidentActivityGroups>
   );
 };

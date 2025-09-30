@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-import { cx } from '@emotion/css';
 
 import Icon from './icon';
 import ItemSubsection from './item-subsection';
@@ -9,47 +8,29 @@ import StatGroup from './stat-group';
 import type { Attendees, PersonEntityRole, SourceEntities } from '../types';
 
 interface RecordsGroupProps {
-  children: ReactNode;
-  item: Attendees | PersonEntityRole | SourceEntities;
-  notFoundLabel: string;
-}
-
-interface Props {
   children?: ReactNode;
-  className?: string;
   group?: Attendees | PersonEntityRole | SourceEntities;
   icon?: IconName;
   title?: string | ReactNode;
 }
 
-export const RecordsGroup = ({
-  children,
-  item,
-  notFoundLabel,
-}: RecordsGroupProps) => {
-  const hasRecords = item.values.some(value => value.records.length);
+interface Props {
+  children: ReactNode;
+  group: Attendees | PersonEntityRole | SourceEntities;
+  notFoundLabel: string;
+}
 
-  return hasRecords ? (
-    <IncidentActivityGroup group={item}>
-      {children}
-    </IncidentActivityGroup>
-  ) : (
-    <IncidentActivityGroup title={notFoundLabel} />
-  );
-};
-
-const IncidentActivityGroup = ({
+const RecordsGroup = ({
   children,
-  className,
   group,
   icon,
   title,
-}: Props) => {
+}: RecordsGroupProps) => {
   const hasIcon = Boolean(icon);
 
   return (
     <StatGroup
-      className={cx('incident-activity-stat-group', className)}
+      className='incident-activity-stat-group'
       subtitle={
         <>
           {hasIcon && <Icon name={icon} />}
@@ -62,4 +43,20 @@ const IncidentActivityGroup = ({
   );
 };
 
-export default IncidentActivityGroup;
+const AffiliatedRecordsGroup = ({
+  children,
+  group,
+  notFoundLabel,
+}: Props) => {
+  const hasRecords = group.values.some(value => value.records.length);
+
+  return hasRecords ? (
+    <RecordsGroup group={group}>
+      {children}
+    </RecordsGroup>
+  ) : (
+    <RecordsGroup title={notFoundLabel} />
+  );
+};
+
+export default AffiliatedRecordsGroup;

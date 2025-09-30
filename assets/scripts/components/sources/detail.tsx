@@ -48,8 +48,7 @@ const Detail = () => {
       {isActivity && (
         <>
           <Entities source={source} />
-
-          <Attendees attendees={source.attendees} />
+          <Attendees source={source} />
 
           <IncidentsTrigger>
             {trigger => (

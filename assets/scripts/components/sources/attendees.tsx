@@ -3,20 +3,20 @@ import { useParams } from 'react-router';
 
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import IncidentActivityGroups from '../incident-activity-groups';
-import IncidentActivityGroup from '../incident-activity-group';
+import AffiliatedRecordsGroup from '../affiliated-records-group';
 import { iconName } from '../people/icon';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
-import type { Attendees as AttendeesType } from '../../types';
+import type { Source } from '../../types';
 
 interface Props {
-  attendees: AttendeesType;
+  source: Source;
 }
 
-const Attendees = ({ attendees }: Props) => {
+const Attendees = ({ source }: Props) => {
   const params = useParams();
   const id = Number(params.id);
 
@@ -27,23 +27,27 @@ const Attendees = ({ attendees }: Props) => {
     limit: 5,
   });
 
-  const hasAttendees = Boolean(attendees);
+  const hasSource = Boolean(source);
+  const hasAttendees = hasSource && 'attendees' in source && Boolean(source.attendees);
+
+  if (!hasAttendees) return null;
 
   return (
     <IncidentActivityGroups title='Associated Names' icon={iconName}>
-      {hasAttendees ? (
-        <IncidentActivityGroup group={attendees}>
-          {attendees.values.map(group => (
-            <AffiliatedPeopleTable
-              key={group.role}
-              attendees={group}
-              initialCount={initialLimit}
-              model={attendees.model}
-              setLimit={setRecordLimit}
-            />
-          ))}
-        </IncidentActivityGroup>
-      ) : null}
+      <AffiliatedRecordsGroup
+        group={source.attendees}
+        notFoundLabel='No record of associated names was found.'
+      >
+        {source.attendees.values.map(group => (
+          <AffiliatedPeopleTable
+            key={group.role}
+            attendees={group}
+            initialCount={initialLimit}
+            model={source.attendees.model}
+            setLimit={setRecordLimit}
+          />
+        ))}
+      </AffiliatedRecordsGroup>
     </IncidentActivityGroups>
   );
 };

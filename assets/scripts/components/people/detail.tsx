@@ -33,11 +33,7 @@ const Detail = () => {
       </ActivityOverview>
 
       <Entities person={person} />
-
-      <Attendees
-        attendees={person.attendees}
-        person={person}
-      />
+      <Attendees person={person} />
 
       <IncidentsTrigger>
         {trigger => (

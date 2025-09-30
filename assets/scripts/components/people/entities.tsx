@@ -2,7 +2,7 @@ import React from 'react';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import IncidentActivityGroups from '../incident-activity-groups';
-import { RecordsGroup } from '../incident-activity-group';
+import AffiliatedRecordsGroup from '../affiliated-records-group';
 import { iconName } from '../entities/icon';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
@@ -16,7 +16,7 @@ interface Props {
   person: Person;
 }
 
-export const Entities = ({ person }: Props) => {
+const Entities = ({ person }: Props) => {
   const query = api.useLazyGetPersonEntitiesByIdQuery;
 
   const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
@@ -36,10 +36,10 @@ export const Entities = ({ person }: Props) => {
       icon={iconName}
     >
       {person.entities.roles.map(role => (
-        <RecordsGroup
+        <AffiliatedRecordsGroup
           key={role.role}
           notFoundLabel='No record of associated entities was found.'
-          item={role}
+          group={role}
         >
           {role.values.map((group, i: number) => (
             <AffiliatedEntitiesTable
@@ -53,7 +53,7 @@ export const Entities = ({ person }: Props) => {
               setLimit={setRecordLimit}
             />
           ))}
-        </RecordsGroup>
+        </AffiliatedRecordsGroup>
       ))}
     </IncidentActivityGroups>
   );

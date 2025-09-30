@@ -31,10 +31,7 @@ const Detail = () => {
         <Chart label={entity.name} />
       </ActivityOverview>
 
-      <Attendees
-        attendees={entity.attendees}
-        entity={entity}
-      />
+      <Attendees entity={entity} />
 
       <IncidentsTrigger>
         {trigger => (
