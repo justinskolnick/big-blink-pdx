@@ -1,6 +1,7 @@
 const {
   getDetailDescription,
   getIndexDescription,
+  getMeta,
   getPageTitle,
 } = require('../meta');
 
@@ -27,6 +28,49 @@ describe('getIndexDescription()', () => {
 
   test('without a type', () => {
     expect(getIndexDescription()).toBe('Lobbying activity according to data published by the City of Portland, Oregon');
+  });
+});
+
+describe('getMeta()', () => {
+  const res = {
+    flash: {
+      errors: [],
+      warnings: [
+        {
+          customMessage: 'Uh oh',
+          status: 400,
+        },
+      ],
+    },
+  };
+
+  describe('with a section', () => {
+    const section = {
+      slug: 'people',
+      title: 'People',
+      id: 2062,
+      subtitle: 'George Jetson',
+    };
+
+    test('returns the expected object', () => {
+      expect(getMeta(res, { section })).toEqual({
+        errors: res.flash.errors,
+        pageTitle: 'George Jetson · People',
+        section,
+        warnings: res.flash.warnings,
+      });
+    });
+
+    describe('and a page title', () => {
+      test('returns the expected object', () => {
+        expect(getMeta(res, { section, pageTitle: 'Okay whatever' })).toEqual({
+          errors: res.flash.errors,
+          pageTitle: 'Okay whatever',
+          section,
+          warnings: res.flash.warnings,
+        });
+      });
+    });
   });
 });
 

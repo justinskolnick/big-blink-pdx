@@ -19,8 +19,25 @@ const getPageTitle = (section) => {
   return [...new Set([subtitle, title])].filter(Boolean).join(' · ');
 };
 
+const getMeta = (req, options = {}) => {
+  const meta = { ...options };
+
+  if (!('pageTitle' in options)) {
+    if ('section' in options) {
+      meta.pageTitle = getPageTitle(options.section);
+    }
+  }
+
+  return {
+    errors: req.flash.errors,
+    warnings: req.flash.warnings,
+    ...meta,
+  };
+};
+
 module.exports = {
   getDetailDescription,
   getIndexDescription,
+  getMeta,
   getPageTitle,
 };

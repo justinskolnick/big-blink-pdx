@@ -128,12 +128,11 @@ router.get('/', async (req, res, next) => {
           types,
         }
       };
-      meta = {
+      meta = metaHelper.getMeta(req, {
         description,
-        pageTitle: metaHelper.getPageTitle(section),
         section,
         view,
-      };
+      });
 
       res.status(200).json({ title, data, meta });
     } catch (err) {
@@ -141,10 +140,10 @@ router.get('/', async (req, res, next) => {
       next(createError(err));
     }
   } else {
-    meta = {
+    meta = metaHelper.getMeta(req, {
       description,
-      pageTitle: metaHelper.getPageTitle(section),
-    };
+      section,
+    });
 
     res.render(template, { title, meta, robots: headers.robots });
   }
@@ -194,32 +193,26 @@ router.get('/:id', async (req, res, next) => {
             record: source.adapted,
           },
         };
-        meta = {
+        meta = metaHelper.getMeta(req, {
           description,
-          errors: req.flash.errors,
           id,
           page,
-          pageTitle: metaHelper.getPageTitle(section),
           perPage,
           section,
           view,
-          warnings: req.flash.warnings,
-        };
+        });
       } else {
         data = {
           source: {
             record: source.adapted,
           },
         };
-        meta = {
+        meta = metaHelper.getMeta(req, {
           description,
-          errors: req.flash.errors,
           id,
-          pageTitle: metaHelper.getPageTitle(section),
           section,
           view,
-          warnings: req.flash.warnings,
-        };
+        });
       }
 
       res.status(200).json({ title, data, meta });
@@ -228,7 +221,7 @@ router.get('/:id', async (req, res, next) => {
       return next(createError(err));
     }
   } else {
-    meta = { description };
+    meta = metaHelper.getMeta(req, { description });
 
     res.render(template, { title, meta, robots: headers.robots });
   }
@@ -279,7 +272,7 @@ router.get('/:id/attendees', async (req, res, next) => {
           record,
         },
       };
-      meta = { id, view };
+      meta = metaHelper.getMeta(req, { id, view });
 
       res.status(200).json({ title, data, meta });
     } catch (err) {
@@ -327,7 +320,7 @@ router.get('/:id/entities', async (req, res, next) => {
           record,
         },
       };
-      meta = { id, view };
+      meta = metaHelper.getMeta(req, { id, view });
 
       res.status(200).json({ title, data, meta });
     } catch (err) {
@@ -422,13 +415,11 @@ router.get('/:id/incidents', async (req, res, next) => {
             },
           },
         };
-        meta = {
-          errors: req.flash.errors,
+        meta = metaHelper.getMeta(req, {
           id,
           page,
           perPage,
-          warnings: req.flash.warnings,
-        };
+        });
       } else {
         data = {};
         meta = {};

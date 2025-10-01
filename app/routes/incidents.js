@@ -96,14 +96,13 @@ router.get('/', async (req, res, next) => {
           total: incidentCountResult,
         }
       };
-      meta = {
+      meta = metaHelper.getMeta(req, {
         description,
         page,
-        pageTitle: metaHelper.getPageTitle(section),
         perPage,
         section,
         view,
-      };
+      });
 
       res.status(200).json({ title, data, meta });
     } catch (err) {
@@ -111,7 +110,7 @@ router.get('/', async (req, res, next) => {
       next(createError(err));
     }
   } else {
-    meta = { description };
+    meta = metaHelper.getMeta(req, { description });
 
     res.render(template, { title, meta, robots: headers.robots });
   }
@@ -170,13 +169,12 @@ router.get('/:id', async (req, res, next) => {
           record,
         },
       };
-      meta = {
+      meta = metaHelper.getMeta(req, {
         description,
         id,
-        pageTitle: metaHelper.getPageTitle(section),
         section,
         view,
-      };
+      });
 
       res.status(200).json({ title, data, meta });
     } catch (err) {
@@ -184,7 +182,7 @@ router.get('/:id', async (req, res, next) => {
       return next(createError(err));
     }
   } else {
-    meta = { description };
+    meta = metaHelper.getMeta(req, { description });
 
     res.render(template, { title, meta, robots: headers.robots });
   }

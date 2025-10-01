@@ -31,11 +31,11 @@ const section = {};
 
 router.get('/', async (req, res, next) => {
   const description = metaHelper.getIndexDescription();
-  const meta = {
+  const meta = metaHelper.getMeta(req, {
     description,
     pageTitle: title,
     section,
-  };
+  });
 
   if (req.get('Content-Type') === headers.json) {
     let data;
@@ -210,10 +210,7 @@ router.get('/leaderboard', async (req, res, next) => {
           records: [].concat(lobbyistsResult, officialsResult),
         },
       };
-      meta = {
-        errors: req.flash.errors,
-        warnings: req.flash.warnings,
-      };
+      meta = metaHelper.getMeta(req);
 
       res.status(200).json({ data, meta });
     } catch (err) {
