@@ -65,6 +65,7 @@ const adaptItemPerson = item => {
 
 router.get('/', async (req, res, next) => {
   const description = metaHelper.getIndexDescription();
+
   let activitySourcesResult;
   let registrationSourcesResult;
   let sourceTotal;
@@ -151,7 +152,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
-  const page = Number(req.query.get(PARAM_PAGE) || 1);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
 
   const perPage = Incident.perPage;
 
@@ -230,11 +231,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/attendees', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const id = Number(req.params.id);
-    let limit = req.query.get(PARAM_LIMIT);
-
-    if (limit) {
-      limit = Number(limit);
-    }
+    const limit = req.searchParams.get(PARAM_LIMIT);
 
     let source;
     let record;
@@ -287,11 +284,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 router.get('/:id/entities', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const id = Number(req.params.id);
-    let limit = req.query.get(PARAM_LIMIT);
-
-    if (limit) {
-      limit = Number(limit);
-    }
+    const limit = req.searchParams.get(PARAM_LIMIT);
 
     let source;
     let record;
@@ -334,15 +327,15 @@ router.get('/:id/entities', async (req, res, next) => {
 
 router.get('/:id/incidents', async (req, res, next) => {
   const id = Number(req.params.id);
-  const page = Number(req.query.get(PARAM_PAGE) || 1);
-  const dateOn = req.query.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
-  const people = req.query.get(PARAM_PEOPLE);
-  const role = req.query.get(PARAM_ROLE);
-  const sort = req.query.get(PARAM_SORT);
-  const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
-  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
+  const dateOn = req.searchParams.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.searchParams.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.searchParams.get(PARAM_DATE_RANGE_TO);
+  const people = req.searchParams.get(PARAM_PEOPLE);
+  const role = req.searchParams.get(PARAM_ROLE);
+  const sort = req.searchParams.get(PARAM_SORT);
+  const withEntityId = req.searchParams.get(PARAM_WITH_ENTITY_ID);
+  const withPersonId = req.searchParams.get(PARAM_WITH_PERSON_ID);
 
   const perPage = Incident.perPage;
   const links = linkHelper.links;

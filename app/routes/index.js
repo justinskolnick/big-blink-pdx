@@ -94,7 +94,7 @@ router.get('/overview', async (req, res, next) => {
 });
 
 router.get('/leaderboard', async (req, res, next) => {
-  const quarter = req.query.get(PARAM_QUARTER_ALT);
+  const quarter = req.searchParams.get(PARAM_QUARTER_ALT);
 
   if (req.get('Content-Type') === headers.json) {
     let incidentCountResult;

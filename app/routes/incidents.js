@@ -38,11 +38,11 @@ const view = {
 };
 
 router.get('/', async (req, res, next) => {
-  const dateOn = req.query.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
-  const page = req.query.get(PARAM_PAGE) || 1;
-  const sort = req.query.get(PARAM_SORT);
+  const dateOn = req.searchParams.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.searchParams.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.searchParams.get(PARAM_DATE_RANGE_TO);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
+  const sort = req.searchParams.get(PARAM_SORT);
 
   const perPage = Incident.perPage;
   const links = linkHelper.links;
@@ -117,7 +117,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const description = metaHelper.getDetailDescription();
 
   let incidentResult;

@@ -70,9 +70,9 @@ const adaptItemPerson = item => {
 };
 
 router.get('/', async (req, res, next) => {
-  const page = req.query.get(PARAM_PAGE) || 1;
-  const sort = req.query.get(PARAM_SORT);
-  const sortBy = req.query.get(PARAM_SORT_BY);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
+  const sort = req.searchParams.get(PARAM_SORT);
+  const sortBy = req.searchParams.get(PARAM_SORT_BY);
 
   const params = {};
   const perPage = Person.perPage;
@@ -152,7 +152,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
-  const page = Number(req.query.get(PARAM_PAGE) || 1);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
 
   const perPage = Incident.perPage;
 
@@ -247,11 +247,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/:id/attendees', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     const id = Number(req.params.id);
-    let limit = req.query.get(PARAM_LIMIT);
-
-    if (limit) {
-      limit = Number(limit);
-    }
+    const limit = req.searchParams.get(PARAM_LIMIT);
 
     let person;
     let record;
@@ -336,11 +332,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
 router.get('/:id/entities', async (req, res, next) => {
   const id = Number(req.params.id);
-  let limit = req.query.get(PARAM_LIMIT);
-
-  if (limit) {
-    limit = Number(limit);
-  }
+  const limit = req.searchParams.get(PARAM_LIMIT);
 
   if (req.get('Content-Type') === headers.json) {
     let person;
@@ -409,16 +401,16 @@ router.get('/:id/entities', async (req, res, next) => {
 
 router.get('/:id/incidents', async (req, res, next) => {
   const id = Number(req.params.id);
-  const page = Number(req.query.get(PARAM_PAGE) || 1);
-  const dateOn = req.query.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.query.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.query.get(PARAM_DATE_RANGE_TO);
-  const people = req.query.get(PARAM_PEOPLE);
-  const quarter = req.query.get(PARAM_QUARTER);
-  const role = req.query.get(PARAM_ROLE);
-  const sort = req.query.get(PARAM_SORT);
-  const withEntityId = req.query.get(PARAM_WITH_ENTITY_ID);
-  const withPersonId = req.query.get(PARAM_WITH_PERSON_ID);
+  const page = req.searchParams.get(PARAM_PAGE) || 1;
+  const dateOn = req.searchParams.get(PARAM_DATE_ON);
+  const dateRangeFrom = req.searchParams.get(PARAM_DATE_RANGE_FROM);
+  const dateRangeTo = req.searchParams.get(PARAM_DATE_RANGE_TO);
+  const people = req.searchParams.get(PARAM_PEOPLE);
+  const quarter = req.searchParams.get(PARAM_QUARTER);
+  const role = req.searchParams.get(PARAM_ROLE);
+  const sort = req.searchParams.get(PARAM_SORT);
+  const withEntityId = req.searchParams.get(PARAM_WITH_ENTITY_ID);
+  const withPersonId = req.searchParams.get(PARAM_WITH_PERSON_ID);
 
   const perPage = Incident.perPage;
   const links = linkHelper.links;
@@ -543,7 +535,7 @@ router.get('/:id/official-positions', async (req, res, next) => {
 });
 
 router.get('/:id/stats', async (req, res, next) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
   if (req.get('Content-Type') === headers.json) {
     let statsResult;
@@ -556,7 +548,7 @@ router.get('/:id/stats', async (req, res, next) => {
       data = {
         stats: {
           person: {
-            id: Number(id),
+            id,
             stats: statsResult,
           },
         },

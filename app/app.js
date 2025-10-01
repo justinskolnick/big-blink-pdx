@@ -11,7 +11,7 @@ const logger = require('morgan');
 const headers = require('./lib/headers');
 
 const setFlashMiddleware = require('./middleware/set-flash');
-const validateParamsMiddleware = require('./middleware/validate-params');
+const handleQueryParamsMiddleware = require('./middleware/handle-query-params');
 
 const indexRouter = require('./routes/index');
 const entitiesRouter = require('./routes/entities');
@@ -50,7 +50,7 @@ app.use('/', (req, res, next) => {
 });
 
 app.use('/', setFlashMiddleware);
-app.use('/', validateParamsMiddleware);
+app.use('/', handleQueryParamsMiddleware);
 
 app.use('/', indexRouter);
 app.use('/entities', entitiesRouter);

@@ -149,16 +149,11 @@ const isValid = (searchParams, param) => {
 };
 
 const getParamValue = (searchParams, param) => {
-  let value;
+  const definition = getDefinition(param);
+  let value = searchParams.get(param);
 
-  if (isValid(searchParams, param)) {
-    const definition = getDefinition(param);
-
-    value = searchParams.get(param);
-
-    if (definition.adapt in adapters) {
-      value = adapters[definition.adapt](value);
-    }
+  if (definition.adapt in adapters) {
+    value = adapters[definition.adapt](value);
   }
 
   return value;
@@ -200,11 +195,13 @@ const getParams = searchParams => {
 
   sets.forEach(param => {
     if (Array.isArray(param)) {
-      values = {
-        ...values,
-        ...getParamGroup(searchParams, param),
-      };
-    } else {
+      if (param.every(p => isValid(searchParams, p))) {
+        values = {
+          ...values,
+          ...getParamGroup(searchParams, param),
+        };
+      }
+    } else if (isValid(searchParams, param)) {
       values[param] = getParamValue(searchParams, param);
     }
   });
@@ -266,6 +263,7 @@ const getParamsFromFilters = (searchParams, filters) => {
 module.exports = {
   getParams,
   getParamsFromFilters,
+  getParamValue,
   getPeople,
   getQuarterAndYear,
   getQuarterSlug,
