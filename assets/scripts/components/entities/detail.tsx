@@ -6,10 +6,24 @@ import { useGetEntityById } from '../../reducers/entities';
 import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
+import IncidentActivityGroups from '../incident-activity-groups';
 import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
+
+import { iconName as peopleIconName } from '../people/icon';
+
+const getLabels = (entity) => {
+  const identity = entity?.name ?? 'this entity';
+
+  return {
+    attendees: {
+      description: `These people appear in lobbying reports related to ${identity}${identity.endsWith('.') ? '' : '.'}`,
+      title: 'Associated Names',
+    },
+  };
+};
 
 const Detail = () => {
   const incidentsRef = useRef<HTMLDivElement>(null);
@@ -18,6 +32,8 @@ const Detail = () => {
   const numericId = Number(id);
 
   const entity = useGetEntityById(numericId);
+  const labels = getLabels(entity);
+
   const hasEntity = Boolean(entity);
 
   if (!hasEntity) return null;
@@ -31,7 +47,13 @@ const Detail = () => {
         <Chart label={entity.name} />
       </ActivityOverview>
 
-      <Attendees entity={entity} />
+      <IncidentActivityGroups
+        title={labels.attendees.title}
+        description={labels.attendees.description}
+        icon={peopleIconName}
+      >
+        <Attendees entity={entity} />
+      </IncidentActivityGroups>
 
       <IncidentsTrigger>
         {trigger => (

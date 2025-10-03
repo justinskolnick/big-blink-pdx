@@ -5,6 +5,7 @@ import ActivityOverview from '../detail-activity-overview';
 import Attendees from './attendees';
 import Chart from './chart';
 import Entities from './entities';
+import IncidentActivityGroups from '../incident-activity-groups';
 import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
@@ -12,7 +13,19 @@ import ItemDetail from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
 
+import { iconName as entitiesIconName } from '../entities/icon';
+import { iconName as peopleIconName } from '../people/icon';
+
 import { useGetSourceById } from '../../reducers/sources';
+
+const getLabels = () => ({
+  attendees: {
+    title: 'Associated Names',
+  },
+  entities: {
+    title: 'Associated Entities',
+  },
+});
 
 const Detail = () => {
   const incidentsRef = useRef<HTMLDivElement>(null);
@@ -21,6 +34,8 @@ const Detail = () => {
   const numericId = Number(id);
 
   const source = useGetSourceById(numericId);
+  const labels = getLabels();
+
   const hasSource = Boolean(source);
 
   const label = source ? `${source.year} Q${source.quarter}` : null;
@@ -47,8 +62,14 @@ const Detail = () => {
 
       {isActivity && (
         <>
-          <Entities source={source} />
-          <Attendees source={source} />
+
+          <IncidentActivityGroups title={labels.attendees.title} icon={entitiesIconName}>
+            <Entities source={source} />
+          </IncidentActivityGroups>
+
+          <IncidentActivityGroups title={labels.entities.title} icon={peopleIconName}>
+            <Attendees source={source} />
+          </IncidentActivityGroups>
 
           <IncidentsTrigger>
             {trigger => (
