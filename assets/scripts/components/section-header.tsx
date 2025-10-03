@@ -77,14 +77,13 @@ const SectionItemLink = ({ children, section }: ItemLinkProps) => {
 const SectionDescription = ({ section }: DescriptionProps) => {
   const selector = getItemSelector(section);
   const item = selector(section.id);
+  const details = item.details;
 
-  const hasDetails = Object.keys(item.details || {}).length > 0;
-
-  if (!hasDetails) return null;
+  const hasDetails = Object.keys(details || {}).length > 0;
 
   return (
     <h4>
-      {Object.values(item.details).map((detail, i) => (
+      {hasDetails && Object.values(details).map((detail, i) => (
         <span key={i} className='header-section-detail'>{detail}</span>
       ))}
     </h4>

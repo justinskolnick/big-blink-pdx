@@ -981,17 +981,26 @@ body.has-alert .alert-root {
   color: var(--color-header-accent);
 }
 .section .header.has-subheader h3 {
+  position: relative;
   font-size: 32px;
   line-height: 36px;
+  z-index: 1;
 }
 .section .header.has-subheader h3 a {
   color: black;
   color: var(--color-black);
 }
 .section .header.has-subheader h4 {
+  position: relative;
+  min-height: 18px;
   font-weight: 200;
   font-size: 14px;
   line-height: 18px;
+  transform: translateY(0);
+  transition: transform 250ms ease-in-out;
+}
+.section .header.has-subheader h4:empty {
+  transform: translateY(-18px);
 }
 .section .header.has-subheader h3 + h4 {
   margin-top: calc(18px / 6);

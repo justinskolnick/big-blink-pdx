@@ -42940,9 +42940,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var SectionDescription = ({ section }) => {
     const selector = getItemSelector(section);
     const item = selector(section.id);
-    const hasDetails = Object.keys(item.details || {}).length > 0;
-    if (!hasDetails) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("h4", { children: Object.values(item.details).map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { className: "header-section-detail", children: detail }, i2)) });
+    const details = item.details;
+    const hasDetails = Object.keys(details || {}).length > 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("h4", { children: hasDetails && Object.values(details).map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", { className: "header-section-detail", children: detail }, i2)) });
   };
   var SectionHeader = ({
     children,
