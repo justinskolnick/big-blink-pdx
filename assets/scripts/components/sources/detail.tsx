@@ -63,11 +63,11 @@ const Detail = () => {
       {isActivity && (
         <>
 
-          <IncidentActivityGroups title={labels.attendees.title} icon={entitiesIconName}>
+          <IncidentActivityGroups title={labels.entities.title} icon={entitiesIconName}>
             <Entities source={source} />
           </IncidentActivityGroups>
 
-          <IncidentActivityGroups title={labels.entities.title} icon={peopleIconName}>
+          <IncidentActivityGroups title={labels.attendees.title} icon={peopleIconName}>
             <Attendees source={source} />
           </IncidentActivityGroups>
 

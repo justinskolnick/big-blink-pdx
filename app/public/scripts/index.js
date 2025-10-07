@@ -60371,8 +60371,8 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       ),
       isActivity && /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)(import_jsx_runtime94.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(incident_activity_groups_default, { title: labels.attendees.title, icon: iconName, children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(entities_default4, { source }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(incident_activity_groups_default, { title: labels.entities.title, icon: iconName3, children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(attendees_default3, { source }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(incident_activity_groups_default, { title: labels.entities.title, icon: iconName, children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(entities_default4, { source }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(incident_activity_groups_default, { title: labels.attendees.title, icon: iconName3, children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(attendees_default3, { source }) }),
         /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
           detail_incidents_fetcher_default,
           {
