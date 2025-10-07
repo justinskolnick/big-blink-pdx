@@ -14,7 +14,9 @@ import ItemDetail from '../item-detail';
 
 import { iconName as peopleIconName } from '../people/icon';
 
-const getLabels = (entity) => {
+import type { Entity } from '../../types';
+
+const getLabels = (entity: Entity) => {
   const identity = entity?.name ?? 'this entity';
 
   return {
