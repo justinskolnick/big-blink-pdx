@@ -150,19 +150,30 @@ describe('setName()', () => {
 });
 
 describe('positions', () => {
-  const councilor = new OfficialPosition(resultCouncilor);
-  const councilorCos = new OfficialPosition(resultCouncilorCos);
-  const councilorCosWithdrawn = new OfficialPosition(resultCouncilorCosWithdrawn);
-  const dca = new OfficialPosition(resultDca);
-  const mayor = new OfficialPosition(resultMayor);
-  const mayorWithdrawn = new OfficialPosition(resultMayorWithdrawn);
-  const mayorCos = new OfficialPosition(resultMayorCos);
-  const mayorCosWithdrawn = new OfficialPosition(resultMayorCosWithdrawn);
+  let councilor;
+  let councilorCos;
+  let councilorCosWithdrawn;
+  let dca;
+  let mayor;
+  let mayorWithdrawn;
+  let mayorCos;
+  let mayorCosWithdrawn;
 
-  councilorCos.setSupervisor(councilor.asSupervisor);
-  councilorCosWithdrawn.setSupervisor(councilor.asSupervisor);
-  mayorCos.setSupervisor(mayor.asSupervisor);
-  mayorCosWithdrawn.setSupervisor(mayor.asSupervisor);
+  beforeAll(() => {
+    councilor = new OfficialPosition(resultCouncilor);
+    councilorCos = new OfficialPosition(resultCouncilorCos);
+    councilorCosWithdrawn = new OfficialPosition(resultCouncilorCosWithdrawn);
+    dca = new OfficialPosition(resultDca);
+    mayor = new OfficialPosition(resultMayor);
+    mayorWithdrawn = new OfficialPosition(resultMayorWithdrawn);
+    mayorCos = new OfficialPosition(resultMayorCos);
+    mayorCosWithdrawn = new OfficialPosition(resultMayorCosWithdrawn);
+
+    councilorCos.setSupervisor(councilor.asSupervisor);
+    councilorCosWithdrawn.setSupervisor(councilor.asSupervisor);
+    mayorCos.setSupervisor(mayor.asSupervisor);
+    mayorCosWithdrawn.setSupervisor(mayor.asSupervisor);
+  });
 
   describe('hasDistrict()', () => {
     test('returns the expected value', () => {

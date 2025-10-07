@@ -21,33 +21,40 @@ describe('getLabel()', () => {
   });
 
   describe('with a missing string key', () => {
-    test('logs to the console', () => {
-      const restoreConsole = mockConsole();
-      const labels = new Labels();
+    let restoreConsole;
+    let labels;
 
-      labels.getLabel('nully_nimwit');
+    beforeAll(() => {
+      restoreConsole = mockConsole();
+    });
 
-      /* eslint-disable no-console */
-      expect(console.warn).toHaveBeenCalledTimes(1);
-      expect(console.warn).toHaveBeenCalledWith('label key not found for "nully_nimwit"');
-      /* eslint-enable no-console */
-
+    afterAll(() => {
       restoreConsole();
+    });
+
+    beforeEach(() => {
+      labels = new Labels();
+    });
+
+    describe('and no prefix', () => {
+      test('logs to the console', () => {
+        labels.getLabel('nully_nimwit');
+
+        /* eslint-disable no-console */
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(console.warn).toHaveBeenCalledWith('label key not found for "nully_nimwit"');
+        /* eslint-enable no-console */
+      });
     });
 
     describe('and a prefix', () => {
       test('logs to the console', () => {
-        const restoreConsole = mockConsole();
-        const labels = new Labels();
-
         labels.getLabel('nully_nimwit', 'nope');
 
         /* eslint-disable no-console */
         expect(console.warn).toHaveBeenCalledTimes(1);
         expect(console.warn).toHaveBeenCalledWith('label key not found for "nully_nimwit" using prefix "nope"');
         /* eslint-enable no-console */
-
-        restoreConsole();
       });
     });
   });
