@@ -4,12 +4,11 @@ import { useGetIncidentById } from '../reducers/incidents';
 
 import api from '../services/api';
 
-import Icon from './incidents/icon';
+import { iconName } from './incidents/icon';
+import { LinkIcon } from './icon';
 import IncidentNotesBox from './incident-notes-box';
 import IncidentTable from './incident-table';
 import ItemSubhead from './item-subhead';
-import ItemTextWithIcon from './item-text-with-icon';
-import { BetterLink as Link } from './links';
 import MetaSection from './meta-section';
 import Modal from './modal';
 
@@ -42,14 +41,25 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
     <Modal className='incident-modal' deactivate={deactivate} isActive={isActive}>
       <section className='modal-incident'>
         <header className='incident-header'>
-          <ItemSubhead title={(
-            <>
-              <Icon />
-              <span className='item-text'>
-                Lobbying Incident
-              </span>
-            </>
-          )} />
+          <ItemSubhead
+            title={(
+              <>
+                <LinkIcon
+                  name={iconName}
+                  to={incident.links.self}
+                />
+                <span className='item-text'>
+                  Lobbying Incident
+                </span>
+              </>
+            )}
+          >
+            <LinkIcon
+              name='link'
+              title='View the full record'
+              to={incident.links.self}
+            />
+          </ItemSubhead>
         </header>
 
         <main className='incident-main'>
@@ -64,14 +74,6 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
             </MetaSection>
           )}
         </main>
-
-        <footer className='incident-footer'>
-          <ItemTextWithIcon icon='link'>
-            <Link to={incident.links.self}>
-              View the full record
-            </Link>
-          </ItemTextWithIcon>
-        </footer>
       </section>
     </Modal>
   );

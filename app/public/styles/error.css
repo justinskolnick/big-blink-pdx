@@ -1489,6 +1489,17 @@ body.has-alert .alert-root {
   font-size: 10px;
   text-align: center;
 }
+.item-subhead .icon:hover {
+  border-bottom: none;
+}
+.item-subhead .link-icon {
+  background-color: cornflowerblue;
+  background-color: var(--color-link);
+  transition: transform 250ms ease-in-out;
+}
+.item-subhead .link-icon:hover {
+  transform: scale(1.15);
+}
 .item-subhead .item-text {
   line-height: 24px;
 }

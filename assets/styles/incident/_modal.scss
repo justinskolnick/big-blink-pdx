@@ -7,8 +7,9 @@
 
   .modal-content {
     top: calc(var(--gap) * 3);
-    max-height: calc(100% - (var(--gap) * 6));
+    // bottom: calc(var(--gap) * 2);
     right: 0;
+    max-height: calc(100% - (var(--gap) * 8));
   }
 
   .modal-incident {
@@ -35,37 +36,29 @@
       right: 0;
       padding: var(--incident-space-size);
       background: linear-gradient(rgba(var(--color-background-rgb), 1) 50%, rgba(var(--color-background-rgb), 0) 100%);
+
+      .item-subhead-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .icon-link {
+        background-color: transparent;
+        outline: 1px solid var(--color-link);
+        color: var(--color-link);
+      }
     }
 
     .incident-main {
-      padding: calc(var(--gap) * 3.5) var(--incident-space-size) var(--gap) var(--incident-space-size);
+      padding: calc(var(--gap) * 3.5) var(--incident-space-size) calc(var(--gap) * 1.5) var(--incident-space-size);
       max-height: calc(100% - 72px - 53px - 36px);
       overflow: auto;
-    }
-
-    .incident-footer {
-      padding: var(--incident-space-size);
-      background-color: var(--color-lighter);
     }
 
     .item-subhead {
       h4 {
         display: inline-flex;
-      }
-    }
-
-    .incident-footer {
-      .item-text-with-icon {
-        align-items: center;
-
-        .icon + .item-text {
-          margin-left: 1ch;
-        }
-      }
-
-      .item-text {
-        font-weight: 600;
-        font-size: 14px;
       }
     }
   }
@@ -98,7 +91,7 @@
 
   @media screen and (max-width: 600px) {
     .modal-content {
-      top: 36px;
+      top: calc(var(--gap) * 2);
       left: 0;
       max-height: calc(100vh - 36px);
     }
@@ -111,9 +104,9 @@
 
   @media screen and (max-height: 420px) {
     .modal-content {
-      top: 36px;
-      bottom: 36px;
-      max-height: calc(100vh - 36px);
+      top: calc(var(--gap) * 2);
+      bottom: calc(var(--gap) * 2);
+      max-height: calc(100vh - calc(var(--gap) * 2));
     }
 
     .modal-incident {
@@ -123,7 +116,13 @@
 
   @media screen and (max-height: 780px) {
     .modal-content {
-      top: 36px;
+      top: calc(var(--gap) * 2);
+      bottom: calc(var(--gap) * 2);
+      overflow: auto;
+    }
+
+    .modal-incident {
+      max-height: 100%;
     }
   }
 

@@ -60,6 +60,10 @@ library.add(
   faUserLarge,
 );
 
+import { BetterLink as Link } from './links';
+
+import type { LocationState } from '../types';
+
 enum IconSets {
   Regular = 'far',
   Solid = 'fas',
@@ -97,16 +101,29 @@ interface Props {
   className?: string;
   name: IconName;
   size?: SizeProp;
+  title?: string;
 }
 
-const Icon = ({ className, name, size = 'lg' }: Props) => {
-  const set = SetForIcon[name as keyof typeof SetForIcon];
+interface LinkIconProps extends Props {
+  to: string | LocationState;
+}
 
-  return (
-    <span className={cx(`icon icon-${name}`, className)}>
-      <FontAwesomeIcon icon={[set, name]} size={size} />
-    </span>
-  );
-};
+interface FnGetIconFromSet {
+  (name: IconName): [SetForIcon, IconName];
+}
+
+const getIconFromSet: FnGetIconFromSet = (name) => [SetForIcon[name as keyof typeof SetForIcon], name];
+
+export const LinkIcon = ({ className, name, size = 'lg', title, to }: LinkIconProps) => (
+  <Link className={cx(`icon icon-${name} link-icon`, className)} to={to} title={title}>
+    <FontAwesomeIcon icon={getIconFromSet(name)} size={size} />
+  </Link>
+);
+
+const Icon = ({ className, name, size = 'lg', title }: Props) => (
+  <span className={cx(`icon icon-${name}`, className)} title={title}>
+    <FontAwesomeIcon icon={getIconFromSet(name)} size={size} />
+  </span>
+);
 
 export default Icon;

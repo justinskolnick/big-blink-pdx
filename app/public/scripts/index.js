@@ -37407,10 +37407,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var store_default = store;
 
   // assets/scripts/components/alert-error.tsx
-  var import_react14 = __toESM(require_react());
+  var import_react15 = __toESM(require_react());
 
   // assets/scripts/components/alert.tsx
-  var import_react13 = __toESM(require_react());
+  var import_react14 = __toESM(require_react());
 
   // node_modules/@babel/runtime/helpers/esm/extends.js
   function _extends() {
@@ -43792,8 +43792,223 @@ Hook ${hookName} was either not provided or not a function.`);
     icon: [448, 512, [128197, 128198], "f133", "M120 0c13.3 0 24 10.7 24 24l0 40 160 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-40c0-13.3 10.7-24 24-24zm0 112l-56 0c-8.8 0-16 7.2-16 16l0 48 352 0 0-48c0-8.8-7.2-16-16-16l-264 0zM48 224l0 192c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-192-352 0z"]
   };
 
-  // assets/scripts/components/icon.tsx
+  // assets/scripts/components/links.tsx
+  var import_react13 = __toESM(require_react());
+
+  // assets/scripts/config/constants.ts
+  var dateOnParam = "date_on";
+  var dateRangeFromParam = "date_range_from";
+  var dateRangeToParam = "date_range_to";
+  var pageParam = "page";
+  var peopleParam = "people";
+  var quarterParam = "quarter";
+  var roleParam = "role";
+  var sortParam = "sort";
+  var sortByParam = "sort_by";
+  var withEntityIdParam = "with_entity_id";
+  var withPersonIdParam = "with_person_id";
+
+  // assets/scripts/lib/links.ts
+  var isCurrent = (location2, newSearch) => {
+    const { pathname, search } = location2;
+    const currentPath = [pathname, search].filter(Boolean).join("");
+    const linkedPath = [pathname, newSearch].filter(Boolean).join("?");
+    return currentPath === linkedPath;
+  };
+  var getQueryParams = (location2, newParams, replace5 = true) => {
+    const { pathname, search } = location2;
+    const options2 = replace5 ? void 0 : search;
+    const searchParams = new URLSearchParams(options2);
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) {
+        searchParams.set(key, String(value));
+      } else {
+        searchParams.delete(key);
+      }
+    });
+    const newSearch = searchParams.toString();
+    return {
+      link: {
+        pathname,
+        search: newSearch
+      },
+      get: (key) => searchParams.get(key),
+      has: (key) => searchParams.has(key),
+      isCurrent: isCurrent(location2, newSearch),
+      searchParams
+    };
+  };
+
+  // assets/scripts/hooks/use-query-params.ts
+  var useQueryParams = (newParams, replace5 = true) => {
+    const location2 = useLocation();
+    return getQueryParams(location2, newParams, replace5);
+  };
+  var use_query_params_default = useQueryParams;
+
+  // assets/scripts/components/links.tsx
   var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  var getWithEntityParams = (entity, role) => {
+    const params = {};
+    if (role) {
+      params[roleParam] = role;
+    }
+    params[withEntityIdParam] = entity.id;
+    return params;
+  };
+  var getWithPeopleParams = (person, role) => {
+    const params = {};
+    if (role) {
+      params[peopleParam] = `${person.id}:${role}`;
+    } else {
+      params[peopleParam] = person.id;
+    }
+    return params;
+  };
+  var BetterLink = ({
+    onClick,
+    ...rest
+  }) => {
+    const ref = (0, import_react13.useRef)(null);
+    const handleClick = (e2) => {
+      if (e2.button || e2.altKey || e2.ctrlKey || e2.metaKey || e2.shiftKey) {
+        const customEvent = new MouseEvent("click", {
+          altKey: e2.altKey,
+          ctrlKey: e2.ctrlKey,
+          metaKey: e2.metaKey,
+          shiftKey: e2.shiftKey,
+          button: e2.button
+        });
+        e2.preventDefault();
+        ref.current.dispatchEvent(customEvent);
+      } else {
+        onClick?.(e2);
+      }
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { ref, onClick: handleClick, ...rest });
+  };
+  var LinkToQueryParams = ({
+    children,
+    className,
+    newParams,
+    replace: replace5,
+    ...rest
+  }) => {
+    const queryParams = use_query_params_default(newParams, replace5);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+      Link,
+      {
+        to: queryParams.link,
+        className: cx({
+          "is-active": queryParams.isCurrent
+        }, className),
+        preventScrollReset: true,
+        ...rest,
+        children
+      }
+    );
+  };
+  var FilterLink = ({
+    children,
+    className,
+    hasIcon,
+    title,
+    ...rest
+  }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    LinkToQueryParams,
+    {
+      className: cx("link-filter", className),
+      title: title || "Apply this filter",
+      ...rest,
+      children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(item_text_with_icon_default, { icon: "filter", children }) : children
+    }
+  );
+  var toggleSort = (sort) => sort === "ASC" /* ASC */ ? "DESC" /* DESC */ : "ASC" /* ASC */;
+  var getIconNameForSort = (sort) => sort === "ASC" /* ASC */ ? "arrow-up" : "arrow-down";
+  var SortLink = ({
+    children,
+    className,
+    defaultSort,
+    isDefault,
+    name,
+    title,
+    ...rest
+  }) => {
+    const [searchParams] = useSearchParams();
+    const currentSortBy = searchParams.get(sortByParam);
+    const currentSort = searchParams.get(sortParam);
+    const isCurrentSortBy = name === currentSortBy || currentSortBy === null && isDefault;
+    const newSearchParams = new Map(searchParams);
+    let icon3;
+    if (isCurrentSortBy) {
+      newSearchParams.set(sortByParam, isDefault ? null : name);
+      if (currentSort === null) {
+        newSearchParams.set(sortParam, toggleSort(defaultSort));
+        icon3 = getIconNameForSort(defaultSort);
+      } else {
+        newSearchParams.set(sortParam, null);
+        icon3 = getIconNameForSort(toggleSort(defaultSort));
+      }
+    } else {
+      newSearchParams.set(sortByParam, isDefault ? null : name);
+      newSearchParams.set(sortParam, null);
+    }
+    const hasIcon = Boolean(icon3);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+      LinkToQueryParams,
+      {
+        className: cx("link-sort", className),
+        title: title || "Sort this list",
+        newParams: Object.fromEntries(newSearchParams.entries()),
+        ...rest,
+        children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          item_text_with_icon_default,
+          {
+            icon: icon3,
+            after: true,
+            children
+          }
+        ) : children
+      }
+    );
+  };
+  var GlobalLink = ({ children, to: to3, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    NavLink,
+    {
+      to: to3,
+      className: ({ isActive }) => isActive ? "is-active" : void 0,
+      ...rest,
+      children
+    }
+  );
+  var LinkToPage = ({
+    children,
+    isCurrent: isCurrent2,
+    onClick,
+    to: to3,
+    ...rest
+  }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    NavLink,
+    {
+      to: to3,
+      className: ({ isActive }) => isCurrent2 && isActive ? "is-active" : void 0,
+      onClick,
+      preventScrollReset: true,
+      end: true,
+      ...rest,
+      children
+    }
+  );
+  var LinkToEntities = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/entities", ...rest, children });
+  var LinkToEntity = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/entities/${id}`, ...rest, children });
+  var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/incidents", ...rest, children });
+  var LinkToPeople = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/people", ...rest, children });
+  var LinkToPerson = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/people/${id}`, ...rest, children });
+  var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/sources", ...rest, children });
+  var LinkToSource = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/sources/${id}`, ...rest, children });
+
+  // assets/scripts/components/icon.tsx
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
   library$1.add(
     faArrowDown,
     faArrowLeft,
@@ -43849,29 +44064,28 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["user-large"] = "fas" /* Solid */;
     return SetForIcon2;
   })(SetForIcon || {});
-  var Icon = ({ className, name, size = "lg" }) => {
-    const set8 = SetForIcon[name];
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: cx(`icon icon-${name}`, className), children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FontAwesomeIcon, { icon: [set8, name], size }) });
-  };
+  var getIconFromSet = (name) => [SetForIcon[name], name];
+  var LinkIcon = ({ className, name, size = "lg", title, to: to3 }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BetterLink, { className: cx(`icon icon-${name} link-icon`, className), to: to3, title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
+  var Icon = ({ className, name, size = "lg", title }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: cx(`icon icon-${name}`, className), title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
   var icon_default = Icon;
 
   // assets/scripts/components/item-text-with-icon.tsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
   var ItemTextWithIcon = ({
     after = false,
     children,
     icon: icon3
-  }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "item-text-with-icon", children: after ? /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_jsx_runtime4.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "item-text", children }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(icon_default, { name: icon3 })
-  ] }) : /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_jsx_runtime4.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(icon_default, { name: icon3 }),
-    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: "item-text", children })
+  }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "item-text-with-icon", children: after ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "item-text", children }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(icon_default, { name: icon3 })
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(icon_default, { name: icon3 }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "item-text", children })
   ] }) });
   var item_text_with_icon_default = ItemTextWithIcon;
 
   // assets/scripts/components/alert.tsx
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
   var isObject3 = (alert) => typeof alert === "object";
   var getHasCustomMessage = (alert) => isObject3 && Boolean(alert.customMessage);
   var getHasMessage = (alert) => isObject3 && Boolean(alert.message);
@@ -43879,29 +44093,29 @@ Hook ${hookName} was either not provided or not a function.`);
   var MessageContent = ({ alert }) => {
     const hasMessage = getHasMessage(alert);
     const hasStatus = getHasStatus(alert);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
-      hasStatus && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("strong", { children: alert.status }),
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      hasStatus && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("strong", { children: alert.status }),
       hasStatus && hasMessage && " ",
-      hasMessage && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { dangerouslySetInnerHTML: { __html: alert.message } }),
-      !hasStatus && !hasMessage && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: "Something went wrong" })
+      hasMessage && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { dangerouslySetInnerHTML: { __html: alert.message } }),
+      !hasStatus && !hasMessage && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Something went wrong" })
     ] });
   };
   var AlertMessageContent = ({ alert }) => {
     const hasCustomMessage = getHasCustomMessage(alert);
-    return hasCustomMessage ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    return hasCustomMessage ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
         "p",
         {
           className: "message-content",
           dangerouslySetInnerHTML: { __html: alert.customMessage }
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("p", { className: "original-message-content", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "original-message-content", children: [
         "(",
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(MessageContent, { alert }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MessageContent, { alert }),
         ")"
       ] })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(MessageContent, { alert }) });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MessageContent, { alert }) });
   };
   var Alert = ({
     alerts,
@@ -43909,10 +44123,10 @@ Hook ${hookName} was either not provided or not a function.`);
     grade,
     isActive
   }) => {
-    const ref = (0, import_react13.useRef)(null);
+    const ref = (0, import_react14.useRef)(null);
     const iconName5 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       CSSTransition_default,
       {
         timeout: 250,
@@ -43920,20 +44134,20 @@ Hook ${hookName} was either not provided or not a function.`);
         in: isActive,
         nodeRef: ref,
         unmountOnExit: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
           alert_portal_default,
           {
             deactivate,
             isActive,
             ref,
-            children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("section", { className: classNames, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(item_text_with_icon_default, { icon: iconName5, children: [
+            children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: classNames, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(item_text_with_icon_default, { icon: iconName5, children: [
                 grade === "error" && "Error",
                 grade === "message" && "Message",
                 grade === "warning" && "Warning"
               ] }) }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AlertMessageContent, { alert }, i2)) }),
-              /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AlertMessageContent, { alert }, i2)) }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
             ] })
           }
         )
@@ -43943,9 +44157,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_default = Alert;
 
   // assets/scripts/components/alert-error.tsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
   var AlertError = () => {
-    const [isActive, setIsActive] = (0, import_react14.useState)(false);
+    const [isActive, setIsActive] = (0, import_react15.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -43955,12 +44169,12 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getErrors);
     const hasAlerts = alerts.length > 0;
-    (0, import_react14.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
     }, [hasAlerts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
       alert_default,
       {
         alerts,
@@ -43979,7 +44193,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_prop_types4 = __toESM(require_prop_types());
   var import_react_side_effect = __toESM(require_lib());
   var import_react_fast_compare = __toESM(require_react_fast_compare());
-  var import_react15 = __toESM(require_react());
+  var import_react16 = __toESM(require_react());
   var import_object_assign = __toESM(require_object_assign());
   var ATTRIBUTE_NAMES = {
     BODY: "bodyAttributes",
@@ -44430,7 +44644,7 @@ Hook ${hookName} was either not provided or not a function.`);
       key: title
     }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
     var props = convertElementAttributestoReactProps(attributes, initProps);
-    return [import_react15.default.createElement(TAG_NAMES.TITLE, props, title)];
+    return [import_react16.default.createElement(TAG_NAMES.TITLE, props, title)];
   };
   var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
     return tags.map(function(tag, i2) {
@@ -44447,7 +44661,7 @@ Hook ${hookName} was either not provided or not a function.`);
           mappedTag[mappedAttribute] = tag[attribute];
         }
       });
-      return import_react15.default.createElement(type, mappedTag);
+      return import_react16.default.createElement(type, mappedTag);
     });
   };
   var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -44575,7 +44789,7 @@ Hook ${hookName} was either not provided or not a function.`);
       HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
         var _this2 = this;
         var arrayTypeChildren = {};
-        import_react15.default.Children.forEach(children, function(child) {
+        import_react16.default.Children.forEach(children, function(child) {
           if (!child || !child.props) {
             return;
           }
@@ -44614,7 +44828,7 @@ Hook ${hookName} was either not provided or not a function.`);
         if (children) {
           newProps = this.mapChildrenToProps(children, newProps);
         }
-        return import_react15.default.createElement(Component4, newProps);
+        return import_react16.default.createElement(Component4, newProps);
       };
       createClass(HelmetWrapper, null, [{
         key: "canUseDOM",
@@ -44644,7 +44858,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }]);
       return HelmetWrapper;
-    })(import_react15.default.Component), _class.propTypes = {
+    })(import_react16.default.Component), _class.propTypes = {
       base: import_prop_types4.default.object,
       bodyAttributes: import_prop_types4.default.object,
       children: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.node), import_prop_types4.default.node]),
@@ -44692,14 +44906,14 @@ Hook ${hookName} was either not provided or not a function.`);
   HelmetExport.renderStatic = HelmetExport.rewind;
 
   // assets/scripts/components/modal-portal.tsx
-  var import_react16 = __toESM(require_react());
+  var import_react17 = __toESM(require_react());
   var import_react_dom3 = __toESM(require_react_dom());
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
   var hasModalClass = "has-modal";
   var modalRootId = "modal-root";
   var modalPortalId = "modal-root-portal";
   var Escape2 = "Escape";
-  var ModalPortal = (0, import_react16.forwardRef)(({
+  var ModalPortal = (0, import_react17.forwardRef)(({
     children,
     className,
     deactivate,
@@ -44716,7 +44930,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     use_fixed_body_when_has_class_default(hasModalClass);
     return (0, import_react_dom3.createPortal)(
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
         "div",
         {
           className: cx("modal", className),
@@ -44724,14 +44938,14 @@ Hook ${hookName} was either not provided or not a function.`);
           ref,
           tabIndex: 0,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
               "div",
               {
                 className: "modal-overlay",
                 onClick: handleOverlayClick
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "modal-content", children })
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "modal-content", children })
           ]
         }
       ),
@@ -44741,10 +44955,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var modal_portal_default = ModalPortal;
 
   // assets/scripts/components/alert-message.tsx
-  var import_react17 = __toESM(require_react());
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  var import_react18 = __toESM(require_react());
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
   var AlertMessage = () => {
-    const [isActive, setIsActive] = (0, import_react17.useState)(false);
+    const [isActive, setIsActive] = (0, import_react18.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -44754,12 +44968,12 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getMessages);
     const hasAlerts = alerts.length > 0;
-    (0, import_react17.useEffect)(() => {
+    (0, import_react18.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
     }, [hasAlerts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
       alert_default,
       {
         alerts,
@@ -44772,10 +44986,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_message_default = AlertMessage;
 
   // assets/scripts/components/alert-warning.tsx
-  var import_react18 = __toESM(require_react());
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+  var import_react19 = __toESM(require_react());
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   var AlertWarning = () => {
-    const [isActive, setIsActive] = (0, import_react18.useState)(false);
+    const [isActive, setIsActive] = (0, import_react19.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -44785,12 +44999,12 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getWarnings);
     const hasAlerts = alerts.length > 0;
-    (0, import_react18.useEffect)(() => {
+    (0, import_react19.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
     }, [hasAlerts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(
       alert_default,
       {
         alerts,
@@ -44803,236 +45017,21 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_warning_default = AlertWarning;
 
   // assets/scripts/icons/eye.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime());
-  var Eye = () => /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 72 72", className: "icon", fill: "currentColor", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("path", { d: "M35.99 30.48c0 4.44-3.61 8.05-8.05 8.05-.89 0-1.75-.15-2.55-.41-.69-.23-1.5.2-1.47.93.04.87.16 1.73.4 2.6 1.72 6.44 8.35 10.26 14.78 8.54 6.44-1.72 10.26-8.35 8.54-14.78-1.4-5.22-6.01-8.72-11.14-8.94-.73-.03-1.16.77-.93 1.47.27.8.42 1.65.42 2.54z" }),
-    /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("path", { d: "M71.89 35.6c-1.86-4.49-5.8-11.03-11.68-16.48C54.29 13.62 46.16 8.99 36 8.99s-18.29 4.63-24.21 10.13C5.9 24.58 1.97 31.12.11 35.6c-.41.99.51 2.1.92 3.09 1.86 4.49 4.88 9.64 10.76 15.1C17.71 59.3 25.85 63 36 63s18.3-3.71 24.22-9.21c5.88-5.46 8.9-10.61 10.76-15.1.41-.99 1.33-2.09.91-3.09zM56.77 50.09c-6.27 5.83-13.26 7.86-20.78 7.86s-14.5-2.03-20.77-7.86c-5.03-4.67-6.73-8.99-8.44-12.94 1.71-3.94 3.4-5.96 8.44-10.64 6.24-5.8 13.29-7.84 20.77-7.86 7.48.03 14.53 2.06 20.77 7.86 5.04 4.68 6.74 6.7 8.44 10.64-1.7 3.95-3.39 8.27-8.43 12.94z" })
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+  var Eye = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 72 72", className: "icon", fill: "currentColor", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { d: "M35.99 30.48c0 4.44-3.61 8.05-8.05 8.05-.89 0-1.75-.15-2.55-.41-.69-.23-1.5.2-1.47.93.04.87.16 1.73.4 2.6 1.72 6.44 8.35 10.26 14.78 8.54 6.44-1.72 10.26-8.35 8.54-14.78-1.4-5.22-6.01-8.72-11.14-8.94-.73-.03-1.16.77-.93 1.47.27.8.42 1.65.42 2.54z" }),
+    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("path", { d: "M71.89 35.6c-1.86-4.49-5.8-11.03-11.68-16.48C54.29 13.62 46.16 8.99 36 8.99s-18.29 4.63-24.21 10.13C5.9 24.58 1.97 31.12.11 35.6c-.41.99.51 2.1.92 3.09 1.86 4.49 4.88 9.64 10.76 15.1C17.71 59.3 25.85 63 36 63s18.3-3.71 24.22-9.21c5.88-5.46 8.9-10.61 10.76-15.1.41-.99 1.33-2.09.91-3.09zM56.77 50.09c-6.27 5.83-13.26 7.86-20.78 7.86s-14.5-2.03-20.77-7.86c-5.03-4.67-6.73-8.99-8.44-12.94 1.71-3.94 3.4-5.96 8.44-10.64 6.24-5.8 13.29-7.84 20.77-7.86 7.48.03 14.53 2.06 20.77 7.86 5.04 4.68 6.74 6.7 8.44 10.64-1.7 3.95-3.39 8.27-8.43 12.94z" })
   ] });
   var eye_default = Eye;
 
   // assets/scripts/components/eyes.tsx
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime());
-  var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "eyes", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(eye_default, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(eye_default, {}),
-    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(eye_default, {})
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
+  var Eyes = () => /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "eyes", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(eye_default, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(eye_default, {}),
+    /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(eye_default, {})
   ] });
   var eyes_default = Eyes;
-
-  // assets/scripts/components/links.tsx
-  var import_react19 = __toESM(require_react());
-
-  // assets/scripts/config/constants.ts
-  var dateOnParam = "date_on";
-  var dateRangeFromParam = "date_range_from";
-  var dateRangeToParam = "date_range_to";
-  var pageParam = "page";
-  var peopleParam = "people";
-  var quarterParam = "quarter";
-  var roleParam = "role";
-  var sortParam = "sort";
-  var sortByParam = "sort_by";
-  var withEntityIdParam = "with_entity_id";
-  var withPersonIdParam = "with_person_id";
-
-  // assets/scripts/lib/links.ts
-  var isCurrent = (location2, newSearch) => {
-    const { pathname, search } = location2;
-    const currentPath = [pathname, search].filter(Boolean).join("");
-    const linkedPath = [pathname, newSearch].filter(Boolean).join("?");
-    return currentPath === linkedPath;
-  };
-  var getQueryParams = (location2, newParams, replace5 = true) => {
-    const { pathname, search } = location2;
-    const options2 = replace5 ? void 0 : search;
-    const searchParams = new URLSearchParams(options2);
-    Object.entries(newParams).forEach(([key, value]) => {
-      if (value) {
-        searchParams.set(key, String(value));
-      } else {
-        searchParams.delete(key);
-      }
-    });
-    const newSearch = searchParams.toString();
-    return {
-      link: {
-        pathname,
-        search: newSearch
-      },
-      get: (key) => searchParams.get(key),
-      has: (key) => searchParams.has(key),
-      isCurrent: isCurrent(location2, newSearch),
-      searchParams
-    };
-  };
-
-  // assets/scripts/hooks/use-query-params.ts
-  var useQueryParams = (newParams, replace5 = true) => {
-    const location2 = useLocation();
-    return getQueryParams(location2, newParams, replace5);
-  };
-  var use_query_params_default = useQueryParams;
-
-  // assets/scripts/components/links.tsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime());
-  var getWithEntityParams = (entity, role) => {
-    const params = {};
-    if (role) {
-      params[roleParam] = role;
-    }
-    params[withEntityIdParam] = entity.id;
-    return params;
-  };
-  var getWithPeopleParams = (person, role) => {
-    const params = {};
-    if (role) {
-      params[peopleParam] = `${person.id}:${role}`;
-    } else {
-      params[peopleParam] = person.id;
-    }
-    return params;
-  };
-  var BetterLink = ({
-    onClick,
-    ...rest
-  }) => {
-    const ref = (0, import_react19.useRef)(null);
-    const handleClick = (e2) => {
-      if (e2.button || e2.altKey || e2.ctrlKey || e2.metaKey || e2.shiftKey) {
-        const customEvent = new MouseEvent("click", {
-          altKey: e2.altKey,
-          ctrlKey: e2.ctrlKey,
-          metaKey: e2.metaKey,
-          shiftKey: e2.shiftKey,
-          button: e2.button
-        });
-        e2.preventDefault();
-        ref.current.dispatchEvent(customEvent);
-      } else {
-        onClick?.(e2);
-      }
-    };
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Link, { ref, onClick: handleClick, ...rest });
-  };
-  var LinkToQueryParams = ({
-    children,
-    className,
-    newParams,
-    replace: replace5,
-    ...rest
-  }) => {
-    const queryParams = use_query_params_default(newParams, replace5);
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-      Link,
-      {
-        to: queryParams.link,
-        className: cx({
-          "is-active": queryParams.isCurrent
-        }, className),
-        preventScrollReset: true,
-        ...rest,
-        children
-      }
-    );
-  };
-  var FilterLink = ({
-    children,
-    className,
-    hasIcon,
-    title,
-    ...rest
-  }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-    LinkToQueryParams,
-    {
-      className: cx("link-filter", className),
-      title: title || "Apply this filter",
-      ...rest,
-      children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(item_text_with_icon_default, { icon: "filter", children }) : children
-    }
-  );
-  var toggleSort = (sort) => sort === "ASC" /* ASC */ ? "DESC" /* DESC */ : "ASC" /* ASC */;
-  var getIconNameForSort = (sort) => sort === "ASC" /* ASC */ ? "arrow-up" : "arrow-down";
-  var SortLink = ({
-    children,
-    className,
-    defaultSort,
-    isDefault,
-    name,
-    title,
-    ...rest
-  }) => {
-    const [searchParams] = useSearchParams();
-    const currentSortBy = searchParams.get(sortByParam);
-    const currentSort = searchParams.get(sortParam);
-    const isCurrentSortBy = name === currentSortBy || currentSortBy === null && isDefault;
-    const newSearchParams = new Map(searchParams);
-    let icon3;
-    if (isCurrentSortBy) {
-      newSearchParams.set(sortByParam, isDefault ? null : name);
-      if (currentSort === null) {
-        newSearchParams.set(sortParam, toggleSort(defaultSort));
-        icon3 = getIconNameForSort(defaultSort);
-      } else {
-        newSearchParams.set(sortParam, null);
-        icon3 = getIconNameForSort(toggleSort(defaultSort));
-      }
-    } else {
-      newSearchParams.set(sortByParam, isDefault ? null : name);
-      newSearchParams.set(sortParam, null);
-    }
-    const hasIcon = Boolean(icon3);
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-      LinkToQueryParams,
-      {
-        className: cx("link-sort", className),
-        title: title || "Sort this list",
-        newParams: Object.fromEntries(newSearchParams.entries()),
-        ...rest,
-        children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-          item_text_with_icon_default,
-          {
-            icon: icon3,
-            after: true,
-            children
-          }
-        ) : children
-      }
-    );
-  };
-  var GlobalLink = ({ children, to: to3, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-    NavLink,
-    {
-      to: to3,
-      className: ({ isActive }) => isActive ? "is-active" : void 0,
-      ...rest,
-      children
-    }
-  );
-  var LinkToPage = ({
-    children,
-    isCurrent: isCurrent2,
-    onClick,
-    to: to3,
-    ...rest
-  }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(
-    NavLink,
-    {
-      to: to3,
-      className: ({ isActive }) => isCurrent2 && isActive ? "is-active" : void 0,
-      onClick,
-      preventScrollReset: true,
-      end: true,
-      ...rest,
-      children
-    }
-  );
-  var LinkToEntities = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: "/entities", ...rest, children });
-  var LinkToEntity = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: `/entities/${id}`, ...rest, children });
-  var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: "/incidents", ...rest, children });
-  var LinkToPeople = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: "/people", ...rest, children });
-  var LinkToPerson = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: `/people/${id}`, ...rest, children });
-  var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: "/sources", ...rest, children });
-  var LinkToSource = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(BetterLink, { to: `/sources/${id}`, ...rest, children });
 
   // assets/scripts/components/global-footer.tsx
   var import_jsx_runtime13 = __toESM(require_jsx_runtime());
@@ -45102,8 +45101,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/incidents/icon.tsx
   var import_jsx_runtime16 = __toESM(require_jsx_runtime());
   var iconName2 = "thumbtack";
-  var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name: iconName2 });
-  var icon_default3 = EntitiesIcon2;
+  var IncidentsIcon = () => /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(icon_default, { name: iconName2 });
+  var icon_default3 = IncidentsIcon;
 
   // assets/scripts/components/people/icon.tsx
   var import_jsx_runtime17 = __toESM(require_jsx_runtime());
@@ -45127,8 +45126,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/icon.tsx
   var import_jsx_runtime18 = __toESM(require_jsx_runtime());
   var iconName4 = "database";
-  var EntitiesIcon3 = () => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { name: iconName4 });
-  var icon_default5 = EntitiesIcon3;
+  var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { name: iconName4 });
+  var icon_default5 = EntitiesIcon2;
 
   // assets/scripts/components/section-icon.tsx
   var import_jsx_runtime19 = __toESM(require_jsx_runtime());
@@ -45470,10 +45469,29 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [hasAttendees, id, trigger]);
     if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(modal_default, { className: "incident-modal", deactivate, isActive, children: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("section", { className: "modal-incident", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(item_subhead_default, { title: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(import_jsx_runtime30.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(icon_default3, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { className: "item-text", children: "Lobbying Incident" })
-      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("header", { className: "incident-header", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+        item_subhead_default,
+        {
+          title: /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(import_jsx_runtime30.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+              LinkIcon,
+              {
+                name: iconName2,
+                to: incident.links.self
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { className: "item-text", children: "Lobbying Incident" })
+          ] }),
+          children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+            LinkIcon,
+            {
+              name: "link",
+              title: "View the full record",
+              to: incident.links.self
+            }
+          )
+        }
+      ) }),
       /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("main", { className: "incident-main", children: [
         /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(incident_table_default, { incident }),
         hasNotes && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
@@ -45483,8 +45501,7 @@ Hook ${hookName} was either not provided or not a function.`);
             incident
           }
         ) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("footer", { className: "incident-footer", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(BetterLink, { to: incident.links.self, children: "View the full record" }) }) })
+      ] })
     ] }) });
   };
   var incident_modal_default = IncidentModal;

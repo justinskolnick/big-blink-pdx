@@ -33,6 +33,19 @@
     color: var(--color-background);
     font-size: 10px;
     text-align: center;
+
+    &:hover {
+      border-bottom: none;
+    }
+  }
+
+  .link-icon {
+    background-color: var(--color-link);
+    transition: transform 250ms ease-in-out;
+
+    &:hover {
+      transform: scale(1.15);
+    }
   }
 
   .item-text {

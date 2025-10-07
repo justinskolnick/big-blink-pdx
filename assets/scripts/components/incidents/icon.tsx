@@ -4,8 +4,8 @@ import Icon from '../icon';
 
 export const iconName = 'thumbtack';
 
-const EntitiesIcon = () => (
+const IncidentsIcon = () => (
   <Icon name={iconName} />
 );
 
-export default EntitiesIcon;
+export default IncidentsIcon;
