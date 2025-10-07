@@ -28,6 +28,7 @@ const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
+const Labels = require('../models/shared/labels');
 const Person = require('../models/person');
 
 const entities = require('../services/entities');
@@ -187,7 +188,8 @@ router.get('/:id', async (req, res, next) => {
         record.details = {};
 
         if (hasLocations) {
-          const location = toSentence(entityLocations.map(location => `${location.city}, ${location.region}`));
+          const labelsModel = new Labels();
+          const location = toSentence(entityLocations.map(location => labelsModel.getLabel('location', null, location)));
 
           record.details.description = location;
         }
@@ -231,6 +233,8 @@ router.get('/:id/attendees', async (req, res, next) => {
     const id = Number(req.params.id);
     const limit = req.searchParams.get(PARAM_LIMIT);
 
+    const labelPrefix = 'entity';
+
     let entity;
     let attendees;
     let data;
@@ -242,18 +246,18 @@ router.get('/:id/attendees', async (req, res, next) => {
 
       record = entity.adapted;
       record.attendees = {
-        label: `As an entity, ${record.name} ...`,
+        label: Entity.getLabel('as_entity', labelPrefix, { name: record.name }),
         model: MODEL_PEOPLE,
         type: 'entity',
         values: [
           {
-            label: '... authorized these lobbyists',
+            label: Entity.getLabel('as_entity_lobbyists', labelPrefix),
             records: attendees.lobbyists.records.map(adaptItemPerson),
             role: attendees.lobbyists.role,
             total: attendees.lobbyists.total,
           },
           {
-            label: '... lobbied these City officials',
+            label: Entity.getLabel('as_entity_officials', labelPrefix),
             records: attendees.officials.records.map(adaptItemPerson),
             role: attendees.officials.role,
             total: attendees.officials.total,

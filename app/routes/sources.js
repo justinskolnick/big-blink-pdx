@@ -25,6 +25,7 @@ const { unique } = require('../lib/array');
 const headers = require('../lib/headers');
 const { getFilters } = require('../lib/incident/filters');
 const searchParams = require('../lib/request/search-params');
+const { titleCase } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
@@ -233,6 +234,8 @@ router.get('/:id/attendees', async (req, res, next) => {
     const id = Number(req.params.id);
     const limit = req.searchParams.get(PARAM_LIMIT);
 
+    const labelPrefix = 'source';
+
     let source;
     let record;
     let attendees;
@@ -245,18 +248,18 @@ router.get('/:id/attendees', async (req, res, next) => {
 
       record = source.adapted;
       record.attendees = {
-        label: `These people appear in ${record.title}`,
+        label: Source.getLabel('attendees', labelPrefix, { title: record.title }),
         model: MODEL_PEOPLE,
         type: 'source',
         values: [
           {
-            label: 'Lobbyists',
+            label: titleCase(Source.getLabel('lobbyists')),
             records: attendees.lobbyists.records.map(adaptItemPerson),
             role: attendees.lobbyists.role,
             total: attendees.lobbyists.total,
           },
           {
-            label: 'City Officials',
+            label: titleCase(Source.getLabel('officials_city')),
             records: attendees.officials.records.map(adaptItemPerson),
             role: attendees.officials.role,
             total: attendees.officials.total,

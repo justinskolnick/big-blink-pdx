@@ -27,7 +27,6 @@ const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
 const { getFilters } = require('../lib/incident/filters');
-const { toSentence } = require('../lib/string');
 const searchParams = require('../lib/request/search-params');
 
 const Entity = require('../models/entity');
@@ -156,6 +155,8 @@ router.get('/:id', async (req, res, next) => {
 
   const perPage = Incident.perPage;
 
+  const labelPrefix = 'person';
+
   let person;
   let adapted;
   let description;
@@ -201,18 +202,20 @@ router.get('/:id', async (req, res, next) => {
       record = person.adapted;
       record.details = {};
 
-      const roles = [];
+      let labelKey;
 
       if (hasBeenEmployee || hasBeenLobbied) {
-        roles.push('worked for the City');
+        if (hasLobbied) {
+          labelKey = 'has_been_both';
+        } else {
+          labelKey = 'has_been_official';
+        }
+      } else if (hasLobbied) {
+        labelKey = 'has_been_lobbyist';
       }
 
-      if (hasLobbied) {
-        roles.push('lobbied City officials');
-      }
-
-      if (roles.length) {
-        record.details.description = `Has ${toSentence(roles)}`;
+      if (labelKey) {
+        record.details.description = Person.getLabel(labelKey, labelPrefix);
       }
 
       data = {
@@ -249,6 +252,8 @@ router.get('/:id/attendees', async (req, res, next) => {
     const id = Number(req.params.id);
     const limit = req.searchParams.get(PARAM_LIMIT);
 
+    const labelPrefix = 'person';
+
     let person;
     let record;
     let asLobbyist;
@@ -269,19 +274,19 @@ router.get('/:id/attendees', async (req, res, next) => {
 
       if (asLobbyist.lobbyists.total > 0 || asLobbyist.officials.total > 0) {
         record.attendees.roles.push({
-          label: `As a lobbyist, ${record.name} ...`,
+          label: Person.getLabel('as_lobbyist', labelPrefix, { name: record.name }),
           model: MODEL_PEOPLE,
           role: ROLE_LOBBYIST,
           type: 'person',
           values: [
             {
-              label: '... lobbied alongside these lobbyists',
+              label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
               records: asLobbyist.lobbyists.records.map(adaptItemPerson),
               role: asLobbyist.lobbyists.role,
               total: asLobbyist.lobbyists.total,
             },
             {
-              label: '... met with these City officials',
+              label: Person.getLabel('as_lobbyist_officials', labelPrefix),
               records: asLobbyist.officials.records.map(adaptItemPerson),
               role: asLobbyist.officials.role,
               total: asLobbyist.officials.total,
@@ -292,19 +297,19 @@ router.get('/:id/attendees', async (req, res, next) => {
 
       if (asOfficial.lobbyists.total > 0 || asOfficial.officials.total > 0) {
         record.attendees.roles.push({
-          label: `As a City official, ${record.name} ...`,
+          label: Person.getLabel('as_official', labelPrefix, { name: record.name }),
           model: MODEL_PEOPLE,
           role: ROLE_OFFICIAL,
           type: 'person',
           values: [
             {
-              label: '... was lobbied by these lobbyists',
+              label: Person.getLabel('as_official_lobbyists', labelPrefix),
               records: asOfficial.lobbyists.records.map(adaptItemPerson),
               role: asOfficial.lobbyists.role,
               total: asOfficial.lobbyists.total,
             },
             {
-              label: '... was lobbied alongside these City officials',
+              label: Person.getLabel('as_official_officials', labelPrefix),
               records: asOfficial.officials.records.map(adaptItemPerson),
               role: asOfficial.officials.role,
               total: asOfficial.officials.total,
@@ -334,6 +339,8 @@ router.get('/:id/entities', async (req, res, next) => {
   const id = Number(req.params.id);
   const limit = req.searchParams.get(PARAM_LIMIT);
 
+  const labelPrefix = 'person';
+
   if (req.get('Content-Type') === headers.json) {
     let person;
     let record;
@@ -354,7 +361,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
       if (asLobbyist.total) {
         record.entities.roles.push({
-          label: `As a lobbyist, ${record.name} interacted with City officials on behalf of these entities`,
+          label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
           model: MODEL_ENTITIES,
           role: ROLE_LOBBYIST,
           values: [
@@ -369,7 +376,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
       if (asOfficial.total) {
         record.entities.roles.push({
-          label: `As a City official, ${record.name} was lobbied by representatives of these entities`,
+          label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
           model: MODEL_ENTITIES,
           role: ROLE_OFFICIAL,
           values: [

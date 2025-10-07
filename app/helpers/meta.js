@@ -1,17 +1,19 @@
-const source = 'data published by the City of Portland, Oregon';
+const Labels = require('../models/shared/labels');
 
-const getDetailDescription = (name, word = 'involving') => [
-  'Activity',
-  name ? `${word} ${name}` : null,
-  'according to lobbying',
-  source,
-].filter(Boolean).join(' ');
+const labelsModel = new Labels();
+const labelPrefix = 'description';
 
-const getIndexDescription = (type) => [
-  type ? `A list of ${type} involved in lobbying activity` : 'Lobbying activity',
-  'according to',
-  source,
-].filter(Boolean).join(' ');
+const getDetailDescription = (name, word = 'involving') => {
+  const labelKey = name ? 'detail_with_name' : 'detail_without_name';
+
+  return labelsModel.getLabel(labelKey, labelPrefix, { name, word });
+};
+
+const getIndexDescription = (type) => {
+  const labelKey = type ? 'index_with_type' : 'index_without_type';
+
+  return labelsModel.getLabel(labelKey, labelPrefix, { type });
+};
 
 const getPageTitle = (section) => {
   const { subtitle, title } = section;
