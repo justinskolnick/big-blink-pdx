@@ -49,7 +49,7 @@ const getQuartersQuery = (options = {}) => {
   }
 
   if (conditions.length) {
-    clauses.push(conditions.join(' AND '));
+    clauses.push(...queryHelper.joinConditions(conditions));
   }
 
   clauses.push('ORDER BY');
@@ -89,7 +89,7 @@ const getTotalQuery = (options = {}) => {
   }
 
   if (conditions.length) {
-    clauses.push(conditions.join(' AND '));
+    clauses.push(...queryHelper.joinConditions(conditions));
   }
 
   return { clauses, params };
@@ -117,7 +117,8 @@ const getHasBeenCityEmployeeQuery = (options = {}) => {
   }
 
   if (conditions.length) {
-    clauses.push(conditions.join(' AND '));
+    // clauses.push(conditions.join(' AND '));
+    clauses.push(...queryHelper.joinConditions(conditions));
   }
 
   return { clauses, params };

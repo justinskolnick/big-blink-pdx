@@ -146,7 +146,7 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
   }
 
   if (conditions.length) {
-    clauses.push(conditions.join(' AND '));
+    clauses.push(...queryHelper.joinConditions(conditions));
   }
 
   return { clauses, params };

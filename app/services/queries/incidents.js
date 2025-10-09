@@ -236,6 +236,17 @@ const getAtIdQuery = (id) => {
   return { clauses, params };
 };
 
+const getBoundaryDateSubquery = () => {
+  const clauses = [];
+
+  clauses.push('SELECT');
+  clauses.push(Incident.fields().join(', '));
+  clauses.push(`FROM ${Incident.tableName}`);
+  clauses.push(queryHelper.leftJoin(Incident, Source, true));
+
+  return clauses;
+};
+
 const getFirstAndLastDatesQuery = (options = {}) => {
   const {
     entityId,
@@ -254,18 +265,11 @@ const getFirstAndLastDatesQuery = (options = {}) => {
   // Each data sources represents a year and a quarter, so any date with a year outside of
   // the source's year is considered an anomaly
 
-  const select = [
-    'SELECT',
-    Incident.fields().join(', '),
-    `FROM ${Incident.tableName}`,
-    queryHelper.leftJoin(Incident, Source, true),
-  ].join(' ');
-
   [SORT_ASC, SORT_DESC].forEach(sort => {
     const segment = [];
     const conditions = [];
 
-    segment.push(select);
+    segment.push(getBoundaryDateSubquery().join(' '));
     conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ${Source.field('year')}`);
 
     if (hasEntityId) {
@@ -285,7 +289,7 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     }
 
     segment.push('WHERE');
-    segment.push(conditions.join(' AND '));
+    segment.push(...queryHelper.joinConditions(conditions));
     segment.push('ORDER BY');
     segment.push(Incident.field('contact_date'));
     segment.push(sort);
