@@ -55,7 +55,7 @@ const getAllQuery = (options = {}) => {
   return { clauses, params };
 };
 
-const buildEntitiesQuery = (options = {}) => {
+const buildEntitiesQuery = (options = {}, limit = null) => {
   const {
     personId,
     personRole,
@@ -64,6 +64,7 @@ const buildEntitiesQuery = (options = {}) => {
 
   const hasPersonId = Boolean(personId);
   const hasPersonRole = Boolean(personRole);
+  const hasLimit = Number.isInteger(limit);
 
   const clauses = [];
   const selections = [];
@@ -76,6 +77,7 @@ const buildEntitiesQuery = (options = {}) => {
   } else {
     selections.push(Entity.field('id'));
     selections.push(Entity.field('name'));
+    selections.push(`COUNT(${Incident.field(Entity.foreignKey())}) AS total`);
 
     clauses.push(selections.join(', '));
   }
@@ -104,14 +106,21 @@ const buildEntitiesQuery = (options = {}) => {
   }
 
   if (!totalOnly) {
+    clauses.push('GROUP BY');
+    clauses.push(Incident.field(Entity.foreignKey()));
     clauses.push('ORDER BY');
-    clauses.push(`${Entity.field('name')} ASC`);
+    clauses.push('total DESC');
+  }
+
+  if (hasLimit) {
+    clauses.push('LIMIT ?');
+    params.push(limit);
   }
 
   return { clauses, params };
 };
 
-const getEntitiesQuery = (options = {}) => buildEntitiesQuery(options);
+const getEntitiesQuery = (options = {}, limit = null) => buildEntitiesQuery(options, limit);
 
 const getEntitiesTotalQuery = (options = {}) => buildEntitiesQuery({
   ...options,
@@ -152,7 +161,7 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
   return { clauses, params };
 };
 
-const buildPeopleQuery = (options = {}) => {
+const buildPeopleQuery = (options = {}, limit = null) => {
   const {
     entityId,
     personId,
@@ -166,6 +175,7 @@ const buildPeopleQuery = (options = {}) => {
   const hasPersonId = Boolean(personId);
   const hasRole = Boolean(role);
   const hasSourceId = Boolean(sourceId);
+  const hasLimit = Number.isInteger(limit);
 
   const clauses = [];
   const selections = [];
@@ -180,6 +190,7 @@ const buildPeopleQuery = (options = {}) => {
     selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
     selections.push(Person.field('name'));
     selections.push(Person.field('type'));
+    selections.push(`COUNT(${IncidentAttendee.field(Person.foreignKey())}) AS total`);
 
     clauses.push(selections.join(', '));
   }
@@ -242,14 +253,21 @@ const buildPeopleQuery = (options = {}) => {
   clauses.push(...queryHelper.joinConditions(conditions));
 
   if (!totalOnly) {
+    clauses.push('GROUP BY');
+    clauses.push(IncidentAttendee.field(Person.foreignKey()));
     clauses.push('ORDER BY');
-    clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+    clauses.push('total DESC');
+  }
+
+  if (hasLimit) {
+    clauses.push('LIMIT ?');
+    params.push(limit);
   }
 
   return { clauses, params };
 };
 
-const getPeopleQuery = (options = {}) => buildPeopleQuery(options);
+const getPeopleQuery = (options = {}, limit = null) => buildPeopleQuery(options, limit);
 
 const getPeopleTotalQuery = (options = {}) => buildPeopleQuery({
   ...options,

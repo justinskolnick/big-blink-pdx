@@ -5,8 +5,6 @@ const {
   getRangeStatement,
 } = require('../helpers/quarters');
 
-const { sortTotalDescending } = require('../lib/sorting');
-
 const IncidentAttendee = require('../models/incident-attendee');
 
 const db = require('./db');
@@ -66,30 +64,8 @@ const getAllForIncidents = async (incidents) => {
   return amended;
 };
 
-const collectEntities = (entities, limit = null) => {
-  const hasLimit = Number.isInteger(limit);
-  const unsorted = entities
-    .reduce((byKey, values) => {
-      const key = values.id;
-
-      if (key in byKey) {
-        byKey[key].total = byKey[key].total + 1;
-      } else {
-        byKey[key] = {
-          entity: values,
-          total: 1,
-        };
-      }
-      return byKey;
-    }, {});
-
-  const sorted = Object.values(unsorted).sort(sortTotalDescending);
-
-  return hasLimit ? sorted.slice(0, limit) : sorted;
-};
-
-const getEntitiesRecords = async (options = {}) => {
-  const { clauses, params } = getEntitiesQuery(options);
+const getEntitiesRecords = async (options = {}, limit = null) => {
+  const { clauses, params } = getEntitiesQuery(options, limit);
   const results = await db.getAll(clauses, params);
 
   return results;
@@ -108,11 +84,14 @@ const getEntities = async (options = {}, limit = null) => {
 
   const results = await Promise.all([
     getEntitiesTotal(options),
-    getEntitiesRecords(options),
+    getEntitiesRecords(options, limit),
   ]);
   const [total, records] = results;
 
-  let collectedRecords = collectEntities(records, limit);
+  let collectedRecords = records.map(entity => ({
+    entity,
+    total: entity.total,
+  }));
 
   if (hasPersonId && personRole === IncidentAttendee.roles.lobbyist) {
     collectedRecords = await Promise.all(collectedRecords.map(async (result) => {
@@ -152,29 +131,8 @@ const getHasLobbiedOrBeenLobbied = async (options = {}) => {
   return result.hasLobbiedOrBeenLobbied === 'true';
 };
 
-const collectPeople = (people, limit = null) => {
-  const hasLimit = Number.isInteger(limit);
-  const unsorted = people
-    .reduce((byKey, values) => {
-      const key = values.id;
-
-      if (key in byKey) {
-        byKey[key].total = byKey[key].total + 1;
-      } else {
-        byKey[key] = {
-          person: values,
-          total: 1,
-        };
-      }
-      return byKey;
-    }, {});
-  const sorted = Object.values(unsorted).sort(sortTotalDescending);
-
-  return hasLimit ? sorted.slice(0, limit) : sorted;
-};
-
-const getPeopleRecords = async (options = {}) => {
-  const { clauses, params } = getPeopleQuery(options);
+const getPeopleRecords = async (options = {}, limit = null) => {
+  const { clauses, params } = getPeopleQuery(options, limit);
   const results = await db.getAll(clauses, params);
 
   return results;
@@ -195,10 +153,13 @@ const getAttendeesByRole = async (role, options = {}, limit = null) => {
 
   const results = await Promise.all([
     getPeopleTotal(roleOptions),
-    getPeopleRecords(roleOptions),
+    getPeopleRecords(roleOptions, limit),
   ]);
   const [total, people] = results;
-  const records = collectPeople(people, limit);
+  const records = people.map(person => ({
+    person,
+    total: person.total,
+  }));
 
   return {
     records,
