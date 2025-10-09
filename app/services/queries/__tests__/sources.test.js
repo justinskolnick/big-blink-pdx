@@ -31,7 +31,7 @@ describe('getAllQuery()', () => {
   describe('with counts', () => {
     test('returns the expected SQL', () => {
       const types = ['activity'];
-      const options = { includeCount: true, types };
+      const options = { includeTotal: true, types };
 
       expect(getAllQuery(options)).toEqual({
         clauses: [

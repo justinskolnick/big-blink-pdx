@@ -11,15 +11,16 @@ const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
     dateRangeTo,
-    includeCount = false,
+    includeTotal = false,
+    includeTotalOnly = false,
     page,
     perPage,
     role,
     sort,
     sortBy,
-    totalOnly = false,
     year,
   } = options;
+
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
@@ -35,12 +36,12 @@ const buildQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(DISTINCT(${Person.primaryKey()})) AS total`);
   } else {
     selections.push(...Person.fields());
 
-    if (includeCount) {
+    if (includeTotal) {
       selections.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
     }
 
@@ -49,7 +50,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Person.tableName}`);
 
-  if (includeCount || hasRole || hasDateOption) {
+  if (includeTotal || hasRole || hasDateOption) {
     clauses.push(queryHelper.leftJoin(Person, IncidentAttendee));
   }
 
@@ -61,7 +62,7 @@ const buildQuery = (options = {}) => {
 
   conditions.push(`${Person.field('identical_id')} IS NULL`);
 
-  if (includeCount || hasRole || hasDateOption) {
+  if (includeTotal || hasRole || hasDateOption) {
     if (hasRole) {
       conditions.push(`${IncidentAttendee.field('role')} = ?`);
       params.push(role);
@@ -77,16 +78,16 @@ const buildQuery = (options = {}) => {
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (includeCount || hasRole || hasDateOption) {
-    if (!totalOnly) {
+  if (includeTotal || hasRole || hasDateOption) {
+    if (!includeTotalOnly) {
       clauses.push(`GROUP BY ${Person.primaryKey()}`);
     }
   }
 
-  if (!totalOnly) {
+  if (!includeTotalOnly) {
     clauses.push('ORDER BY');
 
-    if (includeCount && sortBy === SORT_BY_TOTAL) {
+    if (includeTotal && sortBy === SORT_BY_TOTAL) {
       clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
     } else {
       clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
@@ -130,7 +131,7 @@ const getAtIdQuery = (id) => {
 
 const getTotalQuery = (options = {}) => buildQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 module.exports = {

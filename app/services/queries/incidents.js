@@ -80,6 +80,7 @@ const buildQuery = (options = {}) => {
     dateRangeFrom,
     dateRangeTo,
     entityId,
+    includeTotalOnly = false,
     page,
     people = [],
     perPage,
@@ -89,7 +90,6 @@ const buildQuery = (options = {}) => {
     role,
     sort = SORT_ASC,
     sourceId,
-    totalOnly = false,
     withEntityId,
     withPersonId,
     year,
@@ -117,7 +117,7 @@ const buildQuery = (options = {}) => {
 
   if (primaryKeyOnly) {
     clauses.push(Incident.primaryKey());
-  } else if (totalOnly) {
+  } else if (includeTotalOnly) {
     clauses.push(`COUNT(${Incident.primaryKey()}) AS total`);
   } else {
     clauses.push(Incident.fields().join(', '));
@@ -197,7 +197,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (!primaryKeyOnly && !totalOnly) {
+  if (!primaryKeyOnly && !includeTotalOnly) {
     if (hasPeople || hasPersonIds) {
       clauses.push('GROUP BY');
       clauses.push(Incident.primaryKey());
@@ -305,7 +305,7 @@ const getFirstAndLastDatesQuery = (options = {}) => {
 
 const getTotalQuery = (options = {}) => buildQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 module.exports = {

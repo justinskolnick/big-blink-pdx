@@ -176,7 +176,7 @@ describe('getAllQuery()', () => {
 
   describe('with counts', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery({ includeCount: true })).toEqual({
+      expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
           'people.id, people.identical_id, people.pernr, people.type, people.name, COUNT(incident_attendees.id) AS total',
@@ -196,7 +196,7 @@ describe('getAllQuery()', () => {
       describe('with sort_by', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
-            includeCount: true,
+            includeTotal: true,
             sortBy: SORT_BY_TOTAL,
           })).toEqual({
             clauses: [
@@ -218,7 +218,7 @@ describe('getAllQuery()', () => {
       describe('with sort_by and sort', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
-            includeCount: true,
+            includeTotal: true,
             sort: SORT_DESC,
             sortBy: SORT_BY_NAME,
           })).toEqual({

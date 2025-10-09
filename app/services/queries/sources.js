@@ -7,8 +7,8 @@ const Quarter = require('../../models/quarter');
 
 const buildQuery = (options = {}) => {
   const {
-    includeCount = false,
-    totalOnly = false,
+    includeTotal = false,
+    includeTotalOnly = false,
     types = [],
   } = options;
 
@@ -18,12 +18,12 @@ const buildQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(${Source.primaryKey()}) AS total`);
   } else {
     selections.push(...Source.fields());
 
-    if (includeCount) {
+    if (includeTotal) {
       selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
     }
 
@@ -32,7 +32,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Source.tableName}`);
 
-  if (includeCount) {
+  if (includeTotal) {
     clauses.push(queryHelper.leftJoin(Source, Incident));
   }
 
@@ -48,8 +48,8 @@ const buildQuery = (options = {}) => {
     params.push(...types);
   }
 
-  if (!totalOnly) {
-    if (includeCount) {
+  if (!includeTotalOnly) {
+    if (includeTotal) {
       clauses.push(`GROUP BY ${Incident.field(Source.foreignKey())}`);
     }
 
@@ -80,8 +80,8 @@ const getAtIdQuery = (id) => {
 const buildEntitiesForIdQuery = (options = {}) => {
   const {
     id,
+    includeTotalOnly = false,
     limit,
-    totalOnly = false,
   } = options;
 
   const hasLimit = Boolean(limit);
@@ -92,7 +92,7 @@ const buildEntitiesForIdQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(DISTINCT ${Incident.field(Entity.foreignKey())}) AS total`);
   } else {
     selections.push(`${Entity.field('id')}`);
@@ -108,7 +108,7 @@ const buildEntitiesForIdQuery = (options = {}) => {
   clauses.push(`${Incident.field(Source.foreignKey())} = ?`);
   params.push(id);
 
-  if (!totalOnly) {
+  if (!includeTotalOnly) {
     clauses.push(`GROUP BY ${Incident.field(Entity.foreignKey())}`);
     clauses.push('ORDER BY total DESC');
   }
@@ -125,7 +125,7 @@ const getEntitiesForIdQuery = (id, limit = null) => buildEntitiesForIdQuery({ id
 
 const getEntitiesTotalForIdQuery = (id) => buildEntitiesForIdQuery({
   id,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 const getIdForQuarterQuery = (quarterSlug) => {
@@ -176,7 +176,7 @@ const getStatsQuery = () => {
 
 const getTotalQuery = (options = {}) => buildQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 module.exports = {

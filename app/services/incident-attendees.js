@@ -86,12 +86,16 @@ const getEntities = async (options = {}, limit = null) => {
     getEntitiesTotal(options),
     getEntitiesRecords(options, limit),
   ]);
-  const [total, records] = results;
+  const [totalRecords, records] = results;
 
-  let collectedRecords = records.map(entity => ({
-    entity,
-    total: entity.total,
-  }));
+  let collectedRecords = records.map(entity => {
+    const { total, ...rest } = entity;
+
+    return {
+      entity: rest,
+      total,
+    };
+  });
 
   if (hasPersonId && personRole === IncidentAttendee.roles.lobbyist) {
     collectedRecords = await Promise.all(collectedRecords.map(async (result) => {
@@ -120,7 +124,7 @@ const getEntities = async (options = {}, limit = null) => {
 
   return {
     records: collectedRecords,
-    total,
+    total: totalRecords,
   };
 };
 
@@ -146,25 +150,35 @@ const getPeopleTotal = async (options = {}) => {
 };
 
 const getAttendeesByRole = async (role, options = {}, limit = null) => {
-  const roleOptions = {
+  const totalOptions = {
     ...options,
+    role,
+  };
+  const recordsOptions = {
+    ...options,
+    includeTotal: true,
     role,
   };
 
   const results = await Promise.all([
-    getPeopleTotal(roleOptions),
-    getPeopleRecords(roleOptions, limit),
+    getPeopleTotal(totalOptions),
+    getPeopleRecords(recordsOptions, limit),
   ]);
-  const [total, people] = results;
-  const records = people.map(person => ({
-    person,
-    total: person.total,
-  }));
+  const [totalRecords, people] = results;
+
+  const records = people.map(person => {
+    const { total, ...rest } = person;
+
+    return {
+      person: rest,
+      total,
+    };
+  });
 
   return {
     records,
     role,
-    total,
+    total: totalRecords,
   };
 };
 

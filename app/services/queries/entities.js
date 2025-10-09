@@ -15,15 +15,16 @@ const buildQuery = (options = {}) => {
   const {
     dateRangeFrom,
     dateRangeTo,
-    includeCount = false,
+    includeTotal = false,
+    includeTotalOnly = false,
     limit,
     page,
     perPage,
     sort,
     sortBy = SORT_BY_NAME,
-    totalOnly = false,
     year,
   } = options;
+
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
   const hasLimit = Boolean(limit);
   const hasPage = Boolean(page);
@@ -39,12 +40,12 @@ const buildQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(DISTINCT(${Entity.primaryKey()})) AS total`);
   } else {
     selections.push(...Entity.fields());
 
-    if (includeCount) {
+    if (includeTotal) {
       selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
     }
 
@@ -57,7 +58,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Entity.tableName}`);
 
-  if (includeCount || hasDateOption) {
+  if (includeTotal || hasDateOption) {
     clauses.push(queryHelper.leftJoin(Entity, Incident));
 
     if (hasDateOption) {
@@ -71,15 +72,15 @@ const buildQuery = (options = {}) => {
 
     clauses.push(...queryHelper.joinConditions(conditions));
 
-    if (!totalOnly) {
+    if (!includeTotalOnly) {
       clauses.push(`GROUP BY ${Entity.primaryKey()}`);
     }
   }
 
-  if (!totalOnly) {
+  if (!includeTotalOnly) {
     clauses.push('ORDER BY');
 
-    if (includeCount && sortBy === SORT_BY_TOTAL) {
+    if (includeTotal && sortBy === SORT_BY_TOTAL) {
       clauses.push(`total ${sort || SORT_DESC}`);
     } else {
       clauses.push(`sort_name ${sort || SORT_ASC}`);
@@ -120,7 +121,7 @@ const getAtIdQuery = (id) => {
 
 const getTotalQuery = (options = {}) => buildQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 module.exports = {

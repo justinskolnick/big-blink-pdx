@@ -119,7 +119,7 @@ describe('getAllQuery()', () => {
 
   describe('with counts', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery({ includeCount: true })).toEqual({
+      expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
           "entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
@@ -137,7 +137,7 @@ describe('getAllQuery()', () => {
       describe('with sort_by', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
-            includeCount: true,
+            includeTotal: true,
             sortBy: SORT_BY_TOTAL,
           })).toEqual({
             clauses: [
@@ -157,7 +157,7 @@ describe('getAllQuery()', () => {
       describe('with sort_by and sort', () => {
         test('returns the expected SQL', () => {
           expect(getAllQuery({
-            includeCount: true,
+            includeTotal: true,
             sort: SORT_DESC,
             sortBy: SORT_BY_NAME,
           })).toEqual({

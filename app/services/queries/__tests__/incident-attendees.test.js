@@ -247,13 +247,11 @@ describe('getPeopleQuery()', () => {
       expect(getPeopleQuery()).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+          'incident_attendees.person_id AS id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON incident_attendees.person_id = people.id',
-          'GROUP BY',
-          'incident_attendees.person_id',
           'ORDER BY',
-          'total DESC',
+          'incident_attendees.person_id ASC',
         ],
         params: [],
       });
@@ -265,15 +263,13 @@ describe('getPeopleQuery()', () => {
       expect(getPeopleQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+          'incident_attendees.person_id AS id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON incident_attendees.person_id = people.id',
           'WHERE',
           'incident_attendees.incident_id IN (SELECT incidents.id FROM incidents WHERE incidents.entity_id = ?)',
-          'GROUP BY',
-          'incident_attendees.person_id',
           'ORDER BY',
-          'total DESC',
+          'incident_attendees.person_id ASC',
         ],
         params: [123],
       });
@@ -281,7 +277,7 @@ describe('getPeopleQuery()', () => {
 
     describe('and a limit', () => {
       test('returns the expected SQL', () => {
-        expect(getPeopleQuery({ entityId: 123 }, 5)).toEqual({
+        expect(getPeopleQuery({ entityId: 123, includeTotal: true }, 5)).toEqual({
           clauses: [
             'SELECT',
             'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
@@ -306,17 +302,15 @@ describe('getPeopleQuery()', () => {
       expect(getPeopleQuery({ personId: 123 })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+          'incident_attendees.person_id AS id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON incident_attendees.person_id = people.id',
           'WHERE',
           'incident_attendees.incident_id IN (SELECT incident_attendees.incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?)',
           'AND',
           'incident_attendees.person_id != ?',
-          'GROUP BY',
-          'incident_attendees.person_id',
           'ORDER BY',
-          'total DESC',
+          'incident_attendees.person_id ASC',
         ],
         params: [123, 123],
       });
@@ -327,17 +321,15 @@ describe('getPeopleQuery()', () => {
         expect(getPeopleQuery({ personId: 123, personRole: 'lobbyist' })).toEqual({
           clauses: [
             'SELECT',
-            'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+            'incident_attendees.person_id AS id, people.name, people.type',
             'FROM incident_attendees',
             'LEFT JOIN people ON incident_attendees.person_id = people.id',
             'WHERE',
             'incident_attendees.incident_id IN (SELECT incident_attendees.incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ?)',
             'AND',
             'incident_attendees.person_id != ?',
-            'GROUP BY',
-            'incident_attendees.person_id',
             'ORDER BY',
-            'total DESC',
+            'incident_attendees.person_id ASC',
           ],
           params: [123, 'lobbyist', 123],
         });
@@ -350,15 +342,13 @@ describe('getPeopleQuery()', () => {
       expect(getPeopleQuery({ role: 'lobbyist' })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+          'incident_attendees.person_id AS id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON incident_attendees.person_id = people.id',
           'WHERE',
           'incident_attendees.role = ?',
-          'GROUP BY',
-          'incident_attendees.person_id',
           'ORDER BY',
-          'total DESC',
+          'incident_attendees.person_id ASC',
         ],
         params: ['lobbyist'],
       });
@@ -370,15 +360,13 @@ describe('getPeopleQuery()', () => {
       expect(getPeopleQuery({ sourceId: 1 })).toEqual({
         clauses: [
           'SELECT',
-          'incident_attendees.person_id AS id, people.name, people.type, COUNT(incident_attendees.person_id) AS total',
+          'incident_attendees.person_id AS id, people.name, people.type',
           'FROM incident_attendees',
           'LEFT JOIN people ON incident_attendees.person_id = people.id',
           'WHERE',
           'incident_attendees.incident_id IN (SELECT incidents.id FROM incidents WHERE incidents.data_source_id = ?)',
-          'GROUP BY',
-          'incident_attendees.person_id',
           'ORDER BY',
-          'total DESC',
+          'incident_attendees.person_id ASC',
         ],
         params: [1],
       });

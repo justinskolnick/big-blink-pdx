@@ -83,7 +83,7 @@ router.get('/', async (req, res, next) => {
       entitiesResult = await entities.getAll({
         page,
         perPage,
-        includeCount: true,
+        includeTotal: true,
         sort,
         sortBy,
       });

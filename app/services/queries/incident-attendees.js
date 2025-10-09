@@ -57,9 +57,9 @@ const getAllQuery = (options = {}) => {
 
 const buildEntitiesQuery = (options = {}, limit = null) => {
   const {
+    includeTotalOnly = false,
     personId,
     personRole,
-    totalOnly = false,
   } = options;
 
   const hasPersonId = Boolean(personId);
@@ -72,7 +72,7 @@ const buildEntitiesQuery = (options = {}, limit = null) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(DISTINCT ${Entity.primaryKey()}) AS total`);
   } else {
     selections.push(Entity.field('id'));
@@ -105,7 +105,7 @@ const buildEntitiesQuery = (options = {}, limit = null) => {
     clauses.push(`${Incident.primaryKey()} IN (${subqueryClauses.join(' ')})`);
   }
 
-  if (!totalOnly) {
+  if (!includeTotalOnly) {
     clauses.push('GROUP BY');
     clauses.push(Incident.field(Entity.foreignKey()));
     clauses.push('ORDER BY');
@@ -124,7 +124,7 @@ const getEntitiesQuery = (options = {}, limit = null) => buildEntitiesQuery(opti
 
 const getEntitiesTotalQuery = (options = {}) => buildEntitiesQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
@@ -164,11 +164,12 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
 const buildPeopleQuery = (options = {}, limit = null) => {
   const {
     entityId,
+    includeTotal,
+    includeTotalOnly = false,
     personId,
     personRole,
     role,
     sourceId,
-    totalOnly = false,
   } = options;
 
   const hasEntityId = Boolean(entityId);
@@ -184,13 +185,16 @@ const buildPeopleQuery = (options = {}, limit = null) => {
 
   clauses.push('SELECT');
 
-  if (totalOnly) {
+  if (includeTotalOnly) {
     clauses.push(`COUNT(DISTINCT ${IncidentAttendee.field(Person.foreignKey())}) AS total`);
   } else {
     selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
     selections.push(Person.field('name'));
     selections.push(Person.field('type'));
-    selections.push(`COUNT(${IncidentAttendee.field(Person.foreignKey())}) AS total`);
+
+    if (includeTotal) {
+      selections.push(`COUNT(${IncidentAttendee.field(Person.foreignKey())}) AS total`);
+    }
 
     clauses.push(selections.join(', '));
   }
@@ -252,11 +256,19 @@ const buildPeopleQuery = (options = {}, limit = null) => {
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (!totalOnly) {
-    clauses.push('GROUP BY');
-    clauses.push(IncidentAttendee.field(Person.foreignKey()));
+  if (!includeTotalOnly) {
+    if (includeTotal) {
+      clauses.push('GROUP BY');
+      clauses.push(IncidentAttendee.field(Person.foreignKey()));
+    }
+
     clauses.push('ORDER BY');
-    clauses.push('total DESC');
+
+    if (includeTotal) {
+      clauses.push('total DESC');
+    } else {
+      clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+    }
   }
 
   if (hasLimit) {
@@ -271,7 +283,7 @@ const getPeopleQuery = (options = {}, limit = null) => buildPeopleQuery(options,
 
 const getPeopleTotalQuery = (options = {}) => buildPeopleQuery({
   ...options,
-  totalOnly: true,
+  includeTotalOnly: true,
 });
 
 module.exports = {

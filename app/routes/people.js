@@ -94,7 +94,7 @@ router.get('/', async (req, res, next) => {
       peopleResult = await people.getAll({
         page,
         perPage,
-        includeCount: true,
+        includeTotal: true,
         sort,
         sortBy,
       });

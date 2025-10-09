@@ -111,7 +111,7 @@ router.get('/leaderboard', async (req, res, next) => {
       const options = {
         page: 1,
         perPage: 5,
-        includeCount: true,
+        includeTotal: true,
         sortBy: SORT_BY_TOTAL,
       };
       const totalOptions = {};

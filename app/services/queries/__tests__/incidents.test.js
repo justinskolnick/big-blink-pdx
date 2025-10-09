@@ -477,7 +477,7 @@ describe('getAllQuery()', () => {
 
   describe('with counts', () => {
     test('returns the expected SQL', () => {
-      expect(getAllQuery({ includeCount: true })).toEqual({
+      expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
@@ -493,7 +493,7 @@ describe('getAllQuery()', () => {
     describe('and a sort column', () => {
       test('returns the expected SQL', () => {
         expect(getAllQuery({
-          includeCount: true,
+          includeTotal: true,
           sortBy: SORT_BY_TOTAL,
         })).toEqual({
           clauses: [

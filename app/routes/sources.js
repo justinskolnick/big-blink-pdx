@@ -81,7 +81,7 @@ router.get('/', async (req, res, next) => {
   if (req.get('Content-Type') === headers.json) {
     try {
       activitySourcesResult = await sources.getAll({
-        includeCount: true,
+        includeTotal: true,
         types: [Source.types.activity],
       });
       activitySourcesResult = activitySourcesResult.map(source => {
