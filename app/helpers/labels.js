@@ -1,6 +1,6 @@
-const labelStrings = require('../../config/strings.json');
+const labelStrings = require('../config/strings.json');
 
-const { snakeCase } = require('../../lib/string');
+const { snakeCase } = require('../lib/string');
 
 class Labels {
   labels = {};
@@ -56,4 +56,6 @@ class Labels {
   }
 }
 
-module.exports = Labels;
+module.exports = {
+  Labels,
+};

@@ -11,8 +11,10 @@ const {
   PARAM_WITH_PERSON_ID,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
+
 const dateHelper = require('../../helpers/date');
-const Labels = require('../../models/shared/labels');
+const { Labels } = require('../../helpers/labels');
+
 const {
   getPeople,
   getQuarterAndYear,
@@ -22,7 +24,7 @@ const {
   hasRole,
 } = require('../request/search-params');
 
-const labelsModel = new Labels();
+const labels = new Labels();
 
 const getLabel = value => ({
   type: 'label',
@@ -64,7 +66,7 @@ const getRoleLabels = (value) => {
   }
 
   return [
-    getLabelText(labelsModel.getLabel(labelKey)),
+    getLabelText(labels.getLabel(labelKey)),
     getLabel(value),
   ];
 };

@@ -1,12 +1,11 @@
 const camelCase = require('lodash.camelcase');
 
 const dateHelper = require('../../helpers/date');
+const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 
 const { snakeCase } = require('../../lib/string');
 const { isTruthy } = require('../../lib/util');
-
-const Labels = require('./labels');
 
 class Base {
   static primaryKeyField = 'id';

@@ -1,18 +1,18 @@
-const Labels = require('../models/shared/labels');
+const { Labels } = require('./labels');
 
-const labelsModel = new Labels();
+const labels = new Labels();
 const labelPrefix = 'description';
 
 const getDetailDescription = (name, word = 'involving') => {
   const labelKey = name ? 'detail_with_name' : 'detail_without_name';
 
-  return labelsModel.getLabel(labelKey, labelPrefix, { name, word });
+  return labels.getLabel(labelKey, labelPrefix, { name, word });
 };
 
 const getIndexDescription = (type) => {
   const labelKey = type ? 'index_with_type' : 'index_without_type';
 
-  return labelsModel.getLabel(labelKey, labelPrefix, { type });
+  return labels.getLabel(labelKey, labelPrefix, { type });
 };
 
 const getPageTitle = (section) => {

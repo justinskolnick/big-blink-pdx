@@ -18,6 +18,7 @@ const {
   SECTION_ENTITIES,
 } = require('../config/constants');
 
+const { Labels } = require('../helpers/labels');
 const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 
@@ -28,7 +29,6 @@ const { toSentence } = require('../lib/string');
 
 const Entity = require('../models/entity');
 const Incident = require('../models/incident');
-const Labels = require('../models/shared/labels');
 const Person = require('../models/person');
 
 const entities = require('../services/entities');
@@ -188,8 +188,8 @@ router.get('/:id', async (req, res, next) => {
         record.details = {};
 
         if (hasLocations) {
-          const labelsModel = new Labels();
-          const location = toSentence(entityLocations.map(location => labelsModel.getLabel('location', null, location)));
+          const labels = new Labels();
+          const location = toSentence(entityLocations.map(location => labels.getLabel('location', null, location)));
 
           record.details.description = location;
         }

@@ -1,6 +1,6 @@
-const { titleCase } = require('../../lib/string');
+const { Labels } = require('../../helpers/labels');
 
-const Labels = require('../shared/labels');
+const { titleCase } = require('../../lib/string');
 
 class Leaderboard {
   static labelPrefix = 'leaderboard';
