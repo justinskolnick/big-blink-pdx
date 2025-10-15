@@ -14,6 +14,7 @@ class OfficialPosition extends Base {
     name:                 { select: true, adapt: false, },
     date_start:           { select: true, adapt: false, },
     date_end:             { select: true, adapt: false, },
+    date_final:           { select: true, adapt: false, },
     is_withdrawn:         { select: true, adapt: false, },
     is_elected:           { select: true, adapt: false, },
     office:               { select: true, adapt: false, },
@@ -42,7 +43,7 @@ class OfficialPosition extends Base {
           if (!fields.every(field => item.getData(field) === prev.getData(field))) {
             collected.push(item);
           }
-        } else {
+        } else if (item.dateStart) {
           collected.push(item);
         }
       } else {

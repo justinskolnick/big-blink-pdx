@@ -9,6 +9,7 @@ const resultMayorCos = require('../__mocks__/official-position/result-mayor-cos'
 const resultMayorCosWithdrawn = require('../__mocks__/official-position/result-mayor-cos-withdrawn');
 const resultMayorWithdrawn = require('../__mocks__/official-position/result-mayor-withdrawn');
 const resultsCouncilor = require('../__mocks__/official-position/results-councilor');
+const resultsCouncilorWithdrawn = require('../__mocks__/official-position/results-councilor-withdrawn');
 
 const OfficialPosition = require('../official-position');
 
@@ -31,6 +32,7 @@ describe('fields()', () => {
       'official_positions.name',
       'official_positions.date_start',
       'official_positions.date_end',
+      'official_positions.date_final',
       'official_positions.is_withdrawn',
       'official_positions.is_elected',
       'official_positions.office',
@@ -333,44 +335,90 @@ describe('positions', () => {
 });
 
 describe('collect', () => {
-  test('returns the expected array', () => {
-    const results = resultsCouncilor.map(result => new OfficialPosition(result));
-    const collected = OfficialPosition.collect(results);
-    const adapted = collected.map(result => result.adapted);
+  let results;
+  let collected;
+  let adapted;
 
-    expect(results).toHaveLength(6);
-    expect(collected).toHaveLength(4);
-    expect(adapted).toHaveLength(4);
+  describe('with an active position', () => {
+    beforeAll(() => {
+      results = resultsCouncilor.map(result => new OfficialPosition(result));
+      collected = OfficialPosition.collect(results);
+      adapted = collected.map(result => result.adapted);
+    });
 
-    expect(adapted).toEqual([
-      {
-        dates: {
-          end: '2016-06-30T00:00:00.000Z',
-          start: '2013-06-06T00:00:00.000Z',
+    test('returns the expected array', () => {
+      expect(results).toHaveLength(6);
+      expect(collected).toHaveLength(4);
+      expect(adapted).toHaveLength(4);
+
+      expect(adapted).toEqual([
+        {
+          dates: {
+            end: '2016-06-30T00:00:00.000Z',
+            start: '2013-06-06T00:00:00.000Z',
+          },
+          role: 'Commissioner',
         },
-        role: 'Commissioner',
-      },
-      {
-        dates: {
-          end: '2016-12-31T00:00:00.000Z',
-          start: '2016-07-01T00:00:00.000Z',
+        {
+          dates: {
+            end: '2016-12-31T00:00:00.000Z',
+            start: '2016-07-01T00:00:00.000Z',
+          },
+          role: 'Commissioner',
         },
-        role: 'Commissioner',
-      },
-      {
-        dates: {
-          end: '2024-12-31T00:00:00.000Z',
-          start: '2017-01-01T00:00:00.000Z',
+        {
+          dates: {
+            end: '2024-12-31T00:00:00.000Z',
+            start: '2017-01-01T00:00:00.000Z',
+          },
+          role: 'Commissioner',
         },
-        role: 'Commissioner',
-      },
-      {
-        dates: {
-          end: null,
-          start: '2025-01-01T00:00:00.000Z',
+        {
+          dates: {
+            end: null,
+            start: '2025-01-01T00:00:00.000Z',
+          },
+          role: 'Councilor for District 3',
         },
-        role: 'Councilor for District 3',
-      },
-    ]);
+      ]);
+    });
+  });
+
+  describe('with a withdrawn position', () => {
+    beforeAll(() => {
+      results = resultsCouncilorWithdrawn.map(result => new OfficialPosition(result));
+      collected = OfficialPosition.collect(results);
+      adapted = collected.map(result => result.adapted);
+    });
+
+    test('returns the expected array', () => {
+      expect(results).toHaveLength(5);
+      expect(collected).toHaveLength(3);
+      expect(adapted).toHaveLength(3);
+
+      expect(adapted).toEqual([
+        {
+          dates: {
+            end: '2021-06-30T00:00:00.000Z',
+            start: '2019-01-01T00:00:00.000Z',
+          },
+          role: 'Commissioner',
+        },
+        {
+          dates: {
+            end: '2022-11-30T00:00:00.000Z',
+            start: '2021-07-01T00:00:00.000Z',
+          },
+          role: 'Commissioner',
+        },
+        {
+          dates: {
+            end: '2022-12-30T00:00:00.000Z',
+            start: '2022-12-01T00:00:00.000Z',
+          },
+          role: 'Commissioner',
+        },
+      ]);
+    });
   });
 });

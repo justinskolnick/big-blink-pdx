@@ -4,6 +4,7 @@ module.exports = {
   name: 'Jane Doe',
   date_start: '2015-01-01T00:00:00.000Z',
   date_end: null,
+  date_final: null,
   is_withdrawn: 0,
   is_elected: 1,
   office: 'Mayor',
