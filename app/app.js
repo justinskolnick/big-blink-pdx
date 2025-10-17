@@ -13,6 +13,7 @@ const headers = require('./lib/headers');
 const setFlashMiddleware = require('./middleware/set-flash');
 const handleQueryParamsMiddleware = require('./middleware/handle-query-params');
 
+const apiRouter = require('./routes/api/index');
 const indexRouter = require('./routes/index');
 const entitiesRouter = require('./routes/entities');
 const incidentsRouter = require('./routes/incidents');
@@ -23,6 +24,7 @@ const app = express();
 
 const errorCodes = {
   404: 'Not Found',
+  406: 'Not Acceptable',
   422: 'Unprocessable Content',
   500: 'Internal Server Error',
 };
@@ -53,6 +55,7 @@ app.use('/', setFlashMiddleware);
 app.use('/', handleQueryParamsMiddleware);
 
 app.use('/', indexRouter);
+app.use('/api', apiRouter);
 app.use('/entities', entitiesRouter);
 app.use('/incidents', incidentsRouter);
 app.use('/people', peopleRouter);
@@ -79,7 +82,7 @@ app.use((err, req, res, next) => { // eslint-disable-line @typescript-eslint/no-
   res.locals.error = error;
 
   if (req.get('Content-Type') === headers.json) {
-    res.status(200).json({ meta: { errors: [error] } });
+    res.status(err.status || 200).json({ meta: { errors: [error] } });
   } else {
     res.status(err.status || 500);
     res.render('error', { robots: headers.robots });

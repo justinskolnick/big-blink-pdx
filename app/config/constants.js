@@ -1,3 +1,4 @@
+const LANG_EN = 'en';
 const LOCALE = 'en-US';
 
 const PARAM_DATE_ON = 'date_on';
@@ -46,6 +47,7 @@ const SECTION_SOURCES = 'sources';
 const TIME_ZONE = 'America/Los_Angeles';
 
 module.exports = {
+  LANG_EN,
   LOCALE,
   MODEL_ENTITIES,
   MODEL_PEOPLE,
