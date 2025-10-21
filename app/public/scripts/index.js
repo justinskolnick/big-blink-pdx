@@ -37227,6 +37227,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var getUrl = (url) => new URL(url, window.location.toString());
   var baseUrl = getUrl("/").origin;
   var TRANSITIONAL_API_PATHNAMES = [
+    "/entities",
     "/people"
   ];
   var getQueryPath = (location2) => {
@@ -37277,16 +37278,16 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityById: builder.query(getAncillaryRoute(
-        ({ id }) => `entities/${id}`
+        ({ id }) => `api/entities/${id}`
       )),
       getEntityAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`entities/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, limit)
       )),
       getEntityIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `entities/${id}/incidents${search}`
+        ({ id, search }) => `api/entities/${id}/incidents${search}`
       )),
       getEntityStatsById: builder.query(getAncillaryRoute(
-        ({ id }) => `entities/${id}/stats`
+        ({ id }) => `api/entities/${id}/stats`
       )),
       getIncidentById: builder.query(getAncillaryRoute(
         ({ id }) => `incidents/${id}`

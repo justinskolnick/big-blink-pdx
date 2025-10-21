@@ -25,6 +25,7 @@ const getUrl = (url: string) => new URL(url, window.location.toString());
 const baseUrl = getUrl('/').origin;
 
 const TRANSITIONAL_API_PATHNAMES = [
+  '/entities',
   '/people',
 ];
 
@@ -86,16 +87,16 @@ const api = createApi({
     getPrimary: builder.query(getPrimaryRoute()),
 
     getEntityById: builder.query(getAncillaryRoute(
-      ({ id }) => `entities/${id}`
+      ({ id }) => `api/entities/${id}`
     )),
     getEntityAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`entities/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, limit)
     )),
     getEntityIncidentsById: builder.query(getAncillaryRoute(
-      ({ id, search }) => `entities/${id}/incidents${search}`
+      ({ id, search }) => `api/entities/${id}/incidents${search}`
     )),
     getEntityStatsById: builder.query(getAncillaryRoute(
-      ({ id }) => `entities/${id}/stats`
+      ({ id }) => `api/entities/${id}/stats`
     )),
 
     getIncidentById: builder.query(getAncillaryRoute(
