@@ -27,6 +27,7 @@ const baseUrl = getUrl('/').origin;
 const TRANSITIONAL_API_PATHNAMES = [
   '/entities',
   '/people',
+  '/sources',
 ];
 
 const getQueryPath = (location: LocationOptions) => {
@@ -120,16 +121,16 @@ const api = createApi({
     )),
 
     getSourceAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, limit)
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`sources/${id}/entities`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, limit)
     )),
     getSourceIncidentsById: builder.query(getAncillaryRoute(
-      ({ id, search }) => `sources/${id}/incidents${search}`
+      ({ id, search }) => `api/sources/${id}/incidents${search}`
     )),
     getSourceById: builder.query(getAncillaryRoute(
-      ({ id }) => `sources/${id}`
+      ({ id }) => `api/sources/${id}`
     )),
   }),
 });

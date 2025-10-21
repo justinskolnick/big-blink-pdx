@@ -37228,7 +37228,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var baseUrl = getUrl("/").origin;
   var TRANSITIONAL_API_PATHNAMES = [
     "/entities",
-    "/people"
+    "/people",
+    "/sources"
   ];
   var getQueryPath = (location2) => {
     const newUrl = new URL(location2.pathname, baseUrl);
@@ -37308,16 +37309,16 @@ Hook ${hookName} was either not provided or not a function.`);
         ({ id }) => `api/people/${id}/stats`
       )),
       getSourceAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, limit)
       )),
       getSourceEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`sources/${id}/entities`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, limit)
       )),
       getSourceIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `sources/${id}/incidents${search}`
+        ({ id, search }) => `api/sources/${id}/incidents${search}`
       )),
       getSourceById: builder.query(getAncillaryRoute(
-        ({ id }) => `sources/${id}`
+        ({ id }) => `api/sources/${id}`
       ))
     })
   });

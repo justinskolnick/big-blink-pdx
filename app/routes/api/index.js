@@ -4,6 +4,7 @@ const restrictToJsonMiddleware = require('../../middleware/restrict-to-json');
 
 const entitiesRouter = require('./entities');
 const peopleRouter = require('./people');
+const sourcesRouter = require('./sources');
 const statsRouter = require('./stats');
 
 const router = express.Router();
@@ -12,6 +13,7 @@ router.use('/', restrictToJsonMiddleware);
 
 router.use('/entities', entitiesRouter);
 router.use('/people', peopleRouter);
+router.use('/sources', sourcesRouter);
 router.use('/stats', statsRouter);
 
 router.get('/', (req, res) => {
