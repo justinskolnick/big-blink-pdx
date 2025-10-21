@@ -2,13 +2,9 @@ name: Test and Lint
 
 on:
   push:
-    branches:
-      - main
-      - actions
+    branches: [ $default-branch ]
   pull_request:
-    branches:
-      - main
-      - actions
+    branches: [ $default-branch ]
 
 jobs:
   build:
