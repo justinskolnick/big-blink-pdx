@@ -24,12 +24,22 @@ const getUrl = (url: string) => new URL(url, window.location.toString());
 
 const baseUrl = getUrl('/').origin;
 
+const TRANSITIONAL_API_PATHNAMES = [
+  '/people',
+];
+
 const getQueryPath = (location: LocationOptions) => {
   const newUrl = new URL(location.pathname, baseUrl);
   const currentUrl = new URL(window.location.toString());
 
   currentUrl.searchParams.forEach((value, key) => {
     newUrl.searchParams.append(key, value);
+  });
+
+  TRANSITIONAL_API_PATHNAMES.forEach(pathname => {
+    if (newUrl.pathname.startsWith(pathname)) {
+      newUrl.pathname = '/api' + newUrl.pathname;
+    }
   });
 
   return newUrl.pathname.replace(/^\//, '') + newUrl.search;
@@ -68,7 +78,7 @@ const api = createApi({
   }),
   endpoints: (builder) => ({
     getOverview: builder.query(getAncillaryRoute(
-      () => 'overview'
+      () => 'api/stats'
     )),
     getLeaderboard: builder.query(getAncillaryRoute(
       ({ search }) => `leaderboard${search}`
@@ -93,19 +103,19 @@ const api = createApi({
     )),
 
     getPersonAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`people/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, limit)
     )),
     getPersonEntitiesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`people/${id}/entities`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, limit)
     )),
     getPersonIncidentsById: builder.query(getAncillaryRoute(
-      ({ id, search }) => `people/${id}/incidents${search}`
+      ({ id, search }) => `api/people/${id}/incidents${search}`
     )),
     getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
-      ({ id }) => `people/${id}/official-positions`
+      ({ id }) => `api/people/${id}/official-positions`
     )),
     getPersonStatsById: builder.query(getAncillaryRoute(
-      ({ id }) => `people/${id}/stats`
+      ({ id }) => `api/people/${id}/stats`
     )),
 
     getSourceAttendeesById: builder.query(getAncillaryRoute(

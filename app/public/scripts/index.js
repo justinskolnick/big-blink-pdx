@@ -37226,11 +37226,19 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/services/api.ts
   var getUrl = (url) => new URL(url, window.location.toString());
   var baseUrl = getUrl("/").origin;
+  var TRANSITIONAL_API_PATHNAMES = [
+    "/people"
+  ];
   var getQueryPath = (location2) => {
     const newUrl = new URL(location2.pathname, baseUrl);
     const currentUrl = new URL(window.location.toString());
     currentUrl.searchParams.forEach((value, key) => {
       newUrl.searchParams.append(key, value);
+    });
+    TRANSITIONAL_API_PATHNAMES.forEach((pathname) => {
+      if (newUrl.pathname.startsWith(pathname)) {
+        newUrl.pathname = "/api" + newUrl.pathname;
+      }
     });
     return newUrl.pathname.replace(/^\//, "") + newUrl.search;
   };
@@ -37262,7 +37270,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }),
     endpoints: (builder) => ({
       getOverview: builder.query(getAncillaryRoute(
-        () => "overview"
+        () => "api/stats"
       )),
       getLeaderboard: builder.query(getAncillaryRoute(
         ({ search }) => `leaderboard${search}`
@@ -37284,19 +37292,19 @@ Hook ${hookName} was either not provided or not a function.`);
         ({ id }) => `incidents/${id}`
       )),
       getPersonAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`people/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, limit)
       )),
       getPersonEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`people/${id}/entities`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, limit)
       )),
       getPersonIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `people/${id}/incidents${search}`
+        ({ id, search }) => `api/people/${id}/incidents${search}`
       )),
       getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
-        ({ id }) => `people/${id}/official-positions`
+        ({ id }) => `api/people/${id}/official-positions`
       )),
       getPersonStatsById: builder.query(getAncillaryRoute(
-        ({ id }) => `people/${id}/stats`
+        ({ id }) => `api/people/${id}/stats`
       )),
       getSourceAttendeesById: builder.query(getAncillaryRoute(
         ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
