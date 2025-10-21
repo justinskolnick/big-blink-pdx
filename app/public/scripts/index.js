@@ -37228,6 +37228,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var baseUrl = getUrl("/").origin;
   var TRANSITIONAL_API_PATHNAMES = [
     "/entities",
+    "/incidents",
     "/people",
     "/sources"
   ];
@@ -37291,7 +37292,7 @@ Hook ${hookName} was either not provided or not a function.`);
         ({ id }) => `api/entities/${id}/stats`
       )),
       getIncidentById: builder.query(getAncillaryRoute(
-        ({ id }) => `incidents/${id}`
+        ({ id }) => `api/incidents/${id}`
       )),
       getPersonAttendeesById: builder.query(getAncillaryRoute(
         ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, limit)

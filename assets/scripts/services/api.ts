@@ -26,6 +26,7 @@ const baseUrl = getUrl('/').origin;
 
 const TRANSITIONAL_API_PATHNAMES = [
   '/entities',
+  '/incidents',
   '/people',
   '/sources',
 ];
@@ -101,7 +102,7 @@ const api = createApi({
     )),
 
     getIncidentById: builder.query(getAncillaryRoute(
-      ({ id }) => `incidents/${id}`
+      ({ id }) => `api/incidents/${id}`
     )),
 
     getPersonAttendeesById: builder.query(getAncillaryRoute(
