@@ -39,11 +39,15 @@ const getQueryPath = (location: LocationOptions) => {
     newUrl.searchParams.append(key, value);
   });
 
-  TRANSITIONAL_API_PATHNAMES.forEach(pathname => {
-    if (newUrl.pathname.startsWith(pathname)) {
-      newUrl.pathname = '/api' + newUrl.pathname;
-    }
-  });
+  if (newUrl.pathname === '/') {
+    newUrl.pathname = '/api/home';
+  } else {
+    TRANSITIONAL_API_PATHNAMES.forEach(pathname => {
+      if (newUrl.pathname.startsWith(pathname)) {
+        newUrl.pathname = '/api' + newUrl.pathname;
+      }
+    });
+  }
 
   return newUrl.pathname.replace(/^\//, '') + newUrl.search;
 };
@@ -84,7 +88,7 @@ const api = createApi({
       () => 'api/stats'
     )),
     getLeaderboard: builder.query(getAncillaryRoute(
-      ({ search }) => `leaderboard${search}`
+      ({ search }) => `api/leaderboard${search}`
     )),
     getPrimary: builder.query(getPrimaryRoute()),
 
