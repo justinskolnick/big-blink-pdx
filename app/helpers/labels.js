@@ -1,4 +1,4 @@
-const labelStrings = require('../config/strings.json');
+const labelStrings = require('../config/en/strings.json');
 
 const { snakeCase } = require('../lib/string');
 
