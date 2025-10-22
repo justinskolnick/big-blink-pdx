@@ -37226,12 +37226,27 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/services/api.ts
   var getUrl = (url) => new URL(url, window.location.toString());
   var baseUrl = getUrl("/").origin;
+  var TRANSITIONAL_API_PATHNAMES = [
+    "/entities",
+    "/incidents",
+    "/people",
+    "/sources"
+  ];
   var getQueryPath = (location2) => {
     const newUrl = new URL(location2.pathname, baseUrl);
     const currentUrl = new URL(window.location.toString());
     currentUrl.searchParams.forEach((value, key) => {
       newUrl.searchParams.append(key, value);
     });
+    if (newUrl.pathname === "/") {
+      newUrl.pathname = "/api/home";
+    } else {
+      TRANSITIONAL_API_PATHNAMES.forEach((pathname) => {
+        if (newUrl.pathname.startsWith(pathname)) {
+          newUrl.pathname = "/api" + newUrl.pathname;
+        }
+      });
+    }
     return newUrl.pathname.replace(/^\//, "") + newUrl.search;
   };
   var getPrimaryRoute = () => ({
@@ -37262,53 +37277,53 @@ Hook ${hookName} was either not provided or not a function.`);
     }),
     endpoints: (builder) => ({
       getOverview: builder.query(getAncillaryRoute(
-        () => "overview"
+        () => "api/stats"
       )),
       getLeaderboard: builder.query(getAncillaryRoute(
-        ({ search }) => `leaderboard${search}`
+        ({ search }) => `api/leaderboard${search}`
       )),
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityById: builder.query(getAncillaryRoute(
-        ({ id }) => `entities/${id}`
+        ({ id }) => `api/entities/${id}`
       )),
       getEntityAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`entities/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, limit)
       )),
       getEntityIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `entities/${id}/incidents${search}`
+        ({ id, search }) => `api/entities/${id}/incidents${search}`
       )),
       getEntityStatsById: builder.query(getAncillaryRoute(
-        ({ id }) => `entities/${id}/stats`
+        ({ id }) => `api/entities/${id}/stats`
       )),
       getIncidentById: builder.query(getAncillaryRoute(
-        ({ id }) => `incidents/${id}`
+        ({ id }) => `api/incidents/${id}`
       )),
       getPersonAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`people/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, limit)
       )),
       getPersonEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`people/${id}/entities`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, limit)
       )),
       getPersonIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `people/${id}/incidents${search}`
+        ({ id, search }) => `api/people/${id}/incidents${search}`
       )),
       getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
-        ({ id }) => `people/${id}/official-positions`
+        ({ id }) => `api/people/${id}/official-positions`
       )),
       getPersonStatsById: builder.query(getAncillaryRoute(
-        ({ id }) => `people/${id}/stats`
+        ({ id }) => `api/people/${id}/stats`
       )),
       getSourceAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`sources/${id}/attendees`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, limit)
       )),
       getSourceEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`sources/${id}/entities`, limit)
+        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, limit)
       )),
       getSourceIncidentsById: builder.query(getAncillaryRoute(
-        ({ id, search }) => `sources/${id}/incidents${search}`
+        ({ id, search }) => `api/sources/${id}/incidents${search}`
       )),
       getSourceById: builder.query(getAncillaryRoute(
-        ({ id }) => `sources/${id}`
+        ({ id }) => `api/sources/${id}`
       ))
     })
   });
