@@ -12,6 +12,7 @@ class Person extends IncidentedBase {
     pernr:        { select: true, },
     type:         { select: true, },
     name:         { select: true, },
+    family:       { select: false, },
   };
 
   adaptRoles(value) {

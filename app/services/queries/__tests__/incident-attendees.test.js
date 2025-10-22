@@ -288,7 +288,7 @@ describe('getPeopleQuery()', () => {
             'GROUP BY',
             'incident_attendees.person_id',
             'ORDER BY',
-            'total DESC',
+            'total DESC, people.family ASC',
             'LIMIT ?',
           ],
           params: [123, 5],

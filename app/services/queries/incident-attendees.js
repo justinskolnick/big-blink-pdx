@@ -180,6 +180,7 @@ const buildPeopleQuery = (options = {}, limit = null) => {
 
   const clauses = [];
   const selections = [];
+  const sorting = [];
   const conditions = [];
   const params = [];
 
@@ -262,13 +263,15 @@ const buildPeopleQuery = (options = {}, limit = null) => {
       clauses.push(IncidentAttendee.field(Person.foreignKey()));
     }
 
-    clauses.push('ORDER BY');
-
     if (includeTotal) {
-      clauses.push('total DESC');
+      sorting.push('total DESC');
+      sorting.push(`${Person.field('family')} ASC`);
     } else {
-      clauses.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+      sorting.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
     }
+
+    clauses.push('ORDER BY');
+    clauses.push(sorting.join(', '));
   }
 
   if (hasLimit) {
