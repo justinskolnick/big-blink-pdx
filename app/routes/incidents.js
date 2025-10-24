@@ -2,29 +2,13 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
-const {
-  PARAM_DATE_ON,
-  PARAM_DATE_RANGE_FROM,
-  PARAM_DATE_RANGE_TO,
-  PARAM_PAGE,
-  PARAM_SORT,
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
-  SECTION_INCIDENTS,
-} = require('../config/constants');
+const { SECTION_INCIDENTS } = require('../config/constants');
 
-const linkHelper = require('../helpers/links');
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
-const { getFilters } = require('../lib/incident/filters');
-const searchParams = require('../lib/request/search-params');
-
-const Incident = require('../models/incident');
 
 const incidents = require('../services/incidents');
-const incidentAttendees = require('../services/incident-attendees');
-const stats = require('../services/stats');
 
 const title = 'Incidents';
 const template = 'main';
@@ -33,87 +17,19 @@ const section = {
   slug,
   title,
 };
-const view = {
-  section: slug,
-};
 
-router.get('/', async (req, res, next) => {
-  const dateOn = req.searchParams.get(PARAM_DATE_ON);
-  const dateRangeFrom = req.searchParams.get(PARAM_DATE_RANGE_FROM);
-  const dateRangeTo = req.searchParams.get(PARAM_DATE_RANGE_TO);
-  const page = req.searchParams.get(PARAM_PAGE) || 1;
-  const sort = req.searchParams.get(PARAM_SORT);
-
-  const perPage = Incident.perPage;
-  const links = linkHelper.links;
+router.get('/', (req, res) => {
   const description = metaHelper.getIndexDescription();
-
-  let incidentsResult;
-  let incidentCountResult;
-  let paginationTotal;
-  let records;
-  let filters;
-  let params;
-  let data;
-  let meta;
 
   section.id = null;
   section.subtitle = null;
 
-  if (req.get('Content-Type') === headers.json) {
-    try {
-      paginationTotal = await stats.getPaginationStats({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-      });
-      incidentsResult = await incidents.getAll({
-        dateOn,
-        dateRangeFrom,
-        dateRangeTo,
-        page,
-        perPage,
-        sort,
-      });
-      incidentsResult = incidentsResult.map(incident => incident.adapted);
+  const meta = metaHelper.getMeta(req, {
+    description,
+    section,
+  });
 
-      incidentCountResult = await incidents.getTotal();
-      records = await incidentAttendees.getAllForIncidents(incidentsResult);
-
-      filters = getFilters(req.query);
-      params = searchParams.getParamsFromFilters(req.query, filters);
-
-      data = {
-        incidents: {
-          records,
-          pagination: linkHelper.getPagination({
-            page,
-            params,
-            path: links.incidents(),
-            perPage,
-            total: paginationTotal,
-          }),
-          total: incidentCountResult,
-        }
-      };
-      meta = metaHelper.getMeta(req, {
-        description,
-        page,
-        perPage,
-        section,
-        view,
-      });
-
-      res.status(200).json({ title, data, meta });
-    } catch (err) {
-      console.error('Error while getting incidents:', err.message); // eslint-disable-line no-console
-      next(createError(err));
-    }
-  } else {
-    meta = metaHelper.getMeta(req, { description });
-
-    res.render(template, { title, meta, robots: headers.robots });
-  }
+  res.render(template, { title, meta, robots: headers.robots });
 });
 
 router.get('/:id', async (req, res, next) => {
@@ -121,11 +37,6 @@ router.get('/:id', async (req, res, next) => {
   const description = metaHelper.getDetailDescription();
 
   let incidentResult;
-  let record;
-  let adapted;
-  let attendeesResult;
-  let data;
-  let meta;
 
   try {
     incidentResult = await incidents.getAtId(id);
@@ -135,57 +46,21 @@ router.get('/:id', async (req, res, next) => {
   }
 
   if (incidentResult.exists) {
-    adapted = incidentResult.adapted;
+    adapted = entity.adapted;
 
+    description = metaHelper.getDetailDescription(adapted.name);
     section.id = adapted.id;
-    section.subtitle = 'Incident';
+    section.subtitle = adapted.name;
   } else {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
-  if (req.get('Content-Type') === headers.json) {
-    try {
-      attendeesResult = await incidentAttendees.getAll({ incidentId: id });
+  const meta = metaHelper.getMeta(req, {
+    description,
+    section,
+  });
 
-      const {
-        lobbyists,
-        officials,
-      } = attendeesResult;
-
-      record = incidentResult.adapted;
-      record.attendees = {
-        lobbyists: {
-          records: lobbyists?.map(value => value.adapted) ?? [],
-          role: ROLE_LOBBYIST,
-        },
-        officials: {
-          records: officials?.map(value => value.adapted) ?? [],
-          role: ROLE_OFFICIAL,
-        },
-      };
-
-      data = {
-        incident: {
-          record,
-        },
-      };
-      meta = metaHelper.getMeta(req, {
-        description,
-        id,
-        section,
-        view,
-      });
-
-      res.status(200).json({ title, data, meta });
-    } catch (err) {
-      console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
-      return next(createError(err));
-    }
-  } else {
-    meta = metaHelper.getMeta(req, { description });
-
-    res.render(template, { title, meta, robots: headers.robots });
-  }
+  res.render(template, { title, meta, robots: headers.robots });
 });
 
 module.exports = router;
