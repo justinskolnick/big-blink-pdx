@@ -16,7 +16,9 @@ class Person extends IncidentedBase {
   };
 
   adaptRoles(value) {
-    return value?.split(',') ?? [];
+    return {
+      list: value?.split(',') ?? [],
+    };
   }
 
   adapt(result) {

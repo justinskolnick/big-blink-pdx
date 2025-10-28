@@ -252,19 +252,19 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     if (asLobbyist.lobbyists.total > 0 || asLobbyist.officials.total > 0) {
       record.attendees.roles.push({
-        label: Person.getLabel('as_lobbyist', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_lobbyist_with_name', labelPrefix, { name: record.name }),
         model: MODEL_PEOPLE,
         role: ROLE_LOBBYIST,
         type: 'person',
         values: [
           {
-            label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
+            label: Person.getLabel('as_lobbyist_lobbyists_contd', labelPrefix),
             records: asLobbyist.lobbyists.records.map(adaptItemPerson),
             role: asLobbyist.lobbyists.role,
             total: asLobbyist.lobbyists.total,
           },
           {
-            label: Person.getLabel('as_lobbyist_officials', labelPrefix),
+            label: Person.getLabel('as_lobbyist_officials_contd', labelPrefix),
             records: asLobbyist.officials.records.map(adaptItemPerson),
             role: asLobbyist.officials.role,
             total: asLobbyist.officials.total,
@@ -275,7 +275,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     if (asOfficial.lobbyists.total > 0 || asOfficial.officials.total > 0) {
       record.attendees.roles.push({
-        label: Person.getLabel('as_official', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_official_with_name', labelPrefix, { name: record.name }),
         model: MODEL_PEOPLE,
         role: ROLE_OFFICIAL,
         type: 'person',
@@ -496,6 +496,154 @@ router.get('/:id/official-positions', async (req, res, next) => {
     res.status(200).json({ title, data, meta });
   } catch (err) {
     console.error('Error while getting person official positions:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+router.get('/:id/roles', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const limit = req.searchParams.get(PARAM_LIMIT);
+
+  const labelPrefix = 'person';
+
+  let person;
+  let record;
+  let asLobbyistAttendees;
+  let asOfficialAttendees;
+  let asLobbyistEntities;
+  let asOfficialEntities;
+  let data;
+  let meta;
+
+  try {
+    person = await people.getAtId(id);
+
+    const results = await Promise.all([
+      incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST }, limit),
+      incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL }, limit),
+      incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST }, limit),
+      incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL }, limit),
+    ]);
+    [
+      asLobbyistAttendees,
+      asOfficialAttendees,
+      asLobbyistEntities,
+      asOfficialEntities,
+    ] = results;
+
+    record = person.adapted;
+    record.roles = {
+      lobbyist: null,
+      official: null,
+    };
+
+    const getRoleObject = (role) => ({
+      label: Person.getLabel(`as_${role}`, labelPrefix),
+      role,
+      attendees: null,
+      entities: null,
+    });
+
+    const getAssociatedNamesObject = () => ({
+      label: Person.getLabel('associated_names', labelPrefix),
+      model: MODEL_PEOPLE,
+      type: 'person',
+      values: [],
+    });
+
+    const getAssociatedEntitiesObject = () => ({
+      label: Person.getLabel('associated_entities', labelPrefix),
+      model: MODEL_ENTITIES,
+      type: 'entity',
+      values: [],
+    });
+
+    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistEntities.total > 0) {
+      record.roles.lobbyist = getRoleObject(ROLE_LOBBYIST);
+    }
+
+    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialEntities.total > 0) {
+      record.roles.official = getRoleObject(ROLE_OFFICIAL);
+    }
+
+    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistAttendees.officials.total > 0) {
+      record.roles.lobbyist.attendees = getAssociatedNamesObject();
+    }
+
+    if (asLobbyistEntities.total > 0) {
+      record.roles.lobbyist.entities = getAssociatedEntitiesObject();
+    }
+
+    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialAttendees.officials.total > 0) {
+      record.roles.official.attendees = getAssociatedNamesObject();
+    }
+
+    if (asOfficialEntities.total > 0) {
+      record.roles.official.entities = getAssociatedEntitiesObject();
+    }
+
+    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistAttendees.officials.total > 0) {
+      record.roles.lobbyist.attendees.values.push(
+        {
+          label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
+          records: asLobbyistAttendees.lobbyists.records.map(adaptItemPerson),
+          role: asLobbyistAttendees.lobbyists.role,
+          total: asLobbyistAttendees.lobbyists.total,
+        },
+        {
+          label: Person.getLabel('as_lobbyist_officials', labelPrefix),
+          records: asLobbyistAttendees.officials.records.map(adaptItemPerson),
+          role: asLobbyistAttendees.officials.role,
+          total: asLobbyistAttendees.officials.total,
+        },
+      );
+    }
+
+    if (asLobbyistEntities.total > 0 || asLobbyistEntities.total > 0) {
+      record.roles.lobbyist.entities.values.push({
+        label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
+        records: asLobbyistEntities.records.map(adaptItemEntity),
+        role: ROLE_LOBBYIST,
+        total: asLobbyistEntities.total,
+      });
+    }
+
+    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialAttendees.officials.total > 0) {
+      record.roles.official.attendees.values.push(
+        {
+          label: Person.getLabel('as_official_lobbyists', labelPrefix),
+          records: asOfficialAttendees.lobbyists.records.map(adaptItemPerson),
+          role: asOfficialAttendees.lobbyists.role,
+          total: asOfficialAttendees.lobbyists.total,
+        },
+        {
+          label: Person.getLabel('as_official_officials', labelPrefix),
+          records: asOfficialAttendees.officials.records.map(adaptItemPerson),
+          role: asOfficialAttendees.officials.role,
+          total: asOfficialAttendees.officials.total,
+        },
+      );
+    }
+
+    if (asOfficialEntities.total > 0 || asOfficialEntities.total > 0) {
+      record.roles.official.entities.values.push({
+        label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
+        records: asOfficialEntities.records.map(adaptItemEntity),
+        role: ROLE_OFFICIAL,
+        total: asOfficialEntities.total,
+      });
+    }
+
+    data = {
+      person: {
+        record,
+      },
+    };
+    meta = metaHelper.getMeta(req, { id, view });
+
+    res.status(200).json({ title, data, meta });
+  } catch (err) {
+    console.error('Error while getting person roles:', err.message); // eslint-disable-line no-console
     next(createError(err));
   }
 });

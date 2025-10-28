@@ -480,9 +480,13 @@ export type PersonOfficialPosition = {
   role: string;
 };
 
+type PersonRoles = {
+  list: Role[];
+};
+
 export type Person = Item & {
   pernr?: number;
-  roles?: Role[];
+  roles: PersonRoles;
   type: 'group' | 'person' | 'unknown';
   attendees?: PersonAttendees;
   details?: Details;

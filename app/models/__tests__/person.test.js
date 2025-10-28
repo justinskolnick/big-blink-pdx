@@ -59,7 +59,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/123'
       },
@@ -74,7 +76,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: 1020304,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/321'
       },
@@ -89,10 +93,12 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [
-        'official',
-        'lobbyist',
-      ],
+      roles: {
+        list: [
+          'official',
+          'lobbyist',
+        ],
+      },
       links: {
         self: '/people/123'
       },
@@ -109,7 +115,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -143,7 +151,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/123'
       },
@@ -154,7 +164,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -210,7 +222,9 @@ describe('setData()', () => {
       id: 321,
       name: 'John Doe',
       pernr: 1020304,
-      roles: [],
+      roles: {
+        list: [],
+      },
       type: 'person',
       links: {
         self: '/people/321'
