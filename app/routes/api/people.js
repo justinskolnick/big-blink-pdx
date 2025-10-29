@@ -341,7 +341,7 @@ router.get('/:id/entities', async (req, res, next) => {
         values: [
           {
             records: asLobbyist.records.map(adaptItemEntity),
-            role: ROLE_LOBBYIST,
+            role: asLobbyist.role,
             total: asLobbyist.total,
           },
         ],
@@ -356,7 +356,7 @@ router.get('/:id/entities', async (req, res, next) => {
         values: [
           {
             records: asOfficial.records.map(adaptItemEntity),
-            role: ROLE_OFFICIAL,
+            role: asLobbyist.role,
             total: asOfficial.total,
           },
         ],

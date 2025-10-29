@@ -81,6 +81,7 @@ const getEntitiesTotal = async (options = {}) => {
 const getEntities = async (options = {}, limit = null) => {
   const { personId, personRole } = options;
   const hasPersonId = Boolean(personId);
+  const hasPersonRole = Boolean(personRole);
 
   const results = await Promise.all([
     getEntitiesTotal(options),
@@ -122,10 +123,17 @@ const getEntities = async (options = {}, limit = null) => {
     }));
   }
 
-  return {
+  const result = {
     records: collectedRecords,
     total: totalRecords,
   };
+
+  if (hasPersonRole) {
+    result.role = personRole;
+  }
+
+  return result;
+
 };
 
 const getHasLobbiedOrBeenLobbied = async (options = {}) => {
