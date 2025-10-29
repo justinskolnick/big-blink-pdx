@@ -599,11 +599,11 @@ router.get('/:id/roles', async (req, res, next) => {
       );
     }
 
-    if (asLobbyistEntities.total > 0 || asLobbyistEntities.total > 0) {
+    if (asLobbyistEntities.total > 0) {
       record.roles.lobbyist.entities.values.push({
         label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
         records: asLobbyistEntities.records.map(adaptItemEntity),
-        role: ROLE_LOBBYIST,
+        role: asLobbyistEntities.role,
         total: asLobbyistEntities.total,
       });
     }
@@ -625,11 +625,11 @@ router.get('/:id/roles', async (req, res, next) => {
       );
     }
 
-    if (asOfficialEntities.total > 0 || asOfficialEntities.total > 0) {
+    if (asOfficialEntities.total > 0) {
       record.roles.official.entities.values.push({
         label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
         records: asOfficialEntities.records.map(adaptItemEntity),
-        role: ROLE_OFFICIAL,
+        role: asOfficialEntities.role,
         total: asOfficialEntities.total,
       });
     }
