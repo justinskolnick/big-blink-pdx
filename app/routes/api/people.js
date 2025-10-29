@@ -545,14 +545,14 @@ router.get('/:id/roles', async (req, res, next) => {
     });
 
     const getAssociatedNamesObject = () => ({
-      label: Person.getLabel('associated_names', labelPrefix),
+      label: Person.getLabel('associated_names'),
       model: MODEL_PEOPLE,
       type: 'person',
       values: [],
     });
 
     const getAssociatedEntitiesObject = () => ({
-      label: Person.getLabel('associated_entities', labelPrefix),
+      label: Person.getLabel('associated_entities'),
       model: MODEL_ENTITIES,
       type: 'entity',
       values: [],
