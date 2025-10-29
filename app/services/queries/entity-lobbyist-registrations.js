@@ -2,7 +2,7 @@ const queryHelper = require('../../helpers/query');
 
 const Entity = require('../../models/entity');
 const EntityLobbyistRegistration = require('../../models/entity-lobbyist-registration');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 const Source = require('../../models/source');
 
 const SOURCES_FIELDS = [

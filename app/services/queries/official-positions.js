@@ -1,7 +1,7 @@
 const queryHelper = require('../../helpers/query');
 
 const OfficialPosition = require('../../models/official-position');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 
 const getAtPernrQuery = (pernr, options = {}) => {
   const {

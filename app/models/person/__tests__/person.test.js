@@ -1,5 +1,5 @@
-const resultLobbyist = require('../__mocks__/person/result-lobbyist');
-const resultOfficial = require('../__mocks__/person/result-official');
+const resultLobbyist = require('../__mocks__/result-lobbyist');
+const resultOfficial = require('../__mocks__/result-official');
 
 const Person = require('../person');
 

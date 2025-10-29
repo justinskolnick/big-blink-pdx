@@ -1,7 +1,7 @@
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 const Source = require('../../models/source');
 
 const getStatsQuery = (options = {}) => {

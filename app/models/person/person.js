@@ -1,4 +1,5 @@
-const IncidentedBase = require('./shared/base-incidented');
+const IncidentedBase = require('../shared/base-incidented');
+const Role = require('./role');
 
 class Person extends IncidentedBase {
   static tableName = 'people';
@@ -17,7 +18,7 @@ class Person extends IncidentedBase {
 
   adaptRoles(value) {
     return {
-      list: value?.split(',') ?? [],
+      list: Role.getList(value),
     };
   }
 

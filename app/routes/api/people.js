@@ -30,7 +30,7 @@ const searchParams = require('../../lib/request/search-params');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');

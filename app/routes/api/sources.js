@@ -27,7 +27,7 @@ const { titleCase } = require('../../lib/string');
 
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 const Source = require('../../models/source');
 
 const incidents = require('../../services/incidents');

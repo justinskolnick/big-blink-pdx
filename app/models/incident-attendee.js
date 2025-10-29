@@ -6,7 +6,7 @@ const {
 const { isEmpty } = require('../lib/util');
 
 const Base = require('./shared/base');
-const Person = require('./person');
+const Person = require('./person/person');
 
 class IncidentAttendee extends Base {
   static tableName = 'incident_attendees';

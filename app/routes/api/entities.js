@@ -27,7 +27,7 @@ const { toSentence } = require('../../lib/string');
 
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 
 const entities = require('../../services/entities');
 const entityLobbyistLocations = require('../../services/entity-lobbyist-locations');
