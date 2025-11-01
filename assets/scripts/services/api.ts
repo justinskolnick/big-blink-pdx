@@ -90,6 +90,15 @@ const api = createApi({
     getLeaderboard: builder.query(getAncillaryRoute(
       ({ search }) => `api/leaderboard${search}`
     )),
+    getLeaderboardEntities: builder.query(getAncillaryRoute(
+      ({ search }) => `api/leaderboard/entities${search}`
+    )),
+    getLeaderboardLobbyists: builder.query(getAncillaryRoute(
+      ({ search }) => `api/leaderboard/lobbyists${search}`
+    )),
+    getLeaderboardOfficials: builder.query(getAncillaryRoute(
+      ({ search }) => `api/leaderboard/officials${search}`
+    )),
     getPrimary: builder.query(getPrimaryRoute()),
 
     getEntityById: builder.query(getAncillaryRoute(

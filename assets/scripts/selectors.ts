@@ -31,10 +31,12 @@ export const getIncidentLast = createSelector(getIncidents, incidents => inciden
 export const getIncidentTotal = createSelector(getIncidents, incidents => incidents.total);
 
 export const getLeaderboardLabels = createSelector(getLeaderboard, leaderboard => leaderboard.labels);
+export const getHasLeaderboardLabels = createSelector(getLeaderboard, leaderboard => Object.values(leaderboard?.labels ?? {}).length > 0);
 export const getLeaderboardFilters = createSelector(getLeaderboard, leaderboard => leaderboard.filters);
 export const getLeaderboardValues = createSelector(getLeaderboard, leaderboard => leaderboard.values);
-export const getHasLeaderboardData = createSelector(getLeaderboard, leaderboard =>
-  Object.values(leaderboard.labels).length > 0 && Object.values(leaderboard.values).length > 0
+export const getHasLeaderboardValues = createSelector(getLeaderboard, leaderboard => Object.values(leaderboard?.labels ?? {}).length > 0);
+export const getHasLeaderboardData = createSelector(
+  [getHasLeaderboardLabels, getHasLeaderboardValues], (hasLabels, hasValues) => hasLabels && hasValues
 );
 export const getLeaderboardEntitiesValues = createSelector(getLeaderboardValues, values => values.entities);
 export const getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, values => values.lobbyists);

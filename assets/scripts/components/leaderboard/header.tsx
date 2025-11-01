@@ -3,12 +3,18 @@ import { useSelector } from 'react-redux';
 
 import Header, { HeaderOverview } from '../header';
 
-import { getLeaderboardLabels } from '../../selectors';
+import {
+  getHasLeaderboardLabels,
+  getLeaderboardLabels,
+} from '../../selectors';
 
 import Icon from '../icon';
 
 const LeaderboardHeader = () => {
   const labels = useSelector(getLeaderboardLabels);
+  const hasLabels = useSelector(getHasLeaderboardLabels);
+
+  if (!hasLabels) return null;
 
   return (
     <Header>

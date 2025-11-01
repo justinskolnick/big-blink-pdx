@@ -45,11 +45,11 @@ const Rankings = ({
   rankings,
   section,
 }: Props) => {
-  const { period } = useSelector(getLeaderboardLabels);
-  const hasPeriod = Boolean(period);
+  const labels = useSelector(getLeaderboardLabels);
+  const hasPeriod = Boolean(labels?.period);
 
   const ids = rankings?.ids;
-  const labels = rankings?.labels;
+  const rankingsLabels = rankings?.labels;
 
   const hasIds = ids?.length > 0;
   const hasLabels = Boolean(labels);
@@ -61,17 +61,17 @@ const Rankings = ({
 
   return (
     <LeaderboardSubsection isGrid={isGrid}>
-      <SubsectionSubhead title={labels.title}>
-        {labels.subtitle}
+      <SubsectionSubhead title={rankingsLabels.title}>
+        {rankingsLabels.subtitle}
       </SubsectionSubhead>
 
       <LeaderboardSubsectionGroup>
-        <ItemSubhead subtitle={labels.table.title}>
-          {hasPeriod && <h6>{period}</h6>}
+        <ItemSubhead subtitle={rankingsLabels.table.title}>
+          {hasPeriod && <h6>{labels.period}</h6>}
         </ItemSubhead>
 
         <ItemSubsection>
-          <ItemTable hasPercent labels={labels.table}>
+          <ItemTable hasPercent labels={rankingsLabels.table}>
             {ids.map(id => (
               <Item key={id} id={id} />
             ))}
@@ -80,7 +80,7 @@ const Rankings = ({
           <LeaderboardMore>
             <ItemTextWithIcon icon='link'>
               <ItemsLink>
-                {labels.links.more}
+                {rankingsLabels.links.more}
               </ItemsLink>
             </ItemTextWithIcon>
           </LeaderboardMore>

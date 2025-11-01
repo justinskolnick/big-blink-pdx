@@ -25,28 +25,29 @@ const router = express.Router({
   mergeParams: true,
 });
 
-router.get('/', async (req, res, next) => {
+const callback = (item, incidentCountResult) => {
+  item.setGlobalIncidentCount(incidentCountResult);
+  item.setOverview();
+
+  return item.adapted;
+};
+
+const setOptions = async (req, res, next) => {
   const quarter = req.searchParams.get(PARAM_QUARTER_ALT);
 
-  let incidentCountResult;
-  let data;
-  let dateRangeFrom;
-  let dateRangeTo;
-  let filters;
-  let periodIsValid = false;
-  let meta;
+  const options = {
+    page: 1,
+    perPage: 5,
+    includeTotal: true,
+    sortBy: SORT_BY_TOTAL,
+  };
+  const incidentCountOptions = {};
+  const totalOptions = {};
+
   let period = '2014–25';
+  let periodIsValid = false;
 
   try {
-    const incidentCountOptions = {};
-    const options = {
-      page: 1,
-      perPage: 5,
-      includeTotal: true,
-      sortBy: SORT_BY_TOTAL,
-    };
-    const totalOptions = {};
-
     if (searchParams.hasYearAndQuarter(quarter)) {
       const quarterOptions = searchParams.getQuarterAndYear(quarter);
       const quarterResult = await quarters.getQuarter(quarterOptions);
@@ -69,32 +70,37 @@ router.get('/', async (req, res, next) => {
         req.flash.setWarning(getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter));
       }
     }
+  } catch (err) {
+    console.error('Error while getting leaderboard options:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
 
+  res.locals = {
+    incidentCountOptions,
+    options,
+    period,
+    periodIsValid,
+    totalOptions,
+  };
+
+  next();
+};
+
+router.get('/', setOptions, async (req, res, next) => {
+  const {
+    incidentCountOptions,
+    period,
+    periodIsValid,
+    totalOptions,
+  } = res.locals;
+
+  let incidentCountResult;
+  let data;
+  let filters;
+  let meta;
+
+  try {
     incidentCountResult = await incidents.getTotal(incidentCountOptions);
-
-    const callback = (item) => {
-      item.setGlobalIncidentCount(incidentCountResult);
-      item.setOverview();
-
-      return item.adapted;
-    };
-
-    const results = await Promise.all([
-      entities.getAll(options),
-      people.getAll({
-        ...options,
-        role: ROLE_LOBBYIST,
-      }),
-      people.getAll({
-        ...options,
-        role: ROLE_OFFICIAL,
-      }),
-    ]);
-    const [
-      entitiesResult,
-      lobbyistsResult,
-      officialsResult,
-    ] = results.map(result => result.map(callback));
 
     const totalResults = await Promise.all([
       entities.getTotal(totalOptions),
@@ -128,17 +134,7 @@ router.get('/', async (req, res, next) => {
       leaderboard: {
         labels: Leaderboard.getSectionLabels(descriptionValues),
         filters,
-        values: {
-          entities: Leaderboard.getValuesForEntities(entitiesResult, incidentCountResult),
-          lobbyists: Leaderboard.getValuesForLobbyists(lobbyistsResult, incidentCountResult),
-          officials: Leaderboard.getValuesForOfficials(officialsResult, incidentCountResult),
-        },
-      },
-      entities: {
-        records: entitiesResult,
-      },
-      people: {
-        records: [].concat(lobbyistsResult, officialsResult),
+        values: {},
       },
     };
     meta = metaHelper.getMeta(req);
@@ -146,6 +142,117 @@ router.get('/', async (req, res, next) => {
     res.status(200).json({ data, meta });
   } catch (err) {
     console.error('Error while getting leaderboard:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+router.get('/entities', setOptions, async (req, res, next) => {
+  const {
+    options,
+    incidentCountOptions,
+  } = res.locals;
+
+  let incidentCountResult;
+  let data;
+  let meta;
+
+  try {
+    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+
+    const results = await entities.getAll(options);
+    const entitiesResult = results.map(result => callback(result, incidentCountResult));
+
+    data = {
+      leaderboard: {
+        values: {
+          entities: Leaderboard.getValuesForEntities(entitiesResult, incidentCountResult),
+        },
+      },
+      entities: {
+        records: entitiesResult,
+      },
+    };
+    meta = metaHelper.getMeta(req);
+
+    res.status(200).json({ data, meta });
+  } catch (err) {
+    console.error('Error while getting leaderboard:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+router.get('/lobbyists', setOptions, async (req, res, next) => {
+  const {
+    options,
+    incidentCountOptions,
+  } = res.locals;
+
+  let incidentCountResult;
+  let data;
+  let meta;
+
+  try {
+    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+
+    const results = await people.getAll({
+      ...options,
+      role: ROLE_LOBBYIST,
+    });
+    const lobbyistsResults = results.map(result => callback(result, incidentCountResult));
+
+    data = {
+      leaderboard: {
+        values: {
+          lobbyists: Leaderboard.getValuesForLobbyists(lobbyistsResults, incidentCountResult),
+        },
+      },
+      people: {
+        records: lobbyistsResults,
+      },
+    };
+    meta = metaHelper.getMeta(req);
+
+    res.status(200).json({ data, meta });
+  } catch (err) {
+    console.error('Error while getting leaderboard lobbyists:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+router.get('/officials', setOptions, async (req, res, next) => {
+  const {
+    options,
+    incidentCountOptions,
+  } = res.locals;
+
+  let incidentCountResult;
+  let data;
+  let meta;
+
+  try {
+    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+
+    const results = await people.getAll({
+      ...options,
+      role: ROLE_OFFICIAL,
+    });
+    const officialsResults = results.map(result => callback(result, incidentCountResult));
+
+    data = {
+      leaderboard: {
+        values: {
+          officials: Leaderboard.getValuesForOfficials(officialsResults, incidentCountResult),
+        },
+      },
+      people: {
+        records: officialsResults,
+      },
+    };
+    meta = metaHelper.getMeta(req);
+
+    res.status(200).json({ data, meta });
+  } catch (err) {
+    console.error('Error while getting leaderboard officials:', err.message); // eslint-disable-line no-console
     next(createError(err));
   }
 });

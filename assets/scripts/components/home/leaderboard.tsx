@@ -6,10 +6,7 @@ import EntitiesLeaderboard from '../leaderboard/leaderboard-entities';
 import LobbyistsLeaderboard from '../leaderboard/leaderboard-lobbyists';
 import OfficialsLeaderboard from '../leaderboard/leaderboard-officials';
 
-import {
-  getHasLeaderboardData,
-  getHasSourcesChartData,
-} from '../../selectors';
+import { getHasSourcesChartData } from '../../selectors';
 
 interface Props {
   ref?: RefObject<HTMLElement>
@@ -17,9 +14,8 @@ interface Props {
 
 const Leaderboard = ({ ref }: Props) => {
   const hasChartData = useSelector(getHasSourcesChartData);
-  const hasLeaderboardData = useSelector(getHasLeaderboardData);
 
-  const isReady = hasChartData && hasLeaderboardData;
+  const isReady = hasChartData;
 
   return (
     <Section ref={ref}>

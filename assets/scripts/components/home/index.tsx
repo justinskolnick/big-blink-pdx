@@ -19,10 +19,10 @@ const Home = () => {
   const [searchParams] = useSearchParams();
   const hasQuarterParam = hasQuarterSearchParam(searchParams);
 
-  const [triggerLeaderboard] = api.useLazyGetLeaderboardQuery();
+  const [trigger] = api.useLazyGetLeaderboardQuery();
 
   const fetch: FetchWithCallback = async (callback) => {
-    await triggerLeaderboard({ search: location.search });
+    await trigger({ search: location.search });
 
     if (callback) {
       callback(ref);

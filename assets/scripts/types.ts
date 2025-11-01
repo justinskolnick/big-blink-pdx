@@ -309,9 +309,9 @@ export type LeaderboardSet = {
 };
 
 type LeaderboardValues = {
-  entities: LeaderboardSet;
-  lobbyists: LeaderboardSet;
-  officials: LeaderboardSet;
+  entities?: LeaderboardSet;
+  lobbyists?: LeaderboardSet;
+  officials?: LeaderboardSet;
 };
 
 export type Leaderboard = {

@@ -98,7 +98,21 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('leaderboard' in data) {
-      dispatch(leaderboardActions.setLeaderboard(data.leaderboard));
+      if ('filters' in data.leaderboard || 'labels' in data.leaderboard) {
+        dispatch(leaderboardActions.setLeaderboard(data.leaderboard));
+      }
+
+      if ('values' in data.leaderboard) {
+        if ('entities' in data.leaderboard.values) {
+          dispatch(leaderboardActions.setLeaderboardEntities(data.leaderboard.values.entities));
+        }
+        if ('lobbyists' in data.leaderboard.values) {
+          dispatch(leaderboardActions.setLeaderboardLobbyists(data.leaderboard.values.lobbyists));
+        }
+        if ('officials' in data.leaderboard.values) {
+          dispatch(leaderboardActions.setLeaderboardOfficials(data.leaderboard.values.officials));
+        }
+      }
     }
 
     if ('entity' in data) {
