@@ -18,7 +18,7 @@ describe('getLabel()', () => {
 
   describe('with values', () => {
     test('returns the expected labels', () => {
-      expect(labels.getLabel('description_period', 'leaderboard', { period: '2026' })).toBe('In 2026, :lobbyists_total_result lobbyists representing :entities_total_result entities reported lobbying :officials_total_result City of Portland officials across :incident_count_result reported incidents.');
+      expect(labels.getLabel('description_period', 'leaderboard', { period: '2026' })).toBe('In 2026, :lobbyists_total_result lobbyists representing :entities_total_result entities reported lobbying :officials_total_result City of Portland officials across :incident_count_result incidents.');
     });
   });
 

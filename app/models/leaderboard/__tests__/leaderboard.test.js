@@ -20,7 +20,7 @@ describe('getDescription()', () => {
   };
 
   test('returns the expected string', () => {
-    expect(Leaderboard.getDescription(values)).toBe('In 2014–25, 22 lobbyists representing 33 entities reported lobbying 5 City of Portland officials across 12345 reported incidents.');
+    expect(Leaderboard.getDescription(values)).toBe('In 2014–25, 22 lobbyists representing 33 entities reported lobbying 5 City of Portland officials across 12345 incidents.');
   });
 });
 
