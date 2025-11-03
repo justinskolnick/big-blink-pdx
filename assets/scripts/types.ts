@@ -171,6 +171,10 @@ type RoleParams = {
   role?: Role;
 };
 
+type YearParams = {
+  quarter?: string;
+};
+
 type SortParams = {
   sort?: SortValue;
   sort_by?: SortByValue;
@@ -262,12 +266,20 @@ type FiltersRole = {
   values: RoleParams;
 };
 
+type FiltersYear = {
+  fields: undefined;
+  labels: FiltersLabel[];
+  model: undefined;
+  values: YearParams;
+};
+
 export type Filters = {
   dates?: FiltersDates;
   entities?: FiltersEntities;
   people?: FiltersWithPeople | FiltersWithPerson;
   quarter?: FiltersQuarter;
   role?: FiltersRole;
+  year?: FiltersYear;
 };
 
 export type FiltersObjects = Filters[keyof Filters];

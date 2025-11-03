@@ -7,6 +7,7 @@ const {
   getQuarterSlug,
   getSort,
   getSortBy,
+  getYear,
   hasDate,
   hasPeople,
   hasQuarter,
@@ -139,6 +140,14 @@ describe('getSortBy()', () => {
     expect(getSortBy('name')).toEqual('name');
     expect(getSortBy('total')).toEqual('total');
     expect(getSortBy('id')).toBeNull();
+  });
+});
+
+describe('getYear()', () => {
+  test('with a param value', () => {
+    expect(getYear('2014')).toEqual('2014');
+    expect(getYear('20')).toBeNull();
+    expect(getYear('blah')).toBeNull();
   });
 });
 

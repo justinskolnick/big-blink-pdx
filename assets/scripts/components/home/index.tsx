@@ -4,7 +4,7 @@ import { useLocation, useSearchParams } from 'react-router';
 import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import { delayedScrollToRef } from '../../lib/dom';
-import { hasQuarterSearchParam } from '../../lib/params';
+import { hasLeaderboardFilterSearchParams } from '../../lib/params';
 
 import api from '../../services/api';
 
@@ -17,7 +17,7 @@ const Home = () => {
 
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const hasQuarterParam = hasQuarterSearchParam(searchParams);
+  const hasFilterParams = hasLeaderboardFilterSearchParams(searchParams);
 
   const [trigger] = api.useLazyGetLeaderboardQuery();
 
@@ -34,10 +34,10 @@ const Home = () => {
   useEffect(() => {
     const hasRef = Boolean(ref?.current);
 
-    if (hasQuarterParam && hasRef) {
+    if (hasFilterParams && hasRef) {
       delayedScrollToRef(ref);
     }
-  }, [hasQuarterParam, ref]);
+  }, [hasFilterParams, ref]);
 
   return (
     <Section

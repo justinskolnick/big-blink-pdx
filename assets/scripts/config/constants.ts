@@ -9,3 +9,4 @@ export const sortParam = 'sort';
 export const sortByParam = 'sort_by';
 export const withEntityIdParam = 'with_entity_id';
 export const withPersonIdParam = 'with_person_id';
+export const yearParam = 'year';

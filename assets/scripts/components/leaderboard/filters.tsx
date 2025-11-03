@@ -23,6 +23,7 @@ const LeaderboardFilters = () => {
         <FilterText>{labels.filters.intro}</FilterText>
       </FilterIntro>
       <Filter filter={filters.quarter} />
+      <Filter filter={filters.year} />
     </Filters>
   );
 };

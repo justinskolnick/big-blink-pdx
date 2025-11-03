@@ -84,9 +84,17 @@ const getQuarterAndYear = (param) => {
 const getQuarterSlug = (param) =>
   param.toLowerCase().split('-').sort().join('-');
 
-const migrateQuarterSlug = param => {
+const migrateQuarterSlug = (param) => {
   if (hasQuarter(param)) {
     return getQuarterSlug(param);
+  }
+
+  return null;
+};
+
+const getYear = (param) => {
+  if (hasYear(param)) {
+    return param;
   }
 
   return null;
@@ -269,6 +277,7 @@ module.exports = {
   getQuarterSlug,
   getSort,
   getSortBy,
+  getYear,
   hasDate,
   hasInteger,
   hasPeople,

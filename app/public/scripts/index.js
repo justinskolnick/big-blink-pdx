@@ -44161,6 +44161,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var sortByParam = "sort_by";
   var withEntityIdParam = "with_entity_id";
   var withPersonIdParam = "with_person_id";
+  var yearParam = "year";
 
   // assets/scripts/lib/links.ts
   var isCurrent = (location2, newSearch) => {
@@ -46083,11 +46084,15 @@ Hook ${hookName} was either not provided or not a function.`);
     withEntityIdParam,
     withPersonIdParam
   ];
+  var LEADERBOARD_FILTER_PARAMS = [
+    quarterParam,
+    yearParam
+  ];
   var isDetailRoute = (pathname) => DETAIL_ROUTE_PATTERN.test(pathname);
   var hasPageSearchParams = (searchParams) => PAGE_PARAMS.some((p2) => searchParams.has(p2));
-  var hasQuarterSearchParam = (searchParams) => searchParams.has(quarterParam);
   var hasSortSearchParams = (searchParams) => SORT_PARAMS.some((p2) => searchParams.has(p2));
   var hasIncidentFilterSearchParams = (searchParams) => INCIDENT_FILTER_PARAMS.some((p2) => searchParams.has(p2));
+  var hasLeaderboardFilterSearchParams = (searchParams) => LEADERBOARD_FILTER_PARAMS.some((p2) => searchParams.has(p2));
 
   // assets/scripts/hooks/use-fetch-and-scroll-on-route-change.ts
   var defaultFetch = (callback2) => {
@@ -59868,7 +59873,8 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!hasFilters) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime67.jsxs)(Filters, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(FilterIntro, { children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(FilterText, { children: labels.filters.intro }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.quarter })
+      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.quarter }),
+      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.year })
     ] });
   };
   var filters_default = LeaderboardFilters;
@@ -60111,7 +60117,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const ref = (0, import_react42.useRef)(null);
     const location2 = useLocation();
     const [searchParams] = useSearchParams();
-    const hasQuarterParam = hasQuarterSearchParam(searchParams);
+    const hasFilterParams = hasLeaderboardFilterSearchParams(searchParams);
     const [trigger] = api_default.useLazyGetLeaderboardQuery();
     const fetch2 = async (callback2) => {
       await trigger({ search: location2.search });
@@ -60122,10 +60128,10 @@ Hook ${hookName} was either not provided or not a function.`);
     use_fetch_and_scroll_on_route_change_default(fetch2, false);
     (0, import_react42.useEffect)(() => {
       const hasRef = Boolean(ref?.current);
-      if (hasQuarterParam && hasRef) {
+      if (hasFilterParams && hasRef) {
         delayedScrollToRef(ref);
       }
-    }, [hasQuarterParam, ref]);
+    }, [hasFilterParams, ref]);
     return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(
       section_default,
       {

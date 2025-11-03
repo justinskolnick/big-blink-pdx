@@ -1,11 +1,14 @@
 const Quarter = require('../../models/quarter');
 
-const getQuarterQuery = (options = {}) => {
+const buildQuery = (options = {}) => {
   const {
     quarter,
+    limit,
     year,
   } = options;
+
   const hasQuarter = Boolean(quarter);
+  const hasLimit = Boolean(limit);
   const hasYear = Boolean(year);
 
   const clauses = [];
@@ -37,11 +40,24 @@ const getQuarterQuery = (options = {}) => {
   }
 
   clauses.push(`ORDER BY ${Quarter.tableName}.year ASC, ${Quarter.tableName}.quarter ASC`);
-  clauses.push('LIMIT 1');
+
+
+  if (hasLimit) {
+    clauses.push('LIMIT ?');
+    params.push(limit);
+  }
 
   return { clauses, params };
 };
 
+const getQuarterQuery = (options = {}) => buildQuery({
+  ...options,
+  limit: 1,
+});
+
+const getAllQuery = (options = {}) => buildQuery(options);
+
 module.exports = {
+  getAllQuery,
   getQuarterQuery,
 };

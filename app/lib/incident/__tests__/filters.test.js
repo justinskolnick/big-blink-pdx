@@ -1,4 +1,7 @@
-const { getFilters } = require('../filters');
+const {
+  getFilters,
+  getLeaderboardFilters,
+} = require('../filters');
 
 describe('getFilters()', () => {
   describe('with a date', () => {
@@ -479,6 +482,70 @@ describe('getFilters()', () => {
           model: null,
           values: {
             quarter: 'Q2-2014',
+          },
+        },
+      });
+    });
+  });
+});
+
+describe('getLeaderboardFilters()', () => {
+  describe('with a quarter', () => {
+    test('should include the quarter', () => {
+      const queryParams = new URLSearchParams('quarter=Q2-2014');
+
+      expect(getLeaderboardFilters(queryParams)).toEqual({
+        quarter: {
+          fields: null,
+          labels: [
+            {
+              type: 'text',
+              value: 'during',
+            },
+            {
+              type: 'label',
+              value: 'Q2',
+            },
+            {
+              type: 'text',
+              value: 'of',
+            },
+            {
+              type: 'label',
+              value: 2014,
+            },
+          ],
+          model: null,
+          values: {
+            quarter: 'Q2-2014',
+          },
+        },
+        year: undefined,
+      });
+    });
+  });
+
+  describe('with a year', () => {
+    test('should include the quarter', () => {
+      const queryParams = new URLSearchParams('year=2014');
+
+      expect(getLeaderboardFilters(queryParams)).toEqual({
+        quarter: undefined,
+        year: {
+          fields: null,
+          labels: [
+            {
+              type: 'text',
+              value: 'during',
+            },
+            {
+              type: 'label',
+              value: '2014',
+            },
+          ],
+          model: null,
+          values: {
+            year: '2014',
           },
         },
       });

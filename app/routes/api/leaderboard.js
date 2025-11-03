@@ -3,6 +3,7 @@ const express = require('express');
 
 const {
   PARAM_QUARTER_ALT,
+  PARAM_YEAR,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SORT_BY_TOTAL,
@@ -32,8 +33,33 @@ const callback = (item, incidentCountResult) => {
   return item.adapted;
 };
 
+const getDateRangeFromResults = (results) => {
+  let dateRangeFrom;
+  let dateRangeTo;
+
+  if (Array.isArray(results)) {
+    dateRangeFrom = results.at(0).getData('date_start');
+
+    if (results.length > 1) {
+      dateRangeTo = results.at(-1).getData('date_end');
+    } else {
+      dateRangeTo = results.at(0).getData('date_end');
+    }
+
+  } else {
+    dateRangeFrom = results.getData('date_start');
+    dateRangeTo = results.getData('date_end');
+  }
+
+  return {
+    dateRangeFrom,
+    dateRangeTo,
+  };
+};
+
 const setOptions = async (req, res, next) => {
   const quarter = req.searchParams.get(PARAM_QUARTER_ALT);
+  const year = req.searchParams.get(PARAM_YEAR);
 
   const options = {
     page: 1,
@@ -46,6 +72,7 @@ const setOptions = async (req, res, next) => {
 
   let period = '2014–25';
   let periodIsValid = false;
+  let dateRange;
 
   try {
     if (searchParams.hasYearAndQuarter(quarter)) {
@@ -55,20 +82,29 @@ const setOptions = async (req, res, next) => {
       periodIsValid = quarterResult.hasData();
 
       if (periodIsValid) {
-        dateRangeFrom = quarterResult.getData('date_start');
-        dateRangeTo = quarterResult.getData('date_end');
-
-        if (dateRangeFrom && dateRangeTo) {
-          [options, incidentCountOptions, totalOptions].forEach(optionSet => {
-            optionSet.dateRangeFrom = dateRangeFrom;
-            optionSet.dateRangeTo = dateRangeTo;
-          });
-
-          period = quarterResult.readablePeriod;
-        }
+        dateRange = getDateRangeFromResults(quarterResult);
+        period = quarterResult.readablePeriod;
       } else {
         req.flash.setWarning(getOutOfRangeValueMessage(PARAM_QUARTER_ALT, quarter));
       }
+    } else if (searchParams.hasYear(year)) {
+      const quarterOptions = { year };
+      const quarterResult = await quarters.getAll(quarterOptions);
+
+      if (quarterResult.length > 0) {
+        dateRange = getDateRangeFromResults(quarterResult);
+        periodIsValid = true;
+        period = year;
+      } else {
+        req.flash.setWarning(getOutOfRangeValueMessage(PARAM_YEAR, year));
+      }
+    }
+
+    if (dateRange?.dateRangeFrom && dateRange?.dateRangeTo) {
+      [options, incidentCountOptions, totalOptions].forEach(optionSet => {
+        optionSet.dateRangeFrom = dateRange.dateRangeFrom;
+        optionSet.dateRangeTo = dateRange.dateRangeTo;
+      });
     }
   } catch (err) {
     console.error('Error while getting leaderboard options:', err.message); // eslint-disable-line no-console
