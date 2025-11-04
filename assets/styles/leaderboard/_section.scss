@@ -44,20 +44,19 @@
   }
 
   .filters {
-    display: inline-flex;
     color: var(--color-light);
+  }
 
-    .filter-label {
-      font-weight: 400;
-    }
+  .filter-intro {
+    line-height: 21px;
+  }
 
-    .filter-intro + .filter {
-      margin-left: 0.4ch;
-    }
+  .filter {
+    line-height: 27px;
   }
 
   .header + .filters {
-    margin-top: var(--gap);
+    margin-top: calc(var(--gap) * 2);
   }
 
   .filters + .leaderboard-subsection {

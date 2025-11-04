@@ -27,7 +27,7 @@ class Leaderboard {
       period: values.period,
       description: this.getDescription(values),
       filters: {
-        intro: this.getLabel('intro', this.labelPrefix),
+        intro: this.getLabel('filter_intro', this.labelPrefix),
       },
     };
   }

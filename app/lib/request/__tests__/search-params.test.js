@@ -1,4 +1,4 @@
-const { getFilters } = require('../../incident/filters');
+const { getFilters } = require('../../filters/incident');
 const {
   getParams,
   getParamsFromFilters,

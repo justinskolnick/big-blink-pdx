@@ -115,10 +115,12 @@ describe('setData()', () => {
   });
 });
 
-describe('readablePeriod()', () => {
-  test('sets readable period', () => {
+describe('getters', () => {
+  let quarter;
+
+  beforeAll(() => {
     /* eslint-disable camelcase */
-    const quarter = new Quarter({
+    quarter = new Quarter({
       date_end: '2014-06-30',
       date_start: '2014-04-01',
       id: 1,
@@ -127,7 +129,23 @@ describe('readablePeriod()', () => {
       slug: '2014-q2',
     });
     /* eslint-enable camelcase */
+  });
 
-    expect(quarter.readablePeriod).toEqual('2014 Q2');
+  describe('readablePeriod()', () => {
+    test('returns the expected value', () => {
+      expect(quarter.readablePeriod).toEqual('2014 Q2');
+    });
+  });
+
+  describe('slug()', () => {
+    test('returns the expected value', () => {
+      expect(quarter.slug).toEqual('2014-q2');
+    });
+  });
+
+  describe('year()', () => {
+    test('returns the expected value', () => {
+      expect(quarter.year).toEqual(2014);
+    });
   });
 });

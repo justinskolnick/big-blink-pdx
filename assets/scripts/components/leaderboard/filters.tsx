@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import Filter, { Filters, FilterIntro, FilterText } from '../filter';
+import Filter, { Filters, FilterIntro } from '../filter';
 
 import {
   getLeaderboardFilters,
@@ -20,10 +20,9 @@ const LeaderboardFilters = () => {
   return (
     <Filters>
       <FilterIntro>
-        <FilterText>{labels.filters.intro}</FilterText>
+        <h4>{labels.filters.intro}</h4>
       </FilterIntro>
-      <Filter filter={filters.quarter} />
-      <Filter filter={filters.year} />
+      <Filter filter={filters.period} />
     </Filters>
   );
 };

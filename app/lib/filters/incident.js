@@ -9,7 +9,6 @@ const {
   PARAM_ROLE,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
-  PARAM_YEAR,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
 
@@ -17,36 +16,21 @@ const dateHelper = require('../../helpers/date');
 const { Labels } = require('../../helpers/labels');
 
 const {
+  getLabel,
+  getLabelText,
+  getLabelLink,
+  getLabelId,
+} = require('./filters');
+const {
   getPeople,
   getQuarterAndYear,
-  getYear,
   hasDate,
   hasInteger,
   hasQuarter,
   hasRole,
-  hasYear,
 } = require('../request/search-params');
 
 const labels = new Labels();
-
-const getLabel = value => ({
-  type: 'label',
-  value,
-});
-const getLabelText = value => ({
-  type: 'text',
-  value,
-});
-const getLabelLink = (action, to, value) => ({
-  action,
-  to,
-  type: 'link',
-  value,
-});
-const getLabelId = value => ({
-  type: 'id',
-  value: Number(value),
-});
 
 const getPeopleLabels = (value, role = null) => {
   const labels = [
@@ -236,29 +220,7 @@ const getRoleFilter = searchParams => {
   }
 };
 
-const getYearFilter = (searchParams) => {
-  if (searchParams.has(PARAM_YEAR)) {
-    const param = searchParams.get(PARAM_YEAR);
-
-    if (hasYear(param)) {
-      const year = getYear(param);
-
-      return {
-        fields: null,
-        labels: [
-          getLabelText('during'),
-          getLabel(year),
-        ],
-        model: null,
-        values: {
-          [PARAM_YEAR]: param,
-        },
-      };
-    }
-  }
-};
-
-const getFilters = searchParams => ({
+const getFilters = (searchParams) => ({
   dates: getDatesFilter(searchParams),
   entities: getEntitiesFilter(searchParams),
   people: getPeopleFilter(searchParams),
@@ -266,12 +228,6 @@ const getFilters = searchParams => ({
   role: getRoleFilter(searchParams),
 });
 
-const getLeaderboardFilters = searchParams => ({
-  quarter: getQuarterFilter(searchParams),
-  year: getYearFilter(searchParams),
-});
-
 module.exports = {
   getFilters,
-  getLeaderboardFilters,
 };

@@ -21,7 +21,7 @@ const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
-const { getFilters } = require('../../lib/incident/filters');
+const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const { toSentence } = require('../../lib/string');
 

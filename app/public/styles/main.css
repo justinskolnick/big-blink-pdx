@@ -2339,19 +2339,18 @@ ul.incident-types ::marker {
   margin-right: 0.5ch;
 }
 .leaderboard-section .filters {
-  display: inline-flex;
   color: gray;
   color: var(--color-light);
 }
-.leaderboard-section .filters .filter-label {
-  font-weight: 400;
+.leaderboard-section .filter-intro {
+  line-height: 21px;
 }
-.leaderboard-section .filters .filter-intro + .filter {
-  margin-left: 0.4ch;
+.leaderboard-section .filter {
+  line-height: 27px;
 }
 .leaderboard-section .header + .filters {
-  margin-top: 18px;
-  margin-top: var(--gap);
+  margin-top: calc(18px * 2);
+  margin-top: calc(var(--gap) * 2);
 }
 .leaderboard-section .filters + .leaderboard-subsection {
   margin-top: calc(18px * 2);

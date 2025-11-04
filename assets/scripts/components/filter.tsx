@@ -17,6 +17,7 @@ import type {
   FiltersLabel,
   FiltersLabelId,
   FiltersObjects,
+  FiltersSelectField,
   Id,
   NewFilterParams,
   PaginationParams,
@@ -92,6 +93,10 @@ interface FilterModelIdProps {
 
 interface FilterDateFieldProps {
   field: FiltersDateField;
+}
+
+interface FilterSelecteFieldProps {
+  field: FiltersSelectField;
 }
 
 interface FilterRemoveProps {
@@ -170,6 +175,18 @@ const FilterDateField = ({ field }: FilterDateFieldProps) => (
   />
 );
 
+const FilterSelectField = ({ field }: FilterSelecteFieldProps) => (
+  <select
+    className='filter-form-field'
+    id={field.name}
+    name={field.name}
+  >
+    {Object.entries(field.options).map(([key, value]) => (
+      <option key={key} value={key}>{value}</option>
+    ))}
+  </select>
+);
+
 const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArrayProps) => labels.map((label, i) => (
   <Fragment key={i}>
     {label.type === FiltersLabelTypes.Id && <FilterModelId label={label} model={model} />}
@@ -180,6 +197,7 @@ const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArray
         {label.value}
       </FilterAction>
     )}
+    {label.type === FiltersLabelTypes.Select && <FilterSelectField field={label} />}
     {label.type === FiltersLabelTypes.Text && <FilterText>{label.value}</FilterText>}
   </Fragment>
 )).reduce((prev: ReactElement, curr: ReactElement): any => [prev, ' ', curr]);

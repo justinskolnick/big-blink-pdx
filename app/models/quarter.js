@@ -15,6 +15,14 @@ class Quarter extends Base {
   get readablePeriod() {
     return `${this.getData('year')} Q${this.getData('quarter')}`;
   }
+
+  get slug() {
+    return this.getData('slug');
+  }
+
+  get year() {
+    return this.getData('year');
+  }
 }
 
 module.exports = Quarter;

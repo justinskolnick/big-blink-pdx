@@ -21,7 +21,7 @@ const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
 const { unique } = require('../../lib/array');
-const { getFilters } = require('../../lib/incident/filters');
+const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const { titleCase } = require('../../lib/string');
 

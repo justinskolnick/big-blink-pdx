@@ -59442,11 +59442,21 @@ Hook ${hookName} was either not provided or not a function.`);
       name: field.name
     }
   );
+  var FilterSelectField = ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
+    "select",
+    {
+      className: "filter-form-field",
+      id: field.name,
+      name: field.name,
+      children: Object.entries(field.options).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("option", { value: key, children: value }, key))
+    }
+  );
   var FilterLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i2) => /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_react36.Fragment, { children: [
     label.type === "id" /* Id */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterModelId, { label, model }),
     label.type === "input-date" /* InputDate */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterDateField, { field: label }),
     label.type === "label" /* Label */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterLabel, { label: label.value }),
     label.type === "link" /* Link */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterAction, { action: label.action, handleClick: handleActionClick, children: label.value }),
+    label.type === "select" /* Select */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterSelectField, { field: label }),
     label.type === "text" /* Text */ && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(FilterText, { children: label.value })
   ] }, i2)).reduce((prev2, curr) => [prev2, " ", curr]);
   var FilterForm = ({ action, filter, handleActionClick, handleCancel }) => {
@@ -59872,9 +59882,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasFilters = !isEmpty(filters);
     if (!hasFilters) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime67.jsxs)(Filters, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(FilterIntro, { children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(FilterText, { children: labels.filters.intro }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.quarter }),
-      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.year })
+      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(FilterIntro, { children: /* @__PURE__ */ (0, import_jsx_runtime67.jsx)("h4", { children: labels.filters.intro }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime67.jsx)(filter_default, { filter: filters.period })
     ] });
   };
   var filters_default = LeaderboardFilters;

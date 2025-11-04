@@ -188,6 +188,7 @@ export enum FiltersLabelTypes {
   InputDate = 'input-date',
   Label = 'label',
   Link = 'link',
+  Select = 'select',
   Text = 'text',
 }
 
@@ -218,7 +219,13 @@ export type FiltersDateField = {
   type: FiltersLabelTypes.InputDate;
   value?: FilterStringValue;
 };
-export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField;
+export type FiltersSelectField = {
+  name: string;
+  options: Record<string, string>;
+  type: FiltersLabelTypes.Select;
+  value?: FilterStringValue;
+};
+export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField | FiltersSelectField;
 
 type DateFilterLabel = FiltersLabelLabel | FiltersLabelLink | FiltersLabelText;
 type DateFilterFieldLabel = FiltersDateField | FiltersLabelText;
@@ -277,6 +284,7 @@ export type Filters = {
   dates?: FiltersDates;
   entities?: FiltersEntities;
   people?: FiltersWithPeople | FiltersWithPerson;
+  period?: FiltersQuarter | FiltersYear;
   quarter?: FiltersQuarter;
   role?: FiltersRole;
   year?: FiltersYear;

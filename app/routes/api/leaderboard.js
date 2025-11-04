@@ -11,7 +11,7 @@ const {
 
 const metaHelper = require('../../helpers/meta');
 
-const { getLeaderboardFilters } = require('../../lib/incident/filters');
+const { getFilters } = require('../../lib/filters/leaderboard');
 const { getOutOfRangeValueMessage } = require('../../lib/request/messages');
 const searchParams = require('../../lib/request/search-params');
 
@@ -122,6 +122,29 @@ const setOptions = async (req, res, next) => {
   next();
 };
 
+const getPeriodFilterOptions = async () => {
+  const allQuarters = await quarters.getAll();
+
+  const quarterOptions = allQuarters.reduce((all, q) => {
+    all[q.slug] = q.readablePeriod;
+
+    return all;
+  }, {});
+
+  const yearOptions = allQuarters.reduce((all, q) => {
+    if (!(q.year in all)) {
+      all[q.year] = q.year;
+    }
+
+    return all;
+  }, {});
+
+  return {
+    quarter: quarterOptions,
+    year: yearOptions,
+  };
+};
+
 router.get('/', setOptions, async (req, res, next) => {
   const {
     incidentCountOptions,
@@ -132,7 +155,6 @@ router.get('/', setOptions, async (req, res, next) => {
 
   let incidentCountResult;
   let data;
-  let filters;
   let meta;
 
   try {
@@ -149,6 +171,7 @@ router.get('/', setOptions, async (req, res, next) => {
         role: ROLE_OFFICIAL,
       }),
     ]);
+
     const [
       entitiesTotalResult,
       lobbyistsTotalResult,
@@ -164,12 +187,12 @@ router.get('/', setOptions, async (req, res, next) => {
       periodIsValid,
     };
 
-    filters = getLeaderboardFilters(req.query);
+    const filterOptions = await getPeriodFilterOptions();
 
     data = {
       leaderboard: {
         labels: Leaderboard.getSectionLabels(descriptionValues),
-        filters,
+        filters: getFilters(req.query, filterOptions),
         values: {},
       },
     };
