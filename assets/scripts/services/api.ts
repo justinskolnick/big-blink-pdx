@@ -68,8 +68,31 @@ const getAncillaryRoute = (query: QueryFn) => ({
   transformErrorResponse: handleError,
 });
 
-const getPathnameWithLimit = (pathname: string, limit?: number) =>
-  limit ? `${pathname}?limit=${limit}` : pathname;
+const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
+  const newUrl = new URL(pathname, baseUrl);
+  const { limit, search } = options;
+
+  if (search) {
+    const values = search.split('?').filter(Boolean).reduce((all, item) => {
+      const [key, value] = item.split('=');
+
+      all[key] = value;
+
+      return all;
+    }, {} as Record<string, string>);
+    const searchParams = new URLSearchParams(values);
+
+    searchParams.forEach((value, key) => {
+      newUrl.searchParams.append(key, value);
+    });
+  }
+
+  if (limit) {
+    newUrl.searchParams.append('limit', String(limit));
+  }
+
+  return `${newUrl.pathname}${newUrl.search}`;
+};
 
 const api = createApi({
   reducerPath: 'api',
@@ -88,16 +111,16 @@ const api = createApi({
       () => 'api/stats'
     )),
     getLeaderboard: builder.query(getAncillaryRoute(
-      ({ search }) => `api/leaderboard${search}`
+      ({ limit, search }) => getPathnameWithLimit('api/leaderboard', { limit, search })
     )),
     getLeaderboardEntities: builder.query(getAncillaryRoute(
-      ({ search }) => `api/leaderboard/entities${search}`
+      ({ limit, search }) => getPathnameWithLimit('api/leaderboard/entities', { limit, search })
     )),
     getLeaderboardLobbyists: builder.query(getAncillaryRoute(
-      ({ search }) => `api/leaderboard/lobbyists${search}`
+      ({ limit, search }) => getPathnameWithLimit('api/leaderboard/lobbyists', { limit, search })
     )),
     getLeaderboardOfficials: builder.query(getAncillaryRoute(
-      ({ search }) => `api/leaderboard/officials${search}`
+      ({ limit, search }) => getPathnameWithLimit('api/leaderboard/officials', { limit, search })
     )),
     getPrimary: builder.query(getPrimaryRoute()),
 
@@ -105,7 +128,7 @@ const api = createApi({
       ({ id }) => `api/entities/${id}`
     )),
     getEntityAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, { limit })
     )),
     getEntityIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/entities/${id}/incidents${search}`
@@ -119,10 +142,10 @@ const api = createApi({
     )),
 
     getPersonAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, { limit })
     )),
     getPersonEntitiesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, { limit })
     )),
     getPersonIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/people/${id}/incidents${search}`
@@ -135,10 +158,10 @@ const api = createApi({
     )),
 
     getSourceAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, { limit })
     )),
     getSourceEntitiesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, limit)
+      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, { limit })
     )),
     getSourceIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/sources/${id}/incidents${search}`

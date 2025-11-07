@@ -2285,8 +2285,10 @@ ul.incident-types ::marker {
   margin-top: calc(var(--gap) * 2);
 }
 .leaderboard-more {
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: calc(18px / 2);
+  padding-left: calc(var(--gap) / 2);
+  padding-right: calc(18px / 2);
+  padding-right: calc(var(--gap) / 2);
 }
 .leaderboard-more .icon {
   color: gray;
@@ -2295,6 +2297,10 @@ ul.incident-types ::marker {
 }
 .leaderboard-more .item-text {
   font-size: 12px;
+}
+.leaderboard-more .item-text-with-icon {
+  margin-right: 2.5ch;
+  line-height: 27px;
 }
 .leaderboard-more .icon + .item-text {
   margin-left: 2.5ch;
@@ -2398,8 +2404,8 @@ ul.incident-types ::marker {
   margin-top: var(--gap);
 }
 .leaderboard-subsection-group .item-table + .leaderboard-more {
-  margin-top: 18px;
-  margin-top: var(--gap);
+  margin-top: calc(18px / 2);
+  margin-top: calc(var(--gap) / 2);
 }
 @media screen and (min-width: 401px) {
   .leaderboard-subsection-group .item-subhead-content {

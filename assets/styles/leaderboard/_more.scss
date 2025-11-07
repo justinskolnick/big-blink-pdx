@@ -1,6 +1,6 @@
 .leaderboard-more {
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: calc(var(--gap) / 2);
+  padding-right: calc(var(--gap) / 2);
 
   .icon {
     color: var(--color-light);
@@ -9,6 +9,11 @@
 
   .item-text {
     font-size: 12px;
+  }
+
+  .item-text-with-icon {
+    margin-right: 2.5ch;
+    line-height: 27px;
   }
 
   .icon + .item-text {

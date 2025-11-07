@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+
+import useLimitedQuery from '../../hooks/use-limited-query';
 
 import { getLeaderboardLobbyistsValues } from '../../selectors';
 
@@ -11,19 +13,22 @@ import LeaderboardRankings from './rankings';
 import { Sections } from '../../types';
 
 const LobbyistsLeaderboard = () => {
-  const [trigger] = api.useLazyGetLeaderboardLobbyistsQuery();
-  const result = useSelector(getLeaderboardLobbyistsValues);
   const location = useLocation();
+  const query = api.useLazyGetLeaderboardLobbyistsQuery;
 
-  useEffect(() => {
-    trigger({ search: location.search });
-  }, [location, trigger]);
+  const { setRecordLimit } = useLimitedQuery(query, {
+    limit: 5,
+    search: location.search,
+  });
+
+  const result = useSelector(getLeaderboardLobbyistsValues);
 
   return (
     <LeaderboardRankings
       isGrid
       rankings={result}
       section={Sections.People}
+      setLimit={setRecordLimit}
     />
   );
 };

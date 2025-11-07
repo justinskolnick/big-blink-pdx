@@ -13,6 +13,7 @@ const buildQuery = (options = {}) => {
     dateRangeTo,
     includeTotal = false,
     includeTotalOnly = false,
+    limit,
     page,
     perPage,
     role,
@@ -22,6 +23,7 @@ const buildQuery = (options = {}) => {
   } = options;
 
   const hasDateRange = Boolean(dateRangeFrom && dateRangeTo);
+  const hasLimit = Boolean(limit);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
   const hasRole = Boolean(role);
@@ -93,11 +95,16 @@ const buildQuery = (options = {}) => {
       clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
     }
 
-    if (hasPage && hasPerPage) {
-      const offset = queryHelper.getOffset(page, perPage);
-
+    if ((hasPage && hasPerPage) || hasLimit) {
       clauses.push('LIMIT ?,?');
-      params.push(offset, perPage);
+
+      if (hasPage && hasPerPage) {
+        const offset = queryHelper.getOffset(page, perPage);
+
+        params.push(offset, perPage);
+      } else if (hasLimit) {
+        params.push(0, limit);
+      }
     }
   }
 

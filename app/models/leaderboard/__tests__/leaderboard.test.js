@@ -36,6 +36,10 @@ describe('getValuesForEntities()', () => {
       ids: [4, 5, 6],
       labels: {
         links: {
+          limit: {
+            label: 'View the top 10',
+            value: 10,
+          },
           more: 'View the full list of entities',
         },
         subtitle: 'Entities are ranked by total number of lobbying incident appearances.',
@@ -65,6 +69,10 @@ describe('getValuesForLobbyists()', () => {
       ids: [4, 5, 6],
       labels: {
         links: {
+          limit: {
+            label: 'View the top 10',
+            value: 10,
+          },
           more: 'View all lobbyists in the full list of people',
         },
         subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
@@ -94,6 +102,10 @@ describe('getValuesForOfficials()', () => {
       ids: [4, 5, 6],
       labels: {
         links: {
+          limit: {
+            label: 'View the top 10',
+            value: 10,
+          },
           more: 'View all officials in the full list of people',
         },
         subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',

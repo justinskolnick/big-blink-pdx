@@ -34,6 +34,7 @@
     "leaderboard__title": "Leaderboard",
     "leaderboard__view_full_list": "View the full list of :group",
     "leaderboard__view_full_list_with_subset": "View all :subset in the full list of :group",
+    "leaderboard__view_top_limit": "View the top :limit",
     "lobbying__activity": "Lobbying activity",
     "lobbying__personnel": "City personnel",
     "lobbying__registration": "Lobbying registration",

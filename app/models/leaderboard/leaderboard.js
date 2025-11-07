@@ -42,6 +42,11 @@ class Leaderboard {
       linkSubset,
     } = labels;
 
+    const max = 10;
+    const min = 5;
+    const itemCount = items.length;
+    const limit = itemCount < max ? max : min;
+
     return {
       ids: items.map(item => item.id),
       labels: {
@@ -56,6 +61,12 @@ class Leaderboard {
           },
         },
         links: {
+          limit: {
+            label: this.getLabel('view_top_limit', this.labelPrefix, {
+              limit: itemCount < max ? max : min,
+            }),
+            value: limit,
+          },
           more: this.getLabel(linkSubset ? 'view_full_list_with_subset' : 'view_full_list', this.labelPrefix, {
             subset: linkSubset,
             group: linkGroup,

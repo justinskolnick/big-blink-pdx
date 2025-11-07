@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import Icon from './icon';
+import ItemText from './item-text';
 
 interface Props {
   after?: boolean;
@@ -17,13 +18,13 @@ const ItemTextWithIcon = ({
   <span className='item-text-with-icon'>
     {after ? (
       <>
-        <span className='item-text'>{children}</span>
+        <ItemText>{children}</ItemText>
         <Icon name={icon} />
       </>
     ) : (
       <>
         <Icon name={icon} />
-        <span className='item-text'>{children}</span>
+        <ItemText>{children}</ItemText>
       </>
     )}
   </span>

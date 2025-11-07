@@ -308,6 +308,10 @@ type LeaderboardLabels = {
 };
 
 type LeaderboardLinkLabels = {
+  limit: {
+    label: string;
+    value: number;
+  };
   more: string;
 };
 

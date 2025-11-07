@@ -7,8 +7,9 @@ import type { Id } from '../types';
 type QueryType = TypedUseLazyQuery<any, any, any>;
 
 type QueryOptions = {
-  id: Id;
+  id?: Id;
   limit?: number;
+  search?: string;
 };
 
 export interface FnSetLimit {
@@ -28,20 +29,22 @@ interface Fn {
 const useLimitedQuery: Fn = (query, options) => {
   const initialLimit = options.limit;
   const id = options.id;
+  const search = options.search;
 
   const [recordLimit, setRecordLimit] = useState<number>(initialLimit);
   const [trigger, result] = query();
 
   useEffect(() => {
-    const originalArgs = result.originalArgs;
+    const lastArgs = result.originalArgs;
 
-    if (originalArgs?.id !== id || originalArgs?.limit !== recordLimit) {
-      trigger({ id, limit: recordLimit });
+    if (lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search) {
+      trigger({ id, limit: recordLimit, search });
     }
   }, [
     id,
     recordLimit,
     result,
+    search,
     trigger,
   ]);
 

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
+import { useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
+
+import { FnSetLimit } from '../../hooks/use-limited-query';
 
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
@@ -18,10 +21,18 @@ import { getLeaderboardLabels } from '../../selectors';
 import { Sections } from '../../types';
 import type { LeaderboardSet } from '../../types';
 
+interface LimitLinkProps {
+  currentLimit: number;
+  labels: LeaderboardSet['labels'];
+  limit: number;
+  setLimit: FnSetLimit;
+}
+
 interface Props {
   isGrid?: boolean;
   rankings: LeaderboardSet;
   section: Sections;
+  setLimit: FnSetLimit;
 }
 
 const useGetItem = (section: string) => {
@@ -40,10 +51,36 @@ const useGetItemsLink = (section: string) => {
   }
 };
 
+const LimitLink = ({
+  currentLimit,
+  labels,
+  limit,
+  setLimit,
+}: LimitLinkProps) => {
+  const location = useLocation();
+  const href = `${location.pathname}${location.search}`;
+
+  const hasMoreToShow = limit > currentLimit;
+
+  const handleClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setLimit(labels.links.limit.value);
+  };
+
+  return (
+    <ItemTextWithIcon icon={hasMoreToShow ? 'arrow-down' : 'arrow-up'}>
+      <a href={href} onClick={handleClick}>
+        {labels.links.limit.label}
+      </a>
+    </ItemTextWithIcon>
+  );
+};
+
 const Rankings = ({
   isGrid = false,
   rankings,
   section,
+  setLimit,
 }: Props) => {
   const labels = useSelector(getLeaderboardLabels);
   const hasPeriod = Boolean(labels?.period);
@@ -78,6 +115,12 @@ const Rankings = ({
           </ItemTable>
 
           <LeaderboardMore>
+            <LimitLink
+              currentLimit={ids.length}
+              labels={rankingsLabels}
+              limit={10}
+              setLimit={setLimit}
+            />
             <ItemTextWithIcon icon='link'>
               <ItemsLink>
                 {rankingsLabels.links.more}

@@ -174,6 +174,24 @@ describe('getAllQuery()', () => {
     });
   });
 
+  describe('with a limit', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ limit: 5 })).toEqual({
+        clauses: [
+          'SELECT',
+          'people.id, people.identical_id, people.pernr, people.type, people.name',
+          'FROM people',
+          'WHERE',
+          'people.identical_id IS NULL',
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
+          'LIMIT ?,?',
+        ],
+        params: [0, 5],
+      });
+    });
+  });
+
   describe('with counts', () => {
     test('returns the expected SQL', () => {
       expect(getAllQuery({ includeTotal: true })).toEqual({

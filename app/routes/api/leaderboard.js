@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 
 const {
+  PARAM_LIMIT,
   PARAM_QUARTER_ALT,
   PARAM_YEAR,
   ROLE_LOBBYIST,
@@ -58,12 +59,12 @@ const getDateRangeFromResults = (results) => {
 };
 
 const setOptions = async (req, res, next) => {
+  const limit = req.searchParams.get(PARAM_LIMIT);
   const quarter = req.searchParams.get(PARAM_QUARTER_ALT);
   const year = req.searchParams.get(PARAM_YEAR);
 
   const options = {
-    page: 1,
-    perPage: 5,
+    limit: limit || 5,
     includeTotal: true,
     sortBy: SORT_BY_TOTAL,
   };
