@@ -3,10 +3,19 @@ const { Labels } = require('./labels');
 const labels = new Labels();
 const labelPrefix = 'description';
 
-const getDetailDescription = (name, word = 'involving') => {
+const getDetailDescription = (name = null, word = 'involving') => {
   const labelKey = name ? 'detail_with_name' : 'detail_without_name';
+  const options = {};
 
-  return labels.getLabel(labelKey, labelPrefix, { name, word });
+  if (name) {
+    options.name = name;
+
+    if (word) {
+      options.word = word;
+    }
+  }
+
+  return labels.getLabel(labelKey, labelPrefix, options);
 };
 
 const getIndexDescription = (type) => {

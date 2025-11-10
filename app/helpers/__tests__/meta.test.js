@@ -6,6 +6,10 @@ const {
 } = require('../meta');
 
 describe('getDetailDescription()', () => {
+  test('with default options', () => {
+    expect(getDetailDescription()).toBe('Activity according to lobbying data published by the City of Portland, Oregon');
+  });
+
   describe('with a name', () => {
     test('with involving', () => {
       expect(getDetailDescription('John Doe')).toBe('Activity involving John Doe according to lobbying data published by the City of Portland, Oregon');

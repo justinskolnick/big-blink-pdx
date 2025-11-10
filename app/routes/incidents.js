@@ -36,21 +36,19 @@ router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
   const description = metaHelper.getDetailDescription();
 
-  let incidentResult;
+  let result;
 
   try {
-    incidentResult = await incidents.getAtId(id);
+    result = await incidents.getAtId(id);
   } catch (err) {
     console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (incidentResult.exists) {
-    adapted = entity.adapted;
+  if (result.exists) {
+    adapted = result.adapted;
 
-    description = metaHelper.getDetailDescription(adapted.name);
     section.id = adapted.id;
-    section.subtitle = adapted.name;
   } else {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
