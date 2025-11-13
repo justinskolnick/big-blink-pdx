@@ -21459,7 +21459,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React47 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React47.useSyncExternalStore, useRef18 = React47.useRef, useEffect34 = React47.useEffect, useMemo8 = React47.useMemo, useDebugValue3 = React47.useDebugValue;
+        var React47 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React47.useSyncExternalStore, useRef18 = React47.useRef, useEffect32 = React47.useEffect, useMemo8 = React47.useMemo, useDebugValue3 = React47.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef18(null);
           if (null === instRef.current) {
@@ -21502,7 +21502,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect32(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -23214,7 +23214,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-UIGDSWPH.mjs
+  // node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23850,13 +23850,36 @@
   }) {
     return pathname === "/" ? basename : joinPaths([basename, pathname]);
   }
+  var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+  var isAbsoluteUrl = (url) => ABSOLUTE_URL_REGEX.test(url);
   function resolvePath(to3, fromPathname = "/") {
     let {
       pathname: toPathname,
       search = "",
       hash: hash2 = ""
     } = typeof to3 === "string" ? parsePath(to3) : to3;
-    let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+    let pathname;
+    if (toPathname) {
+      if (isAbsoluteUrl(toPathname)) {
+        pathname = toPathname;
+      } else {
+        if (toPathname.includes("//")) {
+          let oldPathname = toPathname;
+          toPathname = toPathname.replace(/\/\/+/g, "/");
+          warning(
+            false,
+            `Pathnames cannot have embedded double slashes - normalizing ${oldPathname} -> ${toPathname}`
+          );
+        }
+        if (toPathname.startsWith("/")) {
+          pathname = resolvePathname(toPathname.substring(1), "/");
+        } else {
+          pathname = resolvePathname(toPathname, fromPathname);
+        }
+      }
+    } else {
+      pathname = fromPathname;
+    }
     return {
       pathname,
       search: normalizeSearch(search),
@@ -24238,8 +24261,6 @@
     reset: void 0,
     location: void 0
   };
-  var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-  var isAbsoluteUrl = (url) => ABSOLUTE_URL_REGEX.test(url);
   var defaultMapRouteProperties = (route) => ({
     hasErrorBoundary: Boolean(route.hasErrorBoundary)
   });
@@ -25279,6 +25300,14 @@
         key
       );
       let actionResult = actionResults[match2.route.id];
+      if (!actionResult) {
+        for (let match22 of fetchMatches) {
+          if (actionResults[match22.route.id]) {
+            actionResult = actionResults[match22.route.id];
+            break;
+          }
+        }
+      }
       if (fetchRequest.signal.aborted) {
         if (fetchControllers.get(key) === abortController) {
           fetchControllers.delete(key);
@@ -25935,22 +25964,42 @@
           return { type: "aborted" };
         }
         let newMatches = matchRoutes(routesToUse, pathname, basename);
+        let newPartialMatches = null;
         if (newMatches) {
-          return { type: "success", matches: newMatches };
+          if (Object.keys(newMatches[0].params).length === 0) {
+            return { type: "success", matches: newMatches };
+          } else {
+            newPartialMatches = matchRoutesImpl(
+              routesToUse,
+              pathname,
+              basename,
+              true
+            );
+            let matchedDeeper = newPartialMatches && partialMatches.length < newPartialMatches.length && compareMatches(
+              partialMatches,
+              newPartialMatches.slice(0, partialMatches.length)
+            );
+            if (!matchedDeeper) {
+              return { type: "success", matches: newMatches };
+            }
+          }
         }
-        let newPartialMatches = matchRoutesImpl(
-          routesToUse,
-          pathname,
-          basename,
-          true
-        );
-        if (!newPartialMatches || partialMatches.length === newPartialMatches.length && partialMatches.every(
-          (m2, i2) => m2.route.id === newPartialMatches[i2].route.id
-        )) {
+        if (!newPartialMatches) {
+          newPartialMatches = matchRoutesImpl(
+            routesToUse,
+            pathname,
+            basename,
+            true
+          );
+        }
+        if (!newPartialMatches || compareMatches(partialMatches, newPartialMatches)) {
           return { type: "success", matches: null };
         }
         partialMatches = newPartialMatches;
       }
+    }
+    function compareMatches(a2, b2) {
+      return a2.length === b2.length && a2.every((m2, i2) => m2.route.id === b2[i2].route.id);
     }
     function _internalSetRoutes(newRoutes) {
       manifest = {};
@@ -27852,8 +27901,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }
     componentDidCatch(error, errorInfo) {
-      if (this.props.unstable_onError) {
-        this.props.unstable_onError(error, errorInfo);
+      if (this.props.onError) {
+        this.props.onError(error, errorInfo);
       } else {
         console.error(
           "React Router caught the following error during render",
@@ -27931,6 +27980,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       }
     }
+    let onError = dataRouterState && unstable_onError ? (error, errorInfo) => {
+      unstable_onError(error, {
+        location: dataRouterState.location,
+        params: dataRouterState.matches?.[0]?.params ?? {},
+        errorInfo
+      });
+    } : void 0;
     return renderedMatches.reduceRight(
       (outlet, match2, index) => {
         let error;
@@ -27991,7 +28047,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             error,
             children: getChildren(),
             routeContext: { outlet: null, matches: matches22, isDataRoute: true },
-            unstable_onError
+            onError
           }
         ) : getChildren();
       },
@@ -28197,7 +28253,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           if (newState.errors && unstable_onError) {
             Object.entries(newState.errors).forEach(([routeId, error]) => {
               if (prevState.errors?.[routeId] !== error) {
-                unstable_onError(error);
+                unstable_onError(error, {
+                  location: newState.location,
+                  params: newState.matches[0]?.params ?? {}
+                });
               }
             });
           }
@@ -28957,7 +29016,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.9.5";
+      "7.9.6";
     }
   } catch (e2) {
   }
@@ -29997,26 +30056,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return isPlainObject3(value) || Array.isArray(value) || !!value[DRAFTABLE] || !!value.constructor?.[DRAFTABLE] || isMap(value) || isSet(value);
   }
   var objectCtorString = Object.prototype.constructor.toString();
+  var cachedCtorStrings = /* @__PURE__ */ new WeakMap();
   function isPlainObject3(value) {
     if (!value || typeof value !== "object")
       return false;
-    const proto2 = getPrototypeOf(value);
-    if (proto2 === null) {
+    const proto2 = Object.getPrototypeOf(value);
+    if (proto2 === null || proto2 === Object.prototype)
       return true;
-    }
     const Ctor = Object.hasOwnProperty.call(proto2, "constructor") && proto2.constructor;
     if (Ctor === Object)
       return true;
-    return typeof Ctor == "function" && Function.toString.call(Ctor) === objectCtorString;
+    if (typeof Ctor !== "function")
+      return false;
+    let ctorString = cachedCtorStrings.get(Ctor);
+    if (ctorString === void 0) {
+      ctorString = Function.toString.call(Ctor);
+      cachedCtorStrings.set(Ctor, ctorString);
+    }
+    return ctorString === objectCtorString;
   }
   function original(value) {
     if (!isDraft(value))
       die(15, value);
     return value[DRAFT_STATE].base_;
   }
-  function each(obj, iter) {
+  function each(obj, iter, strict = true) {
     if (getArchtype(obj) === 0) {
-      Reflect.ownKeys(obj).forEach((key) => {
+      const keys = strict ? Reflect.ownKeys(obj) : Object.keys(obj);
+      keys.forEach((key) => {
         iter(key, obj[key], obj);
       });
     } else {
@@ -30102,17 +30169,27 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
       return obj;
     if (getArchtype(obj) > 1) {
-      obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
+      Object.defineProperties(obj, {
+        set: dontMutateMethodOverride,
+        add: dontMutateMethodOverride,
+        clear: dontMutateMethodOverride,
+        delete: dontMutateMethodOverride
+      });
     }
     Object.freeze(obj);
     if (deep)
-      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
+      Object.values(obj).forEach((value) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
     die(2);
   }
+  var dontMutateMethodOverride = {
+    value: dontMutateFrozenCollections
+  };
   function isFrozen(obj) {
+    if (obj === null || typeof obj !== "object")
+      return true;
     return Object.isFrozen(obj);
   }
   var plugins = {};
@@ -30204,11 +30281,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function finalize(rootScope, value, path) {
     if (isFrozen(value))
       return value;
+    const useStrictIteration = rootScope.immer_.shouldUseStrictIteration();
     const state = value[DRAFT_STATE];
     if (!state) {
       each(
         value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
+        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path),
+        useStrictIteration
       );
       return value;
     }
@@ -30231,7 +30310,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
       each(
         resultEach,
-        (key, childValue) => finalizeProperty(rootScope, state, result, key, childValue, path, isSet2)
+        (key, childValue) => finalizeProperty(
+          rootScope,
+          state,
+          result,
+          key,
+          childValue,
+          path,
+          isSet2
+        ),
+        useStrictIteration
       );
       maybeFreeze(rootScope, result, false);
       if (path && rootScope.patches_) {
@@ -30246,6 +30334,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return state.copy_;
   }
   function finalizeProperty(rootScope, parentState, targetObject, prop, childValue, rootPath, targetIsSet) {
+    if (childValue == null) {
+      return;
+    }
+    if (typeof childValue !== "object" && !targetIsSet) {
+      return;
+    }
+    const childIsFrozen = isFrozen(childValue);
+    if (childIsFrozen && !targetIsSet) {
+      return;
+    }
     if (childValue === targetObject)
       die(5);
     if (isDraft(childValue)) {
@@ -30260,12 +30358,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     } else if (targetIsSet) {
       targetObject.add(childValue);
     }
-    if (isDraftable(childValue) && !isFrozen(childValue)) {
+    if (isDraftable(childValue) && !childIsFrozen) {
       if (!rootScope.immer_.autoFreeze_ && rootScope.unfinalizedDrafts_ < 1) {
         return;
       }
+      if (parentState && parentState.base_ && parentState.base_[prop] === childValue && childIsFrozen) {
+        return;
+      }
       finalize(rootScope, childValue);
-      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && (isMap(targetObject) ? targetObject.has(prop) : Object.prototype.propertyIsEnumerable.call(targetObject, prop)))
         maybeFreeze(rootScope, childValue);
     }
   }
@@ -30460,6 +30561,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     constructor(config2) {
       this.autoFreeze_ = true;
       this.useStrictShallowCopy_ = false;
+      this.useStrictIteration_ = true;
       this.produce = (base, recipe, patchListener) => {
         if (typeof base === "function" && typeof recipe !== "function") {
           const defaultBase = recipe;
@@ -30522,6 +30624,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         this.setAutoFreeze(config2.autoFreeze);
       if (typeof config2?.useStrictShallowCopy === "boolean")
         this.setUseStrictShallowCopy(config2.useStrictShallowCopy);
+      if (typeof config2?.useStrictIteration === "boolean")
+        this.setUseStrictIteration(config2.useStrictIteration);
     }
     createDraft(base) {
       if (!isDraftable(base))
@@ -30557,6 +30661,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
      */
     setUseStrictShallowCopy(value) {
       this.useStrictShallowCopy_ = value;
+    }
+    /**
+     * Pass false to use faster iteration that skips non-enumerable properties
+     * but still handles symbols for compatibility.
+     *
+     * By default, strict iteration is enabled (includes all own properties).
+     */
+    setUseStrictIteration(value) {
+      this.useStrictIteration_ = value;
+    }
+    shouldUseStrictIteration() {
+      return this.useStrictIteration_;
     }
     applyPatches(base, patches) {
       let i2;
@@ -30596,17 +30712,23 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       return value;
     const state = value[DRAFT_STATE];
     let copy2;
+    let strict = true;
     if (state) {
       if (!state.modified_)
         return state.base_;
       state.finalized_ = true;
       copy2 = shallowCopy(value, state.scope_.immer_.useStrictShallowCopy_);
+      strict = state.scope_.immer_.shouldUseStrictIteration();
     } else {
       copy2 = shallowCopy(value, true);
     }
-    each(copy2, (key, childValue) => {
-      set(copy2, key, currentImpl(childValue));
-    });
+    each(
+      copy2,
+      (key, childValue) => {
+        set(copy2, key, currentImpl(childValue));
+      },
+      strict
+    );
     if (state) {
       state.finalized_ = false;
     }
@@ -30848,14 +30970,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   var immer = new Immer2();
   var produce = immer.produce;
-  var produceWithPatches = immer.produceWithPatches.bind(
+  var produceWithPatches = /* @__PURE__ */ immer.produceWithPatches.bind(
     immer
   );
-  var setAutoFreeze = immer.setAutoFreeze.bind(immer);
-  var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
-  var applyPatches = immer.applyPatches.bind(immer);
-  var createDraft = immer.createDraft.bind(immer);
-  var finishDraft = immer.finishDraft.bind(immer);
+  var setUseStrictIteration = /* @__PURE__ */ immer.setUseStrictIteration.bind(
+    immer
+  );
+  var applyPatches = /* @__PURE__ */ immer.applyPatches.bind(immer);
 
   // node_modules/reselect/dist/reselect.mjs
   var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
@@ -31804,6 +31925,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     builderCallback(builder);
     return [actionsMap, actionMatchers, defaultCaseReducer];
   }
+  setUseStrictIteration(false);
   function isStateFunction(x2) {
     return typeof x2 === "function";
   }
@@ -33239,8 +33361,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     element.lastIndex = 0;
     return element.test(key);
   });
+  var isNumericKey = (key) => key.trim() !== "" && !Number.isNaN(Number(key));
   var cache = new QuickLRU({ maxSize: 1e5 });
-  var isObject2 = (value) => typeof value === "object" && value !== null && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date);
+  var isBuiltIn = (value) => ArrayBuffer.isView(value) || value instanceof Date || value instanceof RegExp || value instanceof Error || value instanceof Map || value instanceof Set || value instanceof WeakMap || value instanceof WeakSet || value instanceof Promise;
+  var isObject2 = (value) => typeof value === "object" && value !== null && !isBuiltIn(value);
   var transform = (input, options2 = {}, isSeen = /* @__PURE__ */ new WeakMap(), parentPath) => {
     if (!isObject2(input)) {
       return input;
@@ -33273,16 +33397,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           value = Array.isArray(value) ? value.map((item) => isObject2(item) ? transform(item, options2, isSeen, path) : item) : transform(value, options2, isSeen, path);
         }
       }
-      if (typeof key === "string" && !(exclude && has2(exclude, key))) {
+      if (typeof key === "string" && !isNumericKey(key) && !(exclude && has2(exclude, key))) {
         const cacheKey = pascalCase ? `${key}_` : key;
         if (cache.has(cacheKey)) {
           key = cache.get(cacheKey);
         } else {
-          const returnValue = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
+          const leadingPrefix = key.match(/^[_$]*/)[0];
+          const transformed = camelCase(key.slice(leadingPrefix.length), { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
+          key = leadingPrefix + transformed;
           if (key.length < 100) {
-            cache.set(cacheKey, returnValue);
+            cache.set(cacheKey, key);
           }
-          key = returnValue;
         }
       }
       return [key, value];
@@ -33298,7 +33423,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function camelcaseKeys(input, options2) {
     const isSeen = /* @__PURE__ */ new WeakMap();
     if (Array.isArray(input)) {
-      return input.map((item, index) => isObject2(item) ? transform(item, options2, isSeen, String(index)) : item);
+      return input.map((item) => isObject2(item) ? transform(item, options2, isSeen, void 0) : item);
     }
     return transform(input, options2, isSeen);
   }
@@ -33611,21 +33736,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // node_modules/@reduxjs/toolkit/dist/query/rtk-query.modern.mjs
-  var QueryStatus = /* @__PURE__ */ ((QueryStatus2) => {
-    QueryStatus2["uninitialized"] = "uninitialized";
-    QueryStatus2["pending"] = "pending";
-    QueryStatus2["fulfilled"] = "fulfilled";
-    QueryStatus2["rejected"] = "rejected";
-    return QueryStatus2;
+  var QueryStatus = /* @__PURE__ */ ((QueryStatus7) => {
+    QueryStatus7["uninitialized"] = "uninitialized";
+    QueryStatus7["pending"] = "pending";
+    QueryStatus7["fulfilled"] = "fulfilled";
+    QueryStatus7["rejected"] = "rejected";
+    return QueryStatus7;
   })(QueryStatus || {});
+  var STATUS_UNINITIALIZED = "uninitialized";
+  var STATUS_PENDING = "pending";
+  var STATUS_FULFILLED = "fulfilled";
+  var STATUS_REJECTED = "rejected";
   function getRequestStatusFlags(status) {
     return {
       status,
-      isUninitialized: status === "uninitialized",
-      isLoading: status === "pending",
-      isSuccess: status === "fulfilled",
-      isError: status === "rejected"
-      /* rejected */
+      isUninitialized: status === STATUS_UNINITIALIZED,
+      isLoading: status === STATUS_PENDING,
+      isSuccess: status === STATUS_FULFILLED,
+      isError: status === STATUS_REJECTED
     };
   }
   var isPlainObject22 = isPlainObject2;
@@ -33643,7 +33771,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return isSameObject ? oldObj : mergeObj;
   }
-  var flatten = (arr) => [].concat(...arr);
+  function filterMap(array, predicate, mapper) {
+    return array.reduce((acc, item, i2) => {
+      if (predicate(item, i2)) {
+        acc.push(mapper(item, i2));
+      }
+      return acc;
+    }, []).flat();
+  }
   function isAbsoluteUrl2(url) {
     return new RegExp(`(^|:)//`).test(url);
   }
@@ -33862,28 +33997,33 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.meta = meta;
     }
   };
-  var onFocus = /* @__PURE__ */ createAction("__rtkq/focused");
-  var onFocusLost = /* @__PURE__ */ createAction("__rtkq/unfocused");
-  var onOnline = /* @__PURE__ */ createAction("__rtkq/online");
-  var onOffline = /* @__PURE__ */ createAction("__rtkq/offline");
+  var INTERNAL_PREFIX = "__rtkq/";
+  var ONLINE = "online";
+  var OFFLINE = "offline";
+  var FOCUSED = "focused";
+  var onFocus = /* @__PURE__ */ createAction(`${INTERNAL_PREFIX}${FOCUSED}`);
+  var onFocusLost = /* @__PURE__ */ createAction(`${INTERNAL_PREFIX}un${FOCUSED}`);
+  var onOnline = /* @__PURE__ */ createAction(`${INTERNAL_PREFIX}${ONLINE}`);
+  var onOffline = /* @__PURE__ */ createAction(`${INTERNAL_PREFIX}${OFFLINE}`);
+  var ENDPOINT_QUERY = "query";
+  var ENDPOINT_MUTATION = "mutation";
+  var ENDPOINT_INFINITEQUERY = "infinitequery";
   function isQueryDefinition(e2) {
-    return e2.type === "query";
+    return e2.type === ENDPOINT_QUERY;
   }
   function isMutationDefinition(e2) {
-    return e2.type === "mutation";
+    return e2.type === ENDPOINT_MUTATION;
   }
   function isInfiniteQueryDefinition(e2) {
-    return e2.type === "infinitequery";
+    return e2.type === ENDPOINT_INFINITEQUERY;
   }
   function isAnyQueryDefinition(e2) {
     return isQueryDefinition(e2) || isInfiniteQueryDefinition(e2);
   }
   function calculateProvidedBy(description, result, error, queryArg, meta, assertTagTypes) {
-    if (isFunction(description)) {
-      return description(result, error, queryArg, meta).filter(isNotNullish).map(expandTagDescription).map(assertTagTypes);
-    }
-    if (Array.isArray(description)) {
-      return description.map(expandTagDescription).map(assertTagTypes);
+    const finalDescription = isFunction(description) ? description(result, error, queryArg, meta) : description;
+    if (finalDescription) {
+      return filterMap(finalDescription, isNotNullish, (tag) => assertTagTypes(expandTagDescription(tag)));
     }
     return [];
   }
@@ -33898,6 +34038,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function asSafePromise(promise, fallback) {
     return promise.catch(fallback);
   }
+  var getEndpointDefinition = (context, endpointName) => context.endpointDefinitions[endpointName];
   var forceQueryFnSymbol = Symbol("forceQueryFn");
   var isUpsertQuery = (arg) => typeof arg[forceQueryFnSymbol] === "function";
   function buildInitiate({
@@ -33927,7 +34068,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
     function getRunningQueryThunk(endpointName, queryArgs) {
       return (dispatch) => {
-        const endpointDefinition = context.endpointDefinitions[endpointName];
+        const endpointDefinition = getEndpointDefinition(context, endpointName);
         const queryCacheKey = serializeQueryArgs({
           queryArgs,
           endpointDefinition,
@@ -33974,7 +34115,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         let thunk2;
         const commonThunkArgs = {
           ...rest,
-          type: "query",
+          type: ENDPOINT_QUERY,
           subscribe,
           forceRefetch,
           subscriptionOptions,
@@ -34209,7 +34350,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         inversePatches: [],
         undo: () => dispatch(api3.util.patchQueryData(endpointName, arg, ret.inversePatches, updateProvided))
       };
-      if (currentState.status === "uninitialized") {
+      if (currentState.status === STATUS_UNINITIALIZED) {
         return ret;
       }
       let newValue;
@@ -34266,6 +34407,7 @@ You must add the middleware for RTK-Query to function correctly!`);
         metaSchema,
         skipSchemaValidation = globalSkipSchemaValidation
       } = endpointDefinition;
+      const isQuery = arg.type === ENDPOINT_QUERY;
       try {
         let transformResponse = defaultTransformResponse;
         const baseQueryApi = {
@@ -34276,10 +34418,10 @@ You must add the middleware for RTK-Query to function correctly!`);
           extra,
           endpoint: arg.endpointName,
           type: arg.type,
-          forced: arg.type === "query" ? isForcedQuery(arg, getState()) : void 0,
-          queryCacheKey: arg.type === "query" ? arg.queryCacheKey : void 0
+          forced: isQuery ? isForcedQuery(arg, getState()) : void 0,
+          queryCacheKey: isQuery ? arg.queryCacheKey : void 0
         };
-        const forceQueryFn = arg.type === "query" ? arg[forceQueryFnSymbol] : void 0;
+        const forceQueryFn = isQuery ? arg[forceQueryFnSymbol] : void 0;
         let finalQueryReturnValue;
         const fetchPage = async (data2, param, maxPages, previous) => {
           if (param == null && data2.pages.length) {
@@ -34368,7 +34510,7 @@ You must add the middleware for RTK-Query to function correctly!`);
             data: transformedResponse
           };
         }
-        if (arg.type === "query" && "infiniteQueryOptions" in endpointDefinition) {
+        if (isQuery && "infiniteQueryOptions" in endpointDefinition) {
           const {
             infiniteQueryOptions
           } = endpointDefinition;
@@ -34456,7 +34598,7 @@ You must add the middleware for RTK-Query to function correctly!`);
               endpoint: arg.endpointName,
               arg: arg.originalArgs,
               type: arg.type,
-              queryCacheKey: arg.type === "query" ? arg.queryCacheKey : void 0
+              queryCacheKey: isQuery ? arg.queryCacheKey : void 0
             };
             endpointDefinition.onSchemaFailure?.(caughtError, info);
             onSchemaFailure?.(caughtError, info);
@@ -34615,6 +34757,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
   function calculateProvidedByThunk(action, type, endpointDefinitions, assertTagType) {
     return calculateProvidedBy(endpointDefinitions[action.meta.arg.endpointName][type], isFulfilled(action) ? action.payload : void 0, isRejectedWithValue(action) ? action.payload : void 0, action.meta.arg.originalArgs, "baseQueryMeta" in action.meta ? action.meta.baseQueryMeta : void 0, assertTagType);
   }
+  function getCurrent2(value) {
+    return isDraft(value) ? current(value) : value;
+  }
   function updateQuerySubstateIfExists(state, queryCacheKey, update) {
     const substate = state[queryCacheKey];
     if (substate) {
@@ -34648,11 +34793,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     const resetApiState = createAction(`${reducerPath}/resetApiState`);
     function writePendingCacheEntry(draft, arg, upserting, meta) {
       draft[arg.queryCacheKey] ??= {
-        status: "uninitialized",
+        status: STATUS_UNINITIALIZED,
         endpointName: arg.endpointName
       };
       updateQuerySubstateIfExists(draft, arg.queryCacheKey, (substate) => {
-        substate.status = "pending";
+        substate.status = STATUS_PENDING;
         substate.requestId = upserting && substate.requestId ? (
           // for `upsertQuery` **updates**, keep the current `requestId`
           substate.requestId
@@ -34677,7 +34822,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         const {
           merge: merge4
         } = definitions[meta.arg.endpointName];
-        substate.status = "fulfilled";
+        substate.status = STATUS_FULFILLED;
         if (merge4) {
           if (substate.data !== void 0) {
             const {
@@ -34754,7 +34899,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
               } = entry;
               const endpointDefinition = definitions[endpointName];
               const queryDescription = {
-                type: "query",
+                type: ENDPOINT_QUERY,
                 endpointName,
                 originalArgs: entry.arg,
                 queryCacheKey: serializeQueryArgs({
@@ -34821,7 +34966,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
             if (condition) {
             } else {
               if (substate.requestId !== requestId) return;
-              substate.status = "rejected";
+              substate.status = STATUS_REJECTED;
               substate.error = payload ?? error;
             }
           });
@@ -34832,7 +34977,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           for (const [key, entry] of Object.entries(queries)) {
             if (
               // do not rehydrate entries that were currently in flight.
-              entry?.status === "fulfilled" || entry?.status === "rejected"
+              entry?.status === STATUS_FULFILLED || entry?.status === STATUS_REJECTED
             ) {
               draft[key] = entry;
             }
@@ -34868,7 +35013,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           if (!arg.track) return;
           draft[getMutationCacheKey(meta)] = {
             requestId,
-            status: "pending",
+            status: STATUS_PENDING,
             endpointName: arg.endpointName,
             startedTimeStamp
           };
@@ -34879,7 +35024,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           if (!meta.arg.track) return;
           updateMutationSubstateIfExists(draft, meta, (substate) => {
             if (substate.requestId !== meta.requestId) return;
-            substate.status = "fulfilled";
+            substate.status = STATUS_FULFILLED;
             substate.data = payload;
             substate.fulfilledTimeStamp = meta.fulfilledTimeStamp;
           });
@@ -34891,7 +35036,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           if (!meta.arg.track) return;
           updateMutationSubstateIfExists(draft, meta, (substate) => {
             if (substate.requestId !== meta.requestId) return;
-            substate.status = "rejected";
+            substate.status = STATUS_REJECTED;
             substate.error = payload ?? error;
           });
         }).addMatcher(hasRehydrationInfo, (draft, action) => {
@@ -34901,7 +35046,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           for (const [key, entry] of Object.entries(mutations)) {
             if (
               // do not rehydrate entries that were currently in flight.
-              (entry?.status === "fulfilled" || entry?.status === "rejected") && // only rehydrate endpoints that were persisted using a `fixedCacheKey`
+              (entry?.status === STATUS_FULFILLED || entry?.status === STATUS_REJECTED) && // only rehydrate endpoints that were persisted using a `fixedCacheKey`
               key !== entry?.requestId
             ) {
               draft[key] = entry;
@@ -34986,19 +35131,19 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }
     });
     function removeCacheKeyFromTags(draft, queryCacheKey) {
-      const existingTags = draft.keys[queryCacheKey] ?? [];
+      const existingTags = getCurrent2(draft.keys[queryCacheKey] ?? []);
       for (const tag of existingTags) {
         const tagType = tag.type;
         const tagId = tag.id ?? "__internal_without_id";
         const tagSubscriptions = draft.tags[tagType]?.[tagId];
         if (tagSubscriptions) {
-          draft.tags[tagType][tagId] = tagSubscriptions.filter((qc) => qc !== queryCacheKey);
+          draft.tags[tagType][tagId] = getCurrent2(tagSubscriptions).filter((qc) => qc !== queryCacheKey);
         }
       }
       delete draft.keys[queryCacheKey];
     }
-    function writeProvidedTagsForQueries(draft, actions22) {
-      const providedByEntries = actions22.map((action) => {
+    function writeProvidedTagsForQueries(draft, actions32) {
+      const providedByEntries = actions32.map((action) => {
         const providedTags = calculateProvidedByThunk(action, "providesTags", definitions, assertTagType);
         const {
           queryCacheKey
@@ -35071,7 +35216,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       config: configSlice.reducer
     });
     const reducer2 = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
-    const actions4 = {
+    const actions22 = {
       ...configSlice.actions,
       ...querySlice.actions,
       ...subscriptionSlice.actions,
@@ -35082,13 +35227,12 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     };
     return {
       reducer: reducer2,
-      actions: actions4
+      actions: actions22
     };
   }
   var skipToken = /* @__PURE__ */ Symbol.for("RTKQ/skipToken");
   var initialSubState = {
-    status: "uninitialized"
-    /* uninitialized */
+    status: STATUS_UNINITIALIZED
   };
   var defaultQuerySubState = /* @__PURE__ */ produce(initialSubState, () => {
   });
@@ -35203,7 +35347,8 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     function selectInvalidatedBy(state, tags) {
       const apiState = state[reducerPath];
       const toInvalidate = /* @__PURE__ */ new Set();
-      for (const tag of tags.filter(isNotNullish).map(expandTagDescription)) {
+      const finalTags = filterMap(tags, isNotNullish, expandTagDescription);
+      for (const tag of finalTags) {
         const provided = apiState.provided.tags[tag.type];
         if (!provided) {
           continue;
@@ -35213,26 +35358,23 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           provided[tag.id]
         ) : (
           // no id: invalidate all queries that provide this type
-          flatten(Object.values(provided))
+          Object.values(provided).flat()
         )) ?? [];
         for (const invalidate of invalidateSubscriptions) {
           toInvalidate.add(invalidate);
         }
       }
-      return flatten(Array.from(toInvalidate.values()).map((queryCacheKey) => {
+      return Array.from(toInvalidate.values()).flatMap((queryCacheKey) => {
         const querySubState = apiState.queries[queryCacheKey];
-        return querySubState ? [{
+        return querySubState ? {
           queryCacheKey,
           endpointName: querySubState.endpointName,
           originalArgs: querySubState.originalArgs
-        }] : [];
-      }));
+        } : [];
+      });
     }
     function selectCachedArgsForQuery(state, queryName) {
-      return Object.values(selectQueries(state)).filter(
-        (entry) => entry?.endpointName === queryName && entry.status !== "uninitialized"
-        /* uninitialized */
-      ).map((entry) => entry.originalArgs);
+      return filterMap(Object.values(selectQueries(state)), (entry) => entry?.endpointName === queryName && entry.status !== STATUS_UNINITIALIZED, (entry) => entry.originalArgs);
     }
     function getHasNextPage(options2, data2, queryArg) {
       if (!data2) return false;
@@ -35332,9 +35474,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
           if (endpoints) {
             for (const [endpointName, partialDefinition] of Object.entries(endpoints)) {
               if (typeof partialDefinition === "function") {
-                partialDefinition(context.endpointDefinitions[endpointName]);
+                partialDefinition(getEndpointDefinition(context, endpointName));
               } else {
-                Object.assign(context.endpointDefinitions[endpointName] || {}, partialDefinition);
+                Object.assign(getEndpointDefinition(context, endpointName) || {}, partialDefinition);
               }
             }
           }
@@ -35346,18 +35488,15 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         const evaluatedEndpoints = inject.endpoints({
           query: (x2) => ({
             ...x2,
-            type: "query"
-            /* query */
+            type: ENDPOINT_QUERY
           }),
           mutation: (x2) => ({
             ...x2,
-            type: "mutation"
-            /* mutation */
+            type: ENDPOINT_MUTATION
           }),
           infiniteQuery: (x2) => ({
             ...x2,
-            type: "infinitequery"
-            /* infinitequery */
+            type: ENDPOINT_INFINITEQUERY
           })
         });
         for (const [endpointName, definition] of Object.entries(evaluatedEndpoints)) {
@@ -35603,7 +35742,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       }
     }
     function handleUnsubscribe(queryCacheKey, endpointName, api22, config2) {
-      const endpointDefinition = context.endpointDefinitions[endpointName];
+      const endpointDefinition = getEndpointDefinition(context, endpointName);
       const keepUnusedDataFor = endpointDefinition?.keepUnusedDataFor ?? config2.keepUnusedDataFor;
       if (keepUnusedDataFor === Infinity) {
         return;
@@ -35648,6 +35787,11 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
     const isMutationThunk = isAsyncThunkAction(mutationThunk);
     const isFulfilledThunk = isFulfilled(queryThunk, mutationThunk);
     const lifecycleMap = {};
+    const {
+      removeQueryResult,
+      removeMutationResult,
+      cacheEntriesUpserted
+    } = api3.internalActions;
     function resolveLifecycleEntry(cacheKey, data2, meta) {
       const lifecycle = lifecycleMap[cacheKey];
       if (lifecycle?.valueResolved) {
@@ -35665,6 +35809,17 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         lifecycle.cacheEntryRemoved();
       }
     }
+    function getActionMetaFields(action) {
+      const {
+        arg,
+        requestId
+      } = action.meta;
+      const {
+        endpointName,
+        originalArgs
+      } = arg;
+      return [endpointName, originalArgs, requestId];
+    }
     const handler = (action, mwApi, stateBefore) => {
       const cacheKey = getCacheKey(action);
       function checkForNewCacheKey(endpointName, cacheKey2, requestId, originalArgs) {
@@ -35675,8 +35830,9 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
         }
       }
       if (queryThunk.pending.match(action)) {
-        checkForNewCacheKey(action.meta.arg.endpointName, cacheKey, action.meta.requestId, action.meta.arg.originalArgs);
-      } else if (api3.internalActions.cacheEntriesUpserted.match(action)) {
+        const [endpointName, originalArgs, requestId] = getActionMetaFields(action);
+        checkForNewCacheKey(endpointName, cacheKey, requestId, originalArgs);
+      } else if (cacheEntriesUpserted.match(action)) {
         for (const {
           queryDescription,
           value
@@ -35692,11 +35848,12 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       } else if (mutationThunk.pending.match(action)) {
         const state = mwApi.getState()[reducerPath].mutations[cacheKey];
         if (state) {
-          handleNewKey(action.meta.arg.endpointName, action.meta.arg.originalArgs, cacheKey, mwApi, action.meta.requestId);
+          const [endpointName, originalArgs, requestId] = getActionMetaFields(action);
+          handleNewKey(endpointName, originalArgs, cacheKey, mwApi, requestId);
         }
       } else if (isFulfilledThunk(action)) {
         resolveLifecycleEntry(cacheKey, action.payload, action.meta.baseQueryMeta);
-      } else if (api3.internalActions.removeQueryResult.match(action) || api3.internalActions.removeMutationResult.match(action)) {
+      } else if (removeQueryResult.match(action) || removeMutationResult.match(action)) {
         removeLifecycleEntry(cacheKey);
       } else if (api3.util.resetApiState.match(action)) {
         for (const cacheKey2 of Object.keys(lifecycleMap)) {
@@ -35709,12 +35866,12 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       if (isMutationThunk(action)) {
         return action.meta.arg.fixedCacheKey ?? action.meta.requestId;
       }
-      if (api3.internalActions.removeQueryResult.match(action)) return action.payload.queryCacheKey;
-      if (api3.internalActions.removeMutationResult.match(action)) return getMutationCacheKey(action.payload);
+      if (removeQueryResult.match(action)) return action.payload.queryCacheKey;
+      if (removeMutationResult.match(action)) return getMutationCacheKey(action.payload);
       return "";
     }
     function handleNewKey(endpointName, originalArgs, queryCacheKey, mwApi, requestId) {
-      const endpointDefinition = context.endpointDefinitions[endpointName];
+      const endpointDefinition = getEndpointDefinition(context, endpointName);
       const onCacheEntryAdded = endpointDefinition?.onCacheEntryAdded;
       if (!onCacheEntryAdded) return;
       const lifecycle = {};
@@ -35785,9 +35942,16 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       removeQueryResult
     } = api3.internalActions;
     const isThunkActionWithTags = isAnyOf(isFulfilled(mutationThunk), isRejectedWithValue(mutationThunk));
-    const isQueryEnd = isAnyOf(isFulfilled(mutationThunk, queryThunk), isRejected(mutationThunk, queryThunk));
+    const isQueryEnd = isAnyOf(isFulfilled(queryThunk, mutationThunk), isRejected(queryThunk, mutationThunk));
     let pendingTagInvalidations = [];
+    let pendingRequestCount = 0;
     const handler = (action, mwApi) => {
+      if (queryThunk.pending.match(action) || mutationThunk.pending.match(action)) {
+        pendingRequestCount++;
+      }
+      if (isQueryEnd(action)) {
+        pendingRequestCount = Math.max(0, pendingRequestCount - 1);
+      }
       if (isThunkActionWithTags(action)) {
         invalidateTags(calculateProvidedByThunk(action, "invalidatesTags", endpointDefinitions, assertTagType), mwApi);
       } else if (isQueryEnd(action)) {
@@ -35796,23 +35960,14 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         invalidateTags(calculateProvidedBy(action.payload, void 0, void 0, void 0, void 0, assertTagType), mwApi);
       }
     };
-    function hasPendingRequests(state) {
-      const {
-        queries,
-        mutations
-      } = state;
-      for (const cacheRecord of [queries, mutations]) {
-        for (const key in cacheRecord) {
-          if (cacheRecord[key]?.status === "pending") return true;
-        }
-      }
-      return false;
+    function hasPendingRequests() {
+      return pendingRequestCount > 0;
     }
     function invalidateTags(newTags, mwApi) {
       const rootState = mwApi.getState();
       const state = rootState[reducerPath];
       pendingTagInvalidations.push(...newTags);
-      if (state.config.invalidationBehavior === "delayed" && hasPendingRequests(state)) {
+      if (state.config.invalidationBehavior === "delayed" && hasPendingRequests()) {
         return;
       }
       const tags = pendingTagInvalidations;
@@ -35831,7 +35986,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
               mwApi.dispatch(removeQueryResult({
                 queryCacheKey
               }));
-            } else if (querySubState.status !== "uninitialized") {
+            } else if (querySubState.status !== STATUS_UNINITIALIZED) {
               mwApi.dispatch(refetchQuery(querySubState));
             }
           }
@@ -35886,20 +36041,13 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         }, 0);
       }
     }
-    function getCacheEntrySubscriptions(queryCacheKey, api22) {
-      const state = api22.getState()[reducerPath];
-      const querySubState = state.queries[queryCacheKey];
-      const subscriptions = currentSubscriptions.get(queryCacheKey);
-      if (!querySubState || querySubState.status === "uninitialized") return;
-      return subscriptions;
-    }
     function startNextPoll({
       queryCacheKey
     }, api22) {
       const state = api22.getState()[reducerPath];
       const querySubState = state.queries[queryCacheKey];
       const subscriptions = currentSubscriptions.get(queryCacheKey);
-      if (!querySubState || querySubState.status === "uninitialized") return;
+      if (!querySubState || querySubState.status === STATUS_UNINITIALIZED) return;
       const {
         lowestPollingInterval,
         skipPollingIfUnfocused
@@ -35930,7 +36078,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       const state = api22.getState()[reducerPath];
       const querySubState = state.queries[queryCacheKey];
       const subscriptions = currentSubscriptions.get(queryCacheKey);
-      if (!querySubState || querySubState.status === "uninitialized") {
+      if (!querySubState || querySubState.status === STATUS_UNINITIALIZED) {
         return;
       }
       const {
@@ -36000,7 +36148,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
             originalArgs
           }
         } = action.meta;
-        const endpointDefinition = context.endpointDefinitions[endpointName];
+        const endpointDefinition = getEndpointDefinition(context, endpointName);
         const onQueryStarted = endpointDefinition?.onQueryStarted;
         if (onQueryStarted) {
           const lifecycle = {};
@@ -36083,7 +36231,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
               api22.dispatch(removeQueryResult({
                 queryCacheKey
               }));
-            } else if (querySubState.status !== "uninitialized") {
+            } else if (querySubState.status !== STATUS_UNINITIALIZED) {
               api22.dispatch(refetchQuery(querySubState));
             }
           }
@@ -36103,7 +36251,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     const {
       apiUid
     } = context;
-    const actions4 = {
+    const actions22 = {
       invalidateTags: createAction(`${reducerPath}/invalidateTags`)
     };
     const isThisApiSliceAction = (action) => action.type.startsWith(`${reducerPath}/`);
@@ -36156,7 +36304,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     };
     return {
       middleware: middleware2,
-      actions: actions4
+      actions: actions22
     };
     function refetchQuery(querySubState) {
       return input.api.endpoints[querySubState.endpointName].initiate(querySubState.originalArgs, {
@@ -36358,10 +36506,6 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
 
   // node_modules/@reduxjs/toolkit/dist/query/react/rtk-query-react.modern.mjs
   var import_react = __toESM(require_react(), 1);
-  var import_react2 = __toESM(require_react(), 1);
-  var import_react3 = __toESM(require_react(), 1);
-  var import_react4 = __toESM(require_react(), 1);
-  var import_react5 = __toESM(require_react(), 1);
   var React12 = __toESM(require_react(), 1);
   function capitalize(str) {
     return str.replace(str[0], str[0].toUpperCase());
@@ -36373,23 +36517,26 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     }
     return count;
   }
+  var ENDPOINT_QUERY2 = "query";
+  var ENDPOINT_MUTATION2 = "mutation";
+  var ENDPOINT_INFINITEQUERY2 = "infinitequery";
   function isQueryDefinition2(e2) {
-    return e2.type === "query";
+    return e2.type === ENDPOINT_QUERY2;
   }
   function isMutationDefinition2(e2) {
-    return e2.type === "mutation";
+    return e2.type === ENDPOINT_MUTATION2;
   }
   function isInfiniteQueryDefinition2(e2) {
-    return e2.type === "infinitequery";
+    return e2.type === ENDPOINT_INFINITEQUERY2;
   }
   function safeAssign2(target, ...args) {
     return Object.assign(target, ...args);
   }
   var UNINITIALIZED_VALUE = Symbol();
   function useStableQueryArgs(queryArgs) {
-    const cache4 = (0, import_react2.useRef)(queryArgs);
-    const copy2 = (0, import_react2.useMemo)(() => copyWithStructuralSharing(cache4.current, queryArgs), [queryArgs]);
-    (0, import_react2.useEffect)(() => {
+    const cache4 = (0, import_react.useRef)(queryArgs);
+    const copy2 = (0, import_react.useMemo)(() => copyWithStructuralSharing(cache4.current, queryArgs), [queryArgs]);
+    (0, import_react.useEffect)(() => {
       if (cache4.current !== copy2) {
         cache4.current = copy2;
       }
@@ -36397,8 +36544,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     return copy2;
   }
   function useShallowStableValue(value) {
-    const cache4 = (0, import_react3.useRef)(value);
-    (0, import_react3.useEffect)(() => {
+    const cache4 = (0, import_react.useRef)(value);
+    (0, import_react.useEffect)(() => {
       if (!shallowEqual(cache4.current, value)) {
         cache4.current = value;
       }
@@ -36418,6 +36565,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         isUninitialized: false,
         isFetching: true,
         isLoading: selected.data !== void 0 ? false : true,
+        // This is the one place where we still have to use `QueryStatus` as an enum,
+        // since it's the only reference in the React package and not in the core.
         status: QueryStatus.pending
       };
     }
@@ -36447,6 +36596,8 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     context
   }) {
     const usePossiblyImmediateEffect = unstable__sideEffectsInRender ? (cb) => cb() : import_react.useEffect;
+    const unsubscribePromiseRef = (ref) => ref.current?.unsubscribe?.();
+    const endpointDefinitions = context.endpointDefinitions;
     return {
       buildQueryHooks,
       buildInfiniteQueryHooks,
@@ -36458,7 +36609,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         const {
           endpointName
         } = lastResult;
-        const endpointDefinition = context.endpointDefinitions[endpointName];
+        const endpointDefinition = endpointDefinitions[endpointName];
         if (queryArgs !== skipToken && serializeQueryArgs({
           queryArgs: lastResult.originalArgs,
           endpointDefinition,
@@ -36489,7 +36640,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         const {
           endpointName
         } = lastResult;
-        const endpointDefinition = context.endpointDefinitions[endpointName];
+        const endpointDefinition = endpointDefinitions[endpointName];
         if (queryArgs !== skipToken && serializeQueryArgs({
           queryArgs: lastResult.originalArgs,
           endpointDefinition,
@@ -36587,7 +36738,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           const promise = dispatch(initiate(stableArg, {
             subscriptionOptions: stableSubscriptionOptions,
             forceRefetch: refetchOnMountOrArgChange,
-            ...isInfiniteQueryDefinition2(context.endpointDefinitions[endpointName]) ? {
+            ...isInfiniteQueryDefinition2(endpointDefinitions[endpointName]) ? {
               initialPageParam: stableInitialPageParam
             } : {}
           }));
@@ -36642,7 +36793,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
     function usePromiseRefUnsubscribeOnUnmount(promiseRef) {
       (0, import_react.useEffect)(() => {
         return () => {
-          promiseRef.current?.unsubscribe?.();
+          unsubscribePromiseRef(promiseRef);
           promiseRef.current = void 0;
         };
       }, [promiseRef]);
@@ -36693,7 +36844,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         const trigger = (0, import_react.useCallback)(function(arg2, preferCacheValue = false) {
           let promise;
           batch2(() => {
-            promiseRef.current?.unsubscribe();
+            unsubscribePromiseRef(promiseRef);
             promiseRef.current = promise = dispatch(initiate(arg2, {
               subscriptionOptions: subscriptionOptionsRef.current,
               forceRefetch: !preferCacheValue
@@ -36711,7 +36862,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         }, [dispatch]);
         (0, import_react.useEffect)(() => {
           return () => {
-            promiseRef?.current?.unsubscribe();
+            unsubscribePromiseRef(promiseRef);
           };
         }, []);
         (0, import_react.useEffect)(() => {
@@ -36769,7 +36920,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         const trigger = (0, import_react.useCallback)(function(arg2, direction) {
           let promise;
           batch2(() => {
-            promiseRef.current?.unsubscribe();
+            unsubscribePromiseRef(promiseRef);
             promiseRef.current = promise = dispatch(initiate(arg2, {
               subscriptionOptions: subscriptionOptionsRef.current,
               direction
@@ -37779,10 +37930,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var store_default = store;
 
   // assets/scripts/components/alert-error.tsx
-  var import_react15 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
 
   // assets/scripts/components/alert.tsx
-  var import_react14 = __toESM(require_react());
+  var import_react10 = __toESM(require_react());
 
   // node_modules/@babel/runtime/helpers/esm/extends.js
   function _extends() {
@@ -37849,11 +38000,11 @@ Hook ${hookName} was either not provided or not a function.`);
   }
 
   // node_modules/react-transition-group/esm/CSSTransition.js
-  var import_react9 = __toESM(require_react());
+  var import_react5 = __toESM(require_react());
 
   // node_modules/react-transition-group/esm/Transition.js
   var import_prop_types2 = __toESM(require_prop_types());
-  var import_react8 = __toESM(require_react());
+  var import_react4 = __toESM(require_react());
   var import_react_dom = __toESM(require_react_dom());
 
   // node_modules/react-transition-group/esm/config.js
@@ -37882,8 +38033,8 @@ Hook ${hookName} was either not provided or not a function.`);
   })]) : null;
 
   // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react7 = __toESM(require_react());
-  var TransitionGroupContext_default = import_react7.default.createContext(null);
+  var import_react3 = __toESM(require_react());
+  var TransitionGroupContext_default = import_react3.default.createContext(null);
 
   // node_modules/react-transition-group/esm/utils/reflow.js
   var forceReflow = function forceReflow2(node2) {
@@ -38098,13 +38249,13 @@ Hook ${hookName} was either not provided or not a function.`);
       var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
       return (
         // allows for nested Transitions
-        /* @__PURE__ */ import_react8.default.createElement(TransitionGroupContext_default.Provider, {
+        /* @__PURE__ */ import_react4.default.createElement(TransitionGroupContext_default.Provider, {
           value: null
-        }, typeof children === "function" ? children(status, childProps) : import_react8.default.cloneElement(import_react8.default.Children.only(children), childProps))
+        }, typeof children === "function" ? children(status, childProps) : import_react4.default.cloneElement(import_react4.default.Children.only(children), childProps))
       );
     };
     return Transition2;
-  })(import_react8.default.Component);
+  })(import_react4.default.Component);
   Transition.contextType = TransitionGroupContext_default;
   Transition.propTypes = true ? {
     /**
@@ -38420,7 +38571,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     _proto.render = function render3() {
       var _this$props = this.props, _2 = _this$props.classNames, props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
-      return /* @__PURE__ */ import_react9.default.createElement(Transition_default, _extends({}, props, {
+      return /* @__PURE__ */ import_react5.default.createElement(Transition_default, _extends({}, props, {
         onEnter: this.onEnter,
         onEntered: this.onEntered,
         onEntering: this.onEntering,
@@ -38430,7 +38581,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }));
     };
     return CSSTransition2;
-  })(import_react9.default.Component);
+  })(import_react5.default.Component);
   CSSTransition.defaultProps = {
     classNames: ""
   };
@@ -38561,14 +38712,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var CSSTransition_default = CSSTransition;
 
   // assets/scripts/components/alert-portal.tsx
-  var import_react11 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
   var import_react_dom2 = __toESM(require_react_dom());
 
   // assets/scripts/hooks/use-fixed-body-when-has-class.ts
-  var import_react10 = __toESM(require_react());
+  var import_react6 = __toESM(require_react());
   var useFixedBodyWhenHasClass = (className) => {
     const { positionY } = useSelector(getUI);
-    (0, import_react10.useEffect)(() => {
+    (0, import_react6.useEffect)(() => {
       document.body.classList.add(className);
       document.body.style.position = "fixed";
       if (positionY !== 0) {
@@ -38590,7 +38741,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var alertRootId = "alert-root";
   var alertPortalId = "alert-root-portal";
   var Escape = "Escape";
-  var AlertPortal = (0, import_react11.forwardRef)(({
+  var AlertPortal = (0, import_react7.forwardRef)(({
     children,
     deactivate,
     isActive
@@ -38611,7 +38762,7 @@ Hook ${hookName} was either not provided or not a function.`);
         deactivate();
       }
     };
-    (0, import_react11.useEffect)(() => {
+    (0, import_react7.useEffect)(() => {
       if (isActive) {
         elementRef.current?.focus();
       }
@@ -39869,7 +40020,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var cache3 = _createEmotion.cache;
 
   // node_modules/@fortawesome/react-fontawesome/dist/index.js
-  var import_react12 = __toESM(require_react(), 1);
+  var import_react8 = __toESM(require_react(), 1);
 
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
   function _arrayLikeToArray(r2, a2) {
@@ -43772,9 +43923,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return createElement14(element.tag, { ...remaining, ...attrs }, ...children);
   }
-  var makeReactConverter = convert.bind(null, import_react12.default.createElement);
+  var makeReactConverter = convert.bind(null, import_react8.default.createElement);
   var useAccessibilityId = (id, hasAccessibleProps) => {
-    const generatedId = (0, import_react12.useId)();
+    const generatedId = (0, import_react8.useId)();
     return id || (hasAccessibleProps ? generatedId : void 0);
   };
   var Logger = class {
@@ -43987,7 +44138,7 @@ Hook ${hookName} was either not provided or not a function.`);
     widthAuto: false
   };
   var DEFAULT_PROP_KEYS = new Set(Object.keys(DEFAULT_PROPS));
-  var FontAwesomeIcon = import_react12.default.forwardRef((props, ref) => {
+  var FontAwesomeIcon = import_react8.default.forwardRef((props, ref) => {
     const allProps = { ...DEFAULT_PROPS, ...props };
     const {
       icon: iconArgs,
@@ -44165,7 +44316,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
 
   // assets/scripts/components/links.tsx
-  var import_react13 = __toESM(require_react());
+  var import_react9 = __toESM(require_react());
 
   // assets/scripts/config/constants.ts
   var dateOnParam = "date_on";
@@ -44242,7 +44393,7 @@ Hook ${hookName} was either not provided or not a function.`);
     onClick,
     ...rest
   }) => {
-    const ref = (0, import_react13.useRef)(null);
+    const ref = (0, import_react9.useRef)(null);
     const handleClick = (e2) => {
       if (e2.button || e2.altKey || e2.ctrlKey || e2.metaKey || e2.shiftKey) {
         const customEvent = new MouseEvent("click", {
@@ -44501,7 +44652,7 @@ Hook ${hookName} was either not provided or not a function.`);
     grade,
     isActive
   }) => {
-    const ref = (0, import_react14.useRef)(null);
+    const ref = (0, import_react10.useRef)(null);
     const iconName5 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
     return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
@@ -44537,7 +44688,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/alert-error.tsx
   var import_jsx_runtime8 = __toESM(require_jsx_runtime());
   var AlertError = () => {
-    const [isActive, setIsActive] = (0, import_react15.useState)(false);
+    const [isActive, setIsActive] = (0, import_react11.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -44547,7 +44698,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getErrors);
     const hasAlerts = alerts.length > 0;
-    (0, import_react15.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
@@ -44565,13 +44716,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_error_default = AlertError;
 
   // assets/scripts/components/app.tsx
-  var import_react26 = __toESM(require_react());
+  var import_react22 = __toESM(require_react());
 
   // node_modules/react-helmet/es/Helmet.js
   var import_prop_types4 = __toESM(require_prop_types());
   var import_react_side_effect = __toESM(require_lib());
   var import_react_fast_compare = __toESM(require_react_fast_compare());
-  var import_react16 = __toESM(require_react());
+  var import_react12 = __toESM(require_react());
   var import_object_assign = __toESM(require_object_assign());
   var ATTRIBUTE_NAMES = {
     BODY: "bodyAttributes",
@@ -45022,7 +45173,7 @@ Hook ${hookName} was either not provided or not a function.`);
       key: title
     }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
     var props = convertElementAttributestoReactProps(attributes, initProps);
-    return [import_react16.default.createElement(TAG_NAMES.TITLE, props, title)];
+    return [import_react12.default.createElement(TAG_NAMES.TITLE, props, title)];
   };
   var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
     return tags.map(function(tag, i2) {
@@ -45039,7 +45190,7 @@ Hook ${hookName} was either not provided or not a function.`);
           mappedTag[mappedAttribute] = tag[attribute];
         }
       });
-      return import_react16.default.createElement(type, mappedTag);
+      return import_react12.default.createElement(type, mappedTag);
     });
   };
   var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -45167,7 +45318,7 @@ Hook ${hookName} was either not provided or not a function.`);
       HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
         var _this2 = this;
         var arrayTypeChildren = {};
-        import_react16.default.Children.forEach(children, function(child) {
+        import_react12.default.Children.forEach(children, function(child) {
           if (!child || !child.props) {
             return;
           }
@@ -45206,7 +45357,7 @@ Hook ${hookName} was either not provided or not a function.`);
         if (children) {
           newProps = this.mapChildrenToProps(children, newProps);
         }
-        return import_react16.default.createElement(Component4, newProps);
+        return import_react12.default.createElement(Component4, newProps);
       };
       createClass(HelmetWrapper, null, [{
         key: "canUseDOM",
@@ -45236,7 +45387,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }]);
       return HelmetWrapper;
-    })(import_react16.default.Component), _class.propTypes = {
+    })(import_react12.default.Component), _class.propTypes = {
       base: import_prop_types4.default.object,
       bodyAttributes: import_prop_types4.default.object,
       children: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.node), import_prop_types4.default.node]),
@@ -45284,14 +45435,14 @@ Hook ${hookName} was either not provided or not a function.`);
   HelmetExport.renderStatic = HelmetExport.rewind;
 
   // assets/scripts/components/modal-portal.tsx
-  var import_react17 = __toESM(require_react());
+  var import_react13 = __toESM(require_react());
   var import_react_dom3 = __toESM(require_react_dom());
   var import_jsx_runtime9 = __toESM(require_jsx_runtime());
   var hasModalClass = "has-modal";
   var modalRootId = "modal-root";
   var modalPortalId = "modal-root-portal";
   var Escape2 = "Escape";
-  var ModalPortal = (0, import_react17.forwardRef)(({
+  var ModalPortal = (0, import_react13.forwardRef)(({
     children,
     className,
     deactivate,
@@ -45333,10 +45484,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var modal_portal_default = ModalPortal;
 
   // assets/scripts/components/alert-message.tsx
-  var import_react18 = __toESM(require_react());
+  var import_react14 = __toESM(require_react());
   var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   var AlertMessage = () => {
-    const [isActive, setIsActive] = (0, import_react18.useState)(false);
+    const [isActive, setIsActive] = (0, import_react14.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -45346,7 +45497,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getMessages);
     const hasAlerts = alerts.length > 0;
-    (0, import_react18.useEffect)(() => {
+    (0, import_react14.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
@@ -45364,10 +45515,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_message_default = AlertMessage;
 
   // assets/scripts/components/alert-warning.tsx
-  var import_react19 = __toESM(require_react());
+  var import_react15 = __toESM(require_react());
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   var AlertWarning = () => {
-    const [isActive, setIsActive] = (0, import_react19.useState)(false);
+    const [isActive, setIsActive] = (0, import_react15.useState)(false);
     const dispatch = useDispatch();
     const deactivate = () => {
       setIsActive(false);
@@ -45377,7 +45528,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = useSelector(getWarnings);
     const hasAlerts = alerts.length > 0;
-    (0, import_react19.useEffect)(() => {
+    (0, import_react15.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
@@ -45606,10 +45757,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var section_header_default = SectionHeader;
 
   // assets/scripts/components/section-header-intro.tsx
-  var import_react23 = __toESM(require_react());
+  var import_react19 = __toESM(require_react());
 
   // assets/scripts/components/incident-modal.tsx
-  var import_react22 = __toESM(require_react());
+  var import_react18 = __toESM(require_react());
 
   // assets/scripts/components/meta-section.tsx
   var import_jsx_runtime22 = __toESM(require_jsx_runtime());
@@ -45695,7 +45846,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incident_attendees_default = IncidentAttendees;
 
   // assets/scripts/components/incident-entity.tsx
-  var import_react20 = __toESM(require_react());
+  var import_react16 = __toESM(require_react());
 
   // assets/scripts/components/entities/item-link.tsx
   var import_jsx_runtime26 = __toESM(require_jsx_runtime());
@@ -45715,7 +45866,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const id = incident.entityId;
     const entity = useGetEntityById(id);
     const hasEntity = Boolean(entity);
-    (0, import_react20.useEffect)(() => {
+    (0, import_react16.useEffect)(() => {
       if (entity || !id) return;
       trigger({ id });
     }, [id, entity, trigger]);
@@ -45801,7 +45952,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var item_subhead_default = ItemSubhead;
 
   // assets/scripts/components/modal.tsx
-  var import_react21 = __toESM(require_react());
+  var import_react17 = __toESM(require_react());
   var import_jsx_runtime30 = __toESM(require_jsx_runtime());
   var Modal = ({
     children,
@@ -45809,7 +45960,7 @@ Hook ${hookName} was either not provided or not a function.`);
     deactivate,
     isActive
   }) => {
-    const ref = (0, import_react21.useRef)(null);
+    const ref = (0, import_react17.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
       CSSTransition_default,
       {
@@ -45841,7 +45992,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasIncident = Boolean(incident);
     const hasAttendees = Boolean(incident && "attendees" in incident);
     const hasNotes = Boolean(incident?.notes);
-    (0, import_react22.useEffect)(() => {
+    (0, import_react18.useEffect)(() => {
       if (hasAttendees) return;
       trigger({ id });
     }, [hasAttendees, id, trigger]);
@@ -45900,8 +46051,8 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var HeaderIntro = () => {
     const { pathname } = useLocation();
-    const [savedPathname, setSavedPathname] = (0, import_react23.useState)(pathname);
-    const [selectedId, setSelectedId] = (0, import_react23.useState)();
+    const [savedPathname, setSavedPathname] = (0, import_react19.useState)(pathname);
+    const [selectedId, setSelectedId] = (0, import_react19.useState)();
     const total = useSelector(getIncidentTotal);
     const first = useSelector(getIncidentFirst);
     const last = useSelector(getIncidentLast);
@@ -45916,10 +46067,10 @@ Hook ${hookName} was either not provided or not a function.`);
         setSelectedId(Number(event.target.dataset.id));
       }
     };
-    (0, import_react23.useEffect)(() => {
+    (0, import_react19.useEffect)(() => {
       setSavedPathname(pathname);
     }, [setSavedPathname, pathname]);
-    (0, import_react23.useEffect)(() => {
+    (0, import_react19.useEffect)(() => {
       if (pathname !== savedPathname) {
         setSelectedId(null);
       }
@@ -45983,11 +46134,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var section_default = Section;
 
   // assets/scripts/hooks/use-capture-scroll-position.ts
-  var import_react24 = __toESM(require_react());
+  var import_react20 = __toESM(require_react());
   var import_debounce = __toESM(require_debounce());
   var useCaptureScrollPosition = (classNames = []) => {
     const dispatch = useDispatch();
-    const [scrollPos, setScrollPos] = (0, import_react24.useState)(0);
+    const [scrollPos, setScrollPos] = (0, import_react20.useState)(0);
     const handleScroll = () => {
       setScrollPos(Number(window.scrollY) * -1);
       if (classNames.some((className) => document.body.classList.contains(className))) {
@@ -45995,24 +46146,24 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     };
     const debounced = (0, import_debounce.default)(handleScroll, 400);
-    (0, import_react24.useEffect)(() => {
+    (0, import_react20.useEffect)(() => {
       window.addEventListener("scroll", debounced);
       return () => {
         window.removeEventListener("scroll", debounced);
       };
     }, [debounced]);
-    (0, import_react24.useEffect)(() => {
+    (0, import_react20.useEffect)(() => {
       dispatch(actions3.setPositionY(scrollPos));
     }, [dispatch, scrollPos]);
   };
   var use_capture_scroll_position_default = useCaptureScrollPosition;
 
   // assets/scripts/hooks/use-trigger-primary-query.ts
-  var import_react25 = __toESM(require_react());
+  var import_react21 = __toESM(require_react());
   var useTriggerPrimaryQuery = () => {
     const [trigger] = api_default.useLazyGetPrimaryQuery();
     const location2 = useLocation();
-    (0, import_react25.useEffect)(() => {
+    (0, import_react21.useEffect)(() => {
       const { pathname, search } = location2;
       trigger({ pathname, search });
     }, [location2, trigger]);
@@ -46031,7 +46182,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const className = ["section", location2.pathname.split("/").at(1)].join("-");
     const scrollCaptureClasses = [hasAlertClass, hasModalClass];
     use_capture_scroll_position_default(scrollCaptureClasses);
-    (0, import_react26.useEffect)(() => {
+    (0, import_react22.useEffect)(() => {
       if (overviewResult.isUninitialized) {
         triggerOverview(null);
       }
@@ -46067,7 +46218,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var app_default = App;
 
   // assets/scripts/hooks/use-fetch-and-scroll-on-route-change.ts
-  var import_react27 = __toESM(require_react());
+  var import_react23 = __toESM(require_react());
 
   // assets/scripts/lib/dom.ts
   var scrollToRef = (ref) => {
@@ -46128,10 +46279,10 @@ Hook ${hookName} was either not provided or not a function.`);
     const location2 = useLocation();
     const [searchParams] = useSearchParams();
     const route = location2.pathname + location2.search;
-    const [lastRoute, setLastRoute] = (0, import_react27.useState)(route);
-    const [lastPathname, setLastPathname] = (0, import_react27.useState)(location2.pathname);
-    const [lastSearchParams, setLastSearchParams] = (0, import_react27.useState)(searchParams);
-    const [hasFetched, setHasFetched] = (0, import_react27.useState)(false);
+    const [lastRoute, setLastRoute] = (0, import_react23.useState)(route);
+    const [lastPathname, setLastPathname] = (0, import_react23.useState)(location2.pathname);
+    const [lastSearchParams, setLastSearchParams] = (0, import_react23.useState)(searchParams);
+    const [hasFetched, setHasFetched] = (0, import_react23.useState)(false);
     const action = (ref) => {
       const hasRef = Boolean(ref?.current);
       const isDetail = isDetailRoute(location2.pathname);
@@ -46161,7 +46312,7 @@ Hook ${hookName} was either not provided or not a function.`);
       setLastPathname(location2.pathname);
       setLastSearchParams(searchParams);
     };
-    (0, import_react27.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       const currentRoute = location2.pathname + location2.search;
       if (lastRoute !== currentRoute) {
         setHasFetched(false);
@@ -46189,11 +46340,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var use_fetch_and_scroll_on_route_change_default = useScrollOnRouteChange;
 
   // assets/scripts/components/loading.tsx
-  var import_react28 = __toESM(require_react());
+  var import_react24 = __toESM(require_react());
   var import_jsx_runtime35 = __toESM(require_jsx_runtime());
   var Loading = () => {
-    const timedOut = (0, import_react28.useRef)(false);
-    (0, import_react28.useEffect)(() => {
+    const timedOut = (0, import_react24.useRef)(false);
+    (0, import_react24.useEffect)(() => {
       if (!timedOut.current) {
         setTimeout(() => {
           timedOut.current = true;
@@ -46338,10 +46489,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var entities_default2 = Index2;
 
   // assets/scripts/components/entities/detail.tsx
-  var import_react38 = __toESM(require_react());
+  var import_react34 = __toESM(require_react());
 
   // assets/scripts/components/incident-date-box.tsx
-  var import_react29 = __toESM(require_react());
+  var import_react25 = __toESM(require_react());
 
   // assets/scripts/components/stat-box.tsx
   var import_jsx_runtime39 = __toESM(require_jsx_runtime());
@@ -46380,7 +46531,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/incident-date-box.tsx
   var import_jsx_runtime40 = __toESM(require_jsx_runtime());
   var IncidentDateBox = ({ incident }) => {
-    const [isActive, setIsActive] = (0, import_react29.useState)(false);
+    const [isActive, setIsActive] = (0, import_react25.useState)(false);
     const hasIncident = Boolean(incident?.value);
     const deactivate = () => setIsActive(false);
     const handleLinkClick = (event) => {
@@ -46548,7 +46699,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_activity_overview_default = ActivityOverview;
 
   // assets/scripts/components/affiliated-item-table.tsx
-  var import_react30 = __toESM(require_react());
+  var import_react26 = __toESM(require_react());
 
   // assets/scripts/components/item-table.tsx
   var import_jsx_runtime49 = __toESM(require_jsx_runtime());
@@ -46583,13 +46734,13 @@ Hook ${hookName} was either not provided or not a function.`);
     title,
     total = 0
   }) => {
-    const ref = (0, import_react30.useRef)(null);
-    const [showAll, setShowAll] = (0, import_react30.useState)(false);
+    const ref = (0, import_react26.useRef)(null);
+    const [showAll, setShowAll] = (0, import_react26.useState)(false);
     const hasItems = total > 0;
     const hasMoreToShow = total > initialCount;
     const canSetLimit = Boolean(setLimit);
     const scrollToRef2 = () => delayedScrollToRef(ref);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react26.useEffect)(() => {
       if (canSetLimit && showAll) {
         setLimit(null);
       }
@@ -46690,14 +46841,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var affiliated_records_group_default = AffiliatedRecordsGroup;
 
   // assets/scripts/hooks/use-limited-query.ts
-  var import_react31 = __toESM(require_react());
+  var import_react27 = __toESM(require_react());
   var useLimitedQuery = (query, options2) => {
     const initialLimit = options2.limit;
     const id = options2.id;
     const search = options2.search;
-    const [recordLimit, setRecordLimit] = (0, import_react31.useState)(initialLimit);
+    const [recordLimit, setRecordLimit] = (0, import_react27.useState)(initialLimit);
     const [trigger, result] = query();
-    (0, import_react31.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       const lastArgs = result.originalArgs;
       if (lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search) {
         trigger({ id, limit: recordLimit, search });
@@ -46748,13 +46899,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var attendees_default = Attendees;
 
   // assets/scripts/components/entities/chart.tsx
-  var import_react35 = __toESM(require_react());
+  var import_react31 = __toESM(require_react());
 
   // assets/scripts/components/incident-activity-chart-quarterly.tsx
-  var import_react34 = __toESM(require_react());
+  var import_react30 = __toESM(require_react());
 
   // assets/scripts/components/item-chart.tsx
-  var import_react33 = __toESM(require_react());
+  var import_react29 = __toESM(require_react());
 
   // node_modules/@kurkle/color/dist/color.esm.js
   function round(v2) {
@@ -59095,7 +59246,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // node_modules/react-chartjs-2/dist/index.js
   var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
-  var import_react32 = __toESM(require_react(), 1);
+  var import_react28 = __toESM(require_react(), 1);
   var defaultDatasetIdKey = "label";
   function reforwardRef(ref, value) {
     if (typeof ref === "function") {
@@ -59138,8 +59289,8 @@ Hook ${hookName} was either not provided or not a function.`);
   }
   function ChartComponent(props, ref) {
     const { height = 150, width = 300, redraw = false, datasetIdKey, type, data: data2, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
-    const canvasRef = (0, import_react32.useRef)(null);
-    const chartRef = (0, import_react32.useRef)(null);
+    const canvasRef = (0, import_react28.useRef)(null);
+    const chartRef = (0, import_react28.useRef)(null);
     const renderChart = () => {
       if (!canvasRef.current) return;
       chartRef.current = new Chart(canvasRef.current, {
@@ -59159,7 +59310,7 @@ Hook ${hookName} was either not provided or not a function.`);
         chartRef.current = null;
       }
     };
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!redraw && chartRef.current && options2) {
         setOptions(chartRef.current, options2);
       }
@@ -59167,7 +59318,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       options2
     ]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!redraw && chartRef.current) {
         setLabels(chartRef.current.config.data, data2.labels);
       }
@@ -59175,7 +59326,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       data2.labels
     ]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!redraw && chartRef.current && data2.datasets) {
         setDatasets(chartRef.current.config.data, data2.datasets, datasetIdKey);
       }
@@ -59183,7 +59334,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       data2.datasets
     ]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!chartRef.current) return;
       if (redraw) {
         destroyChart();
@@ -59198,14 +59349,14 @@ Hook ${hookName} was either not provided or not a function.`);
       data2.datasets,
       updateMode
     ]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!chartRef.current) return;
       destroyChart();
       setTimeout(renderChart);
     }, [
       type
     ]);
-    (0, import_react32.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       renderChart();
       return () => destroyChart();
     }, []);
@@ -59218,10 +59369,10 @@ Hook ${hookName} was either not provided or not a function.`);
       children: fallbackContent
     });
   }
-  var Chart2 = /* @__PURE__ */ (0, import_react32.forwardRef)(ChartComponent);
+  var Chart2 = /* @__PURE__ */ (0, import_react28.forwardRef)(ChartComponent);
   function createTypedChart(type, registerables) {
     Chart.register(registerables);
-    return /* @__PURE__ */ (0, import_react32.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(Chart2, {
+    return /* @__PURE__ */ (0, import_react28.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(Chart2, {
       ...props,
       ref,
       type
@@ -59289,7 +59440,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var itemColorStatic = "olivedrab";
   var itemColorLink = "cornflowerblue";
   var ItemChart = ({ handleClick, label, lineProps }) => {
-    const [hasLineLabel, setHasLineLabel] = (0, import_react33.useState)(false);
+    const [hasLineLabel, setHasLineLabel] = (0, import_react29.useState)(false);
     const sources = useSelector(getSourcesDataForChart);
     const sourceData = {
       id: "sources",
@@ -59336,7 +59487,7 @@ Hook ${hookName} was either not provided or not a function.`);
       };
     }
     options.plugins.legend.display = hasDatasets && hasLineLabel;
-    (0, import_react33.useEffect)(() => {
+    (0, import_react29.useEffect)(() => {
       setHasLineLabel(Boolean(lineProps?.label));
     }, [lineProps, setHasLineLabel]);
     return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
@@ -59356,11 +59507,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentQuarterlyActivityChart = ({ lineProps }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react34.useState)(quarterParam2);
+    const [quarter, setQuarter] = (0, import_react30.useState)(quarterParam2);
     const handleClick = (value) => {
       setQuarter(value.split(" ").sort().join("-"));
     };
-    (0, import_react34.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (quarter) {
         if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
           setSearchParams({ quarter });
@@ -59368,7 +59519,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setQuarter(null);
       }
     }, [quarterParam2, quarter, setSearchParams]);
-    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(import_react34.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(Loading2, {}), children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(import_react30.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(Loading2, {}), children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
       item_chart_default,
       {
         lineProps,
@@ -59391,7 +59542,7 @@ Hook ${hookName} was either not provided or not a function.`);
       label,
       data: data2
     };
-    (0, import_react35.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!hasData) {
         trigger({ id: numericId });
       }
@@ -59421,7 +59572,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incident_activity_groups_default = IncidentActivityGroups;
 
   // assets/scripts/components/filter.tsx
-  var import_react36 = __toESM(require_react());
+  var import_react32 = __toESM(require_react());
   var import_jsx_runtime60 = __toESM(require_jsx_runtime());
   var FilterAction = ({ action, children, handleClick }) => {
     const hasAction = Boolean(action);
@@ -59477,7 +59628,7 @@ Hook ${hookName} was either not provided or not a function.`);
       children: Object.entries(field.options).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("option", { value: key, children: value }, key))
     }
   );
-  var FilterLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i2) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)(import_react36.Fragment, { children: [
+  var FilterLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i2) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)(import_react32.Fragment, { children: [
     label.type === "id" /* Id */ && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(FilterModelId, { label, model }),
     label.type === "input-date" /* InputDate */ && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(FilterDateField, { field: label }),
     label.type === "label" /* Label */ && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(FilterLabel, { label: label.value }),
@@ -59576,7 +59727,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasFilter = Boolean(filter);
     const hasFields = hasFilter && "fields" in filter;
     const hasValues = hasFilter && "values" in filter;
-    const [activeAction, setActiveAction] = (0, import_react36.useState)(null);
+    const [activeAction, setActiveAction] = (0, import_react32.useState)(null);
     const clearAction = () => setActiveAction(null);
     const hasActiveAction = Boolean(activeAction);
     const handleActionClick = (e2, action) => {
@@ -59590,7 +59741,7 @@ Hook ${hookName} was either not provided or not a function.`);
       clearAction();
     };
     const Tag = inline ? "span" : "div";
-    (0, import_react36.useEffect)(() => {
+    (0, import_react32.useEffect)(() => {
       if (hasValues) {
         clearAction();
       }
@@ -59677,10 +59828,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_header_default = IncidentsHeader;
 
   // assets/scripts/components/incident-list-table.tsx
-  var import_react37 = __toESM(require_react());
+  var import_react33 = __toESM(require_react());
   var import_jsx_runtime62 = __toESM(require_jsx_runtime());
   var IncidentRow = ({ id }) => {
-    const [isSelected, setIsSelected] = (0, import_react37.useState)(false);
+    const [isSelected, setIsSelected] = (0, import_react33.useState)(false);
     const incident = useGetIncidentById(id);
     const hasIncident = Boolean(incident);
     const hasDateRange = Boolean(incident?.contactDateRange);
@@ -59824,7 +59975,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
   };
   var Detail = () => {
-    const incidentsRef = (0, import_react38.useRef)(null);
+    const incidentsRef = (0, import_react34.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const entity = useGetEntityById(numericId);
@@ -59873,7 +60024,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default = Detail;
 
   // assets/scripts/components/home/index.tsx
-  var import_react39 = __toESM(require_react());
+  var import_react35 = __toESM(require_react());
 
   // assets/scripts/components/home/chart.tsx
   var import_jsx_runtime67 = __toESM(require_jsx_runtime());
@@ -60177,7 +60328,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/home/index.tsx
   var import_jsx_runtime80 = __toESM(require_jsx_runtime());
   var Home = () => {
-    const ref = (0, import_react39.useRef)(null);
+    const ref = (0, import_react35.useRef)(null);
     const location2 = useLocation();
     const [searchParams] = useSearchParams();
     const hasFilterParams = hasLeaderboardFilterSearchParams(searchParams);
@@ -60189,7 +60340,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     };
     use_fetch_and_scroll_on_route_change_default(fetch2, false);
-    (0, import_react39.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       const hasRef = Boolean(ref?.current);
       if (hasFilterParams && hasRef) {
         delayedScrollToRef(ref);
@@ -60243,7 +60394,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_default2 = Index4;
 
   // assets/scripts/components/incident-source-box.tsx
-  var import_react40 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
 
   // assets/scripts/components/sources/item-link.tsx
   var import_jsx_runtime82 = __toESM(require_jsx_runtime());
@@ -60263,7 +60414,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const id = incident?.sourceId;
     const source = useGetSourceById(id);
     const hasSource = Boolean(source);
-    (0, import_react40.useEffect)(() => {
+    (0, import_react36.useEffect)(() => {
       if (source || !id) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -60314,7 +60465,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default2 = Detail2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react38 = __toESM(require_react());
 
   // assets/scripts/components/people/attendees.tsx
   var import_jsx_runtime85 = __toESM(require_jsx_runtime());
@@ -60349,7 +60500,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var attendees_default2 = Attendees2;
 
   // assets/scripts/components/people/chart.tsx
-  var import_react41 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
   var import_jsx_runtime86 = __toESM(require_jsx_runtime());
   var Chart5 = ({ label }) => {
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
@@ -60362,7 +60513,7 @@ Hook ${hookName} was either not provided or not a function.`);
       label,
       data: data2
     };
-    (0, import_react41.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       if (!hasData) {
         trigger({ id: numericId });
       }
@@ -60504,7 +60655,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
   };
   var Detail3 = () => {
-    const incidentsRef = (0, import_react42.useRef)(null);
+    const incidentsRef = (0, import_react38.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const person = useGetPersonById(numericId);
@@ -60563,17 +60714,17 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default3 = Detail3;
 
   // assets/scripts/components/sources/index.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react40 = __toESM(require_react());
 
   // assets/scripts/components/sources/item.tsx
-  var import_react43 = __toESM(require_react());
+  var import_react39 = __toESM(require_react());
   var import_jsx_runtime90 = __toESM(require_jsx_runtime());
   var Item = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useGetSourceById(id);
     const hasSource = Boolean(source);
     const hasTotals = Boolean(source?.overview?.totals.values.total.value);
-    (0, import_react43.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       if (source) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -60633,7 +60784,7 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var Sources = ({ isLoading, types: types2 }) => {
-    const refs = (0, import_react44.useRef)(null);
+    const refs = (0, import_react40.useRef)(null);
     const keys = types2.map((type) => type.type);
     const scrollToList = (type) => {
       const map2 = getMap();
@@ -60684,7 +60835,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var sources_default2 = Index5;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
 
   // assets/scripts/components/sources/attendees.tsx
   var import_jsx_runtime92 = __toESM(require_jsx_runtime());
@@ -60793,7 +60944,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   });
   var Detail4 = () => {
-    const incidentsRef = (0, import_react45.useRef)(null);
+    const incidentsRef = (0, import_react41.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const source = useGetSourceById(numericId);
@@ -61027,10 +61178,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-UIGDSWPH.mjs:
+react-router/dist/development/chunk-4WY6JWTD.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.9.5
+   * react-router v7.9.6
    *
    * Copyright (c) Remix Software Inc.
    *
