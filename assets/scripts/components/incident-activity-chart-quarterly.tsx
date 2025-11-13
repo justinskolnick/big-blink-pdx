@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
-import ItemChart from './item-chart';
+import ItemChart, { Loading } from './item-chart';
 
 type LineProps = {
   data: number[];
@@ -32,10 +32,12 @@ const IncidentQuarterlyActivityChart = ({ lineProps }: Props) => {
   }, [quarterParam, quarter, setSearchParams]);
 
   return (
-    <ItemChart
-      lineProps={lineProps}
-      handleClick={handleClick}
-    />
+    <Suspense fallback={<Loading />}>
+      <ItemChart
+        lineProps={lineProps}
+        handleClick={handleClick}
+      />
+    </Suspense>
   );
 };
 

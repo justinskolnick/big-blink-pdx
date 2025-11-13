@@ -1350,6 +1350,7 @@ body.has-alert .alert-root {
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 2/1;
   padding: 18px;
   min-height: calc(18px * 5);
   min-height: calc(var(--gap) * 5);
@@ -1361,6 +1362,47 @@ body.has-alert .alert-root {
   color: darkolivegreen;
   color: var(--color-dark-green);
   font-size: 12px;
+}
+.item-detail .chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+}
+.item-detail .chart-loading svg {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  transition: transform 1000ms ease-in-out;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  animation: boxflip 2000ms infinite;
+}
+.item-detail .chart-loading rect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  fill: rgba(222, 184, 135, 0.5);
+  fill: rgba(var(--color-accent-alt-lighter-rgb), 0.5);
+}
+@keyframes boxflip {
+  40% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  90% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
 }
 .item-subhead {
   line-height: 27px;

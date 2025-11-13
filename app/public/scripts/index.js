@@ -21604,7 +21604,7 @@
           var Portal = REACT_PORTAL_TYPE;
           var Profiler = REACT_PROFILER_TYPE;
           var StrictMode = REACT_STRICT_MODE_TYPE;
-          var Suspense2 = REACT_SUSPENSE_TYPE;
+          var Suspense3 = REACT_SUSPENSE_TYPE;
           var hasWarnedAboutDeprecatedIsAsyncMode = false;
           function isAsyncMode(object) {
             {
@@ -21663,7 +21663,7 @@
           exports.Portal = Portal;
           exports.Profiler = Profiler;
           exports.StrictMode = StrictMode;
-          exports.Suspense = Suspense2;
+          exports.Suspense = Suspense3;
           exports.isAsyncMode = isAsyncMode;
           exports.isConcurrentMode = isConcurrentMode;
           exports.isContextConsumer = isContextConsumer;
@@ -59348,6 +59348,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
+  var Loading2 = () => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "chart-loading", children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("svg", { xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("rect", {}) }) });
   var item_chart_default = ItemChart;
 
   // assets/scripts/components/incident-activity-chart-quarterly.tsx
@@ -59367,13 +59368,13 @@ Hook ${hookName} was either not provided or not a function.`);
         setQuarter(null);
       }
     }, [quarterParam2, quarter, setSearchParams]);
-    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(import_react34.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(Loading2, {}), children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(
       item_chart_default,
       {
         lineProps,
         handleClick
       }
-    );
+    ) });
   };
   var incident_activity_chart_quarterly_default = IncidentQuarterlyActivityChart;
 
