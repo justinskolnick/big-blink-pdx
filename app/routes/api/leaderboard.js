@@ -16,7 +16,9 @@ const { getFilters } = require('../../lib/filters/leaderboard');
 const { getOutOfRangeValueMessage } = require('../../lib/request/messages');
 const searchParams = require('../../lib/request/search-params');
 
+const Entity = require('../../models/entity');
 const Leaderboard = require('../../models/leaderboard/leaderboard');
+const Person = require('../../models/person');
 
 const entities = require('../../services/entities');
 const incidents = require('../../services/incidents');
@@ -63,8 +65,11 @@ const setOptions = async (req, res, next) => {
   const quarter = req.searchParams.get(PARAM_QUARTER_ALT);
   const year = req.searchParams.get(PARAM_YEAR);
 
+  const max = Math.max(Entity.perPage, Person.perPage);
+  const min = 5;
+
   const options = {
-    limit: limit || 5,
+    limit: limit ? (limit > max ? max : limit) : min,
     includeTotal: true,
     sortBy: SORT_BY_TOTAL,
   };
