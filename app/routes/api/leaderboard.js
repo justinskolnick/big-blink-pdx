@@ -18,7 +18,7 @@ const searchParams = require('../../lib/request/search-params');
 
 const Entity = require('../../models/entity');
 const Leaderboard = require('../../models/leaderboard/leaderboard');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 
 const entities = require('../../services/entities');
 const incidents = require('../../services/incidents');
