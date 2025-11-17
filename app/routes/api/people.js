@@ -568,21 +568,7 @@ router.get('/:id/roles', async (req, res, next) => {
 
     if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistAttendees.officials.total > 0) {
       record.roles.lobbyist.attendees = getAssociatedNamesObject();
-    }
 
-    if (asLobbyistEntities.total > 0) {
-      record.roles.lobbyist.entities = getAssociatedEntitiesObject();
-    }
-
-    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialAttendees.officials.total > 0) {
-      record.roles.official.attendees = getAssociatedNamesObject();
-    }
-
-    if (asOfficialEntities.total > 0) {
-      record.roles.official.entities = getAssociatedEntitiesObject();
-    }
-
-    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistAttendees.officials.total > 0) {
       record.roles.lobbyist.attendees.values.push(
         {
           label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
@@ -600,6 +586,8 @@ router.get('/:id/roles', async (req, res, next) => {
     }
 
     if (asLobbyistEntities.total > 0) {
+      record.roles.lobbyist.entities = getAssociatedEntitiesObject();
+
       record.roles.lobbyist.entities.values.push({
         label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
         records: asLobbyistEntities.records.map(adaptItemEntity),
@@ -609,6 +597,8 @@ router.get('/:id/roles', async (req, res, next) => {
     }
 
     if (asOfficialAttendees.lobbyists.total > 0 || asOfficialAttendees.officials.total > 0) {
+      record.roles.official.attendees = getAssociatedNamesObject();
+
       record.roles.official.attendees.values.push(
         {
           label: Person.getLabel('as_official_lobbyists', labelPrefix),
@@ -626,6 +616,8 @@ router.get('/:id/roles', async (req, res, next) => {
     }
 
     if (asOfficialEntities.total > 0) {
+      record.roles.official.entities = getAssociatedEntitiesObject();
+
       record.roles.official.entities.values.push({
         label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
         records: asOfficialEntities.records.map(adaptItemEntity),
