@@ -2320,10 +2320,10 @@ ul.incident-types ::marker {
   margin-top: calc(var(--gap) * 2);
 }
 .leaderboard-more {
-  padding-left: calc(18px / 2);
-  padding-left: calc(var(--gap) / 2);
-  padding-right: calc(18px / 2);
-  padding-right: calc(var(--gap) / 2);
+  padding-left: calc(18px / 3);
+  padding-left: calc(var(--gap) / 3);
+  padding-right: calc(18px / 3);
+  padding-right: calc(var(--gap) / 3);
 }
 .leaderboard-more .icon {
   color: gray;
@@ -2338,7 +2338,7 @@ ul.incident-types ::marker {
   line-height: 27px;
 }
 .leaderboard-more .icon + .item-text {
-  margin-left: 2.5ch;
+  margin-left: 2ch;
 }
 .leaderboard-section .header .header-overview {
   flex-direction: row;

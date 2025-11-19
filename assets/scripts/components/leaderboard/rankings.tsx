@@ -68,7 +68,7 @@ const LimitLink = ({
   };
 
   return (
-    <ItemTextWithIcon icon={hasMoreToShow ? 'arrow-down' : 'arrow-up'}>
+    <ItemTextWithIcon icon={hasMoreToShow ? 'plus' : 'minus'}>
       <a href={href} onClick={handleClick}>
         {labels.links.limit.label}
       </a>

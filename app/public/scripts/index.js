@@ -44186,6 +44186,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var DEFAULT_CLASSNAMES = `${LAYER_CLASSES.default} ${STYLE_CLASSES.fixedWidth}`;
 
   // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
+  var faMinus = {
+    prefix: "fas",
+    iconName: "minus",
+    icon: [448, 512, [8211, 8722, 10134, "subtract"], "f068", "M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z"]
+  };
   var faFileExcel = {
     prefix: "fas",
     iconName: "file-excel",
@@ -44296,6 +44301,11 @@ Hook ${hookName} was either not provided or not a function.`);
     prefix: "fas",
     iconName: "landmark",
     icon: [512, 512, [127963], "f66f", "M238.7 5.1c10.5-6.8 24.1-6.8 34.6 0l224 144c11.9 7.7 17.4 22.3 13.4 35.9s-16.5 23-30.7 23l-32 0 0 208 51.2 38.4c8.1 6 12.8 15.5 12.8 25.6 0 17.7-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32 0-10.1 4.7-19.6 12.8-25.6l51.2-38.4 0 0 0-208-32 0c-14.2 0-26.7-9.4-30.7-23s1.5-28.3 13.4-35.9l224-144zM336 208l0 208 64 0 0-208-64 0zM224 416l64 0 0-208-64 0 0 208zM112 208l0 208 64 0 0-208-64 0z"]
+  };
+  var faPlus = {
+    prefix: "fas",
+    iconName: "plus",
+    icon: [448, 512, [10133, 61543, "add"], "2b", "M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"]
   };
   var faBriefcase = {
     prefix: "fas",
@@ -44554,6 +44564,8 @@ Hook ${hookName} was either not provided or not a function.`);
     faHandshake,
     faLandmark,
     faLink,
+    faMinus,
+    faPlus,
     faThumbtack,
     faTriangleExclamation,
     faTrophy,
@@ -44581,6 +44593,8 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["handshake"] = "fas" /* Solid */;
     SetForIcon2["landmark"] = "fas" /* Solid */;
     SetForIcon2["link"] = "fas" /* Solid */;
+    SetForIcon2["minus"] = "fas" /* Solid */;
+    SetForIcon2["plus"] = "fas" /* Solid */;
     SetForIcon2["thumbtack"] = "fas" /* Solid */;
     SetForIcon2["triangle-exclamation"] = "fas" /* Solid */;
     SetForIcon2["trophy"] = "fas" /* Solid */;
@@ -60216,7 +60230,7 @@ Hook ${hookName} was either not provided or not a function.`);
       e2.preventDefault();
       setLimit(labels.links.limit.value);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(item_text_with_icon_default, { icon: hasMoreToShow ? "arrow-down" : "arrow-up", children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("a", { href, onClick: handleClick, children: labels.links.limit.label }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(item_text_with_icon_default, { icon: hasMoreToShow ? "plus" : "minus", children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("a", { href, onClick: handleClick, children: labels.links.limit.label }) });
   };
   var Rankings = ({
     isGrid = false,
