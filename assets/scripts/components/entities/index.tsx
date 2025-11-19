@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
-import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import EntityIcon from './icon';
 import ItemLink from './item-link';
@@ -57,11 +57,19 @@ const Introduction = () => (
 );
 
 const Index = () => {
+  const ref = useRef(null);
+
   const pagination = useSelector(getEntitiesPagination);
   const pageIds = useSelector(getEntitiesPageIds);
   const hasPageIds = pageIds?.length > 0;
 
-  useFetchAndScrollOnRouteChange();
+  const fetch: FetchWithCallback = async (callback) => {
+    if (callback) {
+      callback(ref);
+    }
+  };
+
+  useFetchAndScrollOnRouteChange(fetch);
 
   return (
     <SectionIndex
@@ -69,7 +77,7 @@ const Index = () => {
       introduction={<Introduction />}
       isLoading={!hasPageIds}
     >
-      <table className='section-index-list' cellPadding='0' cellSpacing='0'>
+      <table className='section-index-list' cellPadding='0' cellSpacing='0' ref={ref}>
         <thead>
           <tr>
             <th className='cell-name' colSpan={2}>

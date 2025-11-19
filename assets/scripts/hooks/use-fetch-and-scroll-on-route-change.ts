@@ -3,10 +3,9 @@ import { useLocation, useSearchParams } from 'react-router';
 
 import { delayedScrollToRef, delayedScrollToTop } from '../lib/dom';
 import {
-  isDetailRoute,
+  hasIncidentFilterSearchParams,
   hasPageSearchParams,
   hasSortSearchParams,
-  hasIncidentFilterSearchParams,
 } from '../lib/params';
 
 interface ActionCallback {
@@ -37,7 +36,6 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll:
 
   const action: ActionCallback = (ref) => {
     const hasRef = Boolean(ref?.current);
-    const isDetail = isDetailRoute(location.pathname);
     const hasPageParams = hasPageSearchParams(searchParams);
     const hasSortParams = hasSortSearchParams(searchParams);
     const hasIncidentFilterParams = hasIncidentFilterSearchParams(searchParams);
@@ -51,13 +49,13 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll:
         const hadIncidentFilterParams = hasIncidentFilterSearchParams(lastSearchParams);
         const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
 
-        if (isDetail && hasRef && (hasParams || hadParams)) {
+        if (hasRef && (hasParams || hadParams)) {
           delayedScrollToRef(ref);
         } else {
           delayedScrollToTop();
         }
       } else {
-        if (isDetail && hasRef && hasParams) { // eslint-disable-line no-lonely-if
+        if (hasRef && hasParams) { // eslint-disable-line no-lonely-if
           delayedScrollToRef(ref);
         } else {
           delayedScrollToTop();
