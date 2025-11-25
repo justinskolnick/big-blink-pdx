@@ -500,131 +500,96 @@ router.get('/:id/official-positions', async (req, res, next) => {
   }
 });
 
+const getRoleObject = (role) => ({
+  label: Person.getLabel(`as_${role}`, Person.labelPrefix),
+  role,
+  attendees: null,
+  entities: null,
+});
+
+const getAssociatedNamesObject = () => ({
+  label: Person.getLabel('associated_names'),
+  model: MODEL_PEOPLE,
+  type: 'person',
+  values: [],
+});
+
+const getAssociatedEntitiesObject = () => ({
+  label: Person.getLabel('associated_entities'),
+  model: MODEL_ENTITIES,
+  type: 'entity',
+  values: [],
+});
+
+const getPersonRoleObject = async (record, role, limit) => {
+  let obj = null;
+
+  const results = await Promise.all([
+    incidentAttendees.getAttendees({ personId: record.id, personRole: role }, limit),
+    incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
+  ]);
+
+  [ attendees, entities, ] = results;
+
+  if (attendees.lobbyists.total > 0 || entities.total > 0) {
+    obj = getRoleObject(role);
+  }
+
+  if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
+    obj.attendees = getAssociatedNamesObject();
+
+    obj.attendees.values.push(
+      {
+        label: Person.getLabel(`as_${role}_lobbyists`, Person.labelPrefix),
+        records: attendees.lobbyists.records.map(adaptItemPerson),
+        role: attendees.lobbyists.role,
+        total: attendees.lobbyists.total,
+      },
+      {
+        label: Person.getLabel(`as_${role}_officials`, Person.labelPrefix),
+        records: attendees.officials.records.map(adaptItemPerson),
+        role: attendees.officials.role,
+        total: attendees.officials.total,
+      },
+    );
+  }
+
+  if (entities.total > 0) {
+    obj.entities = getAssociatedEntitiesObject();
+
+    obj.entities.values.push({
+      label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix, { name: record.name }),
+      records: entities.records.map(adaptItemEntity),
+      role: entities.role,
+      total: entities.total,
+    });
+  }
+
+  return obj;
+};
+
 router.get('/:id/roles', async (req, res, next) => {
   const id = Number(req.params.id);
   const limit = req.searchParams.get(PARAM_LIMIT);
 
-  const labelPrefix = 'person';
-
   let person;
   let record;
-  let asLobbyistAttendees;
-  let asOfficialAttendees;
-  let asLobbyistEntities;
-  let asOfficialEntities;
+  let asLobbyist;
+  let asOfficial;
   let data;
   let meta;
 
   try {
     person = await people.getAtId(id);
-
-    const results = await Promise.all([
-      incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST }, limit),
-      incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL }, limit),
-      incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST }, limit),
-      incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL }, limit),
-    ]);
-    [
-      asLobbyistAttendees,
-      asOfficialAttendees,
-      asLobbyistEntities,
-      asOfficialEntities,
-    ] = results;
-
     record = person.adapted;
+
+    asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
+    asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
+
     record.roles = {
-      lobbyist: null,
-      official: null,
+      lobbyist: asLobbyist,
+      official: asOfficial,
     };
-
-    const getRoleObject = (role) => ({
-      label: Person.getLabel(`as_${role}`, labelPrefix),
-      role,
-      attendees: null,
-      entities: null,
-    });
-
-    const getAssociatedNamesObject = () => ({
-      label: Person.getLabel('associated_names'),
-      model: MODEL_PEOPLE,
-      type: 'person',
-      values: [],
-    });
-
-    const getAssociatedEntitiesObject = () => ({
-      label: Person.getLabel('associated_entities'),
-      model: MODEL_ENTITIES,
-      type: 'entity',
-      values: [],
-    });
-
-    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistEntities.total > 0) {
-      record.roles.lobbyist = getRoleObject(ROLE_LOBBYIST);
-    }
-
-    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialEntities.total > 0) {
-      record.roles.official = getRoleObject(ROLE_OFFICIAL);
-    }
-
-    if (asLobbyistAttendees.lobbyists.total > 0 || asLobbyistAttendees.officials.total > 0) {
-      record.roles.lobbyist.attendees = getAssociatedNamesObject();
-
-      record.roles.lobbyist.attendees.values.push(
-        {
-          label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
-          records: asLobbyistAttendees.lobbyists.records.map(adaptItemPerson),
-          role: asLobbyistAttendees.lobbyists.role,
-          total: asLobbyistAttendees.lobbyists.total,
-        },
-        {
-          label: Person.getLabel('as_lobbyist_officials', labelPrefix),
-          records: asLobbyistAttendees.officials.records.map(adaptItemPerson),
-          role: asLobbyistAttendees.officials.role,
-          total: asLobbyistAttendees.officials.total,
-        },
-      );
-    }
-
-    if (asLobbyistEntities.total > 0) {
-      record.roles.lobbyist.entities = getAssociatedEntitiesObject();
-
-      record.roles.lobbyist.entities.values.push({
-        label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
-        records: asLobbyistEntities.records.map(adaptItemEntity),
-        role: asLobbyistEntities.role,
-        total: asLobbyistEntities.total,
-      });
-    }
-
-    if (asOfficialAttendees.lobbyists.total > 0 || asOfficialAttendees.officials.total > 0) {
-      record.roles.official.attendees = getAssociatedNamesObject();
-
-      record.roles.official.attendees.values.push(
-        {
-          label: Person.getLabel('as_official_lobbyists', labelPrefix),
-          records: asOfficialAttendees.lobbyists.records.map(adaptItemPerson),
-          role: asOfficialAttendees.lobbyists.role,
-          total: asOfficialAttendees.lobbyists.total,
-        },
-        {
-          label: Person.getLabel('as_official_officials', labelPrefix),
-          records: asOfficialAttendees.officials.records.map(adaptItemPerson),
-          role: asOfficialAttendees.officials.role,
-          total: asOfficialAttendees.officials.total,
-        },
-      );
-    }
-
-    if (asOfficialEntities.total > 0) {
-      record.roles.official.entities = getAssociatedEntitiesObject();
-
-      record.roles.official.entities.values.push({
-        label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
-        records: asOfficialEntities.records.map(adaptItemEntity),
-        role: asOfficialEntities.role,
-        total: asOfficialEntities.total,
-      });
-    }
 
     data = {
       person: {

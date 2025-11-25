@@ -3,6 +3,7 @@ const Role = require('./role');
 
 class Person extends IncidentedBase {
   static tableName = 'people';
+  static labelPrefix = 'person';
   static linkKey = 'person';
 
   static perPage = 40;

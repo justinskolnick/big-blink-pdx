@@ -9,6 +9,12 @@ describe('tableName', () => {
   });
 });
 
+describe('labelPrefix', () => {
+  test('returns the expected labelPrefix', () => {
+    expect(Person.labelPrefix).toBe('person');
+  });
+});
+
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('percentage', 'incidents')).toBe('Share of total');
