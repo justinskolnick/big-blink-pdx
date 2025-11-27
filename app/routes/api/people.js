@@ -507,19 +507,43 @@ const getRoleObject = (role) => ({
   entities: null,
 });
 
-const getAssociatedNamesObject = () => ({
-  label: Person.getLabel('associated_names'),
-  model: MODEL_PEOPLE,
-  type: 'person',
-  values: [],
-});
+const getAssociatedNamesObject = (role, attendees) => {
+  const obj = {
+    label: Person.getLabel('associated_names'),
+    model: MODEL_PEOPLE,
+    type: 'person',
+    values: [],
+  };
 
-const getAssociatedEntitiesObject = () => ({
-  label: Person.getLabel('associated_entities'),
-  model: MODEL_ENTITIES,
-  type: 'entity',
-  values: [],
-});
+  Object.entries(attendees).forEach(([key, values]) => {
+    obj.values.push({
+      label: Person.getLabel(`as_${role}_${key}`, Person.labelPrefix),
+      records: values.records.map(adaptItemPerson),
+      role: values.role,
+      total: values.total,
+    });
+  });
+
+  return obj;
+};
+
+const getAssociatedEntitiesObject = (role, entities, record) => {
+  const obj = {
+    label: Person.getLabel('associated_entities'),
+    model: MODEL_ENTITIES,
+    type: 'entity',
+    values: [],
+  };
+
+  obj.values.push({
+    label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix, { name: record.name }),
+    records: entities.records.map(adaptItemEntity),
+    role: entities.role,
+    total: entities.total,
+  });
+
+  return obj;
+};
 
 const getPersonRoleObject = async (record, role, limit) => {
   let obj = null;
@@ -529,40 +553,18 @@ const getPersonRoleObject = async (record, role, limit) => {
     incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
   ]);
 
-  [ attendees, entities, ] = results;
+  [ attendees, entities ] = results;
 
-  if (attendees.lobbyists.total > 0 || entities.total > 0) {
+  if (attendees.lobbyists.total > 0 || attendees.officials.total > 0 || entities.total > 0) {
     obj = getRoleObject(role);
-  }
 
-  if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
-    obj.attendees = getAssociatedNamesObject();
+    if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
+      obj.attendees = getAssociatedNamesObject(role, attendees);
+    }
 
-    obj.attendees.values.push(
-      {
-        label: Person.getLabel(`as_${role}_lobbyists`, Person.labelPrefix),
-        records: attendees.lobbyists.records.map(adaptItemPerson),
-        role: attendees.lobbyists.role,
-        total: attendees.lobbyists.total,
-      },
-      {
-        label: Person.getLabel(`as_${role}_officials`, Person.labelPrefix),
-        records: attendees.officials.records.map(adaptItemPerson),
-        role: attendees.officials.role,
-        total: attendees.officials.total,
-      },
-    );
-  }
-
-  if (entities.total > 0) {
-    obj.entities = getAssociatedEntitiesObject();
-
-    obj.entities.values.push({
-      label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix, { name: record.name }),
-      records: entities.records.map(adaptItemEntity),
-      role: entities.role,
-      total: entities.total,
-    });
+    if (entities.total > 0) {
+      obj.entities = getAssociatedEntitiesObject(role, entities, record);
+    }
   }
 
   return obj;
