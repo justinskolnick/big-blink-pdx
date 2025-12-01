@@ -22,6 +22,7 @@ describe('isValidOption()', () => {
     expect(Role.isValidOption(ROLE_OFFICIAL)).toBe(true);
     expect(Role.isValidOption('nada')).toBe(false);
     expect(Role.isValidOption('')).toBe(false);
+    expect(Role.isValidOption({})).toBe(false);
     expect(Role.isValidOption(null)).toBe(false);
   });
 });

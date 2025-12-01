@@ -31,6 +31,8 @@ const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
+const PersonAttendee = require('../../models/person/person-attendee');
+const PersonEntity = require('../../models/person/person-entity');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
@@ -507,44 +509,6 @@ const getRoleObject = (role) => ({
   entities: null,
 });
 
-const getAssociatedNamesObject = (role, attendees) => {
-  const obj = {
-    label: Person.getLabel('associated_names'),
-    model: MODEL_PEOPLE,
-    type: 'person',
-    values: [],
-  };
-
-  Object.entries(attendees).forEach(([key, values]) => {
-    obj.values.push({
-      label: Person.getLabel(`as_${role}_${key}`, Person.labelPrefix),
-      records: values.records.map(adaptItemPerson),
-      role: values.role,
-      total: values.total,
-    });
-  });
-
-  return obj;
-};
-
-const getAssociatedEntitiesObject = (role, entities, record) => {
-  const obj = {
-    label: Person.getLabel('associated_entities'),
-    model: MODEL_ENTITIES,
-    type: 'entity',
-    values: [],
-  };
-
-  obj.values.push({
-    label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix, { name: record.name }),
-    records: entities.records.map(adaptItemEntity),
-    role: entities.role,
-    total: entities.total,
-  });
-
-  return obj;
-};
-
 const getPersonRoleObject = async (record, role, limit) => {
   let obj = null;
 
@@ -559,11 +523,11 @@ const getPersonRoleObject = async (record, role, limit) => {
     obj = getRoleObject(role);
 
     if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
-      obj.attendees = getAssociatedNamesObject(role, attendees);
+      obj.attendees = PersonAttendee.toRoleObject(role, attendees);
     }
 
     if (entities.total > 0) {
-      obj.entities = getAssociatedEntitiesObject(role, entities, record);
+      obj.entities = PersonEntity.toRoleObject(role, entities, record);
     }
   }
 

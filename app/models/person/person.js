@@ -18,8 +18,20 @@ class Person extends IncidentedBase {
   };
 
   adaptRoles(value) {
+    if (value) {
+      if (typeof value === 'string') {
+        return {
+          list: Role.getList(value),
+        };
+      } else if (typeof value === 'object' && !Array.isArray(value)) {
+        if ('list' in value) {
+          return value.list;
+        }
+      }
+    }
+
     return {
-      list: Role.getList(value),
+      list: [],
     };
   }
 
