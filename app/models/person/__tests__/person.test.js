@@ -1,11 +1,17 @@
-const resultLobbyist = require('../__mocks__/person/result-lobbyist');
-const resultOfficial = require('../__mocks__/person/result-official');
+const resultLobbyist = require('../__mocks__/result-lobbyist');
+const resultOfficial = require('../__mocks__/result-official');
 
 const Person = require('../person');
 
 describe('tableName', () => {
   test('returns the expected tableName', () => {
     expect(Person.tableName).toBe('people');
+  });
+});
+
+describe('labelPrefix', () => {
+  test('returns the expected labelPrefix', () => {
+    expect(Person.labelPrefix).toBe('person');
   });
 });
 
@@ -59,7 +65,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/123'
       },
@@ -74,7 +82,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: 1020304,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/321'
       },
@@ -89,10 +99,12 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [
-        'official',
-        'lobbyist',
-      ],
+      roles: {
+        list: [
+          'official',
+          'lobbyist',
+        ],
+      },
       links: {
         self: '/people/123'
       },
@@ -109,7 +121,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -143,7 +157,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       links: {
         self: '/people/123'
       },
@@ -154,7 +170,9 @@ describe('adapt()', () => {
       type: 'person',
       name: 'John Doe',
       pernr: null,
-      roles: [],
+      roles: {
+        list: [],
+      },
       overview: {
         label: 'Overview',
         totals: {
@@ -210,7 +228,9 @@ describe('setData()', () => {
       id: 321,
       name: 'John Doe',
       pernr: 1020304,
-      roles: [],
+      roles: {
+        list: [],
+      },
       type: 'person',
       links: {
         self: '/people/321'

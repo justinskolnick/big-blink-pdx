@@ -66,9 +66,11 @@ describe('adapt()', () => {
         },
         name: 'Henry Orbit',
         pernr: 654987,
-        roles: [
-          'official',
-        ],
+        roles: {
+          list: [
+            'official',
+          ],
+        },
         type: 'person',
       },
     });
@@ -110,9 +112,11 @@ describe('setData()', () => {
         },
         name: 'Henry Orbit',
         pernr: 654987,
-        roles: [
-          'official',
-        ],
+        roles: {
+          list: [
+            'official',
+          ],
+        },
         type: 'person',
       },
     });

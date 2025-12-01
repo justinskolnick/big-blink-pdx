@@ -3,7 +3,7 @@ const {
   ROLE_OFFICIAL,
 } = require('../config/constants');
 
-const Person = require('../models/person');
+const Person = require('../models/person/person');
 const db = require('./db');
 const {
   getAllQuery,

@@ -3,7 +3,7 @@ const { SORT_ASC, SORT_BY_TOTAL, SORT_DESC } = require('../../config/constants')
 const queryHelper = require('../../helpers/query');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
 
 const { buildDateConditions } = require('./incidents');
 

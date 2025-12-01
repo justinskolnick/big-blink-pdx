@@ -1,7 +1,9 @@
-const IncidentedBase = require('./shared/base-incidented');
+const IncidentedBase = require('../shared/base-incidented');
+const Role = require('./role');
 
 class Person extends IncidentedBase {
   static tableName = 'people';
+  static labelPrefix = 'person';
   static linkKey = 'person';
 
   static perPage = 40;
@@ -16,7 +18,21 @@ class Person extends IncidentedBase {
   };
 
   adaptRoles(value) {
-    return value?.split(',') ?? [];
+    if (value) {
+      if (typeof value === 'string') {
+        return {
+          list: Role.getList(value),
+        };
+      } else if (typeof value === 'object' && !Array.isArray(value)) {
+        if ('list' in value) {
+          return value.list;
+        }
+      }
+    }
+
+    return {
+      list: [],
+    };
   }
 
   adapt(result) {

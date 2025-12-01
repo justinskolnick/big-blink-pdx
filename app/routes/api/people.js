@@ -30,7 +30,9 @@ const searchParams = require('../../lib/request/search-params');
 const Entity = require('../../models/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
-const Person = require('../../models/person');
+const Person = require('../../models/person/person');
+const PersonAttendee = require('../../models/person/person-attendee');
+const PersonEntity = require('../../models/person/person-entity');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
@@ -252,19 +254,19 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     if (asLobbyist.lobbyists.total > 0 || asLobbyist.officials.total > 0) {
       record.attendees.roles.push({
-        label: Person.getLabel('as_lobbyist', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_lobbyist_with_name', labelPrefix, { name: record.name }),
         model: MODEL_PEOPLE,
         role: ROLE_LOBBYIST,
         type: 'person',
         values: [
           {
-            label: Person.getLabel('as_lobbyist_lobbyists', labelPrefix),
+            label: Person.getLabel('as_lobbyist_lobbyists_contd', labelPrefix),
             records: asLobbyist.lobbyists.records.map(adaptItemPerson),
             role: asLobbyist.lobbyists.role,
             total: asLobbyist.lobbyists.total,
           },
           {
-            label: Person.getLabel('as_lobbyist_officials', labelPrefix),
+            label: Person.getLabel('as_lobbyist_officials_contd', labelPrefix),
             records: asLobbyist.officials.records.map(adaptItemPerson),
             role: asLobbyist.officials.role,
             total: asLobbyist.officials.total,
@@ -275,7 +277,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     if (asOfficial.lobbyists.total > 0 || asOfficial.officials.total > 0) {
       record.attendees.roles.push({
-        label: Person.getLabel('as_official', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_official_with_name', labelPrefix, { name: record.name }),
         model: MODEL_PEOPLE,
         role: ROLE_OFFICIAL,
         type: 'person',
@@ -496,6 +498,75 @@ router.get('/:id/official-positions', async (req, res, next) => {
     res.status(200).json({ title, data, meta });
   } catch (err) {
     console.error('Error while getting person official positions:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+const getRoleObject = (role) => ({
+  label: Person.getLabel(`as_${role}`, Person.labelPrefix),
+  role,
+  attendees: null,
+  entities: null,
+});
+
+const getPersonRoleObject = async (record, role, limit) => {
+  let obj = null;
+
+  const results = await Promise.all([
+    incidentAttendees.getAttendees({ personId: record.id, personRole: role }, limit),
+    incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
+  ]);
+
+  [ attendees, entities ] = results;
+
+  if (attendees.lobbyists.total > 0 || attendees.officials.total > 0 || entities.total > 0) {
+    obj = getRoleObject(role);
+
+    if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
+      obj.attendees = PersonAttendee.toRoleObject(role, attendees);
+    }
+
+    if (entities.total > 0) {
+      obj.entities = PersonEntity.toRoleObject(role, entities, record);
+    }
+  }
+
+  return obj;
+};
+
+router.get('/:id/roles', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const limit = req.searchParams.get(PARAM_LIMIT);
+
+  let person;
+  let record;
+  let asLobbyist;
+  let asOfficial;
+  let data;
+  let meta;
+
+  try {
+    person = await people.getAtId(id);
+    record = person.adapted;
+
+    asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
+    asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
+
+    record.roles = {
+      lobbyist: asLobbyist,
+      official: asOfficial,
+    };
+
+    data = {
+      person: {
+        record,
+      },
+    };
+    meta = metaHelper.getMeta(req, { id, view });
+
+    res.status(200).json({ title, data, meta });
+  } catch (err) {
+    console.error('Error while getting person roles:', err.message); // eslint-disable-line no-console
     next(createError(err));
   }
 });

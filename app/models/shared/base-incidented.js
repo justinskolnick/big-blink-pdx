@@ -3,6 +3,7 @@ const Base = require('./base');
 const { percentage } = require('../../lib/number');
 
 class IncidentedBase extends Base {
+  static labelPrefix = null;
   static linkKey = null;
 
   overviewProps = [
