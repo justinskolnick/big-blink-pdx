@@ -337,7 +337,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
     if (asLobbyist.total) {
       record.entities.roles.push({
-        label: Person.getLabel('as_lobbyist_entities', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_lobbyist_entities_with_name', labelPrefix, { name: record.name }),
         model: MODEL_ENTITIES,
         role: ROLE_LOBBYIST,
         values: [
@@ -352,7 +352,7 @@ router.get('/:id/entities', async (req, res, next) => {
 
     if (asOfficial.total) {
       record.entities.roles.push({
-        label: Person.getLabel('as_official_entities', labelPrefix, { name: record.name }),
+        label: Person.getLabel('as_official_entities_with_name', labelPrefix, { name: record.name }),
         model: MODEL_ENTITIES,
         role: ROLE_OFFICIAL,
         values: [
@@ -527,7 +527,7 @@ const getPersonRoleObject = async (record, role, limit) => {
     }
 
     if (entities.total > 0) {
-      obj.entities = PersonEntity.toRoleObject(role, entities, record);
+      obj.entities = PersonEntity.toRoleObject(role, entities);
     }
   }
 

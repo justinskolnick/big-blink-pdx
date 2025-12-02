@@ -13,8 +13,7 @@ const adaptItemEntity = item => {
 };
 
 class PersonEntity extends Base {
-  // todo: factor out record by removing name from label
-  static toRoleObject(role, entities, record) {
+  static toRoleObject(role, entities) {
     const obj = {
       label: Person.getLabel('associated_entities'),
       model: MODEL_ENTITIES,
@@ -23,7 +22,7 @@ class PersonEntity extends Base {
     };
 
     obj.values.push({
-      label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix, { name: record.name }),
+      label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix),
       records: entities.records.map(adaptItemEntity),
       role: entities.role,
       total: entities.total,

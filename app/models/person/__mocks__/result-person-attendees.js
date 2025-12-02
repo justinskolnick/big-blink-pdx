@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 module.exports = {
   lobbyists: {
     records: [
@@ -53,4 +52,3 @@ module.exports = {
     total: 2,
   },
 };
-/* eslint-enable camelcase */

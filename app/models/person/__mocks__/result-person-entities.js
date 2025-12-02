@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 module.exports = {
   records: [
     {
@@ -35,4 +34,3 @@ module.exports = {
   role: 'lobbyist',
   total: 3,
 };
-/* eslint-enable camelcase */

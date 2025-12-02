@@ -16,7 +16,7 @@ describe('toRoleObject', () => {
       type: 'entity',
       values: [
         {
-          label: 'As a City official, John Doe was lobbied by representatives of these entities',
+          label: 'Was lobbied by representatives of these entities',
           records: [
             {
               entity: {
