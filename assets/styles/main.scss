@@ -1,12 +1,12 @@
-@import "lib/all";
-@import "base";
-@import "util/all";
-@import "layout/all";
+@use "lib/all";
+@use "base";
+@use "util/all" as all2;
+@use "layout/all" as all3;
 
-@import "activity/all";
-@import "filter/all";
-@import "incident/all";
-@import "items/all";
-@import "chart/all";
-@import "leaderboard/all";
-@import "sections/all";
+@use "activity/all" as all4;
+@use "filter/all" as all5;
+@use "incident/all" as all6;
+@use "items/all" as all7;
+@use "chart/all" as all8;
+@use "leaderboard/all" as all9;
+@use "sections/all" as all10;

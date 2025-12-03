@@ -1,9 +1,9 @@
-@import "lib/all";
-@import "base";
-@import "util/all";
-@import "layout/all";
+@use "lib/all";
+@use "base";
+@use "util/all" as all2;
+@use "layout/all" as all3;
 
-@import "items/all";
+@use "items/all" as all4;
 
 .alert {
   cursor: default;
