@@ -1263,7 +1263,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.2.0";
+        exports.version = "19.2.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1519,7 +1519,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.2.0";
+        exports.version = "19.2.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21311,9 +21311,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React49.version;
-          if ("19.2.0" !== isomorphicReactPackageVersion)
+          if ("19.2.1" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.0\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.1\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -21337,10 +21337,10 @@
         if (!(function() {
           var internals = {
             bundleType: 1,
-            version: "19.2.0",
+            version: "19.2.1",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.2.0"
+            reconcilerVersion: "19.2.1"
           };
           internals.overrideHookState = overrideHookState;
           internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -21431,7 +21431,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.2.0";
+        exports.version = "19.2.1";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -23214,7 +23214,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-4WY6JWTD.mjs
+  // node_modules/react-router/dist/development/chunk-WWGJGFF6.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23978,8 +23978,8 @@
   function isRouteErrorResponse(error) {
     return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
   }
-  function getRoutePattern(paths) {
-    return paths.filter(Boolean).join("/").replace(/\/\/*/g, "/") || "/";
+  function getRoutePattern(matches2) {
+    return matches2.map((m2) => m2.route.path).filter(Boolean).join("/").replace(/\/\/*/g, "/") || "/";
   }
   var UninstrumentedSymbol = Symbol("Uninstrumented");
   function getRouteInstrumentationUpdates(fns, route) {
@@ -24384,6 +24384,7 @@
       blockers: /* @__PURE__ */ new Map()
     };
     let pendingAction = "POP";
+    let pendingPopstateNavigationDfd = null;
     let pendingPreventScrollReset = false;
     let pendingNavigationController;
     let pendingViewTransitionEnabled = false;
@@ -24443,6 +24444,8 @@
                 updateState({ blockers });
               }
             });
+            pendingPopstateNavigationDfd?.resolve();
+            pendingPopstateNavigationDfd = null;
             return;
           }
           return startNavigation(historyAction, location2);
@@ -24514,6 +24517,7 @@
       [...subscribers].forEach(
         (subscriber) => subscriber(state, {
           deletedFetchers: unmountedFetchers,
+          newErrors: newState.errors ?? null,
           viewTransitionOpts: opts.viewTransitionOpts,
           flushSync: opts.flushSync === true
         })
@@ -24611,13 +24615,21 @@
       pendingViewTransitionEnabled = false;
       isUninterruptedRevalidation = false;
       isRevalidationRequired = false;
+      pendingPopstateNavigationDfd?.resolve();
+      pendingPopstateNavigationDfd = null;
       pendingRevalidationDfd?.resolve();
       pendingRevalidationDfd = null;
     }
     async function navigate(to3, opts) {
+      pendingPopstateNavigationDfd?.resolve();
+      pendingPopstateNavigationDfd = null;
       if (typeof to3 === "number") {
+        if (!pendingPopstateNavigationDfd) {
+          pendingPopstateNavigationDfd = createDeferred();
+        }
+        let promise = pendingPopstateNavigationDfd.promise;
         init.history.go(to3);
-        return;
+        return promise;
       }
       let normalizedPath = normalizeTo(
         state.location,
@@ -25557,6 +25569,10 @@
       preventScrollReset,
       replace: replace22
     } = {}) {
+      if (!isNavigation) {
+        pendingPopstateNavigationDfd?.resolve();
+        pendingPopstateNavigationDfd = null;
+      }
       if (redirect2.response.headers.has("X-Remix-Revalidate")) {
         isRevalidationRequired = true;
       }
@@ -26252,7 +26268,7 @@
       actionResult,
       actionStatus
     };
-    let pattern = getRoutePattern(matches2.map((m2) => m2.route.path));
+    let pattern = getRoutePattern(matches2);
     let dsMatches = matches2.map((match2, index) => {
       let { route } = match2;
       let forceShouldLoad = null;
@@ -26707,7 +26723,7 @@
           ),
           // or the shallowest route that needs to load data
           Math.max(
-            matches2.findIndex((m2) => m2.unstable_shouldCallHandler()),
+            matches2.findIndex((m2) => m2.shouldCallHandler()),
             0
           )
         );
@@ -26810,7 +26826,7 @@
       handler: lazyRoutePromises.lazyHandlerPromise
     };
   }
-  function getDataStrategyMatch(mapRouteProperties2, manifest, request, unstable_pattern, match2, lazyRoutePropertiesToSkip, scopedContext, shouldLoad, unstable_shouldRevalidateArgs = null) {
+  function getDataStrategyMatch(mapRouteProperties2, manifest, request, unstable_pattern, match2, lazyRoutePropertiesToSkip, scopedContext, shouldLoad, shouldRevalidateArgs = null) {
     let isUsingNewApi = false;
     let _lazyPromises = getDataStrategyMatchLazyPromises(
       mapRouteProperties2,
@@ -26823,19 +26839,19 @@
       ...match2,
       _lazyPromises,
       shouldLoad,
-      unstable_shouldRevalidateArgs,
-      unstable_shouldCallHandler(defaultShouldRevalidate) {
+      shouldRevalidateArgs,
+      shouldCallHandler(defaultShouldRevalidate) {
         isUsingNewApi = true;
-        if (!unstable_shouldRevalidateArgs) {
+        if (!shouldRevalidateArgs) {
           return shouldLoad;
         }
         if (typeof defaultShouldRevalidate === "boolean") {
           return shouldRevalidateLoader(match2, {
-            ...unstable_shouldRevalidateArgs,
+            ...shouldRevalidateArgs,
             defaultShouldRevalidate
           });
         }
-        return shouldRevalidateLoader(match2, unstable_shouldRevalidateArgs);
+        return shouldRevalidateLoader(match2, shouldRevalidateArgs);
       },
       resolve(handlerOverride) {
         let { lazy, loader, middleware: middleware2 } = match2.route;
@@ -26862,8 +26878,8 @@
         return {
           ...match2,
           shouldLoad: false,
-          unstable_shouldRevalidateArgs: shouldRevalidateArgs,
-          unstable_shouldCallHandler: () => false,
+          shouldRevalidateArgs,
+          shouldCallHandler: () => false,
           _lazyPromises: getDataStrategyMatchLazyPromises(
             mapRouteProperties2,
             manifest,
@@ -26878,7 +26894,7 @@
         mapRouteProperties2,
         manifest,
         request,
-        getRoutePattern(matches2.map((m2) => m2.route.path)),
+        getRoutePattern(matches2),
         match2,
         lazyRoutePropertiesToSkip,
         scopedContext,
@@ -26893,7 +26909,7 @@
     }
     let dataStrategyArgs = {
       request,
-      unstable_pattern: getRoutePattern(matches2.map((m2) => m2.route.path)),
+      unstable_pattern: getRoutePattern(matches2),
       params: matches2[0].params,
       context: scopedContext,
       matches: matches2
@@ -27076,11 +27092,7 @@
         }
         return {
           type: "error",
-          error: new ErrorResponseImpl(
-            result.init?.status || 500,
-            void 0,
-            result.data
-          ),
+          error: dataWithResponseInitToErrorResponse(result),
           statusCode: isRouteErrorResponse(result) ? result.status : void 0,
           headers: result.init?.headers ? new Headers(result.init.headers) : void 0
         };
@@ -27373,6 +27385,13 @@
       return true;
     }
     return false;
+  }
+  function dataWithResponseInitToErrorResponse(data2) {
+    return new ErrorResponseImpl(
+      data2.init?.status ?? 500,
+      data2.init?.statusText ?? "Internal Server Error",
+      data2.data
+    );
   }
   function isDataStrategyResults(result) {
     return result != null && typeof result === "object" && Object.entries(result).every(
@@ -27984,6 +28003,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       unstable_onError(error, {
         location: dataRouterState.location,
         params: dataRouterState.matches?.[0]?.params ?? {},
+        unstable_pattern: getRoutePattern(dataRouterState.matches),
         errorInfo
       });
     } : void 0;
@@ -28137,7 +28157,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         warning(activeRef.current, navigateEffectWarning);
         if (!activeRef.current) return;
         if (typeof to3 === "number") {
-          router2.navigate(to3);
+          await router2.navigate(to3);
         } else {
           await router2.navigate(to3, { fromRouteId: id, ...options2 });
         }
@@ -28158,6 +28178,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     if (!condition && !alreadyWarned2[message]) {
       alreadyWarned2[message] = true;
       console.warn(message);
+    }
+  }
+  var USE_OPTIMISTIC = "useOptimistic";
+  var useOptimisticImpl = React3[USE_OPTIMISTIC];
+  var stableUseOptimisticSetter = () => void 0;
+  function useOptimisticSafe(val) {
+    if (useOptimisticImpl) {
+      return useOptimisticImpl(val);
+    } else {
+      return [val, stableUseOptimisticSetter];
     }
   }
   function mapRouteProperties(route) {
@@ -28236,9 +28266,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function RouterProvider({
     router: router2,
     flushSync: reactDomFlushSyncImpl,
-    unstable_onError
+    unstable_onError,
+    unstable_useTransitions
   }) {
-    let [state, setStateImpl] = React3.useState(router2.state);
+    let [_state, setStateImpl] = React3.useState(router2.state);
+    let [state, setOptimisticState] = useOptimisticSafe(_state);
     let [pendingState, setPendingState] = React3.useState();
     let [vtContext, setVtContext] = React3.useState({
       isTransitioning: false
@@ -28247,26 +28279,17 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     let [transition, setTransition] = React3.useState();
     let [interruption, setInterruption] = React3.useState();
     let fetcherData = React3.useRef(/* @__PURE__ */ new Map());
-    let logErrorsAndSetState = React3.useCallback(
-      (newState) => {
-        setStateImpl((prevState) => {
-          if (newState.errors && unstable_onError) {
-            Object.entries(newState.errors).forEach(([routeId, error]) => {
-              if (prevState.errors?.[routeId] !== error) {
-                unstable_onError(error, {
-                  location: newState.location,
-                  params: newState.matches[0]?.params ?? {}
-                });
-              }
-            });
-          }
-          return newState;
-        });
-      },
-      [unstable_onError]
-    );
     let setState = React3.useCallback(
-      (newState, { deletedFetchers, flushSync, viewTransitionOpts }) => {
+      (newState, { deletedFetchers, newErrors, flushSync, viewTransitionOpts }) => {
+        if (newErrors && unstable_onError) {
+          Object.values(newErrors).forEach(
+            (error) => unstable_onError(error, {
+              location: newState.location,
+              params: newState.matches[0]?.params ?? {},
+              unstable_pattern: getRoutePattern(newState.matches)
+            })
+          );
+        }
         newState.fetchers.forEach((fetcher, key) => {
           if (fetcher.data !== void 0) {
             fetcherData.current.set(key, fetcher.data);
@@ -28284,16 +28307,23 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         );
         if (!viewTransitionOpts || !isViewTransitionAvailable) {
           if (reactDomFlushSyncImpl && flushSync) {
-            reactDomFlushSyncImpl(() => logErrorsAndSetState(newState));
+            reactDomFlushSyncImpl(() => setStateImpl(newState));
+          } else if (unstable_useTransitions === false) {
+            setStateImpl(newState);
           } else {
-            React3.startTransition(() => logErrorsAndSetState(newState));
+            React3.startTransition(() => {
+              if (unstable_useTransitions === true) {
+                setOptimisticState((s2) => getOptimisticRouterState(s2, newState));
+              }
+              setStateImpl(newState);
+            });
           }
           return;
         }
         if (reactDomFlushSyncImpl && flushSync) {
           reactDomFlushSyncImpl(() => {
             if (transition) {
-              renderDfd && renderDfd.resolve();
+              renderDfd?.resolve();
               transition.skipTransition();
             }
             setVtContext({
@@ -28304,7 +28334,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             });
           });
           let t2 = router2.window.document.startViewTransition(() => {
-            reactDomFlushSyncImpl(() => logErrorsAndSetState(newState));
+            reactDomFlushSyncImpl(() => setStateImpl(newState));
           });
           t2.finished.finally(() => {
             reactDomFlushSyncImpl(() => {
@@ -28318,7 +28348,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           return;
         }
         if (transition) {
-          renderDfd && renderDfd.resolve();
+          renderDfd?.resolve();
           transition.skipTransition();
           setInterruption({
             state: newState,
@@ -28340,7 +28370,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         reactDomFlushSyncImpl,
         transition,
         renderDfd,
-        logErrorsAndSetState
+        unstable_useTransitions,
+        setOptimisticState,
+        unstable_onError
       ]
     );
     React3.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
@@ -28354,7 +28386,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         let newState = pendingState;
         let renderPromise = renderDfd.promise;
         let transition2 = router2.window.document.startViewTransition(async () => {
-          React3.startTransition(() => logErrorsAndSetState(newState));
+          if (unstable_useTransitions === false) {
+            setStateImpl(newState);
+          } else {
+            React3.startTransition(() => {
+              if (unstable_useTransitions === true) {
+                setOptimisticState((s2) => getOptimisticRouterState(s2, newState));
+              }
+              setStateImpl(newState);
+            });
+          }
           await renderPromise;
         });
         transition2.finished.finally(() => {
@@ -28365,7 +28406,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         });
         setTransition(transition2);
       }
-    }, [pendingState, renderDfd, router2.window, logErrorsAndSetState]);
+    }, [
+      pendingState,
+      renderDfd,
+      router2.window,
+      unstable_useTransitions,
+      setOptimisticState
+    ]);
     React3.useEffect(() => {
       if (renderDfd && pendingState && state.location.key === pendingState.location.key) {
         renderDfd.resolve();
@@ -28416,7 +28463,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         basename,
         location: state.location,
         navigationType: state.historyAction,
-        navigator: navigator2
+        navigator: navigator2,
+        unstable_useTransitions: unstable_useTransitions === true
       },
       /* @__PURE__ */ React3.createElement(
         MemoizedDataRoutes,
@@ -28428,6 +28476,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       )
     ))))), null);
+  }
+  function getOptimisticRouterState(currentState, newState) {
+    return {
+      // Don't surface "current location specific" stuff mid-navigation
+      // (historyAction, location, matches, loaderData, errors, initialized,
+      // restoreScroll, preventScrollReset, blockers, etc.)
+      ...currentState,
+      // Only surface "pending/in-flight stuff"
+      // (navigation, revalidation, actionData, fetchers, )
+      navigation: newState.navigation.state !== "idle" ? newState.navigation : currentState.navigation,
+      revalidation: newState.revalidation !== "idle" ? newState.revalidation : currentState.revalidation,
+      actionData: newState.navigation.state !== "submitting" ? newState.actionData : currentState.actionData,
+      fetchers: newState.fetchers
+    };
   }
   var MemoizedDataRoutes = React3.memo(DataRoutes);
   function DataRoutes({
@@ -28447,7 +28509,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     location: locationProp,
     navigationType = "POP",
     navigator: navigator2,
-    static: staticProp = false
+    static: staticProp = false,
+    unstable_useTransitions
   }) {
     invariant(
       !useInRouterContext(),
@@ -28459,9 +28522,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         basename,
         navigator: navigator2,
         static: staticProp,
+        unstable_useTransitions,
         future: {}
       }),
-      [basename, navigator2, staticProp]
+      [basename, navigator2, staticProp, unstable_useTransitions]
     );
     if (typeof locationProp === "string") {
       locationProp = parsePath(locationProp);
@@ -28501,7 +28565,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var defaultMethod = "get";
   var defaultEncType = "application/x-www-form-urlencoded";
   function isHtmlElement(object) {
-    return object != null && typeof object.tagName === "string";
+    return typeof HTMLElement !== "undefined" && object instanceof HTMLElement;
   }
   function isButtonElement(object) {
     return isHtmlElement(object) && object.tagName.toLowerCase() === "button";
@@ -29016,7 +29080,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.9.6";
+      "7.10.1";
     }
   } catch (e2) {
   }
@@ -29084,7 +29148,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function HistoryRouter({
     basename,
     children,
-    history
+    history,
+    unstable_useTransitions
   }) {
     let [state, setStateImpl] = React10.useState({
       action: history.action,
@@ -29092,9 +29157,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     });
     let setState = React10.useCallback(
       (newState) => {
-        React10.startTransition(() => setStateImpl(newState));
+        if (unstable_useTransitions === false) {
+          setStateImpl(newState);
+        } else {
+          React10.startTransition(() => setStateImpl(newState));
+        }
       },
-      [setStateImpl]
+      [unstable_useTransitions]
     );
     React10.useLayoutEffect(() => history.listen(setState), [history, setState]);
     return /* @__PURE__ */ React10.createElement(
@@ -29104,7 +29173,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         children,
         location: state.location,
         navigationType: state.action,
-        navigator: history
+        navigator: history,
+        unstable_useTransitions: unstable_useTransitions === true
       }
     );
   }
@@ -29125,7 +29195,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       viewTransition,
       ...rest
     }, forwardedRef) {
-      let { basename } = React10.useContext(NavigationContext);
+      let { basename, unstable_useTransitions } = React10.useContext(NavigationContext);
       let isAbsolute = typeof to3 === "string" && ABSOLUTE_URL_REGEX2.test(to3);
       let absoluteHref;
       let isExternal = false;
@@ -29160,7 +29230,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         target,
         preventScrollReset,
         relative,
-        viewTransition
+        viewTransition,
+        unstable_useTransitions
       });
       function handleClick(event) {
         if (onClick) onClick(event);
@@ -29270,6 +29341,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       viewTransition,
       ...props
     }, forwardedRef) => {
+      let { unstable_useTransitions } = React10.useContext(NavigationContext);
       let submit = useSubmit();
       let formAction = useFormAction(action, { relative });
       let formMethod = method.toLowerCase() === "get" ? "get" : "post";
@@ -29280,7 +29352,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         event.preventDefault();
         let submitter = event.nativeEvent.submitter;
         let submitMethod = submitter?.getAttribute("formmethod") || method;
-        submit(submitter || event.currentTarget, {
+        let doSubmit = () => submit(submitter || event.currentTarget, {
           fetcherKey,
           method: submitMethod,
           navigate,
@@ -29290,6 +29362,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           preventScrollReset,
           viewTransition
         });
+        if (unstable_useTransitions && navigate !== false) {
+          React10.startTransition(() => doSubmit());
+        } else {
+          doSubmit();
+        }
       };
       return /* @__PURE__ */ React10.createElement(
         "form",
@@ -29382,7 +29459,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     state,
     preventScrollReset,
     relative,
-    viewTransition
+    viewTransition,
+    unstable_useTransitions
   } = {}) {
     let navigate = useNavigate();
     let location2 = useLocation();
@@ -29392,13 +29470,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (shouldProcessLinkClick(event, target)) {
           event.preventDefault();
           let replace22 = replaceProp !== void 0 ? replaceProp : createPath(location2) === createPath(path);
-          navigate(to3, {
+          let doNavigate = () => navigate(to3, {
             replace: replace22,
             state,
             preventScrollReset,
             relative,
             viewTransition
           });
+          if (unstable_useTransitions) {
+            React10.startTransition(() => doNavigate());
+          } else {
+            doNavigate();
+          }
         }
       },
       [
@@ -29411,7 +29494,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         to3,
         preventScrollReset,
         relative,
-        viewTransition
+        viewTransition,
+        unstable_useTransitions
       ]
     );
   }
@@ -29457,6 +29541,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     );
     let { basename } = React10.useContext(NavigationContext);
     let currentRouteId = useRouteId();
+    let routerFetch = router2.fetch;
+    let routerNavigate = router2.navigate;
     return React10.useCallback(
       async (target, options2 = {}) => {
         let { action, method, encType, formData, body } = getFormSubmissionInfo(
@@ -29465,7 +29551,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         );
         if (options2.navigate === false) {
           let key = options2.fetcherKey || getUniqueFetcherId();
-          await router2.fetch(key, currentRouteId, options2.action || action, {
+          await routerFetch(key, currentRouteId, options2.action || action, {
             preventScrollReset: options2.preventScrollReset,
             formData,
             body,
@@ -29474,7 +29560,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             flushSync: options2.flushSync
           });
         } else {
-          await router2.navigate(options2.action || action, {
+          await routerNavigate(options2.action || action, {
             preventScrollReset: options2.preventScrollReset,
             formData,
             body,
@@ -29488,7 +29574,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           });
         }
       },
-      [router2, basename, currentRouteId]
+      [routerFetch, routerNavigate, basename, currentRouteId]
     );
   }
   function useFormAction(action, { relative } = {}) {
@@ -43911,11 +43997,15 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     const {
       style: existingStyle,
+      role: existingRole,
       "aria-label": ariaLabel,
       ...remaining
     } = extraProps;
     if (existingStyle) {
       attrs.style = attrs.style ? { ...attrs.style, ...existingStyle } : existingStyle;
+    }
+    if (existingRole) {
+      attrs.role = existingRole;
     }
     if (ariaLabel) {
       attrs["aria-label"] = ariaLabel;
@@ -44029,7 +44119,7 @@ Hook ${hookName} was either not provided or not a function.`);
   function withPrefix(cls) {
     const prefix2 = config$1.cssPrefix || config$1.familyPrefix || DEFAULT_CLASSNAME_PREFIX;
     return prefix2 === DEFAULT_CLASSNAME_PREFIX ? cls : cls.replace(
-      new RegExp(`(?<=^|\\s)${DEFAULT_CLASSNAME_PREFIX}-`, "g"),
+      new RegExp(String.raw`(?<=^|\s)${DEFAULT_CLASSNAME_PREFIX}-`, "g"),
       `${prefix2}-`
     );
   }
@@ -61203,10 +61293,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-4WY6JWTD.mjs:
+react-router/dist/development/chunk-WWGJGFF6.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.9.6
+   * react-router v7.10.1
    *
    * Copyright (c) Remix Software Inc.
    *
