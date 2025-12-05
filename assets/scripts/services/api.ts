@@ -153,6 +153,9 @@ const api = createApi({
     getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
       ({ id }) => `api/people/${id}/official-positions`
     )),
+    getPersonRolesById: builder.query(getAncillaryRoute(
+      ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/roles`, { limit })
+    )),
     getPersonStatsById: builder.query(getAncillaryRoute(
       ({ id }) => `api/people/${id}/stats`
     )),

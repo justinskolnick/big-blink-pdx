@@ -18,6 +18,7 @@ import type {
   Person,
   PersonAttendees,
   PersonEntities,
+  PersonNamedRoles,
   PersonWithIncidentRecords,
 } from '../types';
 
@@ -94,8 +95,56 @@ export const adapters = {
       } as PersonEntities;
     }
 
-    if ('incidents' in adapted) {
+    if ('incidents' in entry) {
       adapted.incidents = adaptIncidents(adapted.incidents);
+    }
+
+    if ('roles' in entry) {
+      adapted.roles = {
+        ...savedEntry?.roles,
+        ...adapted.roles,
+      };
+
+      if ('list' in entry.roles) {
+        adapted.roles.list = unique([].concat(
+          ...savedEntry?.roles.list ?? [],
+          ...entry.roles.list,
+        ));
+      }
+
+      if ('named' in entry.roles) {
+        adapted.roles.named = Object.entries(entry.roles.named).reduce((all, [key, values]) => {
+          all[key as keyof PersonNamedRoles] = {
+            ...values,
+            attendees: {
+              ...values.attendees,
+              values: values.attendees.values.map(value => ({
+                ...value,
+                records: value.records.map(record => ({
+                  ...record,
+                  person: {
+                    id: record.person.id,
+                  },
+                })),
+              })),
+            },
+            entities: {
+              ...values.entities,
+              values: values.entities.values.map(value => ({
+                ...value,
+                records: value.records.map(record => ({
+                  ...record,
+                  entity: {
+                    id: record.entity.id,
+                  }
+                })),
+              })),
+            },
+          };
+
+          return all;
+        }, {} as PersonNamedRoles);
+      }
     }
 
     if (savedEntry && 'overview' in savedEntry) {

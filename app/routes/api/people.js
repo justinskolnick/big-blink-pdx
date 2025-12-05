@@ -549,10 +549,14 @@ router.get('/:id/roles', async (req, res, next) => {
     person = await people.getAtId(id);
     record = person.adapted;
 
+    if (!('roles' in record)) {
+      record.roles = {};
+    }
+
     asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
     asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
 
-    record.roles = {
+    record.roles.named = {
       lobbyist: asLobbyist,
       official: asOfficial,
     };

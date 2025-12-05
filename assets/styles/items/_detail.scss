@@ -11,6 +11,7 @@
     padding-top: calc(var(--gap) * 3);
   }
 
+  .activity-overview + .activity-details,
   .activity-overview + .incident-activity-stat-groups {
     margin-top: calc(var(--gap) * 3);
     padding-top: calc(var(--gap) * 3);
@@ -18,7 +19,8 @@
   }
 
   .incident-activity-stat-groups + .incident-activity-stat-groups,
-  .incident-activity-stat-groups + .incident-list-section {
+  .incident-activity-stat-groups + .incident-list-section,
+  .activity-details + .incident-list-section {
     margin-top: calc(var(--gap) * 1.5);
     padding-top: calc(var(--gap) * 1.5);
   }
