@@ -20,6 +20,10 @@ const Detail = () => {
   const person = useGetPersonById(numericId);
 
   const hasPerson = Boolean(person);
+  const hasNamedRoles = hasPerson && Boolean(person.roles?.named);
+
+  const canLoadNamedRoles = hasPerson;
+  const canLoadIncidents = hasNamedRoles;
 
   if (!hasPerson) return null;
 
@@ -32,29 +36,33 @@ const Detail = () => {
         <Chart label={person.name} />
       </ActivityOverview>
 
-      <NamedRoles person={person} />
+      {canLoadNamedRoles && (
+        <NamedRoles person={person} />
+      )}
 
-      <IncidentsTrigger>
-        {trigger => (
-          <IncidentsFetcher
-            id={person.id}
-            ref={incidentsRef}
-            trigger={trigger}
-          >
-            {'incidents' in person && (
-              <Incidents
-                filters={person.incidents?.filters}
-                hasSort
-                ids={person.incidents?.ids}
-                label={person.name}
-                pagination={person.incidents?.pagination}
-                ref={incidentsRef}
-                roleIsPrimary
-              />
-            )}
-          </IncidentsFetcher>
-        )}
-      </IncidentsTrigger>
+      {canLoadIncidents && (
+        <IncidentsTrigger>
+          {trigger => (
+            <IncidentsFetcher
+              id={person.id}
+              ref={incidentsRef}
+              trigger={trigger}
+            >
+              {'incidents' in person && (
+                <Incidents
+                  filters={person.incidents?.filters}
+                  hasSort
+                  ids={person.incidents?.ids}
+                  label={person.name}
+                  pagination={person.incidents?.pagination}
+                  ref={incidentsRef}
+                  roleIsPrimary
+                />
+              )}
+            </IncidentsFetcher>
+          )}
+        </IncidentsTrigger>
+      )}
     </ItemDetail>
   );
 };
