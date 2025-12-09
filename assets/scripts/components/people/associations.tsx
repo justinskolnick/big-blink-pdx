@@ -95,10 +95,16 @@ const Entities = ({ entities }: EntitiesProps) => {
 };
 
 const NamedRole = ({ person, role }: NamedRoleProps) => {
-  const searchParams = new URLSearchParams({ role });
+  const searchParams = new URLSearchParams();
   const namedRole = person?.roles.named?.[role];
 
-  const query = api.useLazyGetPersonRolesByIdQuery;
+  let query;
+
+  if (role === 'lobbyist') {
+    query = api.useLazyGetPersonRolesLobbyistByIdQuery;
+  } else if (role === 'official') {
+    query = api.useLazyGetPersonRolesOfficialByIdQuery;
+  }
 
   useLimitedQuery(query, {
     id: person.id,
@@ -125,7 +131,7 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
 
 const Associations = ({ person }: Props) => (
   <section className='activity-details'>
-    <ActivityHeader title='Associations' />
+    <ActivityHeader title={person.roles.label} />
 
     {person.roles.list.map((role, i) => (
       <NamedRole key={i} person={person} role={role} />

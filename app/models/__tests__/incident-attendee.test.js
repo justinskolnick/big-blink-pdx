@@ -67,6 +67,7 @@ describe('adapt()', () => {
         name: 'Henry Orbit',
         pernr: 654987,
         roles: {
+          label: 'Roles and Associations',
           list: [
             'official',
           ],
@@ -113,6 +114,7 @@ describe('setData()', () => {
         name: 'Henry Orbit',
         pernr: 654987,
         roles: {
+          label: 'Roles and Associations',
           list: [
             'official',
           ],

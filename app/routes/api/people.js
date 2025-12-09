@@ -537,13 +537,9 @@ const getPersonRoleObject = async (record, role, limit) => {
 router.get('/:id/roles', async (req, res, next) => {
   const id = Number(req.params.id);
   const limit = req.searchParams.get(PARAM_LIMIT);
-  const role = req.searchParams.get(PARAM_ROLE);
-
-  const hasRole = Boolean(role);
 
   let person;
   let record;
-  let asRole;
   let asLobbyist;
   let asOfficial;
   let data;
@@ -553,25 +549,13 @@ router.get('/:id/roles', async (req, res, next) => {
     person = await people.getAtId(id);
     record = person.adapted;
 
-    if (!('roles' in record)) {
-      record.roles = {};
-    }
+    asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
+    asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
 
-    if (hasRole) {
-      asRole = await getPersonRoleObject(record, role, limit);
-
-      record.roles.named = {
-        [role]: asRole,
-      };
-    } else {
-      asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
-      asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
-
-      record.roles.named = {
-        lobbyist: asLobbyist,
-        official: asOfficial,
-      };
-    }
+    record.roles.named = {
+      lobbyist: asLobbyist,
+      official: asOfficial,
+    };
 
     data = {
       person: {
@@ -586,6 +570,43 @@ router.get('/:id/roles', async (req, res, next) => {
     next(createError(err));
   }
 });
+
+const getAssociationsByRole = role => async (req, res, next) => {
+  const id = Number(req.params.id);
+  const limit = req.searchParams.get(PARAM_LIMIT);
+
+  let person;
+  let record;
+  let asRole;
+  let data;
+  let meta;
+
+  try {
+    person = await people.getAtId(id);
+    record = person.adapted;
+
+    asRole = await getPersonRoleObject(record, role, limit);
+
+    record.roles.named = {
+      [role]: asRole,
+    };
+
+    data = {
+      person: {
+        record,
+      },
+    };
+    meta = metaHelper.getMeta(req, { id, view });
+
+    res.status(200).json({ title, data, meta });
+  } catch (err) {
+    console.error('Error while getting person roles:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+};
+
+router.get('/:id/roles/lobbyist', getAssociationsByRole(ROLE_LOBBYIST));
+router.get('/:id/roles/official', getAssociationsByRole(ROLE_OFFICIAL));
 
 router.get('/:id/stats', async (req, res, next) => {
   const id = Number(req.params.id);

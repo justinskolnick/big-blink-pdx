@@ -522,6 +522,7 @@ export type PersonNamedRoles = {
 };
 
 type PersonRoles = {
+  label: string;
   list: Role[];
   named?: PersonNamedRoles;
 };
