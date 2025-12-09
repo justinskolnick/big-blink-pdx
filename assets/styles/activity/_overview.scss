@@ -4,15 +4,11 @@
   }
 
   .activity-stat-section {
-    & > .item-subhead {
+    & > .activity-header {
       height: 27px;
-
-      h4 {
-        color: var(--color-accent);
-      }
     }
 
-    .item-subhead + .activity-stat-group {
+    .activity-header + .activity-stat-group {
       margin-top: var(--gap);
     }
   }
@@ -22,31 +18,10 @@
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% - 27px - var(--gap));
-
-    .item-subhead {
-      h5 {
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 18px;
-      }
-    }
   }
 
   .activity-stat-group {
-    .item-subhead {
-      color: var(--color-accent-alt);
-
-      &.has-icon {
-        .icon {
-          width: 18px;
-          height: 18px;
-          background: initial;
-          color: var(--color-accent-alt);
-        }
-      }
-    }
-
-    .item-subhead + .activity-stat {
+    .activity-subheader + .activity-stat {
       margin-top: calc(var(--gap) / 2);
     }
   }

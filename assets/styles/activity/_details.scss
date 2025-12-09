@@ -1,10 +1,16 @@
 .activity-details {
-  .activity-details-section + .activity-details-section {
-    margin-top: calc(var(--gap) * 3);
+  .activity-header + .activity-details-section {
+    margin-top: var(--gap);
   }
 
-  .item-subhead + .activity-stat-section {
-    margin-top: calc(var(--gap) * 3);
+  .activity-details-section + .activity-details-section {
+    margin-top: calc(var(--gap) * 1.5);
+    padding-top: calc(var(--gap) * 1.5);
+    border-top: 2px solid var(--color-divider);
+  }
+
+  .activity-subheader + .activity-stat-section {
+    margin-top: calc(var(--gap) * 2);
   }
 
   .activity-stat-section {

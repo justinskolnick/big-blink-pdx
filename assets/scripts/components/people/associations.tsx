@@ -4,12 +4,13 @@ import useLimitedQuery from '../../hooks/use-limited-query';
 
 import api from '../../services/api';
 
+import ActivityHeader from '../detail-activity-header';
+import ActivitySubhead from '../detail-activity-subhead';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import AffiliatedPeopleTable from '../affiliated-people-table';
 import { getRoleIconName } from './icon';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
-import ItemSubhead from '../item-subhead';
 import ItemSubsection from '../item-subsection';
 
 import type {
@@ -30,6 +31,11 @@ interface AttendeesProps {
 
 interface EntitiesProps {
   entities: AssociatedEntities;
+}
+
+interface NamedRoleProps {
+  person?: Person;
+  role: Role;
 }
 
 interface Props {
@@ -88,7 +94,7 @@ const Entities = ({ entities }: EntitiesProps) => {
   );
 };
 
-const NamedRole = ({ person, role }) => {
+const NamedRole = ({ person, role }: NamedRoleProps) => {
   const searchParams = new URLSearchParams({ role });
   const namedRole = person?.roles.named?.[role];
 
@@ -100,15 +106,13 @@ const NamedRole = ({ person, role }) => {
     search: `?${searchParams.toString()}`,
   });
 
-  const hasRole = Boolean(role);
   const hasNamedRole = Boolean(namedRole);
 
-  if (!hasRole) return null;
   if (!hasNamedRole) return null;
 
   return (
     <section className='activity-details-section'>
-      <ItemSubhead
+      <ActivitySubhead
         title={namedRole.label}
         icon={getRoleIconName(namedRole.role)}
       />
@@ -119,12 +123,14 @@ const NamedRole = ({ person, role }) => {
   );
 };
 
-const NamedRoles = ({ person }: Props) => (
+const Associations = ({ person }: Props) => (
   <section className='activity-details'>
+    <ActivityHeader title='Associations' />
+
     {person.roles.list.map((role, i) => (
       <NamedRole key={i} person={person} role={role} />
     ))}
   </section>
 );
 
-export default NamedRoles;
+export default Associations;

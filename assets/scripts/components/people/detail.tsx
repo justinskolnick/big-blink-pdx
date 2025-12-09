@@ -3,13 +3,14 @@ import { useParams } from 'react-router';
 
 import { useGetPersonById } from '../../reducers/people';
 
+import ActivityDetails from './detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
 import Chart from './chart';
 import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
-import NamedRoles from './named-roles';
+import Associations from './associations';
 
 const Detail = () => {
   const incidentsRef = useRef<HTMLDivElement>(null);
@@ -22,7 +23,7 @@ const Detail = () => {
   const hasPerson = Boolean(person);
   const hasNamedRoles = hasPerson && Boolean(person.roles?.named);
 
-  const canLoadNamedRoles = hasPerson;
+  const canLoadDetails = hasPerson;
   const canLoadIncidents = hasNamedRoles;
 
   if (!hasPerson) return null;
@@ -36,8 +37,10 @@ const Detail = () => {
         <Chart label={person.name} />
       </ActivityOverview>
 
-      {canLoadNamedRoles && (
-        <NamedRoles person={person} />
+      {canLoadDetails && (
+        <ActivityDetails>
+          <Associations person={person} />
+        </ActivityDetails>
       )}
 
       {canLoadIncidents && (

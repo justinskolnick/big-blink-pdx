@@ -2,10 +2,11 @@ import React, { ReactNode } from 'react';
 
 import { scrollToRef } from '../lib/dom';
 
+import ActivityHeader from './detail-activity-header';
+import ActivitySubhead from './detail-activity-subhead';
 import DateBox from './incident-date-box';
 import IncidentActivityChart from './incident-activity-chart';
 import IncidentStatGroup from './incident-stat-group';
-import ItemSubhead from './item-subhead';
 import NumbersGroup from './stat-group-numbers';
 import StatBox from './stat-box';
 import StatGroup from './stat-group';
@@ -36,12 +37,14 @@ const ActivityOverview = ({
   return (
     <div className='activity-overview'>
       {hasOverview && (
-        <StatSection title={overview.label} stylized={false}>
+        <StatSection>
+          <ActivityHeader title={overview.label} />
+
           <StatGroup className='activity-numbers-and-dates'>
             {hasTotals && (
               <NumbersGroup>
-                <ItemSubhead
-                  subtitle={overview.totals.label}
+                <ActivitySubhead
+                  title={overview.totals.label}
                   icon='chart-line'
                 />
 
@@ -64,8 +67,8 @@ const ActivityOverview = ({
 
             {hasAppearances && (
               <IncidentStatGroup className='activity-dates'>
-                <ItemSubhead
-                  subtitle={overview.appearances.label}
+                <ActivitySubhead
+                  title={overview.appearances.label}
                   icon='calendar'
                 />
 

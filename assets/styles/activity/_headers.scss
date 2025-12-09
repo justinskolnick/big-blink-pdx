@@ -1,0 +1,22 @@
+.activity-header {
+  color: var(--color-accent);
+}
+
+.activity-subheader {
+  color: var(--color-accent);
+
+  h5 {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  &.has-icon {
+    .icon {
+      width: 18px;
+      height: 18px;
+      background: initial;
+      color: var(--color-accent-alt);
+    }
+  }
+}
