@@ -113,37 +113,40 @@ export const adapters = {
       }
 
       if ('named' in entry.roles) {
-        adapted.roles.named = Object.entries(entry.roles.named).reduce((all, [key, values]) => {
-          all[key as keyof PersonNamedRoles] = {
-            ...values,
-            attendees: {
-              ...values.attendees,
-              values: values.attendees.values.map(value => ({
-                ...value,
-                records: value.records.map(record => ({
-                  ...record,
-                  person: {
-                    id: record.person.id,
-                  },
+        adapted.roles.named = {
+          ...savedEntry?.roles.named,
+          ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
+            all[key as keyof PersonNamedRoles] = {
+              ...values,
+              attendees: {
+                ...values.attendees,
+                values: values.attendees.values.map(value => ({
+                  ...value,
+                  records: value.records.map(record => ({
+                    ...record,
+                    person: {
+                      id: record.person.id,
+                    },
+                  })),
                 })),
-              })),
-            },
-            entities: {
-              ...values.entities,
-              values: values.entities.values.map(value => ({
-                ...value,
-                records: value.records.map(record => ({
-                  ...record,
-                  entity: {
-                    id: record.entity.id,
-                  }
+              },
+              entities: {
+                ...values.entities,
+                values: values.entities.values.map(value => ({
+                  ...value,
+                  records: value.records.map(record => ({
+                    ...record,
+                    entity: {
+                      id: record.entity.id,
+                    }
+                  })),
                 })),
-              })),
-            },
-          };
+              },
+            };
 
-          return all;
-        }, {} as PersonNamedRoles);
+            return all;
+          }, {} as PersonNamedRoles),
+        };
       }
     }
 

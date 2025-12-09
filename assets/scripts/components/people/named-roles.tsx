@@ -88,34 +88,43 @@ const Entities = ({ entities }: EntitiesProps) => {
   );
 };
 
-const NamedRoles = ({ person }: Props) => {
+const NamedRole = ({ person, role }) => {
+  const searchParams = new URLSearchParams({ role });
+  const namedRole = person?.roles.named?.[role];
+
   const query = api.useLazyGetPersonRolesByIdQuery;
 
   useLimitedQuery(query, {
     id: person.id,
     limit: 5,
+    search: `?${searchParams.toString()}`,
   });
 
-  const hasPerson = Boolean(person);
-  const hasRoles = hasPerson && 'named' in person.roles;
+  const hasRole = Boolean(role);
+  const hasNamedRole = Boolean(namedRole);
 
-  if (!hasRoles) return null;
+  if (!hasRole) return null;
+  if (!hasNamedRole) return null;
 
   return (
-    <section className='activity-details'>
-      {Object.values(person.roles.named).map((role, i) => (
-        <section key={i} className='activity-details-section'>
-          <ItemSubhead
-            title={role.label}
-            icon={getRoleIconName(role.role)}
-          />
+    <section className='activity-details-section'>
+      <ItemSubhead
+        title={namedRole.label}
+        icon={getRoleIconName(namedRole.role)}
+      />
 
-          <Entities entities={role.entities} />
-          <Attendees attendees={role.attendees} />
-        </section>
-      ))}
+      <Entities entities={namedRole.entities} />
+      <Attendees attendees={namedRole.attendees} />
     </section>
   );
 };
+
+const NamedRoles = ({ person }: Props) => (
+  <section className='activity-details'>
+    {person.roles.list.map((role, i) => (
+      <NamedRole key={i} person={person} role={role} />
+    ))}
+  </section>
+);
 
 export default NamedRoles;
