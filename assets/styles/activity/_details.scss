@@ -1,0 +1,24 @@
+.activity-details {
+  .activity-details-section + .activity-details-section {
+    margin-top: calc(var(--gap) * 3);
+  }
+
+  .item-subhead + .activity-stat-section {
+    margin-top: calc(var(--gap) * 3);
+  }
+
+  .activity-stat-section {
+    h4 {
+      font-weight: 400;
+    }
+  }
+}
+
+.item-detail {
+  .activity-details {
+    .activity-stat-section + .activity-stat-section {
+      margin-top: calc(var(--gap) * 3);
+      padding-top: 0;
+    }
+  }
+}

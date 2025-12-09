@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
 
@@ -6,6 +6,7 @@ import api from '../../services/api';
 
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import AffiliatedPeopleTable from '../affiliated-people-table';
+import { getRoleIconName } from './icon';
 import IncidentActivityGroups from '../incident-activity-groups';
 import IncidentActivityGroup from '../incident-activity-group';
 import ItemSubhead from '../item-subhead';
@@ -103,12 +104,15 @@ const NamedRoles = ({ person }: Props) => {
   return (
     <section className='activity-details'>
       {Object.values(person.roles.named).map((role, i) => (
-        <Fragment key={i}>
-          <ItemSubhead title={role.label} />
+        <section key={i} className='activity-details-section'>
+          <ItemSubhead
+            title={role.label}
+            icon={getRoleIconName(role.role)}
+          />
 
           <Entities entities={role.entities} />
           <Attendees attendees={role.attendees} />
-        </Fragment>
+        </section>
       ))}
     </section>
   );
