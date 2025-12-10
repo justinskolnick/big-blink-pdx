@@ -95,16 +95,10 @@ const Entities = ({ entities }: EntitiesProps) => {
 };
 
 const NamedRole = ({ person, role }: NamedRoleProps) => {
-  const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams({ role });
   const namedRole = person?.roles.named?.[role];
 
-  let query;
-
-  if (role === 'lobbyist') {
-    query = api.useLazyGetPersonRolesLobbyistByIdQuery;
-  } else if (role === 'official') {
-    query = api.useLazyGetPersonRolesOfficialByIdQuery;
-  }
+  const query = api.useLazyGetPersonRolesByIdQuery;
 
   useLimitedQuery(query, {
     id: person.id,
