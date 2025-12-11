@@ -22,12 +22,14 @@ class PersonAttendee extends Base {
     };
 
     Object.entries(attendees).forEach(([key, values]) => {
-      obj.values.push({
-        label: Person.getLabel(`as_${role}_${key}`, Person.labelPrefix),
-        records: values.records.map(adaptItemPerson),
-        role: values.role,
-        total: values.total,
-      });
+      if (values?.records.length) {
+        obj.values.push({
+          label: Person.getLabel(`as_${role}_${key}`, Person.labelPrefix),
+          records: values.records.map(adaptItemPerson),
+          role: values.role,
+          total: values.total,
+        });
+      }
     });
 
     return obj;

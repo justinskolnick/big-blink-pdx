@@ -1,6 +1,11 @@
 const pluralize = require('pluralize');
 
 const {
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
+} = require('../config/constants');
+
+const {
   getRangesByYearSet,
   getRangeStatement,
 } = require('../helpers/quarters');
@@ -191,8 +196,22 @@ const getAttendeesByRole = async (role, options = {}, limit = null) => {
 };
 
 const getAttendees = async (options = {}, limit = null) => {
-  const lobbyists = await getAttendeesByRole(IncidentAttendee.roles.lobbyist, options, limit);
-  const officials = await getAttendeesByRole(IncidentAttendee.roles.official, options, limit);
+  const { association } = options;
+
+  let lobbyists;
+  let officials;
+
+  if (association === ASSOCIATION_LOBBYISTS) {
+    lobbyists = await getAttendeesByRole(IncidentAttendee.roles.lobbyist, options, limit);
+  } else if (association === ASSOCIATION_OFFICIALS) {
+    officials = await getAttendeesByRole(IncidentAttendee.roles.official, options, limit);
+  } else {
+    const results = await Promise.all([
+      getAttendeesByRole(IncidentAttendee.roles.lobbyist, options, limit),
+      getAttendeesByRole(IncidentAttendee.roles.official, options, limit),
+    ]);
+    [ lobbyists, officials ] = results;
+  }
 
   return {
     lobbyists,

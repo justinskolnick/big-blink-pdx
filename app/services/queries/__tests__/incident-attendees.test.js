@@ -334,6 +334,28 @@ describe('getPeopleQuery()', () => {
           params: [123, 'lobbyist', 123],
         });
       });
+
+      describe('and an association', () => {
+        test('returns the expected SQL', () => {
+          expect(getPeopleQuery({ personId: 123, personRole: 'lobbyist', association: 'officials' })).toEqual({
+            clauses: [
+              'SELECT',
+              'incident_attendees.person_id AS id, people.name, people.type',
+              'FROM incident_attendees',
+              'LEFT JOIN people ON incident_attendees.person_id = people.id',
+              'WHERE',
+              'incident_attendees.incident_id IN (SELECT incident_attendees.incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ?)',
+              'AND',
+              'incident_attendees.role = ?',
+              'AND',
+              'incident_attendees.person_id != ?',
+              'ORDER BY',
+              'incident_attendees.person_id ASC',
+            ],
+            params: [123, 'lobbyist', 'official', 123],
+          });
+        });
+      });
     });
   });
 
