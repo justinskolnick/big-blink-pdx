@@ -102,8 +102,8 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'official',
           'lobbyist',
+          'official',
         ],
       },
       links: {
