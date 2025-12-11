@@ -27,6 +27,8 @@ interface GroupProps {
 
 interface AttendeesProps {
   attendees: AssociatedPersons;
+  // id: Person['id'];
+  // role: Role;
 }
 
 interface EntitiesProps {
@@ -52,9 +54,18 @@ const Group = ({ children, title }: GroupProps) => (
   </IncidentActivityGroups>
 );
 
-const Attendees = ({ attendees }: AttendeesProps) => {
+const Attendees = ({ attendees, /*id, role*/ }: AttendeesProps) => {
+  // const searchParams = new URLSearchParams({ role });
   const initialLimit = 5;
   const [, setRecordLimit] = useState(initialLimit);
+
+  // const query = api.useLazyGetPersonRolesByIdQuery;
+
+  // const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
+  //   id: id,
+  //   limit: 5,
+  //   search: searchParams,
+  // });
 
   return (
     <Group title={attendees.label}>
@@ -119,6 +130,7 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
 
       <Entities entities={namedRole.entities} />
       <Attendees attendees={namedRole.attendees} />
+      {/*<Attendees id={person.id} role={role} attendees={namedRole.attendees} />*/}
     </section>
   );
 };

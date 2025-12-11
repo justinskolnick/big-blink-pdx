@@ -521,10 +521,16 @@ export type PersonNamedRoles = {
   official?: PersonNamedRole;
 };
 
+type PersonRoleOptions = {
+  lobbyist: boolean;
+  official: boolean;
+};
+
 type PersonRoles = {
   label: string;
   list: Role[];
   named?: PersonNamedRoles;
+  options?: PersonRoleOptions;
 };
 
 export type Person = Item & {

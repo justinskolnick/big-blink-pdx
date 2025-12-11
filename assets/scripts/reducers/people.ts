@@ -112,41 +112,52 @@ export const adapters = {
         ));
       }
 
-      if ('named' in entry.roles) {
-        adapted.roles.named = {
-          ...savedEntry?.roles.named,
-          ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
-            all[key as keyof PersonNamedRoles] = {
-              ...values,
-              attendees: {
-                ...values.attendees,
-                values: values.attendees.values.map(value => ({
-                  ...value,
-                  records: value.records.map(record => ({
-                    ...record,
-                    person: {
-                      id: record.person.id,
-                    },
-                  })),
-                })),
-              },
-              entities: {
-                ...values.entities,
-                values: values.entities.values.map(value => ({
-                  ...value,
-                  records: value.records.map(record => ({
-                    ...record,
-                    entity: {
-                      id: record.entity.id,
-                    }
-                  })),
-                })),
-              },
-            };
-
-            return all;
-          }, {} as PersonNamedRoles),
+      if ('options' in entry.roles) {
+        adapted.roles.options = {
+          ...savedEntry?.roles.options,
+          ...entry.roles.options,
         };
+
+        if ('named' in entry.roles) {
+          adapted.roles.named = {
+            ...savedEntry?.roles.named,
+            ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
+              all[key as keyof PersonNamedRoles] = {
+                ...values,
+                attendees: {
+                  ...values.attendees,
+                  values: Object.keys(adapted.roles.options).map(option => {
+                    const optionValues = values.attendees.values.find(value => value.role === option);
+
+                    return {
+                      ...optionValues,
+                      records: optionValues.records.map(record => ({
+                        ...record,
+                        person: {
+                          id: record.person.id,
+                        },
+                      })),
+                    };
+                  }),
+                },
+                entities: {
+                  ...values.entities,
+                  values: values.entities.values.map(value => ({
+                    ...value,
+                    records: value.records.map(record => ({
+                      ...record,
+                      entity: {
+                        id: record.entity.id,
+                      }
+                    })),
+                  })),
+                },
+              };
+
+              return all;
+            }, {} as PersonNamedRoles),
+          };
+        }
       }
     }
 

@@ -105,6 +105,10 @@ describe('adapt()', () => {
           'lobbyist',
           'official',
         ],
+        options: {
+          lobbyist: true,
+          official: true,
+        },
       },
       links: {
         self: '/people/123'

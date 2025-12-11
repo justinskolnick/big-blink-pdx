@@ -18,10 +18,17 @@ class Role {
   static getList(values) {
     const list = values?.split(',').filter(Boolean);
 
-    return [
-      ROLE_LOBBYIST,
-      ROLE_OFFICIAL,
-    ].filter(role => list?.includes(role));
+    return this.options().filter(role => list?.includes(role));
+  }
+
+  static getOptions(values) {
+    const list = values?.split(',').filter(Boolean);
+
+    return this.options().reduce((all, option) => {
+      all[option] = list?.includes(option);
+
+      return all;
+    }, {});
   }
 
   static options() {

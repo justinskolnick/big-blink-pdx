@@ -71,6 +71,10 @@ describe('adapt()', () => {
           list: [
             'official',
           ],
+          options: {
+            lobbyist: false,
+            official: true,
+          },
         },
         type: 'person',
       },
@@ -118,6 +122,10 @@ describe('setData()', () => {
           list: [
             'official',
           ],
+          options: {
+            lobbyist: false,
+            official: true,
+          },
         },
         type: 'person',
       },

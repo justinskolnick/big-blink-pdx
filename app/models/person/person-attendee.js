@@ -1,7 +1,18 @@
-const { MODEL_PEOPLE } = require('../../config/constants');
+const {
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
+  MODEL_PEOPLE,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../../config/constants');
 
 const Base = require('../shared/base');
 const Person = require('./person');
+
+const ROLE_ASSOCIATIONS = {
+  [ROLE_LOBBYIST]: ASSOCIATION_LOBBYISTS,
+  [ROLE_OFFICIAL]: ASSOCIATION_OFFICIALS,
+};
 
 const adaptItemPerson = item => {
   const person = new Person(item.person);
@@ -12,6 +23,10 @@ const adaptItemPerson = item => {
 };
 
 class PersonAttendee extends Base {
+  static getAssociationForRole(role) {
+    return ROLE_ASSOCIATIONS[role];
+  }
+
   // todo: set records role
   static toRoleObject(role, attendees) {
     const obj = {
@@ -24,6 +39,7 @@ class PersonAttendee extends Base {
     Object.entries(attendees).forEach(([key, values]) => {
       if (values?.records.length) {
         obj.values.push({
+          association: this.getAssociationForRole(values.role),
           label: Person.getLabel(`as_${role}_${key}`, Person.labelPrefix),
           records: values.records.map(adaptItemPerson),
           role: values.role,

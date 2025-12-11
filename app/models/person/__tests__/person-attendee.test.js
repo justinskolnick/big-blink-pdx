@@ -12,6 +12,7 @@ describe('toRoleObject', () => {
       type: 'person',
       values: [
         {
+          association: 'lobbyists',
           label: 'Lobbied alongside these lobbyists',
           records: [
             {
@@ -64,6 +65,7 @@ describe('toRoleObject', () => {
           total: 3,
         },
         {
+          association: 'officials',
           label: 'Met with these City officials',
           records: [
             {
