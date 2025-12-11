@@ -1,4 +1,5 @@
 const {
+  PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -19,6 +20,10 @@ const PEOPLE_PATTERN = /^([\d]+)(?::([a-z]+))?$/;
 const QUARTER_PATTERN = /^(20[1-2][0-9])-q([1-4])$/i;
 const QUARTER_PATTERN_DEPRECATED = /^Q([1-4])-(20[1-2][0-9])$/i;
 const YEAR_PATTERN = /^20[1-2][0-9]$/;
+
+const associationOptions = {
+  validate: 'hasAssociation',
+};
 
 const dateOptions = {
   pattern: DATE_PATTERN,
@@ -60,6 +65,7 @@ const yearOptions = {
 };
 
 const PARAM_OPTIONS = {
+  [PARAM_ASSOCIATION]: associationOptions,
   [PARAM_DATE_ON]: dateOptions,
   [PARAM_DATE_RANGE_FROM]: {
     requires: PARAM_DATE_RANGE_TO,
