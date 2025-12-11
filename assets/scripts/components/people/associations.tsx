@@ -103,7 +103,7 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
   useLimitedQuery(query, {
     id: person.id,
     limit: 5,
-    search: `?${searchParams.toString()}`,
+    search: searchParams,
   });
 
   const hasNamedRole = Boolean(namedRole);

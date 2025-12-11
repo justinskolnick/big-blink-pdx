@@ -9,7 +9,7 @@ type QueryType = TypedUseLazyQuery<any, any, any>;
 type QueryOptions = {
   id?: Id;
   limit?: number;
-  search?: string;
+  search?: string | URLSearchParams;
 };
 
 export interface FnSetLimit {
@@ -29,7 +29,15 @@ interface Fn {
 const useLimitedQuery: Fn = (query, options) => {
   const initialLimit = options.limit;
   const id = options.id;
-  const search = options.search;
+  let search: string;
+
+  if (options.search) {
+    if (typeof options.search === 'string') {
+      search = options.search;
+    } else {
+      search = `?${options.search.toString()}`;
+    }
+  }
 
   const [recordLimit, setRecordLimit] = useState<number>(initialLimit);
   const [trigger, result] = query();
