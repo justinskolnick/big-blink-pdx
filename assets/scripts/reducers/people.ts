@@ -122,37 +122,55 @@ export const adapters = {
           adapted.roles.named = {
             ...savedEntry?.roles.named,
             ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
-              all[key as keyof PersonNamedRoles] = {
-                ...values,
-                attendees: {
-                  ...values.attendees,
-                  values: Object.keys(adapted.roles.options).map(option => {
-                    const optionValues = values.attendees.values.find(value => value.role === option);
+              const roleKey = key as keyof PersonNamedRoles;
+              const savedRole = savedEntry?.roles.named?.[roleKey];
+              const { attendees, entities, ...rest } = values;
 
-                    return {
-                      ...optionValues,
-                      records: optionValues.records.map(record => ({
-                        ...record,
-                        person: {
-                          id: record.person.id,
-                        },
-                      })),
-                    };
-                  }),
-                },
-                entities: {
+              all[roleKey] = {
+                ...savedEntry?.roles.named?.[roleKey],
+                ...rest,
+              };
+
+              if (attendees) {
+                all[roleKey].attendees = {
+                  ...savedRole?.attendees,
+                  ...attendees,
+                  values: Object.keys(adapted.roles.options).map(role => {
+                    const savedValue = savedRole?.attendees?.values?.find(value => value.role === role);
+                    const newValue = attendees.values.find(value => value.role === role);
+
+                    if (newValue) {
+                      return {
+                        ...newValue,
+                        records: newValue.records.map(record => ({
+                          ...record,
+                          person: {
+                            id: record.person.id,
+                          },
+                        }))
+                      };
+                    } else {
+                      return savedValue;
+                    }
+                  })
+                };
+              }
+
+              if (entities) {
+                all[roleKey].entities = {
+                  ...savedRole?.entities,
                   ...values.entities,
-                  values: values.entities.values.map(value => ({
+                  values: entities.values.map(value => ({
                     ...value,
                     records: value.records.map(record => ({
                       ...record,
                       entity: {
                         id: record.entity.id,
-                      }
-                    })),
+                      },
+                    }))
                   })),
-                },
-              };
+                };
+              }
 
               return all;
             }, {} as PersonNamedRoles),

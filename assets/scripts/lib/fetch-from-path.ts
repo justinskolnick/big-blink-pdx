@@ -34,7 +34,7 @@ export type Result = {
   title?: string;
 };
 
-const adaptEntity = (state: RootState, entity: EntityWithIncidentRecords) =>
+const adaptEntity = (state: RootState, entity: Entity | EntityWithIncidentRecords) =>
   entityActions.adapters.adaptOne(state, entity);
 const adaptIncident = (state: RootState, incident: Incident) =>
   incidentActions.adapters.adaptOne(state, incident);
@@ -88,13 +88,19 @@ const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =
     .map(record => record.person)
     .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
 
-const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =>
-  Object.values(roles)
-    .map(role => role.entities)
-    .flatMap(item => item.values)
-    .flatMap(item => item.records)
-    .map(record => record.entity)
-    .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
+const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+  const entities = Object.values(roles).map(role => role.entities).filter(Boolean);
+
+  if (entities.length) {
+    return entities
+      .flatMap(item => item.values)
+      .flatMap(item => item.records)
+      .map(record => record.entity)
+      .map((entity: Entity) => adaptEntity(state, entity));
+  }
+
+  return entities;
+}
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;

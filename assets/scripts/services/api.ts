@@ -73,13 +73,14 @@ const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
   const { limit, search } = options;
 
   if (search) {
-    const values = search.split('?').filter(Boolean).reduce((all, item) => {
+    const values = search.split('?').filter(Boolean).flatMap(p => p.split('&')).reduce((all, item) => {
       const [key, value] = item.split('=');
 
       all[key] = value;
 
       return all;
     }, {} as Record<string, string>);
+    // console.log(search, values);
     const searchParams = new URLSearchParams(values);
 
     searchParams.forEach((value, key) => {

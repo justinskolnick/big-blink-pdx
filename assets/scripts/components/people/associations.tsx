@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
 
@@ -14,21 +14,27 @@ import IncidentActivityGroup from '../incident-activity-group';
 import ItemSubsection from '../item-subsection';
 
 import type {
-  AssociatedPersons,
   AssociatedEntities,
+  AssociatedPersonsValue,
   Person
 } from '../../types';
-import { Role } from '../../types';
+import { Role, Sections } from '../../types';
 
 interface GroupProps {
   children: ReactNode;
   title: string;
 }
 
+interface AttendeeGroupProps {
+  id: Person['id'];
+  model: Sections;
+  role: Role;
+  value: AssociatedPersonsValue;
+}
+
 interface AttendeesProps {
-  attendees: AssociatedPersons;
-  // id: Person['id'];
-  // role: Role;
+  person?: Person;
+  role: Role;
 }
 
 interface EntitiesProps {
@@ -54,27 +60,50 @@ const Group = ({ children, title }: GroupProps) => (
   </IncidentActivityGroups>
 );
 
-const Attendees = ({ attendees, /*id, role*/ }: AttendeesProps) => {
-  // const searchParams = new URLSearchParams({ role });
-  const initialLimit = 5;
-  const [, setRecordLimit] = useState(initialLimit);
+const AttendeeGroup = ({ id, model, role, value }: AttendeeGroupProps) => {
+  const searchParams = new URLSearchParams({ role, association: value.association });
+  const query = api.useLazyGetPersonRolesByIdQuery;
 
-  // const query = api.useLazyGetPersonRolesByIdQuery;
+  const {
+    initialLimit,
+    setPaused,
+    setRecordLimit,
+  } = useLimitedQuery(query, {
+    id,
+    limit: 5,
+    pause: true,
+    search: searchParams,
+  });
 
-  // const { initialLimit, setRecordLimit } = useLimitedQuery(query, {
-  //   id: id,
-  //   limit: 5,
-  //   search: searchParams,
-  // });
+  const setLimit = () => {
+    setPaused(false);
+    setRecordLimit(value.total);
+  };
+
+  if (!value) return null;
+
+  return (
+    <AffiliatedPeopleTable
+      attendees={value}
+      initialCount={initialLimit}
+      model={model}
+      setLimit={setLimit}
+    />
+  );
+};
+
+const Attendees = ({ person, role }: AttendeesProps) => {
+  const namedRole = person?.roles.named?.[role];
+  const attendees = namedRole?.attendees;
 
   return (
     <Group title={attendees.label}>
       {attendees.values.map((value, i: number) => (
-        <AffiliatedPeopleTable
-          attendees={value}
-          initialCount={initialLimit}
+        <AttendeeGroup
+          id={person.id}
           model={attendees.model}
-          setLimit={setRecordLimit}
+          role={role}
+          value={value}
           key={i}
         />
       ))}
@@ -106,6 +135,7 @@ const Entities = ({ entities }: EntitiesProps) => {
 };
 
 const NamedRole = ({ person, role }: NamedRoleProps) => {
+  const [hasRun, setHasRun] = useState<boolean>(false);
   const searchParams = new URLSearchParams({ role });
   const namedRole = person?.roles.named?.[role];
 
@@ -114,8 +144,13 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
   useLimitedQuery(query, {
     id: person.id,
     limit: 5,
+    pause: hasRun,
     search: searchParams,
   });
+
+  useEffect(() => {
+    setHasRun(true);
+  }, [setHasRun]);
 
   const hasNamedRole = Boolean(namedRole);
 
@@ -129,8 +164,7 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
       />
 
       <Entities entities={namedRole.entities} />
-      <Attendees attendees={namedRole.attendees} />
-      {/*<Attendees id={person.id} role={role} attendees={namedRole.attendees} />*/}
+      <Attendees person={person} role={role} />
     </section>
   );
 };

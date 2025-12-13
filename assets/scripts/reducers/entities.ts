@@ -35,7 +35,7 @@ export const useGetEntityById = (id: Id): Entity => {
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: EntityWithIncidentRecords): Entity => {
+  adaptOne: (state: RootState, entry: Entity | EntityWithIncidentRecords): Entity => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 

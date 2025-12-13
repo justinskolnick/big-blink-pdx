@@ -491,7 +491,8 @@ type AssociatedItemValue = {
   total: number;
 };
 
-type AssociatedPersonsValue = AssociatedItemValue & {
+export type AssociatedPersonsValue = AssociatedItemValue & {
+  association: 'lobbyists' | 'officials';
   records: AffiliatedPersonRecord[];
 };
 
@@ -501,6 +502,7 @@ export type AssociatedPersons = AssociatedItem & {
 };
 
 type AssociatedEntitiesValue = AssociatedItemValue & {
+  association: 'entities';
   records: AffiliatedEntityRecord[];
 };
 
