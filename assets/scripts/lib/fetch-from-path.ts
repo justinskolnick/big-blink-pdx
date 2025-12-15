@@ -99,7 +99,7 @@ const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =>
       .map((entity: Entity) => adaptEntity(state, entity));
   }
 
-  return entities;
+  return [] as Entity[];
 }
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
