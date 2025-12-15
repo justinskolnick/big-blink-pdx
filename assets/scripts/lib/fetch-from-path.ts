@@ -80,13 +80,19 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
-const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =>
-  Object.values(roles)
-    .map(role => role.attendees)
-    .flatMap(item => item.values)
-    .flatMap(item => item.records)
-    .map(record => record.person)
-    .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
+const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+  const attendees = Object.values(roles).map(role => role.attendees).filter(Boolean);
+
+  if (attendees.length) {
+    return attendees
+      .flatMap(item => item.values)
+      .flatMap(item => item.records)
+      .map(record => record.person)
+      .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
+  }
+
+  return [] as Person[];
+};
 
 const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
   const entities = Object.values(roles).map(role => role.entities).filter(Boolean);
@@ -100,7 +106,7 @@ const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =>
   }
 
   return [] as Entity[];
-}
+};
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;

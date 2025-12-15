@@ -1,4 +1,7 @@
-const { MODEL_ENTITIES } = require('../../config/constants');
+const {
+  ASSOCIATION_ENTITIES,
+  MODEL_ENTITIES,
+} = require('../../config/constants');
 
 const Base = require('../shared/base');
 const Entity = require('../entity');
@@ -13,6 +16,10 @@ const adaptItemEntity = item => {
 };
 
 class PersonEntity extends Base {
+  static getAssociation() {
+    return ASSOCIATION_ENTITIES;
+  }
+
   static toRoleObject(role, entities) {
     const obj = {
       label: Person.getLabel('associated_entities'),
@@ -22,6 +29,7 @@ class PersonEntity extends Base {
     };
 
     obj.values.push({
+      association: this.getAssociation(),
       label: Person.getLabel(`as_${role}_entities`, Person.labelPrefix),
       records: entities.records.map(adaptItemEntity),
       role: entities.role,

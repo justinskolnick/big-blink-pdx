@@ -14,31 +14,26 @@ import IncidentActivityGroup from '../incident-activity-group';
 import ItemSubsection from '../item-subsection';
 
 import type {
-  AssociatedEntities,
+  AssociatedEntitiesValue,
   AssociatedPersonsValue,
   Person
 } from '../../types';
-import { Role, Sections } from '../../types';
+import { Role } from '../../types';
 
 interface GroupProps {
   children: ReactNode;
   title: string;
 }
 
-interface AttendeeGroupProps {
+interface FnSetLimit {
+  (): void;
+}
+
+interface AssociationGroupProps {
+  children: (initialLimit: number, setLimit: FnSetLimit) => ReactNode;
   id: Person['id'];
-  model: Sections;
   role: Role;
-  value: AssociatedPersonsValue;
-}
-
-interface AttendeesProps {
-  person?: Person;
-  role: Role;
-}
-
-interface EntitiesProps {
-  entities: AssociatedEntities;
+  value: AssociatedEntitiesValue | AssociatedPersonsValue;
 }
 
 interface NamedRoleProps {
@@ -60,8 +55,11 @@ const Group = ({ children, title }: GroupProps) => (
   </IncidentActivityGroups>
 );
 
-const AttendeeGroup = ({ id, model, role, value }: AttendeeGroupProps) => {
-  const searchParams = new URLSearchParams({ role, association: value.association });
+const AssociationGroup = ({ children, id, role, value }: AssociationGroupProps) => {
+  const searchParams = new URLSearchParams({
+    role,
+    association: value.association,
+  });
   const query = api.useLazyGetPersonRolesByIdQuery;
 
   const {
@@ -82,53 +80,62 @@ const AttendeeGroup = ({ id, model, role, value }: AttendeeGroupProps) => {
 
   if (!value) return null;
 
-  return (
-    <AffiliatedPeopleTable
-      attendees={value}
-      initialCount={initialLimit}
-      model={model}
-      setLimit={setLimit}
-    />
-  );
+  return children(initialLimit, setLimit);
 };
 
-const Attendees = ({ person, role }: AttendeesProps) => {
+const Attendees = ({ person, role }: NamedRoleProps) => {
   const namedRole = person?.roles.named?.[role];
   const attendees = namedRole?.attendees;
 
   return (
     <Group title={attendees.label}>
       {attendees.values.map((value, i: number) => (
-        <AttendeeGroup
+        <AssociationGroup
           id={person.id}
-          model={attendees.model}
           role={role}
           value={value}
           key={i}
-        />
+        >
+          {(initialLimit, setLimit) => (
+            <AffiliatedPeopleTable
+              attendees={value}
+              initialCount={initialLimit}
+              model={attendees.model}
+              setLimit={setLimit}
+            />
+          )}
+        </AssociationGroup>
       ))}
     </Group>
   );
 };
 
-const Entities = ({ entities }: EntitiesProps) => {
-  const initialLimit = 5;
-  const [, setRecordLimit] = useState(initialLimit);
+const Entities = ({ person, role }: NamedRoleProps) => {
+  const namedRole = person?.roles.named?.[role];
+  const entities = namedRole?.entities;
 
   return (
     <Group title={entities.label}>
       {entities.values.map((value, i: number) => (
-        <AffiliatedEntitiesTable
-          entities={value}
-          hasAuxiliaryType={value.role === Role.Lobbyist}
-          hasLobbyist={value.role === Role.Lobbyist}
-          initialCount={initialLimit}
-          model={entities.model}
-          role={value.role}
-          setLimit={setRecordLimit}
-          title={value.label}
+        <AssociationGroup
+          id={person.id}
+          role={role}
+          value={value}
           key={i}
-        />
+        >
+          {(initialLimit, setLimit) => (
+            <AffiliatedEntitiesTable
+              entities={value}
+              hasAuxiliaryType={value.role === Role.Lobbyist}
+              hasLobbyist={value.role === Role.Lobbyist}
+              initialCount={initialLimit}
+              model={entities.model}
+              role={value.role}
+              setLimit={setLimit}
+              title={value.label}
+            />
+          )}
+        </AssociationGroup>
       ))}
     </Group>
   );
@@ -163,7 +170,7 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
         icon={getRoleIconName(namedRole.role)}
       />
 
-      <Entities entities={namedRole.entities} />
+      <Entities person={person} role={role} />
       <Attendees person={person} role={role} />
     </section>
   );

@@ -149,9 +149,9 @@ export const adapters = {
                           },
                         }))
                       };
-                    } else {
-                      return savedValue;
                     }
+
+                    return savedValue;
                   })
                 };
               }

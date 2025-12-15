@@ -501,7 +501,7 @@ export type AssociatedPersons = AssociatedItem & {
   values: AssociatedPersonsValue[];
 };
 
-type AssociatedEntitiesValue = AssociatedItemValue & {
+export type AssociatedEntitiesValue = AssociatedItemValue & {
   association: 'entities';
   records: AffiliatedEntityRecord[];
 };
