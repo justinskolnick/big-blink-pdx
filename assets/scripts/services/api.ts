@@ -80,7 +80,6 @@ const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
 
       return all;
     }, {} as Record<string, string>);
-    // console.log(search, values);
     const searchParams = new URLSearchParams(values);
 
     searchParams.forEach((value, key) => {
