@@ -1331,6 +1331,7 @@ body.has-alert .alert-root {
   padding-top: calc(18px * 3);
   padding-top: calc(var(--gap) * 3);
 }
+.item-detail .activity-overview + .activity-details,
 .item-detail .activity-overview + .incident-activity-stat-groups {
   margin-top: calc(18px * 3);
   margin-top: calc(var(--gap) * 3);
@@ -1340,7 +1341,8 @@ body.has-alert .alert-root {
   border-top: 3px solid var(--color-divider);
 }
 .item-detail .incident-activity-stat-groups + .incident-activity-stat-groups,
-.item-detail .incident-activity-stat-groups + .incident-list-section {
+.item-detail .incident-activity-stat-groups + .incident-list-section,
+.item-detail .activity-details + .incident-list-section {
   margin-top: calc(18px * 1.5);
   margin-top: calc(var(--gap) * 1.5);
   padding-top: calc(18px * 1.5);
