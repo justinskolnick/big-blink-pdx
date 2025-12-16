@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
+import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
 
@@ -22,6 +23,7 @@ import { Role } from '../../types';
 
 interface GroupProps {
   children: ReactNode;
+  icon?: IconName;
   title: string;
 }
 
@@ -45,8 +47,8 @@ interface Props {
   person: Person;
 }
 
-const Group = ({ children, title }: GroupProps) => (
-  <IncidentActivityGroups title={title}>
+const Group = ({ children, icon, title }: GroupProps) => (
+  <IncidentActivityGroups title={title} icon={icon}>
     <IncidentActivityGroup>
       <ItemSubsection>
         {children}
@@ -88,7 +90,7 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
   const attendees = namedRole?.attendees;
 
   return (
-    <Group title={attendees.label}>
+    <Group title={attendees.label} icon='user-group'>
       {attendees.values.map((value, i: number) => (
         <AssociationGroup
           id={person.id}
@@ -115,7 +117,7 @@ const Entities = ({ person, role }: NamedRoleProps) => {
   const entities = namedRole?.entities;
 
   return (
-    <Group title={entities.label}>
+    <Group title={entities.label} icon='building'>
       {entities.values.map((value, i: number) => (
         <AssociationGroup
           id={person.id}
