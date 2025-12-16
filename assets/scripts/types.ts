@@ -90,7 +90,7 @@ export type Attendee = {
 export type AttendeeGroup = {
   label?: string;
   records: Attendee[];
-  role: Role;
+  role?: Role;
   total: number;
 }
 
@@ -480,8 +480,59 @@ export type PersonOfficialPosition = {
   role: string;
 };
 
+type AssociatedItem = {
+  label: string;
+  model: Sections;
+};
+
+type AssociatedItemValue = {
+  label: string;
+  role: Role;
+  total: number;
+};
+
+export type AssociatedPersonsValue = AssociatedItemValue & {
+  association: 'lobbyists' | 'officials';
+  records: AffiliatedPersonRecord[];
+};
+
+export type AssociatedPersons = AssociatedItem & {
+  type: 'person';
+  values: AssociatedPersonsValue[];
+};
+
+export type AssociatedEntitiesValue = AssociatedItemValue & {
+  association: 'entities';
+  records: AffiliatedEntityRecord[];
+};
+
+export type AssociatedEntities = AssociatedItem & {
+  type: 'entity';
+  values: AssociatedEntitiesValue[];
+};
+
+type PersonNamedRole = {
+  label: string;
+  role: Role;
+  attendees?: AssociatedPersons;
+  entities?: AssociatedEntities;
+};
+
+export type PersonNamedRoles = {
+  lobbyist?: PersonNamedRole;
+  official?: PersonNamedRole;
+};
+
+type PersonRoleOptions = {
+  lobbyist: boolean;
+  official: boolean;
+};
+
 type PersonRoles = {
+  label: string;
   list: Role[];
+  named?: PersonNamedRoles;
+  options?: PersonRoleOptions;
 };
 
 export type Person = Item & {

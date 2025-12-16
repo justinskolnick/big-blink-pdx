@@ -73,7 +73,7 @@ const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
   const { limit, search } = options;
 
   if (search) {
-    const values = search.split('?').filter(Boolean).reduce((all, item) => {
+    const values = search.split('?').filter(Boolean).flatMap(p => p.split('&')).reduce((all, item) => {
       const [key, value] = item.split('=');
 
       all[key] = value;
@@ -152,6 +152,9 @@ const api = createApi({
     )),
     getPersonOfficialPositionsById: builder.query(getAncillaryRoute(
       ({ id }) => `api/people/${id}/official-positions`
+    )),
+    getPersonRolesById: builder.query(getAncillaryRoute(
+      ({ id, limit, search }) => getPathnameWithLimit(`api/people/${id}/roles`, { limit, search })
     )),
     getPersonStatsById: builder.query(getAncillaryRoute(
       ({ id }) => `api/people/${id}/stats`

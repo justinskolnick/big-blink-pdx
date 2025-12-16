@@ -100,10 +100,15 @@ describe('adapt()', () => {
       name: 'John Doe',
       pernr: null,
       roles: {
+        label: 'Roles and Associations',
         list: [
-          'official',
           'lobbyist',
+          'official',
         ],
+        options: {
+          lobbyist: true,
+          official: true,
+        },
       },
       links: {
         self: '/people/123'

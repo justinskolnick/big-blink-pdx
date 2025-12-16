@@ -21,7 +21,7 @@ const StatSection = ({
   className,
   description,
   icon,
-  stylized = true,
+  stylized = false,
   subtitle,
   title,
 }: Props) => (

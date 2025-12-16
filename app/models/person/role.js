@@ -16,7 +16,19 @@ class Role {
   }
 
   static getList(values) {
-    return values?.split(',').filter(value => this.isValidOption(value)) ?? [];
+    const list = values?.split(',').filter(Boolean);
+
+    return this.options().filter(role => list?.includes(role));
+  }
+
+  static getOptions(values) {
+    const list = values?.split(',').filter(Boolean);
+
+    return this.options().reduce((all, option) => {
+      all[option] = list?.includes(option);
+
+      return all;
+    }, {});
   }
 
   static options() {

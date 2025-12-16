@@ -21,7 +21,9 @@ class Person extends IncidentedBase {
     if (value) {
       if (typeof value === 'string') {
         return {
+          label: this.getLabel('associations_roles'),
           list: Role.getList(value),
+          options: Role.getOptions(value),
         };
       } else if (typeof value === 'object' && !Array.isArray(value)) {
         if ('list' in value) {

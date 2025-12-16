@@ -1,3 +1,10 @@
+const {
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../../config/constants');
+
 const queryHelper = require('../../helpers/query');
 
 const Entity = require('../../models/entity');
@@ -163,6 +170,7 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
 
 const buildPeopleQuery = (options = {}, limit = null) => {
   const {
+    association,
     entityId,
     includeTotal,
     includeTotalOnly = false,
@@ -172,8 +180,10 @@ const buildPeopleQuery = (options = {}, limit = null) => {
     sourceId,
   } = options;
 
+  const hasAssociation = Boolean(association);
   const hasEntityId = Boolean(entityId);
   const hasPersonId = Boolean(personId);
+  const hasPersonRole = Boolean(personRole);
   const hasRole = Boolean(role);
   const hasSourceId = Boolean(sourceId);
   const hasLimit = Number.isInteger(limit);
@@ -203,7 +213,7 @@ const buildPeopleQuery = (options = {}, limit = null) => {
   clauses.push(`FROM ${IncidentAttendee.tableName}`);
   clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
 
-  if (hasEntityId || hasPersonId || hasRole || hasSourceId) {
+  if (hasAssociation || hasEntityId || hasPersonId || hasRole || hasSourceId) {
     const subqueryClauses = [];
 
     clauses.push('WHERE');
@@ -233,7 +243,7 @@ const buildPeopleQuery = (options = {}, limit = null) => {
       subqueryClauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
       params.push(personId);
 
-      if (personRole) {
+      if (hasPersonRole) {
         subqueryClauses.push('AND');
         subqueryClauses.push(`${IncidentAttendee.field('role')} = ?`);
         params.push(personRole);
@@ -244,14 +254,23 @@ const buildPeopleQuery = (options = {}, limit = null) => {
       conditions.push(`${IncidentAttendee.field(Incident.foreignKey())} IN (${subqueryClauses.join(' ')})`);
     }
 
+    if (hasAssociation || hasRole) {
+      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+
+      if (hasAssociation) {
+        if (association === ASSOCIATION_LOBBYISTS) {
+          params.push(ROLE_LOBBYIST);
+        } else if (association === ASSOCIATION_OFFICIALS) {
+          params.push(ROLE_OFFICIAL);
+        }
+      } else {
+        params.push(role);
+      }
+    }
+
     if (hasPersonId) {
       conditions.push(`${IncidentAttendee.field(Person.foreignKey())} != ?`);
       params.push(personId);
-    }
-
-    if (hasRole) {
-      conditions.push(`${IncidentAttendee.field('role')} = ?`);
-      params.push(role);
     }
   }
 

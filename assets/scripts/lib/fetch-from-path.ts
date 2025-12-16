@@ -19,6 +19,7 @@ import type {
   Incidents,
   MetaType,
   Person,
+  PersonNamedRoles,
   PersonWithIncidentRecords,
   Source,
   SourceWithIncidentRecords,
@@ -33,7 +34,7 @@ export type Result = {
   title?: string;
 };
 
-const adaptEntity = (state: RootState, entity: EntityWithIncidentRecords) =>
+const adaptEntity = (state: RootState, entity: Entity | EntityWithIncidentRecords) =>
   entityActions.adapters.adaptOne(state, entity);
 const adaptIncident = (state: RootState, incident: Incident) =>
   incidentActions.adapters.adaptOne(state, incident);
@@ -53,20 +54,6 @@ const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
       .map((person: PersonWithIncidentRecords) => adaptPerson(state, person))
   );
 
-const getAttendeesFromPerson = (state: RootState, person: Person) =>
-  person.attendees.roles
-    .flatMap(role => role.values)
-    .flatMap(value => value.records)
-    .map(record => record.person)
-    .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
-
-const getEntitiesFromPerson = (state: RootState, person: Person) =>
-  person.entities.roles
-    .flatMap(role => role.values)
-    .flatMap(value => value.records)
-    .map(record => record.entity)
-    .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
-
 const getAttendeesFromRecord = (state: RootState, record: Entity | Source) =>
   record.attendees.values
     .flatMap(value => value.records)
@@ -78,6 +65,34 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .flatMap(value => value.records)
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
+
+const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+  const attendees = Object.values(roles).map(role => role.attendees).filter(Boolean);
+
+  if (attendees.length) {
+    return attendees
+      .flatMap(item => item.values)
+      .flatMap(item => item.records)
+      .map(record => record.person)
+      .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
+  }
+
+  return [] as Person[];
+};
+
+const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+  const entities = Object.values(roles).map(role => role.entities).filter(Boolean);
+
+  if (entities.length) {
+    return entities
+      .flatMap(item => item.values)
+      .flatMap(item => item.records)
+      .map(record => record.entity)
+      .map((entity: Entity) => adaptEntity(state, entity));
+  }
+
+  return [] as Entity[];
+};
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
   const dispatch = store.dispatch;
@@ -203,19 +218,17 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
       dispatch(personActions.set(person));
 
-      if ('entities' in data.person.record) {
-        const entities = getEntitiesFromPerson(state, data.person.record);
+      if ('roles' in data.person.record) {
+        if ('named' in data.person.record.roles) {
+          const attendees = getAttendeesFromPersonRole(state, data.person.record.roles.named);
+          const entities = getEntitiesFromPersonRole(state, data.person.record.roles.named);
 
-        if (entities.length) {
-          dispatch(entityActions.setAll(entities));
-        }
-      }
-
-      if ('attendees' in data.person.record) {
-        const attendees = getAttendeesFromPerson(state, data.person.record);
-
-        if (attendees.length) {
-          dispatch(personActions.setAll(attendees));
+          if (attendees.length) {
+            dispatch(personActions.setAll(attendees));
+          }
+          if (entities.length) {
+            dispatch(entityActions.setAll(entities));
+          }
         }
       }
 

@@ -24,6 +24,7 @@ const IncidentActivityGroups = ({
     icon={icon}
     title={title}
     description={description}
+    stylized
   >
     <div className='incident-activity-stat-groups-list'>
       {children}

@@ -3,7 +3,7 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import Icon from './icon';
 import ItemSubsection from './item-subsection';
-import StatGroup from './stat-group';
+import IncidentActivityGroup from './incident-activity-group';
 
 import type { Attendees, PersonEntityRole, SourceEntities } from '../types';
 
@@ -29,8 +29,7 @@ const RecordsGroup = ({
   const hasIcon = Boolean(icon);
 
   return (
-    <StatGroup
-      className='incident-activity-stat-group'
+    <IncidentActivityGroup
       subtitle={
         <>
           {hasIcon && <Icon name={icon} />}
@@ -39,7 +38,7 @@ const RecordsGroup = ({
       }
     >
       {children && <ItemSubsection>{children}</ItemSubsection>}
-    </StatGroup>
+    </IncidentActivityGroup>
   );
 };
 

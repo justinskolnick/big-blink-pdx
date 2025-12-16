@@ -16,6 +16,7 @@ describe('toRoleObject', () => {
       type: 'entity',
       values: [
         {
+          association: 'entities',
           label: 'Was lobbied by representatives of these entities',
           records: [
             {

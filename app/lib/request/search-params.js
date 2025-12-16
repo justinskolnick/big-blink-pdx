@@ -1,4 +1,7 @@
 const {
+  ASSOCIATION_ENTITIES,
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
   PARAM_SORT,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -34,6 +37,11 @@ const validate = (param, definition) => {
   return definition.pattern.test(param);
 };
 
+const hasAssociation = (param) => validate(param, [
+  ASSOCIATION_ENTITIES,
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
+].includes(param));
 const hasDate = (param) => validate(param, dateOptions);
 const hasYear = (param) => validate(param, yearOptions);
 const hasYearAndQuarter = (param) => validate(param, quarterOptions);
@@ -112,6 +120,7 @@ const adapters = {
 };
 
 const validators = {
+  hasAssociation,
   hasDate,
   hasInteger,
   hasPeople,
@@ -278,6 +287,7 @@ module.exports = {
   getSort,
   getSortBy,
   getYear,
+  hasAssociation,
   hasDate,
   hasInteger,
   hasPeople,

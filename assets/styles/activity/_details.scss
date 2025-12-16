@@ -1,0 +1,30 @@
+.activity-details {
+  .activity-header + .activity-details-section {
+    margin-top: var(--gap);
+  }
+
+  .activity-details-section + .activity-details-section {
+    margin-top: calc(var(--gap) * 1.5);
+    padding-top: calc(var(--gap) * 1.5);
+    border-top: 2px solid var(--color-divider);
+  }
+
+  .activity-subheader + .activity-stat-section {
+    margin-top: calc(var(--gap) * 2);
+  }
+
+  .activity-stat-section {
+    h4 {
+      font-weight: 400;
+    }
+  }
+}
+
+.item-detail {
+  .activity-details {
+    .activity-stat-section + .activity-stat-section {
+      margin-top: calc(var(--gap) * 3);
+      padding-top: 0;
+    }
+  }
+}

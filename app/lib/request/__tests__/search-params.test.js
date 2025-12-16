@@ -8,6 +8,7 @@ const {
   getSort,
   getSortBy,
   getYear,
+  hasAssociation,
   hasDate,
   hasPeople,
   hasQuarter,
@@ -148,6 +149,16 @@ describe('getYear()', () => {
     expect(getYear('2014')).toEqual('2014');
     expect(getYear('20')).toBeNull();
     expect(getYear('blah')).toBeNull();
+  });
+});
+
+describe('hasAssociation()', () => {
+  test('with a param value', () => {
+    expect(hasAssociation('entities')).toBe(true);
+    expect(hasAssociation('lobbyists')).toBe(true);
+    expect(hasAssociation('officials')).toBe(true);
+
+    expect(hasAssociation('woo')).toBe(false);
   });
 });
 

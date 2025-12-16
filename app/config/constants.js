@@ -1,6 +1,11 @@
 const LANG_EN = 'en';
 const LOCALE = 'en-US';
 
+const ASSOCIATION_ENTITIES = 'entities';
+const ASSOCIATION_LOBBYISTS = 'lobbyists';
+const ASSOCIATION_OFFICIALS = 'officials';
+
+const PARAM_ASSOCIATION = 'association';
 const PARAM_DATE_ON = 'date_on';
 const PARAM_DATE_RANGE_FROM = 'date_range_from';
 const PARAM_DATE_RANGE_TO = 'date_range_to';
@@ -47,10 +52,14 @@ const SECTION_SOURCES = 'sources';
 const TIME_ZONE = 'America/Los_Angeles';
 
 module.exports = {
+  ASSOCIATION_ENTITIES,
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
   LANG_EN,
   LOCALE,
   MODEL_ENTITIES,
   MODEL_PEOPLE,
+  PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,

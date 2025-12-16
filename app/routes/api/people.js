@@ -2,8 +2,12 @@ const createError = require('http-errors');
 const express = require('express');
 
 const {
+  ASSOCIATION_ENTITIES,
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
   MODEL_ENTITIES,
   MODEL_PEOPLE,
+  PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -509,24 +513,41 @@ const getRoleObject = (role) => ({
   entities: null,
 });
 
-const getPersonRoleObject = async (record, role, limit) => {
+const getPersonRoleObject = async (record, options = {}, limit = null) => {
+  const {
+    association,
+    role,
+  } = options;
+
   let obj = null;
+  let attendees;
+  let entities;
 
-  const results = await Promise.all([
-    incidentAttendees.getAttendees({ personId: record.id, personRole: role }, limit),
-    incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
-  ]);
+  if (association === ASSOCIATION_ENTITIES) {
+    entities = await incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit);
+  } else if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
+    attendees = await incidentAttendees.getAttendees({
+      association,
+      personId: record.id,
+      personRole: role,
+    }, limit);
+  } else {
+    const results = await Promise.all([
+      incidentAttendees.getAttendees({ personId: record.id, personRole: role }, limit),
+      incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
+    ]);
 
-  [ attendees, entities ] = results;
+    [ attendees, entities ] = results;
+  }
 
-  if (attendees.lobbyists.total > 0 || attendees.officials.total > 0 || entities.total > 0) {
+  if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
     obj = getRoleObject(role);
 
-    if (attendees.lobbyists.total > 0 || attendees.officials.total > 0) {
+    if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
       obj.attendees = PersonAttendee.toRoleObject(role, attendees);
     }
 
-    if (entities.total > 0) {
+    if (entities?.total > 0) {
       obj.entities = PersonEntity.toRoleObject(role, entities);
     }
   }
@@ -536,10 +557,15 @@ const getPersonRoleObject = async (record, role, limit) => {
 
 router.get('/:id/roles', async (req, res, next) => {
   const id = Number(req.params.id);
+  const association = req.searchParams.get(PARAM_ASSOCIATION);
   const limit = req.searchParams.get(PARAM_LIMIT);
+  const role = req.searchParams.get(PARAM_ROLE);
+
+  const hasRole = Boolean(role);
 
   let person;
   let record;
+  let asRole;
   let asLobbyist;
   let asOfficial;
   let data;
@@ -549,13 +575,21 @@ router.get('/:id/roles', async (req, res, next) => {
     person = await people.getAtId(id);
     record = person.adapted;
 
-    asLobbyist = await getPersonRoleObject(record, ROLE_LOBBYIST, limit);
-    asOfficial = await getPersonRoleObject(record, ROLE_OFFICIAL, limit);
+    if (hasRole) {
+      asRole = await getPersonRoleObject(record, { association, role }, limit);
 
-    record.roles = {
-      lobbyist: asLobbyist,
-      official: asOfficial,
-    };
+      record.roles.named = {
+        [role]: asRole,
+      };
+    } else {
+      asLobbyist = await getPersonRoleObject(record, { association, role: ROLE_LOBBYIST }, limit);
+      asOfficial = await getPersonRoleObject(record, { association, role: ROLE_OFFICIAL }, limit);
+
+      record.roles.named = {
+        lobbyist: asLobbyist,
+        official: asOfficial,
+      };
+    }
 
     data = {
       person: {
