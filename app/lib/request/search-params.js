@@ -1,10 +1,8 @@
 const {
-  ASSOCIATION_ENTITIES,
-  ASSOCIATION_LOBBYISTS,
-  ASSOCIATION_OFFICIALS,
+  PARAM_ASSOCIATION,
+  PARAM_ROLE,
   PARAM_SORT,
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
+  PARAM_SORT_BY,
   SORT_BY_OPTIONS,
   SORT_OPTIONS,
 } = require('../../config/constants');
@@ -19,37 +17,80 @@ const {
 
 const hasParam = (param) => param?.length > 0;
 
-const validate = (param, definition) => {
-  if (!hasParam(param)) return false;
+const getDefinition = (param) => {
+  if (param in PARAM_OPTIONS) {
+    return PARAM_OPTIONS[param];
+  }
 
-  if (typeof definition === 'boolean') {
-    return definition;
-  } else if (typeof definition === 'function') {
-    return definition(param);
+  return null;
+};
+
+const validate = (value, paramOrDefinition) => {
+  if (!hasParam(value)) return false;
+
+  let definition;
+
+  if (typeof paramOrDefinition === 'string') {
+    definition = getDefinition(paramOrDefinition);
+  } else if (typeof paramOrDefinition === 'boolean') {
+    return paramOrDefinition;
+  } else if (typeof paramOrDefinition === 'function') {
+    return paramOrDefinition(value);
+  } else {
+    definition = paramOrDefinition;
   }
 
   if (definition.delimiter) {
-    return param.split(definition.delimiter)
+    return value.split(definition.delimiter)
       .filter(Boolean)
       .every(entry => definition.pattern.test(entry));
   }
 
-  return definition.pattern.test(param);
+  if (definition.values) {
+    return definition.values.includes(value);
+  }
+
+  return definition.pattern.test(value);
 };
 
-const hasAssociation = (param) => validate(param, [
-  ASSOCIATION_ENTITIES,
-  ASSOCIATION_LOBBYISTS,
-  ASSOCIATION_OFFICIALS,
-].includes(param));
-const hasDate = (param) => validate(param, dateOptions);
-const hasYear = (param) => validate(param, yearOptions);
-const hasYearAndQuarter = (param) => validate(param, quarterOptions);
-const hasInteger = (param) => validate(param, Number.isInteger(Number(param)));
-const hasPeople = (param) => validate(param, peopleOptions);
-const hasQuarterAndYearDeprecated = (param) => validate(param, QUARTER_PATTERN_DEPRECATED.test(param));
-const hasQuarter = (param) => validate(param, (hasYearAndQuarter(param) || hasQuarterAndYearDeprecated(param)));
-const hasRole = (param) => validate(param, [ROLE_LOBBYIST, ROLE_OFFICIAL].includes(param));
+const isDeprecated = (searchParams, param) => {
+  if (searchParams.has(param)) {
+    const definition = getDefinition(param);
+
+    return 'deprecated' in definition && definition.deprecated;
+  }
+
+  return false;
+};
+
+const isValid = (searchParams, param) => {
+  if (searchParams.has(param)) {
+    const definition = getDefinition(param);
+    const value = searchParams.get(param);
+
+    if ('validate' in definition) {
+      if (definition.validate in validators) {
+        return validators[definition.validate](value);
+      }
+    } else {
+      return validate(value, definition);
+    }
+  }
+
+  return false;
+};
+
+const hasAssociation = (value) => validate(value, PARAM_ASSOCIATION);
+const hasDate = (value) => validate(value, dateOptions);
+const hasYear = (value) => validate(value, yearOptions);
+const hasYearAndQuarter = (value) => validate(value, quarterOptions);
+const hasInteger = (value) => validate(value, Number.isInteger(Number(value)));
+const hasPeople = (value) => validate(value, peopleOptions);
+const hasQuarterAndYearDeprecated = (value) => validate(value, QUARTER_PATTERN_DEPRECATED.test(value));
+const hasQuarter = (value) => validate(value, (hasYearAndQuarter(value) || hasQuarterAndYearDeprecated(value)));
+const hasRole = (value) => validate(value, PARAM_ROLE);
+const hasSort = (value) => validate(value, PARAM_SORT);
+const hasSortBy = (value) => validate(value, PARAM_SORT_BY);
 
 const getInteger = (param) => Number.parseInt(param);
 
@@ -108,9 +149,6 @@ const getYear = (param) => {
   return null;
 };
 
-const hasSort = (param) => param in SORT_OPTIONS;
-const hasSortBy = (param) => param in SORT_BY_OPTIONS;
-
 const getSort = (param) => hasSort(param) ? SORT_OPTIONS[param] : null;
 const getSortBy = (param) => hasSortBy(param) ? SORT_BY_OPTIONS[param] : null;
 
@@ -120,49 +158,13 @@ const adapters = {
 };
 
 const validators = {
-  hasAssociation,
   hasDate,
   hasInteger,
   hasPeople,
   hasQuarter,
-  hasRole,
   hasSort,
   hasSortBy,
   hasYear,
-};
-
-const getDefinition = (param) => {
-  if (param in PARAM_OPTIONS) {
-    return PARAM_OPTIONS[param];
-  }
-
-  return null;
-};
-
-const isDeprecated = (searchParams, param) => {
-  if (searchParams.has(param)) {
-    const definition = getDefinition(param);
-
-    return 'deprecated' in definition && definition.deprecated;
-  }
-
-  return false;
-};
-
-const isValid = (searchParams, param) => {
-  if (searchParams.has(param)) {
-    const definition = getDefinition(param);
-
-    if ('validate' in definition) {
-      const value = searchParams.get(param);
-
-      if (definition.validate in validators) {
-        return validators[definition.validate](value);
-      }
-    }
-  }
-
-  return false;
 };
 
 const getParamValue = (searchParams, param) => {
