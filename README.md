@@ -27,8 +27,8 @@ DB_PORT=3306
 DB_SOCKET=""
 ```
 
-- ⚠️ Never commit a `.env` file to a repository.
-- ⚠️ A `.env` file is expedient. Better, more secure options exist for passwords than `.env` files.
+> [!WARNING]
+> Never commit a `.env` file to a repository.
 
 Return to the command line, make sure you're still in the project root, and build the project:
 
