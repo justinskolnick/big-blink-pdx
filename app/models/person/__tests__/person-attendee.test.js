@@ -24,7 +24,9 @@ describe('toRoleObject', () => {
                 name: 'Zaida Melchiori',
                 pernr: undefined,
                 roles: {
+                  label: 'Roles and Associations',
                   list: [],
+                  options: {},
                 },
                 type: 'person',
               },
@@ -39,7 +41,9 @@ describe('toRoleObject', () => {
                 name: 'Lorette Carcieri',
                 pernr: undefined,
                 roles: {
+                  label: 'Roles and Associations',
                   list: [],
+                  options: {},
                 },
                 type: 'person',
               },
@@ -54,7 +58,9 @@ describe('toRoleObject', () => {
                 name: 'Julio Mari',
                 pernr: undefined,
                 roles: {
+                  label: 'Roles and Associations',
                   list: [],
+                  options: {},
                 },
                 type: 'person',
               },
@@ -77,7 +83,9 @@ describe('toRoleObject', () => {
                 pernr: undefined,
                 name: 'Burton Eriksen',
                 roles: {
+                  label: 'Roles and Associations',
                   list: [],
+                  options: {},
                 },
                 type: 'person',
               },
@@ -92,7 +100,9 @@ describe('toRoleObject', () => {
                 pernr: undefined,
                 name: 'Tianna Fosso',
                 roles: {
+                  label: 'Roles and Associations',
                   list: [],
+                  options: {},
                 },
                 type: 'person',
               },

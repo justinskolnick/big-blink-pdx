@@ -18,22 +18,18 @@ class Person extends IncidentedBase {
   };
 
   adaptRoles(value) {
+    let list = [];
+    let options = {};
+
     if (value) {
-      if (typeof value === 'string') {
-        return {
-          label: this.getLabel('associations_roles'),
-          list: Role.getList(value),
-          options: Role.getOptions(value),
-        };
-      } else if (typeof value === 'object' && !Array.isArray(value)) {
-        if ('list' in value) {
-          return value.list;
-        }
-      }
+      list = Role.getList(value);
+      options = Role.getOptions(value);
     }
 
     return {
-      list: [],
+      label: this.getLabel('associations_roles'),
+      list,
+      options,
     };
   }
 
