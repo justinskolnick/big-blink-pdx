@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
@@ -24,6 +24,7 @@ import { Role } from '../../types';
 interface GroupProps {
   children: ReactNode;
   icon?: IconName;
+  ref: RefObject<HTMLElement>;
   title: string;
 }
 
@@ -47,8 +48,12 @@ interface Props {
   person: Person;
 }
 
-const Group = ({ children, icon, title }: GroupProps) => (
-  <IncidentActivityGroups title={title} icon={icon}>
+const Group = ({ children, icon, ref, title }: GroupProps) => (
+  <IncidentActivityGroups
+    title={title}
+    icon={icon}
+    ref={ref}
+  >
     <IncidentActivityGroup>
       <ItemSubsection>
         {children}
@@ -86,11 +91,17 @@ const AssociationGroup = ({ children, id, role, value }: AssociationGroupProps) 
 };
 
 const Attendees = ({ person, role }: NamedRoleProps) => {
+  const ref = useRef<HTMLElement>(null);
+
   const namedRole = person?.roles.named?.[role];
   const attendees = namedRole?.attendees;
 
   return (
-    <Group title={attendees.label} icon='user-group'>
+    <Group
+      title={attendees.label}
+      icon='user-group'
+      ref={ref}
+    >
       {attendees.values.map((value, i: number) => (
         <AssociationGroup
           id={person.id}
@@ -103,6 +114,7 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
               attendees={value}
               initialCount={initialLimit}
               model={attendees.model}
+              ref={ref}
               setLimit={setLimit}
             />
           )}
@@ -113,11 +125,17 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
 };
 
 const Entities = ({ person, role }: NamedRoleProps) => {
+  const ref = useRef<HTMLElement>(null);
+
   const namedRole = person?.roles.named?.[role];
   const entities = namedRole?.entities;
 
   return (
-    <Group title={entities.label} icon='building'>
+    <Group
+      title={entities.label}
+      icon='building'
+      ref={ref}
+    >
       {entities.values.map((value, i: number) => (
         <AssociationGroup
           id={person.id}
@@ -132,6 +150,7 @@ const Entities = ({ person, role }: NamedRoleProps) => {
               hasLobbyist={value.role === Role.Lobbyist}
               initialCount={initialLimit}
               model={entities.model}
+              ref={ref}
               role={value.role}
               setLimit={setLimit}
               title={value.label}

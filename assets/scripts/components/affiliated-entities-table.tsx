@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import EntityIcon from './entities/icon';
@@ -33,6 +33,7 @@ interface Props {
   hasLobbyist?: boolean;
   initialCount: number;
   model: Sections;
+  ref?: RefObject<HTMLElement>;
   role?: Role;
   setLimit: FnSetLimit;
   title?: string;
@@ -101,6 +102,7 @@ const AffiliatedEntitiesTable = ({
   hasLobbyist,
   initialCount,
   model,
+  ref,
   role,
   setLimit,
   title,
@@ -109,6 +111,7 @@ const AffiliatedEntitiesTable = ({
     hasAuxiliaryType={hasAuxiliaryType}
     initialCount={initialCount}
     label={model}
+    ref={ref}
     setLimit={setLimit}
     title={title}
     total={entities.total}

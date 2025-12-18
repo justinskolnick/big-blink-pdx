@@ -1288,16 +1288,19 @@ body.has-alert .alert-root {
   border-top: 2px solid var(--color-divider);
 }
 .activity-details .activity-subheader + .activity-stat-section {
-  margin-top: calc(18px * 2);
-  margin-top: calc(var(--gap) * 2);
+  margin-top: calc(18px * 0.5);
+  margin-top: calc(var(--gap) * 0.5);
+  padding-top: calc(18px * 1.5);
+  padding-top: calc(var(--gap) * 1.5);
 }
 .activity-details .activity-stat-section h4 {
   font-weight: 400;
 }
 .item-detail .activity-details .activity-stat-section + .activity-stat-section {
-  margin-top: calc(18px * 3);
-  margin-top: calc(var(--gap) * 3);
-  padding-top: 0;
+  margin-top: calc(18px * 1.5);
+  margin-top: calc(var(--gap) * 1.5);
+  padding-top: calc(18px * 1.5);
+  padding-top: calc(var(--gap) * 1.5);
 }
 .activity-header {
   color: olivedrab;

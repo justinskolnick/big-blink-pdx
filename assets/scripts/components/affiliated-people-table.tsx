@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import {
@@ -22,6 +22,7 @@ interface Props {
   attendees: AttendeeGroup;
   initialCount: number;
   model: Sections;
+  ref?: RefObject<HTMLElement>;
   setLimit: FnSetLimit;
 }
 
@@ -58,11 +59,13 @@ const AffiliatedPeopleTable = ({
   attendees,
   initialCount,
   model,
+  ref,
   setLimit,
 }: Props) => (
   <AffiliatedItemTable
     initialCount={initialCount}
     label={model}
+    ref={ref}
     setLimit={setLimit}
     title={attendees.label}
     total={attendees.total}

@@ -10,7 +10,8 @@
   }
 
   .activity-subheader + .activity-stat-section {
-    margin-top: calc(var(--gap) * 2);
+    margin-top: calc(var(--gap) * 0.5);
+    padding-top: calc(var(--gap) * 1.5);
   }
 
   .activity-stat-section {
@@ -23,8 +24,8 @@
 .item-detail {
   .activity-details {
     .activity-stat-section + .activity-stat-section {
-      margin-top: calc(var(--gap) * 3);
-      padding-top: 0;
+      margin-top: calc(var(--gap) * 1.5);
+      padding-top: calc(var(--gap) * 1.5);
     }
   }
 }

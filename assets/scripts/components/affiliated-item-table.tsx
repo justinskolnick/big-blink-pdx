@@ -19,6 +19,7 @@ interface Props {
   hasAuxiliaryType?: boolean;
   initialCount: number;
   label: string;
+  ref?: RefObject<HTMLDivElement>
   setLimit: FnSetLimit;
   title: string;
   total: number;
@@ -39,17 +40,20 @@ const AffiliatedItemTable = ({
   hasAuxiliaryType,
   initialCount,
   label,
+  ref,
   setLimit,
   title,
   total = 0,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
+  const scrollRef = ref || tableRef;
+
   const [showAll, setShowAll] = useState(false);
   const hasItems = total > 0;
   const hasMoreToShow = total > initialCount;
   const canSetLimit = Boolean(setLimit);
 
-  const scrollToRef = () => delayedScrollToRef(ref);
+  const scrollToRef = () => delayedScrollToRef(scrollRef);
 
   useEffect(() => {
     if (canSetLimit && showAll) {
@@ -60,7 +64,7 @@ const AffiliatedItemTable = ({
   return (
     <StatBox title={title}>
       {hasItems ? (
-        <AffiliatedItems ref={ref}>
+        <AffiliatedItems ref={scrollRef}>
           <ItemTable hasAnotherIcon={hasAuxiliaryType}>
             {children(showAll)}
           </ItemTable>

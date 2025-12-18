@@ -21459,9 +21459,9 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef20 = React50.useRef, useEffect33 = React50.useEffect, useMemo8 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
+        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect33 = React50.useEffect, useMemo8 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
-          var instRef = useRef20(null);
+          var instRef = useRef21(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
@@ -46862,10 +46862,11 @@ Hook ${hookName} was either not provided or not a function.`);
     className,
     description,
     icon: icon3,
+    ref,
     stylized = false,
     subtitle,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: cx("activity-stat-section", className), children: [
+  }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: cx("activity-stat-section", className), ref, children: [
     (title || subtitle) && (stylized ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(subsection_subhead_default, { title, icon: icon3, children: description }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) })),
     children
   ] });
@@ -46958,22 +46959,24 @@ Hook ${hookName} was either not provided or not a function.`);
     hasAuxiliaryType,
     initialCount,
     label,
+    ref,
     setLimit,
     title,
     total = 0
   }) => {
-    const ref = (0, import_react27.useRef)(null);
+    const tableRef = (0, import_react27.useRef)(null);
+    const scrollRef = ref || tableRef;
     const [showAll, setShowAll] = (0, import_react27.useState)(false);
     const hasItems = total > 0;
     const hasMoreToShow = total > initialCount;
     const canSetLimit = Boolean(setLimit);
-    const scrollToRef2 = () => delayedScrollToRef(ref);
+    const scrollToRef2 = () => delayedScrollToRef(scrollRef);
     (0, import_react27.useEffect)(() => {
       if (canSetLimit && showAll) {
         setLimit(null);
       }
     }, [canSetLimit, setLimit, showAll]);
-    return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(AffiliatedItems, { ref, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(AffiliatedItems, { ref: scrollRef, children: [
       /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
@@ -47008,12 +47011,14 @@ Hook ${hookName} was either not provided or not a function.`);
     attendees,
     initialCount,
     model,
+    ref,
     setLimit
   }) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
     affiliated_item_table_default,
     {
       initialCount,
       label: model,
+      ref,
       setLimit,
       title: attendees.label,
       total: attendees.total,
@@ -59818,6 +59823,7 @@ Hook ${hookName} was either not provided or not a function.`);
     className,
     description,
     icon: icon3,
+    ref,
     title
   }) => /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(
     stat_section_default,
@@ -59826,6 +59832,7 @@ Hook ${hookName} was either not provided or not a function.`);
       icon: icon3,
       title,
       description,
+      ref,
       stylized: true,
       children: /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("div", { className: "incident-activity-stat-groups-list", children })
     }
@@ -60819,6 +60826,7 @@ Hook ${hookName} was either not provided or not a function.`);
     hasLobbyist,
     initialCount,
     model,
+    ref,
     role,
     setLimit,
     title
@@ -60828,6 +60836,7 @@ Hook ${hookName} was either not provided or not a function.`);
       hasAuxiliaryType,
       initialCount,
       label: model,
+      ref,
       setLimit,
       title,
       total: entities.total,
@@ -60850,7 +60859,15 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/associations.tsx
   var import_jsx_runtime91 = __toESM(require_jsx_runtime());
-  var Group = ({ children, icon: icon3, title }) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_groups_default, { title, icon: icon3, children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_group_default, { children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subsection_default, { children }) }) });
+  var Group = ({ children, icon: icon3, ref, title }) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+    incident_activity_groups_default,
+    {
+      title,
+      icon: icon3,
+      ref,
+      children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_activity_group_default, { children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subsection_default, { children }) })
+    }
+  );
   var AssociationGroup = ({ children, id, role, value }) => {
     const searchParams = new URLSearchParams({
       role,
@@ -60875,52 +60892,72 @@ Hook ${hookName} was either not provided or not a function.`);
     return children(initialLimit, setLimit);
   };
   var Attendees2 = ({ person, role }) => {
+    const ref = (0, import_react40.useRef)(null);
     const namedRole = person?.roles.named?.[role];
     const attendees = namedRole?.attendees;
-    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Group, { title: attendees.label, icon: "user-group", children: attendees.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-      AssociationGroup,
+    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+      Group,
       {
-        id: person.id,
-        role,
-        value,
-        children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-          affiliated_people_table_default,
+        title: attendees.label,
+        icon: "user-group",
+        ref,
+        children: attendees.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+          AssociationGroup,
           {
-            attendees: value,
-            initialCount: initialLimit,
-            model: attendees.model,
-            setLimit
-          }
-        )
-      },
-      i2
-    )) });
+            id: person.id,
+            role,
+            value,
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+              affiliated_people_table_default,
+              {
+                attendees: value,
+                initialCount: initialLimit,
+                model: attendees.model,
+                ref,
+                setLimit
+              }
+            )
+          },
+          i2
+        ))
+      }
+    );
   };
   var Entities = ({ person, role }) => {
+    const ref = (0, import_react40.useRef)(null);
     const namedRole = person?.roles.named?.[role];
     const entities = namedRole?.entities;
-    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Group, { title: entities.label, icon: "building", children: entities.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-      AssociationGroup,
+    return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+      Group,
       {
-        id: person.id,
-        role,
-        value,
-        children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-          affiliated_entities_table_default,
+        title: entities.label,
+        icon: "building",
+        ref,
+        children: entities.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+          AssociationGroup,
           {
-            entities: value,
-            hasAuxiliaryType: value.role === "lobbyist" /* Lobbyist */,
-            hasLobbyist: value.role === "lobbyist" /* Lobbyist */,
-            initialCount: initialLimit,
-            model: entities.model,
-            role: value.role,
-            setLimit,
-            title: value.label
-          }
-        )
-      },
-      i2
-    )) });
+            id: person.id,
+            role,
+            value,
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+              affiliated_entities_table_default,
+              {
+                entities: value,
+                hasAuxiliaryType: value.role === "lobbyist" /* Lobbyist */,
+                hasLobbyist: value.role === "lobbyist" /* Lobbyist */,
+                initialCount: initialLimit,
+                model: entities.model,
+                ref,
+                role: value.role,
+                setLimit,
+                title: value.label
+              }
+            )
+          },
+          i2
+        ))
+      }
+    );
   };
   var NamedRole = ({ person, role }) => {
     const [hasRun, setHasRun] = (0, import_react40.useState)(false);
