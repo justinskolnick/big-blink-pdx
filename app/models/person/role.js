@@ -4,8 +4,8 @@ const {
 } = require('../../config/constants');
 
 const ROLE_OPTIONS = [
-  ROLE_LOBBYIST,
   ROLE_OFFICIAL,
+  ROLE_LOBBYIST,
 ];
 
 class Role {
@@ -15,14 +15,18 @@ class Role {
     return ROLE_OPTIONS.includes(value);
   }
 
+  static parseList(values) {
+    return values?.split(',').filter(Boolean);
+  }
+
   static getList(values) {
-    const list = values?.split(',').filter(Boolean);
+    const list = this.parseList(values);
 
     return this.options().filter(role => list?.includes(role));
   }
 
   static getOptions(values) {
-    const list = values?.split(',').filter(Boolean);
+    const list = this.parseList(values);
 
     return this.options().reduce((all, option) => {
       all[option] = list?.includes(option);

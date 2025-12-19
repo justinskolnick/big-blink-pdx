@@ -11,8 +11,8 @@ describe('getList()', () => {
     expect(Role.getList('')).toEqual([]);
     expect(Role.getList('lobbyist')).toEqual([ROLE_LOBBYIST]);
     expect(Role.getList('official')).toEqual([ROLE_OFFICIAL]);
-    expect(Role.getList('lobbyist,official')).toEqual([ROLE_LOBBYIST, ROLE_OFFICIAL]);
-    expect(Role.getList('lobbyist,official,zinc')).toEqual([ROLE_LOBBYIST, ROLE_OFFICIAL]);
+    expect(Role.getList('lobbyist,official')).toEqual([ROLE_OFFICIAL, ROLE_LOBBYIST]);
+    expect(Role.getList('lobbyist,official,zinc')).toEqual([ROLE_OFFICIAL, ROLE_LOBBYIST]);
   });
 });
 
@@ -30,8 +30,8 @@ describe('isValidOption()', () => {
 describe('options()', () => {
   test('returns the expected options', () => {
     expect(Role.options()).toEqual([
-      ROLE_LOBBYIST,
       ROLE_OFFICIAL,
+      ROLE_LOBBYIST,
     ]);
   });
 });
