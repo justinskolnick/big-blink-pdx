@@ -1,4 +1,4 @@
-const Entity = require('../models/entity');
+const Entity = require('../models/entity/entity');
 const db = require('./db');
 const {
   getAllQuery,

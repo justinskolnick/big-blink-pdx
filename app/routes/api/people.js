@@ -31,7 +31,7 @@ const metaHelper = require('../../helpers/meta');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 
-const Entity = require('../../models/entity');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');

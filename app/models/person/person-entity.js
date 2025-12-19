@@ -4,7 +4,7 @@ const {
 } = require('../../config/constants');
 
 const Base = require('../shared/base');
-const Entity = require('../entity');
+const Entity = require('../entity/entity');
 const Person = require('./person');
 
 const adaptItemEntity = item => {

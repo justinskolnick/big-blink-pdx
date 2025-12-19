@@ -1,7 +1,8 @@
-const IncidentedBase = require('./shared/base-incidented');
+const IncidentedBase = require('../shared/base-incidented');
 
 class Entity extends IncidentedBase {
   static tableName = 'entities';
+  static labelPrefix = 'entity';
   static linkKey = 'entity';
 
   static perPage = 40;

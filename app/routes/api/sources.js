@@ -25,7 +25,7 @@ const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const { titleCase } = require('../../lib/string');
 
-const Entity = require('../../models/entity');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const Person = require('../../models/person/person');
 const Source = require('../../models/source');

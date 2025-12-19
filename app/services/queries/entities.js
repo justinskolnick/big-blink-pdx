@@ -6,7 +6,7 @@ const {
 } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
-const Entity = require('../../models/entity');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 
 const { buildDateConditions } = require('./incidents');

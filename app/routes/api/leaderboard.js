@@ -16,7 +16,7 @@ const { getFilters } = require('../../lib/filters/leaderboard');
 const { getOutOfRangeValueMessage } = require('../../lib/request/messages');
 const searchParams = require('../../lib/request/search-params');
 
-const Entity = require('../../models/entity');
+const Entity = require('../../models/entity/entity');
 const Leaderboard = require('../../models/leaderboard/leaderboard');
 const Person = require('../../models/person/person');
 

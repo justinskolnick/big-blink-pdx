@@ -1,35 +1,35 @@
-const resultAttendees = require('../__mocks__/result-person-attendees');
+const resultAttendees = require('../__mocks__/result-entity-attendees');
 
 const { ROLE_LOBBYIST } = require('../../../config/constants');
 
-const PersonAttendee = require('../person-attendee');
+const EntityAttendee = require('../entity-attendee');
 
 describe('getAssociationForRole()', () => {
   test('returns the expected results', () => {
-    expect(PersonAttendee.getAssociationForRole('lobbyist')).toEqual('lobbyists');
-    expect(PersonAttendee.getAssociationForRole('official')).toEqual('officials');
+    expect(EntityAttendee.getAssociationForRole('lobbyist')).toEqual('lobbyists');
+    expect(EntityAttendee.getAssociationForRole('official')).toEqual('officials');
   });
 });
 
 describe('getValueLabelKey()', () => {
   test('returns the expected results', () => {
-    expect(PersonAttendee.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_lobbyist_lobbyists');
-    expect(PersonAttendee.getValueLabelKey('lobbyist', 'officials')).toEqual('as_lobbyist_officials');
-    expect(PersonAttendee.getValueLabelKey('official', 'lobbyists')).toEqual('as_official_lobbyists');
-    expect(PersonAttendee.getValueLabelKey('official', 'officials')).toEqual('as_official_officials');
+    expect(EntityAttendee.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(EntityAttendee.getValueLabelKey('lobbyist', 'officials')).toEqual('as_entity_officials');
+    expect(EntityAttendee.getValueLabelKey('official', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(EntityAttendee.getValueLabelKey('official', 'officials')).toEqual('as_entity_officials');
   });
 });
 
 describe('toRoleObject()', () => {
   test('returns the expected object', () => {
-    expect(PersonAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
+    expect(EntityAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
       label: 'Associated Names',
       model: 'people',
-      type: 'person',
+      type: 'entity',
       values: [
         {
           association: 'lobbyists',
-          label: 'Lobbied alongside these lobbyists',
+          label: '... authorized these lobbyists',
           records: [
             {
               person: {
@@ -88,7 +88,7 @@ describe('toRoleObject()', () => {
         },
         {
           association: 'officials',
-          label: 'Met with these City officials',
+          label: '... lobbied these City officials',
           records: [
             {
               person: {
@@ -96,8 +96,8 @@ describe('toRoleObject()', () => {
                 links: {
                   self: '/people/126',
                 },
-                pernr: undefined,
                 name: 'Burton Eriksen',
+                pernr: undefined,
                 roles: {
                   label: 'Roles and Associations',
                   list: [],
@@ -113,8 +113,8 @@ describe('toRoleObject()', () => {
                 links: {
                   self: '/people/127',
                 },
-                pernr: undefined,
                 name: 'Tianna Fosso',
+                pernr: undefined,
                 roles: {
                   label: 'Roles and Associations',
                   list: [],

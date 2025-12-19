@@ -2,7 +2,7 @@ const { SORT_ASC, SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
 
-const Entity = require('../../models/entity');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person/person');
