@@ -33688,6 +33688,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         adapted.roles = {
           ...savedEntry?.roles
         };
+        if ("label" in entry.roles) {
+          adapted.roles.label = entry.roles.label;
+        }
         if ("list" in entry.roles) {
           adapted.roles.list = unique([].concat(
             ...savedEntry?.roles.list ?? [],

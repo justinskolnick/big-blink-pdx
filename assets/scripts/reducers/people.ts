@@ -74,6 +74,10 @@ export const adapters = {
         ...savedEntry?.roles,
       };
 
+      if ('label' in entry.roles) {
+        adapted.roles.label = entry.roles.label;
+      }
+
       if ('list' in entry.roles) {
         adapted.roles.list = unique([].concat(
           ...savedEntry?.roles.list ?? [],
