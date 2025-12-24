@@ -16,9 +16,8 @@ import type {
   Pagination,
   People,
   Person,
-  PersonAttendees,
-  PersonEntities,
   PersonNamedRoles,
+  PersonRoleOptions,
   PersonWithIncidentRecords,
 } from '../types';
 
@@ -30,6 +29,11 @@ type InitialState = {
     queue: Ids;
   };
 };
+
+type PersonRoleOptionsTuple = [
+  key: keyof PersonRoleOptions,
+  value: boolean,
+];
 
 export const adapter = createEntityAdapter<Person>();
 
@@ -61,40 +65,6 @@ export const adapters = {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 
-    if ('attendees' in entry) {
-      adapted.attendees = {
-        roles: adapted.attendees.roles.map(role => ({
-          ...role,
-          values: role.values.map(value => ({
-            ...value,
-            records: value.records.map(record => ({
-              ...record,
-              person: {
-                id: record.person.id,
-              },
-            }))
-          })),
-        })),
-      } as PersonAttendees;
-    }
-
-    if ('entities' in entry) {
-      adapted.entities = {
-        roles: adapted.entities.roles.map(role => ({
-          ...role,
-          values: role.values.map(value => ({
-            ...value,
-            records: value.records.map(record => ({
-              ...record,
-              entity: {
-                id: record.entity.id,
-              },
-            }))
-          })),
-        })),
-      } as PersonEntities;
-    }
-
     if ('incidents' in entry) {
       adapted.incidents = adaptIncidents(adapted.incidents);
     }
@@ -102,7 +72,6 @@ export const adapters = {
     if ('roles' in entry) {
       adapted.roles = {
         ...savedEntry?.roles,
-        ...adapted.roles,
       };
 
       if ('list' in entry.roles) {
@@ -113,10 +82,20 @@ export const adapters = {
       }
 
       if ('options' in entry.roles) {
-        adapted.roles.options = {
-          ...savedEntry?.roles.options,
-          ...entry.roles.options,
-        };
+        adapted.roles.options = Object.entries(entry.roles.options)
+          .reduce((all, [key, value]: PersonRoleOptionsTuple) => {
+            const isFresh = !(key in all);
+            const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
+
+            if (isFresh || valueHasBecomeTrue) {
+              return {
+                ...all,
+                [key]: value,
+              };
+            }
+
+            return all;
+          }, savedEntry?.roles.options ?? {} as PersonRoleOptions);
 
         if ('named' in entry.roles) {
           adapted.roles.named = {

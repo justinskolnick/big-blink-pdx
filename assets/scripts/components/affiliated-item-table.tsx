@@ -11,7 +11,7 @@ import StatBox from './stat-box';
 interface AffiliatedItemsProps {
   children: ReactNode;
   className?: string;
-  ref?: RefObject<HTMLDivElement>
+  ref?: RefObject<HTMLDivElement>;
 }
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
   hasAuxiliaryType?: boolean;
   initialCount: number;
   label: string;
-  ref?: RefObject<HTMLDivElement>
+  ref?: RefObject<HTMLElement>;
   setLimit: FnSetLimit;
   title: string;
   total: number;
@@ -64,7 +64,7 @@ const AffiliatedItemTable = ({
   return (
     <StatBox title={title}>
       {hasItems ? (
-        <AffiliatedItems ref={scrollRef}>
+        <AffiliatedItems ref={tableRef}>
           <ItemTable hasAnotherIcon={hasAuxiliaryType}>
             {children(showAll)}
           </ItemTable>

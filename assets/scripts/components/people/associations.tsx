@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
@@ -197,14 +197,27 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
   );
 };
 
-const Associations = ({ person }: Props) => (
-  <section className='activity-details'>
-    <ActivityHeader title={person.roles.label} />
+const Associations = ({ person }: Props) => {
+  const options = person.roles.options;
 
-    {person.roles.list.map((role, i) => (
-      <NamedRole key={i} person={person} role={role} />
-    ))}
-  </section>
-);
+  const roles = useMemo(() =>
+    Object.entries(options).reduce((all, [key, value]) => {
+      if (value) {
+        all.push(key);
+      }
+
+      return all;
+    }, []), [options]);
+
+  return (
+    <section className='activity-details'>
+      <ActivityHeader title={person.roles.label} />
+
+      {roles.map((role, i) => (
+        <NamedRole key={i} person={person} role={role} />
+      ))}
+    </section>
+  );
+};
 
 export default Associations;

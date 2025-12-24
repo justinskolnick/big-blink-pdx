@@ -21459,14 +21459,14 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect33 = React50.useEffect, useMemo8 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
+        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect33 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef21(null);
           if (null === instRef.current) {
             var inst = { hasValue: false, value: null };
             instRef.current = inst;
           } else inst = instRef.current;
-          instRef = useMemo8(
+          instRef = useMemo9(
             function() {
               function memoizedSelector(nextSnapshot) {
                 if (!hasMemo) {
@@ -33681,45 +33681,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     adaptOne: (state, entry) => {
       const savedEntry = selectors.selectById(state, entry.id);
       const adapted = { ...entry };
-      if ("attendees" in entry) {
-        adapted.attendees = {
-          roles: adapted.attendees.roles.map((role) => ({
-            ...role,
-            values: role.values.map((value) => ({
-              ...value,
-              records: value.records.map((record) => ({
-                ...record,
-                person: {
-                  id: record.person.id
-                }
-              }))
-            }))
-          }))
-        };
-      }
-      if ("entities" in entry) {
-        adapted.entities = {
-          roles: adapted.entities.roles.map((role) => ({
-            ...role,
-            values: role.values.map((value) => ({
-              ...value,
-              records: value.records.map((record) => ({
-                ...record,
-                entity: {
-                  id: record.entity.id
-                }
-              }))
-            }))
-          }))
-        };
-      }
       if ("incidents" in entry) {
         adapted.incidents = adaptIncidents(adapted.incidents);
       }
       if ("roles" in entry) {
         adapted.roles = {
-          ...savedEntry?.roles,
-          ...adapted.roles
+          ...savedEntry?.roles
         };
         if ("list" in entry.roles) {
           adapted.roles.list = unique([].concat(
@@ -33728,10 +33695,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           ));
         }
         if ("options" in entry.roles) {
-          adapted.roles.options = {
-            ...savedEntry?.roles.options,
-            ...entry.roles.options
-          };
+          adapted.roles.options = Object.entries(entry.roles.options).reduce((all, [key, value]) => {
+            const isFresh = !(key in all);
+            const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
+            if (isFresh || valueHasBecomeTrue) {
+              return {
+                ...all,
+                [key]: value
+              };
+            }
+            return all;
+          }, savedEntry?.roles.options ?? {});
           if ("named" in entry.roles) {
             adapted.roles.named = {
               ...savedEntry?.roles.named,
@@ -37973,12 +37947,6 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getIncidentById: builder.query(getAncillaryRoute(
         ({ id }) => `api/incidents/${id}`
-      )),
-      getPersonAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/attendees`, { limit })
-      )),
-      getPersonEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`api/people/${id}/entities`, { limit })
       )),
       getPersonIncidentsById: builder.query(getAncillaryRoute(
         ({ id, search }) => `api/people/${id}/incidents${search}`
@@ -46976,7 +46944,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setLimit(null);
       }
     }, [canSetLimit, setLimit, showAll]);
-    return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(AffiliatedItems, { ref: scrollRef, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(AffiliatedItems, { ref: tableRef, children: [
       /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
@@ -60987,10 +60955,19 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Attendees2, { person, role })
     ] });
   };
-  var Associations = ({ person }) => /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("section", { className: "activity-details", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(detail_activity_header_default, { title: person.roles.label }),
-    person.roles.list.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(NamedRole, { person, role }, i2))
-  ] });
+  var Associations = ({ person }) => {
+    const options2 = person.roles.options;
+    const roles = (0, import_react40.useMemo)(() => Object.entries(options2).reduce((all, [key, value]) => {
+      if (value) {
+        all.push(key);
+      }
+      return all;
+    }, []), [options2]);
+    return /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("section", { className: "activity-details", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(detail_activity_header_default, { title: person.roles.label }),
+      roles.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(NamedRole, { person, role }, i2))
+    ] });
+  };
   var associations_default = Associations;
 
   // assets/scripts/components/people/detail.tsx

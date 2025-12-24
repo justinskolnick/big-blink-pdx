@@ -460,18 +460,6 @@ export type PersonEntityRole = {
   values: AffiliatedEntityValues;
 };
 
-export type PersonEntities = {
-  roles: PersonEntityRole[];
-};
-
-type PersonAttendeesRole = Attendees & {
-  role: Role;
-};
-
-export type PersonAttendees = {
-  roles: PersonAttendeesRole[];
-};
-
 export type PersonOfficialPosition = {
   dates: {
     start: string;
@@ -523,7 +511,7 @@ export type PersonNamedRoles = {
   official?: PersonNamedRole;
 };
 
-type PersonRoleOptions = {
+export type PersonRoleOptions = {
   lobbyist: boolean;
   official: boolean;
 };
@@ -539,9 +527,7 @@ export type Person = Item & {
   pernr?: number;
   roles: PersonRoles;
   type: 'group' | 'person' | 'unknown';
-  attendees?: PersonAttendees;
   details?: Details;
-  entities?: PersonEntities;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   officialPositions?: PersonOfficialPosition[];
   overview?: ItemOverview;
