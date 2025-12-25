@@ -10,7 +10,6 @@ const {
   getYear,
   hasAssociation,
   hasDate,
-  hasPeople,
   hasQuarter,
   hasQuarterAndYearDeprecated,
   hasRole,
@@ -19,6 +18,7 @@ const {
   hasYear,
   hasYearAndQuarter,
   isDeprecated,
+  isValid,
   migrateQuarterSlug,
 } = require('../search-params');
 
@@ -105,6 +105,7 @@ describe('getParamsFromFilters()', () => {
 
 describe('getPeople()', () => {
   test('with param values', () => {
+    expect(getPeople('')).toEqual(null);
     expect(getPeople('123')).toEqual([{ id: 123 }]);
     expect(getPeople('321')).toEqual([{ id: 321 }]);
     expect(getPeople('321,123')).toEqual([{ id: 321 }, { id: 123 }]);
@@ -176,20 +177,6 @@ describe('hasDate()', () => {
     expect(hasDate('2024-')).toBe(false);
     expect(hasDate('2024')).toBe(false);
     expect(hasDate('2021-Q4')).toBe(false);
-  });
-});
-
-describe('hasPeople()', () => {
-  test('with a param value', () => {
-    expect(hasPeople(null)).toBe(false);
-    expect(hasPeople('123')).toBe(true);
-    expect(hasPeople('321')).toBe(true);
-    expect(hasPeople('123,321')).toBe(true);
-    expect(hasPeople('123:lobbyist')).toBe(true);
-    expect(hasPeople('321:official')).toBe(true);
-    expect(hasPeople('123:lobbyist,321')).toBe(true);
-    expect(hasPeople('123:lobbyist,321:official')).toBe(true);
-    expect(hasPeople('123:lobbyist,')).toBe(true);
   });
 });
 
@@ -268,6 +255,15 @@ describe('isDeprecated()', () => {
   });
 });
 
+describe('isValid()', () => {
+  describe('with people', () => {
+    test('with param values', () => {
+      const queryParams = new URLSearchParams('people=123:lobbyist,321:official,124');
+
+      expect(isValid(queryParams, 'people')).toBe(true);
+    });
+  });
+});
 
 describe('migrateQuarterSlug()', () => {
   test('with a param value', () => {

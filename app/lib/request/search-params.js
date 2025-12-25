@@ -66,7 +66,7 @@ const isDeprecated = (searchParams, param) => {
 const isValid = (searchParams, param) => {
   if (searchParams.has(param)) {
     const definition = getDefinition(param);
-    const value = searchParams.get(param);
+    const value = decodeParamValue(searchParams, param);
 
     if ('validate' in definition) {
       if (definition.validate in validators) {
@@ -85,7 +85,6 @@ const hasDate = (value) => validate(value, dateOptions);
 const hasYear = (value) => validate(value, yearOptions);
 const hasYearAndQuarter = (value) => validate(value, quarterOptions);
 const hasInteger = (value) => validate(value, Number.isInteger(Number(value)));
-const hasPeople = (value) => validate(value, peopleOptions);
 const hasQuarterAndYearDeprecated = (value) => validate(value, QUARTER_PATTERN_DEPRECATED.test(value));
 const hasQuarter = (value) => validate(value, (hasYearAndQuarter(value) || hasQuarterAndYearDeprecated(value)));
 const hasRole = (value) => validate(value, PARAM_ROLE);
@@ -94,20 +93,21 @@ const hasSortBy = (value) => validate(value, PARAM_SORT_BY);
 
 const getInteger = (param) => Number.parseInt(param);
 
-const getPeople = (param) => {
-  if (hasPeople(param)) {
-    return param.split(peopleOptions.delimiter).filter(Boolean).map(entry => {
-      const [id, role] = entry.match(peopleOptions.pattern).slice(1,3);
-      const values = {
-        id: Number(id),
-      };
+const getPeople = (value) => {
+  if (value) {
+    return value.split(peopleOptions.delimiter)
+      .filter(Boolean).map(entry => {
+        const [id, role] = entry.match(peopleOptions.pattern).slice(1,3);
+        const values = {
+          id: Number(id),
+        };
 
-      if (hasRole(role)) {
-        values.role = role;
-      }
+        if (hasRole(role)) {
+          values.role = role;
+        }
 
-      return values;
-    });
+        return values;
+      });
   }
 
   return null;
@@ -160,16 +160,17 @@ const adapters = {
 const validators = {
   hasDate,
   hasInteger,
-  hasPeople,
   hasQuarter,
   hasSort,
   hasSortBy,
   hasYear,
 };
 
+const decodeParamValue = (searchParams, param) => decodeURIComponent(searchParams.get(param));
+
 const getParamValue = (searchParams, param) => {
   const definition = getDefinition(param);
-  let value = searchParams.get(param);
+  let value = decodeParamValue(searchParams, param);
 
   if (definition.adapt in adapters) {
     value = adapters[definition.adapt](value);
@@ -292,7 +293,6 @@ module.exports = {
   hasAssociation,
   hasDate,
   hasInteger,
-  hasPeople,
   hasQuarter,
   hasQuarterAndYearDeprecated,
   hasRole,

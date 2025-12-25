@@ -46,7 +46,6 @@ const quarterOptions = {
 const peopleOptions = {
   delimiter: ',',
   pattern: PEOPLE_PATTERN,
-  validate: 'hasPeople',
 };
 
 const yearOptions = {
