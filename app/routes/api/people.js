@@ -5,8 +5,6 @@ const {
   ASSOCIATION_ENTITIES,
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
-  MODEL_ENTITIES,
-  MODEL_PEOPLE,
   PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
@@ -31,7 +29,7 @@ const metaHelper = require('../../helpers/meta');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 
-const Entity = require('../../models/entity/entity');
+// const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
@@ -53,22 +51,6 @@ const section = {
 };
 const view = {
   section: slug,
-};
-
-const adaptItemEntity = item => {
-  const entity = new Entity(item.entity);
-
-  item.entity = entity.adapted;
-
-  return item;
-};
-
-const adaptItemPerson = item => {
-  const person = new Person(item.person);
-
-  item.person = person.adapted;
-
-  return item;
 };
 
 const router = express.Router({
@@ -228,157 +210,6 @@ router.get('/:id', async (req, res, next) => {
     res.status(200).json({ title, data, meta });
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
-router.get('/:id/attendees', async (req, res, next) => {
-  const id = Number(req.params.id);
-  const limit = req.searchParams.get(PARAM_LIMIT);
-
-  const labelPrefix = 'person';
-
-  let person;
-  let record;
-  let asLobbyist;
-  let asOfficial;
-  let data;
-  let meta;
-
-  try {
-    person = await people.getAtId(id);
-
-    asLobbyist = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_LOBBYIST }, limit);
-    asOfficial = await incidentAttendees.getAttendees({ personId: id, personRole: ROLE_OFFICIAL }, limit);
-
-    record = person.adapted;
-    record.attendees = {
-      roles: [],
-    };
-
-    if (asLobbyist.lobbyists.total > 0 || asLobbyist.officials.total > 0) {
-      record.attendees.roles.push({
-        label: Person.getLabel('as_lobbyist_with_name', labelPrefix, { name: record.name }),
-        model: MODEL_PEOPLE,
-        role: ROLE_LOBBYIST,
-        type: 'person',
-        values: [
-          {
-            label: Person.getLabel('as_lobbyist_lobbyists_contd', labelPrefix),
-            records: asLobbyist.lobbyists.records.map(adaptItemPerson),
-            role: asLobbyist.lobbyists.role,
-            total: asLobbyist.lobbyists.total,
-          },
-          {
-            label: Person.getLabel('as_lobbyist_officials_contd', labelPrefix),
-            records: asLobbyist.officials.records.map(adaptItemPerson),
-            role: asLobbyist.officials.role,
-            total: asLobbyist.officials.total,
-          },
-        ],
-      });
-    }
-
-    if (asOfficial.lobbyists.total > 0 || asOfficial.officials.total > 0) {
-      record.attendees.roles.push({
-        label: Person.getLabel('as_official_with_name', labelPrefix, { name: record.name }),
-        model: MODEL_PEOPLE,
-        role: ROLE_OFFICIAL,
-        type: 'person',
-        values: [
-          {
-            label: Person.getLabel('as_official_lobbyists', labelPrefix),
-            records: asOfficial.lobbyists.records.map(adaptItemPerson),
-            role: asOfficial.lobbyists.role,
-            total: asOfficial.lobbyists.total,
-          },
-          {
-            label: Person.getLabel('as_official_officials', labelPrefix),
-            records: asOfficial.officials.records.map(adaptItemPerson),
-            role: asOfficial.officials.role,
-            total: asOfficial.officials.total,
-          },
-        ],
-      });
-    }
-
-    data = {
-      person: {
-        record,
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting person attendees:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
-router.get('/:id/entities', async (req, res, next) => {
-  const id = Number(req.params.id);
-  const limit = req.searchParams.get(PARAM_LIMIT);
-
-  const labelPrefix = 'person';
-
-  let person;
-  let record;
-  let asLobbyist;
-  let asOfficial;
-  let data;
-  let meta;
-
-  try {
-    person = await people.getAtId(id);
-    asLobbyist = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_LOBBYIST }, limit);
-    asOfficial = await incidentAttendees.getEntities({ personId: id, personRole: ROLE_OFFICIAL }, limit);
-
-    record = person.adapted;
-    record.entities = {
-      roles: [],
-    };
-
-    if (asLobbyist.total) {
-      record.entities.roles.push({
-        label: Person.getLabel('as_lobbyist_entities_with_name', labelPrefix, { name: record.name }),
-        model: MODEL_ENTITIES,
-        role: ROLE_LOBBYIST,
-        values: [
-          {
-            records: asLobbyist.records.map(adaptItemEntity),
-            role: asLobbyist.role,
-            total: asLobbyist.total,
-          },
-        ],
-      });
-    }
-
-    if (asOfficial.total) {
-      record.entities.roles.push({
-        label: Person.getLabel('as_official_entities_with_name', labelPrefix, { name: record.name }),
-        model: MODEL_ENTITIES,
-        role: ROLE_OFFICIAL,
-        values: [
-          {
-            records: asOfficial.records.map(adaptItemEntity),
-            role: asLobbyist.role,
-            total: asOfficial.total,
-          },
-        ],
-      });
-    }
-
-    data = {
-      person: {
-        record,
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting person entities:', err.message); // eslint-disable-line no-console
     next(createError(err));
   }
 });
