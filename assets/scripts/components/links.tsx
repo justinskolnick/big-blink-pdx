@@ -75,11 +75,15 @@ export const getWithEntityParams = (entity: Entity, role?: Role) => {
   return params;
 };
 
-export const getWithPeopleParams = (person: Person, role?: Role) => {
+export const getWithPeopleParams = (person: Person, personRole?: Role, role?: Role) => {
   const params = {} as NewParams;
 
   if (role) {
-    params[peopleParam] = `${person.id}:${role}`;
+    params[roleParam] = role;
+  }
+
+  if (personRole) {
+    params[peopleParam] = `${person.id}:${personRole}`;
   } else {
     params[peopleParam] = person.id;
   }

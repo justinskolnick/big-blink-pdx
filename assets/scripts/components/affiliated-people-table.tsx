@@ -23,15 +23,17 @@ interface Props {
   initialCount: number;
   model: Sections;
   ref?: RefObject<HTMLElement>;
+  role?: Role;
   setLimit: FnSetLimit;
 }
 
 interface AffiliatedPersonProps {
   item: AffiliatedPersonRecord;
+  personRole?: Role;
   role?: Role;
 }
 
-const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
+const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => {
   const person = useGetPersonById(item.person.id);
 
   return (
@@ -46,7 +48,7 @@ const AffiliatedPerson = ({ item, role }: AffiliatedPersonProps) => {
       </td>
       <td className='cell-total'>
         {item.total ? (
-          <FilterLink newParams={getWithPeopleParams(person, role)} hasIcon>
+          <FilterLink newParams={getWithPeopleParams(person, personRole, role)} hasIcon>
             {item.total}
           </FilterLink>
         ) : <>-</>}
@@ -60,6 +62,7 @@ const AffiliatedPeopleTable = ({
   initialCount,
   model,
   ref,
+  role,
   setLimit,
 }: Props) => (
   <AffiliatedItemTable
@@ -77,7 +80,8 @@ const AffiliatedPeopleTable = ({
         <AffiliatedPerson
           item={item}
           key={i}
-          role={attendees.role}
+          personRole={attendees.role}
+          role={role}
         />
       ));
     }}

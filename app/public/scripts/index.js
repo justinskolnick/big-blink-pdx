@@ -44536,10 +44536,13 @@ Hook ${hookName} was either not provided or not a function.`);
     params[withEntityIdParam] = entity.id;
     return params;
   };
-  var getWithPeopleParams = (person, role) => {
+  var getWithPeopleParams = (person, personRole, role) => {
     const params = {};
     if (role) {
-      params[peopleParam] = `${person.id}:${role}`;
+      params[roleParam] = role;
+    }
+    if (personRole) {
+      params[peopleParam] = `${person.id}:${personRole}`;
     } else {
       params[peopleParam] = person.id;
     }
@@ -46970,12 +46973,12 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/affiliated-people-table.tsx
   var import_jsx_runtime53 = __toESM(require_jsx_runtime());
-  var AffiliatedPerson = ({ item, role }) => {
+  var AffiliatedPerson = ({ item, personRole, role }) => {
     const person = useGetPersonById(item.person.id);
     return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(icon_default4, { person }) }),
       /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(item_link_default, { item: person, children: person.name }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(FilterLink, { newParams: getWithPeopleParams(person, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(import_jsx_runtime53.Fragment, { children: "-" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(FilterLink, { newParams: getWithPeopleParams(person, personRole, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(import_jsx_runtime53.Fragment, { children: "-" }) })
     ] });
   };
   var AffiliatedPeopleTable = ({
@@ -46983,6 +46986,7 @@ Hook ${hookName} was either not provided or not a function.`);
     initialCount,
     model,
     ref,
+    role,
     setLimit
   }) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
     affiliated_item_table_default,
@@ -46999,7 +47003,8 @@ Hook ${hookName} was either not provided or not a function.`);
           AffiliatedPerson,
           {
             item,
-            role: attendees.role
+            personRole: attendees.role,
+            role
           },
           i2
         ));
@@ -60885,6 +60890,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 initialCount: initialLimit,
                 model: attendees.model,
                 ref,
+                role,
                 setLimit
               }
             )

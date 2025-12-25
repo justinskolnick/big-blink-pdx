@@ -115,6 +115,7 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
               initialCount={initialLimit}
               model={attendees.model}
               ref={ref}
+              role={role}
               setLimit={setLimit}
             />
           )}
