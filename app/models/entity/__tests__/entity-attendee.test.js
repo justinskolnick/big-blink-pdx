@@ -29,7 +29,7 @@ describe('toRoleObject()', () => {
       values: [
         {
           association: 'lobbyists',
-          label: '... authorized these lobbyists',
+          label: 'Authorized these lobbyists',
           records: [
             {
               person: {
@@ -88,7 +88,7 @@ describe('toRoleObject()', () => {
         },
         {
           association: 'officials',
-          label: '... lobbied these City officials',
+          label: 'Lobbied these City officials',
           records: [
             {
               person: {

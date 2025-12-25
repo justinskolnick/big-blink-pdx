@@ -233,13 +233,13 @@ router.get('/:id/attendees', async (req, res, next) => {
       type: 'entity',
       values: [
         {
-          label: Entity.getLabel('as_entity_lobbyists', labelPrefix),
+          label: Entity.getLabel('as_entity_lobbyists_contd', labelPrefix),
           records: attendees.lobbyists.records.map(adaptItemPerson),
           role: attendees.lobbyists.role,
           total: attendees.lobbyists.total,
         },
         {
-          label: Entity.getLabel('as_entity_officials', labelPrefix),
+          label: Entity.getLabel('as_entity_officials_contd', labelPrefix),
           records: attendees.officials.records.map(adaptItemPerson),
           role: attendees.officials.role,
           total: attendees.officials.total,
