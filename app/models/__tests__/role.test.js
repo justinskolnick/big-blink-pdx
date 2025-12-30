@@ -1,7 +1,7 @@
 const {
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
-} = require('../../../config/constants');
+} = require('../../config/constants');
 
 const Role = require('../role');
 

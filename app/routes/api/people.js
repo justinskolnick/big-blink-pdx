@@ -391,6 +391,7 @@ router.get('/:id/roles', async (req, res, next) => {
   const limit = req.searchParams.get(PARAM_LIMIT);
   const role = req.searchParams.get(PARAM_ROLE);
 
+  const hasAssociation = Boolean(association);
   const hasRole = Boolean(role);
 
   let person;
@@ -405,7 +406,7 @@ router.get('/:id/roles', async (req, res, next) => {
     person = await people.getAtId(id);
     record = person.adapted;
 
-    if (hasRole) {
+    if (hasAssociation && hasRole) {
       asRole = await getPersonRoleObject(record, { association, role }, limit);
 
       record.roles.named = {
@@ -416,8 +417,8 @@ router.get('/:id/roles', async (req, res, next) => {
       asOfficial = await getPersonRoleObject(record, { association, role: ROLE_OFFICIAL }, limit);
 
       record.roles.named = {
-        lobbyist: asLobbyist,
-        official: asOfficial,
+        [ROLE_LOBBYIST]: asLobbyist,
+        [ROLE_OFFICIAL]: asOfficial,
       };
     }
 

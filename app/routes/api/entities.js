@@ -2,7 +2,10 @@ const createError = require('http-errors');
 const express = require('express');
 
 const {
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
   MODEL_PEOPLE,
+  PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -14,6 +17,7 @@ const {
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_PERSON_ID,
+  ROLE_LOBBYIST,
   SECTION_ENTITIES,
 } = require('../../config/constants');
 
@@ -26,6 +30,7 @@ const searchParams = require('../../lib/request/search-params');
 const { toSentence } = require('../../lib/string');
 
 const Entity = require('../../models/entity/entity');
+const EntityAttendee = require('../../models/entity/entity-attendee');
 const Incident = require('../../models/incident');
 const Person = require('../../models/person/person');
 
@@ -228,7 +233,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     record = entity.adapted;
     record.attendees = {
-      label: Entity.getLabel('as_entity', labelPrefix, { name: record.name }),
+      label: Entity.getLabel('as_entity_contd', labelPrefix, { name: record.name }),
       model: MODEL_PEOPLE,
       type: 'entity',
       values: [
@@ -347,6 +352,88 @@ router.get('/:id/incidents', async (req, res, next) => {
     res.status(200).json({ title, data, meta });
   } catch (err) {
     console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
+    next(createError(err));
+  }
+});
+
+const getRoleObject = (role) => ({
+  label: Entity.getLabel('as_entity', Entity.labelPrefix),
+  role,
+  attendees: null,
+});
+
+const getEntityRoleObject = async (record, options = {}, limit = null) => {
+  const {
+    association,
+    role,
+  } = options;
+
+  let obj = null;
+  let attendees;
+
+  if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
+    attendees = await incidentAttendees.getAttendees({
+      association,
+      entityId: record.id,
+    }, limit);
+  } else {
+    const results = await Promise.all([
+      incidentAttendees.getAttendees({ entityId: record.id }, limit),
+    ]);
+
+    [ attendees ] = results;
+  }
+
+  if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
+    obj = getRoleObject(role);
+
+    if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
+      obj.attendees = EntityAttendee.toRoleObject(role, attendees);
+    }
+  }
+
+  return obj;
+};
+
+router.get('/:id/roles', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const association = req.searchParams.get(PARAM_ASSOCIATION);
+  const limit = req.searchParams.get(PARAM_LIMIT);
+  const role = ROLE_LOBBYIST;
+
+  const hasAssociation = Boolean(association);
+
+  let entity;
+  let record;
+
+  try {
+    entity = await entities.getAtId(id);
+    record = entity.adapted;
+
+    if (hasAssociation) {
+      asRole = await getEntityRoleObject(record, { association, role }, limit);
+
+      record.roles.named = {
+        [role]: asRole,
+      };
+    } else {
+      asLobbyist = await getEntityRoleObject(record, { association, role: ROLE_LOBBYIST }, limit);
+
+      record.roles.named = {
+        [ROLE_LOBBYIST]: asLobbyist,
+      };
+    }
+
+    data = {
+      entity: {
+        record,
+      },
+    };
+    meta = metaHelper.getMeta(req, { id, view });
+
+    res.status(200).json({ title, data, meta });
+  } catch (err) {
+    console.error('Error while getting entity roles:', err.message); // eslint-disable-line no-console
     next(createError(err));
   }
 });

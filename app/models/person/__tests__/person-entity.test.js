@@ -27,6 +27,16 @@ describe('toRoleObject', () => {
                   self: '/entities/123',
                 },
                 name: 'ikhslzZsVq1Vz',
+                roles: {
+                  label: 'Roles and Associations',
+                  list: [
+                    'lobbyist',
+                  ],
+                  options: {
+                    lobbyist: true,
+                    official: false,
+                  },
+                },
               },
               isRegistered: true,
               registrations: 'Registered to lobby on behalf of ikhslzZsVq1Vz for 2021 Q3 – 2023 Q4',
@@ -40,6 +50,16 @@ describe('toRoleObject', () => {
                   self: '/entities/124',
                 },
                 name: 'sIVGOYPh',
+                roles: {
+                  label: 'Roles and Associations',
+                  list: [
+                    'lobbyist',
+                  ],
+                  options: {
+                    lobbyist: true,
+                    official: false,
+                  },
+                },
               },
               isRegistered: false,
               registrations: null,
@@ -53,6 +73,16 @@ describe('toRoleObject', () => {
                   self: '/entities/125',
                 },
                 name: 'tH49K0mbUpl3',
+                roles: {
+                  label: 'Roles and Associations',
+                  list: [
+                    'lobbyist',
+                  ],
+                  options: {
+                    lobbyist: true,
+                    official: false,
+                  },
+                },
               },
               isRegistered: true,
               registrations: 'Registered to lobby on behalf of tH49K0mbUpl3 for 2021 Q1 – 2022 Q2',

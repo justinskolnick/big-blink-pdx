@@ -57,6 +57,16 @@ describe('adapt()', () => {
       links: {
         self: '/entities/1'
       },
+      roles: {
+        label: 'Roles and Associations',
+        list: [
+          'lobbyist',
+        ],
+        options: {
+          lobbyist: true,
+          official: false,
+        },
+      },
     });
   });
 
@@ -85,28 +95,28 @@ describe('adapt()', () => {
       links: {
         self: '/entities/1'
       },
+      roles: {
+        label: 'Roles and Associations',
+        list: [
+          'lobbyist',
+        ],
+        options: {
+          lobbyist: true,
+          official: false,
+        },
+      },
     });
   });
 
   test('adapts a result with a total and a percentage', () => {
-    const entity = new Entity(result);
-    const entityWithTotal = new Entity(resultWithTotal);
+    const entity = new Entity(resultWithTotal);
 
     const incidentCountResult = 246;
 
-    entityWithTotal.setGlobalIncidentCount(incidentCountResult);
-    entityWithTotal.setOverview();
+    entity.setGlobalIncidentCount(incidentCountResult);
+    entity.setOverview();
 
     expect(entity.adapted).toEqual({
-      id: 1,
-      name: 'Spacely Sprockets',
-      domain: 'https://example.com',
-      links: {
-        self: '/entities/1'
-      },
-    });
-
-    expect(entityWithTotal.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
@@ -130,6 +140,16 @@ describe('adapt()', () => {
       },
       links: {
         self: '/entities/1'
+      },
+      roles: {
+        label: 'Roles and Associations',
+        list: [
+          'lobbyist',
+        ],
+        options: {
+          lobbyist: true,
+          official: false,
+        },
       },
     });
   });
@@ -211,6 +231,16 @@ describe('adapt()', () => {
       links: {
         self: '/entities/1'
       },
+      roles: {
+        label: 'Roles and Associations',
+        list: [
+          'lobbyist',
+        ],
+        options: {
+          lobbyist: true,
+          official: false,
+        },
+      },
     });
   });
 });
@@ -243,6 +273,16 @@ describe('setData()', () => {
       name: 'Spacely Sprockets',
       links: {
         self: '/entities/1'
+      },
+      roles: {
+        label: 'Roles and Associations',
+        list: [
+          'lobbyist',
+        ],
+        options: {
+          lobbyist: true,
+          official: false,
+        },
       },
     });
   });

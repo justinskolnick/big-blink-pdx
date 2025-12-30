@@ -1,4 +1,7 @@
+const { ROLE_LOBBYIST } = require('../../config/constants');
+
 const IncidentedBase = require('../shared/base-incidented');
+const Role = require('../role');
 
 class Entity extends IncidentedBase {
   static tableName = 'entities';
@@ -12,6 +15,28 @@ class Entity extends IncidentedBase {
     name:   { select: true, },
     domain: { select: true, },
   };
+
+  adaptRoles(value) {
+    let list = [];
+    let options = {};
+
+    if (value) {
+      list = Role.getList(value);
+      options = Role.getOptions(value);
+    }
+
+    return {
+      label: this.getLabel('associations_roles'),
+      list,
+      options,
+    };
+  }
+
+  adapt(result) {
+    return this.adaptResult(result, {
+      roles: this.adaptRoles(ROLE_LOBBYIST),
+    });
+  }
 }
 
 module.exports = Entity;
