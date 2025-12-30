@@ -49,6 +49,8 @@ const AffiliatedEntity = ({
 }: AffiliatedEntityProps) => {
   const entity = useGetEntityById(item.entity.id);
 
+  if (!entity) return null;
+
   return (
     <tr>
       <td className='cell-type'>

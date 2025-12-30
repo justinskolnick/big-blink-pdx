@@ -36,6 +36,8 @@ interface AffiliatedPersonProps {
 const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => {
   const person = useGetPersonById(item.person.id);
 
+  if (!person) return null;
+
   return (
     <tr>
       <td className='cell-type'>

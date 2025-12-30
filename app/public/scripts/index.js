@@ -33715,47 +33715,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
                 const roleKey = key;
                 const savedRole = savedEntry?.roles.named?.[roleKey];
-                const { attendees, entities, ...rest } = values;
-                all[roleKey] = {
-                  ...savedEntry?.roles.named?.[roleKey],
-                  ...rest
-                };
-                if (attendees) {
-                  all[roleKey].attendees = {
-                    ...savedRole?.attendees,
-                    ...attendees,
-                    values: Object.keys(adapted.roles.options).map((role) => {
-                      const savedValue = savedRole?.attendees?.values?.find((value) => value.role === role);
-                      const newValue = attendees.values.find((value) => value.role === role);
-                      if (newValue) {
-                        return {
-                          ...newValue,
-                          records: newValue.records.map((record) => ({
-                            ...record,
-                            person: {
-                              id: record.person.id
-                            }
-                          }))
-                        };
-                      }
-                      return savedValue;
-                    })
+                if (values) {
+                  const { attendees, entities, ...rest } = values;
+                  all[roleKey] = {
+                    ...savedEntry?.roles.named?.[roleKey],
+                    ...rest
                   };
-                }
-                if (entities) {
-                  all[roleKey].entities = {
-                    ...savedRole?.entities,
-                    ...values.entities,
-                    values: entities.values.map((value) => ({
-                      ...value,
-                      records: value.records.map((record) => ({
-                        ...record,
-                        entity: {
-                          id: record.entity.id
+                  if (attendees) {
+                    all[roleKey].attendees = {
+                      ...savedRole?.attendees,
+                      ...attendees,
+                      values: Object.keys(adapted.roles.options).map((role) => {
+                        const savedValue = savedRole?.attendees?.values?.find((value) => value.role === role);
+                        const newValue = attendees.values.find((value) => value.role === role);
+                        if (newValue) {
+                          return {
+                            ...newValue,
+                            records: newValue.records.map((record) => ({
+                              ...record,
+                              person: {
+                                id: record.person.id
+                              }
+                            }))
+                          };
                         }
+                        return savedValue;
+                      })
+                    };
+                  }
+                  if (entities) {
+                    all[roleKey].entities = {
+                      ...savedRole?.entities,
+                      ...values.entities,
+                      values: entities.values.map((value) => ({
+                        ...value,
+                        records: value.records.map((record) => ({
+                          ...record,
+                          entity: {
+                            id: record.entity.id
+                          }
+                        }))
                       }))
-                    }))
-                  };
+                    };
+                  }
+                } else {
+                  all[roleKey] = savedEntry?.roles.named?.[roleKey];
                 }
                 return all;
               }, {})
@@ -37646,14 +37650,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adaptPerson(state, person));
   var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adaptEntity(state, entity));
   var getAttendeesFromPersonRole = (state, roles) => {
-    const attendees = Object.values(roles).map((role) => role.attendees).filter(Boolean);
+    const attendees = Object.values(roles).map((role) => role?.attendees).filter(Boolean);
     if (attendees.length) {
       return attendees.flatMap((item) => item.values).flatMap((item) => item.records).map((record) => record.person).map((person) => adaptPerson(state, person));
     }
     return [];
   };
   var getEntitiesFromPersonRole = (state, roles) => {
-    const entities = Object.values(roles).map((role) => role.entities).filter(Boolean);
+    const entities = Object.values(roles).map((role) => role?.entities).filter(Boolean);
     if (entities.length) {
       return entities.flatMap((item) => item.values).flatMap((item) => item.records).map((record) => record.entity).map((entity) => adaptEntity(state, entity));
     }
@@ -46975,6 +46979,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime53 = __toESM(require_jsx_runtime());
   var AffiliatedPerson = ({ item, personRole, role }) => {
     const person = useGetPersonById(item.person.id);
+    if (!person) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(icon_default4, { person }) }),
       /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(item_link_default, { item: person, children: person.name }) }),
@@ -60766,6 +60771,7 @@ Hook ${hookName} was either not provided or not a function.`);
     role
   }) => {
     const entity = useGetEntityById(item.entity.id);
+    if (!entity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("td", { className: "cell-type", children: entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)(
         "div",

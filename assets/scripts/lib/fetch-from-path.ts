@@ -67,7 +67,7 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
 const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
-  const attendees = Object.values(roles).map(role => role.attendees).filter(Boolean);
+  const attendees = Object.values(roles).map(role => role?.attendees).filter(Boolean);
 
   if (attendees.length) {
     return attendees
@@ -81,7 +81,7 @@ const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =
 };
 
 const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
-  const entities = Object.values(roles).map(role => role.entities).filter(Boolean);
+  const entities = Object.values(roles).map(role => role?.entities).filter(Boolean);
 
   if (entities.length) {
     return entities
