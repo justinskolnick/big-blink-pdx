@@ -35,6 +35,7 @@ class Entity extends IncidentedBase {
   adapt(result) {
     return this.adaptResult(result, {
       roles: this.adaptRoles(ROLE_LOBBYIST),
+      type: 'entity',
     });
   }
 }

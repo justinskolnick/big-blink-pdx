@@ -412,12 +412,13 @@ export type ItemOverview = {
 export type ItemTableLabels = LeaderboardTableLabels;
 
 export type Entity = Item & {
-  attendees?: Attendees;
   details?: Details;
   domain?: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   isRegistered?: boolean;
   overview?: ItemOverview;
+  roles: ItemRoles;
+  type: 'entity';
   links?: LinkObject;
 }
 
@@ -511,21 +512,21 @@ export type PersonNamedRoles = {
   official?: PersonNamedRole;
 };
 
-export type PersonRoleOptions = {
+export type RoleOptions = {
   lobbyist: boolean;
   official: boolean;
 };
 
-type PersonRoles = {
+type ItemRoles = {
   label: string;
   list: Role[];
   named?: PersonNamedRoles;
-  options?: PersonRoleOptions;
+  options?: RoleOptions;
 };
 
 export type Person = Item & {
   pernr?: number;
-  roles: PersonRoles;
+  roles: ItemRoles;
   type: 'group' | 'person' | 'unknown';
   details?: Details;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;

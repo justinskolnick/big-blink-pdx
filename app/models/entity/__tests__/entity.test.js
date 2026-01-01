@@ -67,6 +67,7 @@ describe('adapt()', () => {
           official: false,
         },
       },
+      type: 'entity',
     });
   });
 
@@ -105,6 +106,7 @@ describe('adapt()', () => {
           official: false,
         },
       },
+      type: 'entity',
     });
   });
 
@@ -151,6 +153,7 @@ describe('adapt()', () => {
           official: false,
         },
       },
+      type: 'entity',
     });
   });
 
@@ -241,6 +244,7 @@ describe('adapt()', () => {
           official: false,
         },
       },
+      type: 'entity',
     });
   });
 });
@@ -284,6 +288,7 @@ describe('setData()', () => {
           official: false,
         },
       },
+      type: 'entity',
     });
   });
 });

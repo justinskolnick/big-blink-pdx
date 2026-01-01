@@ -133,6 +133,9 @@ const api = createApi({
     getEntityIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/entities/${id}/incidents${search}`
     )),
+    getEntityRolesById: builder.query(getAncillaryRoute(
+      ({ id, limit, search }) => getPathnameWithLimit(`api/entities/${id}/roles`, { limit, search })
+    )),
     getEntityStatsById: builder.query(getAncillaryRoute(
       ({ id }) => `api/entities/${id}/stats`
     )),

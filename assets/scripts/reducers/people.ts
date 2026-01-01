@@ -17,7 +17,7 @@ import type {
   People,
   Person,
   PersonNamedRoles,
-  PersonRoleOptions,
+  RoleOptions,
   PersonWithIncidentRecords,
 } from '../types';
 
@@ -30,8 +30,8 @@ type InitialState = {
   };
 };
 
-type PersonRoleOptionsTuple = [
-  key: keyof PersonRoleOptions,
+type RoleOptionsTuple = [
+  key: keyof RoleOptions,
   value: boolean,
 ];
 
@@ -87,7 +87,7 @@ export const adapters = {
 
       if ('options' in entry.roles) {
         adapted.roles.options = Object.entries(entry.roles.options)
-          .reduce((all, [key, value]: PersonRoleOptionsTuple) => {
+          .reduce((all, [key, value]: RoleOptionsTuple) => {
             const isFresh = !(key in all);
             const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
 
@@ -99,7 +99,7 @@ export const adapters = {
             }
 
             return all;
-          }, savedEntry?.roles.options ?? {} as PersonRoleOptions);
+          }, savedEntry?.roles.options ?? {} as RoleOptions);
 
         if ('named' in entry.roles) {
           adapted.roles.named = {
@@ -122,8 +122,8 @@ export const adapters = {
                     ...savedRole?.attendees,
                     ...attendees,
                     values: Object.keys(adapted.roles.options).map(role => {
-                      const savedValue = savedRole?.attendees?.values?.find(value => value.role === role);
-                      const newValue = attendees.values.find(value => value.role === role);
+                      const savedValue = savedRole?.attendees?.values?.find(value => value?.role === role);
+                      const newValue = attendees.values.find(value => value?.role === role);
 
                       if (newValue) {
                         return {

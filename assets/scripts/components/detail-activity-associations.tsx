@@ -1,25 +1,39 @@
 import React, { ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import useLimitedQuery from '../../hooks/use-limited-query';
+import useLimitedQuery, { FnSetLimit, FnSetPaused } from '../hooks/use-limited-query';
+import type { ApiQueryType } from '../hooks/use-limited-query';
 
-import api from '../../services/api';
+import api from '../services/api';
 
-import ActivityHeader from '../detail-activity-header';
-import ActivitySubhead from '../detail-activity-subhead';
-import AffiliatedEntitiesTable from '../affiliated-entities-table';
-import AffiliatedPeopleTable from '../affiliated-people-table';
-import { getRoleIconName } from './icon';
-import IncidentActivityGroups from '../incident-activity-groups';
-import IncidentActivityGroup from '../incident-activity-group';
-import ItemSubsection from '../item-subsection';
+import ActivityHeader from './detail-activity-header';
+import ActivitySubhead from './detail-activity-subhead';
+import AffiliatedEntitiesTable from './affiliated-entities-table';
+import AffiliatedPeopleTable from './affiliated-people-table';
+import { getRoleIconName } from './people/icon';
+import IncidentActivityGroups from './incident-activity-groups';
+import IncidentActivityGroup from './incident-activity-group';
+import ItemSubsection from './item-subsection';
 
 import type {
   AssociatedEntitiesValue,
   AssociatedPersonsValue,
-  Person
-} from '../../types';
-import { Role } from '../../types';
+  Entity,
+  Person,
+} from '../types';
+import { Role } from '../types';
+
+interface FnUseGetItemRolesById {
+  (
+    item: Entity | Person,
+    options: Record<string, string>,
+    isPaused: boolean,
+  ): {
+    initialLimit: number;
+    setPaused: FnSetPaused;
+    setRecordLimit: FnSetLimit;
+  }
+}
 
 interface GroupProps {
   children: ReactNode;
@@ -28,25 +42,39 @@ interface GroupProps {
   title: string;
 }
 
-interface FnSetLimit {
-  (): void;
-}
-
 interface AssociationGroupProps {
   children: (initialLimit: number, setLimit: FnSetLimit) => ReactNode;
-  id: Person['id'];
+  item: Entity | Person;
   role: Role;
-  value: AssociatedEntitiesValue | AssociatedPersonsValue;
+  value?: AssociatedEntitiesValue | AssociatedPersonsValue;
 }
 
 interface NamedRoleProps {
-  person?: Person;
+  item?: Entity | Person;
   role: Role;
 }
 
 interface Props {
-  person: Person;
+  item: Entity | Person;
 }
+
+const roleQuery = {
+  entity: api.useLazyGetEntityRolesByIdQuery,
+  group: api.useLazyGetPersonRolesByIdQuery,
+  person: api.useLazyGetPersonRolesByIdQuery,
+} as Record<string, ApiQueryType>;
+
+const useGetItemRolesById: FnUseGetItemRolesById = (item, options, isPaused) => {
+  const searchParams = new URLSearchParams(options);
+  const query = roleQuery[item.type];
+
+  return useLimitedQuery(query, {
+    id: item.id,
+    limit: 5,
+    pause: isPaused,
+    search: searchParams,
+  });
+};
 
 const Group = ({ children, icon, ref, title }: GroupProps) => (
   <IncidentActivityGroups
@@ -62,23 +90,21 @@ const Group = ({ children, icon, ref, title }: GroupProps) => (
   </IncidentActivityGroups>
 );
 
-const AssociationGroup = ({ children, id, role, value }: AssociationGroupProps) => {
-  const searchParams = new URLSearchParams({
+const AssociationGroup = ({
+  children,
+  item,
+  role,
+  value
+}: AssociationGroupProps) => {
+  const options = {
     role,
-    association: value.association,
-  });
-  const query = api.useLazyGetPersonRolesByIdQuery;
-
+    association: value?.association,
+  };
   const {
     initialLimit,
     setPaused,
     setRecordLimit,
-  } = useLimitedQuery(query, {
-    id,
-    limit: 5,
-    pause: true,
-    search: searchParams,
-  });
+  } = useGetItemRolesById(item, options, true);
 
   const setLimit = () => {
     setPaused(false);
@@ -90,11 +116,15 @@ const AssociationGroup = ({ children, id, role, value }: AssociationGroupProps) 
   return children(initialLimit, setLimit);
 };
 
-const Attendees = ({ person, role }: NamedRoleProps) => {
+const Attendees = ({ item, role }: NamedRoleProps) => {
   const ref = useRef<HTMLElement>(null);
 
-  const namedRole = person?.roles.named?.[role];
+  const namedRole = item?.roles.named?.[role];
   const attendees = namedRole?.attendees;
+
+  const hasAttendees = attendees?.values.length > 0;
+
+  if (!hasAttendees) return null;
 
   return (
     <Group
@@ -104,7 +134,7 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
     >
       {attendees.values.map((value, i: number) => (
         <AssociationGroup
-          id={person.id}
+          item={item}
           role={role}
           value={value}
           key={i}
@@ -125,11 +155,15 @@ const Attendees = ({ person, role }: NamedRoleProps) => {
   );
 };
 
-const Entities = ({ person, role }: NamedRoleProps) => {
+const Entities = ({ item, role }: NamedRoleProps) => {
   const ref = useRef<HTMLElement>(null);
 
-  const namedRole = person?.roles.named?.[role];
+  const namedRole = item?.roles.named?.[role];
   const entities = namedRole?.entities;
+
+  const hasEntities = entities?.values.length > 0;
+
+  if (!hasEntities) return null;
 
   return (
     <Group
@@ -139,7 +173,7 @@ const Entities = ({ person, role }: NamedRoleProps) => {
     >
       {entities.values.map((value, i: number) => (
         <AssociationGroup
-          id={person.id}
+          item={item}
           role={role}
           value={value}
           key={i}
@@ -163,19 +197,12 @@ const Entities = ({ person, role }: NamedRoleProps) => {
   );
 };
 
-const NamedRole = ({ person, role }: NamedRoleProps) => {
+const NamedRole = ({ item, role }: NamedRoleProps) => {
   const [hasRun, setHasRun] = useState<boolean>(false);
-  const searchParams = new URLSearchParams({ role });
-  const namedRole = person?.roles.named?.[role];
+  const options = { role };
+  const namedRole = item?.roles.named?.[role];
 
-  const query = api.useLazyGetPersonRolesByIdQuery;
-
-  useLimitedQuery(query, {
-    id: person.id,
-    limit: 5,
-    pause: hasRun,
-    search: searchParams,
-  });
+  useGetItemRolesById(item, options, hasRun);
 
   useEffect(() => {
     setHasRun(true);
@@ -192,14 +219,14 @@ const NamedRole = ({ person, role }: NamedRoleProps) => {
         icon={getRoleIconName(namedRole.role)}
       />
 
-      <Entities person={person} role={role} />
-      <Attendees person={person} role={role} />
+      <Entities item={item} role={role} />
+      <Attendees item={item} role={role} />
     </section>
   );
 };
 
-const Associations = ({ person }: Props) => {
-  const options = person.roles.options;
+const Associations = ({ item }: Props) => {
+  const options = item.roles.options;
 
   const roles = useMemo(() =>
     Object.entries(options).reduce((all, [key, value]) => {
@@ -212,10 +239,10 @@ const Associations = ({ person }: Props) => {
 
   return (
     <section className='activity-details'>
-      <ActivityHeader title={person.roles.label} />
+      <ActivityHeader title={item.roles.label} />
 
       {roles.map((role, i) => (
-        <NamedRole key={i} person={person} role={role} />
+        <NamedRole key={i} item={item} role={role} />
       ))}
     </section>
   );

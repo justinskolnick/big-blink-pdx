@@ -4,7 +4,7 @@ import type { TypedUseLazyQuery } from '@reduxjs/toolkit/query/react';
 import type { Id } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type QueryType = TypedUseLazyQuery<any, any, any>;
+export type ApiQueryType = TypedUseLazyQuery<any, any, any>;
 
 type QueryOptions = {
   id?: Id;
@@ -23,7 +23,7 @@ export interface FnSetPaused {
 
 interface Fn {
   (
-    query: QueryType,
+    query: ApiQueryType,
     options: QueryOptions,
   ): {
     initialLimit: number;

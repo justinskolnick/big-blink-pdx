@@ -54,7 +54,7 @@ const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
       .map((person: PersonWithIncidentRecords) => adaptPerson(state, person))
   );
 
-const getAttendeesFromRecord = (state: RootState, record: Entity | Source) =>
+const getAttendeesFromRecord = (state: RootState, record: Source) =>
   record.attendees.values
     .flatMap(value => value.records)
     .map(entry => entry.person)
@@ -66,7 +66,7 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
-const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+const getAttendeesFromRole = (state: RootState, roles: PersonNamedRoles) => {
   const attendees = Object.values(roles).map(role => role?.attendees).filter(Boolean);
 
   if (attendees.length) {
@@ -80,7 +80,7 @@ const getAttendeesFromPersonRole = (state: RootState, roles: PersonNamedRoles) =
   return [] as Person[];
 };
 
-const getEntitiesFromPersonRole = (state: RootState, roles: PersonNamedRoles) => {
+const getEntitiesFromRole = (state: RootState, roles: PersonNamedRoles) => {
   const entities = Object.values(roles).map(role => role?.entities).filter(Boolean);
 
   if (entities.length) {
@@ -137,11 +137,17 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
       dispatch(entityActions.set(entity));
 
-      if ('attendees' in data.entity.record) {
-        const attendees = getAttendeesFromRecord(state, data.entity.record);
+      if ('roles' in data.entity.record) {
+        if ('named' in data.entity.record.roles) {
+          const attendees = getAttendeesFromRole(state, data.entity.record.roles.named);
+          const entities = getEntitiesFromRole(state, data.entity.record.roles.named);
 
-        if (attendees.length) {
-          dispatch(personActions.setAll(attendees));
+          if (attendees.length) {
+            dispatch(personActions.setAll(attendees));
+          }
+          if (entities.length) {
+            dispatch(entityActions.setAll(entities));
+          }
         }
       }
 
@@ -220,8 +226,8 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
       if ('roles' in data.person.record) {
         if ('named' in data.person.record.roles) {
-          const attendees = getAttendeesFromPersonRole(state, data.person.record.roles.named);
-          const entities = getEntitiesFromPersonRole(state, data.person.record.roles.named);
+          const attendees = getAttendeesFromRole(state, data.person.record.roles.named);
+          const entities = getEntitiesFromRole(state, data.person.record.roles.named);
 
           if (attendees.length) {
             dispatch(personActions.setAll(attendees));

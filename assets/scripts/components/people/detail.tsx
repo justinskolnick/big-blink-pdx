@@ -3,14 +3,14 @@ import { useParams } from 'react-router';
 
 import { useGetPersonById } from '../../reducers/people';
 
-import ActivityDetails from './detail-activity-details';
+import Associations from '../detail-activity-associations';
+import ActivityDetails from '../detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
 import Chart from './chart';
 import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
-import Associations from './associations';
 
 const Detail = () => {
   const incidentsRef = useRef<HTMLDivElement>(null);
@@ -39,7 +39,7 @@ const Detail = () => {
 
       {canLoadDetails && (
         <ActivityDetails>
-          <Associations person={person} />
+          <Associations item={person} />
         </ActivityDetails>
       )}
 
