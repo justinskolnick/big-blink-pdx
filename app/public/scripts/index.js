@@ -33546,6 +33546,90 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       ...ids
     };
   };
+  var adaptRoles = (entryRoles, savedEntryRoles) => {
+    const roles = {
+      ...savedEntryRoles
+    };
+    if ("label" in entryRoles) {
+      roles.label = entryRoles.label;
+    }
+    if ("list" in entryRoles) {
+      roles.list = unique([].concat(
+        ...savedEntryRoles?.list ?? [],
+        ...entryRoles.list
+      ));
+    }
+    if ("options" in entryRoles) {
+      roles.options = Object.entries(entryRoles.options).reduce((all, [key, value]) => {
+        const isFresh = !(key in all);
+        const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
+        if (isFresh || valueHasBecomeTrue) {
+          return {
+            ...all,
+            [key]: value
+          };
+        }
+        return all;
+      }, savedEntryRoles?.options ?? {});
+      if ("named" in entryRoles) {
+        roles.named = {
+          ...savedEntryRoles?.named,
+          ...Object.entries(entryRoles.named).reduce((all, [key, values]) => {
+            const roleKey = key;
+            const savedRole = savedEntryRoles?.named?.[roleKey];
+            if (values) {
+              const { attendees, entities, ...rest } = values;
+              all[roleKey] = {
+                ...savedEntryRoles?.named?.[roleKey],
+                ...rest
+              };
+              if (attendees) {
+                all[roleKey].attendees = {
+                  ...savedRole?.attendees,
+                  ...attendees,
+                  values: Object.keys(roles.options).map((role) => {
+                    const savedValue = savedRole?.attendees?.values?.find((value) => value?.role === role);
+                    const newValue = attendees.values.find((value) => value?.role === role);
+                    if (newValue) {
+                      return {
+                        ...newValue,
+                        records: newValue.records.map((record) => ({
+                          ...record,
+                          person: {
+                            id: record.person.id
+                          }
+                        }))
+                      };
+                    }
+                    return savedValue;
+                  })
+                };
+              }
+              if (entities) {
+                all[roleKey].entities = {
+                  ...savedRole?.entities,
+                  ...values.entities,
+                  values: entities.values.map((value) => ({
+                    ...value,
+                    records: value.records.map((record) => ({
+                      ...record,
+                      entity: {
+                        id: record.entity.id
+                      }
+                    }))
+                  }))
+                };
+              }
+            } else {
+              all[roleKey] = savedEntryRoles?.named?.[roleKey];
+            }
+            return all;
+          }, {})
+        };
+      }
+    }
+    return roles;
+  };
 
   // assets/scripts/lib/sorting.ts
   var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
@@ -33685,87 +33769,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         adapted.incidents = adaptIncidents(adapted.incidents);
       }
       if ("roles" in entry) {
-        adapted.roles = {
-          ...savedEntry?.roles
-        };
-        if ("label" in entry.roles) {
-          adapted.roles.label = entry.roles.label;
-        }
-        if ("list" in entry.roles) {
-          adapted.roles.list = unique([].concat(
-            ...savedEntry?.roles.list ?? [],
-            ...entry.roles.list
-          ));
-        }
-        if ("options" in entry.roles) {
-          adapted.roles.options = Object.entries(entry.roles.options).reduce((all, [key, value]) => {
-            const isFresh = !(key in all);
-            const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
-            if (isFresh || valueHasBecomeTrue) {
-              return {
-                ...all,
-                [key]: value
-              };
-            }
-            return all;
-          }, savedEntry?.roles.options ?? {});
-          if ("named" in entry.roles) {
-            adapted.roles.named = {
-              ...savedEntry?.roles.named,
-              ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
-                const roleKey = key;
-                const savedRole = savedEntry?.roles.named?.[roleKey];
-                if (values) {
-                  const { attendees, entities, ...rest } = values;
-                  all[roleKey] = {
-                    ...savedEntry?.roles.named?.[roleKey],
-                    ...rest
-                  };
-                  if (attendees) {
-                    all[roleKey].attendees = {
-                      ...savedRole?.attendees,
-                      ...attendees,
-                      values: Object.keys(adapted.roles.options).map((role) => {
-                        const savedValue = savedRole?.attendees?.values?.find((value) => value?.role === role);
-                        const newValue = attendees.values.find((value) => value?.role === role);
-                        if (newValue) {
-                          return {
-                            ...newValue,
-                            records: newValue.records.map((record) => ({
-                              ...record,
-                              person: {
-                                id: record.person.id
-                              }
-                            }))
-                          };
-                        }
-                        return savedValue;
-                      })
-                    };
-                  }
-                  if (entities) {
-                    all[roleKey].entities = {
-                      ...savedRole?.entities,
-                      ...values.entities,
-                      values: entities.values.map((value) => ({
-                        ...value,
-                        records: value.records.map((record) => ({
-                          ...record,
-                          entity: {
-                            id: record.entity.id
-                          }
-                        }))
-                      }))
-                    };
-                  }
-                } else {
-                  all[roleKey] = savedEntry?.roles.named?.[roleKey];
-                }
-                return all;
-              }, {})
-            };
-          }
-        }
+        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
       }
       if (savedEntry && "overview" in savedEntry) {
         adapted.overview = {
@@ -37328,94 +37332,14 @@ Hook ${hookName} was either not provided or not a function.`);
       if ("incidents" in adapted) {
         adapted.incidents = adaptIncidents(adapted.incidents);
       }
+      if ("roles" in entry) {
+        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+      }
       if (savedEntry && "overview" in savedEntry) {
         adapted.overview = {
           ...savedEntry.overview,
           ...adapted.overview
         };
-      }
-      if ("roles" in entry) {
-        adapted.roles = {
-          ...savedEntry?.roles
-        };
-        if ("label" in entry.roles) {
-          adapted.roles.label = entry.roles.label;
-        }
-        if ("list" in entry.roles) {
-          adapted.roles.list = unique([].concat(
-            ...savedEntry?.roles.list ?? [],
-            ...entry.roles.list
-          ));
-        }
-        if ("options" in entry.roles) {
-          adapted.roles.options = Object.entries(entry.roles.options).reduce((all, [key, value]) => {
-            const isFresh = !(key in all);
-            const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
-            if (isFresh || valueHasBecomeTrue) {
-              return {
-                ...all,
-                [key]: value
-              };
-            }
-            return all;
-          }, savedEntry?.roles.options ?? {});
-          if ("named" in entry.roles) {
-            adapted.roles.named = {
-              ...savedEntry?.roles.named,
-              ...Object.entries(entry.roles.named).reduce((all, [key, values]) => {
-                const roleKey = key;
-                const savedRole = savedEntry?.roles.named?.[roleKey];
-                if (values) {
-                  const { attendees, entities, ...rest } = values;
-                  all[roleKey] = {
-                    ...savedEntry?.roles.named?.[roleKey],
-                    ...rest
-                  };
-                  if (attendees) {
-                    all[roleKey].attendees = {
-                      ...savedRole?.attendees,
-                      ...attendees,
-                      values: Object.keys(adapted.roles.options).map((role) => {
-                        const savedValue = savedRole?.attendees?.values?.find((value) => value?.role === role);
-                        const newValue = attendees.values.find((value) => value?.role === role);
-                        if (newValue) {
-                          return {
-                            ...newValue,
-                            records: newValue.records.map((record) => ({
-                              ...record,
-                              person: {
-                                id: record.person.id
-                              }
-                            }))
-                          };
-                        }
-                        return savedValue;
-                      })
-                    };
-                  }
-                  if (entities) {
-                    all[roleKey].entities = {
-                      ...savedRole?.entities,
-                      ...values.entities,
-                      values: entities.values.map((value) => ({
-                        ...value,
-                        records: value.records.map((record) => ({
-                          ...record,
-                          entity: {
-                            id: record.entity.id
-                          }
-                        }))
-                      }))
-                    };
-                  }
-                } else {
-                  all[roleKey] = savedEntry?.roles.named?.[roleKey];
-                }
-                return all;
-              }, {})
-            };
-          }
-        }
       }
       return camelcaseKeys(adapted, { deep: false });
     },
@@ -47149,7 +47073,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var roleQuery = {
     entity: api_default.useLazyGetEntityRolesByIdQuery,
     group: api_default.useLazyGetPersonRolesByIdQuery,
-    person: api_default.useLazyGetPersonRolesByIdQuery
+    person: api_default.useLazyGetPersonRolesByIdQuery,
+    unknown: api_default.useLazyGetPersonRolesByIdQuery
   };
   var useGetItemRolesById = (item, options2, isPaused) => {
     const searchParams = new URLSearchParams(options2);

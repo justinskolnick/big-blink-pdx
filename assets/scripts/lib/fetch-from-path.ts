@@ -19,7 +19,7 @@ import type {
   Incidents,
   MetaType,
   Person,
-  PersonNamedRoles,
+  NamedRoles,
   PersonWithIncidentRecords,
   Source,
   SourceWithIncidentRecords,
@@ -66,7 +66,7 @@ const getEntitiesFromSource = (state: RootState, source: Source) =>
     .map(entry => entry.entity)
     .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
-const getAttendeesFromRole = (state: RootState, roles: PersonNamedRoles) => {
+const getAttendeesFromRole = (state: RootState, roles: NamedRoles) => {
   const attendees = Object.values(roles).map(role => role?.attendees).filter(Boolean);
 
   if (attendees.length) {
@@ -80,7 +80,7 @@ const getAttendeesFromRole = (state: RootState, roles: PersonNamedRoles) => {
   return [] as Person[];
 };
 
-const getEntitiesFromRole = (state: RootState, roles: PersonNamedRoles) => {
+const getEntitiesFromRole = (state: RootState, roles: NamedRoles) => {
   const entities = Object.values(roles).map(role => role?.entities).filter(Boolean);
 
   if (entities.length) {

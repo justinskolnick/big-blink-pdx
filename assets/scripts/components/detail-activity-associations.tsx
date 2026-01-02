@@ -62,6 +62,7 @@ const roleQuery = {
   entity: api.useLazyGetEntityRolesByIdQuery,
   group: api.useLazyGetPersonRolesByIdQuery,
   person: api.useLazyGetPersonRolesByIdQuery,
+  unknown: api.useLazyGetPersonRolesByIdQuery,
 } as Record<string, ApiQueryType>;
 
 const useGetItemRolesById: FnUseGetItemRolesById = (item, options, isPaused) => {

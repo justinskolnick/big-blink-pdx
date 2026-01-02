@@ -500,16 +500,16 @@ export type AssociatedEntities = AssociatedItem & {
   values: AssociatedEntitiesValue[];
 };
 
-type PersonNamedRole = {
+type NamedRole = {
   label: string;
   role: Role;
   attendees?: AssociatedPersons;
   entities?: AssociatedEntities;
 };
 
-export type PersonNamedRoles = {
-  lobbyist?: PersonNamedRole;
-  official?: PersonNamedRole;
+export type NamedRoles = {
+  lobbyist?: NamedRole;
+  official?: NamedRole;
 };
 
 export type RoleOptions = {
@@ -517,10 +517,10 @@ export type RoleOptions = {
   official: boolean;
 };
 
-type ItemRoles = {
+export type ItemRoles = {
   label: string;
   list: Role[];
-  named?: PersonNamedRoles;
+  named?: NamedRoles;
   options?: RoleOptions;
 };
 
