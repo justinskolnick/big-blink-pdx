@@ -1,4 +1,4 @@
-FROM node:22.19-bookworm AS build
+FROM node:24.12-bookworm AS build
 RUN apt-get -y update \
   && apt-get install -y vim
 

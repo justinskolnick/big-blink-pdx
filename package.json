@@ -5,7 +5,7 @@
   "private": true,
   "engineStrict": true,
   "engines": {
-    "node": "22.19.0"
+    "node": "24.12.0"
   },
   "config": {
     "scripts": {
@@ -90,5 +90,5 @@
     "glob": "^10.5.0",
     "qs": "^6.14.1"
   },
-  "packageManager": "yarn@4.10.3"
+  "packageManager": "yarn@4.12.0"
 }
