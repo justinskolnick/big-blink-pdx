@@ -20,9 +20,9 @@
   "scripts": {
     "start:dev": "NODE_ENV=development nodemon node ./app/bin/www",
     "start": "NODE_ENV=production node ./app/bin/www",
-    "build:dev": "NODE_ENV=development ./assets/bin/scripts-development.js",
-    "build": "NODE_ENV=production ./assets/bin/scripts-production.js",
-    "watch": "NODE_ENV=development ./assets/bin/scripts-development-watch.js",
+    "build:dev": "NODE_ENV=development assets/bin/scripts-development.js",
+    "build": "NODE_ENV=production assets/bin/scripts-production.js",
+    "watch": "NODE_ENV=development assets/bin/scripts-development-watch.js",
     "lint": "eslint app assets/scripts --cache --cache-location ./tmp/.eslintcache",
     "test": "jest"
   },
