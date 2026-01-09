@@ -35,6 +35,10 @@ interface FnUseGetItemRolesById {
   }
 }
 
+interface FnGetRoleQuery {
+  (type: string): ApiQueryType
+}
+
 interface GroupProps {
   children: ReactNode;
   icon?: IconName;
@@ -58,16 +62,19 @@ interface Props {
   item: Entity | Person;
 }
 
-const roleQuery = {
-  entity: api.useLazyGetEntityRolesByIdQuery,
-  group: api.useLazyGetPersonRolesByIdQuery,
-  person: api.useLazyGetPersonRolesByIdQuery,
-  unknown: api.useLazyGetPersonRolesByIdQuery,
-} as Record<string, ApiQueryType>;
+const getRoleQuery: FnGetRoleQuery = (type) => {
+  if (['group', 'person', 'unknown'].includes(type)) {
+    return api.useLazyGetPersonRolesByIdQuery;
+  } else if (type === 'entity') {
+    return api.useLazyGetEntityRolesByIdQuery;
+  }
+
+  return null;
+};
 
 const useGetItemRolesById: FnUseGetItemRolesById = (item, options, isPaused) => {
   const searchParams = new URLSearchParams(options);
-  const query = roleQuery[item.type];
+  const query = getRoleQuery(item.type);
 
   return useLimitedQuery(query, {
     id: item.id,
@@ -239,13 +246,13 @@ const Associations = ({ item }: Props) => {
     }, []), [options]);
 
   return (
-    <section className='activity-details'>
+    <>
       <ActivityHeader title={item.roles.label} />
 
       {roles.map((role, i) => (
         <NamedRole key={i} item={item} role={role} />
       ))}
-    </section>
+    </>
   );
 };
 

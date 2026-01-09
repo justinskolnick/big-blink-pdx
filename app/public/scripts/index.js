@@ -21598,7 +21598,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment28 = REACT_FRAGMENT_TYPE;
+          var Fragment29 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -21657,7 +21657,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment28;
+          exports.Fragment = Fragment29;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -47435,15 +47435,17 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/detail-activity-associations.tsx
   var import_jsx_runtime53 = __toESM(require_jsx_runtime());
-  var roleQuery = {
-    entity: api_default.useLazyGetEntityRolesByIdQuery,
-    group: api_default.useLazyGetPersonRolesByIdQuery,
-    person: api_default.useLazyGetPersonRolesByIdQuery,
-    unknown: api_default.useLazyGetPersonRolesByIdQuery
+  var getRoleQuery = (type) => {
+    if (["group", "person", "unknown"].includes(type)) {
+      return api_default.useLazyGetPersonRolesByIdQuery;
+    } else if (type === "entity") {
+      return api_default.useLazyGetEntityRolesByIdQuery;
+    }
+    return null;
   };
   var useGetItemRolesById = (item, options2, isPaused) => {
     const searchParams = new URLSearchParams(options2);
-    const query = roleQuery[item.type];
+    const query = getRoleQuery(item.type);
     return use_limited_query_default(query, {
       id: item.id,
       limit: 5,
@@ -47585,7 +47587,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       return all;
     }, []), [options2]);
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "activity-details", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(detail_activity_header_default, { title: item.roles.label }),
       roles.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(NamedRole, { item, role }, i2))
     ] });
