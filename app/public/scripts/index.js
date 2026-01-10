@@ -23134,7 +23134,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-JMJ3UQ3L.mjs
+  // node_modules/react-router/dist/development/chunk-EPOLDU6W.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23994,6 +23994,9 @@
           (...args) => getHandlerInfo(args[0])
         );
         if (instrumented) {
+          if (key === "loader" && original2.hydrate === true) {
+            instrumented.hydrate = true;
+          }
           instrumented[UninstrumentedSymbol] = original2;
           updates[key] = instrumented;
         }
@@ -24907,7 +24910,8 @@
           let location22 = normalizeRedirectLocation(
             result.response.headers.get("Location"),
             new URL(request.url),
-            basename
+            basename,
+            init.history
           );
           replace22 = location22 === state.location.pathname + state.location.search;
         }
@@ -25541,7 +25545,8 @@
       location2 = normalizeRedirectLocation(
         location2,
         new URL(request.url),
-        basename
+        basename,
+        init.history
       );
       let redirectLocation = createLocation(state.location, location2, {
         _isRedirect: true
@@ -27137,14 +27142,37 @@
     }
     return response;
   }
-  function normalizeRedirectLocation(location2, currentUrl, basename) {
+  function normalizeRedirectLocation(location2, currentUrl, basename, historyInstance) {
+    let invalidProtocols = [
+      "about:",
+      "blob:",
+      "chrome:",
+      "chrome-untrusted:",
+      "content:",
+      "data:",
+      "devtools:",
+      "file:",
+      "filesystem:",
+      // eslint-disable-next-line no-script-url
+      "javascript:"
+    ];
     if (isAbsoluteUrl(location2)) {
       let normalizedLocation = location2;
       let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
+      if (invalidProtocols.includes(url.protocol)) {
+        throw new Error("Invalid redirect location");
+      }
       let isSameBasename = stripBasename(url.pathname, basename) != null;
       if (url.origin === currentUrl.origin && isSameBasename) {
         return url.pathname + url.search + url.hash;
       }
+    }
+    try {
+      let url = historyInstance.createURL(location2);
+      if (invalidProtocols.includes(url.protocol)) {
+        throw new Error("Invalid redirect location");
+      }
+    } catch (e2) {
     }
     return location2;
   }
@@ -28780,24 +28808,43 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return { action, method: method.toLowerCase(), encType, formData, body };
   }
   var objectProtoNames2 = Object.getOwnPropertyNames(Object.prototype).sort().join("\0");
+  var ESCAPE_LOOKUP = {
+    "&": "\\u0026",
+    ">": "\\u003e",
+    "<": "\\u003c",
+    "\u2028": "\\u2028",
+    "\u2029": "\\u2029"
+  };
+  var ESCAPE_REGEX = /[&><\u2028\u2029]/g;
+  function escapeHtml(html) {
+    return html.replace(ESCAPE_REGEX, (match2) => ESCAPE_LOOKUP[match2]);
+  }
   function invariant2(value, message) {
     if (value === false || value === null || typeof value === "undefined") {
       throw new Error(message);
     }
   }
-  function singleFetchUrl(reqUrl, basename, extension) {
+  function singleFetchUrl(reqUrl, basename, trailingSlashAware, extension) {
     let url = typeof reqUrl === "string" ? new URL(
       reqUrl,
       // This can be called during the SSR flow via PrefetchPageLinksImpl so
       // don't assume window is available
       typeof window === "undefined" ? "server://singlefetch/" : window.location.origin
     ) : reqUrl;
-    if (url.pathname === "/") {
-      url.pathname = `_root.${extension}`;
-    } else if (basename && stripBasename(url.pathname, basename) === "/") {
-      url.pathname = `${basename.replace(/\/$/, "")}/_root.${extension}`;
+    if (trailingSlashAware) {
+      if (url.pathname.endsWith("/")) {
+        url.pathname = `${url.pathname}_.${extension}`;
+      } else {
+        url.pathname = `${url.pathname}.${extension}`;
+      }
     } else {
-      url.pathname = `${url.pathname.replace(/\/$/, "")}.${extension}`;
+      if (url.pathname === "/") {
+        url.pathname = `_root.${extension}`;
+      } else if (basename && stripBasename(url.pathname, basename) === "/") {
+        url.pathname = `${basename.replace(/\/$/, "")}/_root.${extension}`;
+      } else {
+        url.pathname = `${url.pathname.replace(/\/$/, "")}.${extension}`;
+      }
     }
     return url;
   }
@@ -29079,7 +29126,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     ...linkProps
   }) {
     let location2 = useLocation();
-    let { manifest, routeModules } = useFrameworkContext();
+    let { future, manifest, routeModules } = useFrameworkContext();
     let { basename } = useDataRouterContext2();
     let { loaderData, matches: matches2 } = useDataRouterStateContext();
     let newMatchesForData = React8.useMemo(
@@ -29126,7 +29173,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (routesParams.size === 0) {
         return [];
       }
-      let url = singleFetchUrl(page, basename, "data");
+      let url = singleFetchUrl(
+        page,
+        basename,
+        future.unstable_trailingSlashAwareDataRequests,
+        "data"
+      );
       if (foundOptOutRoute && routesParams.size > 0) {
         url.searchParams.set(
           "_routes",
@@ -29136,6 +29188,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       return [url.pathname + url.search];
     }, [
       basename,
+      future.unstable_trailingSlashAwareDataRequests,
       loaderData,
       location2,
       manifest,
@@ -29170,7 +29223,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser2) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.11.0";
+      "7.12.0";
     }
   } catch (e2) {
   }
@@ -29506,9 +29559,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         ...props,
         suppressHydrationWarning: true,
         dangerouslySetInnerHTML: {
-          __html: `(${restoreScroll})(${JSON.stringify(
-            storageKey || SCROLL_RESTORATION_STORAGE_KEY
-          )}, ${JSON.stringify(ssrKey)})`
+          __html: `(${restoreScroll})(${escapeHtml(
+            JSON.stringify(storageKey || SCROLL_RESTORATION_STORAGE_KEY)
+          )}, ${escapeHtml(JSON.stringify(ssrKey))})`
         }
       }
     );
@@ -61842,10 +61895,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-JMJ3UQ3L.mjs:
+react-router/dist/development/chunk-EPOLDU6W.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.11.0
+   * react-router v7.12.0
    *
    * Copyright (c) Remix Software Inc.
    *
