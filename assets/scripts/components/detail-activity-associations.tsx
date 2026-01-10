@@ -35,14 +35,13 @@ interface FnUseGetItemRolesById {
   }
 }
 
-interface FnGetRoleQuery {
+export interface FnGetQueryByType {
   (type: string): ApiQueryType
 }
 
 interface GroupProps {
-  children: ReactNode;
+  children: (ref: RefObject<HTMLElement>) => ReactNode;
   icon?: IconName;
-  ref: RefObject<HTMLElement>;
   title: string;
 }
 
@@ -62,7 +61,7 @@ interface Props {
   item: Entity | Person;
 }
 
-const getRoleQuery: FnGetRoleQuery = (type) => {
+const getRoleQuery: FnGetQueryByType = (type) => {
   if (['group', 'person', 'unknown'].includes(type)) {
     return api.useLazyGetPersonRolesByIdQuery;
   } else if (type === 'entity') {
@@ -72,7 +71,7 @@ const getRoleQuery: FnGetRoleQuery = (type) => {
   return null;
 };
 
-const useGetItemRolesById: FnUseGetItemRolesById = (item, options, isPaused) => {
+const useGetItemRolesByItem: FnUseGetItemRolesById = (item, options, isPaused) => {
   const searchParams = new URLSearchParams(options);
   const query = getRoleQuery(item.type);
 
@@ -84,19 +83,23 @@ const useGetItemRolesById: FnUseGetItemRolesById = (item, options, isPaused) => 
   });
 };
 
-const Group = ({ children, icon, ref, title }: GroupProps) => (
-  <IncidentActivityGroups
-    title={title}
-    icon={icon}
-    ref={ref}
-  >
-    <IncidentActivityGroup>
-      <ItemSubsection>
-        {children}
-      </ItemSubsection>
-    </IncidentActivityGroup>
-  </IncidentActivityGroups>
-);
+export const Group = ({ children, icon, title }: GroupProps) => {
+  const ref = useRef<HTMLElement>(null);
+
+  return (
+    <IncidentActivityGroups
+      title={title}
+      icon={icon}
+      ref={ref}
+    >
+      <IncidentActivityGroup>
+        <ItemSubsection>
+          {children(ref)}
+        </ItemSubsection>
+      </IncidentActivityGroup>
+    </IncidentActivityGroups>
+  );
+};
 
 const AssociationGroup = ({
   children,
@@ -112,7 +115,7 @@ const AssociationGroup = ({
     initialLimit,
     setPaused,
     setRecordLimit,
-  } = useGetItemRolesById(item, options, true);
+  } = useGetItemRolesByItem(item, options, true);
 
   const setLimit = () => {
     setPaused(false);
@@ -125,22 +128,19 @@ const AssociationGroup = ({
 };
 
 const Attendees = ({ item, role }: NamedRoleProps) => {
-  const ref = useRef<HTMLElement>(null);
-
   const namedRole = item?.roles.named?.[role];
-  const attendees = namedRole?.attendees;
+  const items = namedRole?.attendees;
 
-  const hasAttendees = attendees?.values.length > 0;
+  const hasItems = items?.values.length > 0;
 
-  if (!hasAttendees) return null;
+  if (!hasItems) return null;
 
   return (
     <Group
-      title={attendees.label}
+      title={items.label}
       icon='user-group'
-      ref={ref}
     >
-      {attendees.values.map((value, i: number) => (
+      {(ref) => items.values.map((value, i: number) => (
         <AssociationGroup
           item={item}
           role={role}
@@ -151,7 +151,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
             <AffiliatedPeopleTable
               attendees={value}
               initialCount={initialLimit}
-              model={attendees.model}
+              model={items.model}
               ref={ref}
               role={role}
               setLimit={setLimit}
@@ -164,22 +164,19 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
 };
 
 const Entities = ({ item, role }: NamedRoleProps) => {
-  const ref = useRef<HTMLElement>(null);
-
   const namedRole = item?.roles.named?.[role];
-  const entities = namedRole?.entities;
+  const items = namedRole?.entities;
 
-  const hasEntities = entities?.values.length > 0;
+  const hasItems = items?.values.length > 0;
 
-  if (!hasEntities) return null;
+  if (!hasItems) return null;
 
   return (
     <Group
-      title={entities.label}
+      title={items.label}
       icon='building'
-      ref={ref}
     >
-      {entities.values.map((value, i: number) => (
+      {(ref) => items.values.map((value, i: number) => (
         <AssociationGroup
           item={item}
           role={role}
@@ -192,7 +189,7 @@ const Entities = ({ item, role }: NamedRoleProps) => {
               hasAuxiliaryType={value.role === Role.Lobbyist}
               hasLobbyist={value.role === Role.Lobbyist}
               initialCount={initialLimit}
-              model={entities.model}
+              model={items.model}
               ref={ref}
               role={value.role}
               setLimit={setLimit}
@@ -210,7 +207,7 @@ const NamedRole = ({ item, role }: NamedRoleProps) => {
   const options = { role };
   const namedRole = item?.roles.named?.[role];
 
-  useGetItemRolesById(item, options, hasRun);
+  useGetItemRolesByItem(item, options, hasRun);
 
   useEffect(() => {
     setHasRun(true);
