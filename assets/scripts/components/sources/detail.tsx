@@ -1,7 +1,8 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, ReactNode, RefObject } from 'react';
 import { useParams } from 'react-router';
 
 import { Group } from '../detail-activity-associations';
+import ActivityDetails from '../detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import AffiliatedPeopleTable from '../affiliated-people-table';
@@ -60,14 +61,10 @@ interface ItemProps {
   item: Source;
 }
 
-const getLabels = () => ({
-  attendees: {
-    title: 'Associated Names',
-  },
-  entities: {
-    title: 'Associated Entities',
-  },
-});
+interface DetailActivityProps {
+  source: Source;
+  ref: RefObject<HTMLDivElement>;
+}
 
 const getQuery: FnGetQueryByType = (type) => {
   if (type === 'attendees') {
@@ -124,16 +121,16 @@ const InitGroup = ({ item, type, children }: InitGroupProps) => {
 };
 
 const Attendees = ({ item }: ItemProps) => {
-  const labels = getLabels();
+  const items = item.attendees;
 
   return (
-    <Group title={labels.attendees.title} icon={peopleIconName}>
+    <Group title={items?.label} icon={peopleIconName}>
       {(ref) => (
         <InitGroup
           item={item}
           type='attendees'
         >
-          {item.attendees?.values.map((value, i: number) => (
+          {items?.values.map((value, i: number) => (
             <AssociationGroup
               item={item}
               type='attendees'
@@ -158,16 +155,16 @@ const Attendees = ({ item }: ItemProps) => {
 };
 
 const Entities = ({ item }: ItemProps) => {
-  const labels = getLabels();
+  const items = item.entities;
 
   return (
-    <Group title={labels.entities.title} icon={entitiesIconName}>
+    <Group title={items?.label} icon={entitiesIconName}>
       {(ref) => (
         <InitGroup
           item={item}
           type='entities'
         >
-          {item.entities?.values.map((value, i: number) => (
+          {items?.values.map((value, i: number) => (
             <AssociationGroup
               item={item}
               type='entities'
@@ -188,6 +185,48 @@ const Entities = ({ item }: ItemProps) => {
         </InitGroup>
       )}
     </Group>
+  );
+};
+
+const DetailActivity = ({ source, ref }: DetailActivityProps) => {
+  const hasSource = Boolean(source);
+  const hasDetails = hasSource && Boolean(source.attendees) && Boolean(source.entities);
+
+  const canLoadDetails = hasSource;
+  const canLoadIncidents = hasDetails;
+
+  if (!hasSource) return null;
+
+  return (
+    <>
+      {canLoadDetails && (
+        <ActivityDetails>
+          <Entities item={source} />
+          <Attendees item={source} />
+        </ActivityDetails>
+      )}
+
+      {canLoadIncidents && (
+        <IncidentsTrigger>
+          {trigger => (
+            <IncidentsFetcher
+              id={source.id}
+              ref={ref}
+              trigger={trigger}
+            >
+              <Incidents
+                ids={source.incidents?.ids}
+                filters={source.incidents?.filters}
+                hasSort
+                label={source.title}
+                pagination={source.incidents?.pagination}
+                ref={ref}
+              />
+            </IncidentsFetcher>
+          )}
+        </IncidentsTrigger>
+      )}
+    </>
   );
 };
 
@@ -223,29 +262,10 @@ const Detail = () => {
       </ActivityOverview>
 
       {isActivity && (
-        <>
-          <Entities item={source} />
-          <Attendees item={source} />
-
-          <IncidentsTrigger>
-            {trigger => (
-              <IncidentsFetcher
-                id={source.id}
-                ref={incidentsRef}
-                trigger={trigger}
-              >
-                <Incidents
-                  ids={source.incidents?.ids}
-                  filters={source.incidents?.filters}
-                  hasSort
-                  label={source.title}
-                  pagination={source.incidents?.pagination}
-                  ref={incidentsRef}
-                />
-              </IncidentsFetcher>
-            )}
-          </IncidentsTrigger>
-        </>
+        <DetailActivity
+          source={source}
+          ref={incidentsRef}
+        />
       )}
     </ItemDetail>
   );
