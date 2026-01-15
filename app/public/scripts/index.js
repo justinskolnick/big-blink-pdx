@@ -21459,7 +21459,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect33 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
+        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect34 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef21(null);
           if (null === instRef.current) {
@@ -21502,7 +21502,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect33(
+          useEffect34(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -21598,7 +21598,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment29 = REACT_FRAGMENT_TYPE;
+          var Fragment28 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -21657,7 +21657,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment29;
+          exports.Fragment = Fragment28;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -47142,9 +47142,15 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var use_limited_query_default = useLimitedQuery;
 
-  // assets/scripts/components/detail-activity-header.tsx
+  // assets/scripts/components/detail-activity-details.tsx
   var import_jsx_runtime39 = __toESM(require_jsx_runtime());
-  var ActivityHeader = ({ title }) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+  var ActivityDetailsSection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("section", { className: "activity-details-section", children });
+  var ActivityDetails = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("section", { className: "activity-details", children });
+  var detail_activity_details_default = ActivityDetails;
+
+  // assets/scripts/components/detail-activity-header.tsx
+  var import_jsx_runtime40 = __toESM(require_jsx_runtime());
+  var ActivityHeader = ({ title }) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
     item_subhead_default,
     {
       title,
@@ -47154,11 +47160,11 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_activity_header_default = ActivityHeader;
 
   // assets/scripts/components/detail-activity-subhead.tsx
-  var import_jsx_runtime40 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime41 = __toESM(require_jsx_runtime());
   var ActivitySubhead = ({
     icon: icon3,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
     item_subhead_default,
     {
       subtitle: title,
@@ -47172,31 +47178,31 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react27 = __toESM(require_react());
 
   // assets/scripts/components/item-table.tsx
-  var import_jsx_runtime41 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime42 = __toESM(require_jsx_runtime());
   var ItemTable = ({
     children,
     hasAnotherIcon = false,
     hasPercent = false,
     labels
-  }) => /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("table", { className: "item-table", cellPadding: "0", cellSpacing: "0", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-name", colSpan: hasAnotherIcon ? 3 : 2, title: labels?.column.name, children: "Name" }),
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-total", title: labels?.column.total, children: "Total" }),
-      hasPercent && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("th", { className: "cell-percent", title: labels?.column.percentage, children: "%" })
+  }) => /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("table", { className: "item-table", cellPadding: "0", cellSpacing: "0", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("th", { className: "cell-name", colSpan: hasAnotherIcon ? 3 : 2, title: labels?.column.name, children: "Name" }),
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("th", { className: "cell-total", title: labels?.column.total, children: "Total" }),
+      hasPercent && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("th", { className: "cell-percent", title: labels?.column.percentage, children: "%" })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("tbody", { children })
+    /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("tbody", { children })
   ] });
   var item_table_default = ItemTable;
 
   // assets/scripts/components/stat-box.tsx
-  var import_jsx_runtime42 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime43 = __toESM(require_jsx_runtime());
   var StatBox = ({
     children,
     className,
     icon: icon3,
     onClick,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
     "div",
     {
       className: cx(
@@ -47205,10 +47211,10 @@ Hook ${hookName} was either not provided or not a function.`);
         icon3 && "has-icon"
       ),
       children: [
-        icon3 && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(icon_default, { name: icon3 }),
-        /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "activity-stat-content", children: [
-          title && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { className: "activity-stat-title", children: title }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(
+        icon3 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(icon_default, { name: icon3 }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "activity-stat-content", children: [
+          title && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "activity-stat-title", children: title }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
             "div",
             {
               className: "activity-stat-value",
@@ -47223,12 +47229,12 @@ Hook ${hookName} was either not provided or not a function.`);
   var stat_box_default = StatBox;
 
   // assets/scripts/components/affiliated-item-table.tsx
-  var import_jsx_runtime43 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime44 = __toESM(require_jsx_runtime());
   var AffiliatedItems = ({
     children,
     className,
     ref
-  }) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: cx("affiliated-items", className), ref, children });
+  }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: cx("affiliated-items", className), ref, children });
   var AffiliatedItemTable = ({
     children,
     hasAuxiliaryType,
@@ -47251,30 +47257,30 @@ Hook ${hookName} was either not provided or not a function.`);
         setLimit(null);
       }
     }, [canSetLimit, setLimit, showAll]);
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(AffiliatedItems, { ref: tableRef, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
-      hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(AffiliatedItems, { ref: tableRef, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
+      hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
         scrollToRef2();
         setShowAll(!showAll);
-      }, children: showAll ? /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(import_jsx_runtime43.Fragment, { children: [
+      }, children: showAll ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
         "View top ",
         initialCount,
         " ",
         label
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(import_jsx_runtime43.Fragment, { children: [
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
         "View all ",
         total,
         " ",
         label
       ] }) })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AffiliatedItems, { className: "no-results", children: "None found" }) });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(AffiliatedItems, { className: "no-results", children: "None found" }) });
   };
   var affiliated_item_table_default = AffiliatedItemTable;
 
   // assets/scripts/components/affiliated-entities-table.tsx
-  var import_jsx_runtime44 = __toESM(require_jsx_runtime());
-  var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(icon_default, { name: "check", className: "icon-registered" });
+  var import_jsx_runtime45 = __toESM(require_jsx_runtime());
+  var RegisteredIcon = () => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default, { name: "check", className: "icon-registered" });
   var AffiliatedEntity = ({
     hasAuxiliaryType,
     hasLobbyist,
@@ -47283,34 +47289,34 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const entity = useGetEntityById(item.entity.id);
     if (!entity) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("td", { className: "cell-type", children: entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-type", children: entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
         "div",
         {
           className: "icons",
           title: "Entity has been registered",
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(icon_default2, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(RegisteredIcon, {})
+            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(RegisteredIcon, {})
           ]
         }
-      ) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(icon_default2, {}) }),
-      hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(
+      ) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {}) }),
+      hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
         "div",
         {
           className: "icons",
           title: item.isRegistered ? "Lobbyist has been registered" : item.registrations,
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(icon_default4, {}),
-            item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(RegisteredIcon, {})
+            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default4, {}),
+            item.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(RegisteredIcon, {})
           ]
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("td", { className: "cell-name", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_link_default2, { item: entity, children: entity.name }),
-        hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "item-description", children: item.registrations })
+      /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("td", { className: "cell-name", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(item_link_default2, { item: entity, children: entity.name }),
+        hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "item-description", children: item.registrations })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(FilterLink, { newParams: getWithEntityParams(entity, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(import_jsx_runtime44.Fragment, { children: "-" }) })
+      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(FilterLink, { newParams: getWithEntityParams(entity, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_jsx_runtime45.Fragment, { children: "-" }) })
     ] });
   };
   var AffiliatedEntitiesTable = ({
@@ -47323,7 +47329,7 @@ Hook ${hookName} was either not provided or not a function.`);
     role,
     setLimit,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     affiliated_item_table_default,
     {
       hasAuxiliaryType,
@@ -47335,7 +47341,7 @@ Hook ${hookName} was either not provided or not a function.`);
       total: entities.total,
       children: (showAll) => {
         const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
           AffiliatedEntity,
           {
             hasAuxiliaryType,
@@ -47351,14 +47357,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
 
   // assets/scripts/components/affiliated-people-table.tsx
-  var import_jsx_runtime45 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime46 = __toESM(require_jsx_runtime());
   var AffiliatedPerson = ({ item, personRole, role }) => {
     const person = useGetPersonById(item.person.id);
     if (!person) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("tr", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default4, { person }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(item_link_default, { item: person, children: person.name }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(FilterLink, { newParams: getWithPeopleParams(person, personRole, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_jsx_runtime45.Fragment, { children: "-" }) })
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("tr", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("td", { className: "cell-type", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(icon_default4, { person }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("td", { className: "cell-name", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(item_link_default, { item: person, children: person.name }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("td", { className: "cell-total", children: item.total ? /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(FilterLink, { newParams: getWithPeopleParams(person, personRole, role), hasIcon: true, children: item.total }) : /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(import_jsx_runtime46.Fragment, { children: "-" }) })
     ] });
   };
   var AffiliatedPeopleTable = ({
@@ -47368,7 +47374,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ref,
     role,
     setLimit
-  }) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     affiliated_item_table_default,
     {
       initialCount,
@@ -47379,7 +47385,7 @@ Hook ${hookName} was either not provided or not a function.`);
       total: attendees.total,
       children: (showAll) => {
         const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
-        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
           AffiliatedPerson,
           {
             item,
@@ -47394,21 +47400,21 @@ Hook ${hookName} was either not provided or not a function.`);
   var affiliated_people_table_default = AffiliatedPeopleTable;
 
   // assets/scripts/components/item-description.tsx
-  var import_jsx_runtime46 = __toESM(require_jsx_runtime());
-  var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("div", { className: cx("item-description", className), children });
+  var import_jsx_runtime47 = __toESM(require_jsx_runtime());
+  var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: cx("item-description", className), children });
   var item_description_default = ItemDescription;
 
   // assets/scripts/components/subsection-subhead.tsx
-  var import_jsx_runtime47 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime48 = __toESM(require_jsx_runtime());
   var SubsectionSubhead = ({
     children,
     icon: icon3,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: "subsection-header", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(item_subhead_default, { title, icon: icon3, children: children && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(item_description_default, { children }) }) });
+  }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("div", { className: "subsection-header", children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_subhead_default, { title, icon: icon3, children: children && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_description_default, { children }) }) });
   var subsection_subhead_default = SubsectionSubhead;
 
   // assets/scripts/components/stat-section.tsx
-  var import_jsx_runtime48 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime49 = __toESM(require_jsx_runtime());
   var StatSection = ({
     children,
     className,
@@ -47418,14 +47424,14 @@ Hook ${hookName} was either not provided or not a function.`);
     stylized = false,
     subtitle,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("section", { className: cx("activity-stat-section", className), ref, children: [
-    (title || subtitle) && (stylized ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(subsection_subhead_default, { title, icon: icon3, children: description }) : /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) })),
+  }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: cx("activity-stat-section", className), ref, children: [
+    (title || subtitle) && (stylized ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(subsection_subhead_default, { title, icon: icon3, children: description }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) })),
     children
   ] });
   var stat_section_default = StatSection;
 
   // assets/scripts/components/incident-activity-groups.tsx
-  var import_jsx_runtime49 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime50 = __toESM(require_jsx_runtime());
   var IncidentActivityGroups = ({
     children,
     className,
@@ -47433,7 +47439,7 @@ Hook ${hookName} was either not provided or not a function.`);
     icon: icon3,
     ref,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(
     stat_section_default,
     {
       className: cx("incident-activity-stat-groups", className),
@@ -47442,34 +47448,34 @@ Hook ${hookName} was either not provided or not a function.`);
       description,
       ref,
       stylized: true,
-      children: /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "incident-activity-stat-groups-list", children })
+      children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "incident-activity-stat-groups-list", children })
     }
   );
   var incident_activity_groups_default = IncidentActivityGroups;
 
   // assets/scripts/components/stat-group.tsx
-  var import_jsx_runtime50 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime51 = __toESM(require_jsx_runtime());
   var StatGroup = ({
     children,
     className,
     description,
     subtitle,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: cx("activity-stat-group", className), children: [
-    title || subtitle ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) }) : null,
+  }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: cx("activity-stat-group", className), children: [
+    title || subtitle ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(item_subhead_default, { title, subtitle, children: description && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(item_description_default, { className: "incident-activity-stat-groups-description", children: description }) }) : null,
     children
   ] });
   var stat_group_default = StatGroup;
 
   // assets/scripts/components/incident-activity-group.tsx
-  var import_jsx_runtime51 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime52 = __toESM(require_jsx_runtime());
   var IncidentActivityGroup = ({
     children,
     className,
     description,
     subtitle,
     title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(
     stat_group_default,
     {
       className: cx("incident-activity-stat-group", className),
@@ -47482,12 +47488,12 @@ Hook ${hookName} was either not provided or not a function.`);
   var incident_activity_group_default = IncidentActivityGroup;
 
   // assets/scripts/components/item-subsection.tsx
-  var import_jsx_runtime52 = __toESM(require_jsx_runtime());
-  var ItemSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "item-subsection", children });
+  var import_jsx_runtime53 = __toESM(require_jsx_runtime());
+  var ItemSubsection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("div", { className: "item-subsection", children });
   var item_subsection_default = ItemSubsection;
 
   // assets/scripts/components/detail-activity-associations.tsx
-  var import_jsx_runtime53 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime54 = __toESM(require_jsx_runtime());
   var getRoleQuery = (type) => {
     if (["group", "person", "unknown"].includes(type)) {
       return api_default.useLazyGetPersonRolesByIdQuery;
@@ -47496,7 +47502,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return null;
   };
-  var useGetItemRolesById = (item, options2, isPaused) => {
+  var useGetItemRolesByItem = (item, options2, isPaused) => {
     const searchParams = new URLSearchParams(options2);
     const query = getRoleQuery(item.type);
     return use_limited_query_default(query, {
@@ -47506,15 +47512,18 @@ Hook ${hookName} was either not provided or not a function.`);
       search: searchParams
     });
   };
-  var Group = ({ children, icon: icon3, ref, title }) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
-    incident_activity_groups_default,
-    {
-      title,
-      icon: icon3,
-      ref,
-      children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(incident_activity_group_default, { children: /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(item_subsection_default, { children }) })
-    }
-  );
+  var Group = ({ children, icon: icon3, title }) => {
+    const ref = (0, import_react28.useRef)(null);
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+      incident_activity_groups_default,
+      {
+        title,
+        icon: icon3,
+        ref,
+        children: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(incident_activity_group_default, { children: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(item_subsection_default, { children: children(ref) }) })
+      }
+    );
+  };
   var AssociationGroup = ({
     children,
     item,
@@ -47529,7 +47538,7 @@ Hook ${hookName} was either not provided or not a function.`);
       initialLimit,
       setPaused,
       setRecordLimit
-    } = useGetItemRolesById(item, options2, true);
+    } = useGetItemRolesByItem(item, options2, true);
     const setLimit = () => {
       setPaused(false);
       setRecordLimit(value.total);
@@ -47538,29 +47547,27 @@ Hook ${hookName} was either not provided or not a function.`);
     return children(initialLimit, setLimit);
   };
   var Attendees = ({ item, role }) => {
-    const ref = (0, import_react28.useRef)(null);
     const namedRole = item?.roles.named?.[role];
-    const attendees = namedRole?.attendees;
-    const hasAttendees = attendees?.values.length > 0;
-    if (!hasAttendees) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+    const items = namedRole?.attendees;
+    const hasItems = items?.values.length > 0;
+    if (!hasItems) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Group,
       {
-        title: attendees.label,
+        title: items.label,
         icon: "user-group",
-        ref,
-        children: attendees.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+        children: (ref) => items.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
           AssociationGroup,
           {
             item,
             role,
             value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_people_table_default,
               {
                 attendees: value,
                 initialCount: initialLimit,
-                model: attendees.model,
+                model: items.model,
                 ref,
                 role,
                 setLimit
@@ -47573,31 +47580,29 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var Entities = ({ item, role }) => {
-    const ref = (0, import_react28.useRef)(null);
     const namedRole = item?.roles.named?.[role];
-    const entities = namedRole?.entities;
-    const hasEntities = entities?.values.length > 0;
-    if (!hasEntities) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+    const items = namedRole?.entities;
+    const hasItems = items?.values.length > 0;
+    if (!hasItems) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Group,
       {
-        title: entities.label,
+        title: items.label,
         icon: "building",
-        ref,
-        children: entities.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+        children: (ref) => items.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
           AssociationGroup,
           {
             item,
             role,
             value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_entities_table_default,
               {
                 entities: value,
                 hasAuxiliaryType: value.role === "lobbyist" /* Lobbyist */,
                 hasLobbyist: value.role === "lobbyist" /* Lobbyist */,
                 initialCount: initialLimit,
-                model: entities.model,
+                model: items.model,
                 ref,
                 role: value.role,
                 setLimit,
@@ -47614,22 +47619,22 @@ Hook ${hookName} was either not provided or not a function.`);
     const [hasRun, setHasRun] = (0, import_react28.useState)(false);
     const options2 = { role };
     const namedRole = item?.roles.named?.[role];
-    useGetItemRolesById(item, options2, hasRun);
+    useGetItemRolesByItem(item, options2, hasRun);
     (0, import_react28.useEffect)(() => {
       setHasRun(true);
     }, [setHasRun]);
     const hasNamedRole = Boolean(namedRole);
     if (!hasNamedRole) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "activity-details-section", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(ActivityDetailsSection, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         detail_activity_subhead_default,
         {
           title: namedRole.label,
           icon: getRoleIconName(namedRole.role)
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Entities, { item, role }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Attendees, { item, role })
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Entities, { item, role }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Attendees, { item, role })
     ] });
   };
   var Associations = ({ item }) => {
@@ -47640,17 +47645,12 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       return all;
     }, []), [options2]);
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(detail_activity_header_default, { title: item.roles.label }),
-      roles.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(NamedRole, { item, role }, i2))
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(import_jsx_runtime54.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(detail_activity_header_default, { title: item.roles.label }),
+      roles.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(NamedRole, { item, role }, i2))
     ] });
   };
   var detail_activity_associations_default = Associations;
-
-  // assets/scripts/components/detail-activity-details.tsx
-  var import_jsx_runtime54 = __toESM(require_jsx_runtime());
-  var ActivityDetails = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("section", { className: "activity-details", children });
-  var detail_activity_details_default = ActivityDetails;
 
   // assets/scripts/components/incident-date-box.tsx
   var import_react29 = __toESM(require_react());
@@ -61524,103 +61524,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/detail.tsx
   var import_react44 = __toESM(require_react());
 
-  // assets/scripts/components/affiliated-records-group.tsx
-  var import_jsx_runtime93 = __toESM(require_jsx_runtime());
-  var RecordsGroup = ({
-    children,
-    group,
-    icon: icon3,
-    title
-  }) => {
-    const hasIcon = Boolean(icon3);
-    return /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(
-      incident_activity_group_default,
-      {
-        subtitle: /* @__PURE__ */ (0, import_jsx_runtime93.jsxs)(import_jsx_runtime93.Fragment, { children: [
-          hasIcon && /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(icon_default, { name: icon3 }),
-          /* @__PURE__ */ (0, import_jsx_runtime93.jsx)("span", { className: "item-text", children: title || group.label })
-        ] }),
-        children: children && /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(item_subsection_default, { children })
-      }
-    );
-  };
-  var AffiliatedRecordsGroup = ({
-    children,
-    group,
-    notFoundLabel
-  }) => {
-    const hasRecords = group.values.some((value) => value.records.length);
-    return hasRecords ? /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(RecordsGroup, { group, children }) : /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(RecordsGroup, { title: notFoundLabel });
-  };
-  var affiliated_records_group_default = AffiliatedRecordsGroup;
-
-  // assets/scripts/components/sources/attendees.tsx
-  var import_jsx_runtime94 = __toESM(require_jsx_runtime());
-  var Attendees2 = ({ source }) => {
-    const query = api_default.useLazyGetSourceAttendeesByIdQuery;
-    const { initialLimit, setRecordLimit } = use_limited_query_default(query, {
-      id: source.id,
-      limit: 5
-    });
-    const hasSource = Boolean(source);
-    const hasAttendees = hasSource && "attendees" in source && Boolean(source.attendees);
-    if (!hasAttendees) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
-      affiliated_records_group_default,
-      {
-        group: source.attendees,
-        notFoundLabel: "No record of associated names was found.",
-        children: source.attendees.values.map((group) => /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
-          affiliated_people_table_default,
-          {
-            attendees: group,
-            initialCount: initialLimit,
-            model: source.attendees.model,
-            setLimit: setRecordLimit
-          },
-          group.role
-        ))
-      }
-    );
-  };
-  var attendees_default = Attendees2;
-
   // assets/scripts/components/sources/chart.tsx
-  var import_jsx_runtime95 = __toESM(require_jsx_runtime());
-  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(item_chart_default, { label });
+  var import_jsx_runtime93 = __toESM(require_jsx_runtime());
+  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime93.jsx)(item_chart_default, { label });
   var chart_default4 = Chart6;
-
-  // assets/scripts/components/sources/entities.tsx
-  var import_jsx_runtime96 = __toESM(require_jsx_runtime());
-  var Entities2 = ({ source }) => {
-    const query = api_default.useLazyGetSourceEntitiesByIdQuery;
-    const { initialLimit, setRecordLimit } = use_limited_query_default(query, {
-      id: source.id,
-      limit: 5
-    });
-    const hasSource = Boolean(source);
-    const hasEntities = hasSource && "entities" in source && Boolean(source.entities);
-    if (!hasEntities) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(
-      affiliated_records_group_default,
-      {
-        group: source.entities,
-        notFoundLabel: "No record of associated entities was found.",
-        children: source.entities.values.map((group, i2) => /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(
-          affiliated_entities_table_default,
-          {
-            entities: group,
-            hasAuxiliaryType: group.role === "lobbyist" /* Lobbyist */,
-            initialCount: initialLimit,
-            model: source.entities.model,
-            setLimit: setRecordLimit
-          },
-          i2
-        ))
-      }
-    );
-  };
-  var entities_default3 = Entities2;
 
   // assets/scripts/components/sources/detail-incidents-trigger.tsx
   var IncidentsTrigger3 = ({ children }) => {
@@ -61630,7 +61537,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_incidents_trigger_default3 = IncidentsTrigger3;
 
   // assets/scripts/components/source-information-box.tsx
-  var import_jsx_runtime97 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime94 = __toESM(require_jsx_runtime());
   var DataFormatIcon = /* @__PURE__ */ ((DataFormatIcon2) => {
     DataFormatIcon2["csv"] = "file-csv";
     DataFormatIcon2["excel"] = "file-excel";
@@ -61638,104 +61545,211 @@ Hook ${hookName} was either not provided or not a function.`);
   })(DataFormatIcon || {});
   var SourceInformationBox = ({ source, title }) => {
     const icon3 = DataFormatIcon[source.format];
-    return /* @__PURE__ */ (0, import_jsx_runtime97.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
       MetaSectionBox,
       {
         className: "source-information-box",
         icon: icon3,
         title,
-        children: /* @__PURE__ */ (0, import_jsx_runtime97.jsx)("span", { dangerouslySetInnerHTML: { __html: source.labels.disclaimer } })
+        children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)("span", { dangerouslySetInnerHTML: { __html: source.labels.disclaimer } })
       }
     );
   };
   var source_information_box_default = SourceInformationBox;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_jsx_runtime98 = __toESM(require_jsx_runtime());
-  var getLabels = () => ({
-    attendees: {
-      title: "Associated Names"
-    },
-    entities: {
-      title: "Associated Entities"
+  var import_jsx_runtime95 = __toESM(require_jsx_runtime());
+  var getQuery = (type) => {
+    if (type === "attendees") {
+      return api_default.useLazyGetSourceAttendeesByIdQuery;
+    } else if (type === "entities") {
+      return api_default.useLazyGetSourceEntitiesByIdQuery;
     }
-  });
+    return null;
+  };
+  var useGetItemsByItem = (item, type, isPaused) => {
+    const query = getQuery(type);
+    return use_limited_query_default(query, {
+      id: item.id,
+      limit: 5,
+      pause: isPaused
+    });
+  };
+  var AssociationGroup2 = ({
+    children,
+    item,
+    type,
+    value
+  }) => {
+    const {
+      initialLimit,
+      setPaused,
+      setRecordLimit
+    } = useGetItemsByItem(item, type, true);
+    const setLimit = () => {
+      setPaused(false);
+      setRecordLimit(value.total);
+    };
+    if (!value) return null;
+    return children(initialLimit, setLimit);
+  };
+  var InitGroup = ({ item, type, children }) => {
+    const [hasRun, setHasRun] = (0, import_react44.useState)(false);
+    useGetItemsByItem(item, type, hasRun);
+    (0, import_react44.useEffect)(() => {
+      setHasRun(true);
+    }, [setHasRun]);
+    return children;
+  };
+  var Attendees2 = ({ item }) => {
+    const items = item.attendees;
+    return /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Group, { title: items?.label, icon: iconName3, children: (ref) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+      InitGroup,
+      {
+        item,
+        type: "attendees",
+        children: items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+          AssociationGroup2,
+          {
+            item,
+            type: "attendees",
+            value,
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+              affiliated_people_table_default,
+              {
+                attendees: value,
+                initialCount: initialLimit,
+                model: "people" /* People */,
+                ref,
+                setLimit
+              }
+            )
+          },
+          i2
+        ))
+      }
+    ) });
+  };
+  var Entities2 = ({ item }) => {
+    const items = item.entities;
+    return /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Group, { title: items?.label, icon: iconName, children: (ref) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+      InitGroup,
+      {
+        item,
+        type: "entities",
+        children: items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+          AssociationGroup2,
+          {
+            item,
+            type: "entities",
+            value,
+            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+              affiliated_entities_table_default,
+              {
+                entities: value,
+                initialCount: initialLimit,
+                model: "entities" /* Entities */,
+                ref,
+                setLimit
+              }
+            )
+          },
+          i2
+        ))
+      }
+    ) });
+  };
+  var DetailActivity = ({ source, ref }) => {
+    const hasSource = Boolean(source);
+    const hasDetails = hasSource && Boolean(source.attendees) && Boolean(source.entities);
+    const canLoadDetails = hasSource;
+    const canLoadIncidents = hasDetails;
+    if (!hasSource) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(import_jsx_runtime95.Fragment, { children: [
+      canLoadDetails && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_activity_details_default, { children: /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(ActivityDetailsSection, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Entities2, { item: source }),
+        /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Attendees2, { item: source })
+      ] }) }),
+      canLoadIncidents && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+        detail_incidents_fetcher_default,
+        {
+          id: source.id,
+          ref,
+          trigger,
+          children: /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+            detail_incidents_default,
+            {
+              ids: source.incidents?.ids,
+              filters: source.incidents?.filters,
+              hasSort: true,
+              label: source.title,
+              pagination: source.incidents?.pagination,
+              ref
+            }
+          )
+        }
+      ) })
+    ] });
+  };
   var Detail4 = () => {
     const incidentsRef = (0, import_react44.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const source = useGetSourceById(numericId);
-    const labels = getLabels();
     const hasSource = Boolean(source);
-    const label = source ? `${source.year} Q${source.quarter}` : null;
     const isActivity = source?.type === "activity";
+    const label = hasSource ? `${source.year} Q${source.quarter}` : null;
     if (!hasSource) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime98.jsxs)(item_detail_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(item_detail_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
         source_information_box_default,
         {
           title: "Source Information",
           source
         }
       ) }),
-      /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
         detail_activity_overview_default,
         {
           overview: source.overview,
           ref: incidentsRef,
-          children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(chart_default4, { label })
+          children: /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(chart_default4, { label })
         }
       ),
-      isActivity && /* @__PURE__ */ (0, import_jsx_runtime98.jsxs)(import_jsx_runtime98.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(incident_activity_groups_default, { title: labels.entities.title, icon: iconName, children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(entities_default3, { source }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(incident_activity_groups_default, { title: labels.attendees.title, icon: iconName3, children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(attendees_default, { source }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(
-          detail_incidents_fetcher_default,
-          {
-            id: source.id,
-            ref: incidentsRef,
-            trigger,
-            children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(
-              detail_incidents_default,
-              {
-                ids: source.incidents?.ids,
-                filters: source.incidents?.filters,
-                hasSort: true,
-                label: source.title,
-                pagination: source.incidents?.pagination,
-                ref: incidentsRef
-              }
-            )
-          }
-        ) })
-      ] })
+      isActivity && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
+        DetailActivity,
+        {
+          source,
+          ref: incidentsRef
+        }
+      )
     ] });
   };
   var detail_default4 = Detail4;
 
   // assets/scripts/index.tsx
-  var import_jsx_runtime99 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime96 = __toESM(require_jsx_runtime());
   var rootTarget = document.getElementById("root");
   var router = createBrowserRouter([
     {
       path: "/",
-      element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(app_default, {}),
-      errorElement: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(alert_error_default, {}),
+      element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(app_default, {}),
+      errorElement: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(alert_error_default, {}),
       children: [
         {
           path: "",
-          element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(home_default, {})
+          element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(home_default, {})
         },
         {
           path: "entities/*",
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(entities_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(entities_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(detail_default, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(detail_default, {})
             }
           ]
         },
@@ -61744,11 +61758,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(incidents_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(incidents_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(detail_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(detail_default2, {})
             }
           ]
         },
@@ -61757,11 +61771,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(people_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(people_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(detail_default3, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(detail_default3, {})
             }
           ]
         },
@@ -61770,11 +61784,11 @@ Hook ${hookName} was either not provided or not a function.`);
           children: [
             {
               path: "",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(sources_default2, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(sources_default2, {})
             },
             {
               path: ":id",
-              element: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(detail_default4, {})
+              element: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(detail_default4, {})
             }
           ]
         }
@@ -61797,13 +61811,13 @@ Hook ${hookName} was either not provided or not a function.`);
       appendTarget(modal);
       appendTarget(alert);
       (0, import_client.createRoot)(modal).render(
-        /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)("div", { id: modalPortalId }) })
+        /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { id: modalPortalId }) })
       );
       (0, import_client.createRoot)(alert).render(
-        /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)("div", { id: alertPortalId }) })
+        /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { id: alertPortalId }) })
       );
       (0, import_client.createRoot)(rootTarget).render(
-        /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime99.jsx)(RouterProvider, { router }) })
+        /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(Provider_default, { store, children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(RouterProvider, { router }) })
       );
     } catch (error) {
       console.log(error);
