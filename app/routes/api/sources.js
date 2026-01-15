@@ -219,8 +219,6 @@ router.get('/:id/attendees', async (req, res, next) => {
   const id = Number(req.params.id);
   const limit = req.searchParams.get(PARAM_LIMIT);
 
-  const labelPrefix = 'source';
-
   let source;
   let record;
   let attendees;
@@ -233,7 +231,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     record = source.adapted;
     record.attendees = {
-      label: Source.getLabel('attendees', labelPrefix, { title: record.title }),
+      label: Source.getLabel('associated_names'),
       model: MODEL_PEOPLE,
       type: 'source',
       values: [
@@ -282,10 +280,11 @@ router.get('/:id/entities', async (req, res, next) => {
 
     record = source.adapted;
     record.entities = {
-      label: `These entities appear in ${record.title}`,
+      label: Source.getLabel('associated_entities'),
       model: MODEL_ENTITIES,
       values: [
         {
+          label: `These entities appear in ${record.title}`,
           records: entities.records.map(adaptItemEntity),
           total: entities.total,
         },

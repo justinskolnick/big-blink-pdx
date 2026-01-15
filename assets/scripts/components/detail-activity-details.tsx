@@ -4,6 +4,12 @@ interface Props {
   children: ReactNode;
 }
 
+export const ActivityDetailsSection = ({ children }: Props) => (
+  <section className='activity-details-section'>
+    {children}
+  </section>
+);
+
 const ActivityDetails = ({ children }: Props) => (
   <section className='activity-details'>
     {children}
