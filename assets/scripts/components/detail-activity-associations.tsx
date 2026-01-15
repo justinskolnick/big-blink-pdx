@@ -6,6 +6,7 @@ import type { ApiQueryType } from '../hooks/use-limited-query';
 
 import api from '../services/api';
 
+import { ActivityDetailsSection } from './detail-activity-details';
 import ActivityHeader from './detail-activity-header';
 import ActivitySubhead from './detail-activity-subhead';
 import AffiliatedEntitiesTable from './affiliated-entities-table';
@@ -218,7 +219,7 @@ const NamedRole = ({ item, role }: NamedRoleProps) => {
   if (!hasNamedRole) return null;
 
   return (
-    <section className='activity-details-section'>
+    <ActivityDetailsSection>
       <ActivitySubhead
         title={namedRole.label}
         icon={getRoleIconName(namedRole.role)}
@@ -226,7 +227,7 @@ const NamedRole = ({ item, role }: NamedRoleProps) => {
 
       <Entities item={item} role={role} />
       <Attendees item={item} role={role} />
-    </section>
+    </ActivityDetailsSection>
   );
 };
 

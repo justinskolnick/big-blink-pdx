@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, ReactNode, RefObject } from 'react'
 import { useParams } from 'react-router';
 
 import { Group } from '../detail-activity-associations';
-import ActivityDetails from '../detail-activity-details';
+import ActivityDetails, { ActivityDetailsSection } from '../detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
 import AffiliatedEntitiesTable from '../affiliated-entities-table';
 import AffiliatedPeopleTable from '../affiliated-people-table';
@@ -201,8 +201,10 @@ const DetailActivity = ({ source, ref }: DetailActivityProps) => {
     <>
       {canLoadDetails && (
         <ActivityDetails>
-          <Entities item={source} />
-          <Attendees item={source} />
+          <ActivityDetailsSection>
+            <Entities item={source} />
+            <Attendees item={source} />
+          </ActivityDetailsSection>
         </ActivityDetails>
       )}
 
