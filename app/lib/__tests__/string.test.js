@@ -26,6 +26,7 @@ describe('titleCase()', () => {
   test('changes string to titleCase', () => {
     expect(titleCase('one two three')).toBe('One Two Three');
     expect(titleCase('Big Blink PDX')).toBe('Big Blink PDX');
+    expect(titleCase('nully_nimwit')).toBe('Nully Nimwit');
   });
 });
 

@@ -1,6 +1,6 @@
 const labelStrings = require('../config/en/strings.json');
 
-const { snakeCase } = require('../lib/string');
+const { snakeCase, titleCase } = require('../lib/string');
 
 class Labels {
   labels = {};
@@ -52,7 +52,7 @@ class Labels {
       console.warn(`label key not found for "${key}"`); // eslint-disable-line no-console
     }
 
-    return key;
+    return titleCase(key);
   }
 }
 

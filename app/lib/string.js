@@ -5,7 +5,7 @@ const snakeCase = str => str.replace(/(?<=[a-z])(?=[A-Z])/g, ' ')
   .map(s => s.toLowerCase())
   .join('_');
 
-const titleCase = str => str.split(' ').map(capitalize).join(' ');
+const titleCase = str => str.split(/[\s_]+/).map(capitalize).join(' ');
 
 const toSentence = (
   items,
