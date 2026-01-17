@@ -1,9 +1,9 @@
-const Attendee = require('../attendee');
+const AssociatedPerson = require('../associated/person');
 const Entity = require('./entity');
 
-class EntityAttendee extends Attendee {
+class EntityAttendee extends AssociatedPerson {
   static labelPrefix = Entity.labelPrefix;
-  static roleType = 'entity';
+  static associatedWith = 'entity';
 
   static getValueLabelKey(role, association) {
     return `as_entity_${association}`;

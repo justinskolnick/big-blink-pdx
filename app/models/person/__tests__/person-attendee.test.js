@@ -4,10 +4,10 @@ const { ROLE_LOBBYIST } = require('../../../config/constants');
 
 const PersonAttendee = require('../person-attendee');
 
-describe('getAssociationForRole()', () => {
+describe('getAssociation()', () => {
   test('returns the expected results', () => {
-    expect(PersonAttendee.getAssociationForRole('lobbyist')).toEqual('lobbyists');
-    expect(PersonAttendee.getAssociationForRole('official')).toEqual('officials');
+    expect(PersonAttendee.getAssociation('lobbyist')).toEqual('lobbyists');
+    expect(PersonAttendee.getAssociation('official')).toEqual('officials');
   });
 });
 
