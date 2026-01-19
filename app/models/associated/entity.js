@@ -1,6 +1,5 @@
 const {
   ASSOCIATION_ENTITIES,
-  MODEL_ENTITIES,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -9,9 +8,7 @@ const Entity = require('../entity/entity');
 const AssociatedItem = require('./item');
 
 class AssociatedEntity extends AssociatedItem {
-  static modelType = MODEL_ENTITIES;
-  static associationType = 'entities';
-  static associatedWith = 'entity';
+  static parentClass = Entity;
 
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_ENTITIES,
@@ -29,7 +26,7 @@ class AssociatedEntity extends AssociatedItem {
 
   static toRoleObject(role, entities) {
     const obj = this.toAssociationObject();
-    const key = this.associationType;
+    const key = this.parentClass.plural();
 
     obj.values.push(this.toValuesObject(key, entities, role));
 

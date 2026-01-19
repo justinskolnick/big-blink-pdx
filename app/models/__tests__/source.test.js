@@ -53,6 +53,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(Source.className()).toBe('Source');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Source.foreignKey()).toBe('data_source_id');

@@ -2,7 +2,7 @@ const AssociatedPerson = require('../associated/person');
 const Entity = require('./entity');
 
 class EntityAttendee extends AssociatedPerson {
-  static labelPrefix = Entity.labelPrefix;
+  static childClass = Entity;
   static associatedWith = 'entity';
 
   static getValueLabelKey(role, association) {

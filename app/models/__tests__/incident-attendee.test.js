@@ -45,6 +45,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(IncidentAttendee.className()).toBe('IncidentAttendee');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(IncidentAttendee.foreignKey()).toBe('incident_attendee_id');

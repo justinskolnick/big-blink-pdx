@@ -41,6 +41,24 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(Person.className()).toBe('Person');
+  });
+});
+
+describe('singular()', () => {
+  test('returns the expected field', () => {
+    expect(Person.singular()).toBe('person');
+  });
+});
+
+describe('plural()', () => {
+  test('returns the expected field', () => {
+    expect(Person.plural()).toBe('people');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Person.foreignKey()).toBe('person_id');

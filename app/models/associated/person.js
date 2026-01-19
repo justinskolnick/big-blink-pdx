@@ -1,7 +1,6 @@
 const {
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
-  MODEL_PEOPLE,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -10,7 +9,7 @@ const AssociatedItem = require('./item');
 const Person = require('../person/person');
 
 class AssociatedPerson extends AssociatedItem {
-  static modelType = MODEL_PEOPLE;
+  static parentClass = Person;
   static associationType = 'names'; // todo
 
   static associations = {

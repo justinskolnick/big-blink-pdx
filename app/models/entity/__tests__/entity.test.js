@@ -30,6 +30,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(Entity.className()).toBe('Entity');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Entity.foreignKey()).toBe('entity_id');

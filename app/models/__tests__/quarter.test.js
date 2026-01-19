@@ -25,6 +25,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(Quarter.className()).toBe('Quarter');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Quarter.foreignKey()).toBe('quarter_id');
