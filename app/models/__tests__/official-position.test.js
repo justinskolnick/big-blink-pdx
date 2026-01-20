@@ -55,6 +55,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(OfficialPosition.className()).toBe('OfficialPosition');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(OfficialPosition.foreignKey()).toBe('official_position_id');

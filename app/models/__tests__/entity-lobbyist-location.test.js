@@ -22,6 +22,12 @@ describe('primaryKey()', () => {
   });
 });
 
+describe('className()', () => {
+  test('returns the expected field', () => {
+    expect(EntityLobbyistLocation.className()).toBe('EntityLobbyistLocation');
+  });
+});
+
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(EntityLobbyistLocation.foreignKey()).toBe('entity_lobbyist_location_id');

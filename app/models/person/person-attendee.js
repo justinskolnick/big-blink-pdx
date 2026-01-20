@@ -1,9 +1,8 @@
-const Attendee = require('../attendee');
+const AssociatedPerson = require('../associated/person');
 const Person = require('./person');
 
-class PersonAttendee extends Attendee {
-  static labelPrefix = Person.labelPrefix;
-  static roleType = 'person';
+class PersonAttendee extends AssociatedPerson {
+  static childClass = Person;
 }
 
 module.exports = PersonAttendee;

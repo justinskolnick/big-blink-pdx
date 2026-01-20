@@ -1,10 +1,11 @@
 const camelCase = require('lodash.camelcase');
+const pluralize = require('pluralize');
 
 const dateHelper = require('../../helpers/date');
 const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 
-const { snakeCase } = require('../../lib/string');
+const { snakeCase, titleCase } = require('../../lib/string');
 const { isTruthy } = require('../../lib/util');
 
 class Base {
@@ -44,8 +45,20 @@ class Base {
     return this.field(this.primaryKeyField, prefix);
   }
 
+  static className() {
+    return this.name.replace(/^_/, '');
+  }
+
+  static singular() {
+    return titleCase(this.className()).toLowerCase();
+  }
+
+  static plural() {
+    return pluralize(titleCase(this.className())).toLowerCase();
+  }
+
   static foreignKey() {
-    const name = this.foreignKeyBase || this.name.replace(/^_/, '');
+    const name = this.foreignKeyBase || this.className();
     const primaryKey = this.primaryKeyField;
     const key = [name, primaryKey].join(' ');
 
