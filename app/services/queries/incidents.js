@@ -114,6 +114,7 @@ const buildQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
+  clauses.push('DISTINCT');
 
   if (primaryKeyOnly) {
     clauses.push(Incident.primaryKey());

@@ -19,6 +19,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
@@ -35,6 +36,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ dateOn: '2019-02-20' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
@@ -52,6 +54,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ dateOn: '2019-02-20', withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -78,6 +81,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
@@ -95,6 +99,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28', withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -123,6 +128,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ year: '2016' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
@@ -141,6 +147,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sourceId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
@@ -158,6 +165,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ sourceId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
@@ -184,6 +192,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ sourceId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -209,6 +218,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ personId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -227,6 +237,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -254,6 +265,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, role: ROLE_OFFICIAL })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -275,6 +287,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, withEntityId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -296,6 +309,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ personId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -330,6 +344,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -362,6 +377,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'WHERE',
@@ -379,6 +395,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
@@ -405,6 +422,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -426,6 +444,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ entityId: 123, quarterSourceId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'WHERE',
@@ -447,6 +466,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
@@ -462,6 +482,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'ORDER BY',
@@ -480,6 +501,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
@@ -498,6 +520,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
             'FROM incidents',
             'ORDER BY',
@@ -515,6 +538,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_ASC })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
@@ -526,6 +550,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ sort: SORT_DESC })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id, incidents.entity, incidents.entity_id, incidents.contact_date, incidents.contact_date_end, incidents.contact_type, incidents.category, incidents.data_source_id, incidents.topic, incidents.officials, incidents.lobbyists, incidents.notes',
           'FROM incidents',
           'ORDER BY',
@@ -542,6 +567,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ primaryKeyOnly: true, entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'incidents.id',
           'FROM incidents',
           'WHERE',
@@ -633,6 +659,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery()).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
         ],
@@ -646,6 +673,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ entityId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -661,6 +689,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -675,6 +704,7 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
@@ -693,6 +723,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ personId: 3 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -715,6 +746,7 @@ describe('getTotalQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -742,6 +774,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3, dateOn: '2019-02-20' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -758,6 +791,7 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateOn: '2019-02-20' })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
@@ -778,6 +812,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ year: '2016' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -793,6 +828,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ sourceId: 3, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -809,6 +845,7 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ sourceId: 3, withEntityId: 123, dateRangeFrom: '2019-02-20', dateRangeTo: '2019-02-28' })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
@@ -829,6 +866,7 @@ describe('getTotalQuery()', () => {
       expect(getTotalQuery({ withEntityId: 123 })).toEqual({
         clauses: [
           'SELECT',
+          'DISTINCT',
           'COUNT(incidents.id) AS total',
           'FROM incidents',
           'WHERE',
@@ -843,6 +881,7 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ withEntityId: 123, withPersonId: 321 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
@@ -861,6 +900,7 @@ describe('getTotalQuery()', () => {
         expect(getTotalQuery({ withEntityId: 123, quarterSourceId: 3 })).toEqual({
           clauses: [
             'SELECT',
+            'DISTINCT',
             'COUNT(incidents.id) AS total',
             'FROM incidents',
             'WHERE',
