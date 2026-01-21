@@ -22,12 +22,12 @@ import type {
   Entity,
   Person,
 } from '../types';
-import { Role } from '../types';
+import { GenericObject, Role } from '../types';
 
 interface FnUseGetItemRolesById {
   (
     item: Entity | Person,
-    options: Record<string, string>,
+    options: GenericObject,
     isPaused: boolean,
   ): {
     initialLimit: number;
@@ -73,14 +73,13 @@ const getRoleQuery: FnGetQueryByType = (type) => {
 };
 
 const useGetItemRolesByItem: FnUseGetItemRolesById = (item, options, isPaused) => {
-  const searchParams = new URLSearchParams(options);
   const query = getRoleQuery(item.type);
 
   return useLimitedQuery(query, {
     id: item.id,
     limit: 5,
     pause: isPaused,
-    search: searchParams,
+    search: options,
   });
 };
 

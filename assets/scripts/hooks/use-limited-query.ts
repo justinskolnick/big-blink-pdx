@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 
+import { isObject } from '../lib/util';
+
 import type { TypedUseLazyQuery } from '@reduxjs/toolkit/query/react';
-import type { Id } from '../types';
+import type { GenericObject, Id } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ApiQueryType = TypedUseLazyQuery<any, any, any>;
+
+type SearchValue = string | GenericObject | URLSearchParams;
 
 type QueryOptions = {
   id?: Id;
   limit?: number;
   pause?: boolean;
-  search?: string | URLSearchParams;
+  search?: SearchValue;
 };
 
 export interface FnSetLimit {
@@ -36,14 +40,16 @@ const useLimitedQuery: Fn = (query, options) => {
   const [paused, setPaused] = useState<boolean>(options.pause || false);
   const initialLimit = options.limit;
   const id = options.id;
-  let search: string;
+  let search: SearchValue;
 
   if (options.search) {
     if (typeof options.search === 'string') {
       search = options.search;
-    } else {
-      search = `?${options.search.toString()}`;
+    } else if (isObject(options.search)) {
+      search = new URLSearchParams(options.search);
     }
+
+    search = `?${search.toString()}`;
   }
 
   const [recordLimit, setRecordLimit] = useState<number>(initialLimit);

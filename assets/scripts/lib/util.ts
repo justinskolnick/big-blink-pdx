@@ -2,6 +2,10 @@ interface FnIsEmpty {
   (item: unknown): boolean | null;
 }
 
+interface FnIsObject {
+  (item: unknown): boolean;
+}
+
 interface FnSleep {
   (delay: number): void;
 }
@@ -19,6 +23,9 @@ export const isEmpty: FnIsEmpty = (item) => {
 
   return null;
 };
+
+export const isObject: FnIsObject = (item) =>
+  Boolean(item) && typeof item === 'object' && !Array.isArray(item);
 
 export const sleep: FnSleep = async (delay) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

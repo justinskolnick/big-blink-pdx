@@ -21,6 +21,8 @@ type Item = {
   name: string;
 };
 
+export type GenericObject = Record<string, string>;
+
 export type LocationPathname = string;
 
 export type LocationState = {
@@ -221,7 +223,7 @@ export type FiltersDateField = {
 };
 export type FiltersSelectField = {
   name: string;
-  options: Record<string, string>;
+  options: GenericObject;
   type: FiltersLabelTypes.Select;
   value?: FilterStringValue;
 };

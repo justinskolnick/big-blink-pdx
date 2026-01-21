@@ -34145,6 +34145,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return null;
   };
+  var isObject3 = (item) => Boolean(item) && typeof item === "object" && !Array.isArray(item);
   var sleep = async (delay) => {
     await new Promise((resolve2, reject) => {
       setInterval(resolve2, delay);
@@ -45132,10 +45133,10 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/alert.tsx
   var import_jsx_runtime7 = __toESM(require_jsx_runtime());
-  var isObject3 = (alert) => typeof alert === "object";
-  var getHasCustomMessage = (alert) => isObject3 && Boolean(alert.customMessage);
-  var getHasMessage = (alert) => isObject3 && Boolean(alert.message);
-  var getHasStatus = (alert) => isObject3 && Boolean(alert.status);
+  var isObject4 = (alert) => typeof alert === "object";
+  var getHasCustomMessage = (alert) => isObject4 && Boolean(alert.customMessage);
+  var getHasMessage = (alert) => isObject4 && Boolean(alert.message);
+  var getHasStatus = (alert) => isObject4 && Boolean(alert.status);
   var MessageContent = ({ alert }) => {
     const hasMessage = getHasMessage(alert);
     const hasStatus = getHasStatus(alert);
@@ -47112,9 +47113,10 @@ Hook ${hookName} was either not provided or not a function.`);
     if (options2.search) {
       if (typeof options2.search === "string") {
         search = options2.search;
-      } else {
-        search = `?${options2.search.toString()}`;
+      } else if (isObject3(options2.search)) {
+        search = new URLSearchParams(options2.search);
       }
+      search = `?${search.toString()}`;
     }
     const [recordLimit, setRecordLimit] = (0, import_react26.useState)(initialLimit);
     const [trigger, result] = query();
@@ -47503,13 +47505,12 @@ Hook ${hookName} was either not provided or not a function.`);
     return null;
   };
   var useGetItemRolesByItem = (item, options2, isPaused) => {
-    const searchParams = new URLSearchParams(options2);
     const query = getRoleQuery(item.type);
     return use_limited_query_default(query, {
       id: item.id,
       limit: 5,
       pause: isPaused,
-      search: searchParams
+      search: options2
     });
   };
   var Group = ({ children, icon: icon3, title }) => {
@@ -48368,7 +48369,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return false;
   }
-  function isObject4(value) {
+  function isObject5(value) {
     return value !== null && Object.prototype.toString.call(value) === "[object Object]";
   }
   function isNumberFinite(value) {
@@ -48399,7 +48400,7 @@ Hook ${hookName} was either not provided or not a function.`);
           fn.call(thisArg, loopable[i2], i2);
         }
       }
-    } else if (isObject4(loopable)) {
+    } else if (isObject5(loopable)) {
       keys = Object.keys(loopable);
       len = keys.length;
       for (i2 = 0; i2 < len; i2++) {
@@ -48425,7 +48426,7 @@ Hook ${hookName} was either not provided or not a function.`);
     if (isArray2(source)) {
       return source.map(clone2);
     }
-    if (isObject4(source)) {
+    if (isObject5(source)) {
       const target = /* @__PURE__ */ Object.create(null);
       const keys = Object.keys(source);
       const klen = keys.length;
@@ -48450,7 +48451,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     const tval = target[key];
     const sval = source[key];
-    if (isObject4(tval) && isObject4(sval)) {
+    if (isObject5(tval) && isObject5(sval)) {
       merge3(tval, sval, options2);
     } else {
       target[key] = clone2(sval);
@@ -48461,7 +48462,7 @@ Hook ${hookName} was either not provided or not a function.`);
       source
     ];
     const ilen = sources.length;
-    if (!isObject4(target)) {
+    if (!isObject5(target)) {
       return target;
     }
     options2 = options2 || {};
@@ -48469,7 +48470,7 @@ Hook ${hookName} was either not provided or not a function.`);
     let current2;
     for (let i2 = 0; i2 < ilen; ++i2) {
       current2 = sources[i2];
-      if (!isObject4(current2)) {
+      if (!isObject5(current2)) {
         continue;
       }
       const keys = Object.keys(current2);
@@ -48490,7 +48491,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     const tval = target[key];
     const sval = source[key];
-    if (isObject4(tval) && isObject4(sval)) {
+    if (isObject5(tval) && isObject5(sval)) {
       mergeIf(tval, sval);
     } else if (!Object.prototype.hasOwnProperty.call(target, key)) {
       target[key] = clone2(sval);
@@ -49264,7 +49265,7 @@ Hook ${hookName} was either not provided or not a function.`);
           get() {
             const local = this[privateName];
             const target = targetScopeObject[targetName];
-            if (isObject4(local)) {
+            if (isObject5(local)) {
               return Object.assign({}, target, local);
             }
             return valueOrDefault(local, target);
@@ -49623,9 +49624,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var numberOrZero = (v2) => +v2 || 0;
   function _readValueToProps(value, props) {
     const ret = {};
-    const objProps = isObject4(props);
+    const objProps = isObject5(props);
     const keys = objProps ? Object.keys(props) : props;
-    const read = isObject4(value) ? objProps ? (prop) => valueOrDefault(value[prop], value[props[prop]]) : (prop) => value[prop] : () => value;
+    const read = isObject5(value) ? objProps ? (prop) => valueOrDefault(value[prop], value[props[prop]]) : (prop) => value[prop] : () => value;
     for (const prop of keys) {
       ret[prop] = numberOrZero(read(prop));
     }
@@ -49861,7 +49862,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
   }
   var readKey = (prefix2, name) => prefix2 ? prefix2 + _capitalize(name) : name;
-  var needsSubResolver = (prop, value) => isObject4(value) && prop !== "adapters" && (Object.getPrototypeOf(value) === null || value.constructor === Object);
+  var needsSubResolver = (prop, value) => isObject5(value) && prop !== "adapters" && (Object.getPrototypeOf(value) === null || value.constructor === Object);
   function _cached(target, prop, resolve2) {
     if (Object.prototype.hasOwnProperty.call(target, prop) || prop === "constructor") {
       return target[prop];
@@ -49901,7 +49902,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const { _proxy, _context, _subProxy, _descriptors: descriptors2 } = target;
     if (typeof _context.index !== "undefined" && isIndexable(prop)) {
       return value[_context.index % value.length];
-    } else if (isObject4(value[0])) {
+    } else if (isObject5(value[0])) {
       const arr = value;
       const scopes = _proxy._scopes.filter((s2) => s2 !== arr);
       value = [];
@@ -49966,7 +49967,7 @@ Hook ${hookName} was either not provided or not a function.`);
       parent[prop] = {};
     }
     const target = parent[prop];
-    if (isArray2(target) && isObject4(value)) {
+    if (isArray2(target) && isObject5(value)) {
       return value;
     }
     return target || {};
@@ -51003,14 +51004,14 @@ Hook ${hookName} was either not provided or not a function.`);
       this.configure(config2);
     }
     configure(config2) {
-      if (!isObject4(config2)) {
+      if (!isObject5(config2)) {
         return;
       }
       const animationOptions = Object.keys(defaults.animation);
       const animatedProps = this._properties;
       Object.getOwnPropertyNames(config2).forEach((key) => {
         const cfg = config2[key];
-        if (!isObject4(cfg)) {
+        if (!isObject5(cfg)) {
           return;
         }
         const resolved = {};
@@ -51142,7 +51143,7 @@ Hook ${hookName} was either not provided or not a function.`);
   }
   function toClip(value) {
     let t2, r2, b2, l2;
-    if (isObject4(value)) {
+    if (isObject5(value)) {
       t2 = value.top;
       r2 = value.right;
       b2 = value.bottom;
@@ -51396,7 +51397,7 @@ Hook ${hookName} was either not provided or not a function.`);
       const dataset = this.getDataset();
       const data2 = dataset.data || (dataset.data = []);
       const _data = this._data;
-      if (isObject4(data2)) {
+      if (isObject5(data2)) {
         const meta = this._cachedMeta;
         this._data = convertObjectDataToArray(data2, meta);
       } else if (_data !== data2) {
@@ -51460,7 +51461,7 @@ Hook ${hookName} was either not provided or not a function.`);
       } else {
         if (isArray2(data2[start])) {
           parsed = this.parseArrayData(meta, data2, start, count);
-        } else if (isObject4(data2[start])) {
+        } else if (isObject5(data2[start])) {
           parsed = this.parseObjectData(meta, data2, start, count);
         } else {
           parsed = this.parsePrimitiveData(meta, data2, start, count);
@@ -52882,7 +52883,7 @@ Hook ${hookName} was either not provided or not a function.`);
   function updateDims(chartArea, params, layout, stacks) {
     const { pos, box } = layout;
     const maxPadding = chartArea.maxPadding;
-    if (!isObject4(pos)) {
+    if (!isObject5(pos)) {
       if (layout.size) {
         chartArea[pos] -= layout.size;
       }
@@ -53637,7 +53638,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const width = right - left;
     if (scale.isHorizontal()) {
       titleX = _alignStartEnd(align, left, right);
-      if (isObject4(position2)) {
+      if (isObject5(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         titleY = scales[positionAxisID].getPixelForValue(value) + height - offset;
@@ -53648,7 +53649,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       maxWidth = right - left;
     } else {
-      if (isObject4(position2)) {
+      if (isObject5(position2)) {
         const positionAxisID = Object.keys(position2)[0];
         const value = position2[positionAxisID];
         titleX = scales[positionAxisID].getPixelForValue(value) - width + offset;
@@ -54264,7 +54265,7 @@ Hook ${hookName} was either not provided or not a function.`);
       } else if (axis === "x") {
         if (position2 === "center") {
           borderValue = alignBorderValue((chartArea.top + chartArea.bottom) / 2 + 0.5);
-        } else if (isObject4(position2)) {
+        } else if (isObject5(position2)) {
           const positionAxisID = Object.keys(position2)[0];
           const value = position2[positionAxisID];
           borderValue = alignBorderValue(this.chart.scales[positionAxisID].getPixelForValue(value));
@@ -54276,7 +54277,7 @@ Hook ${hookName} was either not provided or not a function.`);
       } else if (axis === "y") {
         if (position2 === "center") {
           borderValue = alignBorderValue((chartArea.left + chartArea.right) / 2);
-        } else if (isObject4(position2)) {
+        } else if (isObject5(position2)) {
           const positionAxisID = Object.keys(position2)[0];
           const value = position2[positionAxisID];
           borderValue = alignBorderValue(this.chart.scales[positionAxisID].getPixelForValue(value));
@@ -54364,7 +54365,7 @@ Hook ${hookName} was either not provided or not a function.`);
       } else if (axis === "x") {
         if (position2 === "center") {
           y2 = (chartArea.top + chartArea.bottom) / 2 + tickAndPadding;
-        } else if (isObject4(position2)) {
+        } else if (isObject5(position2)) {
           const positionAxisID = Object.keys(position2)[0];
           const value = position2[positionAxisID];
           y2 = this.chart.scales[positionAxisID].getPixelForValue(value) + tickAndPadding;
@@ -54373,7 +54374,7 @@ Hook ${hookName} was either not provided or not a function.`);
       } else if (axis === "y") {
         if (position2 === "center") {
           x2 = (chartArea.left + chartArea.right) / 2 - tickAndPadding;
-        } else if (isObject4(position2)) {
+        } else if (isObject5(position2)) {
           const positionAxisID = Object.keys(position2)[0];
           const value = position2[positionAxisID];
           x2 = this.chart.scales[positionAxisID].getPixelForValue(value);
@@ -54730,7 +54731,7 @@ Hook ${hookName} was either not provided or not a function.`);
       const padding = toPadding(title.padding);
       const align = title.align;
       let offset = font.lineHeight / 2;
-      if (position2 === "bottom" || position2 === "center" || isObject4(position2)) {
+      if (position2 === "bottom" || position2 === "center" || isObject5(position2)) {
         offset += padding.bottom;
         if (isArray2(title.text)) {
           offset += font.lineHeight * (title.text.length - 1);
@@ -55188,7 +55189,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const scales = /* @__PURE__ */ Object.create(null);
     Object.keys(configScales).forEach((id) => {
       const scaleConf = configScales[id];
-      if (!isObject4(scaleConf)) {
+      if (!isObject5(scaleConf)) {
         return console.error(`Invalid scale configuration for scale: ${id}`);
       }
       if (scaleConf._proxy) {
@@ -55418,7 +55419,7 @@ Hook ${hookName} was either not provided or not a function.`);
       ""
     ], descriptorDefaults) {
       const { resolver } = getResolver(this._resolverCache, scopes, prefixes);
-      return isObject4(context) ? _attachContext(resolver, context, void 0, descriptorDefaults) : resolver;
+      return isObject5(context) ? _attachContext(resolver, context, void 0, descriptorDefaults) : resolver;
     }
   };
   function getResolver(resolverCache, scopes, prefixes) {
@@ -55439,7 +55440,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return cached;
   }
-  var hasFunction = (value) => isObject4(value) && Object.getOwnPropertyNames(value).some((key) => isFunction3(value[key]));
+  var hasFunction = (value) => isObject5(value) && Object.getOwnPropertyNames(value).some((key) => isFunction3(value[key]));
   function needContext(proxy, names2) {
     const { isScriptable, isIndexable } = _descriptors(proxy);
     for (const prop of names2) {
@@ -56767,7 +56768,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const o2 = toTRBLCorners(value);
     const maxR = Math.min(maxW, maxH);
     const skip2 = bar.borderSkipped;
-    const enableBorder = enableBorderRadius || isObject4(value);
+    const enableBorder = enableBorderRadius || isObject5(value);
     return {
       topLeft: skipOrLimit(!enableBorder || skip2.top || skip2.left, o2.topLeft, 0, maxR),
       topRight: skipOrLimit(!enableBorder || skip2.top || skip2.right, o2.topRight, 0, maxR),
@@ -58179,7 +58180,7 @@ Hook ${hookName} was either not provided or not a function.`);
         ctx.fillStyle = labelColor.backgroundColor;
         drawPoint(ctx, drawOptions, centerX, centerY);
       } else {
-        ctx.lineWidth = isObject4(labelColor.borderWidth) ? Math.max(...Object.values(labelColor.borderWidth)) : labelColor.borderWidth || 1;
+        ctx.lineWidth = isObject5(labelColor.borderWidth) ? Math.max(...Object.values(labelColor.borderWidth)) : labelColor.borderWidth || 1;
         ctx.strokeStyle = labelColor.borderColor;
         ctx.setLineDash(labelColor.borderDash || []);
         ctx.lineDashOffset = labelColor.borderDashOffset || 0;

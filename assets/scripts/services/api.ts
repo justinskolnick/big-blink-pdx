@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { handleError, handleResult } from '../lib/fetch-from-path';
 import type { Result } from '../lib/fetch-from-path';
 
-import type { Id } from '../types';
+import type { GenericObject, Id } from '../types';
 
 interface LocationOptions {
   pathname: string;
@@ -79,7 +79,7 @@ const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
       all[key] = value;
 
       return all;
-    }, {} as Record<string, string>);
+    }, {} as GenericObject);
     const searchParams = new URLSearchParams(values);
 
     searchParams.forEach((value, key) => {
