@@ -8,7 +8,7 @@ const Entity = require('../entity/entity');
 const AssociatedItem = require('./item');
 
 class AssociatedEntity extends AssociatedItem {
-  static parentClass = Entity;
+  static associatedClass = Entity;
 
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_ENTITIES,
@@ -26,7 +26,7 @@ class AssociatedEntity extends AssociatedItem {
 
   static toRoleObject(role, entities) {
     const obj = this.toAssociationObject();
-    const key = this.parentClass.plural();
+    const key = this.associatedClass.plural();
 
     obj.values.push(this.toValuesObject(key, entities, role));
 

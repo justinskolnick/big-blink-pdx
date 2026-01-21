@@ -231,7 +231,7 @@ router.get('/:id/attendees', async (req, res, next) => {
 
     record = source.adapted;
     record.attendees = {
-      label: Source.getLabel('associated_names'),
+      label: Source.getLabel('associated_people'),
       model: MODEL_PEOPLE,
       type: 'source',
       values: [

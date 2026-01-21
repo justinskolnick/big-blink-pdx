@@ -9,8 +9,7 @@ const AssociatedItem = require('./item');
 const Person = require('../person/person');
 
 class AssociatedPerson extends AssociatedItem {
-  static parentClass = Person;
-  static associationType = 'names'; // todo
+  static associatedClass = Person;
 
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_LOBBYISTS,

@@ -23,9 +23,9 @@ describe('getValueLabelKey()', () => {
 describe('toRoleObject()', () => {
   test('returns the expected object', () => {
     expect(EntityAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
-      label: 'Associated Names',
+      label: 'Associated People',
       model: 'people',
-      type: 'entity',
+      type: 'person',
       values: [
         {
           association: 'lobbyists',

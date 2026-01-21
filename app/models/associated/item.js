@@ -6,10 +6,8 @@ const {
 const Base = require('../shared/base');
 
 class AssociatedItem extends Base {
-  static parentClass = null;
-  static childClass = null;
-  static associationType = null;
-  static associatedWith = null;
+  static associatedClass = null;
+  static associatingClass = null;
 
   static associations = {
     [ROLE_LOBBYIST]: null,
@@ -33,12 +31,12 @@ class AssociatedItem extends Base {
   }
 
   static toAssociationObject() {
-    const labelKey = this.getAssociationLabelKey(this.associationType || this.parentClass.plural());
+    const labelKey = this.getAssociationLabelKey(this.associatedClass.plural());
 
     return {
       label: this.labels.getLabel(labelKey),
-      model: this.parentClass.plural(),
-      type: this.associatedWith || this.parentClass.singular(),
+      model: this.associatedClass.plural(),
+      type: this.associatedClass.singular(),
       values: [],
     };
   }
@@ -48,7 +46,7 @@ class AssociatedItem extends Base {
 
     return {
       association: this.getAssociation(values.role),
-      label: this.labels.getLabel(labelKey, this.childClass.singular()),
+      label: this.labels.getLabel(labelKey, this.associatingClass.singular()),
       records: values.records.map(this.adaptRecord),
       role: values.role,
       total: values.total,

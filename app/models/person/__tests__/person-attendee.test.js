@@ -23,7 +23,7 @@ describe('getValueLabelKey()', () => {
 describe('toRoleObject()', () => {
   test('returns the expected object', () => {
     expect(PersonAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
-      label: 'Associated Names',
+      label: 'Associated People',
       model: 'people',
       type: 'person',
       values: [

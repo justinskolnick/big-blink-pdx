@@ -2,7 +2,7 @@ const AssociatedPerson = require('../associated/person');
 const Person = require('./person');
 
 class PersonAttendee extends AssociatedPerson {
-  static childClass = Person;
+  static associatingClass = Person;
 }
 
 module.exports = PersonAttendee;
