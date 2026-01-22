@@ -636,6 +636,10 @@ export interface FnRef {
   (ref: RefObject<HTMLElement>): void;
 }
 
+export interface FnRefBoolean {
+  (ref: RefObject<HTMLElement>): boolean;
+}
+
 export interface FnRefDelay {
   (ref: RefObject<HTMLElement>, delay?: number): void;
 }

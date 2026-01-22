@@ -46829,6 +46829,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react23 = __toESM(require_react());
 
   // assets/scripts/lib/dom.ts
+  var isRefTopInView = (ref) => ref.current.offsetTop >= window.scrollY;
   var scrollToRef = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
   };
@@ -47263,7 +47264,9 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
       hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
         e2.preventDefault();
-        scrollToRef2();
+        if (!isRefTopInView(scrollRef)) {
+          scrollToRef2();
+        }
         setShowAll(!showAll);
       }, children: showAll ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
         "View top ",

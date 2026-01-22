@@ -3,7 +3,7 @@ import { cx } from '@emotion/css';
 
 import { FnSetLimit } from '../hooks/use-limited-query';
 
-import { delayedScrollToRef } from '../lib/dom';
+import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
 import ItemTable from './item-table';
 import StatBox from './stat-box';
@@ -55,6 +55,7 @@ const AffiliatedItemTable = ({
 
   const scrollToRef = () => delayedScrollToRef(scrollRef);
 
+
   useEffect(() => {
     if (canSetLimit && showAll) {
       setLimit(null);
@@ -72,7 +73,11 @@ const AffiliatedItemTable = ({
           {hasMoreToShow && (
             <button type='button' className='button-toggle' onClick={e => {
               e.preventDefault();
-              scrollToRef();
+
+              if (!isRefTopInView(scrollRef)) {
+                scrollToRef();
+              }
+
               setShowAll(!showAll);
             }}>
               {showAll ? (
