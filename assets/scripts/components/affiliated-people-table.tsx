@@ -5,7 +5,8 @@ import {
   getWithPeopleParams,
   FilterLink,
 } from './links';
-import PersonIcon from './people/icon';
+import { ItemRow } from './item-table';
+import Icon from './people/icon';
 import ItemLink from './people/item-link';
 
 import { FnSetLimit } from '../hooks/use-limited-query';
@@ -39,23 +40,19 @@ const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => 
   if (!person) return null;
 
   return (
-    <tr>
-      <td className='cell-type'>
-        <PersonIcon person={person} />
-      </td>
-      <td className='cell-name'>
+    <ItemRow
+      icon={<Icon person={person} />}
+      name={(
         <ItemLink item={person}>
           {person.name}
         </ItemLink>
-      </td>
-      <td className='cell-total'>
-        {item.total ? (
-          <FilterLink newParams={getWithPeopleParams(person, personRole, role)} hasIcon>
-            {item.total}
-          </FilterLink>
-        ) : <>-</>}
-      </td>
-    </tr>
+      )}
+      total={(
+        <FilterLink newParams={getWithPeopleParams(person, personRole, role)} hasIcon>
+          {item.total}
+        </FilterLink>
+      )}
+    />
   );
 };
 

@@ -5,6 +5,7 @@ import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/u
 
 import EntityIcon from './icon';
 import ItemLink from './item-link';
+import { ItemRow } from '../item-table';
 import { SortLink } from '../links';
 import SectionIndex from '../section-index';
 
@@ -17,11 +18,11 @@ import {
 
 import { SortByValues, SortValues } from '../../types';
 
-interface ItemProps {
+interface EntityItemProps {
   id: number;
 }
 
-export const EntityItem = ({ id }: ItemProps) => {
+export const EntityItem = ({ id }: EntityItemProps) => {
   const entity = useGetEntityById(id);
 
   const hasEntity = Boolean(entity);
@@ -30,18 +31,18 @@ export const EntityItem = ({ id }: ItemProps) => {
   if (!hasEntity) return null;
 
   return (
-    <tr>
-      <td className='cell-type'><EntityIcon /></td>
-      <td className='cell-name'>
-        {hasTotal ? (
+    <ItemRow
+      icon={<EntityIcon />}
+      name={(
+        hasTotal ? (
           <ItemLink item={entity}>{entity.name}</ItemLink>
         ) : (
           entity.name
-        )}
-      </td>
-      <td className='cell-total'>{entity.overview?.totals.values.total.value ?? '-'}</td>
-      <td className='cell-percent'>{entity.overview?.totals.values.percentage.value ?? '-'}</td>
-    </tr>
+        )
+      )}
+      percentage={entity.overview?.totals.values.percentage.value ?? <>-</>}
+      total={entity.overview?.totals.values.total.value ?? <>-</>}
+    />
   );
 };
 

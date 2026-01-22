@@ -5,6 +5,7 @@ import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/u
 
 import Icon from './icon';
 import ItemLink from './item-link';
+import { ItemRow } from '../item-table';
 import SectionIndex from '../section-index';
 import { SortLink } from '../links';
 
@@ -29,18 +30,18 @@ export const PersonItem = ({ id }: PersonItemProps) => {
   if (!hasPerson) return null;
 
   return (
-    <tr>
-      <td className='cell-type'><Icon person={person} /></td>
-      <td className='cell-name'>
-        {hasTotal ? (
+    <ItemRow
+      icon={<Icon person={person} />}
+      name={(
+        hasTotal ? (
           <ItemLink item={person}>{person.name}</ItemLink>
         ) : (
           person.name
-        )}
-      </td>
-      <td className='cell-total'>{person.overview?.totals.values.total.value ?? '-'}</td>
-      <td className='cell-percent'>{person.overview?.totals.values.percentage.value ?? '-'}</td>
-    </tr>
+        )
+      )}
+      percentage={person.overview?.totals.values.percentage.value ?? <>-</>}
+      total={person.overview?.totals.values.total.value ?? <>-</>}
+    />
   );
 };
 

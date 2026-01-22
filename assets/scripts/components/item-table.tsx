@@ -2,12 +2,48 @@ import React, { ReactNode } from 'react';
 
 import type { ItemTableLabels } from '../types';
 
+interface RowProps {
+  auxiliaryType?: ReactNode;
+  icon: ReactNode;
+  name: string | ReactNode;
+  percentage?: string | ReactNode;
+  total?: number | string | ReactNode;
+}
+
 interface Props {
   children: ReactNode;
   hasAnotherIcon?: boolean;
   hasPercent?: boolean;
   labels?: ItemTableLabels;
 }
+
+export const ItemRow = ({
+  auxiliaryType,
+  icon,
+  name,
+  percentage,
+  total,
+}: RowProps) => {
+  const hasAuxiliaryType = Boolean(auxiliaryType);
+  const hasPercentage = Boolean(percentage);
+  const hasTotal = Boolean(total);
+
+  return (
+    <tr>
+      <td className='cell-type'>{icon}</td>
+      {hasAuxiliaryType && (
+        <td className='cell-type'>{auxiliaryType}</td>
+      )}
+      <td className='cell-name'>{name}</td>
+      {hasTotal && (
+        <td className='cell-total'>{total}</td>
+      )}
+      {hasPercentage && (
+        <td className='cell-percent'>{percentage}</td>
+      )}
+    </tr>
+  );
+};
 
 const ItemTable = ({
   children,

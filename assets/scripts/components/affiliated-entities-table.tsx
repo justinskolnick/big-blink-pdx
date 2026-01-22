@@ -1,13 +1,14 @@
-import React, { RefObject } from 'react';
+import React, { ReactNode, RefObject } from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import EntityIcon from './entities/icon';
 import EntityItemLink from './entities/item-link';
-import Icon from './icon';
 import {
   getWithEntityParams,
   FilterLink,
 } from './links';
+import Icon from './icon';
+import { ItemRow } from './item-table';
 import PersonIcon from './people/icon';
 
 import { FnSetLimit } from '../hooks/use-limited-query';
@@ -19,6 +20,16 @@ import type {
   AffiliatedEntityRecord,
   AffiliatedEntityValue,
 } from '../types';
+
+interface RegistrationProps {
+  children: ReactNode;
+  isRegistered?: boolean;
+  title: string;
+}
+
+interface ItemRegistrationProps {
+  item: AffiliatedEntityRecord;
+}
 
 interface AffiliatedEntityProps {
   hasAuxiliaryType?: boolean;
@@ -39,7 +50,38 @@ interface Props {
   title?: string;
 }
 
-const RegisteredIcon = () => <Icon name='check' className='icon-registered' />;
+const Registration = ({
+  children,
+  isRegistered,
+  title
+}: RegistrationProps) => (
+  <div
+    className='icons'
+    title={title}
+  >
+    {children}
+    {isRegistered && (
+      <Icon name='check' className='icon-registered' />
+    )}
+  </div>
+);
+
+const LobbyistRegistration = ({ item }: ItemRegistrationProps) => (
+  <Registration
+    isRegistered={item.isRegistered}
+    title={item.isRegistered ? 'Lobbyist has been registered' : item.registrations}
+  >
+    <PersonIcon />
+  </Registration>
+);
+
+const EntityRegistration = () => (
+  <Registration
+    title='Entity has been registered'
+  >
+    <EntityIcon />
+  </Registration>
+);
 
 const AffiliatedEntity = ({
   hasAuxiliaryType,
@@ -52,49 +94,33 @@ const AffiliatedEntity = ({
   if (!entity) return null;
 
   return (
-    <tr>
-      <td className='cell-type'>
-        {entity.isRegistered ? (
-          <div
-            className='icons'
-            title='Entity has been registered'
-          >
-            <EntityIcon />
-            <RegisteredIcon />
-          </div>
-        ) : (
-          <EntityIcon />
-        )}
-      </td>
-      {hasAuxiliaryType && (
-        <td className='cell-type'>
-          <div
-            className='icons'
-            title={item.isRegistered ? 'Lobbyist has been registered' : item.registrations}
-          >
-            <PersonIcon />
-            {item.isRegistered && <RegisteredIcon />}
-          </div>
-        </td>
+    <ItemRow
+      auxiliaryType={hasAuxiliaryType && (
+        <LobbyistRegistration item={item} />
       )}
-      <td className='cell-name'>
-        <EntityItemLink item={entity}>
-          {entity.name}
-        </EntityItemLink>
-        {hasLobbyist && (
-          <div className='item-description'>
-            {item.registrations}
-          </div>
-        )}
-      </td>
-      <td className='cell-total'>
-        {item.total ? (
-          <FilterLink newParams={getWithEntityParams(entity, role)} hasIcon>
-            {item.total}
-          </FilterLink>
-        ) : <>-</>}
-      </td>
-    </tr>
+      icon={entity.isRegistered ? (
+        <EntityRegistration />
+      ) : (
+        <EntityIcon />
+      )}
+      name={(
+        <>
+          <EntityItemLink item={entity}>
+            {entity.name}
+          </EntityItemLink>
+          {hasLobbyist && (
+            <div className='item-description'>
+              {item.registrations}
+            </div>
+          )}
+        </>
+      )}
+      total={(
+        <FilterLink newParams={getWithEntityParams(entity, role)} hasIcon>
+          {item.total}
+        </FilterLink>
+      )}
+    />
   );
 };
 
