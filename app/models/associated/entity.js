@@ -15,12 +15,45 @@ class AssociatedEntity extends AssociatedItem {
     [ROLE_OFFICIAL]: ASSOCIATION_ENTITIES,
   };
 
+  static adaptLobbyist(record) {
+    const prefix = Entity.labelPrefix;
+    const labels = this.labels;
+    let statementKey;
+    let titleKey;
+
+    if (record.lobbyist.isRegistered) {
+      statementKey = 'lobbyist_registration_statement';
+      titleKey = 'lobbyist_registration_found';
+    } else {
+      statementKey = 'lobbyist_registration_not_found';
+      titleKey = 'lobbyist_registration_not_found';
+    }
+
+    return {
+      id: record.lobbyist.id,
+      isRegistered: record.lobbyist.isRegistered,
+      labels: {
+        title: labels.getLabel(titleKey, prefix),
+        statement: labels.getLabel(statementKey, prefix, {
+          name: record.entity.name,
+          range: record.lobbyist.range,
+        }),
+      },
+    };
+  }
+
   static adaptRecord(record) {
     const entity = new Entity(record.entity);
+    let lobbyist;
+
+    if ('lobbyist' in record) {
+      lobbyist = this.adaptLobbyist(record);
+    }
 
     return {
       ...record,
       entity: entity.adapted,
+      lobbyist,
     };
   }
 

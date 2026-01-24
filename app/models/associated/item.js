@@ -47,7 +47,7 @@ class AssociatedItem extends Base {
     return {
       association: this.getAssociation(values.role),
       label: this.labels.getLabel(labelKey, this.associatingClass.singular()),
-      records: values.records.map(this.adaptRecord),
+      records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
       total: values.total,
     };

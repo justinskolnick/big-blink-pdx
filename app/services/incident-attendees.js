@@ -84,7 +84,11 @@ const getEntitiesTotal = async (options = {}) => {
 };
 
 const getEntities = async (options = {}, limit = null) => {
-  const { personId, personRole } = options;
+  const {
+    personId,
+    personRole,
+  } = options;
+
   const hasPersonId = Boolean(personId);
   const hasPersonRole = Boolean(personRole);
 
@@ -116,6 +120,13 @@ const getEntities = async (options = {}, limit = null) => {
         personId,
       });
 
+      result.lobbyist = {
+        id: personId,
+        isRegistered: personRegistrationResults.length > 0,
+        range: getRangeStatement(getRangesByYearSet(personRegistrationResults)),
+      };
+
+      // todo: nix
       result.isRegistered = personRegistrationResults.length > 0;
 
       if (result.isRegistered) {

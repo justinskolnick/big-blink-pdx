@@ -39,6 +39,14 @@ describe('toRoleObject', () => {
                 },
                 type: 'entity',
               },
+              lobbyist: {
+                id: 987,
+                isRegistered: true,
+                labels: {
+                  statement: 'Registered to lobby on behalf of ikhslzZsVq1Vz for 2021 Q3 – 2023 Q4',
+                  title: 'Lobbyist has been registered',
+                },
+              },
               isRegistered: true,
               registrations: 'Registered to lobby on behalf of ikhslzZsVq1Vz for 2021 Q3 – 2023 Q4',
               total: 83,
@@ -63,6 +71,14 @@ describe('toRoleObject', () => {
                 },
                 type: 'entity',
               },
+              lobbyist: {
+                id: 987,
+                isRegistered: false,
+                labels: {
+                  statement: 'No record of registration was found',
+                  title: 'No record of registration was found',
+                },
+              },
               isRegistered: false,
               registrations: null,
               total: 16,
@@ -86,6 +102,14 @@ describe('toRoleObject', () => {
                   },
                 },
                 type: 'entity',
+              },
+              lobbyist: {
+                id: 987,
+                isRegistered: true,
+                labels: {
+                  statement: 'Registered to lobby on behalf of tH49K0mbUpl3 for 2021 Q1 – 2022 Q2',
+                  title: 'Lobbyist has been registered',
+                },
               },
               isRegistered: true,
               registrations: 'Registered to lobby on behalf of tH49K0mbUpl3 for 2021 Q1 – 2022 Q2',
