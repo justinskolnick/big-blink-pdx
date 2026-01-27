@@ -413,11 +413,19 @@ export type ItemOverview = {
 
 export type ItemTableLabels = LeaderboardTableLabels;
 
+export type ItemRegistrations = {
+  isRegistered: boolean;
+  labels: {
+    statement?: string;
+    title: string;
+  };
+};
+
 export type Entity = Item & {
   details?: Details;
   domain?: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
-  isRegistered?: boolean;
+  registrations?: ItemRegistrations;
   overview?: ItemOverview;
   roles: ItemRoles;
   type: 'entity';
@@ -437,8 +445,9 @@ export enum Role {
 
 export type AffiliatedEntityRecord = {
   entity: Pick<Entity, 'id'>;
-  isRegistered?: boolean;
-  registrations?: string;
+  lobbyist: ItemRegistrations & {
+    id: Id;
+  };
   total?: number;
 };
 

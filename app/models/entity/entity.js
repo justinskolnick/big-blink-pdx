@@ -54,7 +54,6 @@ class Entity extends IncidentedBase {
       labels: {
         title: labels.getLabel(key, prefix),
       },
-      registrations: labels.getLabel(key, prefix), // todo: nix
     };
   }
 
@@ -66,8 +65,7 @@ class Entity extends IncidentedBase {
     }
 
     return this.adaptResult(result, {
-      ...registrations, // todo: nix
-      // registrations, // todo: set
+      registrations,
       roles: this.adaptRoles(ROLE_LOBBYIST),
       type: this.constructor.singular(),
     });

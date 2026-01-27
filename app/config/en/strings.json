@@ -24,6 +24,7 @@
     "entity__lobbyist_registration_found": "Lobbyist has been registered",
     "entity__lobbyist_registration_not_found": "No record of registration was found",
     "entity__lobbyist_registration_statement": "Registered to lobby on behalf of :name for :range",
+    "entity__lobbyist_registration_this_entity": "this entity",
     "entity__registration_found": "Entity has been registered",
     "entity__registration_not_found": "No record of registration was found",
     "incidents__percentage": "Share of total",

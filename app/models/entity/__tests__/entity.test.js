@@ -265,20 +265,15 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'https://example.com',
-      isRegistered: true,
-      labels: {
-        title: 'Entity has been registered',
-      },
       links: {
         self: '/entities/1'
       },
-      registrations: 'Entity has been registered',
-      // registrations: { // todo
-      //   isRegistered: true,
-      //   labels: {
-      //     title: 'Entity has been registered',
-      //   },
-      // },
+      registrations: {
+        isRegistered: true,
+        labels: {
+          title: 'Entity has been registered',
+        },
+      },
       roles: {
         label: 'Roles and Associations',
         list: [

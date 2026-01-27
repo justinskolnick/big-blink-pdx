@@ -126,15 +126,6 @@ const getEntities = async (options = {}, limit = null) => {
         range: getRangeStatement(getRangesByYearSet(personRegistrationResults)),
       };
 
-      // todo: nix
-      result.isRegistered = personRegistrationResults.length > 0;
-
-      if (result.isRegistered) {
-        result.registrations = `Registered to lobby on behalf of ${result.entity.name} for ${getRangeStatement(getRangesByYearSet(personRegistrationResults))}`;
-      } else {
-        result.registrations = 'No record of registration was found';
-      }
-
       return result;
     }));
   }

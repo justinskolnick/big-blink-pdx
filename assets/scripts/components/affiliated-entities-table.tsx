@@ -19,16 +19,12 @@ import { Role, Sections } from '../types';
 import type {
   AffiliatedEntityRecord,
   AffiliatedEntityValue,
+  ItemRegistrations,
 } from '../types';
 
 interface RegistrationProps {
   children: ReactNode;
-  isRegistered?: boolean;
-  title: string;
-}
-
-interface ItemRegistrationProps {
-  item: AffiliatedEntityRecord;
+  registrations?: ItemRegistrations;
 }
 
 interface AffiliatedEntityProps {
@@ -52,35 +48,21 @@ interface Props {
 
 const Registration = ({
   children,
-  isRegistered,
-  title
+  registrations,
 }: RegistrationProps) => (
-  <div
-    className='icons'
-    title={title}
-  >
-    {children}
-    {isRegistered && (
-      <Icon name='check' className='icon-registered' />
-    )}
-  </div>
-);
-
-const LobbyistRegistration = ({ item }: ItemRegistrationProps) => (
-  <Registration
-    isRegistered={item.isRegistered}
-    title={item.isRegistered ? 'Lobbyist has been registered' : item.registrations}
-  >
-    <PersonIcon />
-  </Registration>
-);
-
-const EntityRegistration = () => (
-  <Registration
-    title='Entity has been registered'
-  >
-    <EntityIcon />
-  </Registration>
+  registrations ? (
+    <div
+      className='icons'
+      title={registrations.labels.title}
+    >
+      {children}
+      {registrations.isRegistered && (
+        <Icon name='check' className='icon-registered' />
+      )}
+    </div>
+  ) : (
+    children
+  )
 );
 
 const AffiliatedEntity = ({
@@ -96,13 +78,19 @@ const AffiliatedEntity = ({
   return (
     <ItemRow
       auxiliaryType={hasAuxiliaryType && (
-        <LobbyistRegistration item={item} />
+        <Registration registrations={item.lobbyist}>
+          <PersonIcon />
+        </Registration>
       )}
-      icon={entity.isRegistered ? (
-        <EntityRegistration />
-      ) : (
-        <EntityIcon />
-      )}
+      icon={
+        hasAuxiliaryType ? (
+          <Registration registrations={entity.registrations}>
+            <EntityIcon />
+          </Registration>
+        ) : (
+          <EntityIcon />
+        )
+      }
       name={(
         <>
           <EntityItemLink item={entity}>
@@ -110,7 +98,7 @@ const AffiliatedEntity = ({
           </EntityItemLink>
           {hasLobbyist && (
             <div className='item-description'>
-              {item.registrations}
+              {item.lobbyist.labels.statement}
             </div>
           )}
         </>

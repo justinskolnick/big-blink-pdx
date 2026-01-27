@@ -47308,34 +47308,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime45 = __toESM(require_jsx_runtime());
   var Registration = ({
     children,
-    isRegistered,
-    title
-  }) => /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
+    registrations
+  }) => registrations ? /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(
     "div",
     {
       className: "icons",
-      title,
+      title: registrations.labels.title,
       children: [
         children,
-        isRegistered && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default, { name: "check", className: "icon-registered" })
+        registrations.isRegistered && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default, { name: "check", className: "icon-registered" })
       ]
     }
-  );
-  var LobbyistRegistration = ({ item }) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-    Registration,
-    {
-      isRegistered: item.isRegistered,
-      title: item.isRegistered ? "Lobbyist has been registered" : item.registrations,
-      children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default4, {})
-    }
-  );
-  var EntityRegistration = () => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-    Registration,
-    {
-      title: "Entity has been registered",
-      children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {})
-    }
-  );
+  ) : children;
   var AffiliatedEntity = ({
     hasAuxiliaryType,
     hasLobbyist,
@@ -47347,11 +47331,11 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
       ItemRow,
       {
-        auxiliaryType: hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(LobbyistRegistration, { item }),
-        icon: entity.isRegistered ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(EntityRegistration, {}) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {}),
+        auxiliaryType: hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Registration, { registrations: item.lobbyist, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default4, {}) }),
+        icon: hasAuxiliaryType ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Registration, { registrations: entity.registrations, children: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {}) }) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(icon_default2, {}),
         name: /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(item_link_default2, { item: entity, children: entity.name }),
-          hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "item-description", children: item.registrations })
+          hasLobbyist && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "item-description", children: item.lobbyist.labels.statement })
         ] }),
         total: /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(FilterLink, { newParams: getWithEntityParams(entity, role), hasIcon: true, children: item.total })
       }
