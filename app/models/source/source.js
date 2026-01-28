@@ -1,4 +1,4 @@
-const IncidentedBase = require('./shared/base-incidented');
+const IncidentedBase = require('../shared/base-incidented');
 
 class Source extends IncidentedBase {
   static foreignKeyBase = 'data_source';

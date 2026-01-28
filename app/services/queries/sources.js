@@ -2,7 +2,7 @@ const queryHelper = require('../../helpers/query');
 
 const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
-const Source = require('../../models/source');
+const Source = require('../../models/source/source');
 const Quarter = require('../../models/quarter');
 
 const buildQuery = (options = {}) => {

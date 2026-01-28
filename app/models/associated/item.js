@@ -26,6 +26,13 @@ class AssociatedItem extends Base {
     return `as_${role}_${association}`;
   }
 
+  static getValueLabel(role, key) {
+    const labelKey = this.getValueLabelKey(role, key);
+    const labelPrefix = this.associatingClass.singular();
+
+    return this.labels.getLabel(labelKey, labelPrefix);
+  }
+
   static adaptRecord(record) {
     return record;
   }
@@ -42,11 +49,9 @@ class AssociatedItem extends Base {
   }
 
   static toValuesObject(key, values, role) {
-    const labelKey = this.getValueLabelKey(role, key);
-
     return {
       association: this.getAssociation(values.role),
-      label: this.labels.getLabel(labelKey, this.associatingClass.singular()),
+      label: this.getValueLabel(role, key),
       records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
       total: values.total,

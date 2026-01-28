@@ -58,17 +58,16 @@ class Entity extends IncidentedBase {
   }
 
   adapt(result) {
-    let registrations;
-
-    if ('isRegistered' in result) {
-      registrations = this.adaptRegistrations(result);
-    }
-
-    return this.adaptResult(result, {
-      registrations,
+    const otherValues = {
       roles: this.adaptRoles(ROLE_LOBBYIST),
       type: this.constructor.singular(),
-    });
+    };
+
+    if ('isRegistered' in result) {
+      otherValues.registrations = this.adaptRegistrations(result);
+    }
+
+    return this.adaptResult(result, otherValues);
   }
 }
 

@@ -1,3 +1,7 @@
+const resultActivity = require('../__mocks__/result-source-activity');
+const resultRegistration = require('../__mocks__/result-source-registration');
+const resultPersonnel = require('../__mocks__/result-source-personnel');
+
 const Source = require('../source');
 
 describe('tableName', () => {
@@ -66,26 +70,13 @@ describe('foreignKey()', () => {
 });
 
 describe('adapt()', () => {
-  /* eslint-disable camelcase */
-  const result = {
-    id: 1,
-    type: 'activity',
-    format: 'csv',
-    title: 'Lobbying Activity Report for Q1 2014',
-    year: 2014,
-    quarter: 1,
-    public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
-      is_via_public_records: false,
-    retrieved_at: '2023-03-28 02:19:00',
-  };
   const resultWithTotal = {
-    ...result,
+    ...resultActivity,
     total: 114,
   };
-  /* eslint-enable camelcase */
 
   test('adapts a result', () => {
-    const source = new Source(result);
+    const source = new Source(resultActivity);
 
     expect(source.adapted).toEqual({
       id: 1,
@@ -144,7 +135,7 @@ describe('adapt()', () => {
   });
 
   test('adapts a result with a total and a percentage', () => {
-    const source = new Source(result);
+    const source = new Source(resultActivity);
     const sourceWithTotal = new Source(resultWithTotal);
 
     const incidentCountResult = 246;
@@ -210,21 +201,7 @@ describe('adapt()', () => {
 
 describe('adaptDisclaimer()', () => {
   describe('with an activity source', () => {
-    /* eslint-disable camelcase */
-    const result = {
-      id: 1,
-      type: 'activity',
-      format: 'csv',
-      title: 'Lobbying Activity Report for Q1 2014',
-      year: 2014,
-      quarter: 1,
-      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
-      is_via_public_records: false,
-      retrieved_at: '2023-03-28 02:19:00',
-    };
-    /* eslint-enable camelcase */
-
-    const source = new Source(result);
+    const source = new Source(resultActivity);
 
     test('adapts the result', () => {
       expect(source.adapted).toEqual({
@@ -248,21 +225,7 @@ describe('adaptDisclaimer()', () => {
   });
 
   describe('with a personnel source', () => {
-    /* eslint-disable camelcase */
-    const result = {
-      id: 1,
-      type: 'personnel',
-      format: 'excel',
-      title: 'Personnel List',
-      year: null,
-      quarter: null,
-      public_url: null,
-      is_via_public_records: 1,
-      retrieved_at: '2025-06-18 02:19:00',
-    };
-    /* eslint-enable camelcase */
-
-    const source = new Source(result);
+    const source = new Source(resultPersonnel);
 
     test('adapts the result', () => {
       expect(source.adapted).toEqual({
@@ -286,21 +249,7 @@ describe('adaptDisclaimer()', () => {
   });
 
   describe('with a registration source', () => {
-    /* eslint-disable camelcase */
-    const result = {
-      id: 1,
-      type: 'registration',
-      format: 'csv',
-      title: 'Lobbying Registration Report for Q1 2014',
-      year: 2014,
-      quarter: 1,
-      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=registration&registrationQtr=1&registrationYear=2014&submit=View%20Report',
-      is_via_public_records: false,
-      retrieved_at: '2023-06-26 02:19:00',
-    };
-    /* eslint-enable camelcase */
-
-    const source = new Source(result);
+    const source = new Source(resultRegistration);
 
     test('adapts the result', () => {
       expect(source.adapted).toEqual({
@@ -354,21 +303,11 @@ describe('adaptEntity()', () => {
 
 describe('setData()', () => {
   test('sets data', () => {
-    /* eslint-disable camelcase */
     const source = new Source({
-      id: 1,
-      type: 'activity',
-      format: 'csv',
-      title: 'Lobbying Activity Report for Q1 2014',
-      year: 2014,
-      quarter: 1,
-      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
-      is_via_public_records: false,
-      retrieved_at: '2023-03-28 02:19:00',
+      ...resultActivity,
       total: 114,
       x: 'y',
     });
-    /* eslint-enable camelcase */
 
     source.setData('z', 'abc');
     source.setData('retrieved_at', '2025-02-14 02:19:00');
@@ -378,14 +317,7 @@ describe('setData()', () => {
 
     /* eslint-disable camelcase */
     expect(source.data).toEqual({
-      id: 1,
-      type: 'activity',
-      format: 'csv',
-      title: 'Lobbying Activity Report for Q1 2014',
-      year: 2014,
-      quarter: 1,
-      public_url: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
-      is_via_public_records: false,
+      ...resultActivity,
       retrieved_at: '2025-02-14 02:19:00',
       total: 114,
       x: 'y',

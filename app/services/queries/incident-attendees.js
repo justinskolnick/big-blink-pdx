@@ -11,7 +11,7 @@ const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const IncidentAttendee = require('../../models/incident-attendee');
 const Person = require('../../models/person/person');
-const Source = require('../../models/source');
+const Source = require('../../models/source/source');
 
 const getAllQuery = (options = {}) => {
   const {

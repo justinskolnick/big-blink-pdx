@@ -1,4 +1,4 @@
-const Source = require('../models/source');
+const Source = require('../models/source/source');
 const db = require('./db');
 const {
   getAllQuery,

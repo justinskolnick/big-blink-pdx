@@ -18,18 +18,21 @@ class AssociatedEntity extends AssociatedItem {
 
   static adaptRecord(record) {
     const entity = new Entity(record.entity);
+    const values = {
+      ...record,
+      entity: entity.adapted,
+    };
+
     let lobbyist;
 
     if ('lobbyist' in record) {
       lobbyist = new AssociatedEntityLobbyist(record.lobbyist);
       lobbyist.setEntity(entity);
+
+      values.lobbyist = lobbyist.adapted;
     }
 
-    return {
-      ...record,
-      entity: entity.adapted,
-      lobbyist: lobbyist?.adapted,
-    };
+    return values;
   }
 
   static toRoleObject(role, entities) {
