@@ -2,8 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 
 const {
-  MODEL_ENTITIES,
-  MODEL_PEOPLE,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -23,12 +21,11 @@ const metaHelper = require('../../helpers/meta');
 const { unique } = require('../../lib/array');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
-const { titleCase } = require('../../lib/string');
 
-const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
-const Person = require('../../models/person/person');
 const Source = require('../../models/source/source');
+const SourceAttendee = require('../../models/source/source-attendee');
+const SourceEntity = require('../../models/source/source-entity');
 
 const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
@@ -43,22 +40,6 @@ const section = {
 };
 const view = {
   section: slug,
-};
-
-const adaptItemEntity = item => {
-  const entity = new Entity(item.entity);
-
-  item.entity = entity.adapted;
-
-  return item;
-};
-
-const adaptItemPerson = item => {
-  const person = new Person(item.person);
-
-  item.person = person.adapted;
-
-  return item;
 };
 
 const router = express.Router({
@@ -230,25 +211,7 @@ router.get('/:id/attendees', async (req, res, next) => {
     attendees = await incidentAttendees.getAttendees({ sourceId: id }, limit);
 
     record = source.adapted;
-    record.attendees = {
-      label: Source.getLabel('associated_people'),
-      model: MODEL_PEOPLE,
-      type: 'source',
-      values: [
-        {
-          label: titleCase(Source.getLabel('lobbyists')),
-          records: attendees.lobbyists.records.map(adaptItemPerson),
-          role: attendees.lobbyists.role,
-          total: attendees.lobbyists.total,
-        },
-        {
-          label: titleCase(Source.getLabel('officials_city')),
-          records: attendees.officials.records.map(adaptItemPerson),
-          role: attendees.officials.role,
-          total: attendees.officials.total,
-        },
-      ],
-    };
+    record.attendees = SourceAttendee.toRoleObject('source', attendees);
 
     data = {
       source: {
@@ -279,17 +242,7 @@ router.get('/:id/entities', async (req, res, next) => {
     entities = await sources.getEntitiesForId(id, limit);
 
     record = source.adapted;
-    record.entities = {
-      label: Source.getLabel('associated_entities'),
-      model: MODEL_ENTITIES,
-      values: [
-        {
-          label: `These entities appear in ${record.title}`,
-          records: entities.records.map(adaptItemEntity),
-          total: entities.total,
-        },
-      ],
-    };
+    record.entities = SourceEntity.toRoleObject('source', entities);
 
     data = {
       source: {
