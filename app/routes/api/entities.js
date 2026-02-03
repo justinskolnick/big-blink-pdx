@@ -4,7 +4,6 @@ const express = require('express');
 const {
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
-  MODEL_PEOPLE,
   PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
@@ -32,7 +31,6 @@ const { toSentence } = require('../../lib/string');
 const Entity = require('../../models/entity/entity');
 const EntityAttendee = require('../../models/entity/entity-attendee');
 const Incident = require('../../models/incident');
-const Person = require('../../models/person/person');
 
 const entities = require('../../services/entities');
 const entityLobbyistLocations = require('../../services/entity-lobbyist-locations');
@@ -49,14 +47,6 @@ const section = {
 };
 const view = {
   section: slug,
-};
-
-const adaptItemPerson = item => {
-  const person = new Person(item.person);
-
-  item.person = person.adapted;
-
-  return item;
 };
 
 const router = express.Router({
@@ -213,56 +203,6 @@ router.get('/:id', async (req, res, next) => {
   } catch (err) {
     console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
     return next(createError(err));
-  }
-});
-
-router.get('/:id/attendees', async (req, res, next) => {
-  const id = Number(req.params.id);
-  const limit = req.searchParams.get(PARAM_LIMIT);
-
-  const labelPrefix = 'entity';
-
-  let entity;
-  let attendees;
-  let data;
-  let meta;
-
-  try {
-    entity = await entities.getAtId(id);
-    attendees = await incidentAttendees.getAttendees({ entityId: id }, limit);
-
-    record = entity.adapted;
-    record.attendees = {
-      label: Entity.getLabel('as_entity_contd', labelPrefix, { name: record.name }),
-      model: MODEL_PEOPLE,
-      type: 'entity',
-      values: [
-        {
-          label: Entity.getLabel('as_entity_lobbyists_contd', labelPrefix),
-          records: attendees.lobbyists.records.map(adaptItemPerson),
-          role: attendees.lobbyists.role,
-          total: attendees.lobbyists.total,
-        },
-        {
-          label: Entity.getLabel('as_entity_officials_contd', labelPrefix),
-          records: attendees.officials.records.map(adaptItemPerson),
-          role: attendees.officials.role,
-          total: attendees.officials.total,
-        },
-      ],
-    };
-
-    data = {
-      entity: {
-        record,
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting entity attendees:', err.message); // eslint-disable-line no-console
-    next(createError(err));
   }
 });
 

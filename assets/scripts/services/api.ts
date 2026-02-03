@@ -127,9 +127,6 @@ const api = createApi({
     getEntityById: builder.query(getAncillaryRoute(
       ({ id }) => `api/entities/${id}`
     )),
-    getEntityAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, { limit })
-    )),
     getEntityIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/entities/${id}/incidents${search}`
     )),
