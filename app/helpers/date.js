@@ -7,12 +7,8 @@ const {
 
 const parseDateString = (dateString) => {
   if (/^[\d]{4}-[\d]{2}-[\d]{2}$/.test(dateString)) {
-    const [year, month, day] = dateString.split('-').map(Number);
-    const parsed = new Date();
+    const parsed = new Date(dateString);
 
-    parsed.setFullYear(year);
-    parsed.setDate(day);
-    parsed.setMonth(month - 1);
     parsed.setHours(0);
     parsed.setMinutes(0);
     parsed.setSeconds(0);
