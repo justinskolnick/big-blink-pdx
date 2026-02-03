@@ -1263,7 +1263,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.2.3";
+        exports.version = "19.2.4";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1519,7 +1519,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.2.3";
+        exports.version = "19.2.4";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21311,9 +21311,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React50.version;
-          if ("19.2.3" !== isomorphicReactPackageVersion)
+          if ("19.2.4" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.3\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -21337,10 +21337,10 @@
         if (!(function() {
           var internals = {
             bundleType: 1,
-            version: "19.2.3",
+            version: "19.2.4",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.2.3"
+            reconcilerVersion: "19.2.4"
           };
           internals.overrideHookState = overrideHookState;
           internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -21431,7 +21431,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.2.3";
+        exports.version = "19.2.4";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -23134,7 +23134,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-EPOLDU6W.mjs
+  // node_modules/react-router/dist/development/chunk-JZWAC4HX.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23780,22 +23780,11 @@
     } = typeof to3 === "string" ? parsePath(to3) : to3;
     let pathname;
     if (toPathname) {
-      if (isAbsoluteUrl(toPathname)) {
-        pathname = toPathname;
+      toPathname = toPathname.replace(/\/\/+/g, "/");
+      if (toPathname.startsWith("/")) {
+        pathname = resolvePathname(toPathname.substring(1), "/");
       } else {
-        if (toPathname.includes("//")) {
-          let oldPathname = toPathname;
-          toPathname = toPathname.replace(/\/\/+/g, "/");
-          warning(
-            false,
-            `Pathnames cannot have embedded double slashes - normalizing ${oldPathname} -> ${toPathname}`
-          );
-        }
-        if (toPathname.startsWith("/")) {
-          pathname = resolvePathname(toPathname.substring(1), "/");
-        } else {
-          pathname = resolvePathname(toPathname, fromPathname);
-        }
+        pathname = resolvePathname(toPathname, fromPathname);
       }
     } else {
       pathname = fromPathname;
@@ -29205,7 +29194,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return /* @__PURE__ */ React8.createElement(React8.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })), moduleHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "modulepreload", href, ...linkProps })), keyedPrefetchLinks.map(({ key, link }) => (
       // these don't spread `linkProps` because they are full link descriptors
       // already with their own props
-      /* @__PURE__ */ React8.createElement("link", { key, nonce: linkProps.nonce, ...link })
+      /* @__PURE__ */ React8.createElement(
+        "link",
+        {
+          key,
+          nonce: linkProps.nonce,
+          ...link,
+          crossOrigin: link.crossOrigin ?? linkProps.crossOrigin
+        }
+      )
     )));
   }
   function mergeRefs(...refs) {
@@ -29223,7 +29220,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser2) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.12.0";
+      "7.13.0";
     }
   } catch (e2) {
   }
@@ -33365,37 +33362,71 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // node_modules/map-obj/index.js
   var isObject = (value) => typeof value === "object" && value !== null;
-  var isObjectCustom = (value) => isObject(value) && !(value instanceof RegExp) && !(value instanceof Error) && !(value instanceof Date) && !(globalThis.Blob && value instanceof globalThis.Blob);
+  var isObjectCustom = (value) => {
+    if (!isObject(value)) {
+      return false;
+    }
+    if (value instanceof RegExp || value instanceof Error || value instanceof Date || value instanceof Map || value instanceof Set || value instanceof WeakMap || value instanceof WeakSet || value instanceof Promise || value instanceof ArrayBuffer || value instanceof DataView || ArrayBuffer.isView(value) || globalThis.Blob && value instanceof globalThis.Blob) {
+      return false;
+    }
+    if (typeof value.$$typeof === "symbol" || typeof value.asymmetricMatch === "function") {
+      return false;
+    }
+    return true;
+  };
   var mapObjectSkip = /* @__PURE__ */ Symbol("mapObjectSkip");
+  var getEnumerableKeys = (object, includeSymbols) => {
+    if (includeSymbols) {
+      const stringKeys = Object.keys(object);
+      const symbolKeys = Object.getOwnPropertySymbols(object).filter((symbol) => Object.getOwnPropertyDescriptor(object, symbol)?.enumerable);
+      return [...stringKeys, ...symbolKeys];
+    }
+    return Object.keys(object);
+  };
   var _mapObject = (object, mapper, options2, isSeen = /* @__PURE__ */ new WeakMap()) => {
-    options2 = {
+    const {
+      target = {},
+      ...processOptions
+    } = {
       deep: false,
-      target: {},
+      includeSymbols: false,
       ...options2
     };
     if (isSeen.has(object)) {
       return isSeen.get(object);
     }
-    isSeen.set(object, options2.target);
-    const { target } = options2;
-    delete options2.target;
-    const mapArray = (array) => array.map((element) => isObjectCustom(element) ? _mapObject(element, mapper, options2, isSeen) : element);
+    isSeen.set(object, target);
+    const mapArray = (array) => array.map((element) => isObjectCustom(element) ? _mapObject(element, mapper, processOptions, isSeen) : element);
     if (Array.isArray(object)) {
       return mapArray(object);
     }
-    for (const [key, value] of Object.entries(object)) {
-      const mapResult = mapper(key, value, object);
+    for (const key of getEnumerableKeys(object, processOptions.includeSymbols)) {
+      const value = object[key];
+      const mapResult = mapper(key, value);
       if (mapResult === mapObjectSkip) {
         continue;
+      }
+      if (!Array.isArray(mapResult)) {
+        throw new TypeError(`Mapper must return an array or mapObjectSkip, got ${mapResult === null ? "null" : typeof mapResult}`);
+      }
+      if (mapResult.length < 2) {
+        throw new TypeError(`Mapper must return an array with at least 2 elements [key, value], got ${mapResult.length} elements`);
       }
       let [newKey, newValue, { shouldRecurse = true } = {}] = mapResult;
       if (newKey === "__proto__") {
         continue;
       }
-      if (options2.deep && shouldRecurse && isObjectCustom(newValue)) {
-        newValue = Array.isArray(newValue) ? mapArray(newValue) : _mapObject(newValue, mapper, options2, isSeen);
+      if (processOptions.deep && shouldRecurse && isObjectCustom(newValue)) {
+        newValue = Array.isArray(newValue) ? mapArray(newValue) : _mapObject(newValue, mapper, processOptions, isSeen);
       }
-      target[newKey] = newValue;
+      try {
+        target[newKey] = newValue;
+      } catch (error) {
+        if (error.name === "TypeError" && error.message.includes("read only")) {
+          continue;
+        }
+        throw error;
+      }
     }
     return target;
   };
@@ -33406,18 +33437,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (Array.isArray(object)) {
       throw new TypeError("Expected an object, got an array");
     }
-    return _mapObject(object, mapper, options2);
+    const mapperWithRoot = (key, value) => mapper(key, value, object);
+    return _mapObject(object, mapperWithRoot, options2);
   }
 
   // node_modules/camelcase/index.js
   var UPPERCASE = /[\p{Lu}]/u;
   var LOWERCASE = /[\p{Ll}]/u;
-  var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
-  var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
+  var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/u;
   var SEPARATORS = /[_.\- ]+/;
+  var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
   var LEADING_SEPARATORS = new RegExp("^" + SEPARATORS.source);
   var SEPARATORS_AND_IDENTIFIER = new RegExp(SEPARATORS.source + IDENTIFIER.source, "gu");
-  var NUMBERS_AND_IDENTIFIER = new RegExp("\\d+" + IDENTIFIER.source, "gu");
+  var NUMBERS_AND_IDENTIFIER = new RegExp(String.raw`\d+` + IDENTIFIER.source, "gu");
   var preserveCamelCase = (string, toLowerCase, toUpperCase, preserveConsecutiveUppercase2) => {
     let isLastCharLower = false;
     let isLastCharUpper = false;
@@ -33445,14 +33477,50 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return string;
   };
-  var preserveConsecutiveUppercase = (input, toLowerCase) => {
-    LEADING_CAPITAL.lastIndex = 0;
-    return input.replaceAll(LEADING_CAPITAL, (match2) => toLowerCase(match2));
+  var preserveConsecutiveUppercase = (input, toLowerCase) => input.replace(LEADING_CAPITAL, (match2) => toLowerCase(match2));
+  var processWithCasePreservation = (input, toLowerCase, preserveConsecutiveUppercase2) => {
+    let result = "";
+    let previousWasNumber = false;
+    let previousWasUppercase = false;
+    const characters2 = [...input];
+    for (let index = 0; index < characters2.length; index++) {
+      const character2 = characters2[index];
+      const isUpperCase = UPPERCASE.test(character2);
+      const nextCharIsUpperCase = index + 1 < characters2.length && UPPERCASE.test(characters2[index + 1]);
+      if (previousWasNumber && /[\p{Alpha}]/u.test(character2)) {
+        result += character2;
+        previousWasNumber = false;
+        previousWasUppercase = isUpperCase;
+      } else if (preserveConsecutiveUppercase2 && isUpperCase && (previousWasUppercase || nextCharIsUpperCase)) {
+        result += character2;
+        previousWasUppercase = true;
+      } else if (/\d/.test(character2)) {
+        result += character2;
+        previousWasNumber = true;
+        previousWasUppercase = false;
+      } else if (SEPARATORS.test(character2)) {
+        result += character2;
+        previousWasUppercase = false;
+      } else {
+        result += toLowerCase(character2);
+        previousWasNumber = false;
+        previousWasUppercase = false;
+      }
+    }
+    return result;
   };
-  var postProcess = (input, toUpperCase) => {
-    SEPARATORS_AND_IDENTIFIER.lastIndex = 0;
-    NUMBERS_AND_IDENTIFIER.lastIndex = 0;
-    return input.replaceAll(NUMBERS_AND_IDENTIFIER, (match2, pattern, offset) => ["_", "-"].includes(input.charAt(offset + match2.length)) ? match2 : toUpperCase(match2)).replaceAll(SEPARATORS_AND_IDENTIFIER, (_2, identifier2) => toUpperCase(identifier2));
+  var postProcess = (input, toUpperCase, { capitalizeAfterNumber }) => {
+    const transformNumericIdentifier = capitalizeAfterNumber ? (match2, identifier2, offset, string) => {
+      const nextCharacter = string.charAt(offset + match2.length);
+      if (SEPARATORS.test(nextCharacter)) {
+        return match2;
+      }
+      return identifier2 ? match2.slice(0, -identifier2.length) + toUpperCase(identifier2) : match2;
+    } : (match2) => match2;
+    return input.replaceAll(NUMBERS_AND_IDENTIFIER, transformNumericIdentifier).replaceAll(
+      SEPARATORS_AND_IDENTIFIER,
+      (_2, identifier2) => toUpperCase(identifier2)
+    );
   };
   function camelCase(input, options2) {
     if (!(typeof input === "string" || Array.isArray(input))) {
@@ -33461,34 +33529,49 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     options2 = {
       pascalCase: false,
       preserveConsecutiveUppercase: false,
+      capitalizeAfterNumber: true,
       ...options2
     };
     if (Array.isArray(input)) {
-      input = input.map((x2) => x2.trim()).filter((x2) => x2.length).join("-");
+      input = input.map((element) => element.trim()).filter((element) => element.length > 0).join("-");
     } else {
       input = input.trim();
     }
     if (input.length === 0) {
       return "";
     }
+    const leadingPrefix = input.match(/^[_$]*/)[0];
+    input = input.slice(leadingPrefix.length);
+    if (input.length === 0) {
+      return leadingPrefix;
+    }
     const toLowerCase = options2.locale === false ? (string) => string.toLowerCase() : (string) => string.toLocaleLowerCase(options2.locale);
     const toUpperCase = options2.locale === false ? (string) => string.toUpperCase() : (string) => string.toLocaleUpperCase(options2.locale);
     if (input.length === 1) {
       if (SEPARATORS.test(input)) {
-        return "";
+        return leadingPrefix;
       }
-      return options2.pascalCase ? toUpperCase(input) : toLowerCase(input);
+      return leadingPrefix + (options2.pascalCase ? toUpperCase(input) : toLowerCase(input));
     }
     const hasUpperCase = input !== toLowerCase(input);
     if (hasUpperCase) {
-      input = preserveCamelCase(input, toLowerCase, toUpperCase, options2.preserveConsecutiveUppercase);
+      input = preserveCamelCase(
+        input,
+        toLowerCase,
+        toUpperCase,
+        options2.preserveConsecutiveUppercase
+      );
     }
     input = input.replace(LEADING_SEPARATORS, "");
-    input = options2.preserveConsecutiveUppercase ? preserveConsecutiveUppercase(input, toLowerCase) : toLowerCase(input);
-    if (options2.pascalCase) {
-      input = toUpperCase(input.charAt(0)) + input.slice(1);
+    if (options2.capitalizeAfterNumber) {
+      input = options2.preserveConsecutiveUppercase ? preserveConsecutiveUppercase(input, toLowerCase) : toLowerCase(input);
+    } else {
+      input = processWithCasePreservation(input, toLowerCase, options2.preserveConsecutiveUppercase);
     }
-    return postProcess(input, toUpperCase);
+    if (options2.pascalCase && input.length > 0) {
+      input = toUpperCase(input[0]) + input.slice(1);
+    }
+    return leadingPrefix + postProcess(input, toUpperCase, options2);
   }
 
   // node_modules/quick-lru/index.js
@@ -33657,6 +33740,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       this.#maxSize = newSize;
     }
+    evict(count = 1) {
+      const requested = Number(count);
+      if (!requested || requested <= 0) {
+        return;
+      }
+      const items = [...this.#entriesAscending()];
+      const evictCount = Math.trunc(Math.min(requested, Math.max(items.length - 1, 0)));
+      if (evictCount <= 0) {
+        return;
+      }
+      this.#emitEvictions(items.slice(0, evictCount));
+      this.#oldCache = new Map(items.slice(evictCount));
+      this.#cache = /* @__PURE__ */ new Map();
+      this.#size = 0;
+    }
     *keys() {
       for (const [key] of this) {
         yield key;
@@ -33727,6 +33825,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     get maxSize() {
       return this.#maxSize;
     }
+    get maxAge() {
+      return this.#maxAge;
+    }
     entries() {
       return this.entriesAscending();
     }
@@ -33795,9 +33896,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (cache.has(cacheKey)) {
           key = cache.get(cacheKey);
         } else {
-          const leadingPrefix = key.match(/^[_$]*/)[0];
-          const transformed = camelCase(key.slice(leadingPrefix.length), { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
-          key = leadingPrefix + transformed;
+          key = camelCase(key, { pascalCase, locale: false, preserveConsecutiveUppercase: preserveConsecutiveUppercase2 });
           if (key.length < 100) {
             cache.set(cacheKey, key);
           }
@@ -38290,9 +38389,6 @@ Hook ${hookName} was either not provided or not a function.`);
       getPrimary: builder.query(getPrimaryRoute()),
       getEntityById: builder.query(getAncillaryRoute(
         ({ id }) => `api/entities/${id}`
-      )),
-      getEntityAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`api/entities/${id}/attendees`, { limit })
       )),
       getEntityIncidentsById: builder.query(getAncillaryRoute(
         ({ id, search }) => `api/entities/${id}/incidents${search}`
@@ -61936,10 +62032,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-EPOLDU6W.mjs:
+react-router/dist/development/chunk-JZWAC4HX.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.12.0
+   * react-router v7.13.0
    *
    * Copyright (c) Remix Software Inc.
    *
