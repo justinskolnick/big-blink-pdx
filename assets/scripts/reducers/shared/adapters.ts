@@ -103,7 +103,7 @@ export const adaptRoles = (
               all[roleKey].attendees = {
                 ...savedRole?.attendees,
                 ...attendees,
-                values: Object.keys(roles.options).map(role => {
+                values: attendees.options.map(role => {
                   const savedValue = savedRole?.attendees?.values?.find(value => value?.role === role);
                   const newValue = attendees.values.find(value => value?.role === role);
 

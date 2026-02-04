@@ -1,7 +1,7 @@
-const { ROLE_LOBBYIST } = require('../../config/constants');
+const { ROLE_ENTITY } = require('../../config/constants');
 
 const IncidentedBase = require('../shared/base-incidented');
-const Role = require('../role');
+const Role = require('./entity-role');
 
 class Entity extends IncidentedBase {
   static tableName = 'entities';
@@ -59,7 +59,7 @@ class Entity extends IncidentedBase {
 
   adapt(result) {
     const otherValues = {
-      roles: this.adaptRoles(ROLE_LOBBYIST),
+      roles: this.adaptRoles(ROLE_ENTITY),
       type: this.constructor.singular(),
     };
 

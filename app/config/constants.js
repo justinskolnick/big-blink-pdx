@@ -41,6 +41,7 @@ const SORT_BY_OPTIONS = {
 const MODEL_ENTITIES = 'entities';
 const MODEL_PEOPLE = 'people';
 
+const ROLE_ENTITY = 'entity';
 const ROLE_LOBBYIST = 'lobbyist';
 const ROLE_OFFICIAL = 'official';
 
@@ -75,6 +76,7 @@ module.exports = {
   PARAM_WITH_PERSON_ID,
   PARAM_YEAR,
   QUARTERS,
+  ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SECTION_ENTITIES,

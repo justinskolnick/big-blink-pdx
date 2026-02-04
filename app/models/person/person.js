@@ -1,5 +1,5 @@
 const IncidentedBase = require('../shared/base-incidented');
-const Role = require('../role');
+const Role = require('./person-role');
 
 class Person extends IncidentedBase {
   static tableName = 'people';

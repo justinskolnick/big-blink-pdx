@@ -55,7 +55,6 @@ const AffiliatedItemTable = ({
 
   const scrollToRef = () => delayedScrollToRef(scrollRef);
 
-
   useEffect(() => {
     if (canSetLimit && showAll) {
       setLimit(null);

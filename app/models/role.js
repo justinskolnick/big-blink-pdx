@@ -1,18 +1,10 @@
-const {
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
-} = require('../config/constants');
-
-const ROLE_OPTIONS = [
-  ROLE_OFFICIAL,
-  ROLE_LOBBYIST,
-];
+const { Labels } = require('../helpers/labels');
 
 class Role {
-  role = null;
+  static allOptions = [];
 
   static isValidOption(value) {
-    return ROLE_OPTIONS.includes(value);
+    return this.allOptions.includes(value);
   }
 
   static parseList(values) {
@@ -36,17 +28,58 @@ class Role {
   }
 
   static options() {
-    return ROLE_OPTIONS;
+    return this.allOptions;
   }
 
+  labels = null;
+  labelPrefix = null;
+
+  role = null;
+
+  hasAttendees = false;
+  hasEntities = false;
+  filterRole = false;
+
   constructor(role = null) {
+    this.labels = new Labels();
+
     if (this.constructor.isValidOption(role)) {
       this.role = role;
     }
   }
 
+  getLabel(key, prefix) {
+    return this.labels.getLabel(key, prefix);
+  }
+
+  get hasRole() {
+    return this.role !== null;
+  }
+
   get role() {
     return this.role;
+  }
+
+  toObject() {
+    if (!this.hasRole) {
+      return null;
+    }
+
+    const obj = {
+      filterRole: this.filterRole,
+      label: this.getLabel(`as_${this.role}`, this.labelPrefix),
+      role: this.role,
+    };
+
+    if (this.hasAttendees) {
+      obj.attendees = null;
+    }
+
+    if (this.hasEntities) {
+      obj.entities = null;
+    }
+
+    return obj;
   }
 }
 

@@ -16,6 +16,11 @@ class AssociatedPerson extends AssociatedItem {
     [ROLE_OFFICIAL]: ASSOCIATION_OFFICIALS
   };
 
+  static roles = [
+    ROLE_LOBBYIST,
+    ROLE_OFFICIAL,
+  ];
+
   static adaptRecord(record) {
     const person = new Person(record.person);
 

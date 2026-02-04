@@ -13,6 +13,9 @@ describe('toRoleObject', () => {
     expect(SourceEntity.toRoleObject(ROLE_OFFICIAL, resultEntities, record.adapted)).toEqual({
       label: 'Associated Entities',
       model: 'entities',
+      options: [
+        'entity',
+      ],
       type: 'entity',
       values: [
         {
@@ -30,11 +33,10 @@ describe('toRoleObject', () => {
                 roles: {
                   label: 'Roles and Associations',
                   list: [
-                    'lobbyist',
+                    'entity',
                   ],
                   options: {
-                    lobbyist: true,
-                    official: false,
+                    entity: true,
                   },
                 },
                 type: 'entity',
@@ -52,11 +54,10 @@ describe('toRoleObject', () => {
                 roles: {
                   label: 'Roles and Associations',
                   list: [
-                    'lobbyist',
+                    'entity',
                   ],
                   options: {
-                    lobbyist: true,
-                    official: false,
+                    entity: true,
                   },
                 },
                 type: 'entity',
@@ -74,11 +75,10 @@ describe('toRoleObject', () => {
                 roles: {
                   label: 'Roles and Associations',
                   list: [
-                    'lobbyist',
+                    'entity',
                   ],
                   options: {
-                    lobbyist: true,
-                    official: false,
+                    entity: true,
                   },
                 },
                 type: 'entity',

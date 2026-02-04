@@ -33993,7 +33993,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 all[roleKey].attendees = {
                   ...savedRole?.attendees,
                   ...attendees,
-                  values: Object.keys(roles.options).map((role) => {
+                  values: attendees.options.map((role) => {
                     const savedValue = savedRole?.attendees?.values?.find((value) => value?.role === role);
                     const newValue = attendees.values.find((value) => value?.role === role);
                     if (newValue) {
@@ -46249,11 +46249,6 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/icon.tsx
   var import_jsx_runtime18 = __toESM(require_jsx_runtime());
-  var RoleIcon = /* @__PURE__ */ ((RoleIcon2) => {
-    RoleIcon2["lobbyist"] = "briefcase";
-    RoleIcon2["official"] = "landmark";
-    return RoleIcon2;
-  })(RoleIcon || {});
   var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
     TypeForIcon2["group"] = "user-group";
     TypeForIcon2["person"] = "user-large";
@@ -46262,7 +46257,6 @@ Hook ${hookName} was either not provided or not a function.`);
   })(TypeForIcon || {});
   var iconName3 = "user-group" /* group */;
   var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
-  var getRoleIconName = (role) => RoleIcon[role];
   var PeopleIcon = ({ person }) => {
     const { id } = useParams();
     const numericId = Number(id);
@@ -47520,6 +47514,15 @@ Hook ${hookName} was either not provided or not a function.`);
   );
   var affiliated_people_table_default = AffiliatedPeopleTable;
 
+  // assets/scripts/components/role/icon.tsx
+  var RoleIcon = /* @__PURE__ */ ((RoleIcon2) => {
+    RoleIcon2["entity"] = "building";
+    RoleIcon2["lobbyist"] = "briefcase";
+    RoleIcon2["official"] = "landmark";
+    return RoleIcon2;
+  })(RoleIcon || {});
+  var getIconName3 = (role) => RoleIcon[role];
+
   // assets/scripts/components/item-description.tsx
   var import_jsx_runtime47 = __toESM(require_jsx_runtime());
   var ItemDescription = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { className: cx("item-description", className), children });
@@ -47651,9 +47654,11 @@ Hook ${hookName} was either not provided or not a function.`);
     value
   }) => {
     const options2 = {
-      role,
       association: value?.association
     };
+    if (role) {
+      options2.role = role;
+    }
     const {
       initialLimit,
       setPaused,
@@ -47669,6 +47674,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var Attendees = ({ item, role }) => {
     const namedRole = item?.roles.named?.[role];
     const items = namedRole?.attendees;
+    const filterByRole = namedRole?.filterRole;
     const hasItems = items?.values.length > 0;
     if (!hasItems) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
@@ -47680,7 +47686,7 @@ Hook ${hookName} was either not provided or not a function.`);
           AssociationGroup,
           {
             item,
-            role,
+            role: filterByRole ? role : void 0,
             value,
             children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_people_table_default,
@@ -47689,7 +47695,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 initialCount: initialLimit,
                 model: items.model,
                 ref,
-                role,
+                role: filterByRole ? role : void 0,
                 setLimit
               }
             )
@@ -47750,7 +47756,7 @@ Hook ${hookName} was either not provided or not a function.`);
         detail_activity_subhead_default,
         {
           title: namedRole.label,
-          icon: getRoleIconName(namedRole.role)
+          icon: getIconName3(namedRole.role)
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Entities, { item, role }),

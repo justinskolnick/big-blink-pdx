@@ -439,6 +439,7 @@ export type EntityWithIncidentRecords = Entity & {
 export type Entities = Entity[];
 
 export enum Role {
+  Entity = 'entity',
   Lobbyist = 'lobbyist',
   Official = 'official',
 }
@@ -483,6 +484,7 @@ export type PersonOfficialPosition = {
 type AssociatedItem = {
   label: string;
   model: Sections;
+  options: Role[];
 };
 
 type AssociatedItemValue = {
@@ -514,18 +516,21 @@ export type AssociatedEntities = AssociatedItem & {
 type NamedRole = {
   label: string;
   role: Role;
+  filterRole: boolean;
   attendees?: AssociatedPersons;
   entities?: AssociatedEntities;
 };
 
 export type NamedRoles = {
+  entity?: NamedRole;
   lobbyist?: NamedRole;
   official?: NamedRole;
 };
 
 export type RoleOptions = {
-  lobbyist: boolean;
-  official: boolean;
+  entity?: boolean;
+  lobbyist?: boolean;
+  official?: boolean;
 };
 
 export type ItemRoles = {

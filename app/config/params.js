@@ -16,6 +16,7 @@ const {
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
   PARAM_YEAR,
+  ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
   SORT_BY_OPTIONS,
@@ -76,6 +77,7 @@ const PARAM_OPTIONS = {
   [PARAM_QUARTER]: quarterOptions,
   [PARAM_ROLE]: {
     values: [
+      ROLE_ENTITY,
       ROLE_LOBBYIST,
       ROLE_OFFICIAL,
     ],

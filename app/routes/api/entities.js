@@ -16,7 +16,7 @@ const {
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_PERSON_ID,
-  ROLE_LOBBYIST,
+  ROLE_ENTITY,
   SECTION_ENTITIES,
 } = require('../../config/constants');
 
@@ -30,6 +30,7 @@ const { toSentence } = require('../../lib/string');
 
 const Entity = require('../../models/entity/entity');
 const EntityAttendee = require('../../models/entity/entity-attendee');
+const EntityRole = require('../../models/entity/entity-role');
 const Incident = require('../../models/incident');
 
 const entities = require('../../services/entities');
@@ -296,12 +297,6 @@ router.get('/:id/incidents', async (req, res, next) => {
   }
 });
 
-const getRoleObject = (role) => ({
-  label: Entity.getLabel('as_entity', Entity.labelPrefix),
-  role,
-  attendees: null,
-});
-
 const getEntityRoleObject = async (record, options = {}, limit = null) => {
   const {
     association,
@@ -325,7 +320,7 @@ const getEntityRoleObject = async (record, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    obj = getRoleObject(role);
+    obj = (new EntityRole(role)).toObject();
 
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
       obj.attendees = EntityAttendee.toRoleObject(role, attendees);
@@ -339,30 +334,21 @@ router.get('/:id/roles', async (req, res, next) => {
   const id = Number(req.params.id);
   const association = req.searchParams.get(PARAM_ASSOCIATION);
   const limit = req.searchParams.get(PARAM_LIMIT);
-  const role = ROLE_LOBBYIST;
-
-  const hasAssociation = Boolean(association);
+  const role = ROLE_ENTITY;
 
   let entity;
+  let asRole;
   let record;
 
   try {
     entity = await entities.getAtId(id);
     record = entity.adapted;
 
-    if (hasAssociation) {
-      asRole = await getEntityRoleObject(record, { association, role }, limit);
+    asRole = await getEntityRoleObject(record, { association, role }, limit);
 
-      record.roles.named = {
-        [role]: asRole,
-      };
-    } else {
-      asLobbyist = await getEntityRoleObject(record, { association, role: ROLE_LOBBYIST }, limit);
-
-      record.roles.named = {
-        [ROLE_LOBBYIST]: asLobbyist,
-      };
-    }
+    record.roles.named = {
+      [role]: asRole,
+    };
 
     data = {
       entity: {

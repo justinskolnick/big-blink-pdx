@@ -34,6 +34,7 @@ const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
 const PersonAttendee = require('../../models/person/person-attendee');
 const PersonEntity = require('../../models/person/person-entity');
+const PersonRole = require('../../models/person/person-role');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
@@ -336,13 +337,6 @@ router.get('/:id/official-positions', async (req, res, next) => {
   }
 });
 
-const getRoleObject = (role) => ({
-  label: Person.getLabel(`as_${role}`, Person.labelPrefix),
-  role,
-  attendees: null,
-  entities: null,
-});
-
 const getPersonRoleObject = async (record, options = {}, limit = null) => {
   const {
     association,
@@ -371,7 +365,7 @@ const getPersonRoleObject = async (record, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
-    obj = getRoleObject(role);
+    obj = (new PersonRole(role)).toObject();
 
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
       obj.attendees = PersonAttendee.toRoleObject(role, attendees);

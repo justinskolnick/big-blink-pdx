@@ -25,6 +25,10 @@ describe('toRoleObject()', () => {
     expect(SourceAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
       label: 'Associated People',
       model: 'people',
+      options: [
+        'lobbyist',
+        'official',
+      ],
       type: 'person',
       values: [
         {

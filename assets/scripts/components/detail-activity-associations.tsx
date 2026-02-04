@@ -11,7 +11,7 @@ import ActivityHeader from './detail-activity-header';
 import ActivitySubhead from './detail-activity-subhead';
 import AffiliatedEntitiesTable from './affiliated-entities-table';
 import AffiliatedPeopleTable from './affiliated-people-table';
-import { getRoleIconName } from './people/icon';
+import { getIconName } from './role/icon';
 import IncidentActivityGroups from './incident-activity-groups';
 import IncidentActivityGroup from './incident-activity-group';
 import ItemSubsection from './item-subsection';
@@ -49,7 +49,7 @@ interface GroupProps {
 interface AssociationGroupProps {
   children: (initialLimit: number, setLimit: FnSetLimit) => ReactNode;
   item: Entity | Person;
-  role: Role;
+  role?: Role;
   value?: AssociatedEntitiesValue | AssociatedPersonsValue;
 }
 
@@ -108,9 +108,13 @@ const AssociationGroup = ({
   value
 }: AssociationGroupProps) => {
   const options = {
-    role,
     association: value?.association,
-  };
+  } as GenericObject;
+
+  if (role) {
+    options.role = role;
+  }
+
   const {
     initialLimit,
     setPaused,
@@ -130,6 +134,7 @@ const AssociationGroup = ({
 const Attendees = ({ item, role }: NamedRoleProps) => {
   const namedRole = item?.roles.named?.[role];
   const items = namedRole?.attendees;
+  const filterByRole = namedRole?.filterRole;
 
   const hasItems = items?.values.length > 0;
 
@@ -143,7 +148,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
       {(ref) => items.values.map((value, i: number) => (
         <AssociationGroup
           item={item}
-          role={role}
+          role={filterByRole ? role : undefined}
           value={value}
           key={i}
         >
@@ -153,7 +158,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
               initialCount={initialLimit}
               model={items.model}
               ref={ref}
-              role={role}
+              role={filterByRole ? role : undefined}
               setLimit={setLimit}
             />
           )}
@@ -221,7 +226,7 @@ const NamedRole = ({ item, role }: NamedRoleProps) => {
     <ActivityDetailsSection>
       <ActivitySubhead
         title={namedRole.label}
-        icon={getRoleIconName(namedRole.role)}
+        icon={getIconName(namedRole.role)}
       />
 
       <Entities item={item} role={role} />

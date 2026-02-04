@@ -1,5 +1,6 @@
 const {
   ASSOCIATION_ENTITIES,
+  ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -15,6 +16,10 @@ class AssociatedEntity extends AssociatedItem {
     [ROLE_LOBBYIST]: ASSOCIATION_ENTITIES,
     [ROLE_OFFICIAL]: ASSOCIATION_ENTITIES,
   };
+
+  static roles = [
+    ROLE_ENTITY,
+  ];
 
   static adaptRecord(record) {
     const entity = new Entity(record.entity);

@@ -70,11 +70,10 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',
@@ -109,11 +108,10 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',
@@ -156,11 +154,10 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',
@@ -247,11 +244,10 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',
@@ -277,11 +273,10 @@ describe('adapt()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',
@@ -321,11 +316,10 @@ describe('setData()', () => {
       roles: {
         label: 'Roles and Associations',
         list: [
-          'lobbyist',
+          'entity',
         ],
         options: {
-          lobbyist: true,
-          official: false,
+          entity: true,
         },
       },
       type: 'entity',

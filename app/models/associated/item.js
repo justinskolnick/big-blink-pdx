@@ -1,4 +1,5 @@
 const {
+  ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -10,6 +11,7 @@ class AssociatedItem extends Base {
   static associatingClass = null;
 
   static associations = {
+    [ROLE_ENTITY]: null,
     [ROLE_LOBBYIST]: null,
     [ROLE_OFFICIAL]: null,
   };
@@ -43,6 +45,7 @@ class AssociatedItem extends Base {
     return {
       label: this.labels.getLabel(labelKey),
       model: this.associatedClass.plural(),
+      options: this.roles,
       type: this.associatedClass.singular(),
       values: [],
     };
