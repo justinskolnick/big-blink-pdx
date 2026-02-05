@@ -1,4 +1,6 @@
 const {
+  ASSOCIATION_COLLECTION_ATTENDEES,
+  ASSOCIATION_COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -36,6 +38,19 @@ describe('options()', () => {
       ROLE_OFFICIAL,
       ROLE_LOBBYIST,
     ]);
+  });
+});
+
+describe('hasCollection()', () => {
+  let lobbyist;
+
+  beforeAll(() => {
+    lobbyist = new PersonRole(ROLE_LOBBYIST);
+  });
+
+  test('returns the expected values', () => {
+    expect(lobbyist.hasCollection(ASSOCIATION_COLLECTION_ATTENDEES)).toBe(true);
+    expect(lobbyist.hasCollection(ASSOCIATION_COLLECTION_ENTITIES)).toBe(true);
   });
 });
 

@@ -1,4 +1,7 @@
-const { ROLE_ENTITY } = require('../../config/constants');
+const {
+  ASSOCIATION_COLLECTION_ATTENDEES,
+  ROLE_ENTITY,
+} = require('../../config/constants');
 
 const Role = require('../role');
 
@@ -7,8 +10,10 @@ class EntityRole extends Role {
     ROLE_ENTITY,
   ];
 
-  hasAttendees = true;
-  hasEntities = false;
+  collections = [
+    ASSOCIATION_COLLECTION_ATTENDEES,
+  ];
+
   filterRole = false;
 
   labelPrefix = 'entity';

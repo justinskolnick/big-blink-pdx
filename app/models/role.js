@@ -36,8 +36,8 @@ class Role {
 
   role = null;
 
-  hasAttendees = false;
-  hasEntities = false;
+  collections = [];
+
   filterRole = false;
 
   constructor(role = null) {
@@ -50,6 +50,10 @@ class Role {
 
   getLabel(key, prefix) {
     return this.labels.getLabel(key, prefix);
+  }
+
+  hasCollection(collection) {
+    return this.collections.includes(collection);
   }
 
   get hasRole() {
@@ -71,13 +75,9 @@ class Role {
       role: this.role,
     };
 
-    if (this.hasAttendees) {
-      obj.attendees = null;
-    }
-
-    if (this.hasEntities) {
-      obj.entities = null;
-    }
+    this.collections.forEach(collection => {
+      obj[collection] = null;
+    });
 
     return obj;
   }

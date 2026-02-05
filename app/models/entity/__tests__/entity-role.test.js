@@ -1,4 +1,6 @@
 const {
+  ASSOCIATION_COLLECTION_ATTENDEES,
+  ASSOCIATION_COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -35,6 +37,19 @@ describe('options()', () => {
     expect(EntityRole.options()).toEqual([
       ROLE_ENTITY,
     ]);
+  });
+});
+
+describe('hasCollection()', () => {
+  let entity;
+
+  beforeAll(() => {
+    entity = new EntityRole(ROLE_LOBBYIST);
+  });
+
+  test('returns the expected values', () => {
+    expect(entity.hasCollection(ASSOCIATION_COLLECTION_ATTENDEES)).toBe(true);
+    expect(entity.hasCollection(ASSOCIATION_COLLECTION_ENTITIES)).toBe(false);
   });
 });
 

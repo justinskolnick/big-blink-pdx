@@ -1,4 +1,6 @@
 const {
+  ASSOCIATION_COLLECTION_ATTENDEES,
+  ASSOCIATION_COLLECTION_ENTITIES,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -11,8 +13,11 @@ class PersonRole extends Role {
     ROLE_LOBBYIST,
   ];
 
-  hasAttendees = true;
-  hasEntities = true;
+  collections = [
+    ASSOCIATION_COLLECTION_ATTENDEES,
+    ASSOCIATION_COLLECTION_ENTITIES,
+  ];
+
   filterRole = true;
 
   labelPrefix = 'person';
