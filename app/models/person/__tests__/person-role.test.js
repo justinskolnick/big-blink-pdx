@@ -1,6 +1,6 @@
 const {
-  ASSOCIATION_COLLECTION_ATTENDEES,
-  ASSOCIATION_COLLECTION_ENTITIES,
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -38,19 +38,6 @@ describe('options()', () => {
       ROLE_OFFICIAL,
       ROLE_LOBBYIST,
     ]);
-  });
-});
-
-describe('hasCollection()', () => {
-  let lobbyist;
-
-  beforeAll(() => {
-    lobbyist = new PersonRole(ROLE_LOBBYIST);
-  });
-
-  test('returns the expected values', () => {
-    expect(lobbyist.hasCollection(ASSOCIATION_COLLECTION_ATTENDEES)).toBe(true);
-    expect(lobbyist.hasCollection(ASSOCIATION_COLLECTION_ENTITIES)).toBe(true);
   });
 });
 
@@ -96,6 +83,31 @@ describe('role()', () => {
   });
 });
 
+describe('collections', () => {
+  let lobbyist;
+
+  beforeAll(() => {
+    lobbyist = new PersonRole(ROLE_LOBBYIST);
+
+    lobbyist.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+    lobbyist.setCollection(COLLECTION_ENTITIES, [4, 5, 6]);
+  });
+
+  describe('hasCollection()', () => {
+    test('returns the expected values', () => {
+      expect(lobbyist.hasCollection(COLLECTION_ATTENDEES)).toBe(true);
+      expect(lobbyist.hasCollection(COLLECTION_ENTITIES)).toBe(true);
+    });
+  });
+
+  describe('getCollection()', () => {
+    test('returns the expected values', () => {
+      expect(lobbyist.getCollection(COLLECTION_ATTENDEES)).toEqual([1, 2, 3]);
+      expect(lobbyist.getCollection(COLLECTION_ENTITIES)).toEqual([4, 5, 6]);
+    });
+  });
+});
+
 describe('toObject()', () => {
   let entity;
   let lobbyist;
@@ -103,14 +115,19 @@ describe('toObject()', () => {
 
   beforeAll(() => {
     entity = new PersonRole(ROLE_ENTITY);
+
     lobbyist = new PersonRole(ROLE_LOBBYIST);
+    lobbyist.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+
     official = new PersonRole(ROLE_OFFICIAL);
   });
 
   test('returns the expected object', () => {
     expect(entity.toObject()).toBe(null);
+    expect(lobbyist.toObject()).toHaveProperty('attendees');
+    expect(lobbyist.toObject()).toHaveProperty('entities');
     expect(lobbyist.toObject()).toEqual({
-      attendees: null,
+      attendees: [1, 2, 3],
       entities: null,
       filterRole: true,
       label: 'As a lobbyist',

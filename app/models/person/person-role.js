@@ -1,6 +1,6 @@
 const {
-  ASSOCIATION_COLLECTION_ATTENDEES,
-  ASSOCIATION_COLLECTION_ENTITIES,
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
@@ -13,14 +13,16 @@ class PersonRole extends Role {
     ROLE_LOBBYIST,
   ];
 
-  collections = [
-    ASSOCIATION_COLLECTION_ATTENDEES,
-    ASSOCIATION_COLLECTION_ENTITIES,
-  ];
-
   filterRole = true;
 
   labelPrefix = 'person';
+
+  configCollections() {
+    return [
+      COLLECTION_ATTENDEES,
+      COLLECTION_ENTITIES,
+    ];
+  }
 }
 
 module.exports = PersonRole;

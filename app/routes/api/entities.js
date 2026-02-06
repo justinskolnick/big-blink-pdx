@@ -4,6 +4,7 @@ const express = require('express');
 const {
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
+  COLLECTION_ATTENDEES,
   PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
@@ -303,7 +304,8 @@ const getEntityRoleObject = async (record, options = {}, limit = null) => {
     role,
   } = options;
 
-  let obj = null;
+  const roleObj = new EntityRole(role);
+
   let attendees;
 
   if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
@@ -320,14 +322,10 @@ const getEntityRoleObject = async (record, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    obj = (new EntityRole(role)).toObject();
-
-    if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      obj.attendees = EntityAttendee.toRoleObject(role, attendees);
-    }
+    roleObj.setCollection(COLLECTION_ATTENDEES, EntityAttendee.toRoleObject(role, attendees));
   }
 
-  return obj;
+  return roleObj.toObject();
 };
 
 router.get('/:id/roles', async (req, res, next) => {

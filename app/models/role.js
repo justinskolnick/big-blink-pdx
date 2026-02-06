@@ -36,7 +36,7 @@ class Role {
 
   role = null;
 
-  collections = [];
+  collections = {};
 
   filterRole = false;
 
@@ -46,6 +46,21 @@ class Role {
     if (this.constructor.isValidOption(role)) {
       this.role = role;
     }
+
+    this.initCollections();
+  }
+
+  configCollections() {
+    return [];
+  }
+
+  initCollections() {
+    const collections = this.configCollections();
+    this.collections = new Map();
+
+    collections.forEach(collection => {
+      this.collections.set(collection, null);
+    });
   }
 
   getLabel(key, prefix) {
@@ -53,7 +68,21 @@ class Role {
   }
 
   hasCollection(collection) {
-    return this.collections.includes(collection);
+    return this.collections.has(collection);
+  }
+
+  setCollection(collection, data) {
+    if (this.hasCollection(collection)) {
+      this.collections.set(collection, data);
+    }
+  }
+
+  getCollection(collection) {
+    if (this.hasCollection(collection)) {
+      return this.collections.get(collection);
+    }
+
+    return null;
   }
 
   get hasRole() {
@@ -65,21 +94,18 @@ class Role {
   }
 
   toObject() {
-    if (!this.hasRole) {
-      return null;
+    if (this.hasRole) {
+      const collections = Object.fromEntries(this.collections);
+
+      return {
+        filterRole: this.filterRole,
+        label: this.getLabel(`as_${this.role}`, this.labelPrefix),
+        role: this.role,
+        ...collections,
+      };
     }
 
-    const obj = {
-      filterRole: this.filterRole,
-      label: this.getLabel(`as_${this.role}`, this.labelPrefix),
-      role: this.role,
-    };
-
-    this.collections.forEach(collection => {
-      obj[collection] = null;
-    });
-
-    return obj;
+    return null;
   }
 }
 

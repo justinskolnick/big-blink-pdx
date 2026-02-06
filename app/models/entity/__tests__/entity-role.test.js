@@ -1,6 +1,6 @@
 const {
-  ASSOCIATION_COLLECTION_ATTENDEES,
-  ASSOCIATION_COLLECTION_ENTITIES,
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -37,19 +37,6 @@ describe('options()', () => {
     expect(EntityRole.options()).toEqual([
       ROLE_ENTITY,
     ]);
-  });
-});
-
-describe('hasCollection()', () => {
-  let entity;
-
-  beforeAll(() => {
-    entity = new EntityRole(ROLE_LOBBYIST);
-  });
-
-  test('returns the expected values', () => {
-    expect(entity.hasCollection(ASSOCIATION_COLLECTION_ATTENDEES)).toBe(true);
-    expect(entity.hasCollection(ASSOCIATION_COLLECTION_ENTITIES)).toBe(false);
   });
 });
 
@@ -92,6 +79,31 @@ describe('role()', () => {
     expect(entity.role).toBe(ROLE_ENTITY);
     expect(lobbyist.role).toBe(null);
     expect(official.role).toBe(null);
+  });
+});
+
+describe('collections', () => {
+  let entity;
+
+  beforeAll(() => {
+    entity = new EntityRole(ROLE_ENTITY);
+
+    entity.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+    entity.setCollection(COLLECTION_ENTITIES, [4, 5, 6]);
+  });
+
+  describe('hasCollection()', () => {
+    test('returns the expected values', () => {
+      expect(entity.hasCollection(COLLECTION_ATTENDEES)).toBe(true);
+      expect(entity.hasCollection(COLLECTION_ENTITIES)).toBe(false);
+    });
+  });
+
+  describe('getCollection()', () => {
+    test('returns the expected values', () => {
+      expect(entity.getCollection(COLLECTION_ATTENDEES)).toEqual([1, 2, 3]);
+      expect(entity.getCollection(COLLECTION_ENTITIES)).toEqual(null);
+    });
   });
 });
 

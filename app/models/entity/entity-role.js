@@ -1,5 +1,5 @@
 const {
-  ASSOCIATION_COLLECTION_ATTENDEES,
+  COLLECTION_ATTENDEES,
   ROLE_ENTITY,
 } = require('../../config/constants');
 
@@ -10,13 +10,15 @@ class EntityRole extends Role {
     ROLE_ENTITY,
   ];
 
-  collections = [
-    ASSOCIATION_COLLECTION_ATTENDEES,
-  ];
-
   filterRole = false;
 
   labelPrefix = 'entity';
+
+  configCollections() {
+    return [
+      COLLECTION_ATTENDEES,
+    ];
+  }
 }
 
 module.exports = EntityRole;
