@@ -13,10 +13,10 @@ describe('getAssociation()', () => {
 
 describe('getValueLabelKey()', () => {
   test('returns the expected results', () => {
-    expect(SourceAttendee.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('lobbyists');
-    expect(SourceAttendee.getValueLabelKey('lobbyist', 'officials')).toEqual('officials');
-    expect(SourceAttendee.getValueLabelKey('official', 'lobbyists')).toEqual('lobbyists');
-    expect(SourceAttendee.getValueLabelKey('official', 'officials')).toEqual('officials');
+    expect(SourceAttendee.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_lobbyist_lobbyists');
+    expect(SourceAttendee.getValueLabelKey('lobbyist', 'officials')).toEqual('as_lobbyist_officials');
+    expect(SourceAttendee.getValueLabelKey('official', 'lobbyists')).toEqual('as_official_lobbyists');
+    expect(SourceAttendee.getValueLabelKey('official', 'officials')).toEqual('as_official_officials');
   });
 });
 
