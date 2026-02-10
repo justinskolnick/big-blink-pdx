@@ -16,6 +16,14 @@ class Entity extends IncidentedBase {
     domain: { select: true, },
   };
 
+  static roleOptions = [
+    ROLE_ENTITY,
+  ];
+
+  static isValidRoleOption(value) {
+    return this.roleOptions.includes(value);
+  }
+
   static adaptEntityLobbyist(result) {
     return {
       id: result.id,
@@ -23,12 +31,14 @@ class Entity extends IncidentedBase {
   }
 
   adaptRoles(value) {
+    const roleOptions = this.constructor.roleOptions;
+
     let list = [];
     let options = {};
 
     if (value) {
-      list = Role.getList(value);
-      options = Role.getOptions(value);
+      list = Role.getRoleList(roleOptions, value);
+      options = Role.getRoleOptions(roleOptions, value);
     }
 
     return {

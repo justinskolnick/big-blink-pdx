@@ -1,3 +1,9 @@
+const {
+  ROLE_ENTITY,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../../../config/constants');
+
 const Entity = require('../entity');
 
 describe('tableName', () => {
@@ -39,6 +45,18 @@ describe('className()', () => {
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Entity.foreignKey()).toBe('entity_id');
+  });
+});
+
+describe('isValidRoleOption()', () => {
+  test('returns the expected values', () => {
+    expect(Entity.isValidRoleOption(ROLE_ENTITY)).toBe(true);
+    expect(Entity.isValidRoleOption(ROLE_LOBBYIST)).toBe(false);
+    expect(Entity.isValidRoleOption(ROLE_OFFICIAL)).toBe(false);
+    expect(Entity.isValidRoleOption('nada')).toBe(false);
+    expect(Entity.isValidRoleOption('')).toBe(false);
+    expect(Entity.isValidRoleOption({})).toBe(false);
+    expect(Entity.isValidRoleOption(null)).toBe(false);
   });
 });
 

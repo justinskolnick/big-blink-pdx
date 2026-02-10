@@ -1,3 +1,8 @@
+const {
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../../config/constants');
+
 const IncidentedBase = require('../shared/base-incidented');
 const Role = require('./person-role');
 
@@ -17,13 +22,24 @@ class Person extends IncidentedBase {
     family:       { select: false, },
   };
 
+  static roleOptions = [
+    ROLE_OFFICIAL,
+    ROLE_LOBBYIST,
+  ];
+
+  static isValidRoleOption(value) {
+    return this.roleOptions.includes(value);
+  }
+
   adaptRoles(value) {
+    const roleOptions = this.constructor.roleOptions;
+
     let list = [];
     let options = {};
 
     if (value) {
-      list = Role.getList(value);
-      options = Role.getOptions(value);
+      list = Role.getRoleList(roleOptions, value);
+      options = Role.getRoleOptions(roleOptions, value);
     }
 
     return {

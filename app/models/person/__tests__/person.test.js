@@ -1,3 +1,9 @@
+const {
+  ROLE_ENTITY,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+} = require('../../../config/constants');
+
 const resultLobbyist = require('../__mocks__/result-lobbyist');
 const resultOfficial = require('../__mocks__/result-official');
 
@@ -62,6 +68,18 @@ describe('plural()', () => {
 describe('foreignKey()', () => {
   test('returns the expected field', () => {
     expect(Person.foreignKey()).toBe('person_id');
+  });
+});
+
+describe('isValidRoleOption()', () => {
+  test('returns the expected values', () => {
+    expect(Person.isValidRoleOption(ROLE_ENTITY)).toBe(false);
+    expect(Person.isValidRoleOption(ROLE_LOBBYIST)).toBe(true);
+    expect(Person.isValidRoleOption(ROLE_OFFICIAL)).toBe(true);
+    expect(Person.isValidRoleOption('nada')).toBe(false);
+    expect(Person.isValidRoleOption('')).toBe(false);
+    expect(Person.isValidRoleOption({})).toBe(false);
+    expect(Person.isValidRoleOption(null)).toBe(false);
   });
 });
 

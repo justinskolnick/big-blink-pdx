@@ -4,7 +4,6 @@ const express = require('express');
 const {
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
-  COLLECTION_ATTENDEES,
   PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
@@ -322,7 +321,7 @@ const getEntityRoleObject = async (record, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    roleObj.setCollection(COLLECTION_ATTENDEES, EntityAttendee.toRoleObject(role, attendees));
+    roleObj.setAttendees(EntityAttendee.toRoleObject(role, attendees));
   }
 
   return roleObj.toObject();
@@ -334,6 +333,8 @@ router.get('/:id/roles', async (req, res, next) => {
   const limit = req.searchParams.get(PARAM_LIMIT);
   const role = ROLE_ENTITY;
 
+  const hasRole = Boolean(role) && Entity.isValidRoleOption(role);
+
   let entity;
   let asRole;
   let record;
@@ -342,11 +343,13 @@ router.get('/:id/roles', async (req, res, next) => {
     entity = await entities.getAtId(id);
     record = entity.adapted;
 
-    asRole = await getEntityRoleObject(record, { association, role }, limit);
+    if (hasRole) {
+      asRole = await getEntityRoleObject(record, { association, role }, limit);
 
-    record.roles.named = {
-      [role]: asRole,
-    };
+      record.roles.named = {
+        [role]: asRole,
+      };
+    }
 
     data = {
       entity: {

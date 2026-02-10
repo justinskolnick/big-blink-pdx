@@ -1,18 +1,11 @@
 const {
   COLLECTION_ATTENDEES,
   COLLECTION_ENTITIES,
-  ROLE_LOBBYIST,
-  ROLE_OFFICIAL,
 } = require('../../config/constants');
 
 const Role = require('../role');
 
 class PersonRole extends Role {
-  static allOptions = [
-    ROLE_OFFICIAL,
-    ROLE_LOBBYIST,
-  ];
-
   filterRole = true;
 
   labelPrefix = 'person';
@@ -22,6 +15,14 @@ class PersonRole extends Role {
       COLLECTION_ATTENDEES,
       COLLECTION_ENTITIES,
     ];
+  }
+
+  setAttendees(attendees) {
+    this.setCollection(COLLECTION_ATTENDEES, attendees);
+  }
+
+  setEntities(entities) {
+    this.setCollection(COLLECTION_ENTITIES, entities);
   }
 }
 

@@ -5,8 +5,6 @@ const {
   ASSOCIATION_ENTITIES,
   ASSOCIATION_LOBBYISTS,
   ASSOCIATION_OFFICIALS,
-  COLLECTION_ATTENDEES,
-  COLLECTION_ENTITIES,
   PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
@@ -369,11 +367,11 @@ const getPersonRoleObject = async (record, options = {}, limit = null) => {
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      roleObj.setCollection(COLLECTION_ATTENDEES, PersonAttendee.toRoleObject(role, attendees));
+      roleObj.setAttendees(PersonAttendee.toRoleObject(role, attendees));
     }
 
     if (entities?.total > 0) {
-      roleObj.setCollection(COLLECTION_ENTITIES, PersonEntity.toRoleObject(role, entities));
+      roleObj.setEntities(PersonEntity.toRoleObject(role, entities));
     }
   }
 
@@ -387,7 +385,7 @@ router.get('/:id/roles', async (req, res, next) => {
   const role = req.searchParams.get(PARAM_ROLE);
 
   const hasAssociation = Boolean(association);
-  const hasRole = Boolean(role);
+  const hasRole = Boolean(role) && Person.isValidRoleOption(role);
 
   let person;
   let record;
