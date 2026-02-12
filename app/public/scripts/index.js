@@ -9,13 +9,13 @@
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __copyProps = (to3, from3, except, desc) => {
+  var __copyProps = (to2, from3, except, desc) => {
     if (from3 && typeof from3 === "object" || typeof from3 === "function") {
       for (let key of __getOwnPropNames(from3))
-        if (!__hasOwnProp.call(to3, key) && key !== except)
-          __defProp(to3, key, { get: () => from3[key], enumerable: !(desc = __getOwnPropDesc(from3, key)) || desc.enumerable });
+        if (!__hasOwnProp.call(to2, key) && key !== except)
+          __defProp(to2, key, { get: () => from3[key], enumerable: !(desc = __getOwnPropDesc(from3, key)) || desc.enumerable });
     }
-    return to3;
+    return to2;
   };
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
     // If the importer is in node compatibility mode or this is not an ESM
@@ -21743,25 +21743,25 @@
       }
       module.exports = shouldUseNative() ? Object.assign : function(target, source) {
         var from3;
-        var to3 = toObject(target);
+        var to2 = toObject(target);
         var symbols;
         for (var s2 = 1; s2 < arguments.length; s2++) {
           from3 = Object(arguments[s2]);
           for (var key in from3) {
             if (hasOwnProperty.call(from3, key)) {
-              to3[key] = from3[key];
+              to2[key] = from3[key];
             }
           }
           if (getOwnPropertySymbols) {
             symbols = getOwnPropertySymbols(from3);
             for (var i2 = 0; i2 < symbols.length; i2++) {
               if (propIsEnumerable.call(from3, symbols[i2])) {
-                to3[symbols[i2]] = from3[symbols[i2]];
+                to2[symbols[i2]] = from3[symbols[i2]];
               }
             }
           }
         }
-        return to3;
+        return to2;
       };
     }
   });
@@ -23165,8 +23165,8 @@
         globalHistory.state && globalHistory.state.key || "default"
       );
     }
-    function createBrowserHref(window2, to3) {
-      return typeof to3 === "string" ? to3 : createPath(to3);
+    function createBrowserHref(window2, to2) {
+      return typeof to2 === "string" ? to2 : createPath(to2);
     }
     return getUrlBasedHistory(
       createBrowserLocation,
@@ -23199,18 +23199,18 @@
       idx: index
     };
   }
-  function createLocation(current2, to3, state = null, key) {
+  function createLocation(current2, to2, state = null, key) {
     let location2 = {
       pathname: typeof current2 === "string" ? current2 : current2.pathname,
       search: "",
       hash: "",
-      ...typeof to3 === "string" ? parsePath(to3) : to3,
+      ...typeof to2 === "string" ? parsePath(to2) : to2,
       state,
       // TODO: This could be cleaned up.  push/replace should probably just take
       // full Locations now and avoid the need to run through this flow at all
       // But that's a pretty big refactor to the current test suite so going to
       // keep as is for the time being and just let any incoming keys take precedence
-      key: to3 && to3.key || key || createKey()
+      key: to2 && to2.key || key || createKey()
     };
     return location2;
   }
@@ -23267,10 +23267,10 @@
         listener3({ action, location: history.location, delta });
       }
     }
-    function push(to3, state) {
+    function push(to2, state) {
       action = "PUSH";
-      let location2 = createLocation(history.location, to3, state);
-      if (validateLocation) validateLocation(location2, to3);
+      let location2 = createLocation(history.location, to2, state);
+      if (validateLocation) validateLocation(location2, to2);
       index = getIndex() + 1;
       let historyState = getHistoryState(location2, index);
       let url = history.createHref(location2);
@@ -23286,10 +23286,10 @@
         listener3({ action, location: history.location, delta: 1 });
       }
     }
-    function replace22(to3, state) {
+    function replace22(to2, state) {
       action = "REPLACE";
-      let location2 = createLocation(history.location, to3, state);
-      if (validateLocation) validateLocation(location2, to3);
+      let location2 = createLocation(history.location, to2, state);
+      if (validateLocation) validateLocation(location2, to2);
       index = getIndex();
       let historyState = getHistoryState(location2, index);
       let url = history.createHref(location2);
@@ -23298,8 +23298,8 @@
         listener3({ action, location: history.location, delta: 0 });
       }
     }
-    function createURL(to3) {
-      return createBrowserURLImpl(to3);
+    function createURL(to2) {
+      return createBrowserURLImpl(to2);
     }
     let history = {
       get action() {
@@ -23319,12 +23319,12 @@
           listener3 = null;
         };
       },
-      createHref(to3) {
-        return createHref2(window2, to3);
+      createHref(to2) {
+        return createHref2(window2, to2);
       },
       createURL,
-      encodeLocation(to3) {
-        let url = createURL(to3);
+      encodeLocation(to2) {
+        let url = createURL(to2);
         return {
           pathname: url.pathname,
           search: url.search,
@@ -23339,13 +23339,13 @@
     };
     return history;
   }
-  function createBrowserURLImpl(to3, isAbsolute = false) {
+  function createBrowserURLImpl(to2, isAbsolute = false) {
     let base = "http://localhost";
     if (typeof window !== "undefined") {
       base = window.location.origin !== "null" ? window.location.origin : window.location.href;
     }
     invariant(base, "No window.location.(origin|href) available to create URL");
-    let href = typeof to3 === "string" ? to3 : createPath(to3);
+    let href = typeof to2 === "string" ? to2 : createPath(to2);
     href = href.replace(/ $/, "%20");
     if (!isAbsolute && href.startsWith("//")) {
       href = base + href;
@@ -23772,12 +23772,12 @@
   }
   var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
   var isAbsoluteUrl = (url) => ABSOLUTE_URL_REGEX.test(url);
-  function resolvePath(to3, fromPathname = "/") {
+  function resolvePath(to2, fromPathname = "/") {
     let {
       pathname: toPathname,
       search = "",
       hash: hash2 = ""
-    } = typeof to3 === "string" ? parsePath(to3) : to3;
+    } = typeof to2 === "string" ? parsePath(to2) : to2;
     let pathname;
     if (toPathname) {
       toPathname = toPathname.replace(/\/\/+/g, "/");
@@ -23824,26 +23824,26 @@
     );
   }
   function resolveTo(toArg, routePathnames, locationPathname, isPathRelative = false) {
-    let to3;
+    let to2;
     if (typeof toArg === "string") {
-      to3 = parsePath(toArg);
+      to2 = parsePath(toArg);
     } else {
-      to3 = { ...toArg };
+      to2 = { ...toArg };
       invariant(
-        !to3.pathname || !to3.pathname.includes("?"),
-        getInvalidPathError("?", "pathname", "search", to3)
+        !to2.pathname || !to2.pathname.includes("?"),
+        getInvalidPathError("?", "pathname", "search", to2)
       );
       invariant(
-        !to3.pathname || !to3.pathname.includes("#"),
-        getInvalidPathError("#", "pathname", "hash", to3)
+        !to2.pathname || !to2.pathname.includes("#"),
+        getInvalidPathError("#", "pathname", "hash", to2)
       );
       invariant(
-        !to3.search || !to3.search.includes("#"),
-        getInvalidPathError("#", "search", "hash", to3)
+        !to2.search || !to2.search.includes("#"),
+        getInvalidPathError("#", "search", "hash", to2)
       );
     }
-    let isEmptyPath = toArg === "" || to3.pathname === "";
-    let toPathname = isEmptyPath ? "/" : to3.pathname;
+    let isEmptyPath = toArg === "" || to2.pathname === "";
+    let toPathname = isEmptyPath ? "/" : to2.pathname;
     let from3;
     if (toPathname == null) {
       from3 = locationPathname;
@@ -23855,11 +23855,11 @@
           toSegments.shift();
           routePathnameIndex -= 1;
         }
-        to3.pathname = toSegments.join("/");
+        to2.pathname = toSegments.join("/");
       }
       from3 = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
     }
-    let path = resolvePath(to3, from3);
+    let path = resolvePath(to2, from3);
     let hasExplicitTrailingSlash = toPathname && toPathname !== "/" && toPathname.endsWith("/");
     let hasCurrentTrailingSlash = (isEmptyPath || toPathname === ".") && locationPathname.endsWith("/");
     if (!path.pathname.endsWith("/") && (hasExplicitTrailingSlash || hasCurrentTrailingSlash)) {
@@ -23892,37 +23892,37 @@
   }
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   function parseToInfo(_to, basename) {
-    let to3 = _to;
-    if (typeof to3 !== "string" || !ABSOLUTE_URL_REGEX.test(to3)) {
+    let to2 = _to;
+    if (typeof to2 !== "string" || !ABSOLUTE_URL_REGEX.test(to2)) {
       return {
         absoluteURL: void 0,
         isExternal: false,
-        to: to3
+        to: to2
       };
     }
-    let absoluteURL = to3;
+    let absoluteURL = to2;
     let isExternal = false;
     if (isBrowser) {
       try {
         let currentUrl = new URL(window.location.href);
-        let targetUrl = to3.startsWith("//") ? new URL(currentUrl.protocol + to3) : new URL(to3);
+        let targetUrl = to2.startsWith("//") ? new URL(currentUrl.protocol + to2) : new URL(to2);
         let path = stripBasename(targetUrl.pathname, basename);
         if (targetUrl.origin === currentUrl.origin && path != null) {
-          to3 = path + targetUrl.search + targetUrl.hash;
+          to2 = path + targetUrl.search + targetUrl.hash;
         } else {
           isExternal = true;
         }
       } catch (e2) {
         warning(
           false,
-          `<Link to="${to3}"> contains an invalid URL which will probably break when clicked - please update to a valid URL path.`
+          `<Link to="${to2}"> contains an invalid URL which will probably break when clicked - please update to a valid URL path.`
         );
       }
     }
     return {
       absoluteURL,
       isExternal,
-      to: to3
+      to: to2
     };
   }
   var UninstrumentedSymbol = /* @__PURE__ */ Symbol("Uninstrumented");
@@ -24031,9 +24031,9 @@
         aggregated.navigate,
         navigate,
         (...args) => {
-          let [to3, opts] = args;
+          let [to2, opts] = args;
           return {
-            to: typeof to3 === "number" || typeof to3 === "string" ? to3 : to3 ? createPath(to3) : ".",
+            to: typeof to2 === "number" || typeof to2 === "string" ? to2 : to2 ? createPath(to2) : ".",
             ...getRouterInfo(router2, opts ?? {})
           };
         }
@@ -24567,22 +24567,22 @@
       pendingRevalidationDfd?.resolve();
       pendingRevalidationDfd = null;
     }
-    async function navigate(to3, opts) {
+    async function navigate(to2, opts) {
       pendingPopstateNavigationDfd?.resolve();
       pendingPopstateNavigationDfd = null;
-      if (typeof to3 === "number") {
+      if (typeof to2 === "number") {
         if (!pendingPopstateNavigationDfd) {
           pendingPopstateNavigationDfd = createDeferred();
         }
         let promise = pendingPopstateNavigationDfd.promise;
-        init.history.go(to3);
+        init.history.go(to2);
         return promise;
       }
       let normalizedPath = normalizeTo(
         state.location,
         state.matches,
         basename,
-        to3,
+        to2,
         opts?.fromRouteId,
         opts?.relative
       );
@@ -24623,7 +24623,7 @@
               reset: void 0,
               location: nextLocation
             });
-            navigate(to3, opts);
+            navigate(to2, opts);
           },
           reset() {
             let blockers = new Map(state.blockers);
@@ -26035,8 +26035,8 @@
       revalidate,
       // Passthrough to history-aware createHref used by useHref so we get proper
       // hash-aware URLs in DOM paths
-      createHref: (to3) => init.history.createHref(to3),
-      encodeLocation: (to3) => init.history.encodeLocation(to3),
+      createHref: (to2) => init.history.createHref(to2),
+      encodeLocation: (to2) => init.history.encodeLocation(to2),
       getFetcher,
       resetFetcher,
       deleteFetcher: queueFetcherForDeletion,
@@ -26063,7 +26063,7 @@
   function isSubmissionNavigation(opts) {
     return opts != null && ("formData" in opts && opts.formData != null || "body" in opts && opts.body !== void 0);
   }
-  function normalizeTo(location2, matches2, basename, to3, fromRouteId, relative) {
+  function normalizeTo(location2, matches2, basename, to2, fromRouteId, relative) {
     let contextualMatches;
     let activeRouteMatch;
     if (fromRouteId) {
@@ -26080,16 +26080,16 @@
       activeRouteMatch = matches2[matches2.length - 1];
     }
     let path = resolveTo(
-      to3 ? to3 : ".",
+      to2 ? to2 : ".",
       getResolveToMatches(contextualMatches),
       stripBasename(location2.pathname, basename) || location2.pathname,
       relative === "path"
     );
-    if (to3 == null) {
+    if (to2 == null) {
       path.search = location2.search;
       path.hash = location2.hash;
     }
-    if ((to3 == null || to3 === "" || to3 === ".") && activeRouteMatch) {
+    if ((to2 == null || to2 === "" || to2 === ".") && activeRouteMatch) {
       let nakedIndex = hasNakedIndexQuery(path.search);
       if (activeRouteMatch.route.index && !nakedIndex) {
         path.search = path.search ? path.search.replace(/^\?/, "?index&") : "?index";
@@ -27714,7 +27714,7 @@
       }
     }
   }
-  function useHref(to3, { relative } = {}) {
+  function useHref(to2, { relative } = {}) {
     invariant(
       useInRouterContext(),
       // TODO: This error is probably because they somehow have 2 versions of the
@@ -27722,7 +27722,7 @@
       `useHref() may be used only in the context of a <Router> component.`
     );
     let { basename, navigator: navigator2 } = React22.useContext(NavigationContext);
-    let { hash: hash2, pathname, search } = useResolvedPath(to3, { relative });
+    let { hash: hash2, pathname, search } = useResolvedPath(to2, { relative });
     let joinedPathname = pathname;
     if (basename !== "/") {
       joinedPathname = pathname === "/" ? basename : joinPaths([basename, pathname]);
@@ -27769,15 +27769,15 @@
       activeRef.current = true;
     });
     let navigate = React22.useCallback(
-      (to3, options2 = {}) => {
+      (to2, options2 = {}) => {
         warning(activeRef.current, navigateEffectWarning);
         if (!activeRef.current) return;
-        if (typeof to3 === "number") {
-          navigator2.go(to3);
+        if (typeof to2 === "number") {
+          navigator2.go(to2);
           return;
         }
         let path = resolveTo(
-          to3,
+          to2,
           JSON.parse(routePathnamesJson),
           locationPathname,
           options2.relative === "path"
@@ -27814,18 +27814,18 @@
     let routeMatch = matches2[matches2.length - 1];
     return routeMatch ? routeMatch.params : {};
   }
-  function useResolvedPath(to3, { relative } = {}) {
+  function useResolvedPath(to2, { relative } = {}) {
     let { matches: matches2 } = React22.useContext(RouteContext);
     let { pathname: locationPathname } = useLocation();
     let routePathnamesJson = JSON.stringify(getResolveToMatches(matches2));
     return React22.useMemo(
       () => resolveTo(
-        to3,
+        to2,
         JSON.parse(routePathnamesJson),
         locationPathname,
         relative === "path"
       ),
-      [to3, routePathnamesJson, locationPathname, relative]
+      [to2, routePathnamesJson, locationPathname, relative]
     );
   }
   function useRoutesImpl(routes, locationArg, dataRouterState, onError, future) {
@@ -28259,13 +28259,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       activeRef.current = true;
     });
     let navigate = React22.useCallback(
-      async (to3, options2 = {}) => {
+      async (to2, options2 = {}) => {
         warning(activeRef.current, navigateEffectWarning);
         if (!activeRef.current) return;
-        if (typeof to3 === "number") {
-          await router2.navigate(to3);
+        if (typeof to2 === "number") {
+          await router2.navigate(to2);
         } else {
-          await router2.navigate(to3, { fromRouteId: id, ...options2 });
+          await router2.navigate(to2, { fromRouteId: id, ...options2 });
         }
       },
       [router2, id]
@@ -28543,11 +28543,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         createHref: router2.createHref,
         encodeLocation: router2.encodeLocation,
         go: (n2) => router2.navigate(n2),
-        push: (to3, state2, opts) => router2.navigate(to3, {
+        push: (to2, state2, opts) => router2.navigate(to2, {
           state: state2,
           preventScrollReset: opts?.preventScrollReset
         }),
-        replace: (to3, state2, opts) => router2.navigate(to3, {
+        replace: (to2, state2, opts) => router2.navigate(to2, {
           replace: true,
           state: state2,
           preventScrollReset: opts?.preventScrollReset
@@ -29330,22 +29330,22 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       replace: replace22,
       state,
       target,
-      to: to3,
+      to: to2,
       preventScrollReset,
       viewTransition,
       unstable_defaultShouldRevalidate,
       ...rest
     }, forwardedRef) {
       let { basename, unstable_useTransitions } = React10.useContext(NavigationContext);
-      let isAbsolute = typeof to3 === "string" && ABSOLUTE_URL_REGEX2.test(to3);
-      let parsed = parseToInfo(to3, basename);
-      to3 = parsed.to;
-      let href = useHref(to3, { relative });
+      let isAbsolute = typeof to2 === "string" && ABSOLUTE_URL_REGEX2.test(to2);
+      let parsed = parseToInfo(to2, basename);
+      to2 = parsed.to;
+      let href = useHref(to2, { relative });
       let [shouldPrefetch, prefetchRef, prefetchHandlers] = usePrefetchBehavior(
         prefetch,
         rest
       );
-      let internalOnClick = useLinkClickHandler(to3, {
+      let internalOnClick = useLinkClickHandler(to2, {
         replace: replace22,
         state,
         target,
@@ -29387,12 +29387,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       className: classNameProp = "",
       end: end3 = false,
       style: styleProp,
-      to: to3,
+      to: to2,
       viewTransition,
       children,
       ...rest
     }, ref) {
-      let path = useResolvedPath(to3, { relative: rest.relative });
+      let path = useResolvedPath(to2, { relative: rest.relative });
       let location2 = useLocation();
       let routerState = React10.useContext(DataRouterStateContext);
       let { navigator: navigator2, basename } = React10.useContext(NavigationContext);
@@ -29439,7 +29439,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           className,
           ref,
           style,
-          to: to3,
+          to: to2,
           viewTransition
         },
         typeof children === "function" ? children(renderProps) : children
@@ -29577,7 +29577,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     invariant(state, getDataRouterConsoleError2(hookName));
     return state;
   }
-  function useLinkClickHandler(to3, {
+  function useLinkClickHandler(to2, {
     target,
     replace: replaceProp,
     state,
@@ -29589,13 +29589,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   } = {}) {
     let navigate = useNavigate();
     let location2 = useLocation();
-    let path = useResolvedPath(to3, { relative });
+    let path = useResolvedPath(to2, { relative });
     return React10.useCallback(
       (event) => {
         if (shouldProcessLinkClick(event, target)) {
           event.preventDefault();
           let replace22 = replaceProp !== void 0 ? replaceProp : createPath(location2) === createPath(path);
-          let doNavigate = () => navigate(to3, {
+          let doNavigate = () => navigate(to2, {
             replace: replace22,
             state,
             preventScrollReset,
@@ -29617,7 +29617,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         replaceProp,
         state,
         target,
-        to3,
+        to2,
         preventScrollReset,
         relative,
         viewTransition,
@@ -29860,7 +29860,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }, [callback2, capture]);
   }
-  function useViewTransitionState(to3, { relative } = {}) {
+  function useViewTransitionState(to2, { relative } = {}) {
     let vtContext = React10.useContext(ViewTransitionContext);
     invariant(
       vtContext != null,
@@ -29870,7 +29870,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       "useViewTransitionState"
       /* useViewTransitionState */
     );
-    let path = useResolvedPath(to3, { relative });
+    let path = useResolvedPath(to2, { relative });
     if (!vtContext.isTransitioning) {
       return false;
     }
@@ -39788,9 +39788,9 @@ Hook ${hookName} was either not provided or not a function.`);
     var rule = offset === 0 ? rules : [""];
     var size = sizeof(rule);
     for (var i2 = 0, j2 = 0, k2 = 0; i2 < index; ++i2)
-      for (var x2 = 0, y2 = substr(value, post + 1, post = abs(j2 = points[i2])), z2 = value; x2 < size; ++x2)
-        if (z2 = trim(j2 > 0 ? rule[x2] + " " + y2 : replace2(y2, /&\f/g, rule[x2])))
-          props[k2++] = z2;
+      for (var x2 = 0, y2 = substr(value, post + 1, post = abs(j2 = points[i2])), z = value; x2 < size; ++x2)
+        if (z = trim(j2 > 0 ? rule[x2] + " " + y2 : replace2(y2, /&\f/g, rule[x2])))
+          props[k2++] = z;
     return node(value, root, parent, offset === 0 ? RULESET : type, props, children, length2);
   }
   function comment(value, root, parent) {
@@ -40807,10 +40807,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var IS_BROWSER = !!WINDOW.document;
   var IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === "function" && typeof DOCUMENT.createElement === "function";
   var IS_IE = ~userAgent.indexOf("MSIE") || ~userAgent.indexOf("Trident/");
-  var _dt;
-  var E = /fa(k|kd|s|r|l|t|d|dr|dl|dt|b|slr|slpr|wsb|tl|ns|nds|es|jr|jfr|jdr|usb|ufsb|udsb|cr|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/;
-  var _ = /Font ?Awesome ?([567 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit|Notdog Duo|Notdog|Chisel|Etch|Thumbprint|Jelly Fill|Jelly Duo|Jelly|Utility|Utility Fill|Utility Duo|Slab Press|Slab|Whiteboard)?.*/i;
-  var q = {
+  var _ht;
+  var G = /fa(k|kd|s|r|l|t|d|dr|dl|dt|b|slr|slpr|wsb|tl|ns|nds|es|gt|jr|jfr|jdr|usb|ufsb|udsb|cr|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/;
+  var M = /Font ?Awesome ?([567 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit|Notdog Duo|Notdog|Chisel|Etch|Graphite|Thumbprint|Jelly Fill|Jelly Duo|Jelly|Utility|Utility Fill|Utility Duo|Slab Press|Slab|Whiteboard)?.*/i;
+  var Q = {
     classic: {
       fa: "solid",
       fas: "solid",
@@ -40886,6 +40886,10 @@ Hook ${hookName} was either not provided or not a function.`);
       "fa-solid": "solid",
       faes: "solid"
     },
+    graphite: {
+      "fa-thin": "thin",
+      fagt: "thin"
+    },
     jelly: {
       "fa-regular": "regular",
       fajr: "regular"
@@ -40915,52 +40919,54 @@ Hook ${hookName} was either not provided or not a function.`);
       faufsb: "semibold"
     }
   };
-  var H = {
+  var X = {
     GROUP: "duotone-group",
     SWAP_OPACITY: "swap-opacity",
     PRIMARY: "primary",
     SECONDARY: "secondary"
   };
-  var Q = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
+  var Z = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-graphite", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
   var i = "classic";
   var t = "duotone";
   var d = "sharp";
   var l = "sharp-duotone";
   var f = "chisel";
-  var n = "etch";
-  var h = "jelly";
+  var h = "etch";
+  var n = "graphite";
+  var g = "jelly";
   var o = "jelly-duo";
   var u = "jelly-fill";
-  var g = "notdog";
-  var s = "notdog-duo";
+  var m = "notdog";
+  var e = "notdog-duo";
   var y = "slab";
-  var m = "slab-press";
-  var e = "thumbprint";
-  var p = "utility";
+  var p = "slab-press";
+  var s = "thumbprint";
+  var w = "utility";
   var a = "utility-duo";
-  var w = "utility-fill";
-  var x = "whiteboard";
-  var b = "Classic";
-  var c = "Duotone";
-  var I = "Sharp";
-  var F = "Sharp Duotone";
-  var v = "Chisel";
-  var S = "Etch";
-  var A = "Jelly";
-  var P = "Jelly Duo";
-  var j = "Jelly Fill";
-  var B = "Notdog";
-  var N = "Notdog Duo";
-  var k = "Slab";
-  var D = "Slab Press";
-  var T = "Thumbprint";
-  var C = "Utility";
-  var W = "Utility Duo";
-  var K = "Utility Fill";
-  var R = "Whiteboard";
-  var rt = [i, t, d, l, f, n, h, o, u, g, s, y, m, e, p, a, w, x];
-  var dt = (_dt = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_dt, i, b), t, c), d, I), l, F), f, v), n, S), h, A), o, P), u, j), g, B), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_dt, s, N), y, k), m, D), e, T), p, C), a, W), w, K), x, R));
-  var gt = {
+  var x = "utility-fill";
+  var b = "whiteboard";
+  var c = "Classic";
+  var I = "Duotone";
+  var F = "Sharp";
+  var v = "Sharp Duotone";
+  var S = "Chisel";
+  var A = "Etch";
+  var P = "Graphite";
+  var j = "Jelly";
+  var B = "Jelly Duo";
+  var N = "Jelly Fill";
+  var k = "Notdog";
+  var D = "Notdog Duo";
+  var T = "Slab";
+  var C = "Slab Press";
+  var W = "Thumbprint";
+  var K = "Utility";
+  var R = "Utility Duo";
+  var L = "Utility Fill";
+  var U = "Whiteboard";
+  var dt = [i, t, d, l, f, h, n, g, o, u, m, e, y, p, s, w, a, x, b];
+  var ht = (_ht = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ht, i, c), t, I), d, F), l, v), f, S), h, A), n, P), g, j), o, B), u, N), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ht, m, k), e, D), y, T), p, C), s, W), w, K), a, R), x, L), b, U));
+  var yt = {
     classic: {
       900: "fas",
       400: "far",
@@ -41007,6 +41013,9 @@ Hook ${hookName} was either not provided or not a function.`);
     etch: {
       900: "faes"
     },
+    graphite: {
+      100: "fagt"
+    },
     chisel: {
       400: "facr"
     },
@@ -41029,7 +41038,7 @@ Hook ${hookName} was either not provided or not a function.`);
       600: "faufsb"
     }
   };
-  var Ct = {
+  var Kt = {
     "Font Awesome 7 Free": {
       900: "fas",
       400: "far"
@@ -41102,6 +41111,10 @@ Hook ${hookName} was either not provided or not a function.`);
       900: "faes",
       normal: "faes"
     },
+    "Font Awesome 7 Graphite": {
+      100: "fagt",
+      normal: "fagt"
+    },
     "Font Awesome 7 Chisel": {
       400: "facr",
       normal: "facr"
@@ -41123,7 +41136,7 @@ Hook ${hookName} was either not provided or not a function.`);
       normal: "faufsb"
     }
   };
-  var Ut = /* @__PURE__ */ new Map([["classic", {
+  var Et = /* @__PURE__ */ new Map([["classic", {
     defaultShortPrefixId: "fas",
     defaultStyleId: "solid",
     styleIds: ["solid", "regular", "light", "thin", "brands"],
@@ -41159,6 +41172,12 @@ Hook ${hookName} was either not provided or not a function.`);
     styleIds: ["solid"],
     futureStyleIds: [],
     defaultFontWeight: 900
+  }], ["graphite", {
+    defaultShortPrefixId: "fagt",
+    defaultStyleId: "thin",
+    styleIds: ["thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 100
   }], ["jelly", {
     defaultShortPrefixId: "fajr",
     defaultStyleId: "regular",
@@ -41232,7 +41251,7 @@ Hook ${hookName} was either not provided or not a function.`);
     futureStyleIds: [],
     defaultFontWeight: 600
   }]]);
-  var _t = {
+  var Mt = {
     chisel: {
       regular: "facr"
     },
@@ -41251,6 +41270,9 @@ Hook ${hookName} was either not provided or not a function.`);
     },
     etch: {
       solid: "faes"
+    },
+    graphite: {
+      thin: "fagt"
     },
     jelly: {
       regular: "fajr"
@@ -41301,8 +41323,8 @@ Hook ${hookName} was either not provided or not a function.`);
       semibold: "fawsb"
     }
   };
-  var Yt = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
-  var qt = {
+  var Ht = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
+  var Qt = {
     kit: {
       fak: "kit",
       "fa-kit": "kit"
@@ -41312,13 +41334,13 @@ Hook ${hookName} was either not provided or not a function.`);
       "fa-kit-duotone": "kit-duotone"
     }
   };
-  var Ht = ["kit"];
-  var L = "kit";
+  var Xt = ["kit"];
+  var J = "kit";
   var r = "kit-duotone";
-  var U = "Kit";
-  var J = "Kit Duotone";
-  var $t = _defineProperty(_defineProperty({}, L, U), r, J);
-  var ol = {
+  var E = "Kit";
+  var _ = "Kit Duotone";
+  var ll = _defineProperty(_defineProperty({}, J, E), r, _);
+  var sl = {
     kit: {
       "fa-kit": "fak"
     },
@@ -41326,7 +41348,7 @@ Hook ${hookName} was either not provided or not a function.`);
       "fa-kit-duotone": "fakd"
     }
   };
-  var dl = {
+  var hl = {
     "Font Awesome Kit": {
       400: "fak",
       normal: "fak"
@@ -41336,7 +41358,7 @@ Hook ${hookName} was either not provided or not a function.`);
       normal: "fakd"
     }
   };
-  var fl = {
+  var nl = {
     kit: {
       fak: "fa-kit"
     },
@@ -41344,7 +41366,7 @@ Hook ${hookName} was either not provided or not a function.`);
       fakd: "fa-kit-duotone"
     }
   };
-  var ul = {
+  var ml = {
     kit: {
       kit: "fak"
     },
@@ -41352,57 +41374,59 @@ Hook ${hookName} was either not provided or not a function.`);
       "kit-duotone": "fakd"
     }
   };
-  var _ml;
-  var l$1 = {
+  var _wt;
+  var t$1 = {
     GROUP: "duotone-group",
     SWAP_OPACITY: "swap-opacity",
     PRIMARY: "primary",
     SECONDARY: "secondary"
   };
-  var f$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
-  var n$1 = "classic";
+  var f$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone", "fa-thumbprint", "fa-whiteboard", "fa-notdog", "fa-notdog-duo", "fa-chisel", "fa-etch", "fa-graphite", "fa-jelly", "fa-jelly-fill", "fa-jelly-duo", "fa-slab", "fa-slab-press", "fa-utility", "fa-utility-duo", "fa-utility-fill"];
+  var h$1 = "classic";
   var o$1 = "duotone";
-  var u$1 = "sharp";
+  var n$1 = "sharp";
   var s$1 = "sharp-duotone";
-  var h$1 = "chisel";
+  var u$1 = "chisel";
   var g$1 = "etch";
-  var y$1 = "jelly";
-  var e$1 = "jelly-duo";
-  var m$1 = "jelly-fill";
-  var p$1 = "notdog";
-  var a$1 = "notdog-duo";
-  var w$1 = "slab";
-  var b$1 = "slab-press";
+  var y$1 = "graphite";
+  var m$1 = "jelly";
+  var a$1 = "jelly-duo";
+  var p$1 = "jelly-fill";
+  var w$1 = "notdog";
+  var e$1 = "notdog-duo";
+  var b$1 = "slab";
+  var c$1 = "slab-press";
   var r$1 = "thumbprint";
-  var c$1 = "utility";
+  var x$1 = "utility";
   var i$1 = "utility-duo";
-  var x$1 = "utility-fill";
-  var I$1 = "whiteboard";
-  var F$1 = "Classic";
-  var v$1 = "Duotone";
-  var S$1 = "Sharp";
-  var A$1 = "Sharp Duotone";
-  var P$1 = "Chisel";
-  var j$1 = "Etch";
-  var B$1 = "Jelly";
-  var N$1 = "Jelly Duo";
-  var k$1 = "Jelly Fill";
-  var D$1 = "Notdog";
-  var C$1 = "Notdog Duo";
-  var T$1 = "Slab";
-  var L$1 = "Slab Press";
-  var W$1 = "Thumbprint";
-  var R$1 = "Utility";
-  var K$1 = "Utility Duo";
-  var U$1 = "Utility Fill";
-  var J$1 = "Whiteboard";
-  var ml$1 = (_ml = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ml, n$1, F$1), o$1, v$1), u$1, S$1), s$1, A$1), h$1, P$1), g$1, j$1), y$1, B$1), e$1, N$1), m$1, k$1), p$1, D$1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ml, a$1, C$1), w$1, T$1), b$1, L$1), r$1, W$1), c$1, R$1), i$1, K$1), x$1, U$1), I$1, J$1));
-  var E$1 = "kit";
+  var I$1 = "utility-fill";
+  var F$1 = "whiteboard";
+  var v$1 = "Classic";
+  var S$1 = "Duotone";
+  var A$1 = "Sharp";
+  var P$1 = "Sharp Duotone";
+  var j$1 = "Chisel";
+  var B$1 = "Etch";
+  var N$1 = "Graphite";
+  var k$1 = "Jelly";
+  var D$1 = "Jelly Duo";
+  var C$1 = "Jelly Fill";
+  var T$1 = "Notdog";
+  var L$1 = "Notdog Duo";
+  var W$1 = "Slab";
+  var R$1 = "Slab Press";
+  var K$1 = "Thumbprint";
+  var U$1 = "Utility";
+  var J$1 = "Utility Duo";
+  var E$1 = "Utility Fill";
+  var _$1 = "Whiteboard";
+  var wt$1 = (_wt = {}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_wt, h$1, v$1), o$1, S$1), n$1, A$1), s$1, P$1), u$1, j$1), g$1, B$1), y$1, N$1), m$1, k$1), a$1, D$1), p$1, C$1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_wt, w$1, T$1), e$1, L$1), b$1, W$1), c$1, R$1), r$1, K$1), x$1, U$1), i$1, J$1), I$1, E$1), F$1, _$1));
+  var G$1 = "kit";
   var d$1 = "kit-duotone";
-  var _$1 = "Kit";
-  var M$1 = "Kit Duotone";
-  var rt$1 = _defineProperty(_defineProperty({}, E$1, _$1), d$1, M$1);
-  var $t$1 = {
+  var M$1 = "Kit";
+  var O2 = "Kit Duotone";
+  var dl$1 = _defineProperty(_defineProperty({}, G$1, M$1), d$1, O2);
+  var Hl = {
     classic: {
       "fa-brands": "fab",
       "fa-duotone": "fad",
@@ -41449,6 +41473,9 @@ Hook ${hookName} was either not provided or not a function.`);
     etch: {
       "fa-solid": "faes"
     },
+    graphite: {
+      "fa-thin": "fagt"
+    },
     jelly: {
       "fa-regular": "fajr"
     },
@@ -41471,7 +41498,7 @@ Hook ${hookName} was either not provided or not a function.`);
       "fa-semibold": "faufsb"
     }
   };
-  var z = {
+  var Y$1 = {
     classic: ["fas", "far", "fal", "fat", "fad"],
     duotone: ["fadr", "fadl", "fadt"],
     sharp: ["fass", "fasr", "fasl", "fast"],
@@ -41483,6 +41510,7 @@ Hook ${hookName} was either not provided or not a function.`);
     notdog: ["fans"],
     "notdog-duo": ["fands"],
     etch: ["faes"],
+    graphite: ["fagt"],
     jelly: ["fajr"],
     "jelly-fill": ["fajfr"],
     "jelly-duo": ["fajdr"],
@@ -41491,7 +41519,7 @@ Hook ${hookName} was either not provided or not a function.`);
     "utility-duo": ["faudsb"],
     "utility-fill": ["faufsb"]
   };
-  var Ht$1 = {
+  var Xl = {
     classic: {
       fab: "fa-brands",
       fad: "fa-duotone",
@@ -41538,6 +41566,9 @@ Hook ${hookName} was either not provided or not a function.`);
     etch: {
       faes: "fa-solid"
     },
+    graphite: {
+      fagt: "fa-thin"
+    },
     jelly: {
       fajr: "fa-regular"
     },
@@ -41560,18 +41591,18 @@ Hook ${hookName} was either not provided or not a function.`);
       faufsb: "fa-semibold"
     }
   };
-  var Y$1 = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands", "fa-semibold"];
-  var Zt$1 = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", "faslr", "faslpr", "fawsb", "fatl", "fans", "fands", "faes", "fajr", "fajfr", "fajdr", "facr", "fausb", "faudsb", "faufsb"].concat(f$1, Y$1);
-  var G$1 = ["solid", "regular", "light", "thin", "duotone", "brands", "semibold"];
-  var O$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  var V$1 = O$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
-  var $$1 = ["aw", "fw", "pull-left", "pull-right"];
-  var to = [].concat(_toConsumableArray(Object.keys(z)), G$1, $$1, ["2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "inverse", "layers", "layers-bottom-left", "layers-bottom-right", "layers-counter", "layers-text", "layers-top-left", "layers-top-right", "li", "pull-end", "pull-start", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", "width-auto", "width-fixed", l$1.GROUP, l$1.SWAP_OPACITY, l$1.PRIMARY, l$1.SECONDARY]).concat(O$1.map(function(t2) {
-    return "".concat(t2, "x");
-  })).concat(V$1.map(function(t2) {
-    return "w-".concat(t2);
+  var V$1 = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands", "fa-semibold"];
+  var lo = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", "faslr", "faslpr", "fawsb", "fatl", "fans", "fands", "faes", "fagt", "fajr", "fajfr", "fajdr", "facr", "fausb", "faudsb", "faufsb"].concat(f$1, V$1);
+  var $ = ["solid", "regular", "light", "thin", "duotone", "brands", "semibold"];
+  var z$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  var q$1 = z$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+  var H$1 = ["aw", "fw", "pull-left", "pull-right"];
+  var so = [].concat(_toConsumableArray(Object.keys(Y$1)), $, H$1, ["2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "inverse", "layers", "layers-bottom-left", "layers-bottom-right", "layers-counter", "layers-text", "layers-top-left", "layers-top-right", "li", "pull-end", "pull-start", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", "width-auto", "width-fixed", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY]).concat(z$1.map(function(l2) {
+    return "".concat(l2, "x");
+  })).concat(q$1.map(function(l2) {
+    return "w-".concat(l2);
   }));
-  var ro = {
+  var fo = {
     "Font Awesome 5 Free": {
       900: "fas",
       400: "far"
@@ -41617,30 +41648,30 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     });
   }
-  var _PREFIX_TO_STYLE = _objectSpread2({}, q);
+  var _PREFIX_TO_STYLE = _objectSpread2({}, Q);
   _PREFIX_TO_STYLE[i] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
     "fa-duotone": "duotone"
-  }), q[i]), qt["kit"]), qt["kit-duotone"]);
+  }), Q[i]), Qt["kit"]), Qt["kit-duotone"]);
   var PREFIX_TO_STYLE = familyProxy(_PREFIX_TO_STYLE);
-  var _STYLE_TO_PREFIX = _objectSpread2({}, _t);
+  var _STYLE_TO_PREFIX = _objectSpread2({}, Mt);
   _STYLE_TO_PREFIX[i] = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, {
     duotone: "fad"
-  }), _STYLE_TO_PREFIX[i]), ul["kit"]), ul["kit-duotone"]);
+  }), _STYLE_TO_PREFIX[i]), ml["kit"]), ml["kit-duotone"]);
   var STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-  var _PREFIX_TO_LONG_STYLE = _objectSpread2({}, Ht$1);
-  _PREFIX_TO_LONG_STYLE[i] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[i]), fl["kit"]);
+  var _PREFIX_TO_LONG_STYLE = _objectSpread2({}, Xl);
+  _PREFIX_TO_LONG_STYLE[i] = _objectSpread2(_objectSpread2({}, _PREFIX_TO_LONG_STYLE[i]), nl["kit"]);
   var PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-  var _LONG_STYLE_TO_PREFIX = _objectSpread2({}, $t$1);
-  _LONG_STYLE_TO_PREFIX[i] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[i]), ol["kit"]);
+  var _LONG_STYLE_TO_PREFIX = _objectSpread2({}, Hl);
+  _LONG_STYLE_TO_PREFIX[i] = _objectSpread2(_objectSpread2({}, _LONG_STYLE_TO_PREFIX[i]), sl["kit"]);
   var LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
-  var ICON_SELECTION_SYNTAX_PATTERN = E;
+  var ICON_SELECTION_SYNTAX_PATTERN = G;
   var LAYERS_TEXT_CLASSNAME = "fa-layers-text";
-  var FONT_FAMILY_PATTERN = _;
-  var _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, gt);
+  var FONT_FAMILY_PATTERN = M;
+  var _FONT_WEIGHT_TO_PREFIX = _objectSpread2({}, yt);
   var FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
   var ATTRIBUTES_WATCHED_FOR_MUTATION = ["class", "data-prefix", "data-icon", "data-fa-transform", "data-fa-mask"];
-  var DUOTONE_CLASSES = H;
-  var RESERVED_CLASSES = [].concat(_toConsumableArray(Ht), _toConsumableArray(to));
+  var DUOTONE_CLASSES = X;
+  var RESERVED_CLASSES = [].concat(_toConsumableArray(Xt), _toConsumableArray(so));
   var initial = WINDOW.FontAwesomeConfig || {};
   function getAttrConfig(attr) {
     var element = DOCUMENT.querySelector("script[" + attr + "]");
@@ -41824,557 +41855,7 @@ Hook ${hookName} was either not provided or not a function.`);
     val += "rotate(".concat(transform2.rotate, "deg) ");
     return val;
   }
-  var baseStyles = `:root, :host {
-  --fa-font-solid: normal 900 1em/1 "Font Awesome 7 Free";
-  --fa-font-regular: normal 400 1em/1 "Font Awesome 7 Free";
-  --fa-font-light: normal 300 1em/1 "Font Awesome 7 Pro";
-  --fa-font-thin: normal 100 1em/1 "Font Awesome 7 Pro";
-  --fa-font-duotone: normal 900 1em/1 "Font Awesome 7 Duotone";
-  --fa-font-duotone-regular: normal 400 1em/1 "Font Awesome 7 Duotone";
-  --fa-font-duotone-light: normal 300 1em/1 "Font Awesome 7 Duotone";
-  --fa-font-duotone-thin: normal 100 1em/1 "Font Awesome 7 Duotone";
-  --fa-font-brands: normal 400 1em/1 "Font Awesome 7 Brands";
-  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 7 Sharp";
-  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 7 Sharp";
-  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 7 Sharp";
-  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 7 Sharp";
-  --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 7 Sharp Duotone";
-  --fa-font-sharp-duotone-regular: normal 400 1em/1 "Font Awesome 7 Sharp Duotone";
-  --fa-font-sharp-duotone-light: normal 300 1em/1 "Font Awesome 7 Sharp Duotone";
-  --fa-font-sharp-duotone-thin: normal 100 1em/1 "Font Awesome 7 Sharp Duotone";
-  --fa-font-slab-regular: normal 400 1em/1 "Font Awesome 7 Slab";
-  --fa-font-slab-press-regular: normal 400 1em/1 "Font Awesome 7 Slab Press";
-  --fa-font-whiteboard-semibold: normal 600 1em/1 "Font Awesome 7 Whiteboard";
-  --fa-font-thumbprint-light: normal 300 1em/1 "Font Awesome 7 Thumbprint";
-  --fa-font-notdog-solid: normal 900 1em/1 "Font Awesome 7 Notdog";
-  --fa-font-notdog-duo-solid: normal 900 1em/1 "Font Awesome 7 Notdog Duo";
-  --fa-font-etch-solid: normal 900 1em/1 "Font Awesome 7 Etch";
-  --fa-font-jelly-regular: normal 400 1em/1 "Font Awesome 7 Jelly";
-  --fa-font-jelly-fill-regular: normal 400 1em/1 "Font Awesome 7 Jelly Fill";
-  --fa-font-jelly-duo-regular: normal 400 1em/1 "Font Awesome 7 Jelly Duo";
-  --fa-font-chisel-regular: normal 400 1em/1 "Font Awesome 7 Chisel";
-  --fa-font-utility-semibold: normal 600 1em/1 "Font Awesome 7 Utility";
-  --fa-font-utility-duo-semibold: normal 600 1em/1 "Font Awesome 7 Utility Duo";
-  --fa-font-utility-fill-semibold: normal 600 1em/1 "Font Awesome 7 Utility Fill";
-}
-
-.svg-inline--fa {
-  box-sizing: content-box;
-  display: var(--fa-display, inline-block);
-  height: 1em;
-  overflow: visible;
-  vertical-align: -0.125em;
-  width: var(--fa-width, 1.25em);
-}
-.svg-inline--fa.fa-2xs {
-  vertical-align: 0.1em;
-}
-.svg-inline--fa.fa-xs {
-  vertical-align: 0em;
-}
-.svg-inline--fa.fa-sm {
-  vertical-align: -0.0714285714em;
-}
-.svg-inline--fa.fa-lg {
-  vertical-align: -0.2em;
-}
-.svg-inline--fa.fa-xl {
-  vertical-align: -0.25em;
-}
-.svg-inline--fa.fa-2xl {
-  vertical-align: -0.3125em;
-}
-.svg-inline--fa.fa-pull-left,
-.svg-inline--fa .fa-pull-start {
-  float: inline-start;
-  margin-inline-end: var(--fa-pull-margin, 0.3em);
-}
-.svg-inline--fa.fa-pull-right,
-.svg-inline--fa .fa-pull-end {
-  float: inline-end;
-  margin-inline-start: var(--fa-pull-margin, 0.3em);
-}
-.svg-inline--fa.fa-li {
-  width: var(--fa-li-width, 2em);
-  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));
-  inset-block-start: 0.25em; /* syncing vertical alignment with Web Font rendering */
-}
-
-.fa-layers-counter, .fa-layers-text {
-  display: inline-block;
-  position: absolute;
-  text-align: center;
-}
-
-.fa-layers {
-  display: inline-block;
-  height: 1em;
-  position: relative;
-  text-align: center;
-  vertical-align: -0.125em;
-  width: var(--fa-width, 1.25em);
-}
-.fa-layers .svg-inline--fa {
-  inset: 0;
-  margin: auto;
-  position: absolute;
-  transform-origin: center center;
-}
-
-.fa-layers-text {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transform-origin: center center;
-}
-
-.fa-layers-counter {
-  background-color: var(--fa-counter-background-color, #ff253a);
-  border-radius: var(--fa-counter-border-radius, 1em);
-  box-sizing: border-box;
-  color: var(--fa-inverse, #fff);
-  line-height: var(--fa-counter-line-height, 1);
-  max-width: var(--fa-counter-max-width, 5em);
-  min-width: var(--fa-counter-min-width, 1.5em);
-  overflow: hidden;
-  padding: var(--fa-counter-padding, 0.25em 0.5em);
-  right: var(--fa-right, 0);
-  text-overflow: ellipsis;
-  top: var(--fa-top, 0);
-  transform: scale(var(--fa-counter-scale, 0.25));
-  transform-origin: top right;
-}
-
-.fa-layers-bottom-right {
-  bottom: var(--fa-bottom, 0);
-  right: var(--fa-right, 0);
-  top: auto;
-  transform: scale(var(--fa-layers-scale, 0.25));
-  transform-origin: bottom right;
-}
-
-.fa-layers-bottom-left {
-  bottom: var(--fa-bottom, 0);
-  left: var(--fa-left, 0);
-  right: auto;
-  top: auto;
-  transform: scale(var(--fa-layers-scale, 0.25));
-  transform-origin: bottom left;
-}
-
-.fa-layers-top-right {
-  top: var(--fa-top, 0);
-  right: var(--fa-right, 0);
-  transform: scale(var(--fa-layers-scale, 0.25));
-  transform-origin: top right;
-}
-
-.fa-layers-top-left {
-  left: var(--fa-left, 0);
-  right: auto;
-  top: var(--fa-top, 0);
-  transform: scale(var(--fa-layers-scale, 0.25));
-  transform-origin: top left;
-}
-
-.fa-1x {
-  font-size: 1em;
-}
-
-.fa-2x {
-  font-size: 2em;
-}
-
-.fa-3x {
-  font-size: 3em;
-}
-
-.fa-4x {
-  font-size: 4em;
-}
-
-.fa-5x {
-  font-size: 5em;
-}
-
-.fa-6x {
-  font-size: 6em;
-}
-
-.fa-7x {
-  font-size: 7em;
-}
-
-.fa-8x {
-  font-size: 8em;
-}
-
-.fa-9x {
-  font-size: 9em;
-}
-
-.fa-10x {
-  font-size: 10em;
-}
-
-.fa-2xs {
-  font-size: calc(10 / 16 * 1em); /* converts a 10px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 10 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 10 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-xs {
-  font-size: calc(12 / 16 * 1em); /* converts a 12px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 12 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 12 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-sm {
-  font-size: calc(14 / 16 * 1em); /* converts a 14px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 14 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 14 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-lg {
-  font-size: calc(20 / 16 * 1em); /* converts a 20px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 20 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 20 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-xl {
-  font-size: calc(24 / 16 * 1em); /* converts a 24px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 24 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 24 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-2xl {
-  font-size: calc(32 / 16 * 1em); /* converts a 32px size into an em-based value that's relative to the scale's 16px base */
-  line-height: calc(1 / 32 * 1em); /* sets the line-height of the icon back to that of it's parent */
-  vertical-align: calc((6 / 32 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */
-}
-
-.fa-width-auto {
-  --fa-width: auto;
-}
-
-.fa-fw,
-.fa-width-fixed {
-  --fa-width: 1.25em;
-}
-
-.fa-ul {
-  list-style-type: none;
-  margin-inline-start: var(--fa-li-margin, 2.5em);
-  padding-inline-start: 0;
-}
-.fa-ul > li {
-  position: relative;
-}
-
-.fa-li {
-  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));
-  position: absolute;
-  text-align: center;
-  width: var(--fa-li-width, 2em);
-  line-height: inherit;
-}
-
-/* Heads Up: Bordered Icons will not be supported in the future!
-  - This feature will be deprecated in the next major release of Font Awesome (v8)!
-  - You may continue to use it in this version *v7), but it will not be supported in Font Awesome v8.
-*/
-/* Notes:
-* --@{v.$css-prefix}-border-width = 1/16 by default (to render as ~1px based on a 16px default font-size)
-* --@{v.$css-prefix}-border-padding =
-  ** 3/16 for vertical padding (to give ~2px of vertical whitespace around an icon considering it's vertical alignment)
-  ** 4/16 for horizontal padding (to give ~4px of horizontal whitespace around an icon)
-*/
-.fa-border {
-  border-color: var(--fa-border-color, #eee);
-  border-radius: var(--fa-border-radius, 0.1em);
-  border-style: var(--fa-border-style, solid);
-  border-width: var(--fa-border-width, 0.0625em);
-  box-sizing: var(--fa-border-box-sizing, content-box);
-  padding: var(--fa-border-padding, 0.1875em 0.25em);
-}
-
-.fa-pull-left,
-.fa-pull-start {
-  float: inline-start;
-  margin-inline-end: var(--fa-pull-margin, 0.3em);
-}
-
-.fa-pull-right,
-.fa-pull-end {
-  float: inline-end;
-  margin-inline-start: var(--fa-pull-margin, 0.3em);
-}
-
-.fa-beat {
-  animation-name: fa-beat;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, ease-in-out);
-}
-
-.fa-bounce {
-  animation-name: fa-bounce;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
-}
-
-.fa-fade {
-  animation-name: fa-fade;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
-}
-
-.fa-beat-fade {
-  animation-name: fa-beat-fade;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
-}
-
-.fa-flip {
-  animation-name: fa-flip;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, ease-in-out);
-}
-
-.fa-shake {
-  animation-name: fa-shake;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, linear);
-}
-
-.fa-spin {
-  animation-name: fa-spin;
-  animation-delay: var(--fa-animation-delay, 0s);
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 2s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, linear);
-}
-
-.fa-spin-reverse {
-  --fa-animation-direction: reverse;
-}
-
-.fa-pulse,
-.fa-spin-pulse {
-  animation-name: fa-spin;
-  animation-direction: var(--fa-animation-direction, normal);
-  animation-duration: var(--fa-animation-duration, 1s);
-  animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-  animation-timing-function: var(--fa-animation-timing, steps(8));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .fa-beat,
-  .fa-bounce,
-  .fa-fade,
-  .fa-beat-fade,
-  .fa-flip,
-  .fa-pulse,
-  .fa-shake,
-  .fa-spin,
-  .fa-spin-pulse {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-@keyframes fa-beat {
-  0%, 90% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(var(--fa-beat-scale, 1.25));
-  }
-}
-@keyframes fa-bounce {
-  0% {
-    transform: scale(1, 1) translateY(0);
-  }
-  10% {
-    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
-  }
-  30% {
-    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
-  }
-  50% {
-    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
-  }
-  57% {
-    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
-  }
-  64% {
-    transform: scale(1, 1) translateY(0);
-  }
-  100% {
-    transform: scale(1, 1) translateY(0);
-  }
-}
-@keyframes fa-fade {
-  50% {
-    opacity: var(--fa-fade-opacity, 0.4);
-  }
-}
-@keyframes fa-beat-fade {
-  0%, 100% {
-    opacity: var(--fa-beat-fade-opacity, 0.4);
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(var(--fa-beat-fade-scale, 1.125));
-  }
-}
-@keyframes fa-flip {
-  50% {
-    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
-  }
-}
-@keyframes fa-shake {
-  0% {
-    transform: rotate(-15deg);
-  }
-  4% {
-    transform: rotate(15deg);
-  }
-  8%, 24% {
-    transform: rotate(-18deg);
-  }
-  12%, 28% {
-    transform: rotate(18deg);
-  }
-  16% {
-    transform: rotate(-22deg);
-  }
-  20% {
-    transform: rotate(22deg);
-  }
-  32% {
-    transform: rotate(-12deg);
-  }
-  36% {
-    transform: rotate(12deg);
-  }
-  40%, 100% {
-    transform: rotate(0deg);
-  }
-}
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.fa-rotate-90 {
-  transform: rotate(90deg);
-}
-
-.fa-rotate-180 {
-  transform: rotate(180deg);
-}
-
-.fa-rotate-270 {
-  transform: rotate(270deg);
-}
-
-.fa-flip-horizontal {
-  transform: scale(-1, 1);
-}
-
-.fa-flip-vertical {
-  transform: scale(1, -1);
-}
-
-.fa-flip-both,
-.fa-flip-horizontal.fa-flip-vertical {
-  transform: scale(-1, -1);
-}
-
-.fa-rotate-by {
-  transform: rotate(var(--fa-rotate-angle, 0));
-}
-
-.svg-inline--fa .fa-primary {
-  fill: var(--fa-primary-color, currentColor);
-  opacity: var(--fa-primary-opacity, 1);
-}
-
-.svg-inline--fa .fa-secondary {
-  fill: var(--fa-secondary-color, currentColor);
-  opacity: var(--fa-secondary-opacity, 0.4);
-}
-
-.svg-inline--fa.fa-swap-opacity .fa-primary {
-  opacity: var(--fa-secondary-opacity, 0.4);
-}
-
-.svg-inline--fa.fa-swap-opacity .fa-secondary {
-  opacity: var(--fa-primary-opacity, 1);
-}
-
-.svg-inline--fa mask .fa-primary,
-.svg-inline--fa mask .fa-secondary {
-  fill: black;
-}
-
-.svg-inline--fa.fa-inverse {
-  fill: var(--fa-inverse, #fff);
-}
-
-.fa-stack {
-  display: inline-block;
-  height: 2em;
-  line-height: 2em;
-  position: relative;
-  vertical-align: middle;
-  width: 2.5em;
-}
-
-.fa-inverse {
-  color: var(--fa-inverse, #fff);
-}
-
-.svg-inline--fa.fa-stack-1x {
-  --fa-width: 1.25em;
-  height: 1em;
-  width: var(--fa-width);
-}
-.svg-inline--fa.fa-stack-2x {
-  --fa-width: 2.5em;
-  height: 2em;
-  width: var(--fa-width);
-}
-
-.fa-stack-1x,
-.fa-stack-2x {
-  inset: 0;
-  margin: auto;
-  position: absolute;
-  z-index: var(--fa-stack-z-index, auto);
-}`;
+  var baseStyles = ":root, :host {\n  --fa-font-solid: normal 900 1em/1 'Font Awesome 7 Free';\n  --fa-font-regular: normal 400 1em/1 'Font Awesome 7 Free';\n  --fa-font-light: normal 300 1em/1 'Font Awesome 7 Pro';\n  --fa-font-thin: normal 100 1em/1 'Font Awesome 7 Pro';\n  --fa-font-duotone: normal 900 1em/1 'Font Awesome 7 Duotone';\n  --fa-font-duotone-regular: normal 400 1em/1 'Font Awesome 7 Duotone';\n  --fa-font-duotone-light: normal 300 1em/1 'Font Awesome 7 Duotone';\n  --fa-font-duotone-thin: normal 100 1em/1 'Font Awesome 7 Duotone';\n  --fa-font-brands: normal 400 1em/1 'Font Awesome 7 Brands';\n  --fa-font-sharp-solid: normal 900 1em/1 'Font Awesome 7 Sharp';\n  --fa-font-sharp-regular: normal 400 1em/1 'Font Awesome 7 Sharp';\n  --fa-font-sharp-light: normal 300 1em/1 'Font Awesome 7 Sharp';\n  --fa-font-sharp-thin: normal 100 1em/1 'Font Awesome 7 Sharp';\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 'Font Awesome 7 Sharp Duotone';\n  --fa-font-sharp-duotone-regular: normal 400 1em/1 'Font Awesome 7 Sharp Duotone';\n  --fa-font-sharp-duotone-light: normal 300 1em/1 'Font Awesome 7 Sharp Duotone';\n  --fa-font-sharp-duotone-thin: normal 100 1em/1 'Font Awesome 7 Sharp Duotone';\n  --fa-font-slab-regular: normal 400 1em/1 'Font Awesome 7 Slab';\n  --fa-font-slab-press-regular: normal 400 1em/1 'Font Awesome 7 Slab Press';\n  --fa-font-whiteboard-semibold: normal 600 1em/1 'Font Awesome 7 Whiteboard';\n  --fa-font-thumbprint-light: normal 300 1em/1 'Font Awesome 7 Thumbprint';\n  --fa-font-notdog-solid: normal 900 1em/1 'Font Awesome 7 Notdog';\n  --fa-font-notdog-duo-solid: normal 900 1em/1 'Font Awesome 7 Notdog Duo';\n  --fa-font-etch-solid: normal 900 1em/1 'Font Awesome 7 Etch';\n  --fa-font-graphite-thin: normal 100 1em/1 'Font Awesome 7 Graphite';\n  --fa-font-jelly-regular: normal 400 1em/1 'Font Awesome 7 Jelly';\n  --fa-font-jelly-fill-regular: normal 400 1em/1 'Font Awesome 7 Jelly Fill';\n  --fa-font-jelly-duo-regular: normal 400 1em/1 'Font Awesome 7 Jelly Duo';\n  --fa-font-chisel-regular: normal 400 1em/1 'Font Awesome 7 Chisel';\n  --fa-font-utility-semibold: normal 600 1em/1 'Font Awesome 7 Utility';\n  --fa-font-utility-duo-semibold: normal 600 1em/1 'Font Awesome 7 Utility Duo';\n  --fa-font-utility-fill-semibold: normal 600 1em/1 'Font Awesome 7 Utility Fill';\n}\n\n.svg-inline--fa {\n  box-sizing: content-box;\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n  width: var(--fa-width, 1.25em);\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285714em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left,\n.svg-inline--fa .fa-pull-start {\n  float: inline-start;\n  margin-inline-end: var(--fa-pull-margin, 0.3em);\n}\n.svg-inline--fa.fa-pull-right,\n.svg-inline--fa .fa-pull-end {\n  float: inline-end;\n  margin-inline-start: var(--fa-pull-margin, 0.3em);\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));\n  inset-block-start: 0.25em; /* syncing vertical alignment with Web Font rendering */\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: var(--fa-width, 1.25em);\n}\n.fa-layers .svg-inline--fa {\n  inset: 0;\n  margin: auto;\n  position: absolute;\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: calc(10 / 16 * 1em); /* converts a 10px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 10 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 10 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-xs {\n  font-size: calc(12 / 16 * 1em); /* converts a 12px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 12 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 12 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-sm {\n  font-size: calc(14 / 16 * 1em); /* converts a 14px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 14 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 14 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-lg {\n  font-size: calc(20 / 16 * 1em); /* converts a 20px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 20 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 20 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-xl {\n  font-size: calc(24 / 16 * 1em); /* converts a 24px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 24 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 24 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-2xl {\n  font-size: calc(32 / 16 * 1em); /* converts a 32px size into an em-based value that's relative to the scale's 16px base */\n  line-height: calc(1 / 32 * 1em); /* sets the line-height of the icon back to that of it's parent */\n  vertical-align: calc((6 / 32 - 0.375) * 1em); /* vertically centers the icon taking into account the surrounding text's descender */\n}\n\n.fa-width-auto {\n  --fa-width: auto;\n}\n\n.fa-fw,\n.fa-width-fixed {\n  --fa-width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-inline-start: var(--fa-li-margin, 2.5em);\n  padding-inline-start: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  inset-inline-start: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n/* Heads Up: Bordered Icons will not be supported in the future!\n  - This feature will be deprecated in the next major release of Font Awesome (v8)!\n  - You may continue to use it in this version *v7), but it will not be supported in Font Awesome v8.\n*/\n/* Notes:\n* --@{v.$css-prefix}-border-width = 1/16 by default (to render as ~1px based on a 16px default font-size)\n* --@{v.$css-prefix}-border-padding =\n  ** 3/16 for vertical padding (to give ~2px of vertical whitespace around an icon considering it's vertical alignment)\n  ** 4/16 for horizontal padding (to give ~4px of horizontal whitespace around an icon)\n*/\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.0625em);\n  box-sizing: var(--fa-border-box-sizing, content-box);\n  padding: var(--fa-border-padding, 0.1875em 0.25em);\n}\n\n.fa-pull-left,\n.fa-pull-start {\n  float: inline-start;\n  margin-inline-end: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right,\n.fa-pull-end {\n  float: inline-end;\n  margin-inline-start: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n  .fa-bounce,\n  .fa-fade,\n  .fa-beat-fade,\n  .fa-flip,\n  .fa-pulse,\n  .fa-shake,\n  .fa-spin,\n  .fa-spin-pulse {\n    animation: none !important;\n    transition: none !important;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}\n\n.svg-inline--fa.fa-inverse {\n  fill: var(--fa-inverse, #fff);\n}\n\n.fa-stack {\n  display: inline-block;\n  height: 2em;\n  line-height: 2em;\n  position: relative;\n  vertical-align: middle;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  --fa-width: 1.25em;\n  height: 1em;\n  width: var(--fa-width);\n}\n.svg-inline--fa.fa-stack-2x {\n  --fa-width: 2.5em;\n  height: 2em;\n  width: var(--fa-width);\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  inset: 0;\n  margin: auto;\n  position: absolute;\n  z-index: var(--fa-stack-z-index, auto);\n}";
   function css2() {
     var dcp = DEFAULT_CSS_PREFIX;
     var drc = DEFAULT_REPLACEMENT_CLASS;
@@ -42651,7 +42132,7 @@ Hook ${hookName} was either not provided or not a function.`);
       acc[familyId] = "".concat(config.cssPrefix, "-").concat(familyId);
       return acc;
     }, {});
-    rt.forEach(function(familyId) {
+    dt.forEach(function(familyId) {
       if (values.includes(famProps[familyId]) || values.some(function(v$$1) {
         return PREFIXES_FOR_FAMILY[familyId].includes(v$$1);
       })) {
@@ -42693,7 +42174,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return arr2.indexOf(value) === index;
     });
   }
-  var _faCombinedClasses = Zt$1.concat(Yt);
+  var _faCombinedClasses = lo.concat(Ht);
   function getCanonicalIcon(values) {
     var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     var _params$skipLookups = params.skipLookups, skipLookups = _params$skipLookups === void 0 ? false : _params$skipLookups;
@@ -42706,7 +42187,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }));
     var faStyles = faStyleOrFamilyClasses.filter(function(cls) {
       givenPrefix = cls;
-      return !Q.includes(cls);
+      return !Z.includes(cls);
     });
     var _faStyles = _slicedToArray(faStyles, 1), _faStyles$ = _faStyles[0], styleFromValues = _faStyles$ === void 0 ? null : _faStyles$;
     var family = getFamilyId(faStyleOrFamilyClasses);
@@ -42744,13 +42225,13 @@ Hook ${hookName} was either not provided or not a function.`);
       iconName: iconName5
     };
   }
-  var newCanonicalFamilies = rt.filter(function(familyId) {
+  var newCanonicalFamilies = dt.filter(function(familyId) {
     return familyId !== i || familyId !== t;
   });
-  var newCanonicalStyles = Object.keys(Ht$1).filter(function(key) {
+  var newCanonicalStyles = Object.keys(Xl).filter(function(key) {
     return key !== i;
   }).map(function(key) {
-    return Object.keys(Ht$1[key]);
+    return Object.keys(Xl[key]);
   }).flat();
   function getDefaultCanonicalPrefix(prefixOptions) {
     var values = prefixOptions.values, family = prefixOptions.family, canonical = prefixOptions.canonical, _prefixOptions$givenP = prefixOptions.givenPrefix, givenPrefix = _prefixOptions$givenP === void 0 ? "" : _prefixOptions$givenP, _prefixOptions$styles = prefixOptions.styles, styles2 = _prefixOptions$styles === void 0 ? {} : _prefixOptions$styles, _prefixOptions$config = prefixOptions.config, config$$1 = _prefixOptions$config === void 0 ? {} : _prefixOptions$config;
@@ -42769,7 +42250,7 @@ Hook ${hookName} was either not provided or not a function.`);
         return newCanonicalStyles.includes(key);
       });
       if (validPrefix || config$$1.autoFetchSvg) {
-        var defaultPrefix = Ut.get(family).defaultShortPrefixId;
+        var defaultPrefix = Et.get(family).defaultShortPrefixId;
         canonical.prefix = defaultPrefix;
         canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
       }
@@ -43230,7 +42711,7 @@ Hook ${hookName} was either not provided or not a function.`);
     mark: noop$1,
     measure: noop$1
   };
-  var preamble = 'FA "7.1.0"';
+  var preamble = 'FA "7.2.0"';
   var begin = function begin2(name) {
     p$2.mark("".concat(preamble, " ").concat(name, " begins"));
     return function() {
@@ -43522,7 +43003,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   }
   function getKnownPrefixes() {
-    return [].concat(_toConsumableArray(Yt), _toConsumableArray(Zt$1));
+    return [].concat(_toConsumableArray(Ht), _toConsumableArray(lo));
   }
   function onTree(root) {
     var callback2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
@@ -43534,7 +43015,7 @@ Hook ${hookName} was either not provided or not a function.`);
     var hclRemove = function hclRemove2(suffix) {
       return htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
     };
-    var prefixes = config.autoFetchSvg ? getKnownPrefixes() : Q.concat(Object.keys(styles$2));
+    var prefixes = config.autoFetchSvg ? getKnownPrefixes() : Z.concat(Object.keys(styles$2));
     if (!prefixes.includes("fa")) {
       prefixes.push("fa");
     }
@@ -43828,7 +43309,7 @@ Hook ${hookName} was either not provided or not a function.`);
       normal: "fas",
       400: "fas"
     }
-  }), Ct), ro), dl);
+  }), Kt), fo), hl);
   var FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce(function(acc, key) {
     acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
     return acc;
@@ -44518,7 +43999,7 @@ Hook ${hookName} was either not provided or not a function.`);
       attrs["aria-label"] = ariaLabel;
       attrs["aria-hidden"] = "false";
     }
-    return createElement14(element.tag, { ...remaining, ...attrs }, ...children);
+    return createElement14(element.tag, { ...attrs, ...remaining }, ...children);
   }
   var makeReactConverter = convert.bind(null, import_react8.default.createElement);
   var useAccessibilityId = (id, hasAccessibleProps) => {
@@ -44561,7 +44042,7 @@ Hook ${hookName} was either not provided or not a function.`);
       console.error(`[${this.scope}]`, ...args);
     }
   };
-  typeof process !== "undefined" && process.env.FA_VERSION || "7.0.0";
+  typeof process !== "undefined" && process.env?.FA_VERSION || "7.0.0";
   var SVG_CORE_VERSION = (
     // @ts-expect-error TS2872 - Expression is always truthy - This is true when v7 of SVGCore is used, but not when v6 is used.
     // This is the point of this check - if the property exists on config, we have v7, otherwise we have v6.
@@ -44846,7 +44327,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var faArrowUp = {
     prefix: "fas",
     iconName: "arrow-up",
-    icon: [384, 512, [8593], "f062", "M214.6 17.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 117.3 160 488c0 17.7 14.3 32 32 32s32-14.3 32-32l0-370.7 105.4 105.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"]
+    icon: [384, 512, [8593], "f062", "M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3 160 480c0 17.7 14.3 32 32 32s32-14.3 32-32l0-370.7 105.4 105.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"]
   };
   var faCheck = {
     prefix: "fas",
@@ -45106,10 +44587,10 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var GlobalLink = ({ children, to: to3, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+  var GlobalLink = ({ children, to: to2, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     NavLink,
     {
-      to: to3,
+      to: to2,
       className: ({ isActive }) => isActive ? "is-active" : void 0,
       ...rest,
       children
@@ -45119,12 +44600,12 @@ Hook ${hookName} was either not provided or not a function.`);
     children,
     isCurrent: isCurrent2,
     onClick,
-    to: to3,
+    to: to2,
     ...rest
   }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
     NavLink,
     {
-      to: to3,
+      to: to2,
       className: ({ isActive }) => isCurrent2 && isActive ? "is-active" : void 0,
       onClick,
       preventScrollReset: true,
@@ -45203,7 +44684,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return SetForIcon2;
   })(SetForIcon || {});
   var getIconFromSet = (name) => [SetForIcon[name], name];
-  var LinkIcon = ({ className, name, size = "lg", title, to: to3 }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BetterLink, { className: cx(`icon icon-${name} link-icon`, className), to: to3, title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
+  var LinkIcon = ({ className, name, size = "lg", title, to: to2 }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BetterLink, { className: cx(`icon icon-${name} link-icon`, className), to: to2, title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
   var Icon = ({ className, name, size = "lg", title }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: cx(`icon icon-${name}`, className), title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
   var icon_default = Icon;
 
@@ -48314,16 +47795,16 @@ Hook ${hookName} was either not provided or not a function.`);
   function rgbString(v2) {
     return v2 && (v2.a < 255 ? `rgba(${v2.r}, ${v2.g}, ${v2.b}, ${b2n(v2.a)})` : `rgb(${v2.r}, ${v2.g}, ${v2.b})`);
   }
-  var to2 = (v2) => v2 <= 31308e-7 ? v2 * 12.92 : Math.pow(v2, 1 / 2.4) * 1.055 - 0.055;
+  var to = (v2) => v2 <= 31308e-7 ? v2 * 12.92 : Math.pow(v2, 1 / 2.4) * 1.055 - 0.055;
   var from2 = (v2) => v2 <= 0.04045 ? v2 / 12.92 : Math.pow((v2 + 0.055) / 1.055, 2.4);
   function interpolate(rgb1, rgb2, t2) {
     const r2 = from2(b2n(rgb1.r));
     const g2 = from2(b2n(rgb1.g));
     const b2 = from2(b2n(rgb1.b));
     return {
-      r: n2b(to2(r2 + t2 * (from2(b2n(rgb2.r)) - r2))),
-      g: n2b(to2(g2 + t2 * (from2(b2n(rgb2.g)) - g2))),
-      b: n2b(to2(b2 + t2 * (from2(b2n(rgb2.b)) - b2))),
+      r: n2b(to(r2 + t2 * (from2(b2n(rgb2.r)) - r2))),
+      g: n2b(to(g2 + t2 * (from2(b2n(rgb2.g)) - g2))),
+      b: n2b(to(b2 + t2 * (from2(b2n(rgb2.b)) - b2))),
       a: rgb1.a + t2 * (rgb2.a - rgb1.a)
     };
   }
@@ -48798,18 +48279,18 @@ Hook ${hookName} was either not provided or not a function.`);
   function _lookup(table, value, cmp) {
     cmp = cmp || ((index) => table[index] < value);
     let hi = table.length - 1;
-    let lo = 0;
+    let lo2 = 0;
     let mid;
-    while (hi - lo > 1) {
-      mid = lo + hi >> 1;
+    while (hi - lo2 > 1) {
+      mid = lo2 + hi >> 1;
       if (cmp(mid)) {
-        lo = mid;
+        lo2 = mid;
       } else {
         hi = mid;
       }
     }
     return {
-      lo,
+      lo: lo2,
       hi
     };
   }
@@ -51011,31 +50492,31 @@ Hook ${hookName} was either not provided or not a function.`);
   var animator = /* @__PURE__ */ new Animator();
   var transparent = "transparent";
   var interpolators = {
-    boolean(from3, to3, factor) {
-      return factor > 0.5 ? to3 : from3;
+    boolean(from3, to2, factor) {
+      return factor > 0.5 ? to2 : from3;
     },
-    color(from3, to3, factor) {
+    color(from3, to2, factor) {
       const c0 = color(from3 || transparent);
-      const c1 = c0.valid && color(to3 || transparent);
-      return c1 && c1.valid ? c1.mix(c0, factor).hexString() : to3;
+      const c1 = c0.valid && color(to2 || transparent);
+      return c1 && c1.valid ? c1.mix(c0, factor).hexString() : to2;
     },
-    number(from3, to3, factor) {
-      return from3 + (to3 - from3) * factor;
+    number(from3, to2, factor) {
+      return from3 + (to2 - from3) * factor;
     }
   };
   var Animation = class {
-    constructor(cfg, target, prop, to3) {
+    constructor(cfg, target, prop, to2) {
       const currentValue = target[prop];
-      to3 = resolve([
+      to2 = resolve([
         cfg.to,
-        to3,
+        to2,
         currentValue,
         cfg.from
       ]);
       const from3 = resolve([
         cfg.from,
         currentValue,
-        to3
+        to2
       ]);
       this._active = true;
       this._fn = cfg.fn || interpolators[cfg.type || typeof from3];
@@ -51046,13 +50527,13 @@ Hook ${hookName} was either not provided or not a function.`);
       this._target = target;
       this._prop = prop;
       this._from = from3;
-      this._to = to3;
+      this._to = to2;
       this._promises = void 0;
     }
     active() {
       return this._active;
     }
-    update(cfg, to3, date) {
+    update(cfg, to2, date) {
       if (this._active) {
         this._notify(false);
         const currentValue = this._target[this._prop];
@@ -51064,14 +50545,14 @@ Hook ${hookName} was either not provided or not a function.`);
         this._loop = !!cfg.loop;
         this._to = resolve([
           cfg.to,
-          to3,
+          to2,
           currentValue,
           cfg.from
         ]);
         this._from = resolve([
           cfg.from,
           currentValue,
-          to3
+          to2
         ]);
       }
     }
@@ -51088,11 +50569,11 @@ Hook ${hookName} was either not provided or not a function.`);
       const prop = this._prop;
       const from3 = this._from;
       const loop = this._loop;
-      const to3 = this._to;
+      const to2 = this._to;
       let factor;
-      this._active = from3 !== to3 && (loop || elapsed < duration);
+      this._active = from3 !== to2 && (loop || elapsed < duration);
       if (!this._active) {
-        this._target[prop] = to3;
+        this._target[prop] = to2;
         this._notify(true);
         return;
       }
@@ -51103,7 +50584,7 @@ Hook ${hookName} was either not provided or not a function.`);
       factor = elapsed / duration % 2;
       factor = loop && factor > 1 ? 2 - factor : factor;
       factor = this._easing(Math.min(1, Math.max(0, factor)));
-      this._target[prop] = this._fn(from3, to3, factor);
+      this._target[prop] = this._fn(from3, to2, factor);
     }
     wait() {
       const promises = this._promises || (this._promises = []);
@@ -52718,8 +52199,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const value = position2[axis];
     for (let i2 = 0, ilen = metasets.length; i2 < ilen; ++i2) {
       const { index, data: data2 } = metasets[i2];
-      const { lo, hi } = binarySearch(metasets[i2], axis, value, intersect);
-      for (let j2 = lo; j2 <= hi; ++j2) {
+      const { lo: lo2, hi } = binarySearch(metasets[i2], axis, value, intersect);
+      for (let j2 = lo2; j2 <= hi; ++j2) {
         const element = data2[j2];
         if (!element.skip) {
           handler(element, index, j2);
@@ -59825,8 +59306,8 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!timestamps) {
       ticks[time] = true;
     } else if (timestamps.length) {
-      const { lo, hi } = _lookup(timestamps, time);
-      const timestamp = timestamps[lo] >= time ? timestamps[lo] : timestamps[hi];
+      const { lo: lo2, hi } = _lookup(timestamps, time);
+      const timestamp = timestamps[lo2] >= time ? timestamps[lo2] : timestamps[hi];
       ticks[timestamp] = true;
     }
   }
@@ -60146,20 +59627,20 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   };
   function interpolate2(table, val, reverse) {
-    let lo = 0;
+    let lo2 = 0;
     let hi = table.length - 1;
     let prevSource, nextSource, prevTarget, nextTarget;
     if (reverse) {
-      if (val >= table[lo].pos && val <= table[hi].pos) {
-        ({ lo, hi } = _lookupByKey(table, "pos", val));
+      if (val >= table[lo2].pos && val <= table[hi].pos) {
+        ({ lo: lo2, hi } = _lookupByKey(table, "pos", val));
       }
-      ({ pos: prevSource, time: prevTarget } = table[lo]);
+      ({ pos: prevSource, time: prevTarget } = table[lo2]);
       ({ pos: nextSource, time: nextTarget } = table[hi]);
     } else {
-      if (val >= table[lo].time && val <= table[hi].time) {
-        ({ lo, hi } = _lookupByKey(table, "time", val));
+      if (val >= table[lo2].time && val <= table[hi].time) {
+        ({ lo: lo2, hi } = _lookupByKey(table, "time", val));
       }
-      ({ time: prevSource, pos: prevTarget } = table[lo]);
+      ({ time: prevSource, pos: prevTarget } = table[lo2]);
       ({ time: nextSource, pos: nextTarget } = table[hi]);
     }
     const span = nextSource - prevSource;
@@ -62055,9 +61536,9 @@ react-router/dist/development/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
 @fortawesome/free-regular-svg-icons/index.mjs:
   (*!
-   * Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 7.2.0 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
-   * Copyright 2025 Fonticons, Inc.
+   * Copyright 2026 Fonticons, Inc.
    *)
 
 @kurkle/color/dist/color.esm.js:
