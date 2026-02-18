@@ -20,10 +20,6 @@ class Entity extends IncidentedBase {
     ROLE_ENTITY,
   ];
 
-  static isValidRoleOption(value) {
-    return this.roleOptions.includes(value);
-  }
-
   static adaptEntityLobbyist(result) {
     return {
       id: result.id,

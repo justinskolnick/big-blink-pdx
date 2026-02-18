@@ -6,6 +6,12 @@ class IncidentedBase extends Base {
   static labelPrefix = null;
   static linkKey = null;
 
+  static roleOptions = [];
+
+  static isValidRoleOption(value) {
+    return this.roleOptions.includes(value);
+  }
+
   overviewProps = [
     'first',
     'last',

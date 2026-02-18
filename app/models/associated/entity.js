@@ -10,8 +10,6 @@ const AssociatedItem = require('./item');
 const AssociatedEntityLobbyist = require('./entity-lobbyist');
 
 class AssociatedEntity extends AssociatedItem {
-  static associatedClass = Entity;
-
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_ENTITIES,
     [ROLE_OFFICIAL]: ASSOCIATION_ENTITIES,
@@ -41,10 +39,10 @@ class AssociatedEntity extends AssociatedItem {
   }
 
   static toRoleObject(role, entities) {
-    const obj = this.toAssociationObject();
-    const key = this.associatedClass.plural();
+    const obj = this.toAssociationObject(Entity.plural(), Entity.singular());
+    const key = Entity.plural();
 
-    obj.values.push(this.toValuesObject(key, entities, role));
+    obj.values.push(this.toValuesObject(key, entities, role, this.associatingClass.singular()));
 
     return obj;
   }

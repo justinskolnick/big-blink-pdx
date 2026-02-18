@@ -12,6 +12,7 @@ const {
   PARAM_SORT,
   PARAM_WITH_ENTITY_ID,
   PARAM_WITH_PERSON_ID,
+  ROLE_SOURCE,
   SECTION_SOURCES,
 } = require('../../config/constants');
 
@@ -211,7 +212,7 @@ router.get('/:id/attendees', async (req, res, next) => {
     attendees = await incidentAttendees.getAttendees({ sourceId: id }, limit);
 
     record = source.adapted;
-    record.attendees = SourceAttendee.toRoleObject('source', attendees);
+    record.attendees = SourceAttendee.toRoleObject(ROLE_SOURCE, attendees);
 
     data = {
       source: {
@@ -242,7 +243,7 @@ router.get('/:id/entities', async (req, res, next) => {
     entities = await sources.getEntitiesForId(id, limit);
 
     record = source.adapted;
-    record.entities = SourceEntity.toRoleObject('source', entities);
+    record.entities = SourceEntity.toRoleObject(ROLE_SOURCE, entities);
 
     data = {
       source: {

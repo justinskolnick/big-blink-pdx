@@ -9,8 +9,6 @@ const AssociatedItem = require('./item');
 const Person = require('../person/person');
 
 class AssociatedPerson extends AssociatedItem {
-  static associatedClass = Person;
-
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_LOBBYISTS,
     [ROLE_OFFICIAL]: ASSOCIATION_OFFICIALS
@@ -31,11 +29,11 @@ class AssociatedPerson extends AssociatedItem {
   }
 
   static toRoleObject(role, attendees) {
-    const obj = this.toAssociationObject();
+    const obj = this.toAssociationObject(Person.plural(), Person.singular());
 
     Object.entries(attendees).forEach(([key, values]) => {
       if (values?.records.length) {
-        obj.values.push(this.toValuesObject(key, values, role));
+        obj.values.push(this.toValuesObject(key, values, role, this.associatingClass.singular()));
       }
     });
 

@@ -1,6 +1,6 @@
 const resultAttendees = require('../__mocks__/result-entity-attendees');
 
-const { ROLE_LOBBYIST } = require('../../../config/constants');
+const { ROLE_ENTITY } = require('../../../config/constants');
 
 const EntityAttendee = require('../entity-attendee');
 
@@ -13,16 +13,16 @@ describe('getAssociation()', () => {
 
 describe('getValueLabelKey()', () => {
   test('returns the expected results', () => {
-    expect(EntityAttendee.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_entity_lobbyists');
-    expect(EntityAttendee.getValueLabelKey('lobbyist', 'officials')).toEqual('as_entity_officials');
-    expect(EntityAttendee.getValueLabelKey('official', 'lobbyists')).toEqual('as_entity_lobbyists');
-    expect(EntityAttendee.getValueLabelKey('official', 'officials')).toEqual('as_entity_officials');
+    expect(EntityAttendee.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(EntityAttendee.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
+    expect(EntityAttendee.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(EntityAttendee.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
   });
 });
 
 describe('toRoleObject()', () => {
   test('returns the expected object', () => {
-    expect(EntityAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
+    expect(EntityAttendee.toRoleObject(ROLE_ENTITY, resultAttendees)).toEqual({
       label: 'Associated People',
       model: 'people',
       options: [

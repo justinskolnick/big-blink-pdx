@@ -1,6 +1,6 @@
 const resultAttendees = require('../__mocks__/result-source-attendees');
 
-const { ROLE_LOBBYIST } = require('../../../config/constants');
+const { ROLE_SOURCE } = require('../../../config/constants');
 
 const SourceAttendee = require('../source-attendee');
 
@@ -22,7 +22,7 @@ describe('getValueLabelKey()', () => {
 
 describe('toRoleObject()', () => {
   test('returns the expected object', () => {
-    expect(SourceAttendee.toRoleObject(ROLE_LOBBYIST, resultAttendees)).toEqual({
+    expect(SourceAttendee.toRoleObject(ROLE_SOURCE, resultAttendees)).toEqual({
       label: 'Associated People',
       model: 'people',
       options: [

@@ -27,10 +27,6 @@ class Person extends IncidentedBase {
     ROLE_LOBBYIST,
   ];
 
-  static isValidRoleOption(value) {
-    return this.roleOptions.includes(value);
-  }
-
   adaptRoles(value) {
     const roleOptions = this.constructor.roleOptions;
 

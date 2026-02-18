@@ -2,18 +2,19 @@ const {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
+  ROLE_SOURCE,
 } = require('../../config/constants');
 
 const Base = require('../shared/base');
 
 class AssociatedItem extends Base {
-  static associatedClass = null;
   static associatingClass = null;
 
   static associations = {
     [ROLE_ENTITY]: null,
     [ROLE_LOBBYIST]: null,
     [ROLE_OFFICIAL]: null,
+    [ROLE_SOURCE]: null,
   };
 
   static getAssociation(role) {
@@ -28,9 +29,8 @@ class AssociatedItem extends Base {
     return `as_${role}_${association}`;
   }
 
-  static getValueLabel(role, key) {
+  static getValueLabel(role, key, labelPrefix) {
     const labelKey = this.getValueLabelKey(role, key);
-    const labelPrefix = this.associatingClass.singular();
 
     return this.labels.getLabel(labelKey, labelPrefix);
   }
@@ -39,22 +39,22 @@ class AssociatedItem extends Base {
     return record;
   }
 
-  static toAssociationObject() {
-    const labelKey = this.getAssociationLabelKey(this.associatedClass.plural());
+  static toAssociationObject(association, type) {
+    const labelKey = this.getAssociationLabelKey(association);
 
     return {
       label: this.labels.getLabel(labelKey),
-      model: this.associatedClass.plural(),
+      model: association,
       options: this.roles,
-      type: this.associatedClass.singular(),
+      type,
       values: [],
     };
   }
 
-  static toValuesObject(key, values, role) {
+  static toValuesObject(key, values, role, labelPrefix) {
     return {
       association: this.getAssociation(values.role),
-      label: this.getValueLabel(role, key),
+      label: this.getValueLabel(role, key, labelPrefix),
       records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
       total: values.total,

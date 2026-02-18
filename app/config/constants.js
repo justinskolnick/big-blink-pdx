@@ -47,6 +47,7 @@ const MODEL_PEOPLE = 'people';
 const ROLE_ENTITY = 'entity';
 const ROLE_LOBBYIST = 'lobbyist';
 const ROLE_OFFICIAL = 'official';
+const ROLE_SOURCE = 'source';
 
 const SECTION_ENTITIES = 'entities';
 const SECTION_INCIDENTS = 'incidents';
@@ -84,6 +85,7 @@ module.exports = {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
+  ROLE_SOURCE,
   SECTION_ENTITIES,
   SECTION_INCIDENTS,
   SECTION_PEOPLE,

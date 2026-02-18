@@ -1,7 +1,7 @@
 const resultSource = require('../__mocks__/result-source-activity');
 const resultEntities = require('../__mocks__/result-source-entities');
 
-const { ROLE_OFFICIAL } = require('../../../config/constants');
+const { ROLE_SOURCE } = require('../../../config/constants');
 
 const Source = require('../source');
 const SourceEntity = require('../source-entity');
@@ -10,7 +10,7 @@ const record = new Source(resultSource);
 
 describe('toRoleObject', () => {
   test('returns the expected object', () => {
-    expect(SourceEntity.toRoleObject(ROLE_OFFICIAL, resultEntities, record.adapted)).toEqual({
+    expect(SourceEntity.toRoleObject(ROLE_SOURCE, resultEntities, record.adapted)).toEqual({
       label: 'Associated Entities',
       model: 'entities',
       options: [

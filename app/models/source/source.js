@@ -1,3 +1,5 @@
+const { ROLE_SOURCE } = require('../../config/constants');
+
 const IncidentedBase = require('../shared/base-incidented');
 
 class Source extends IncidentedBase {
@@ -25,6 +27,10 @@ class Source extends IncidentedBase {
     personnel: 'personnel',
     registration: 'registration',
   };
+
+  static roleOptions = [
+    ROLE_SOURCE,
+  ];
 
   static adaptEntity(result) {
     const adapted = {
