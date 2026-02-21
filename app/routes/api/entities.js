@@ -30,7 +30,6 @@ const { toSentence } = require('../../lib/string');
 
 const Entity = require('../../models/entity/entity');
 const EntityAttendee = require('../../models/entity/entity-attendee');
-const EntityRole = require('../../models/entity/entity-role');
 const Incident = require('../../models/incident');
 
 const entities = require('../../services/entities');
@@ -297,34 +296,36 @@ router.get('/:id/incidents', async (req, res, next) => {
   }
 });
 
-const getEntityRoleObject = async (record, options = {}, limit = null) => {
+const getEntityRoleObject = async (entity, options = {}, limit = null) => {
   const {
     association,
     role,
   } = options;
 
-  const roleObj = new EntityRole(role);
+  const entityId = entity.getData('id');
 
   let attendees;
+
+  entity.setRole(role);
 
   if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
     attendees = await incidentAttendees.getAttendees({
       association,
-      entityId: record.id,
+      entityId,
     }, limit);
   } else {
     const results = await Promise.all([
-      incidentAttendees.getAttendees({ entityId: record.id }, limit),
+      incidentAttendees.getAttendees({ entityId }, limit),
     ]);
 
     [ attendees ] = results;
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    roleObj.setAttendees(EntityAttendee.toRoleObject(role, attendees));
+    entity.role.setAttendees(EntityAttendee.toRoleObject(role, attendees));
   }
 
-  return roleObj.toObject();
+  return entity.role.toObject();
 };
 
 router.get('/:id/roles', async (req, res, next) => {
@@ -344,7 +345,7 @@ router.get('/:id/roles', async (req, res, next) => {
     record = entity.adapted;
 
     if (hasRole) {
-      asRole = await getEntityRoleObject(record, { association, role }, limit);
+      asRole = await getEntityRoleObject(entity, { association, role }, limit);
 
       record.roles.named = {
         [role]: asRole,

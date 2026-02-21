@@ -34,7 +34,6 @@ const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
 const PersonAttendee = require('../../models/person/person-attendee');
 const PersonEntity = require('../../models/person/person-entity');
-const PersonRole = require('../../models/person/person-role');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
@@ -337,29 +336,31 @@ router.get('/:id/official-positions', async (req, res, next) => {
   }
 });
 
-const getPersonRoleObject = async (record, options = {}, limit = null) => {
+const getPersonRoleObject = async (person, options = {}, limit = null) => {
   const {
     association,
     role,
   } = options;
 
-  const roleObj = new PersonRole(role);
+  const personId = person.getData('id');
 
   let attendees;
   let entities;
 
+  person.setRole(role);
+
   if (association === ASSOCIATION_ENTITIES) {
-    entities = await incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit);
+    entities = await incidentAttendees.getEntities({ personId, personRole: role }, limit);
   } else if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
     attendees = await incidentAttendees.getAttendees({
       association,
-      personId: record.id,
+      personId,
       personRole: role,
     }, limit);
   } else {
     const results = await Promise.all([
-      incidentAttendees.getAttendees({ personId: record.id, personRole: role }, limit),
-      incidentAttendees.getEntities({ personId: record.id, personRole: role }, limit),
+      incidentAttendees.getAttendees({ personId, personRole: role }, limit),
+      incidentAttendees.getEntities({ personId, personRole: role }, limit),
     ]);
 
     [ attendees, entities ] = results;
@@ -367,15 +368,15 @@ const getPersonRoleObject = async (record, options = {}, limit = null) => {
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      roleObj.setAttendees(PersonAttendee.toRoleObject(role, attendees));
+      person.role.setAttendees(PersonAttendee.toRoleObject(role, attendees));
     }
 
     if (entities?.total > 0) {
-      roleObj.setEntities(PersonEntity.toRoleObject(role, entities));
+      person.role.setEntities(PersonEntity.toRoleObject(role, entities));
     }
   }
 
-  return roleObj.toObject();
+  return person.role.toObject();
 };
 
 router.get('/:id/roles', async (req, res, next) => {
@@ -400,14 +401,14 @@ router.get('/:id/roles', async (req, res, next) => {
     record = person.adapted;
 
     if (hasAssociation && hasRole) {
-      asRole = await getPersonRoleObject(record, { association, role }, limit);
+      asRole = await getPersonRoleObject(person, { association, role }, limit);
 
       record.roles.named = {
         [role]: asRole,
       };
     } else {
-      asLobbyist = await getPersonRoleObject(record, { association, role: ROLE_LOBBYIST }, limit);
-      asOfficial = await getPersonRoleObject(record, { association, role: ROLE_OFFICIAL }, limit);
+      asLobbyist = await getPersonRoleObject(person, { association, role: ROLE_LOBBYIST }, limit);
+      asOfficial = await getPersonRoleObject(person, { association, role: ROLE_OFFICIAL }, limit);
 
       record.roles.named = {
         [ROLE_LOBBYIST]: asLobbyist,

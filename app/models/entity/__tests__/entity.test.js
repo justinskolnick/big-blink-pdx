@@ -302,6 +302,45 @@ describe('adapt()', () => {
   });
 });
 
+describe('setRole()', () => {
+  let entity;
+
+  beforeEach(() => {
+    entity = new Entity();
+  });
+
+  describe('without a role', () => {
+    test('returns the expected value', () => {
+      expect(entity.hasRole).toBe(false);
+      expect(entity.role?.role).toBe(undefined);
+    });
+  });
+
+  describe('with a role', () => {
+    describe('with an invalid role', () => {
+      beforeEach(() => {
+        entity.setRole(ROLE_LOBBYIST);
+      });
+
+      test('returns the expected value', () => {
+        expect(entity.hasRole).toBe(false);
+        expect(entity.role?.role).toBe(undefined);
+      });
+    });
+
+    describe('with a valid role', () => {
+      beforeEach(() => {
+        entity.setRole(ROLE_ENTITY);
+      });
+
+      test('returns the expected value', () => {
+        expect(entity.hasRole).toBe(true);
+        expect(entity.role?.role).toBe(ROLE_ENTITY);
+      });
+    });
+  });
+});
+
 describe('setData()', () => {
   test('sets data', () => {
     const entity = new Entity({

@@ -1,4 +1,5 @@
 const Base = require('./base');
+const Role = require('../role');
 
 const { percentage } = require('../../lib/number');
 
@@ -19,8 +20,20 @@ class IncidentedBase extends Base {
     'total',
   ];
 
+  role = null;
+
   globalIncidentCount = null;
   globalIncidentPercentage = null;
+
+  setRole(role) {
+    if (this.constructor.isValidRoleOption(role)) {
+      this.role = new Role(role);
+    }
+  }
+
+  get hasRole() {
+    return this.role?.hasRole ?? false;
+  }
 
   setGlobalIncidentCount(value) {
     this.globalIncidentCount = value;

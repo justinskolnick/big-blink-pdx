@@ -249,6 +249,45 @@ describe('adapt()', () => {
   });
 });
 
+describe('setRole()', () => {
+  let person;
+
+  beforeEach(() => {
+    person = new Person();
+  });
+
+  describe('without a role', () => {
+    test('returns the expected value', () => {
+      expect(person.hasRole).toBe(false);
+      expect(person.role?.role).toBe(undefined);
+    });
+  });
+
+  describe('with a role', () => {
+    describe('with an invalid role', () => {
+      beforeEach(() => {
+        person.setRole(ROLE_ENTITY);
+      });
+
+      test('returns the expected value', () => {
+        expect(person.hasRole).toBe(false);
+        expect(person.role?.role).toBe(undefined);
+      });
+    });
+
+    describe('with a valid role', () => {
+      beforeEach(() => {
+        person.setRole(ROLE_LOBBYIST);
+      });
+
+      test('returns the expected value', () => {
+        expect(person.hasRole).toBe(true);
+        expect(person.role?.role).toBe(ROLE_LOBBYIST);
+      });
+    });
+  });
+});
+
 describe('setData()', () => {
   const resultWithJunk = {
     ...resultOfficial,

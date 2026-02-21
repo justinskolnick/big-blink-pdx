@@ -26,6 +26,12 @@ class Entity extends IncidentedBase {
     };
   }
 
+  setRole(role) {
+    if (this.constructor.isValidRoleOption(role)) {
+      this.role = new Role(role);
+    }
+  }
+
   adaptRoles(value) {
     const roleOptions = this.constructor.roleOptions;
 
