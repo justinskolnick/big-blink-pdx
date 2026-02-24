@@ -1,4 +1,6 @@
 const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -57,6 +59,16 @@ describe('isValidRoleOption()', () => {
     expect(Entity.isValidRoleOption('')).toBe(false);
     expect(Entity.isValidRoleOption({})).toBe(false);
     expect(Entity.isValidRoleOption(null)).toBe(false);
+  });
+});
+
+describe('isValidRoleCollection()', () => {
+  test('returns the expected values', () => {
+    expect(Entity.isValidRoleCollection(COLLECTION_ATTENDEES)).toBe(true);
+    expect(Entity.isValidRoleCollection(COLLECTION_ENTITIES)).toBe(false);
+    expect(Entity.isValidRoleCollection('nada')).toBe(false);
+    expect(Entity.isValidRoleCollection('')).toBe(false);
+    expect(Entity.isValidRoleCollection(null)).toBe(false);
   });
 });
 
@@ -309,9 +321,13 @@ describe('setRole()', () => {
     entity = new Entity();
   });
 
+  afterEach(() => {
+    entity = null;
+  });
+
   describe('without a role', () => {
     test('returns the expected value', () => {
-      expect(entity.hasRole).toBe(false);
+      expect(entity.hasRole()).toBe(false);
       expect(entity.role?.role).toBe(undefined);
     });
   });
@@ -323,8 +339,10 @@ describe('setRole()', () => {
       });
 
       test('returns the expected value', () => {
-        expect(entity.hasRole).toBe(false);
+        expect(entity.hasRole()).toBe(false);
         expect(entity.role?.role).toBe(undefined);
+        expect(entity.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(undefined);
+        expect(entity.role?.hasCollection(COLLECTION_ENTITIES)).toBe(undefined);
       });
     });
 
@@ -334,8 +352,29 @@ describe('setRole()', () => {
       });
 
       test('returns the expected value', () => {
-        expect(entity.hasRole).toBe(true);
+        expect(entity.hasRole()).toBe(true);
         expect(entity.role?.role).toBe(ROLE_ENTITY);
+        expect(entity.role?.labelPrefix).toBe('entity');
+        expect(entity.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(true);
+        expect(entity.role?.hasCollection(COLLECTION_ENTITIES)).toBe(false);
+      });
+
+      describe('and collection values', () => {
+        beforeEach(() => {
+          entity.role.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+          entity.role.setCollection(COLLECTION_ENTITIES, [4, 5, 6]);
+        });
+
+        test('returns the expected value', () => {
+          expect(entity.role.getCollection(COLLECTION_ATTENDEES)).toEqual([1, 2, 3]);
+          expect(entity.role.getCollection(COLLECTION_ENTITIES)).toEqual(null);
+          expect(entity.role.toObject()).toEqual({
+            attendees: [1, 2, 3],
+            filterRole: false,
+            label: 'As a lobbying entity',
+            role: 'entity',
+          });
+        });
       });
     });
   });

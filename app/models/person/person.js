@@ -1,10 +1,11 @@
 const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
 } = require('../../config/constants');
 
 const IncidentedBase = require('../shared/base-incidented');
-const Role = require('./person-role');
 
 class Person extends IncidentedBase {
   static tableName = 'people';
@@ -27,29 +28,12 @@ class Person extends IncidentedBase {
     ROLE_LOBBYIST,
   ];
 
-  setRole(role) {
-    if (this.constructor.isValidRoleOption(role)) {
-      this.role = new Role(role);
-    }
-  }
+  static roleCollections = [
+    COLLECTION_ATTENDEES,
+    COLLECTION_ENTITIES,
+  ];
 
-  adaptRoles(value) {
-    const roleOptions = this.constructor.roleOptions;
-
-    let list = [];
-    let options = {};
-
-    if (value) {
-      list = Role.getRoleList(roleOptions, value);
-      options = Role.getRoleOptions(roleOptions, value);
-    }
-
-    return {
-      label: this.getLabel('associations_roles'),
-      list,
-      options,
-    };
-  }
+  static includeRoleInFilters = true;
 
   adapt(result) {
     return this.adaptResult(result, {

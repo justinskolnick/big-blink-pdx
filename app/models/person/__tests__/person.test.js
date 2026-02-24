@@ -1,4 +1,6 @@
 const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
@@ -80,6 +82,16 @@ describe('isValidRoleOption()', () => {
     expect(Person.isValidRoleOption('')).toBe(false);
     expect(Person.isValidRoleOption({})).toBe(false);
     expect(Person.isValidRoleOption(null)).toBe(false);
+  });
+});
+
+describe('isValidRoleCollection()', () => {
+  test('returns the expected values', () => {
+    expect(Person.isValidRoleCollection(COLLECTION_ATTENDEES)).toBe(true);
+    expect(Person.isValidRoleCollection(COLLECTION_ENTITIES)).toBe(true);
+    expect(Person.isValidRoleCollection('nada')).toBe(false);
+    expect(Person.isValidRoleCollection('')).toBe(false);
+    expect(Person.isValidRoleCollection(null)).toBe(false);
   });
 });
 
@@ -256,9 +268,13 @@ describe('setRole()', () => {
     person = new Person();
   });
 
+  afterEach(() => {
+    person = null;
+  });
+
   describe('without a role', () => {
-    test('returns the expected value', () => {
-      expect(person.hasRole).toBe(false);
+    test('returns the expected values', () => {
+      expect(person.hasRole()).toBe(false);
       expect(person.role?.role).toBe(undefined);
     });
   });
@@ -269,9 +285,11 @@ describe('setRole()', () => {
         person.setRole(ROLE_ENTITY);
       });
 
-      test('returns the expected value', () => {
-        expect(person.hasRole).toBe(false);
+      test('returns the expected values', () => {
+        expect(person.hasRole()).toBe(false);
         expect(person.role?.role).toBe(undefined);
+        expect(person.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(undefined);
+        expect(person.role?.hasCollection(COLLECTION_ENTITIES)).toBe(undefined);
       });
     });
 
@@ -280,9 +298,31 @@ describe('setRole()', () => {
         person.setRole(ROLE_LOBBYIST);
       });
 
-      test('returns the expected value', () => {
-        expect(person.hasRole).toBe(true);
+      test('returns the expected values', () => {
+        expect(person.hasRole()).toBe(true);
         expect(person.role?.role).toBe(ROLE_LOBBYIST);
+        expect(person.role?.labelPrefix).toBe('person');
+        expect(person.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(true);
+        expect(person.role?.hasCollection(COLLECTION_ENTITIES)).toBe(true);
+      });
+
+      describe('and collection values', () => {
+        beforeEach(() => {
+          person.role.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+          person.role.setCollection(COLLECTION_ENTITIES, [4, 5, 6]);
+        });
+
+        test('returns the expected values', () => {
+          expect(person.role.getCollection(COLLECTION_ATTENDEES)).toEqual([1, 2, 3]);
+          expect(person.role.getCollection(COLLECTION_ENTITIES)).toEqual([4, 5, 6]);
+          expect(person.role.toObject()).toEqual({
+            attendees: [1, 2, 3],
+            entities: [4, 5, 6],
+            filterRole: true,
+            label: 'As a lobbyist',
+            role: 'lobbyist',
+          });
+        });
       });
     });
   });

@@ -8,9 +8,15 @@ class IncidentedBase extends Base {
   static linkKey = null;
 
   static roleOptions = [];
+  static roleCollections = [];
+  static includeRoleInFilters = false;
 
   static isValidRoleOption(value) {
     return this.roleOptions.includes(value);
+  }
+
+  static isValidRoleCollection(collection) {
+    return this.roleCollections.includes(collection);
   }
 
   overviewProps = [
@@ -28,11 +34,14 @@ class IncidentedBase extends Base {
   setRole(role) {
     if (this.constructor.isValidRoleOption(role)) {
       this.role = new Role(role);
+      this.role.setFilterRole(this.constructor.includeRoleInFilters);
+      this.role.setLabelPrefix(this.constructor.singular());
+      this.role.initCollections(this.constructor.roleCollections);
     }
   }
 
-  get hasRole() {
-    return this.role?.hasRole ?? false;
+  hasRole() {
+    return this.role?.hasRole() ?? false;
   }
 
   setGlobalIncidentCount(value) {
@@ -166,6 +175,24 @@ class IncidentedBase extends Base {
     if (this.dataHasTotal()) {
       this.setOverviewTotals();
     }
+  }
+
+  adaptRoles(value) {
+    const roleOptions = this.constructor.roleOptions;
+
+    let list = [];
+    let options = {};
+
+    if (value) {
+      list = Role.getRoleList(roleOptions, value);
+      options = Role.getRoleOptions(roleOptions, value);
+    }
+
+    return {
+      label: this.getLabel('associations_roles'),
+      list,
+      options,
+    };
   }
 
   adaptOtherValues(result, adapted) {

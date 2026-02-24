@@ -1,3 +1,8 @@
+const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
+} = require('../config/constants');
+
 const { Labels } = require('../helpers/labels');
 
 class Role {
@@ -33,16 +38,17 @@ class Role {
   constructor(role = null) {
     this.labels = new Labels();
     this.role = role;
-
-    this.initCollections();
   }
 
-  configCollections() {
-    return [];
+  setFilterRole(filterRole) {
+    this.filterRole = filterRole;
   }
 
-  initCollections() {
-    const collections = this.configCollections();
+  setLabelPrefix(labelPrefix) {
+    this.labelPrefix = labelPrefix;
+  }
+
+  initCollections(collections) {
     this.collections = new Map();
 
     collections.forEach(collection => {
@@ -72,7 +78,15 @@ class Role {
     return null;
   }
 
-  get hasRole() {
+  setAttendees(attendees) {
+    this.setCollection(COLLECTION_ATTENDEES, attendees);
+  }
+
+  setEntities(entities) {
+    this.setCollection(COLLECTION_ENTITIES, entities);
+  }
+
+  hasRole() {
     return this.role !== null;
   }
 
@@ -81,7 +95,7 @@ class Role {
   }
 
   toObject() {
-    if (this.hasRole) {
+    if (this.hasRole()) {
       const collections = Object.fromEntries(this.collections);
 
       return {

@@ -1,7 +1,9 @@
-const { ROLE_ENTITY } = require('../../config/constants');
+const {
+  COLLECTION_ATTENDEES,
+  ROLE_ENTITY,
+} = require('../../config/constants');
 
 const IncidentedBase = require('../shared/base-incidented');
-const Role = require('./entity-role');
 
 class Entity extends IncidentedBase {
   static tableName = 'entities';
@@ -20,33 +22,13 @@ class Entity extends IncidentedBase {
     ROLE_ENTITY,
   ];
 
+  static roleCollections = [
+    COLLECTION_ATTENDEES,
+  ];
+
   static adaptEntityLobbyist(result) {
     return {
       id: result.id,
-    };
-  }
-
-  setRole(role) {
-    if (this.constructor.isValidRoleOption(role)) {
-      this.role = new Role(role);
-    }
-  }
-
-  adaptRoles(value) {
-    const roleOptions = this.constructor.roleOptions;
-
-    let list = [];
-    let options = {};
-
-    if (value) {
-      list = Role.getRoleList(roleOptions, value);
-      options = Role.getRoleOptions(roleOptions, value);
-    }
-
-    return {
-      label: this.getLabel('associations_roles'),
-      list,
-      options,
     };
   }
 
