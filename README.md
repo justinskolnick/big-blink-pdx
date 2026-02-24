@@ -88,4 +88,4 @@ Issues and PRs are welcome. And spot fixes are more welcome than overhauls. If y
 
 ## License
 
-Copyright (c) 2023-2025 Justin Skolnick. [MIT License](/LICENSE).
+Copyright (c) 2023-2026 Justin Skolnick. [MIT License](/LICENSE).
