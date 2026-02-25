@@ -28,8 +28,8 @@ const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const { toSentence } = require('../../lib/string');
 
+const AssociatedPerson = require('../../models/associated/person');
 const Entity = require('../../models/entity/entity');
-const EntityAttendee = require('../../models/entity/entity-attendee');
 const Incident = require('../../models/incident');
 
 const entities = require('../../services/entities');
@@ -322,7 +322,7 @@ const getEntityRoleObject = async (entity, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    entity.role.setAttendees(EntityAttendee.toRoleObject(role, attendees));
+    entity.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Entity.singular()));
   }
 
   return entity.role.toObject();

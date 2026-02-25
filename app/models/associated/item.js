@@ -8,8 +8,6 @@ const {
 const Base = require('../shared/base');
 
 class AssociatedItem extends Base {
-  static associatingClass = null;
-
   static associations = {
     [ROLE_ENTITY]: null,
     [ROLE_LOBBYIST]: null,

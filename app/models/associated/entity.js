@@ -38,11 +38,11 @@ class AssociatedEntity extends AssociatedItem {
     return values;
   }
 
-  static toRoleObject(role, entities) {
+  static toRoleObject(role, entities, labelPrefix) {
     const obj = this.toAssociationObject(Entity.plural(), Entity.singular());
     const key = Entity.plural();
 
-    obj.values.push(this.toValuesObject(key, entities, role, this.associatingClass.singular()));
+    obj.values.push(this.toValuesObject(key, entities, role, labelPrefix));
 
     return obj;
   }

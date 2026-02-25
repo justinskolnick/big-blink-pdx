@@ -23,10 +23,10 @@ const { unique } = require('../../lib/array');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 
+const AssociatedPerson = require('../../models/associated/person');
+const AssociatedEntity = require('../../models/associated/entity');
 const Incident = require('../../models/incident');
 const Source = require('../../models/source/source');
-const SourceAttendee = require('../../models/source/source-attendee');
-const SourceEntity = require('../../models/source/source-entity');
 
 const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
@@ -212,7 +212,7 @@ router.get('/:id/attendees', async (req, res, next) => {
     attendees = await incidentAttendees.getAttendees({ sourceId: id }, limit);
 
     record = source.adapted;
-    record.attendees = SourceAttendee.toRoleObject(ROLE_SOURCE, attendees);
+    record.attendees = AssociatedPerson.toRoleObject(ROLE_SOURCE, attendees, Source.singular());
 
     data = {
       source: {
@@ -243,7 +243,7 @@ router.get('/:id/entities', async (req, res, next) => {
     entities = await sources.getEntitiesForId(id, limit);
 
     record = source.adapted;
-    record.entities = SourceEntity.toRoleObject(ROLE_SOURCE, entities);
+    record.entities = AssociatedEntity.toRoleObject(ROLE_SOURCE, entities, Source.singular());
 
     data = {
       source: {

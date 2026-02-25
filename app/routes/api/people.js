@@ -29,11 +29,11 @@ const metaHelper = require('../../helpers/meta');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 
+const AssociatedEntity = require('../../models/associated/entity');
+const AssociatedPerson = require('../../models/associated/person');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
-const PersonAttendee = require('../../models/person/person-attendee');
-const PersonEntity = require('../../models/person/person-entity');
 
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
@@ -368,11 +368,11 @@ const getPersonRoleObject = async (person, options = {}, limit = null) => {
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      person.role.setAttendees(PersonAttendee.toRoleObject(role, attendees));
+      person.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Person.singular()));
     }
 
     if (entities?.total > 0) {
-      person.role.setEntities(PersonEntity.toRoleObject(role, entities));
+      person.role.setEntities(AssociatedEntity.toRoleObject(role, entities, Person.singular()));
     }
   }
 

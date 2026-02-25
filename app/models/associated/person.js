@@ -28,12 +28,12 @@ class AssociatedPerson extends AssociatedItem {
     };
   }
 
-  static toRoleObject(role, attendees) {
+  static toRoleObject(role, attendees, labelPrefix) {
     const obj = this.toAssociationObject(Person.plural(), Person.singular());
 
     Object.entries(attendees).forEach(([key, values]) => {
       if (values?.records.length) {
-        obj.values.push(this.toValuesObject(key, values, role, this.associatingClass.singular()));
+        obj.values.push(this.toValuesObject(key, values, role, labelPrefix));
       }
     });
 
