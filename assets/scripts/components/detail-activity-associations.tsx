@@ -21,12 +21,13 @@ import type {
   AssociatedPersonsValue,
   Entity,
   Person,
+  Source,
 } from '../types';
 import { GenericObject, Role } from '../types';
 
 interface FnUseGetItemRolesById {
   (
-    item: Entity | Person,
+    item: Entity | Person | Source,
     options: GenericObject,
     isPaused: boolean,
   ): {
@@ -36,7 +37,7 @@ interface FnUseGetItemRolesById {
   }
 }
 
-export interface FnGetQueryByType {
+interface FnGetQueryByType {
   (type: string): ApiQueryType
 }
 
@@ -48,18 +49,18 @@ interface GroupProps {
 
 interface AssociationGroupProps {
   children: (initialLimit: number, setLimit: FnSetLimit) => ReactNode;
-  item: Entity | Person;
+  item: Entity | Person | Source;
   role?: Role;
   value?: AssociatedEntitiesValue | AssociatedPersonsValue;
 }
 
 interface NamedRoleProps {
-  item?: Entity | Person;
+  item?: Entity | Person | Source;
   role: Role;
 }
 
 interface Props {
-  item: Entity | Person;
+  item: Entity | Person | Source;
 }
 
 const getRoleQuery: FnGetQueryByType = (type) => {
@@ -67,6 +68,8 @@ const getRoleQuery: FnGetQueryByType = (type) => {
     return api.useLazyGetPersonRolesByIdQuery;
   } else if (type === 'entity') {
     return api.useLazyGetEntityRolesByIdQuery;
+  } else if (type === 'activity') {
+    return api.useLazyGetSourceRolesByIdQuery;
   }
 
   return null;

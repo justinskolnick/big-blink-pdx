@@ -6,6 +6,7 @@ import camelcaseKeys from 'camelcase-keys';
 import {
   adaptAttendees,
   adaptIncidents,
+  adaptRoles,
 } from './shared/adapters';
 import { getSources } from '../selectors';
 
@@ -53,6 +54,10 @@ export const adapters = {
           }))
         })),
       } as SourceEntities;
+    }
+
+    if ('roles' in entry) {
+      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
     }
 
     if ('incidents' in adapted) {

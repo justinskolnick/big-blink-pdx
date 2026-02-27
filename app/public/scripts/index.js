@@ -21459,7 +21459,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect34 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
+        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect33 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef21(null);
           if (null === instRef.current) {
@@ -21502,7 +21502,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect33(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -37945,6 +37945,9 @@ Hook ${hookName} was either not provided or not a function.`);
           }))
         };
       }
+      if ("roles" in entry) {
+        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+      }
       if ("incidents" in adapted) {
         adapted.incidents = adaptIncidents(adapted.incidents);
       }
@@ -38239,6 +38242,18 @@ Hook ${hookName} was either not provided or not a function.`);
         const incidents = adapters4.getIncidents(data2.source.record);
         const people = getPeopleFromIncidents(state, incidents);
         dispatch(set5(source));
+        if ("roles" in data2.source.record) {
+          if ("named" in data2.source.record.roles) {
+            const attendees = getAttendeesFromRole(state, data2.source.record.roles.named);
+            const entities = getEntitiesFromRole(state, data2.source.record.roles.named);
+            if (attendees.length) {
+              dispatch(setAll(attendees));
+            }
+            if (entities.length) {
+              dispatch(setAll2(entities));
+            }
+          }
+        }
         if ("entities" in data2.source.record) {
           const entities = getEntitiesFromSource(state, data2.source.record);
           if (entities.length) {
@@ -38422,6 +38437,9 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getSourceIncidentsById: builder.query(getAncillaryRoute(
         ({ id, search }) => `api/sources/${id}/incidents${search}`
+      )),
+      getSourceRolesById: builder.query(getAncillaryRoute(
+        ({ id, limit, search }) => getPathnameWithLimit(`api/sources/${id}/roles`, { limit, search })
       )),
       getSourceById: builder.query(getAncillaryRoute(
         ({ id }) => `api/sources/${id}`
@@ -41928,12 +41946,12 @@ Hook ${hookName} was either not provided or not a function.`);
       return "<".concat(tag, " ").concat(joinAttributes(attributes), ">").concat(children.map(toHtml).join(""), "</").concat(tag, ">");
     }
   }
-  function iconFromMapping(mapping, prefix2, iconName5) {
-    if (mapping && mapping[prefix2] && mapping[prefix2][iconName5]) {
+  function iconFromMapping(mapping, prefix2, iconName4) {
+    if (mapping && mapping[prefix2] && mapping[prefix2][iconName4]) {
       return {
         prefix: prefix2,
-        iconName: iconName5,
-        icon: mapping[prefix2][iconName5]
+        iconName: iconName4,
+        icon: mapping[prefix2][iconName4]
       };
     }
   }
@@ -41962,13 +41980,13 @@ Hook ${hookName} was either not provided or not a function.`);
     return unicode.codePointAt(0).toString(16);
   }
   function normalizeIcons(icons) {
-    return Object.keys(icons).reduce(function(acc, iconName5) {
-      var icon3 = icons[iconName5];
+    return Object.keys(icons).reduce(function(acc, iconName4) {
+      var icon3 = icons[iconName4];
       var expanded = !!icon3.icon;
       if (expanded) {
         acc[icon3.iconName] = icon3.icon;
       } else {
-        acc[iconName5] = icon3;
+        acc[iconName4] = icon3;
       }
       return acc;
     }, {});
@@ -42005,9 +42023,9 @@ Hook ${hookName} was either not provided or not a function.`);
   function getIconName(cssPrefix, cls) {
     var parts = cls.split("-");
     var prefix2 = parts[0];
-    var iconName5 = parts.slice(1).join("-");
-    if (prefix2 === cssPrefix && iconName5 !== "" && !isReserved(iconName5)) {
-      return iconName5;
+    var iconName4 = parts.slice(1).join("-");
+    if (prefix2 === cssPrefix && iconName4 !== "" && !isReserved(iconName4)) {
+      return iconName4;
     } else {
       return null;
     }
@@ -42019,37 +42037,37 @@ Hook ${hookName} was either not provided or not a function.`);
         return o$$1;
       }, {});
     };
-    _byUnicode = lookup(function(acc, icon3, iconName5) {
+    _byUnicode = lookup(function(acc, icon3, iconName4) {
       if (icon3[3]) {
-        acc[icon3[3]] = iconName5;
+        acc[icon3[3]] = iconName4;
       }
       if (icon3[2]) {
         var aliases = icon3[2].filter(function(a$$1) {
           return typeof a$$1 === "number";
         });
         aliases.forEach(function(alias) {
-          acc[alias.toString(16)] = iconName5;
+          acc[alias.toString(16)] = iconName4;
         });
       }
       return acc;
     });
-    _byLigature = lookup(function(acc, icon3, iconName5) {
-      acc[iconName5] = iconName5;
+    _byLigature = lookup(function(acc, icon3, iconName4) {
+      acc[iconName4] = iconName4;
       if (icon3[2]) {
         var aliases = icon3[2].filter(function(a$$1) {
           return typeof a$$1 === "string";
         });
         aliases.forEach(function(alias) {
-          acc[alias] = iconName5;
+          acc[alias] = iconName4;
         });
       }
       return acc;
     });
-    _byAlias = lookup(function(acc, icon3, iconName5) {
+    _byAlias = lookup(function(acc, icon3, iconName4) {
       var aliases = icon3[2];
-      acc[iconName5] = iconName5;
+      acc[iconName4] = iconName4;
       aliases.forEach(function(alias) {
-        acc[alias] = iconName5;
+        acc[alias] = iconName4;
       });
       return acc;
     });
@@ -42057,20 +42075,20 @@ Hook ${hookName} was either not provided or not a function.`);
     var shimLookups = reduce(shims, function(acc, shim) {
       var maybeNameMaybeUnicode = shim[0];
       var prefix2 = shim[1];
-      var iconName5 = shim[2];
+      var iconName4 = shim[2];
       if (prefix2 === "far" && !hasRegular) {
         prefix2 = "fas";
       }
       if (typeof maybeNameMaybeUnicode === "string") {
         acc.names[maybeNameMaybeUnicode] = {
           prefix: prefix2,
-          iconName: iconName5
+          iconName: iconName4
         };
       }
       if (typeof maybeNameMaybeUnicode === "number") {
         acc.unicodes[maybeNameMaybeUnicode.toString(16)] = {
           prefix: prefix2,
-          iconName: iconName5
+          iconName: iconName4
         };
       }
       return acc;
@@ -42155,17 +42173,17 @@ Hook ${hookName} was either not provided or not a function.`);
   }
   function moveNonFaClassesToRest(classNames) {
     var rest = [];
-    var iconName5 = null;
+    var iconName4 = null;
     classNames.forEach(function(cls) {
       var result = getIconName(config.cssPrefix, cls);
       if (result) {
-        iconName5 = result;
+        iconName4 = result;
       } else if (cls) {
         rest.push(cls);
       }
     });
     return {
-      iconName: iconName5,
+      iconName: iconName4,
       rest
     };
   }
@@ -42206,23 +42224,23 @@ Hook ${hookName} was either not provided or not a function.`);
     })), applyShimAndAlias(skipLookups, givenPrefix, canonical));
   }
   function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
-    var prefix2 = canonical.prefix, iconName5 = canonical.iconName;
-    if (skipLookups || !prefix2 || !iconName5) {
+    var prefix2 = canonical.prefix, iconName4 = canonical.iconName;
+    if (skipLookups || !prefix2 || !iconName4) {
       return {
         prefix: prefix2,
-        iconName: iconName5
+        iconName: iconName4
       };
     }
-    var shim = givenPrefix === "fa" ? byOldName(iconName5) : {};
-    var aliasIconName = byAlias(prefix2, iconName5);
-    iconName5 = shim.iconName || aliasIconName || iconName5;
+    var shim = givenPrefix === "fa" ? byOldName(iconName4) : {};
+    var aliasIconName = byAlias(prefix2, iconName4);
+    iconName4 = shim.iconName || aliasIconName || iconName4;
     prefix2 = shim.prefix || prefix2;
     if (prefix2 === "far" && !styles["far"] && styles["fas"] && !config.autoFetchSvg) {
       prefix2 = "fas";
     }
     return {
       prefix: prefix2,
-      iconName: iconName5
+      iconName: iconName4
     };
   }
   var newCanonicalFamilies = dt.filter(function(familyId) {
@@ -42293,7 +42311,7 @@ Hook ${hookName} was either not provided or not a function.`);
           0: definition
         } : definition;
         Object.keys(normalized).map(function(key) {
-          var _normalized$key = normalized[key], prefix2 = _normalized$key.prefix, iconName5 = _normalized$key.iconName, icon3 = _normalized$key.icon;
+          var _normalized$key = normalized[key], prefix2 = _normalized$key.prefix, iconName4 = _normalized$key.iconName, icon3 = _normalized$key.icon;
           var aliases = icon3[2];
           if (!additions[prefix2]) additions[prefix2] = {};
           if (aliases.length > 0) {
@@ -42303,7 +42321,7 @@ Hook ${hookName} was either not provided or not a function.`);
               }
             });
           }
-          additions[prefix2][iconName5] = icon3;
+          additions[prefix2][iconName4] = icon3;
         });
         return additions;
       }
@@ -42381,11 +42399,11 @@ Hook ${hookName} was either not provided or not a function.`);
     if (iconLookup.prefix === "fa") {
       iconLookup.prefix = "fas";
     }
-    var iconName5 = iconLookup.iconName;
+    var iconName4 = iconLookup.iconName;
     var prefix2 = iconLookup.prefix || getDefaultUsablePrefix();
-    if (!iconName5) return;
-    iconName5 = byAlias(prefix2, iconName5) || iconName5;
-    return iconFromMapping(library.definitions, prefix2, iconName5) || iconFromMapping(namespace.styles, prefix2, iconName5);
+    if (!iconName4) return;
+    iconName4 = byAlias(prefix2, iconName4) || iconName4;
+    return iconFromMapping(library.definitions, prefix2, iconName4) || iconFromMapping(namespace.styles, prefix2, iconName4);
   }
   var library = new Library();
   var noAuto = function noAuto2() {
@@ -42431,11 +42449,11 @@ Hook ${hookName} was either not provided or not a function.`);
         };
       }
       if (Array.isArray(_icon) && _icon.length === 2) {
-        var iconName5 = _icon[1].indexOf("fa-") === 0 ? _icon[1].slice(3) : _icon[1];
+        var iconName4 = _icon[1].indexOf("fa-") === 0 ? _icon[1].slice(3) : _icon[1];
         var prefix2 = getCanonicalPrefix(_icon[0]);
         return {
           prefix: prefix2,
-          iconName: byAlias(prefix2, iconName5) || iconName5
+          iconName: byAlias(prefix2, iconName4) || iconName4
         };
       }
       if (typeof _icon === "string" && (_icon.indexOf("".concat(config.cssPrefix, "-")) > -1 || _icon.match(ICON_SELECTION_SYNTAX_PATTERN))) {
@@ -42512,8 +42530,8 @@ Hook ${hookName} was either not provided or not a function.`);
     }];
   }
   function asSymbol(_ref2) {
-    var prefix2 = _ref2.prefix, iconName5 = _ref2.iconName, children = _ref2.children, attributes = _ref2.attributes, symbol = _ref2.symbol;
-    var id = symbol === true ? "".concat(prefix2, "-").concat(config.cssPrefix, "-").concat(iconName5) : symbol;
+    var prefix2 = _ref2.prefix, iconName4 = _ref2.iconName, children = _ref2.children, attributes = _ref2.attributes, symbol = _ref2.symbol;
+    var id = symbol === true ? "".concat(prefix2, "-").concat(config.cssPrefix, "-").concat(iconName4) : symbol;
     return [{
       tag: "svg",
       attributes: {
@@ -42535,9 +42553,9 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   }
   function makeInlineSvgAbstract(params) {
-    var _params$icons = params.icons, main = _params$icons.main, mask = _params$icons.mask, prefix2 = params.prefix, iconName5 = params.iconName, transform2 = params.transform, symbol = params.symbol, maskId = params.maskId, extra = params.extra, _params$watchable = params.watchable, watchable = _params$watchable === void 0 ? false : _params$watchable;
+    var _params$icons = params.icons, main = _params$icons.main, mask = _params$icons.mask, prefix2 = params.prefix, iconName4 = params.iconName, transform2 = params.transform, symbol = params.symbol, maskId = params.maskId, extra = params.extra, _params$watchable = params.watchable, watchable = _params$watchable === void 0 ? false : _params$watchable;
     var _ref2 = mask.found ? mask : main, width = _ref2.width, height = _ref2.height;
-    var attrClass = [config.replacementClass, iconName5 ? "".concat(config.cssPrefix, "-").concat(iconName5) : ""].filter(function(c2) {
+    var attrClass = [config.replacementClass, iconName4 ? "".concat(config.cssPrefix, "-").concat(iconName4) : ""].filter(function(c2) {
       return extra.classes.indexOf(c2) === -1;
     }).filter(function(c2) {
       return c2 !== "" || !!c2;
@@ -42546,7 +42564,7 @@ Hook ${hookName} was either not provided or not a function.`);
       children: [],
       attributes: _objectSpread2(_objectSpread2({}, extra.attributes), {}, {
         "data-prefix": prefix2,
-        "data-icon": iconName5,
+        "data-icon": iconName4,
         "class": attrClass,
         "role": extra.attributes.role || "img",
         "viewBox": "0 0 ".concat(width, " ").concat(height)
@@ -42560,7 +42578,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     var args = _objectSpread2(_objectSpread2({}, content), {}, {
       prefix: prefix2,
-      iconName: iconName5,
+      iconName: iconName4,
       main,
       mask,
       maskId,
@@ -42679,29 +42697,29 @@ Hook ${hookName} was either not provided or not a function.`);
     width: 512,
     height: 512
   };
-  function maybeNotifyMissing(iconName5, prefix2) {
-    if (!PRODUCTION && !config.showMissingIcons && iconName5) {
-      console.error('Icon with name "'.concat(iconName5, '" and prefix "').concat(prefix2, '" is missing.'));
+  function maybeNotifyMissing(iconName4, prefix2) {
+    if (!PRODUCTION && !config.showMissingIcons && iconName4) {
+      console.error('Icon with name "'.concat(iconName4, '" and prefix "').concat(prefix2, '" is missing.'));
     }
   }
-  function findIcon(iconName5, prefix2) {
+  function findIcon(iconName4, prefix2) {
     var givenPrefix = prefix2;
     if (prefix2 === "fa" && config.styleDefault !== null) {
       prefix2 = getDefaultUsablePrefix();
     }
     return new Promise(function(resolve2, reject) {
       if (givenPrefix === "fa") {
-        var shim = byOldName(iconName5) || {};
-        iconName5 = shim.iconName || iconName5;
+        var shim = byOldName(iconName4) || {};
+        iconName4 = shim.iconName || iconName4;
         prefix2 = shim.prefix || prefix2;
       }
-      if (iconName5 && prefix2 && styles$1[prefix2] && styles$1[prefix2][iconName5]) {
-        var icon3 = styles$1[prefix2][iconName5];
+      if (iconName4 && prefix2 && styles$1[prefix2] && styles$1[prefix2][iconName4]) {
+        var icon3 = styles$1[prefix2][iconName4];
         return resolve2(asFoundIcon(icon3));
       }
-      maybeNotifyMissing(iconName5, prefix2);
+      maybeNotifyMissing(iconName4, prefix2);
       resolve2(_objectSpread2(_objectSpread2({}, missingIconResolutionMixin), {}, {
-        icon: config.showMissingIcons && iconName5 ? callProvided("missingIconAbstract") || {} : {}
+        icon: config.showMissingIcons && iconName4 ? callProvided("missingIconAbstract") || {} : {}
       }));
     });
   }
@@ -42877,9 +42895,9 @@ Hook ${hookName} was either not provided or not a function.`);
         }
         if (mutationRecord.type === "attributes" && isWatched(mutationRecord.target) && ~ATTRIBUTES_WATCHED_FOR_MUTATION.indexOf(mutationRecord.attributeName)) {
           if (mutationRecord.attributeName === "class" && hasPrefixAndIcon(mutationRecord.target)) {
-            var _getCanonicalIcon = getCanonicalIcon(classArray(mutationRecord.target)), prefix2 = _getCanonicalIcon.prefix, iconName5 = _getCanonicalIcon.iconName;
+            var _getCanonicalIcon = getCanonicalIcon(classArray(mutationRecord.target)), prefix2 = _getCanonicalIcon.prefix, iconName4 = _getCanonicalIcon.iconName;
             mutationRecord.target.setAttribute(DATA_PREFIX, prefix2 || defaultPrefix);
-            if (iconName5) mutationRecord.target.setAttribute(DATA_ICON, iconName5);
+            if (iconName4) mutationRecord.target.setAttribute(DATA_ICON, iconName4);
           } else if (hasBeenReplaced(mutationRecord.target)) {
             nodeCallback(mutationRecord.target);
           }
@@ -42969,12 +42987,12 @@ Hook ${hookName} was either not provided or not a function.`);
     var parser = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
       styleParser: true
     };
-    var _classParser = classParser(node2), iconName5 = _classParser.iconName, prefix2 = _classParser.prefix, extraClasses = _classParser.rest;
+    var _classParser = classParser(node2), iconName4 = _classParser.iconName, prefix2 = _classParser.prefix, extraClasses = _classParser.rest;
     var extraAttributes = attributesParser(node2);
     var pluginMeta = chainHooks("parseNodeAttributes", {}, node2);
     var extraStyles = parser.styleParser ? styleParser(node2) : [];
     return _objectSpread2({
-      iconName: iconName5,
+      iconName: iconName4,
       prefix: prefix2,
       transform: meaninglessTransform,
       mask: {
@@ -43093,7 +43111,7 @@ Hook ${hookName} was either not provided or not a function.`);
     var params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     var _params$transform = params.transform, transform2 = _params$transform === void 0 ? meaninglessTransform : _params$transform, _params$symbol = params.symbol, symbol = _params$symbol === void 0 ? false : _params$symbol, _params$mask = params.mask, mask = _params$mask === void 0 ? null : _params$mask, _params$maskId = params.maskId, maskId = _params$maskId === void 0 ? null : _params$maskId, _params$classes = params.classes, classes = _params$classes === void 0 ? [] : _params$classes, _params$attributes = params.attributes, attributes = _params$attributes === void 0 ? {} : _params$attributes, _params$styles = params.styles, styles2 = _params$styles === void 0 ? {} : _params$styles;
     if (!iconDefinition) return;
-    var prefix2 = iconDefinition.prefix, iconName5 = iconDefinition.iconName, icon3 = iconDefinition.icon;
+    var prefix2 = iconDefinition.prefix, iconName4 = iconDefinition.iconName, icon3 = iconDefinition.icon;
     return domVariants(_objectSpread2({
       type: "icon"
     }, iconDefinition), function() {
@@ -43112,7 +43130,7 @@ Hook ${hookName} was either not provided or not a function.`);
           }
         },
         prefix: prefix2,
-        iconName: iconName5,
+        iconName: iconName4,
         transform: _objectSpread2(_objectSpread2({}, meaninglessTransform), transform2),
         symbol,
         maskId,
@@ -43146,9 +43164,9 @@ Hook ${hookName} was either not provided or not a function.`);
         return onTree(node2, callback2);
       };
       providers$$1.generateSvgReplacementMutation = function(node2, nodeMeta) {
-        var iconName5 = nodeMeta.iconName, prefix2 = nodeMeta.prefix, transform2 = nodeMeta.transform, symbol = nodeMeta.symbol, mask = nodeMeta.mask, maskId = nodeMeta.maskId, extra = nodeMeta.extra;
+        var iconName4 = nodeMeta.iconName, prefix2 = nodeMeta.prefix, transform2 = nodeMeta.transform, symbol = nodeMeta.symbol, mask = nodeMeta.mask, maskId = nodeMeta.maskId, extra = nodeMeta.extra;
         return new Promise(function(resolve2, reject) {
-          Promise.all([findIcon(iconName5, prefix2), mask.iconName ? findIcon(mask.iconName, mask.prefix) : Promise.resolve({
+          Promise.all([findIcon(iconName4, prefix2), mask.iconName ? findIcon(mask.iconName, mask.prefix) : Promise.resolve({
             found: false,
             width: 512,
             height: 512,
@@ -43161,7 +43179,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 mask: mask2
               },
               prefix: prefix2,
-              iconName: iconName5,
+              iconName: iconName4,
               transform: transform2,
               symbol,
               maskId,
@@ -43362,16 +43380,16 @@ Hook ${hookName} was either not provided or not a function.`);
         var hexValue = hexValueFromContent(_content);
         var isV4 = fontFamilyMatch[0].startsWith("FontAwesome");
         var isSecondary = isSecondaryLayer(styles2);
-        var iconName5 = byUnicode(prefix2, hexValue);
-        var iconIdentifier = iconName5;
+        var iconName4 = byUnicode(prefix2, hexValue);
+        var iconIdentifier = iconName4;
         if (isV4) {
           var iconName42 = byOldUnicode(hexValue);
           if (iconName42.iconName && iconName42.prefix) {
-            iconName5 = iconName42.iconName;
+            iconName4 = iconName42.iconName;
             prefix2 = iconName42.prefix;
           }
         }
-        if (iconName5 && !isSecondary && (!alreadyProcessedPseudoElement || alreadyProcessedPseudoElement.getAttribute(DATA_PREFIX) !== prefix2 || alreadyProcessedPseudoElement.getAttribute(DATA_ICON) !== iconIdentifier)) {
+        if (iconName4 && !isSecondary && (!alreadyProcessedPseudoElement || alreadyProcessedPseudoElement.getAttribute(DATA_PREFIX) !== prefix2 || alreadyProcessedPseudoElement.getAttribute(DATA_ICON) !== iconIdentifier)) {
           node2.setAttribute(pendingAttribute, iconIdentifier);
           if (alreadyProcessedPseudoElement) {
             node2.removeChild(alreadyProcessedPseudoElement);
@@ -43379,7 +43397,7 @@ Hook ${hookName} was either not provided or not a function.`);
           var meta = blankMeta();
           var extra = meta.extra;
           extra.attributes[DATA_FA_PSEUDO_ELEMENT] = position2;
-          findIcon(iconName5, prefix2).then(function(main) {
+          findIcon(iconName4, prefix2).then(function(main) {
             var abstract2 = makeInlineSvgAbstract(_objectSpread2(_objectSpread2({}, meta), {}, {
               icons: {
                 main,
@@ -44748,7 +44766,7 @@ Hook ${hookName} was either not provided or not a function.`);
     isActive
   }) => {
     const ref = (0, import_react10.useRef)(null);
-    const iconName5 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
+    const iconName4 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
     return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
       CSSTransition_default,
@@ -44765,7 +44783,7 @@ Hook ${hookName} was either not provided or not a function.`);
             isActive,
             ref,
             children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { className: classNames, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(item_text_with_icon_default, { icon: iconName5, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(item_text_with_icon_default, { icon: iconName4, children: [
                 grade === "error" && "Error",
                 grade === "message" && "Message",
                 grade === "warning" && "Warning"
@@ -45683,7 +45701,7 @@ Hook ${hookName} was either not provided or not a function.`);
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h6", { children: "License" }),
       /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("p", { children: [
-        "Copyright \xA9 2023\u20132025 by ",
+        "Copyright \xA9 2023\u20132026 by ",
         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("a", { href: "https://justinskolnick.com", children: "Justin Skolnick" }),
         "."
       ] }),
@@ -45736,7 +45754,6 @@ Hook ${hookName} was either not provided or not a function.`);
     TypeForIcon2["unknown"] = "circle-question";
     return TypeForIcon2;
   })(TypeForIcon || {});
-  var iconName3 = "user-group" /* group */;
   var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
   var PeopleIcon = ({ person }) => {
     const { id } = useParams();
@@ -45749,8 +45766,8 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/icon.tsx
   var import_jsx_runtime19 = __toESM(require_jsx_runtime());
-  var iconName4 = "database";
-  var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(icon_default, { name: iconName4 });
+  var iconName3 = "database";
+  var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(icon_default, { name: iconName3 });
   var icon_default5 = EntitiesIcon2;
 
   // assets/scripts/components/section-icon.tsx
@@ -47104,6 +47121,8 @@ Hook ${hookName} was either not provided or not a function.`);
       return api_default.useLazyGetPersonRolesByIdQuery;
     } else if (type === "entity") {
       return api_default.useLazyGetEntityRolesByIdQuery;
+    } else if (type === "activity") {
+      return api_default.useLazyGetSourceRolesByIdQuery;
     }
     return null;
   };
@@ -60890,7 +60909,7 @@ Hook ${hookName} was either not provided or not a function.`);
       MetaSectionBox,
       {
         className: "source-information-box",
-        icon: iconName4,
+        icon: iconName3,
         title,
         children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(item_link_default3, { item: source, children: source.title })
       }
@@ -61169,117 +61188,13 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/detail.tsx
   var import_jsx_runtime95 = __toESM(require_jsx_runtime());
-  var getQuery = (type) => {
-    if (type === "attendees") {
-      return api_default.useLazyGetSourceAttendeesByIdQuery;
-    } else if (type === "entities") {
-      return api_default.useLazyGetSourceEntitiesByIdQuery;
-    }
-    return null;
-  };
-  var useGetItemsByItem = (item, type, isPaused) => {
-    const query = getQuery(type);
-    return use_limited_query_default(query, {
-      id: item.id,
-      limit: 5,
-      pause: isPaused
-    });
-  };
-  var AssociationGroup2 = ({
-    children,
-    item,
-    type,
-    value
-  }) => {
-    const {
-      initialLimit,
-      setPaused,
-      setRecordLimit
-    } = useGetItemsByItem(item, type, true);
-    const setLimit = () => {
-      setPaused(false);
-      setRecordLimit(value.total);
-    };
-    if (!value) return null;
-    return children(initialLimit, setLimit);
-  };
-  var InitGroup = ({ item, type, children }) => {
-    const [hasRun, setHasRun] = (0, import_react44.useState)(false);
-    useGetItemsByItem(item, type, hasRun);
-    (0, import_react44.useEffect)(() => {
-      setHasRun(true);
-    }, [setHasRun]);
-    return children;
-  };
-  var Attendees2 = ({ item }) => {
-    const items = item.attendees;
-    return /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Group, { title: items?.label, icon: iconName3, children: (ref) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-      InitGroup,
-      {
-        item,
-        type: "attendees",
-        children: items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-          AssociationGroup2,
-          {
-            item,
-            type: "attendees",
-            value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-              affiliated_people_table_default,
-              {
-                attendees: value,
-                initialCount: initialLimit,
-                model: "people" /* People */,
-                ref,
-                setLimit
-              }
-            )
-          },
-          i2
-        ))
-      }
-    ) });
-  };
-  var Entities2 = ({ item }) => {
-    const items = item.entities;
-    return /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Group, { title: items?.label, icon: iconName, children: (ref) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-      InitGroup,
-      {
-        item,
-        type: "entities",
-        children: items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-          AssociationGroup2,
-          {
-            item,
-            type: "entities",
-            value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
-              affiliated_entities_table_default,
-              {
-                entities: value,
-                initialCount: initialLimit,
-                model: "entities" /* Entities */,
-                ref,
-                setLimit
-              }
-            )
-          },
-          i2
-        ))
-      }
-    ) });
-  };
   var DetailActivity = ({ source, ref }) => {
     const hasSource = Boolean(source);
-    const hasDetails = hasSource && Boolean(source.attendees) && Boolean(source.entities);
+    const hasNamedRoles = hasSource && Boolean(source.roles?.named);
     const canLoadDetails = hasSource;
-    const canLoadIncidents = hasDetails;
-    if (!hasSource) return null;
+    const canLoadIncidents = hasNamedRoles;
     return /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(import_jsx_runtime95.Fragment, { children: [
-      canLoadDetails && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_activity_details_default, { children: /* @__PURE__ */ (0, import_jsx_runtime95.jsxs)(ActivityDetailsSection, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Entities2, { item: source }),
-        /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(Attendees2, { item: source })
-      ] }) }),
+      canLoadDetails && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_activity_details_default, { children: /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_activity_associations_default, { item: source }) }),
       canLoadIncidents && /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(detail_incidents_trigger_default3, { children: (trigger) => /* @__PURE__ */ (0, import_jsx_runtime95.jsx)(
         detail_incidents_fetcher_default,
         {

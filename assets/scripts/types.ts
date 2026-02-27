@@ -525,6 +525,7 @@ export type NamedRoles = {
   entity?: NamedRole;
   lobbyist?: NamedRole;
   official?: NamedRole;
+  source?: NamedRole;
 };
 
 export type RoleOptions = {
@@ -580,6 +581,7 @@ export type Source = {
   publicUrl?: string;
   isViaPublicRecords: boolean;
   retrievedDate: string;
+  roles?: ItemRoles;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   attendees?: Attendees;
   details?: Details;

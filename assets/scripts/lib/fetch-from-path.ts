@@ -267,6 +267,20 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
       dispatch(sourceActions.set(source));
 
+      if ('roles' in data.source.record) {
+        if ('named' in data.source.record.roles) {
+          const attendees = getAttendeesFromRole(state, data.source.record.roles.named);
+          const entities = getEntitiesFromRole(state, data.source.record.roles.named);
+
+          if (attendees.length) {
+            dispatch(personActions.setAll(attendees));
+          }
+          if (entities.length) {
+            dispatch(entityActions.setAll(entities));
+          }
+        }
+      }
+
       if ('entities' in data.source.record) {
         const entities = getEntitiesFromSource(state, data.source.record);
 

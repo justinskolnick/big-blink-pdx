@@ -163,6 +163,9 @@ const api = createApi({
     getSourceIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/sources/${id}/incidents${search}`
     )),
+    getSourceRolesById: builder.query(getAncillaryRoute(
+      ({ id, limit, search }) => getPathnameWithLimit(`api/sources/${id}/roles`, { limit, search })
+    )),
     getSourceById: builder.query(getAncillaryRoute(
       ({ id }) => `api/sources/${id}`
     )),
