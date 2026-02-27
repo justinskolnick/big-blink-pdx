@@ -23134,7 +23134,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-JZWAC4HX.mjs
+  // node_modules/react-router/dist/development/chunk-LFPYN7LY.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23154,15 +23154,24 @@
   var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
   var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
   var PopStateEventType = "popstate";
+  function isLocation(obj) {
+    return typeof obj === "object" && obj != null && "pathname" in obj && "search" in obj && "hash" in obj && "state" in obj && "key" in obj;
+  }
   function createBrowserHistory(options2 = {}) {
     function createBrowserLocation(window2, globalHistory) {
-      let { pathname, search, hash: hash2 } = window2.location;
+      let maskedLocation = globalHistory.state?.masked;
+      let { pathname, search, hash: hash2 } = maskedLocation || window2.location;
       return createLocation(
         "",
         { pathname, search, hash: hash2 },
         // state defaults to `null` because `window.history.state` does
         globalHistory.state && globalHistory.state.usr || null,
-        globalHistory.state && globalHistory.state.key || "default"
+        globalHistory.state && globalHistory.state.key || "default",
+        maskedLocation ? {
+          pathname: window2.location.pathname,
+          search: window2.location.search,
+          hash: window2.location.hash
+        } : void 0
       );
     }
     function createBrowserHref(window2, to2) {
@@ -23196,10 +23205,15 @@
     return {
       usr: location2.state,
       key: location2.key,
-      idx: index
+      idx: index,
+      masked: location2.unstable_mask ? {
+        pathname: location2.pathname,
+        search: location2.search,
+        hash: location2.hash
+      } : void 0
     };
   }
-  function createLocation(current2, to2, state = null, key) {
+  function createLocation(current2, to2, state = null, key, unstable_mask) {
     let location2 = {
       pathname: typeof current2 === "string" ? current2 : current2.pathname,
       search: "",
@@ -23210,7 +23224,8 @@
       // full Locations now and avoid the need to run through this flow at all
       // But that's a pretty big refactor to the current test suite so going to
       // keep as is for the time being and just let any incoming keys take precedence
-      key: to2 && to2.key || key || createKey()
+      key: to2 && to2.key || key || createKey(),
+      unstable_mask
     };
     return location2;
   }
@@ -23269,11 +23284,11 @@
     }
     function push(to2, state) {
       action = "PUSH";
-      let location2 = createLocation(history.location, to2, state);
+      let location2 = isLocation(to2) ? to2 : createLocation(history.location, to2, state);
       if (validateLocation) validateLocation(location2, to2);
       index = getIndex() + 1;
       let historyState = getHistoryState(location2, index);
-      let url = history.createHref(location2);
+      let url = history.createHref(location2.unstable_mask || location2);
       try {
         globalHistory.pushState(historyState, "", url);
       } catch (error) {
@@ -23288,11 +23303,11 @@
     }
     function replace22(to2, state) {
       action = "REPLACE";
-      let location2 = createLocation(history.location, to2, state);
+      let location2 = isLocation(to2) ? to2 : createLocation(history.location, to2, state);
       if (validateLocation) validateLocation(location2, to2);
       index = getIndex();
       let historyState = getHistoryState(location2, index);
-      let url = history.createHref(location2);
+      let url = history.createHref(location2.unstable_mask || location2);
       globalHistory.replaceState(historyState, "", url);
       if (v5Compat && listener3) {
         listener3({ action, location: history.location, delta: 0 });
@@ -23724,9 +23739,16 @@
     let params = [];
     let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^${}|()[\]]/g, "\\$&").replace(
       /\/:([\w-]+)(\?)?/g,
-      (_2, paramName, isOptional) => {
+      (match2, paramName, isOptional, index, str) => {
         params.push({ paramName, isOptional: isOptional != null });
-        return isOptional ? "/?([^\\/]+)?" : "/([^\\/]+)";
+        if (isOptional) {
+          let nextChar = str.charAt(index + match2.length);
+          if (nextChar && nextChar !== "/") {
+            return "/([^\\/]*)";
+          }
+          return "(?:/([^\\/]*))?";
+        }
+        return "/([^\\/]+)";
       }
     ).replace(/\/([\w-]+)\?(\/|$)/g, "(/$1)?$2");
     if (path.endsWith("*")) {
@@ -24261,12 +24283,14 @@
     let initialMatchesIsFOW = false;
     let initialErrors = null;
     let initialized;
+    let renderFallback;
     if (initialMatches == null && !init.patchRoutesOnNavigation) {
       let error = getInternalRouterError(404, {
         pathname: init.history.location.pathname
       });
       let { matches: matches2, route } = getShortCircuitMatches(dataRoutes);
       initialized = true;
+      renderFallback = !initialized;
       initialMatches = matches2;
       initialErrors = { [route.id]: error };
     } else {
@@ -24282,6 +24306,7 @@
       }
       if (!initialMatches) {
         initialized = false;
+        renderFallback = !initialized;
         initialMatches = [];
         let fogOfWar = checkFogOfWar(
           null,
@@ -24294,23 +24319,26 @@
         }
       } else if (initialMatches.some((m2) => m2.route.lazy)) {
         initialized = false;
+        renderFallback = !initialized;
       } else if (!initialMatches.some((m2) => routeHasLoaderOrMiddleware(m2.route))) {
         initialized = true;
+        renderFallback = !initialized;
       } else {
         let loaderData = init.hydrationData ? init.hydrationData.loaderData : null;
         let errors2 = init.hydrationData ? init.hydrationData.errors : null;
+        let relevantMatches = initialMatches;
         if (errors2) {
           let idx = initialMatches.findIndex(
             (m2) => errors2[m2.route.id] !== void 0
           );
-          initialized = initialMatches.slice(0, idx + 1).every(
-            (m2) => !shouldLoadRouteOnHydration(m2.route, loaderData, errors2)
-          );
-        } else {
-          initialized = initialMatches.every(
-            (m2) => !shouldLoadRouteOnHydration(m2.route, loaderData, errors2)
-          );
+          relevantMatches = relevantMatches.slice(0, idx + 1);
         }
+        renderFallback = false;
+        initialized = relevantMatches.every((m2) => {
+          let status = getRouteHydrationStatus(m2.route, loaderData, errors2);
+          renderFallback = renderFallback || status.renderFallback;
+          return !status.shouldLoad;
+        });
       }
     }
     let router2;
@@ -24319,6 +24347,7 @@
       location: init.history.location,
       matches: initialMatches,
       initialized,
+      renderFallback,
       navigation: IDLE_NAVIGATION,
       // Don't restore on initial updateState() if we were SSR'd
       restoreScrollPosition: init.hydrationData != null ? false : null,
@@ -24546,6 +24575,7 @@
           historyAction: pendingAction,
           location: location2,
           initialized: true,
+          renderFallback: false,
           navigation: IDLE_NAVIGATION,
           revalidation: "idle",
           restoreScrollPosition,
@@ -24591,8 +24621,27 @@
         normalizedPath,
         opts
       );
+      let maskPath;
+      if (opts?.unstable_mask) {
+        let partialPath = typeof opts.unstable_mask === "string" ? parsePath(opts.unstable_mask) : {
+          ...state.location.unstable_mask,
+          ...opts.unstable_mask
+        };
+        maskPath = {
+          pathname: "",
+          search: "",
+          hash: "",
+          ...partialPath
+        };
+      }
       let currentLocation = state.location;
-      let nextLocation = createLocation(state.location, path, opts && opts.state);
+      let nextLocation = createLocation(
+        currentLocation,
+        path,
+        opts && opts.state,
+        void 0,
+        maskPath
+      );
       nextLocation = {
         ...nextLocation,
         ...init.history.encodeLocation(nextLocation)
@@ -26248,11 +26297,12 @@
       } else if (!routeHasLoaderOrMiddleware(route)) {
         forceShouldLoad = false;
       } else if (initialHydration) {
-        forceShouldLoad = shouldLoadRouteOnHydration(
+        let { shouldLoad: shouldLoad2 } = getRouteHydrationStatus(
           route,
           state.loaderData,
           state.errors
         );
+        forceShouldLoad = shouldLoad2;
       } else if (isNewLoader(state.loaderData, state.matches[index], match2)) {
         forceShouldLoad = true;
       }
@@ -26400,22 +26450,23 @@
   function routeHasLoaderOrMiddleware(route) {
     return route.loader != null || route.middleware != null && route.middleware.length > 0;
   }
-  function shouldLoadRouteOnHydration(route, loaderData, errors2) {
+  function getRouteHydrationStatus(route, loaderData, errors2) {
     if (route.lazy) {
-      return true;
+      return { shouldLoad: true, renderFallback: true };
     }
     if (!routeHasLoaderOrMiddleware(route)) {
-      return false;
+      return { shouldLoad: false, renderFallback: false };
     }
     let hasData = loaderData != null && route.id in loaderData;
     let hasError = errors2 != null && errors2[route.id] !== void 0;
     if (!hasData && hasError) {
-      return false;
+      return { shouldLoad: false, renderFallback: false };
     }
     if (typeof route.loader === "function" && route.loader.hydrate === true) {
-      return true;
+      return { shouldLoad: true, renderFallback: !hasData };
     }
-    return !hasData && !hasError;
+    let shouldLoad = !hasData && !hasError;
+    return { shouldLoad, renderFallback: shouldLoad };
   }
   function isNewLoader(currentLoaderData, currentMatch, match2) {
     let isNew = (
@@ -26511,9 +26562,9 @@
     if ((!newRoute.children || newRoute.children.length === 0) && (!existingRoute.children || existingRoute.children.length === 0)) {
       return true;
     }
-    return newRoute.children.every(
+    return newRoute.children?.every(
       (aChild, i2) => existingRoute.children?.some((bChild) => isSameRoute(aChild, bChild))
-    );
+    ) ?? false;
   }
   var lazyRoutePropertyCache = /* @__PURE__ */ new WeakMap();
   var loadLazyRouteProperty = ({
@@ -27828,7 +27879,7 @@
       [to2, routePathnamesJson, locationPathname, relative]
     );
   }
-  function useRoutesImpl(routes, locationArg, dataRouterState, onError, future) {
+  function useRoutesImpl(routes, locationArg, dataRouterOpts) {
     invariant(
       useInRouterContext(),
       // TODO: This error is probably because they somehow have 2 versions of the
@@ -27909,9 +27960,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         })
       ),
       parentMatches,
-      dataRouterState,
-      onError,
-      future
+      dataRouterOpts
     );
     if (locationArg && renderedMatches) {
       return /* @__PURE__ */ React22.createElement(
@@ -27924,6 +27973,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               hash: "",
               state: null,
               key: "default",
+              unstable_mask: void 0,
               ...location2
             },
             navigationType: "POP"
@@ -28052,7 +28102,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     return /* @__PURE__ */ React22.createElement(RouteContext.Provider, { value: routeContext }, children);
   }
-  function _renderMatches(matches2, parentMatches = [], dataRouterState = null, onErrorHandler = null, future = null) {
+  function _renderMatches(matches2, parentMatches = [], dataRouterOpts) {
+    let dataRouterState = dataRouterOpts?.state;
     if (matches2 == null) {
       if (!dataRouterState) {
         return null;
@@ -28084,7 +28135,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     let renderFallback = false;
     let fallbackIndex = -1;
-    if (dataRouterState) {
+    if (dataRouterOpts && dataRouterState) {
+      renderFallback = dataRouterState.renderFallback;
       for (let i2 = 0; i2 < renderedMatches.length; i2++) {
         let match2 = renderedMatches[i2];
         if (match2.route.HydrateFallback || match2.route.hydrateFallbackElement) {
@@ -28094,7 +28146,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           let { loaderData, errors: errors22 } = dataRouterState;
           let needsToRunLoader = match2.route.loader && !loaderData.hasOwnProperty(match2.route.id) && (!errors22 || errors22[match2.route.id] === void 0);
           if (match2.route.lazy || needsToRunLoader) {
-            renderFallback = true;
+            if (dataRouterOpts.isStatic) {
+              renderFallback = true;
+            }
             if (fallbackIndex >= 0) {
               renderedMatches = renderedMatches.slice(0, fallbackIndex + 1);
             } else {
@@ -28105,6 +28159,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       }
     }
+    let onErrorHandler = dataRouterOpts?.onError;
     let onError = dataRouterState && onErrorHandler ? (error, errorInfo) => {
       onErrorHandler(error, {
         location: dataRouterState.location,
@@ -28580,6 +28635,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           routes: router2.routes,
           future: router2.future,
           state,
+          isStatic: false,
           onError
         }
       )
@@ -28604,9 +28660,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     routes,
     future,
     state,
+    isStatic,
     onError
   }) {
-    return useRoutesImpl(routes, void 0, state, onError, future);
+    return useRoutesImpl(routes, void 0, { state, isStatic, onError, future });
   }
   function Outlet(props) {
     return useOutlet(props.context);
@@ -28643,7 +28700,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       search = "",
       hash: hash2 = "",
       state = null,
-      key = "default"
+      key = "default",
+      unstable_mask
     } = locationProp;
     let locationContext = React3.useMemo(() => {
       let trailingPathname = stripBasename(pathname, basename);
@@ -28656,11 +28714,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           search,
           hash: hash2,
           state,
-          key
+          key,
+          unstable_mask
         },
         navigationType
       };
-    }, [basename, pathname, search, hash2, state, key, navigationType]);
+    }, [
+      basename,
+      pathname,
+      search,
+      hash2,
+      state,
+      key,
+      navigationType,
+      unstable_mask
+    ]);
     warning(
       locationContext != null,
       `<Router basename="${basename}"> is not able to match the URL "${pathname}${search}${hash2}" because it does not start with the basename, so the <Router> won't render anything.`
@@ -29220,7 +29288,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser2) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.13.0";
+      "7.13.1";
     }
   } catch (e2) {
   }
@@ -29328,6 +29396,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       relative,
       reloadDocument,
       replace: replace22,
+      unstable_mask,
       state,
       target,
       to: to2,
@@ -29336,17 +29405,32 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       unstable_defaultShouldRevalidate,
       ...rest
     }, forwardedRef) {
-      let { basename, unstable_useTransitions } = React10.useContext(NavigationContext);
+      let { basename, navigator: navigator2, unstable_useTransitions } = React10.useContext(NavigationContext);
       let isAbsolute = typeof to2 === "string" && ABSOLUTE_URL_REGEX2.test(to2);
       let parsed = parseToInfo(to2, basename);
       to2 = parsed.to;
       let href = useHref(to2, { relative });
+      let location2 = useLocation();
+      let maskedHref = null;
+      if (unstable_mask) {
+        let resolved = resolveTo(
+          unstable_mask,
+          [],
+          location2.unstable_mask ? location2.unstable_mask.pathname : "/",
+          true
+        );
+        if (basename !== "/") {
+          resolved.pathname = resolved.pathname === "/" ? basename : joinPaths([basename, resolved.pathname]);
+        }
+        maskedHref = navigator2.createHref(resolved);
+      }
       let [shouldPrefetch, prefetchRef, prefetchHandlers] = usePrefetchBehavior(
         prefetch,
         rest
       );
       let internalOnClick = useLinkClickHandler(to2, {
         replace: replace22,
+        unstable_mask,
         state,
         target,
         preventScrollReset,
@@ -29361,6 +29445,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           internalOnClick(event);
         }
       }
+      let isSpaLink = !(parsed.isExternal || reloadDocument);
       let link = (
         // eslint-disable-next-line jsx-a11y/anchor-has-content
         /* @__PURE__ */ React10.createElement(
@@ -29368,8 +29453,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           {
             ...rest,
             ...prefetchHandlers,
-            href: parsed.absoluteURL || href,
-            onClick: parsed.isExternal || reloadDocument ? onClick : handleClick,
+            href: (isSpaLink ? maskedHref : void 0) || parsed.absoluteURL || href,
+            onClick: isSpaLink ? handleClick : onClick,
             ref: mergeRefs(forwardedRef, prefetchRef),
             target,
             "data-discover": !isAbsolute && discover === "render" ? "true" : void 0
@@ -29580,6 +29665,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function useLinkClickHandler(to2, {
     target,
     replace: replaceProp,
+    unstable_mask,
     state,
     preventScrollReset,
     relative,
@@ -29597,6 +29683,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           let replace22 = replaceProp !== void 0 ? replaceProp : createPath(location2) === createPath(path);
           let doNavigate = () => navigate(to2, {
             replace: replace22,
+            unstable_mask,
             state,
             preventScrollReset,
             relative,
@@ -29615,6 +29702,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         navigate,
         path,
         replaceProp,
+        unstable_mask,
         state,
         target,
         to2,
@@ -61428,10 +61516,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-JZWAC4HX.mjs:
+react-router/dist/development/chunk-LFPYN7LY.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.13.0
+   * react-router v7.13.1
    *
    * Copyright (c) Remix Software Inc.
    *
