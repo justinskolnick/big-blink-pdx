@@ -63,6 +63,14 @@ class Entity extends IncidentedBase {
 
     return this.adaptResult(result, otherValues);
   }
+
+  configureLabels() {
+    /* eslint-disable camelcase */
+    this.constructor.setLabelKeySubstitutions({
+      associations_roles: ['associations'],
+    });
+    /* eslint-enable camelcase */
+  }
 }
 
 module.exports = Entity;

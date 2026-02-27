@@ -19,6 +19,7 @@ const {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
+  ROLE_SOURCE,
   SORT_BY_OPTIONS,
   SORT_OPTIONS,
 } = require('./constants');
@@ -80,6 +81,7 @@ const PARAM_OPTIONS = {
       ROLE_ENTITY,
       ROLE_LOBBYIST,
       ROLE_OFFICIAL,
+      ROLE_SOURCE,
     ],
   },
   [PARAM_SORT]: {

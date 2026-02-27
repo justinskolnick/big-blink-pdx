@@ -34,7 +34,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'ikhslzZsVq1Vz',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],
@@ -65,7 +65,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'sIVGOYPh',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],
@@ -96,7 +96,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'tH49K0mbUpl3',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],
@@ -150,7 +150,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'ikhslzZsVq1Vz',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],
@@ -171,7 +171,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'sIVGOYPh',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],
@@ -192,7 +192,7 @@ describe('toRoleObject', () => {
                   },
                   name: 'tH49K0mbUpl3',
                   roles: {
-                    label: 'Roles and Associations',
+                    label: 'Associations',
                     list: [
                       'entity',
                     ],

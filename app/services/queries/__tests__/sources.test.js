@@ -123,7 +123,8 @@ describe('getEntitiesForIdQuery()', () => {
         'WHERE',
         'incidents.data_source_id = ?',
         'GROUP BY incidents.entity_id',
-        'ORDER BY total DESC',
+        'ORDER BY',
+        'total DESC, entities.name ASC',
       ],
       params: [3],
     });
@@ -140,7 +141,8 @@ describe('getEntitiesForIdQuery()', () => {
           'WHERE',
           'incidents.data_source_id = ?',
           'GROUP BY incidents.entity_id',
-          'ORDER BY total DESC',
+          'ORDER BY',
+          'total DESC, entities.name ASC',
           'LIMIT ?',
         ],
         params: [3, 5],
@@ -159,6 +161,8 @@ describe('getEntitiesTotalForIdQuery()', () => {
         'LEFT JOIN entities ON incidents.entity_id = entities.id',
         'WHERE',
         'incidents.data_source_id = ?',
+        'ORDER BY',
+        'entities.name ASC',
       ],
       params: [3],
     });

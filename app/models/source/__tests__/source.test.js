@@ -2,6 +2,15 @@ const resultActivity = require('../__mocks__/result-source-activity');
 const resultRegistration = require('../__mocks__/result-source-registration');
 const resultPersonnel = require('../__mocks__/result-source-personnel');
 
+const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
+  ROLE_ENTITY,
+  ROLE_LOBBYIST,
+  ROLE_OFFICIAL,
+  ROLE_SOURCE,
+} = require('../../../config/constants');
+
 const Source = require('../source');
 
 describe('tableName', () => {
@@ -69,6 +78,29 @@ describe('foreignKey()', () => {
   });
 });
 
+describe('isValidRoleOption()', () => {
+  test('returns the expected values', () => {
+    expect(Source.isValidRoleOption(ROLE_ENTITY)).toBe(false);
+    expect(Source.isValidRoleOption(ROLE_LOBBYIST)).toBe(false);
+    expect(Source.isValidRoleOption(ROLE_OFFICIAL)).toBe(false);
+    expect(Source.isValidRoleOption(ROLE_SOURCE)).toBe(true);
+    expect(Source.isValidRoleOption('nada')).toBe(false);
+    expect(Source.isValidRoleOption('')).toBe(false);
+    expect(Source.isValidRoleOption({})).toBe(false);
+    expect(Source.isValidRoleOption(null)).toBe(false);
+  });
+});
+
+describe('isValidRoleCollection()', () => {
+  test('returns the expected values', () => {
+    expect(Source.isValidRoleCollection(COLLECTION_ATTENDEES)).toBe(true);
+    expect(Source.isValidRoleCollection(COLLECTION_ENTITIES)).toBe(true);
+    expect(Source.isValidRoleCollection('nada')).toBe(false);
+    expect(Source.isValidRoleCollection('')).toBe(false);
+    expect(Source.isValidRoleCollection(null)).toBe(false);
+  });
+});
+
 describe('adapt()', () => {
   const resultWithTotal = {
     ...resultActivity,
@@ -88,6 +120,15 @@ describe('adapt()', () => {
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      roles: {
+        label: 'Associations',
+        list: [
+          'source',
+        ],
+        options: {
+          source: true,
+        },
+      },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
       },
@@ -112,6 +153,15 @@ describe('adapt()', () => {
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      roles: {
+        label: 'Associations',
+        list: [
+          'source',
+        ],
+        options: {
+          source: true,
+        },
+      },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
       },
@@ -153,6 +203,15 @@ describe('adapt()', () => {
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      roles: {
+        label: 'Associations',
+        list: [
+          'source',
+        ],
+        options: {
+          source: true,
+        },
+      },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
       },
@@ -171,6 +230,15 @@ describe('adapt()', () => {
       publicUrl: 'https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report',
       isViaPublicRecords: false,
       retrievedDate: 'March 28, 2023',
+      roles: {
+        label: 'Associations',
+        list: [
+          'source',
+        ],
+        options: {
+          source: true,
+        },
+      },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
       },
@@ -211,6 +279,15 @@ describe('adaptDisclaimer()', () => {
         isViaPublicRecords: false,
         quarter: 1,
         retrievedDate: 'March 28, 2023',
+        roles: {
+          label: 'Associations',
+          list: [
+            'source',
+          ],
+          options: {
+            source: true,
+          },
+        },
         title: 'Lobbying Activity Report for Q1 2014',
         type: 'activity',
         year: 2014,
@@ -301,6 +378,73 @@ describe('adaptEntity()', () => {
   });
 });
 
+describe('setRole()', () => {
+  let source;
+
+  beforeEach(() => {
+    source = new Source();
+  });
+
+  afterEach(() => {
+    source = null;
+  });
+
+  describe('without a role', () => {
+    test('returns the expected values', () => {
+      expect(source.hasRole()).toBe(false);
+      expect(source.role?.role).toBe(undefined);
+    });
+  });
+
+  describe('with a role', () => {
+    describe('with an invalid role', () => {
+      beforeEach(() => {
+        source.setRole(ROLE_ENTITY);
+      });
+
+      test('returns the expected values', () => {
+        expect(source.hasRole()).toBe(false);
+        expect(source.role?.role).toBe(undefined);
+        expect(source.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(undefined);
+        expect(source.role?.hasCollection(COLLECTION_ENTITIES)).toBe(undefined);
+      });
+    });
+
+    describe('with a valid role', () => {
+      beforeEach(() => {
+        source.setRole(ROLE_SOURCE);
+      });
+
+      test('returns the expected values', () => {
+        expect(source.hasRole()).toBe(true);
+        expect(source.role?.role).toBe(ROLE_SOURCE);
+        expect(source.role?.labelPrefix).toBe('source');
+        expect(source.role?.hasCollection(COLLECTION_ATTENDEES)).toBe(true);
+        expect(source.role?.hasCollection(COLLECTION_ENTITIES)).toBe(true);
+      });
+
+      describe('and collection values', () => {
+        beforeEach(() => {
+          source.role.setCollection(COLLECTION_ATTENDEES, [1, 2, 3]);
+          source.role.setCollection(COLLECTION_ENTITIES, [4, 5, 6]);
+        });
+
+        test('returns the expected values', () => {
+          expect(source.role.getCollection(COLLECTION_ATTENDEES)).toEqual([1, 2, 3]);
+          expect(source.role.getCollection(COLLECTION_ENTITIES)).toEqual([4, 5, 6]);
+          expect(source.role.toObject()).toEqual({
+            attendees: [1, 2, 3],
+            entities: [4, 5, 6],
+            filterRole: false,
+            label: 'For this source',
+            role: 'source',
+          });
+        });
+      });
+    });
+  });
+});
+
 describe('setData()', () => {
   test('sets data', () => {
     const source = new Source({
@@ -332,6 +476,15 @@ describe('setData()', () => {
       isViaPublicRecords: false,
       quarter: 1,
       retrievedDate: 'February 14, 2025',
+      roles: {
+        label: 'Associations',
+        list: [
+          'source',
+        ],
+        options: {
+          source: true,
+        },
+      },
       title: 'Lobbying Activity Report for Q1 2014',
       type: 'activity',
       year: 2014,

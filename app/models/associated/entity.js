@@ -3,6 +3,7 @@ const {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
   ROLE_OFFICIAL,
+  ROLE_SOURCE,
 } = require('../../config/constants');
 
 const Entity = require('../entity/entity');
@@ -13,6 +14,7 @@ class AssociatedEntity extends AssociatedItem {
   static associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_ENTITIES,
     [ROLE_OFFICIAL]: ASSOCIATION_ENTITIES,
+    [ROLE_SOURCE]: ASSOCIATION_ENTITIES,
   };
 
   static roles = [

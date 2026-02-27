@@ -2,6 +2,10 @@ const createError = require('http-errors');
 const express = require('express');
 
 const {
+  ASSOCIATION_ENTITIES,
+  ASSOCIATION_LOBBYISTS,
+  ASSOCIATION_OFFICIALS,
+  PARAM_ASSOCIATION,
   PARAM_DATE_ON,
   PARAM_DATE_RANGE_FROM,
   PARAM_DATE_RANGE_TO,
@@ -194,6 +198,96 @@ router.get('/:id', async (req, res, next) => {
   } catch (err) {
     console.error('Error while getting source:', err.message); // eslint-disable-line no-console
     return next(createError(err));
+  }
+});
+
+const getSourceRoleObject = async (source, options = {}, limit = null) => {
+  const {
+    association,
+    role,
+  } = options;
+
+  const sourceId = source.getData('id');
+
+  let attendees;
+  let entities;
+
+  source.setRole(role);
+
+  if (association === ASSOCIATION_ENTITIES) {
+    entities = await sources.getEntitiesForId(sourceId, limit);
+  } else if ([ASSOCIATION_LOBBYISTS, ASSOCIATION_OFFICIALS].includes(association)) {
+    attendees = await incidentAttendees.getAttendees({
+      association,
+      sourceId,
+      personRole: role,
+    }, limit);
+  } else {
+    const results = await Promise.all([
+      incidentAttendees.getAttendees({ sourceId, personRole: role }, limit),
+      sources.getEntitiesForId(sourceId, limit),
+    ]);
+
+    [ attendees, entities ] = results;
+  }
+
+  if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
+    if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
+      source.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Source.singular()));
+    }
+
+    if (entities?.total > 0) {
+      source.role.setEntities(AssociatedEntity.toRoleObject(role, entities, Source.singular()));
+    }
+  }
+
+  return source.role.toObject();
+};
+
+router.get('/:id/roles', async (req, res, next) => {
+  const id = Number(req.params.id);
+  const association = req.searchParams.get(PARAM_ASSOCIATION);
+  const limit = req.searchParams.get(PARAM_LIMIT);
+  const role = ROLE_SOURCE;
+
+  const hasAssociation = Boolean(association);
+  const hasRole = Boolean(role) && Source.isValidRoleOption(role);
+
+  let source;
+  let record;
+  let asRole;
+  let data;
+  let meta;
+
+  try {
+    source = await sources.getAtId(id);
+    record = source.adapted;
+
+    if (hasAssociation && hasRole) {
+      asRole = await getSourceRoleObject(source, { association, role }, limit);
+
+      record.roles.named = {
+        [role]: asRole,
+      };
+    } else {
+      asRole = await getSourceRoleObject(source, { association, role }, limit);
+
+      record.roles.named = {
+        [role]: asRole,
+      };
+    }
+
+    data = {
+      source: {
+        record,
+      },
+    };
+    meta = metaHelper.getMeta(req, { id, view });
+
+    res.status(200).json({ title, data, meta });
+  } catch (err) {
+    console.error('Error while getting person roles:', err.message); // eslint-disable-line no-console
+    next(createError(err));
   }
 });
 

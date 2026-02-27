@@ -98,7 +98,7 @@ describe('adapt()', () => {
         self: '/entities/1'
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],
@@ -136,7 +136,7 @@ describe('adapt()', () => {
         self: '/entities/1'
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],
@@ -182,7 +182,7 @@ describe('adapt()', () => {
         self: '/entities/1'
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],
@@ -272,7 +272,7 @@ describe('adapt()', () => {
         self: '/entities/1'
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],
@@ -301,7 +301,7 @@ describe('adapt()', () => {
         },
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],
@@ -410,7 +410,7 @@ describe('setData()', () => {
         self: '/entities/1'
       },
       roles: {
-        label: 'Roles and Associations',
+        label: 'Associations',
         list: [
           'entity',
         ],

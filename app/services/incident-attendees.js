@@ -140,7 +140,6 @@ const getEntities = async (options = {}, limit = null) => {
   }
 
   return result;
-
 };
 
 const getHasLobbiedOrBeenLobbied = async (options = {}) => {

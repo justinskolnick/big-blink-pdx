@@ -1,4 +1,8 @@
-const { ROLE_SOURCE } = require('../../config/constants');
+const {
+  COLLECTION_ATTENDEES,
+  COLLECTION_ENTITIES,
+  ROLE_SOURCE,
+} = require('../../config/constants');
 
 const IncidentedBase = require('../shared/base-incidented');
 
@@ -31,6 +35,21 @@ class Source extends IncidentedBase {
   static roleOptions = [
     ROLE_SOURCE,
   ];
+
+  static roleCollections = [
+    COLLECTION_ATTENDEES,
+    COLLECTION_ENTITIES,
+  ];
+
+  adapt(result) {
+    const otherValues = {};
+
+    if (result.type === 'activity') {
+      otherValues.roles = this.adaptRoles(ROLE_SOURCE);
+    }
+
+    return this.adaptResult(result, otherValues);
+  }
 
   static adaptEntity(result) {
     const adapted = {
@@ -120,6 +139,7 @@ class Source extends IncidentedBase {
     this.constructor.setLabelKeySubstitutions({
       appearances__first: ['first_incident', 'appearances'],
       appearances__last: ['last_incident', 'appearances'],
+      associations_roles: ['associations'],
     });
     /* eslint-enable camelcase */
   }

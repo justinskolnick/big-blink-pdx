@@ -88,6 +88,7 @@ const buildEntitiesForIdQuery = (options = {}) => {
 
   const clauses = [];
   const selections = [];
+  const sortColumns = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -110,8 +111,17 @@ const buildEntitiesForIdQuery = (options = {}) => {
 
   if (!includeTotalOnly) {
     clauses.push(`GROUP BY ${Incident.field(Entity.foreignKey())}`);
-    clauses.push('ORDER BY total DESC');
   }
+
+  clauses.push('ORDER BY');
+
+  if (!includeTotalOnly) {
+    sortColumns.push('total DESC');
+  }
+
+  sortColumns.push(`${Entity.field('name')} ASC`);
+
+  clauses.push(sortColumns.join(', '));
 
   if (hasLimit) {
     clauses.push('LIMIT ?');

@@ -1,3 +1,6 @@
+const { ROLE_SOURCE } = require('../config/constants');
+
+
 const Source = require('../models/source/source');
 const db = require('./db');
 const {
@@ -47,6 +50,7 @@ const getEntitiesForId = async (id, limit = null) => {
 
   return {
     records,
+    role: ROLE_SOURCE,
     total,
   };
 };
