@@ -38082,7 +38082,7 @@ Hook ${hookName} was either not provided or not a function.`);
   });
   var ui_default = uiReducer;
 
-  // assets/scripts/lib/fetch-from-path.ts
+  // assets/scripts/services/fetch-from-path.ts
   var adaptEntity = (state, entity) => adapters2.adaptOne(state, entity);
   var adaptIncident = (state, incident) => adapters3.adaptOne(state, incident);
   var adaptIncidents2 = (state, incidents) => incidents.map((incident) => adaptIncident(state, incident));
@@ -38428,12 +38428,6 @@ Hook ${hookName} was either not provided or not a function.`);
       )),
       getPersonStatsById: builder.query(getAncillaryRoute(
         ({ id }) => `api/people/${id}/stats`
-      )),
-      getSourceAttendeesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, { limit })
-      )),
-      getSourceEntitiesById: builder.query(getAncillaryRoute(
-        ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, { limit })
       )),
       getSourceIncidentsById: builder.query(getAncillaryRoute(
         ({ id, search }) => `api/sources/${id}/incidents${search}`

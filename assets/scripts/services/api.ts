@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { handleError, handleResult } from '../lib/fetch-from-path';
-import type { Result } from '../lib/fetch-from-path';
+import { handleError, handleResult } from './fetch-from-path';
+import type { Result } from './fetch-from-path';
 
 import type { GenericObject, Id } from '../types';
 
@@ -154,12 +154,6 @@ const api = createApi({
       ({ id }) => `api/people/${id}/stats`
     )),
 
-    getSourceAttendeesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/attendees`, { limit })
-    )),
-    getSourceEntitiesById: builder.query(getAncillaryRoute(
-      ({ id, limit }) => getPathnameWithLimit(`api/sources/${id}/entities`, { limit })
-    )),
     getSourceIncidentsById: builder.query(getAncillaryRoute(
       ({ id, search }) => `api/sources/${id}/incidents${search}`
     )),

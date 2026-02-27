@@ -1,5 +1,5 @@
-import { getError } from './error';
-import store from './store';
+import { getError } from '../lib/error';
+import store from '../lib/store';
 
 import * as entityActions from '../reducers/entities';
 import * as incidentActions from '../reducers/incidents';
