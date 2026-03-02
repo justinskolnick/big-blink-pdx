@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { FnSetLimit } from '../../hooks/use-limited-query';
 
+import { BetterLink as Link } from '../links';
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
 import ItemSubsection from '../item-subsection';
@@ -12,7 +13,6 @@ import ItemTextWithIcon from '../item-text-with-icon';
 import LeaderboardMore from './more';
 import LeaderboardSubsection from './subsection';
 import LeaderboardSubsectionGroup from './subsection-group';
-import { LinkToEntities, LinkToPeople } from '../links';
 import { PersonItem } from '../people/index';
 import SubsectionSubhead from '../subsection-subhead';
 
@@ -23,8 +23,13 @@ import type { LeaderboardSet } from '../../types';
 
 interface LimitLinkProps {
   currentLimit: number;
-  labels: LeaderboardSet['labels'];
-  limit: number;
+  link: LeaderboardSet['links']['limit'];
+  setLimit: FnSetLimit;
+}
+
+interface RankingsLinksProps {
+  currentLimit: number;
+  links: LeaderboardSet['links'];
   setLimit: FnSetLimit;
 }
 
@@ -43,38 +48,48 @@ const useGetItem = (section: string) => {
   }
 };
 
-const useGetItemsLink = (section: string) => {
-  if (section === Sections.Entities) {
-    return LinkToEntities;
-  } else if (section === Sections.People) {
-    return LinkToPeople;
-  }
-};
-
 const LimitLink = ({
   currentLimit,
-  labels,
-  limit,
+  link,
   setLimit,
 }: LimitLinkProps) => {
   const location = useLocation();
-  const href = `${location.pathname}${location.search}`;
+  const href = location.pathname;
 
-  const hasMoreToShow = limit > currentLimit;
+  const hasMoreToShow = link.params.limit > currentLimit;
 
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
-    setLimit(labels.links.limit.value);
+    setLimit(link.params.limit);
   };
 
   return (
     <ItemTextWithIcon icon={hasMoreToShow ? 'plus' : 'minus'}>
       <a href={href} onClick={handleClick}>
-        {labels.links.limit.label}
+        {link.label}
       </a>
     </ItemTextWithIcon>
   );
 };
+
+const RankingsLinks = ({
+  currentLimit,
+  links,
+  setLimit
+}: RankingsLinksProps) => (
+  <LeaderboardMore>
+    <LimitLink
+      link={links.limit}
+      currentLimit={currentLimit}
+      setLimit={setLimit}
+    />
+    <ItemTextWithIcon icon='link'>
+      <Link to={links.more.path}>
+        {links.more.label}
+      </Link>
+    </ItemTextWithIcon>
+  </LeaderboardMore>
+);
 
 const Rankings = ({
   isGrid = false,
@@ -87,12 +102,12 @@ const Rankings = ({
 
   const ids = rankings?.ids;
   const rankingsLabels = rankings?.labels;
+  const rankingsLinks = rankings?.links;
 
   const hasIds = ids?.length > 0;
   const hasLabels = Boolean(labels);
 
   const Item = useGetItem(section);
-  const ItemsLink = useGetItemsLink(section);
 
   if (!hasIds || !hasLabels) return null;
 
@@ -114,19 +129,11 @@ const Rankings = ({
             ))}
           </ItemTable>
 
-          <LeaderboardMore>
-            <LimitLink
-              currentLimit={ids.length}
-              labels={rankingsLabels}
-              limit={10}
-              setLimit={setLimit}
-            />
-            <ItemTextWithIcon icon='link'>
-              <ItemsLink>
-                {rankingsLabels.links.more}
-              </ItemsLink>
-            </ItemTextWithIcon>
-          </LeaderboardMore>
+          <RankingsLinks
+            currentLimit={ids.length}
+            links={rankingsLinks}
+            setLimit={setLimit}
+          />
         </ItemSubsection>
       </LeaderboardSubsectionGroup>
     </LeaderboardSubsection>

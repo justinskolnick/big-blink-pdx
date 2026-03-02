@@ -329,9 +329,21 @@ type LeaderboardValuesLabels = {
   title: string;
 };
 
+type LeaderboardLinkObject = {
+  label: string;
+  params?: {
+    limit: number;
+  };
+  path?: string;
+};
+
 export type LeaderboardSet = {
   ids: Ids;
   labels: LeaderboardValuesLabels;
+  links: {
+    limit: LeaderboardLinkObject;
+    more: LeaderboardLinkObject;
+  };
 };
 
 type LeaderboardValues = {

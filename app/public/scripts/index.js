@@ -60753,28 +60753,35 @@ Hook ${hookName} was either not provided or not a function.`);
       return PersonItem;
     }
   };
-  var useGetItemsLink = (section) => {
-    if (section === "entities" /* Entities */) {
-      return LinkToEntities;
-    } else if (section === "people" /* People */) {
-      return LinkToPeople;
-    }
-  };
   var LimitLink = ({
     currentLimit,
-    labels,
-    limit,
+    link,
     setLimit
   }) => {
     const location2 = useLocation();
-    const href = `${location2.pathname}${location2.search}`;
-    const hasMoreToShow = limit > currentLimit;
+    const href = location2.pathname;
+    const hasMoreToShow = link.params.limit > currentLimit;
     const handleClick = (e2) => {
       e2.preventDefault();
-      setLimit(labels.links.limit.value);
+      setLimit(link.params.limit);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_text_with_icon_default, { icon: hasMoreToShow ? "plus" : "minus", children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("a", { href, onClick: handleClick, children: labels.links.limit.label }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_text_with_icon_default, { icon: hasMoreToShow ? "plus" : "minus", children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("a", { href, onClick: handleClick, children: link.label }) });
   };
+  var RankingsLinks = ({
+    currentLimit,
+    links,
+    setLimit
+  }) => /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(more_default, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+      LimitLink,
+      {
+        link: links.limit,
+        currentLimit,
+        setLimit
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(BetterLink, { to: links.more.path, children: links.more.label }) })
+  ] });
   var Rankings = ({
     isGrid = false,
     rankings,
@@ -60785,10 +60792,10 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasPeriod = Boolean(labels?.period);
     const ids = rankings?.ids;
     const rankingsLabels = rankings?.labels;
+    const rankingsLinks = rankings?.links;
     const hasIds = ids?.length > 0;
     const hasLabels = Boolean(labels);
     const Item2 = useGetItem(section);
-    const ItemsLink = useGetItemsLink(section);
     if (!hasIds || !hasLabels) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(subsection_default, { isGrid, children: [
       /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(subsection_subhead_default, { title: rankingsLabels.title, children: rankingsLabels.subtitle }),
@@ -60796,18 +60803,14 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_subhead_default, { subtitle: rankingsLabels.table.title, children: hasPeriod && /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("h6", { children: labels.period }) }),
         /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(item_subsection_default, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_table_default, { hasPercent: true, labels: rankingsLabels.table, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(Item2, { id }, id)) }),
-          /* @__PURE__ */ (0, import_jsx_runtime79.jsxs)(more_default, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
-              LimitLink,
-              {
-                currentLimit: ids.length,
-                labels: rankingsLabels,
-                limit: 10,
-                setLimit
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(ItemsLink, { children: rankingsLabels.links.more }) })
-          ] })
+          /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
+            RankingsLinks,
+            {
+              currentLimit: ids.length,
+              links: rankingsLinks,
+              setLimit
+            }
+          )
         ] })
       ] })
     ] });

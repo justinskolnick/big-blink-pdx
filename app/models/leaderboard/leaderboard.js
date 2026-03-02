@@ -1,4 +1,5 @@
 const { Labels } = require('../../helpers/labels');
+const { links } = require('../../helpers/links');
 
 const { titleCase } = require('../../lib/string');
 
@@ -32,7 +33,7 @@ class Leaderboard {
     };
   }
 
-  static getValuesForGroup(items, incidentCount, labels) {
+  static getValuesForGroup(items, incidentCount, labels, paths) {
     const {
       member,
       members,
@@ -60,6 +61,7 @@ class Leaderboard {
             percentage: this.getLabel('ranking_share_of_incidents', this.labelPrefix, { incidentCount }),
           },
         },
+        // todo: remove the links block
         links: {
           limit: {
             label: this.getLabel('view_top_limit', this.labelPrefix, {
@@ -71,6 +73,23 @@ class Leaderboard {
             subset: linkSubset,
             group: linkGroup,
           }),
+        },
+      },
+      links: {
+        limit: {
+          label: this.getLabel('view_top_limit', this.labelPrefix, {
+            limit: itemCount < max ? max : min,
+          }),
+          params: {
+            limit,
+          },
+        },
+        more: {
+          label: this.getLabel(linkSubset ? 'view_full_list_with_subset' : 'view_full_list', this.labelPrefix, {
+            subset: linkSubset,
+            group: linkGroup,
+          }),
+          path: paths.more,
         },
       },
     };
@@ -89,6 +108,8 @@ class Leaderboard {
       titleGroup,
       subtitleGroup,
       linkGroup,
+    }, {
+      more: links.entities(),
     });
 
     return values;
@@ -109,6 +130,8 @@ class Leaderboard {
       subtitleGroup,
       linkGroup,
       linkSubset,
+    }, {
+      more: links.people(),
     });
 
     return values;
@@ -129,6 +152,8 @@ class Leaderboard {
       subtitleGroup,
       linkGroup,
       linkSubset,
+    }, {
+      more: links.people(),
     });
 
     values.labels.table.title = this.getLabel('ranking_most_lobbied', this.labelPrefix);

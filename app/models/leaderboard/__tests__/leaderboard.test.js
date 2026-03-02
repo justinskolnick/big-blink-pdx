@@ -53,6 +53,18 @@ describe('getValuesForEntities()', () => {
         },
         title: 'Entities',
       },
+      links: {
+        limit: {
+          label: 'View the top 10',
+          params: {
+            limit: 10,
+          },
+        },
+        more: {
+          label: 'View the full list of entities',
+          path: '/entities',
+        },
+      },
     });
   });
 });
@@ -86,6 +98,18 @@ describe('getValuesForLobbyists()', () => {
         },
         title: 'Lobbyists',
       },
+      links: {
+        limit: {
+          label: 'View the top 10',
+          params: {
+            limit: 10,
+          },
+        },
+        more: {
+          label: 'View all lobbyists in the full list of people',
+          path: '/people',
+        },
+      },
     });
   });
 });
@@ -118,6 +142,18 @@ describe('getValuesForOfficials()', () => {
           title: 'Portland’s most lobbied officials',
         },
         title: 'City Officials',
+      },
+      links: {
+        limit: {
+          label: 'View the top 10',
+          params: {
+            limit: 10,
+          },
+        },
+        more: {
+          label: 'View all officials in the full list of people',
+          path: '/people',
+        },
       },
     });
   });
