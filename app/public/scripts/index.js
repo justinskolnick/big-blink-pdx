@@ -47096,9 +47096,10 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/role/icon.tsx
   var RoleIcon = /* @__PURE__ */ ((RoleIcon2) => {
-    RoleIcon2["entity"] = "building";
+    RoleIcon2[RoleIcon2["entity"] = iconName] = "entity";
     RoleIcon2["lobbyist"] = "briefcase";
     RoleIcon2["official"] = "landmark";
+    RoleIcon2[RoleIcon2["source"] = iconName3] = "source";
     return RoleIcon2;
   })(RoleIcon || {});
   var getIconName3 = (role) => RoleIcon[role];
