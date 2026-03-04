@@ -49,6 +49,14 @@ describe('toRoleObject()', () => {
           {
             association: 'lobbyists',
             label: 'Authorized these lobbyists',
+            links: {
+              all: {
+                label: 'View all 6 lobbyists',
+                params: {
+                  limit: 6,
+                }
+              },
+            },
             records: [
               {
                 person: {
@@ -101,13 +109,65 @@ describe('toRoleObject()', () => {
                 },
                 total: 340,
               },
+              {
+                person: {
+                  id: 126,
+                  links: {
+                    self: '/people/126',
+                  },
+                  name: 'Tonda Vierk',
+                  pernr: undefined,
+                  roles: {
+                    label: 'Roles and Associations',
+                    list: [],
+                    options: {},
+                  },
+                  type: 'person',
+                },
+                total: 592,
+              },
+              {
+                person: {
+                  id: 127,
+                  links: {
+                    self: '/people/127',
+                  },
+                  name: 'Danae Buntjer',
+                  pernr: undefined,
+                  roles: {
+                    label: 'Roles and Associations',
+                    list: [],
+                    options: {},
+                  },
+                  type: 'person',
+                },
+                total: 51,
+              },
+              {
+                person: {
+                  id: 128,
+                  links: {
+                    self: '/people/128',
+                  },
+                  name: 'Dirk Chiarello',
+                  pernr: undefined,
+                  roles: {
+                    label: 'Roles and Associations',
+                    list: [],
+                    options: {},
+                  },
+                  type: 'person',
+                },
+                total: 2,
+              },
             ],
             role: 'lobbyist',
-            total: 3,
+            total: 6,
           },
           {
             association: 'officials',
             label: 'Lobbied these City officials',
+            links: null,
             records: [
               {
                 person: {
@@ -167,6 +227,7 @@ describe('toRoleObject()', () => {
             {
               association: 'lobbyists',
               label: 'Lobbied alongside these lobbyists',
+              links: null,
               records: [
                 {
                   person: {
@@ -226,6 +287,7 @@ describe('toRoleObject()', () => {
             {
               association: 'officials',
               label: 'Met with these City officials',
+              links: null,
               records: [
                 {
                   person: {
@@ -284,6 +346,7 @@ describe('toRoleObject()', () => {
             {
               association: 'lobbyists',
               label: 'Was lobbied by these lobbyists',
+              links: null,
               records: [
                 {
                   person: {
@@ -343,6 +406,7 @@ describe('toRoleObject()', () => {
             {
               association: 'officials',
               label: 'Was lobbied alongside these City officials',
+              links: null,
               records: [
                 {
                   person: {
@@ -402,6 +466,7 @@ describe('toRoleObject()', () => {
           {
             association: 'lobbyists',
             label: 'Lobbyists',
+            links: null,
             records: [
               {
                 person: {
@@ -461,6 +526,7 @@ describe('toRoleObject()', () => {
           {
             association: 'officials',
             label: 'City Officials',
+            links: null,
             records: [
               {
                 person: {

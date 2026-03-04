@@ -142,3 +142,30 @@
     }
   }
 }
+
+.item-table-more {
+  padding-left: calc(var(--gap) / 18 * 5);
+  padding-right: calc(var(--gap) / 18 * 5);
+
+  .icon {
+    color: var(--color-light);
+    font-size: 10px;
+  }
+
+  .item-text {
+    font-size: 12px;
+  }
+
+  .item-text-with-icon {
+    margin-right: 2.5ch;
+    line-height: 27px;
+  }
+
+  .icon + .item-text {
+    margin-left: 2ch !important;
+  }
+}
+
+.item-table + .item-table-more {
+  margin-top: calc(var(--gap) / 2)
+}

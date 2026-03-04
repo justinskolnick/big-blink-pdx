@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState, ReactNode, RefObject } from 'react';
+import React, { useEffect, useRef, useState, MouseEvent, ReactNode, RefObject } from 'react';
+import { useLocation } from 'react-router';
 import { cx } from '@emotion/css';
 
 import { FnSetLimit } from '../hooks/use-limited-query';
@@ -6,7 +7,10 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
 import ItemTable from './item-table';
+import ItemTextWithIcon from './item-text-with-icon';
 import StatBox from './stat-box';
+
+import type { AssociatedLinksObject } from '../types';
 
 interface AffiliatedItemsProps {
   children: ReactNode;
@@ -19,6 +23,7 @@ interface Props {
   hasAuxiliaryType?: boolean;
   initialCount: number;
   label: string;
+  links?: AssociatedLinksObject;
   ref?: RefObject<HTMLElement>;
   setLimit: FnSetLimit;
   title: string;
@@ -35,11 +40,53 @@ const AffiliatedItems = ({
   </div>
 );
 
+const Link = ({
+  initialCount,
+  link,
+  setLimit,
+}) => {
+  const location = useLocation();
+  const href = location.pathname;
+
+  const hasMoreToShow = link.params.limit > initialCount;
+
+  const handleClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setLimit(link.params.limit);
+  };
+
+  return (
+    <ItemTextWithIcon icon={hasMoreToShow ? 'plus' : 'minus'}>
+      <a href={href} onClick={handleClick}>
+        {link.label}
+      </a>
+    </ItemTextWithIcon>
+  );
+};
+
+const Links = ({
+  initialCount,
+  links,
+  setLimit,
+}) => (
+  <div className='item-table-more'>
+    {Object.entries(links).map(([key, value]) => (
+      <Link
+        key={key}
+        link={value}
+        initialCount={initialCount}
+        setLimit={setLimit}
+      />
+    ))}
+  </div>
+);
+
 const AffiliatedItemTable = ({
   children,
   hasAuxiliaryType,
   initialCount,
   label,
+  links,
   ref,
   setLimit,
   title,
@@ -53,6 +100,8 @@ const AffiliatedItemTable = ({
   const hasMoreToShow = total > initialCount;
   const canSetLimit = Boolean(setLimit);
 
+  const hasLinks = Boolean(links);
+
   const scrollToRef = () => delayedScrollToRef(scrollRef);
 
   useEffect(() => {
@@ -60,7 +109,7 @@ const AffiliatedItemTable = ({
       setLimit(null);
     }
   }, [canSetLimit, setLimit, showAll]);
-
+  
   return (
     <StatBox title={title}>
       {hasItems ? (
@@ -68,6 +117,14 @@ const AffiliatedItemTable = ({
           <ItemTable hasAnotherIcon={hasAuxiliaryType}>
             {children(showAll)}
           </ItemTable>
+
+          {hasLinks && (
+            <Links
+              initialCount={initialCount}
+              links={links}
+              setLimit={setLimit}
+            />
+          )}
 
           {hasMoreToShow && (
             <button type='button' className='button-toggle' onClick={e => {

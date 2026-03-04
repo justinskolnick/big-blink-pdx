@@ -94,5 +94,7 @@
     "source__officials": "City Officials",
     "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.",
     "source__registration_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
-    "totals": "Totals"
+    "totals": "Totals",
+    "view_top_limit": "View the top :limit",
+    "view_total_items": "View all :total :items"
 }

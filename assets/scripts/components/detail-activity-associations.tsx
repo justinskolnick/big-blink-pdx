@@ -124,9 +124,9 @@ const AssociationGroup = ({
     setRecordLimit,
   } = useGetItemRolesByItem(item, options, true);
 
-  const setLimit = () => {
+  const setLimit: FnSetLimit = (limit) => {
     setPaused(false);
-    setRecordLimit(value.total);
+    setRecordLimit(limit);
   };
 
   if (!value) return null;
@@ -159,6 +159,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
             <AffiliatedPeopleTable
               attendees={value}
               initialCount={initialLimit}
+              links={value.links}
               model={items.model}
               ref={ref}
               role={filterByRole ? role : undefined}
@@ -197,6 +198,7 @@ const Entities = ({ item, role }: NamedRoleProps) => {
               hasAuxiliaryType={value.role === Role.Lobbyist}
               hasLobbyist={value.role === Role.Lobbyist}
               initialCount={initialLimit}
+              links={value.links}
               model={items.model}
               ref={ref}
               role={value.role}

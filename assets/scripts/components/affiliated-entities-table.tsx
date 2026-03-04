@@ -19,6 +19,7 @@ import { Role, Sections } from '../types';
 import type {
   AffiliatedEntityRecord,
   AffiliatedEntityValue,
+  AssociatedLinksObject,
   ItemRegistrations,
 } from '../types';
 
@@ -39,6 +40,7 @@ interface Props {
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
   initialCount: number;
+  links?: AssociatedLinksObject;
   model: Sections;
   ref?: RefObject<HTMLElement>;
   role?: Role;
@@ -117,6 +119,7 @@ const AffiliatedEntitiesTable = ({
   hasAuxiliaryType,
   hasLobbyist,
   initialCount,
+  links,
   model,
   ref,
   role,
@@ -127,24 +130,21 @@ const AffiliatedEntitiesTable = ({
     hasAuxiliaryType={hasAuxiliaryType}
     initialCount={initialCount}
     label={model}
+    links={links}
     ref={ref}
     setLimit={setLimit}
     title={title}
     total={entities.total}
   >
-    {(showAll) => {
-      const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-
-      return items.map((item, i) => (
-        <AffiliatedEntity
-          hasAuxiliaryType={hasAuxiliaryType}
-          hasLobbyist={hasLobbyist}
-          item={item}
-          key={i}
-          role={role}
-        />
-      ));
-    }}
+    {(showAll) => entities.records.map((item, i) => (
+      <AffiliatedEntity
+        hasAuxiliaryType={hasAuxiliaryType}
+        hasLobbyist={hasLobbyist}
+        item={item}
+        key={i}
+        role={role}
+      />
+    ))}
   </AffiliatedItemTable>
 );
 

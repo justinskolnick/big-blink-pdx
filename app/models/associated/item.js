@@ -49,12 +49,45 @@ class AssociatedItem extends Base {
     };
   }
 
+  // todo: sort by limit
+  static getValuesLinks(key, total) {
+    let links = null;
+
+    if (total > 5) {
+      links = {};
+
+      if (total > 10) {
+        links.top = {
+          label: this.labels.getLabel('view_top_limit', null, {
+            limit: 10,
+          }),
+          params: {
+            limit: 10,
+          },
+        };
+      }
+
+      links.all = {
+        label: this.labels.getLabel('view_total_items', null, {
+          items: this.labels.getLabel(key),
+          total,
+        }),
+        params: {
+          limit: total,
+        },
+      };
+    }
+
+    return links;
+  }
+
   static toValuesObject(key, values, role, labelPrefix) {
     return {
       association: this.getAssociation(values.role),
       label: this.getValueLabel(role, key, labelPrefix),
       records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
+      links: this.getValuesLinks(key, values.total),
       total: values.total,
     };
   }

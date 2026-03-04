@@ -24,6 +24,7 @@ describe('toRoleObject', () => {
           {
             association: 'entities',
             label: 'Was lobbied by representatives of these entities',
+            links: null,
             records: [
               {
                 entity: {
@@ -140,6 +141,7 @@ describe('toRoleObject', () => {
           {
             association: 'entities',
             label: 'Entities',
+            links: null,
             records: [
               {
                 entity: {

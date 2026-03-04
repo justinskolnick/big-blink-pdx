@@ -16,12 +16,14 @@ import { useGetPersonById } from '../reducers/people';
 import { Role, Sections } from '../types';
 import type {
   AffiliatedPersonRecord,
+  AssociatedLinksObject,
   AttendeeGroup,
 } from '../types';
 
 interface Props {
   attendees: AttendeeGroup;
   initialCount: number;
+  links?: AssociatedLinksObject;
   model: Sections;
   ref?: RefObject<HTMLElement>;
   role?: Role;
@@ -59,6 +61,7 @@ const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => 
 const AffiliatedPeopleTable = ({
   attendees,
   initialCount,
+  links,
   model,
   ref,
   role,
@@ -67,23 +70,20 @@ const AffiliatedPeopleTable = ({
   <AffiliatedItemTable
     initialCount={initialCount}
     label={model}
+    links={links}
     ref={ref}
     setLimit={setLimit}
     title={attendees.label}
     total={attendees.total}
   >
-    {(showAll) => {
-      const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
-
-      return items.map((item, i) => (
-        <AffiliatedPerson
-          item={item}
-          key={i}
-          personRole={attendees.role}
-          role={role}
-        />
-      ));
-    }}
+    {(showAll) => attendees.records.map((item, i) => (
+      <AffiliatedPerson
+        item={item}
+        key={i}
+        personRole={attendees.role}
+        role={role}
+      />
+    ))}
   </AffiliatedItemTable>
 );
 

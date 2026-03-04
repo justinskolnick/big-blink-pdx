@@ -87,7 +87,7 @@ export type Attendee = {
   as?: string;
   person: Pick<Person, 'id'>;
   total?: number;
-}
+};
 
 export type AttendeeGroup = {
   label?: string;
@@ -499,8 +499,21 @@ type AssociatedItem = {
   options: Role[];
 };
 
+type AssociatedLinkObject = {
+  label: string;
+  params: {
+    limit: number;
+  };
+};
+
+export type AssociatedLinksObject = {
+  all: AssociatedLinkObject;
+  top?: AssociatedLinkObject;
+};
+
 type AssociatedItemValue = {
   label: string;
+  links?: AssociatedLinksObject;
   role: Role;
   total: number;
 };
