@@ -7,10 +7,13 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
 import ItemTable from './item-table';
-import ItemTextWithIcon from './item-text-with-icon';
+import ItemText from './item-text';
 import StatBox from './stat-box';
 
-import type { AssociatedLinksObject } from '../types';
+import type {
+  AssociatedLinksObject,
+  AssociatedLinksOption,
+} from '../types';
 
 interface AffiliatedItemsProps {
   children: ReactNode;
@@ -18,11 +21,23 @@ interface AffiliatedItemsProps {
   ref?: RefObject<HTMLDivElement>;
 }
 
+interface LinkProps {
+  currentCount: number;
+  link: AssociatedLinksOption;
+  setLimit: FnSetLimit;
+}
+
+interface LinksProps {
+  currentCount: number;
+  links: AssociatedLinksObject;
+  setLimit: FnSetLimit;
+}
+
 interface Props {
-  children: (showAll: boolean) => ReactNode;
+  children: ReactNode;
+  currentLimit: number;
   hasAuxiliaryType?: boolean;
   initialCount: number;
-  label: string;
   links?: AssociatedLinksObject;
   ref?: RefObject<HTMLElement>;
   setLimit: FnSetLimit;
@@ -41,14 +56,14 @@ const AffiliatedItems = ({
 );
 
 const Link = ({
-  initialCount,
+  currentCount,
   link,
   setLimit,
-}) => {
+}: LinkProps) => {
   const location = useLocation();
   const href = location.pathname;
 
-  const hasMoreToShow = link.params.limit > initialCount;
+  const isSelected = link.params.limit === currentCount;
 
   const handleClick = (e: MouseEvent) => {
     e.preventDefault();
@@ -56,36 +71,48 @@ const Link = ({
   };
 
   return (
-    <ItemTextWithIcon icon={hasMoreToShow ? 'plus' : 'minus'}>
+    <ItemText className={isSelected && 'is-selected'}>
       <a href={href} onClick={handleClick}>
         {link.label}
       </a>
-    </ItemTextWithIcon>
+    </ItemText>
   );
 };
 
 const Links = ({
-  initialCount,
+  currentCount,
   links,
   setLimit,
-}) => (
-  <div className='item-table-more'>
-    {Object.entries(links).map(([key, value]) => (
-      <Link
-        key={key}
-        link={value}
-        initialCount={initialCount}
-        setLimit={setLimit}
-      />
-    ))}
-  </div>
-);
+}: LinksProps) => {
+  const hasOptions = Boolean(links.options);
+
+  return (
+    <div className='item-table-more'>
+      <div className='item-table-more-total'>
+        <ItemText>
+          {links.total.label}
+        </ItemText>
+      </div>
+
+      <div className='item-table-more-options'>
+        {hasOptions && links.options.map((option) => (
+          <Link
+            key={option.params.limit}
+            link={option}
+            currentCount={currentCount}
+            setLimit={setLimit}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const AffiliatedItemTable = ({
   children,
+  currentLimit,
   hasAuxiliaryType,
   initialCount,
-  label,
   links,
   ref,
   setLimit,
@@ -95,53 +122,45 @@ const AffiliatedItemTable = ({
   const tableRef = useRef<HTMLDivElement>(null);
   const scrollRef = ref || tableRef;
 
-  const [showAll, setShowAll] = useState(false);
-  const hasItems = total > 0;
-  const hasMoreToShow = total > initialCount;
-  const canSetLimit = Boolean(setLimit);
+  const [lastCount, setLastCount] = useState<number>(initialCount);
 
+  const hasItems = total > 0;
   const hasLinks = Boolean(links);
 
   const scrollToRef = () => delayedScrollToRef(scrollRef);
+  const refIsInView = () => isRefTopInView(scrollRef);
 
   useEffect(() => {
-    if (canSetLimit && showAll) {
-      setLimit(null);
+    if (currentLimit !== lastCount) {
+      setLastCount(currentLimit);
+
+      if (!refIsInView()) {
+        scrollToRef();
+      }
     }
-  }, [canSetLimit, setLimit, showAll]);
-  
+  }, [
+    currentLimit,
+    isRefTopInView,
+    lastCount,
+    refIsInView,
+    scrollToRef,
+    setLastCount,
+  ]);
+
   return (
     <StatBox title={title}>
       {hasItems ? (
         <AffiliatedItems ref={tableRef}>
           <ItemTable hasAnotherIcon={hasAuxiliaryType}>
-            {children(showAll)}
+            {children}
           </ItemTable>
 
           {hasLinks && (
             <Links
-              initialCount={initialCount}
+              currentCount={currentLimit}
               links={links}
               setLimit={setLimit}
             />
-          )}
-
-          {hasMoreToShow && (
-            <button type='button' className='button-toggle' onClick={e => {
-              e.preventDefault();
-
-              if (!isRefTopInView(scrollRef)) {
-                scrollToRef();
-              }
-
-              setShowAll(!showAll);
-            }}>
-              {showAll ? (
-                <>View top {initialCount} {label}</>
-              ) : (
-                <>View all {total} {label}</>
-              )}
-            </button>
           )}
         </AffiliatedItems>
       ) : (

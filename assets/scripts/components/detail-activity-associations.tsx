@@ -31,6 +31,7 @@ interface FnUseGetItemRolesById {
     options: GenericObject,
     isPaused: boolean,
   ): {
+    currentLimit: number;
     initialLimit: number;
     setPaused: FnSetPaused;
     setRecordLimit: FnSetLimit;
@@ -48,7 +49,11 @@ interface GroupProps {
 }
 
 interface AssociationGroupProps {
-  children: (initialLimit: number, setLimit: FnSetLimit) => ReactNode;
+  children: (
+    initialLimit: number,
+    currentLimit: number,
+    setLimit: FnSetLimit
+  ) => ReactNode;
   item: Entity | Person | Source;
   role?: Role;
   value?: AssociatedEntitiesValue | AssociatedPersonsValue;
@@ -119,6 +124,7 @@ const AssociationGroup = ({
   }
 
   const {
+    currentLimit,
     initialLimit,
     setPaused,
     setRecordLimit,
@@ -131,7 +137,7 @@ const AssociationGroup = ({
 
   if (!value) return null;
 
-  return children(initialLimit, setLimit);
+  return children(initialLimit, currentLimit, setLimit);
 };
 
 const Attendees = ({ item, role }: NamedRoleProps) => {
@@ -155,12 +161,12 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
           value={value}
           key={i}
         >
-          {(initialLimit, setLimit) => (
+          {(initialLimit, currentLimit, setLimit) => (
             <AffiliatedPeopleTable
               attendees={value}
+              currentLimit={currentLimit}
               initialCount={initialLimit}
               links={value.links}
-              model={items.model}
               ref={ref}
               role={filterByRole ? role : undefined}
               setLimit={setLimit}
@@ -192,14 +198,14 @@ const Entities = ({ item, role }: NamedRoleProps) => {
           value={value}
           key={i}
         >
-          {(initialLimit, setLimit) => (
+          {(initialLimit, currentLimit, setLimit) => (
             <AffiliatedEntitiesTable
+              currentLimit={currentLimit}
               entities={value}
               hasAuxiliaryType={value.role === Role.Lobbyist}
               hasLobbyist={value.role === Role.Lobbyist}
               initialCount={initialLimit}
               links={value.links}
-              model={items.model}
               ref={ref}
               role={value.role}
               setLimit={setLimit}

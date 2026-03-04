@@ -1,3 +1,5 @@
+const pluralize = require('pluralize');
+
 const {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
@@ -49,33 +51,52 @@ class AssociatedItem extends Base {
     };
   }
 
-  // todo: sort by limit
   static getValuesLinks(key, total) {
-    let links = null;
+    const labelKey = pluralize(key, total);
+
+    const links = {
+      options: null,
+      total: {
+        label: this.labels.getLabel('total_items', null, {
+          items: this.labels.getLabel(labelKey),
+          total,
+        }),
+      },
+    };
+    const limits = [];
+    let options = [];
+
+    if (total > 10) {
+      limits.push(10);
+    }
 
     if (total > 5) {
-      links = {};
+      limits.push(5);
+      limits.push(total);
+    }
 
-      if (total > 10) {
-        links.top = {
-          label: this.labels.getLabel('view_top_limit', null, {
-            limit: 10,
-          }),
+    options = limits.sort((a, b) => a - b).map(limit => {
+      if (limit === total) {
+        return {
+          label: this.labels.getLabel('view_all'),
           params: {
-            limit: 10,
+            limit,
           },
         };
       }
 
-      links.all = {
-        label: this.labels.getLabel('view_total_items', null, {
-          items: this.labels.getLabel(key),
-          total,
+      return {
+        label: this.labels.getLabel('view_top_limit', null, {
+          limit,
         }),
         params: {
-          limit: total,
+          limit,
         },
       };
+    });
+
+    if (options.length) {
+      links.options = options;
     }
 
     return links;

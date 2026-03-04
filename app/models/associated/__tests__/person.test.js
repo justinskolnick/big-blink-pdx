@@ -50,11 +50,22 @@ describe('toRoleObject()', () => {
             association: 'lobbyists',
             label: 'Authorized these lobbyists',
             links: {
-              all: {
-                label: 'View all 6 lobbyists',
-                params: {
-                  limit: 6,
-                }
+              options: [
+                {
+                  label: 'Top 5',
+                  params: {
+                    limit: 5,
+                  }
+                },
+                {
+                  label: 'View all',
+                  params: {
+                    limit: 6,
+                  }
+                },
+              ],
+              total: {
+                label: '6 lobbyists',
               },
             },
             records: [
@@ -167,7 +178,12 @@ describe('toRoleObject()', () => {
           {
             association: 'officials',
             label: 'Lobbied these City officials',
-            links: null,
+            links: {
+              options: null,
+              total: {
+                label: '2 officials',
+              },
+            },
             records: [
               {
                 person: {
@@ -227,7 +243,12 @@ describe('toRoleObject()', () => {
             {
               association: 'lobbyists',
               label: 'Lobbied alongside these lobbyists',
-              links: null,
+              links: {
+                options: null,
+                total: {
+                  label: '3 lobbyists',
+                },
+              },
               records: [
                 {
                   person: {
@@ -287,7 +308,12 @@ describe('toRoleObject()', () => {
             {
               association: 'officials',
               label: 'Met with these City officials',
-              links: null,
+              links: {
+                options: null,
+                total: {
+                  label: '2 officials',
+                },
+              },
               records: [
                 {
                   person: {
@@ -346,7 +372,12 @@ describe('toRoleObject()', () => {
             {
               association: 'lobbyists',
               label: 'Was lobbied by these lobbyists',
-              links: null,
+              links: {
+                options: null,
+                total: {
+                  label: '3 lobbyists',
+                },
+              },
               records: [
                 {
                   person: {
@@ -406,7 +437,12 @@ describe('toRoleObject()', () => {
             {
               association: 'officials',
               label: 'Was lobbied alongside these City officials',
-              links: null,
+              links: {
+                options: null,
+                total: {
+                  label: '2 officials',
+                },
+              },
               records: [
                 {
                   person: {
@@ -466,7 +502,12 @@ describe('toRoleObject()', () => {
           {
             association: 'lobbyists',
             label: 'Lobbyists',
-            links: null,
+            links: {
+              options: null,
+              total: {
+                label: '3 lobbyists',
+              },
+            },
             records: [
               {
                 person: {
@@ -526,7 +567,12 @@ describe('toRoleObject()', () => {
           {
             association: 'officials',
             label: 'City Officials',
-            links: null,
+            links: {
+              options: null,
+              total: {
+                label: '2 officials',
+              },
+            },
             records: [
               {
                 person: {

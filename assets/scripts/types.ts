@@ -499,16 +499,20 @@ type AssociatedItem = {
   options: Role[];
 };
 
-type AssociatedLinkObject = {
+export type AssociatedLinksOption = {
   label: string;
   params: {
     limit: number;
   };
 };
 
+type AssociatedLinkTotal = {
+  label: string;
+};
+
 export type AssociatedLinksObject = {
-  all: AssociatedLinkObject;
-  top?: AssociatedLinkObject;
+  options: AssociatedLinksOption[];
+  total: AssociatedLinkTotal;
 };
 
 type AssociatedItemValue = {
