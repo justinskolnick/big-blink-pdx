@@ -75,6 +75,7 @@ const buildEntitiesQuery = (options = {}, limit = null) => {
 
   const clauses = [];
   const selections = [];
+  const sorting = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -115,9 +116,16 @@ const buildEntitiesQuery = (options = {}, limit = null) => {
   if (!includeTotalOnly) {
     clauses.push('GROUP BY');
     clauses.push(Incident.field(Entity.foreignKey()));
-    clauses.push('ORDER BY');
-    clauses.push('total DESC');
   }
+
+  sorting.push('total DESC');
+
+  if (!includeTotalOnly) {
+    sorting.push(`${Entity.field('name')} ASC`);
+  }
+
+  clauses.push('ORDER BY');
+  clauses.push(sorting.join(', '));
 
   if (hasLimit) {
     clauses.push('LIMIT ?');

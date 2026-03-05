@@ -88,7 +88,7 @@ describe('getEntitiesQuery()', () => {
           'GROUP BY',
           'incidents.entity_id',
           'ORDER BY',
-          'total DESC',
+          'total DESC, entities.name ASC',
         ],
         params: [],
       });
@@ -108,7 +108,7 @@ describe('getEntitiesQuery()', () => {
           'GROUP BY',
           'incidents.entity_id',
           'ORDER BY',
-          'total DESC',
+          'total DESC, entities.name ASC',
         ],
         params: [123],
       });
@@ -127,7 +127,7 @@ describe('getEntitiesQuery()', () => {
             'GROUP BY',
             'incidents.entity_id',
             'ORDER BY',
-            'total DESC',
+            'total DESC, entities.name ASC',
           ],
           params: [123, 'lobbyist'],
         });
@@ -147,7 +147,7 @@ describe('getEntitiesQuery()', () => {
             'GROUP BY',
             'incidents.entity_id',
             'ORDER BY',
-            'total DESC',
+            'total DESC, entities.name ASC',
             'LIMIT ?',
           ],
           params: [123, 5],
@@ -166,6 +166,8 @@ describe('getEntitiesTotalQuery()', () => {
           'COUNT(DISTINCT entities.id) AS total',
           'FROM incidents',
           'LEFT JOIN entities ON incidents.entity_id = entities.id',
+          'ORDER BY',
+          'total DESC',
         ],
         params: [],
       });
@@ -182,6 +184,8 @@ describe('getEntitiesTotalQuery()', () => {
           'LEFT JOIN entities ON incidents.entity_id = entities.id',
           'WHERE',
           'incidents.id IN (SELECT incident_attendees.incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ?)',
+          'ORDER BY',
+          'total DESC',
         ],
         params: [123],
       });
@@ -197,6 +201,8 @@ describe('getEntitiesTotalQuery()', () => {
             'LEFT JOIN entities ON incidents.entity_id = entities.id',
             'WHERE',
             'incidents.id IN (SELECT incident_attendees.incident_id AS id FROM incident_attendees WHERE incident_attendees.person_id = ? AND incident_attendees.role = ?)',
+            'ORDER BY',
+            'total DESC',
           ],
           params: [123, 'lobbyist'],
         });
