@@ -8,9 +8,11 @@ import { BetterLink as Link } from '../links';
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
 import ItemSubsection from '../item-subsection';
-import ItemTable from '../item-table';
+import ItemTable, {
+  ItemTableMore,
+  ItemTableMoreOptions,
+} from '../item-table';
 import ItemTextWithIcon from '../item-text-with-icon';
-import LeaderboardMore from './more';
 import LeaderboardSubsection from './subsection';
 import LeaderboardSubsectionGroup from './subsection-group';
 import { PersonItem } from '../people/index';
@@ -77,18 +79,20 @@ const RankingsLinks = ({
   links,
   setLimit
 }: RankingsLinksProps) => (
-  <LeaderboardMore>
-    <LimitLink
-      link={links.limit}
-      currentLimit={currentLimit}
-      setLimit={setLimit}
-    />
-    <ItemTextWithIcon icon='link'>
-      <Link to={links.more.path}>
-        {links.more.label}
-      </Link>
-    </ItemTextWithIcon>
-  </LeaderboardMore>
+  <ItemTableMore>
+    <ItemTableMoreOptions>
+      <LimitLink
+        link={links.limit}
+        currentLimit={currentLimit}
+        setLimit={setLimit}
+      />
+      <ItemTextWithIcon icon='link'>
+        <Link to={links.more.path}>
+          {links.more.label}
+        </Link>
+      </ItemTextWithIcon>
+    </ItemTableMoreOptions>
+  </ItemTableMore>
 );
 
 const Rankings = ({

@@ -10,6 +10,10 @@ interface RowProps {
   total?: number | string | ReactNode;
 }
 
+interface MoreProps {
+  children: ReactNode;
+}
+
 interface Props {
   children: ReactNode;
   hasAnotherIcon?: boolean;
@@ -44,6 +48,24 @@ export const ItemRow = ({
     </tr>
   );
 };
+
+export const ItemTableMore = ({ children }: MoreProps) => (
+  <div className='item-table-more'>
+    {children}
+  </div>
+);
+
+export const ItemTableMoreOptions = ({ children }: MoreProps) => (
+  <div className='item-table-more-options'>
+    {children}
+  </div>
+);
+
+export const ItemTableMoreTotal = ({ children }: MoreProps) => (
+  <div className='item-table-more-total'>
+    {children}
+  </div>
+);
 
 const ItemTable = ({
   children,

@@ -147,7 +147,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row-reverse;
   padding-left: calc(var(--gap) / 6);
   padding-right: 0;
   color: var(--color-light);
@@ -160,7 +159,7 @@
 
   .item-text {
     font-size: 12px;
-    line-height: 18px;
+    line-height: 27px;
 
     &.is-selected {
       a {
@@ -176,12 +175,6 @@
 
     .item-text-with-icon {
       align-items: center;
-
-      .item-text {
-        &::after {
-          content: ':';
-        }
-      }
     }
 
     .item-text-with-icon + .item-text {
@@ -199,5 +192,5 @@
 }
 
 .item-table + .item-table-more {
-  padding-top: calc(var(--gap) / 2);
+  padding-top: calc(var(--gap) / 3);
 }

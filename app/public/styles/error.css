@@ -1282,35 +1282,11 @@ body.has-alert .alert-root {
   color: var(--color-text-lighter);
   font-size: 16px;
 }
-.affiliated-items .button-toggle {
-  cursor: pointer;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 9px 18px;
-  width: 100%;
-  border: none;
-  border-radius: 9px;
-  background-color: linen;
-  background-color: var(--color-accent-lightest);
-  box-shadow: 0 1px 2px burlywood;
-  box-shadow: 0 1px 2px var(--color-accent-alt-lighter);
-  color: cornflowerblue;
-  color: var(--color-link);
-  font-weight: 600;
-  font-size: 12px;
-  text-align: center;
-  transition: box-shadow 250ms ease, transform 250ms ease;
+.affiliated-items .item-table-more {
+  flex-direction: row-reverse;
 }
-.affiliated-items .button-toggle:hover {
-  transform: scale(1.05);
-  transition-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
-}
-.affiliated-items .button-toggle:active {
-  transform: scale(0.95);
-}
-.affiliated-items table + .button-toggle {
-  margin-top: 1rem;
+.affiliated-items .item-table-more-options .item-text-with-icon .item-text::after {
+  content: ":";
 }
 .affiliated-items a {
   color: cornflowerblue;
@@ -1607,7 +1583,6 @@ body.has-alert .alert-root {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row-reverse;
   padding-left: calc(18px / 6);
   padding-left: calc(var(--gap) / 6);
   padding-right: 0;
@@ -1619,7 +1594,7 @@ body.has-alert .alert-root {
 }
 .item-table-more .item-text {
   font-size: 12px;
-  line-height: 18px;
+  line-height: 27px;
 }
 .item-table-more .item-text.is-selected a {
   font-weight: bold;
@@ -1632,9 +1607,6 @@ body.has-alert .alert-root {
 .item-table-more .item-table-more-options .item-text-with-icon {
   align-items: center;
 }
-.item-table-more .item-table-more-options .item-text-with-icon .item-text::after {
-  content: ":";
-}
 .item-table-more .item-table-more-options .item-text-with-icon + .item-text {
   margin-left: 1ch;
 }
@@ -1644,8 +1616,8 @@ body.has-alert .alert-root {
   content: "\b7";
 }
 .item-table + .item-table-more {
-  padding-top: calc(18px / 2);
-  padding-top: calc(var(--gap) / 2);
+  padding-top: calc(18px / 3);
+  padding-top: calc(var(--gap) / 3);
 }
 .item-text-with-icon {
   display: inline-flex;

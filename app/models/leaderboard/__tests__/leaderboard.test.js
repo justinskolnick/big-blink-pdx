@@ -35,13 +35,6 @@ describe('getValuesForEntities()', () => {
     expect(Leaderboard.getValuesForEntities(items, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
-        links: {
-          limit: {
-            label: 'View the top 10',
-            value: 10,
-          },
-          more: 'View the full list of entities',
-        },
         subtitle: 'Entities are ranked by total number of lobbying incident appearances.',
         table: {
           column: {
@@ -80,13 +73,6 @@ describe('getValuesForLobbyists()', () => {
     expect(Leaderboard.getValuesForLobbyists(items, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
-        links: {
-          limit: {
-            label: 'View the top 10',
-            value: 10,
-          },
-          more: 'View all lobbyists in the full list of people',
-        },
         subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
         table: {
           column: {
@@ -125,13 +111,6 @@ describe('getValuesForOfficials()', () => {
     expect(Leaderboard.getValuesForOfficials(items, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
-        links: {
-          limit: {
-            label: 'View the top 10',
-            value: 10,
-          },
-          more: 'View all officials in the full list of people',
-        },
         subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
         table: {
           column: {

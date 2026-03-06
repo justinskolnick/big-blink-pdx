@@ -6,7 +6,11 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
-import ItemTable from './item-table';
+import ItemTable, {
+  ItemTableMore,
+  ItemTableMoreOptions,
+  ItemTableMoreTotal,
+} from './item-table';
 import ItemText from './item-text';
 import ItemTextWithIcon from './item-text-with-icon';
 import StatBox from './stat-box';
@@ -89,15 +93,15 @@ const Links = ({
   const hasOptions = Boolean(links.options);
 
   return (
-    <div className='item-table-more'>
-      <div className='item-table-more-total'>
+    <ItemTableMore>
+      <ItemTableMoreTotal>
         <ItemText>
           {links.total.label}
         </ItemText>
-      </div>
+      </ItemTableMoreTotal>
 
       {hasOptions && (
-        <div className='item-table-more-options'>
+        <ItemTableMoreOptions>
           {hasIntro && (
             <ItemTextWithIcon icon='list-ol'>
               {links.intro.label}
@@ -112,9 +116,9 @@ const Links = ({
               setLimit={setLimit}
             />
           ))}
-        </div>
+        </ItemTableMoreOptions>
       )}
-    </div>
+    </ItemTableMore>
   );
 };
 

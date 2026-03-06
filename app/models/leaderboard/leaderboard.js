@@ -61,19 +61,6 @@ class Leaderboard {
             percentage: this.getLabel('ranking_share_of_incidents', this.labelPrefix, { incidentCount }),
           },
         },
-        // todo: remove the links block
-        links: {
-          limit: {
-            label: this.getLabel('view_top_limit', this.labelPrefix, {
-              limit: itemCount < max ? max : min,
-            }),
-            value: limit,
-          },
-          more: this.getLabel(linkSubset ? 'view_full_list_with_subset' : 'view_full_list', this.labelPrefix, {
-            subset: linkSubset,
-            group: linkGroup,
-          }),
-        },
       },
       links: {
         limit: {
