@@ -55,6 +55,7 @@ class AssociatedItem extends Base {
     const labelKey = pluralize(key, total);
 
     const links = {
+      intro: null,
       options: null,
       total: {
         label: this.labels.getLabel('total_items', null, {
@@ -78,7 +79,7 @@ class AssociatedItem extends Base {
     options = limits.sort((a, b) => a - b).map(limit => {
       if (limit === total) {
         return {
-          label: this.labels.getLabel('view_all'),
+          label: this.labels.getLabel('all'),
           params: {
             limit,
           },
@@ -86,9 +87,7 @@ class AssociatedItem extends Base {
       }
 
       return {
-        label: this.labels.getLabel('view_top_limit', null, {
-          limit,
-        }),
+        label: `${limit}`,
         params: {
           limit,
         },
@@ -96,6 +95,9 @@ class AssociatedItem extends Base {
     });
 
     if (options.length) {
+      links.intro = {
+        label: this.labels.getLabel('view'),
+      };
       links.options = options;
     }
 

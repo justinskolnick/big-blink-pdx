@@ -25,6 +25,7 @@ describe('toRoleObject()', () => {
             association: 'entities',
             label: 'Was lobbied by representatives of these entities',
             links: {
+              intro: null,
               options: null,
               total: {
                 label: '3 entities',
@@ -147,6 +148,7 @@ describe('toRoleObject()', () => {
             association: 'entities',
             label: 'Entities',
             links: {
+              intro: null,
               options: null,
               total: {
                 label: '3 entities',

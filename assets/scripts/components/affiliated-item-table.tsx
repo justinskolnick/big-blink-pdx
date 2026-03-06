@@ -8,6 +8,7 @@ import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
 import ItemTable from './item-table';
 import ItemText from './item-text';
+import ItemTextWithIcon from './item-text-with-icon';
 import StatBox from './stat-box';
 
 import type {
@@ -84,6 +85,7 @@ const Links = ({
   links,
   setLimit,
 }: LinksProps) => {
+  const hasIntro = Boolean(links.intro);
   const hasOptions = Boolean(links.options);
 
   return (
@@ -94,16 +96,24 @@ const Links = ({
         </ItemText>
       </div>
 
-      <div className='item-table-more-options'>
-        {hasOptions && links.options.map((option) => (
-          <Link
-            key={option.params.limit}
-            link={option}
-            currentCount={currentCount}
-            setLimit={setLimit}
-          />
-        ))}
-      </div>
+      {hasOptions && (
+        <div className='item-table-more-options'>
+          {hasIntro && (
+            <ItemTextWithIcon icon='list-ol'>
+              {links.intro.label}
+            </ItemTextWithIcon>
+          )}
+
+          {links.options.map((option) => (
+            <Link
+              key={option.params.limit}
+              link={option}
+              currentCount={currentCount}
+              setLimit={setLimit}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

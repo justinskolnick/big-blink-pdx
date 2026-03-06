@@ -50,15 +50,18 @@ describe('toRoleObject()', () => {
             association: 'lobbyists',
             label: 'Authorized these lobbyists',
             links: {
+              intro: {
+                label: 'View',
+              },
               options: [
                 {
-                  label: 'Top 5',
+                  label: '5',
                   params: {
                     limit: 5,
                   }
                 },
                 {
-                  label: 'View all',
+                  label: 'All',
                   params: {
                     limit: 6,
                   }
@@ -179,6 +182,7 @@ describe('toRoleObject()', () => {
             association: 'officials',
             label: 'Lobbied these City officials',
             links: {
+              intro: null,
               options: null,
               total: {
                 label: '2 officials',
@@ -244,6 +248,7 @@ describe('toRoleObject()', () => {
               association: 'lobbyists',
               label: 'Lobbied alongside these lobbyists',
               links: {
+                intro: null,
                 options: null,
                 total: {
                   label: '3 lobbyists',
@@ -309,6 +314,7 @@ describe('toRoleObject()', () => {
               association: 'officials',
               label: 'Met with these City officials',
               links: {
+                intro: null,
                 options: null,
                 total: {
                   label: '2 officials',
@@ -373,6 +379,7 @@ describe('toRoleObject()', () => {
               association: 'lobbyists',
               label: 'Was lobbied by these lobbyists',
               links: {
+                intro: null,
                 options: null,
                 total: {
                   label: '3 lobbyists',
@@ -438,6 +445,7 @@ describe('toRoleObject()', () => {
               association: 'officials',
               label: 'Was lobbied alongside these City officials',
               links: {
+                intro: null,
                 options: null,
                 total: {
                   label: '2 officials',
@@ -503,6 +511,7 @@ describe('toRoleObject()', () => {
             association: 'lobbyists',
             label: 'Lobbyists',
             links: {
+              intro: null,
               options: null,
               total: {
                 label: '3 lobbyists',
@@ -568,6 +577,7 @@ describe('toRoleObject()', () => {
             association: 'officials',
             label: 'City Officials',
             links: {
+              intro: null,
               options: null,
               total: {
                 label: '2 officials',

@@ -1,4 +1,5 @@
 {
+    "all": "All",
     "appearances": "Appearances",
     "appearances__first": "First appearance",
     "appearances__first_incident": "First incident",
@@ -94,9 +95,8 @@
     "source__officials": "City Officials",
     "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.",
     "source__registration_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
-    "totals": "Totals",
     "total_items": ":total :items",
-    "view_all": "View all",
-    "view_top_limit": "Top :limit",
-    "view_total_items": "View all :total :items"
+    "totals": "Totals",
+    "view": "View",
+    "view_top_limit": "Top :limit"
 }

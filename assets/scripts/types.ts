@@ -506,13 +506,14 @@ export type AssociatedLinksOption = {
   };
 };
 
-type AssociatedLinkTotal = {
+type AssociatedLinkLabelObject = {
   label: string;
 };
 
 export type AssociatedLinksObject = {
-  options: AssociatedLinksOption[];
-  total: AssociatedLinkTotal;
+  intro?: AssociatedLinkLabelObject;
+  options?: AssociatedLinksOption[];
+  total: AssociatedLinkLabelObject;
 };
 
 type AssociatedItemValue = {
