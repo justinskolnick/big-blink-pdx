@@ -21598,7 +21598,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment27 = REACT_FRAGMENT_TYPE;
+          var Fragment26 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -21657,7 +21657,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment27;
+          exports.Fragment = Fragment26;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -44440,6 +44440,11 @@ Hook ${hookName} was either not provided or not a function.`);
     icon: [448, 512, [128100, 62144, 62470, "user-alt", "user-large"], "f007", "M224 248a120 120 0 1 0 0-240 120 120 0 1 0 0 240zm-29.7 56C95.8 304 16 383.8 16 482.3 16 498.7 29.3 512 45.7 512l356.6 0c16.4 0 29.7-13.3 29.7-29.7 0-98.5-79.8-178.3-178.3-178.3l-59.4 0z"]
   };
   var faUserLarge = faUser;
+  var faListOl = {
+    prefix: "fas",
+    iconName: "list-ol",
+    icon: [512, 512, ["list-1-2", "list-numeric"], "f0cb", "M0 72C0 58.8 10.7 48 24 48l48 0c13.3 0 24 10.7 24 24l0 104 24 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-96 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l24 0 0-80-24 0C10.7 96 0 85.3 0 72zM30.4 301.2C41.8 292.6 55.7 288 70 288l4.9 0c33.7 0 61.1 27.4 61.1 61.1 0 19.6-9.4 37.9-25.2 49.4l-24 17.5 33.2 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-90.7 0C13.1 464 0 450.9 0 434.7 0 425.3 4.5 416.5 12.1 411l70.5-51.3c3.4-2.5 5.4-6.4 5.4-10.6 0-7.2-5.9-13.1-13.1-13.1L70 336c-3.9 0-7.7 1.3-10.8 3.6L38.4 355.2c-10.6 8-25.6 5.8-33.6-4.8S-1 324.8 9.6 316.8l20.8-15.6zM224 64l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 160l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"]
+  };
   var faArrowRight = {
     prefix: "fas",
     iconName: "arrow-right",
@@ -44745,6 +44750,7 @@ Hook ${hookName} was either not provided or not a function.`);
     faHandshake,
     faLandmark,
     faLink,
+    faListOl,
     faMinus,
     faPlus,
     faThumbtack,
@@ -44774,6 +44780,7 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["handshake"] = "fas" /* Solid */;
     SetForIcon2["landmark"] = "fas" /* Solid */;
     SetForIcon2["link"] = "fas" /* Solid */;
+    SetForIcon2["list-ol"] = "fas" /* Solid */;
     SetForIcon2["minus"] = "fas" /* Solid */;
     SetForIcon2["plus"] = "fas" /* Solid */;
     SetForIcon2["thumbtack"] = "fas" /* Solid */;
@@ -44790,7 +44797,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/item-text.tsx
   var import_jsx_runtime5 = __toESM(require_jsx_runtime());
-  var ItemText = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: "item-text", children });
+  var ItemText = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: cx("item-text", className), children });
   var item_text_default = ItemText;
 
   // assets/scripts/components/item-text-with-icon.tsx
@@ -46831,10 +46838,11 @@ Hook ${hookName} was either not provided or not a function.`);
     const [trigger, result] = query();
     (0, import_react26.useEffect)(() => {
       const lastArgs = result.originalArgs;
+      const hasChanged = lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search;
       if (paused) {
         return;
       }
-      if (lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search) {
+      if (hasChanged) {
         trigger({ id, limit: recordLimit, search });
       }
     }, [
@@ -46846,6 +46854,7 @@ Hook ${hookName} was either not provided or not a function.`);
       trigger
     ]);
     return {
+      currentLimit: recordLimit,
       initialLimit,
       setPaused,
       setRecordLimit
@@ -46929,11 +46938,49 @@ Hook ${hookName} was either not provided or not a function.`);
     className,
     ref
   }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: cx("affiliated-items", className), ref, children });
+  var Link2 = ({
+    currentCount,
+    link,
+    setLimit
+  }) => {
+    const location2 = useLocation();
+    const href = location2.pathname;
+    const isSelected = link.params.limit === currentCount;
+    const handleClick = (e2) => {
+      e2.preventDefault();
+      setLimit(link.params.limit);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { className: isSelected && "is-selected", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("a", { href, onClick: handleClick, children: link.label }) });
+  };
+  var Links2 = ({
+    currentCount,
+    links,
+    setLimit
+  }) => {
+    const hasIntro = Boolean(links.intro);
+    const hasOptions = Boolean(links.options);
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "item-table-more", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "item-table-more-total", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { children: links.total.label }) }),
+      hasOptions && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "item-table-more-options", children: [
+        hasIntro && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { icon: "list-ol", children: links.intro.label }),
+        links.options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+          Link2,
+          {
+            link: option,
+            currentCount,
+            setLimit
+          },
+          option.params.limit
+        ))
+      ] })
+    ] });
+  };
   var AffiliatedItemTable = ({
     children,
+    currentLimit,
     hasAuxiliaryType,
     initialCount,
-    label,
+    links,
     ref,
     setLimit,
     title,
@@ -46941,35 +46988,36 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const tableRef = (0, import_react27.useRef)(null);
     const scrollRef = ref || tableRef;
-    const [showAll, setShowAll] = (0, import_react27.useState)(false);
+    const [lastCount, setLastCount] = (0, import_react27.useState)(initialCount);
     const hasItems = total > 0;
-    const hasMoreToShow = total > initialCount;
-    const canSetLimit = Boolean(setLimit);
+    const hasLinks = Boolean(links);
     const scrollToRef2 = () => delayedScrollToRef(scrollRef);
+    const refIsInView = () => isRefTopInView(scrollRef);
     (0, import_react27.useEffect)(() => {
-      if (canSetLimit && showAll) {
-        setLimit(null);
-      }
-    }, [canSetLimit, setLimit, showAll]);
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(AffiliatedItems, { ref: tableRef, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children: children(showAll) }),
-      hasMoreToShow && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "button-toggle", onClick: (e2) => {
-        e2.preventDefault();
-        if (!isRefTopInView(scrollRef)) {
+      if (currentLimit !== lastCount) {
+        setLastCount(currentLimit);
+        if (!refIsInView()) {
           scrollToRef2();
         }
-        setShowAll(!showAll);
-      }, children: showAll ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
-        "View top ",
-        initialCount,
-        " ",
-        label
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
-        "View all ",
-        total,
-        " ",
-        label
-      ] }) })
+      }
+    }, [
+      currentLimit,
+      isRefTopInView,
+      lastCount,
+      refIsInView,
+      scrollToRef2,
+      setLastCount
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(AffiliatedItems, { ref: tableRef, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children }),
+      hasLinks && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+        Links2,
+        {
+          currentCount: currentLimit,
+          links,
+          setLimit
+        }
+      )
     ] }) : /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(AffiliatedItems, { className: "no-results", children: "None found" }) });
   };
   var affiliated_item_table_default = AffiliatedItemTable;
@@ -47012,11 +47060,12 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var AffiliatedEntitiesTable = ({
+    currentLimit,
     entities,
     hasAuxiliaryType,
     hasLobbyist,
     initialCount,
-    model,
+    links,
     ref,
     role,
     setLimit,
@@ -47024,26 +47073,24 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
     affiliated_item_table_default,
     {
+      currentLimit,
       hasAuxiliaryType,
       initialCount,
-      label: model,
+      links,
       ref,
       setLimit,
       title,
       total: entities.total,
-      children: (showAll) => {
-        const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
-          AffiliatedEntity,
-          {
-            hasAuxiliaryType,
-            hasLobbyist,
-            item,
-            role
-          },
-          i2
-        ));
-      }
+      children: entities.records.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(
+        AffiliatedEntity,
+        {
+          hasAuxiliaryType,
+          hasLobbyist,
+          item,
+          role
+        },
+        i2
+      ))
     }
   );
   var affiliated_entities_table_default = AffiliatedEntitiesTable;
@@ -47064,32 +47111,31 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var AffiliatedPeopleTable = ({
     attendees,
+    currentLimit,
     initialCount,
-    model,
+    links,
     ref,
     role,
     setLimit
   }) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
     affiliated_item_table_default,
     {
+      currentLimit,
       initialCount,
-      label: model,
+      links,
       ref,
       setLimit,
       title: attendees.label,
       total: attendees.total,
-      children: (showAll) => {
-        const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
-        return items.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
-          AffiliatedPerson,
-          {
-            item,
-            personRole: attendees.role,
-            role
-          },
-          i2
-        ));
-      }
+      children: attendees.records.map((item, i2) => /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(
+        AffiliatedPerson,
+        {
+          item,
+          personRole: attendees.role,
+          role
+        },
+        i2
+      ))
     }
   );
   var affiliated_people_table_default = AffiliatedPeopleTable;
@@ -47243,16 +47289,17 @@ Hook ${hookName} was either not provided or not a function.`);
       options2.role = role;
     }
     const {
+      currentLimit,
       initialLimit,
       setPaused,
       setRecordLimit
     } = useGetItemRolesByItem(item, options2, true);
-    const setLimit = () => {
+    const setLimit = (limit) => {
       setPaused(false);
-      setRecordLimit(value.total);
+      setRecordLimit(limit);
     };
     if (!value) return null;
-    return children(initialLimit, setLimit);
+    return children(initialLimit, currentLimit, setLimit);
   };
   var Attendees = ({ item, role }) => {
     const namedRole = item?.roles.named?.[role];
@@ -47271,12 +47318,13 @@ Hook ${hookName} was either not provided or not a function.`);
             item,
             role: filterByRole ? role : void 0,
             value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+            children: (initialLimit, currentLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_people_table_default,
               {
                 attendees: value,
+                currentLimit,
                 initialCount: initialLimit,
-                model: items.model,
+                links: value.links,
                 ref,
                 role: filterByRole ? role : void 0,
                 setLimit
@@ -47304,14 +47352,15 @@ Hook ${hookName} was either not provided or not a function.`);
             item,
             role,
             value,
-            children: (initialLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+            children: (initialLimit, currentLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_entities_table_default,
               {
+                currentLimit,
                 entities: value,
                 hasAuxiliaryType: value.role === "lobbyist" /* Lobbyist */,
                 hasLobbyist: value.role === "lobbyist" /* Lobbyist */,
                 initialCount: initialLimit,
-                model: items.model,
+                links: value.links,
                 ref,
                 role: value.role,
                 setLimit,
