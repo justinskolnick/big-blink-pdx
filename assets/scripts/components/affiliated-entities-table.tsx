@@ -15,10 +15,11 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetEntityById } from '../reducers/entities';
 
-import { Role, Sections } from '../types';
+import { Role } from '../types';
 import type {
   AffiliatedEntityRecord,
   AffiliatedEntityValue,
+  AssociatedLinksObject,
   ItemRegistrations,
 } from '../types';
 
@@ -35,11 +36,12 @@ interface AffiliatedEntityProps {
 }
 
 interface Props {
+  currentLimit: number;
   entities: AffiliatedEntityValue;
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
   initialCount: number;
-  model: Sections;
+  links?: AssociatedLinksObject;
   ref?: RefObject<HTMLElement>;
   role?: Role;
   setLimit: FnSetLimit;
@@ -113,38 +115,36 @@ const AffiliatedEntity = ({
 };
 
 const AffiliatedEntitiesTable = ({
+  currentLimit,
   entities,
   hasAuxiliaryType,
   hasLobbyist,
   initialCount,
-  model,
+  links,
   ref,
   role,
   setLimit,
   title,
 }: Props) => (
   <AffiliatedItemTable
+    currentLimit={currentLimit}
     hasAuxiliaryType={hasAuxiliaryType}
     initialCount={initialCount}
-    label={model}
+    links={links}
     ref={ref}
     setLimit={setLimit}
     title={title}
     total={entities.total}
   >
-    {(showAll) => {
-      const items = showAll ? entities.records : entities.records.slice(0, initialCount);
-
-      return items.map((item, i) => (
-        <AffiliatedEntity
-          hasAuxiliaryType={hasAuxiliaryType}
-          hasLobbyist={hasLobbyist}
-          item={item}
-          key={i}
-          role={role}
-        />
-      ));
-    }}
+    {entities.records.map((item, i) => (
+      <AffiliatedEntity
+        hasAuxiliaryType={hasAuxiliaryType}
+        hasLobbyist={hasLobbyist}
+        item={item}
+        key={i}
+        role={role}
+      />
+    ))}
   </AffiliatedItemTable>
 );
 

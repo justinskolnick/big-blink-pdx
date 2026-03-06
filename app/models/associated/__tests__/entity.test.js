@@ -10,7 +10,7 @@ const AssociatedEntity = require('../entity');
 const Person = require('../../person/person');
 const Source = require('../../source/source');
 
-describe('toRoleObject', () => {
+describe('toRoleObject()', () => {
   describe('with a Person', () => {
     test('returns the expected object', () => {
       expect(AssociatedEntity.toRoleObject(ROLE_OFFICIAL, resultPersonEntities, Person.singular())).toEqual({
@@ -24,6 +24,13 @@ describe('toRoleObject', () => {
           {
             association: 'entities',
             label: 'Was lobbied by representatives of these entities',
+            links: {
+              intro: null,
+              options: null,
+              total: {
+                label: '3 entities',
+              },
+            },
             records: [
               {
                 entity: {
@@ -140,6 +147,13 @@ describe('toRoleObject', () => {
           {
             association: 'entities',
             label: 'Entities',
+            links: {
+              intro: null,
+              options: null,
+              total: {
+                label: '3 entities',
+              },
+            },
             records: [
               {
                 entity: {

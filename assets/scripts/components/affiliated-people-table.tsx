@@ -13,16 +13,18 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetPersonById } from '../reducers/people';
 
-import { Role, Sections } from '../types';
+import { Role } from '../types';
 import type {
   AffiliatedPersonRecord,
+  AssociatedLinksObject,
   AttendeeGroup,
 } from '../types';
 
 interface Props {
   attendees: AttendeeGroup;
+  currentLimit: number;
   initialCount: number;
-  model: Sections;
+  links?: AssociatedLinksObject;
   ref?: RefObject<HTMLElement>;
   role?: Role;
   setLimit: FnSetLimit;
@@ -58,32 +60,30 @@ const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => 
 
 const AffiliatedPeopleTable = ({
   attendees,
+  currentLimit,
   initialCount,
-  model,
+  links,
   ref,
   role,
   setLimit,
 }: Props) => (
   <AffiliatedItemTable
+    currentLimit={currentLimit}
     initialCount={initialCount}
-    label={model}
+    links={links}
     ref={ref}
     setLimit={setLimit}
     title={attendees.label}
     total={attendees.total}
   >
-    {(showAll) => {
-      const items = showAll ? attendees.records : attendees.records.slice(0, initialCount);
-
-      return items.map((item, i) => (
-        <AffiliatedPerson
-          item={item}
-          key={i}
-          personRole={attendees.role}
-          role={role}
-        />
-      ));
-    }}
+    {attendees.records.map((item, i) => (
+      <AffiliatedPerson
+        item={item}
+        key={i}
+        personRole={attendees.role}
+        role={role}
+      />
+    ))}
   </AffiliatedItemTable>
 );
 

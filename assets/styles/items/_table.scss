@@ -142,3 +142,62 @@
     }
   }
 }
+
+.item-table-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding-left: calc(var(--gap) / 6);
+  padding-right: 0;
+  color: var(--color-light);
+
+  .item-text-with-icon {
+    .icon + .item-text {
+      margin-left: 2ch;
+    }
+  }
+
+  .item-text {
+    font-size: 12px;
+    line-height: 18px;
+
+    &.is-selected {
+      a {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .item-table-more-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .item-text-with-icon {
+      align-items: center;
+
+      .item-text {
+        &::after {
+          content: ':';
+        }
+      }
+    }
+
+    .item-text-with-icon + .item-text {
+      margin-left: 1ch;
+    }
+
+    .item-text + .item-text {
+      &::before {
+        margin-left: 1ch;
+        margin-right: 1ch;
+        content: "\b7";
+      }
+    }
+  }
+}
+
+.item-table + .item-table-more {
+  padding-top: calc(var(--gap) / 2);
+}

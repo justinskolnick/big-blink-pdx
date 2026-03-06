@@ -1603,6 +1603,50 @@ body.has-alert .alert-root {
   font-size: 10px;
   vertical-align: top;
 }
+.item-table-more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding-left: calc(18px / 6);
+  padding-left: calc(var(--gap) / 6);
+  padding-right: 0;
+  color: gray;
+  color: var(--color-light);
+}
+.item-table-more .item-text-with-icon .icon + .item-text {
+  margin-left: 2ch;
+}
+.item-table-more .item-text {
+  font-size: 12px;
+  line-height: 18px;
+}
+.item-table-more .item-text.is-selected a {
+  font-weight: bold;
+}
+.item-table-more .item-table-more-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.item-table-more .item-table-more-options .item-text-with-icon {
+  align-items: center;
+}
+.item-table-more .item-table-more-options .item-text-with-icon .item-text::after {
+  content: ":";
+}
+.item-table-more .item-table-more-options .item-text-with-icon + .item-text {
+  margin-left: 1ch;
+}
+.item-table-more .item-table-more-options .item-text + .item-text::before {
+  margin-left: 1ch;
+  margin-right: 1ch;
+  content: "\b7";
+}
+.item-table + .item-table-more {
+  padding-top: calc(18px / 2);
+  padding-top: calc(var(--gap) / 2);
+}
 .item-text-with-icon {
   display: inline-flex;
   align-items: flex-start;

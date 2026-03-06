@@ -25,9 +25,33 @@ module.exports = {
         },
         total: 340,
       },
+      {
+        person: {
+          id: 126,
+          name: 'Tonda Vierk',
+          type: 'person',
+        },
+        total: 592,
+      },
+      {
+        person: {
+          id: 127,
+          name: 'Danae Buntjer',
+          type: 'person',
+        },
+        total: 51,
+      },
+      {
+        person: {
+          id: 128,
+          name: 'Dirk Chiarello',
+          type: 'person',
+        },
+        total: 2,
+      },
     ],
     role: 'lobbyist',
-    total: 3,
+    total: 6,
   },
   officials: {
     records: [

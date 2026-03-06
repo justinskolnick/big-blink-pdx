@@ -1,3 +1,5 @@
+const pluralize = require('pluralize');
+
 const {
   ROLE_ENTITY,
   ROLE_LOBBYIST,
@@ -49,12 +51,66 @@ class AssociatedItem extends Base {
     };
   }
 
+  static getValuesLinks(key, total) {
+    const labelKey = pluralize(key, total);
+
+    const links = {
+      intro: null,
+      options: null,
+      total: {
+        label: this.labels.getLabel('total_items', null, {
+          items: this.labels.getLabel(labelKey),
+          total,
+        }),
+      },
+    };
+    const limits = [];
+    let options = [];
+
+    if (total > 10) {
+      limits.push(10);
+    }
+
+    if (total > 5) {
+      limits.push(5);
+      limits.push(total);
+    }
+
+    options = limits.sort((a, b) => a - b).map(limit => {
+      if (limit === total) {
+        return {
+          label: this.labels.getLabel('all'),
+          params: {
+            limit,
+          },
+        };
+      }
+
+      return {
+        label: `${limit}`,
+        params: {
+          limit,
+        },
+      };
+    });
+
+    if (options.length) {
+      links.intro = {
+        label: this.labels.getLabel('view'),
+      };
+      links.options = options;
+    }
+
+    return links;
+  }
+
   static toValuesObject(key, values, role, labelPrefix) {
     return {
       association: this.getAssociation(values.role),
       label: this.getValueLabel(role, key, labelPrefix),
       records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
+      links: this.getValuesLinks(key, values.total),
       total: values.total,
     };
   }

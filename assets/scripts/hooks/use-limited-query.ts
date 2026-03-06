@@ -30,6 +30,7 @@ interface Fn {
     query: ApiQueryType,
     options: QueryOptions,
   ): {
+    currentLimit: number;
     initialLimit: number;
     setPaused: FnSetPaused;
     setRecordLimit: FnSetLimit;
@@ -57,12 +58,13 @@ const useLimitedQuery: Fn = (query, options) => {
 
   useEffect(() => {
     const lastArgs = result.originalArgs;
+    const hasChanged = lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search;
 
     if (paused) {
       return;
     }
 
-    if (lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search) {
+    if (hasChanged) {
       trigger({ id, limit: recordLimit, search });
     }
   }, [
@@ -75,6 +77,7 @@ const useLimitedQuery: Fn = (query, options) => {
   ]);
 
   return {
+    currentLimit: recordLimit,
     initialLimit,
     setPaused,
     setRecordLimit,
