@@ -1,15 +1,5 @@
 const EntityLobbyistLocation = require('../entity-lobbyist-location');
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(EntityLobbyistLocation.fields()).toEqual([
-      'entity_lobbyist_locations.id',
-      'entity_lobbyist_locations.city',
-      'entity_lobbyist_locations.region',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(EntityLobbyistLocation.className()).toBe('EntityLobbyistLocation');

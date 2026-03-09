@@ -18,10 +18,6 @@ class Incidents extends Table {
   };
   /* eslint-enable camelcase */
 
-  static adaptContactTypes(str) {
-    return str.split(';').map(item => item.trim());
-  }
-
   static dateRangeFields() {
     return ['contact_date', 'contact_date_end']
       .map(fieldName => this.field(fieldName, true));

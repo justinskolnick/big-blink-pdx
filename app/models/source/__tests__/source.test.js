@@ -38,22 +38,6 @@ describe('getLabel()', () => {
   });
 });
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Source.fields()).toEqual([
-      'data_sources.id',
-      'data_sources.type',
-      'data_sources.format',
-      'data_sources.title',
-      'data_sources.year',
-      'data_sources.quarter',
-      'data_sources.public_url',
-      'data_sources.is_via_public_records',
-      'data_sources.retrieved_at',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Source.className()).toBe('Source');

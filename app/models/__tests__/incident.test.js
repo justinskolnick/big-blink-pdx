@@ -1,33 +1,5 @@
 const Incident = require('../incident');
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Incident.fields()).toEqual([
-      'incidents.id',
-      'incidents.entity',
-      'incidents.entity_id',
-      'incidents.contact_date',
-      'incidents.contact_date_end',
-      'incidents.contact_type',
-      'incidents.category',
-      'incidents.data_source_id',
-      'incidents.topic',
-      'incidents.officials',
-      'incidents.lobbyists',
-      'incidents.notes',
-    ]);
-  });
-});
-
-describe('dateRangeFields()', () => {
-  test('returns the expected fields', () => {
-    expect(Incident.dateRangeFields()).toEqual([
-      'incidents.contact_date',
-      'incidents.contact_date_end',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Incident.className()).toBe('Incident');

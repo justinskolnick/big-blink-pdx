@@ -2,37 +2,6 @@ const result = require('../__mocks__/incident-attendee/result-official');
 
 const IncidentAttendee = require('../incident-attendee');
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(IncidentAttendee.fields()).toEqual([
-      'incident_attendees.id',
-      'incident_attendees.appears_as',
-      'incident_attendees.role',
-    ]);
-  });
-});
-
-describe('personFields()', () => {
-  test('returns the expected fields', () => {
-    expect(IncidentAttendee.personFields()).toEqual([
-      'people.id',
-      'people.name',
-      'people.pernr',
-      'people.type',
-    ]);
-  });
-
-  describe('with an excluded field', () => {
-    test('returns the expected fields', () => {
-      expect(IncidentAttendee.personFields(['id'])).toEqual([
-        'people.name',
-        'people.pernr',
-        'people.type',
-      ]);
-    });
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(IncidentAttendee.className()).toBe('IncidentAttendee');

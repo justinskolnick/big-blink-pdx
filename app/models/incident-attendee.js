@@ -20,19 +20,6 @@ class IncidentAttendee extends Base {
     official: ROLE_OFFICIAL,
   };
 
-  static personFields(without = []) {
-    const fieldNames = [
-      'id',
-      'name',
-      'pernr',
-      'type',
-    ];
-
-    return fieldNames
-      .filter(fieldName => !without.includes(fieldName))
-      .map(fieldName => Person.field(fieldName));
-  }
-
   person = null;
 
   setPerson(values) {

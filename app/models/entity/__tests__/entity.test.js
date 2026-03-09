@@ -16,16 +16,6 @@ describe('getLabel()', () => {
   });
 });
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Entity.fields()).toEqual([
-      'entities.id',
-      'entities.name',
-      'entities.domain',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Entity.className()).toBe('Entity');

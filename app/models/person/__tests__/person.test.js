@@ -25,18 +25,6 @@ describe('getLabel()', () => {
   });
 });
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Person.fields()).toEqual([
-      'people.id',
-      'people.identical_id',
-      'people.pernr',
-      'people.type',
-      'people.name',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Person.className()).toBe('Person');

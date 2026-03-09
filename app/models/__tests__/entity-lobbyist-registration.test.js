@@ -1,15 +1,5 @@
 const EntityLobbyistRegistration = require('../entity-lobbyist-registration');
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(EntityLobbyistRegistration.fields()).toEqual([
-      'entity_lobbyist_registrations.id',
-      'entity_lobbyist_registrations.entity_id',
-      'entity_lobbyist_registrations.person_id',
-    ]);
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(EntityLobbyistRegistration.className()).toBe('EntityLobbyistRegistration');
