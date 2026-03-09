@@ -5,18 +5,15 @@ const {
 
 const IncidentedBase = require('../shared/base-incidented');
 
+const EntitiesTable = require('../../services/tables/entities');
+
 class Entity extends IncidentedBase {
-  static tableName = 'entities';
+  static table = EntitiesTable;
+
   static labelPrefix = 'entity';
   static linkKey = 'entity';
 
   static perPage = 40;
-
-  static fieldNames = {
-    id:     { select: true, },
-    name:   { select: true, },
-    domain: { select: true, },
-  };
 
   static roleOptions = [
     ROLE_ENTITY,

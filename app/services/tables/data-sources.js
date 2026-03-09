@@ -1,8 +1,6 @@
 const Table = require('../../lib/db/mysql/table');
 
 class DataSources extends Table {
-  static perPage = 40;
-
   static types = {
     activity: 'activity',
     personnel: 'personnel',
@@ -19,8 +17,8 @@ class DataSources extends Table {
     quarter:                { select: true, },
     quarter_id:             { select: false, },
     public_url:             { select: true, },
-    is_via_public_records:  { select: true, adapt: { method: this.readableBoolean } },
-    retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } },
+    is_via_public_records:  { select: true, adapt: { method: 'readableBoolean' } },
+    retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: 'readableDate' } },
   };
   /* eslint-enable camelcase */
 }

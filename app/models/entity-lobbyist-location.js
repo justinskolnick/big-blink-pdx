@@ -1,15 +1,9 @@
 const Base = require('./shared/base');
 
-class EntityLobbyistLocation extends Base {
-  static tableName = 'entity_lobbyist_locations';
+const EntityLobbyistLocationsTable = require('../services/tables/entity-lobbyist-locations');
 
-  static fieldNames = {
-    id:             { select: true, },
-    data_source_id: { select: false, }, // eslint-disable-line camelcase
-    entity_id:      { select: false, }, // eslint-disable-line camelcase
-    city:           { select: true, },
-    region:         { select: true, },
-  };
+class EntityLobbyistLocation extends Base {
+  static table = EntityLobbyistLocationsTable;
 }
 
 module.exports = EntityLobbyistLocation;

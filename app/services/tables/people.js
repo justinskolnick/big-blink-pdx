@@ -1,8 +1,6 @@
 const Table = require('../../lib/db/mysql/table');
 
 class People extends Table {
-  static perPage = 40;
-
   /* eslint-disable camelcase */
   static fieldNames = {
     id:           { select: true, },

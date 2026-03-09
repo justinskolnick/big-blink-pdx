@@ -1,11 +1,5 @@
 const Quarter = require('../quarter');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Quarter.tableName).toBe('quarters');
-  });
-});
-
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(Quarter.fields()).toEqual([
@@ -19,21 +13,9 @@ describe('fields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Quarter.primaryKey()).toBe('quarters.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Quarter.className()).toBe('Quarter');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Quarter.foreignKey()).toBe('quarter_id');
   });
 });
 

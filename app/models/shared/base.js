@@ -5,11 +5,11 @@ const dateHelper = require('../../helpers/date');
 const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 
-const { snakeCase, titleCase } = require('../../lib/string');
+const { titleCase } = require('../../lib/string');
 const { isTruthy } = require('../../lib/util');
 
 class Base {
-  static primaryKeyField = 'id';
+  static table = null;
 
   static {
     this.labels = new Labels();
@@ -38,11 +38,7 @@ class Base {
   }
 
   static field(fieldName, prefix = true) {
-    return prefix ? [this.tableName, fieldName].join('.') : fieldName;
-  }
-
-  static primaryKey(prefix = true) {
-    return this.field(this.primaryKeyField, prefix);
+    return prefix ? [this.table.tableName(), fieldName].join('.') : fieldName;
   }
 
   static className() {
@@ -57,62 +53,38 @@ class Base {
     return pluralize(titleCase(this.className())).toLowerCase();
   }
 
-  static foreignKey() {
-    const name = this.foreignKeyBase || this.className();
-    const primaryKey = this.primaryKeyField;
-    const key = [name, primaryKey].join(' ');
-
-    return snakeCase(key);
+  static fieldNames() {
+    return this.table.fieldNames;
   }
 
   static fields(prefix = true) {
-    const fields = Object.entries(this.fieldNames)
+    const fields = Object.entries(this.fieldNames())
       .filter(([, value]) => value.select)
       .map(([key,]) => this.field(key, prefix));
 
     return fields;
   }
 
-  static hasAdaptField(fieldName) {
-    return 'adapt' in this.fieldNames[fieldName];
-  }
-
   static hasFieldAlias(fieldName) {
-    if (this.hasAdaptField(fieldName)) {
-      if ('as' in this.fieldNames[fieldName].adapt) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.table.hasFieldAlias(fieldName);
   }
 
   static fieldAlias(fieldName) {
-    return this.fieldNames[fieldName].adapt.as;
+    return this.table.fieldAlias(fieldName);
   }
 
   static fieldShouldBeAdapted(fieldName) {
-    if (this.hasAdaptField(fieldName)) {
-      if (this.fieldNames[fieldName].adapt === false) {
-        return false;
-      }
-    }
-
-    return true;
+    return this.table.fieldShouldBeAdapted(fieldName);
   }
 
   static hasAdaptMethod(fieldName) {
-    if (this.hasAdaptField(fieldName)) {
-      if ('method' in this.fieldNames[fieldName].adapt) {
-        return true;
-      }
-    }
-
-    return false;
+    return this.table.hasAdaptMethod(fieldName);
   }
 
-  static fieldMethod(fieldName) {
-    return this.fieldNames[fieldName].adapt.method;
+  static adaptMethod(fieldName) {
+    const method = this.table.adaptMethod(fieldName);
+
+    return this[method];
   }
 
   static fieldKey(fieldName) {
@@ -132,7 +104,9 @@ class Base {
       if (value === undefined || value === null) {
         value = null;
       } else {
-        value = this.fieldMethod(fieldName)(value);
+        const method = this.adaptMethod(fieldName);
+
+        value = method(value);
       }
     }
 

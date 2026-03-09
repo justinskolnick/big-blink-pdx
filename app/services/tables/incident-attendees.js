@@ -3,8 +3,6 @@ const Table = require('../../lib/db/mysql/table');
 const People = require('./people');
 
 class IncidentAttendees extends Table {
-  static perPage = 20;
-
   /* eslint-disable camelcase */
   static fieldNames = {
     id:           { select: true, },

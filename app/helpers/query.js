@@ -14,16 +14,16 @@ const joinConditions = (conditions) => (
   }, [])
 );
 
-const leftJoin = (modelOne, modelTwo, reverseKeys = false) => {
+const leftJoin = (tableOne, tableTwo, reverseKeys = false) => {
   const clauses = [];
 
-  clauses.push(`LEFT JOIN ${modelTwo.tableName()}`);
+  clauses.push(`LEFT JOIN ${tableTwo.tableName()}`);
   clauses.push('ON');
 
   if (reverseKeys) {
-    clauses.push(`${modelOne.field(modelTwo.foreignKey())} = ${modelTwo.primaryKey()}`);
+    clauses.push(`${tableOne.field(tableTwo.foreignKey())} = ${tableTwo.primaryKey()}`);
   } else {
-    clauses.push(`${modelTwo.field(modelOne.foreignKey())} = ${modelOne.primaryKey()}`);
+    clauses.push(`${tableTwo.field(tableOne.foreignKey())} = ${tableOne.primaryKey()}`);
   }
 
   return clauses.join(' ');

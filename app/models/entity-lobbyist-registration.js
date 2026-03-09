@@ -1,14 +1,9 @@
 const Base = require('./shared/base');
 
-class EntityLobbyistRegistration extends Base {
-  static tableName = 'entity_lobbyist_registrations';
+const EntityLobbyistRegistrationsTable = require('../services/tables/entity-lobbyist-registrations');
 
-  static fieldNames = {
-    id:             { select: true, },
-    data_source_id: { select: false, }, // eslint-disable-line camelcase
-    entity_id:      { select: true, }, // eslint-disable-line camelcase
-    person_id:      { select: true, }, // eslint-disable-line camelcase
-  };
+class EntityLobbyistRegistration extends Base {
+  static table = EntityLobbyistRegistrationsTable;
 
   adapt(result) {
     return {

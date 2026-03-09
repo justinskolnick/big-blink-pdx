@@ -2,12 +2,6 @@ const result = require('../__mocks__/incident-attendee/result-official');
 
 const IncidentAttendee = require('../incident-attendee');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(IncidentAttendee.tableName).toBe('incident_attendees');
-  });
-});
-
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(IncidentAttendee.fields()).toEqual([
@@ -39,21 +33,9 @@ describe('personFields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(IncidentAttendee.primaryKey()).toBe('incident_attendees.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(IncidentAttendee.className()).toBe('IncidentAttendee');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(IncidentAttendee.foreignKey()).toBe('incident_attendee_id');
   });
 });
 

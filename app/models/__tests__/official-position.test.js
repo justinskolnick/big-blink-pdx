@@ -13,12 +13,6 @@ const resultsCouncilorWithdrawn = require('../__mocks__/official-position/result
 
 const OfficialPosition = require('../official-position');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(OfficialPosition.tableName).toBe('official_positions');
-  });
-});
-
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(OfficialPosition.getLabel('unknown', 'official_positions')).toBe('unknown');
@@ -49,21 +43,9 @@ describe('fields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(OfficialPosition.primaryKey()).toBe('official_positions.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(OfficialPosition.className()).toBe('OfficialPosition');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(OfficialPosition.foreignKey()).toBe('official_position_id');
   });
 });
 

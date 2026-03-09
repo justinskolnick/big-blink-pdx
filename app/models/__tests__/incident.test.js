@@ -1,11 +1,5 @@
 const Incident = require('../incident');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Incident.tableName).toBe('incidents');
-  });
-});
-
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(Incident.fields()).toEqual([
@@ -34,21 +28,9 @@ describe('dateRangeFields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Incident.primaryKey()).toBe('incidents.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Incident.className()).toBe('Incident');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Incident.foreignKey()).toBe('incident_id');
   });
 });
 

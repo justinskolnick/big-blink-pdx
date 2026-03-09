@@ -1,10 +1,7 @@
 const camelCase = require('lodash.camelcase');
 const pluralize = require('pluralize');
 
-const dateHelper = require('../../../helpers/date');
-
 const { snakeCase, titleCase } = require('../../string');
-const { isTruthy } = require('../../util');
 
 class Table {
   static primaryKeyField = 'id';
@@ -87,7 +84,7 @@ class Table {
     return false;
   }
 
-  static fieldMethod(fieldName) {
+  static adaptMethod(fieldName) {
     return this.fieldNames[fieldName].adapt.method;
   }
 
@@ -99,36 +96,6 @@ class Table {
     }
 
     return camelCase(fieldName);
-  }
-
-  static fieldValue(fieldName, result) {
-    let value = result[fieldName];
-
-    if (this.hasAdaptMethod(fieldName)) {
-      if (value === undefined || value === null) {
-        value = null;
-      } else {
-        value = this.fieldMethod(fieldName)(value);
-      }
-    }
-
-    return value;
-  }
-
-  static readableBoolean(value) {
-    return isTruthy(value);
-  }
-
-  static readableDate(str) {
-    return dateHelper.formatDateString(str);
-  }
-
-  static readableDateRange(dateStrStart, dateStrEnd) {
-    if (dateStrEnd && dateStrStart !== dateStrEnd) {
-      return dateHelper.formatDateRangeString(dateStrStart, dateStrEnd);
-    }
-
-    return null;
   }
 }
 

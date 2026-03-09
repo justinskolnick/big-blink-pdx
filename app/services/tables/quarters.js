@@ -7,8 +7,8 @@ class Quarters extends Table {
     year:       { select: true, },
     quarter:    { select: true, },
     slug:       { select: true, },
-    date_start: { select: true, adapt: { method: this.readableDate }, },
-    date_end:   { select: true, adapt: { method: this.readableDate }, },
+    date_start: { select: true, adapt: { method: 'readableDate' }, },
+    date_end:   { select: true, adapt: { method: 'readableDate' }, },
   };
   /* eslint-enable camelcase */
 }

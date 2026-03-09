@@ -1,11 +1,5 @@
 const EntityLobbyistRegistration = require('../entity-lobbyist-registration');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(EntityLobbyistRegistration.tableName).toBe('entity_lobbyist_registrations');
-  });
-});
-
 describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(EntityLobbyistRegistration.fields()).toEqual([
@@ -16,21 +10,9 @@ describe('fields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(EntityLobbyistRegistration.primaryKey()).toBe('entity_lobbyist_registrations.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(EntityLobbyistRegistration.className()).toBe('EntityLobbyistRegistration');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(EntityLobbyistRegistration.foreignKey()).toBe('entity_lobbyist_registration_id');
   });
 });
 

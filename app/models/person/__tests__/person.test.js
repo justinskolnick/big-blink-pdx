@@ -11,12 +11,6 @@ const resultOfficial = require('../__mocks__/result-official');
 
 const Person = require('../person');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Person.tableName).toBe('people');
-  });
-});
-
 describe('labelPrefix', () => {
   test('returns the expected labelPrefix', () => {
     expect(Person.labelPrefix).toBe('person');
@@ -43,12 +37,6 @@ describe('fields()', () => {
   });
 });
 
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Person.primaryKey()).toBe('people.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Person.className()).toBe('Person');
@@ -64,12 +52,6 @@ describe('singular()', () => {
 describe('plural()', () => {
   test('returns the expected field', () => {
     expect(Person.plural()).toBe('people');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Person.foreignKey()).toBe('person_id');
   });
 });
 
