@@ -1595,6 +1595,7 @@ body.has-alert .alert-root {
 .item-table-more .item-text {
   font-size: 12px;
   line-height: 27px;
+  white-space: nowrap;
 }
 .item-table-more .item-text.is-selected a {
   font-weight: bold;
@@ -1603,6 +1604,7 @@ body.has-alert .alert-root {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 .item-table-more .item-table-more-options .item-text-with-icon {
   align-items: center;
