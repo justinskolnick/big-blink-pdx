@@ -1,4 +1,4 @@
-const Entities = require('../Entities');
+const Entities = require('../entities');
 
 describe('className()', () => {
   test('returns the expected field', () => {

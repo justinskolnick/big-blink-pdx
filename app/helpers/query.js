@@ -17,7 +17,7 @@ const joinConditions = (conditions) => (
 const leftJoin = (modelOne, modelTwo, reverseKeys = false) => {
   const clauses = [];
 
-  clauses.push(`LEFT JOIN ${modelTwo.tableName}`);
+  clauses.push(`LEFT JOIN ${modelTwo.tableName()}`);
   clauses.push('ON');
 
   if (reverseKeys) {

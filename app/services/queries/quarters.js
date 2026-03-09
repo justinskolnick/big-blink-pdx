@@ -1,4 +1,4 @@
-const Quarter = require('../../models/quarter');
+const Quarters = require('../tables/quarters');
 
 const buildQuery = (options = {}) => {
   const {
@@ -16,17 +16,17 @@ const buildQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  selections.push(...Quarter.fields());
+  selections.push(...Quarters.fields());
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${Quarter.tableName}`);
+  clauses.push(`FROM ${Quarters.tableName()}`);
 
   if (hasQuarter || hasYear) {
     clauses.push('WHERE');
   }
 
   if (hasQuarter) {
-    clauses.push(`${Quarter.field('quarter')} = ?`);
+    clauses.push(`${Quarters.field('quarter')} = ?`);
     params.push(quarter);
   }
 
@@ -35,11 +35,11 @@ const buildQuery = (options = {}) => {
   }
 
   if (hasYear) {
-    clauses.push(`${Quarter.field('year')} = ?`);
+    clauses.push(`${Quarters.field('year')} = ?`);
     params.push(year);
   }
 
-  clauses.push(`ORDER BY ${Quarter.tableName}.year ASC, ${Quarter.tableName}.quarter ASC`);
+  clauses.push(`ORDER BY ${Quarters.tableName()}.year ASC, ${Quarters.tableName()}.quarter ASC`);
 
 
   if (hasLimit) {

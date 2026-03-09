@@ -1,7 +1,7 @@
 const queryHelper = require('../../helpers/query');
 
-const OfficialPosition = require('../../models/official-position');
-const Person = require('../../models/person/person');
+const OfficialPositions = require('../tables/official-positions');
+const People = require('../tables/people');
 
 const getAtPernrQuery = (pernr, options = {}) => {
   const {
@@ -17,17 +17,17 @@ const getAtPernrQuery = (pernr, options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(...OfficialPosition.fields());
-  selections.push(`${Person.field('name')} as personal_name`);
+  selections.push(...OfficialPositions.fields());
+  selections.push(`${People.field('name')} as personal_name`);
 
   clauses.push(selections.join(', '));
 
-  clauses.push(`FROM ${OfficialPosition.tableName}`);
-  clauses.push(`LEFT JOIN ${Person.tableName} ON ${Person.field('pernr')} = ${OfficialPosition.field('pernr')}`);
+  clauses.push(`FROM ${OfficialPositions.tableName()}`);
+  clauses.push(`LEFT JOIN ${People.tableName()} ON ${People.field('pernr')} = ${OfficialPositions.field('pernr')}`);
 
   clauses.push('WHERE');
 
-  conditions.push(`${OfficialPosition.field('pernr')} = ?`);
+  conditions.push(`${OfficialPositions.field('pernr')} = ?`);
   params.push(pernr);
 
   if (hasDateOn) {
@@ -39,12 +39,12 @@ const getAtPernrQuery = (pernr, options = {}) => {
 
   // group by all fields to address duplicate rows
   clauses.push('GROUP BY');
-  clauses.push([...OfficialPosition.fields()].join(', '));
+  clauses.push([...OfficialPositions.fields()].join(', '));
 
   clauses.push('ORDER BY');
 
-  sortColumns.push(`${OfficialPosition.field('date_start')} ASC`);
-  sortColumns.push(`${OfficialPosition.field('date_end')} ASC`);
+  sortColumns.push(`${OfficialPositions.field('date_start')} ASC`);
+  sortColumns.push(`${OfficialPositions.field('date_end')} ASC`);
 
   clauses.push(sortColumns.join(', '));
 

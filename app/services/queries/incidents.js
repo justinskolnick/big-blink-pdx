@@ -2,11 +2,11 @@ const { SORT_ASC, SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
 
-const Entity = require('../../models/entity/entity');
-const Incident = require('../../models/incident');
-const IncidentAttendee = require('../../models/incident-attendee');
-const Person = require('../../models/person/person');
-const Source = require('../../models/source/source');
+const Entities = require('../tables/entities');
+const Incidents = require('../tables/incidents');
+const IncidentAttendees = require('../tables/incident-attendees');
+const People = require('../tables/people');
+const Sources = require('../tables/data-sources');
 
 const buildDateConditions = (options = {}) => {
   const {
@@ -23,21 +23,21 @@ const buildDateConditions = (options = {}) => {
   const params = [];
 
   if (hasDateOn) {
-    const segments = Incident.dateRangeFields().map(fieldName => (
+    const segments = Incidents.dateRangeFields().map(fieldName => (
       `${fieldName} = ?`
     )).join(' OR ');
 
     conditions.push(`(${segments})`);
     params.push(dateOn, dateOn);
   } else if (hasDateRange) {
-    const segments = Incident.dateRangeFields().map(fieldName => (
+    const segments = Incidents.dateRangeFields().map(fieldName => (
       `${fieldName} BETWEEN ? AND ?`
     )).join(' OR ');
 
     conditions.push(`(${segments})`);
     params.push(dateRangeFrom, dateRangeTo, dateRangeFrom, dateRangeTo);
   } else if (hasYear) {
-    conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ?`);
+    conditions.push(`SUBSTRING(${Incidents.field('contact_date')}, 1, 4) = ?`);
     params.push(year);
   }
 
@@ -55,16 +55,16 @@ const buildIntersectionQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(IncidentAttendee.field(Incident.foreignKey()));
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+  clauses.push(IncidentAttendees.field(Incidents.foreignKey()));
+  clauses.push(`FROM ${IncidentAttendees.tableName()}`);
 
   if (hasPersonId) {
     clauses.push('WHERE');
-    conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+    conditions.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
     params.push(id);
 
     if (hasRole) {
-      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+      conditions.push(`${IncidentAttendees.field('role')} = ?`);
       params.push(role);
     }
   }
@@ -117,17 +117,17 @@ const buildQuery = (options = {}) => {
   clauses.push('DISTINCT');
 
   if (primaryKeyOnly) {
-    clauses.push(Incident.primaryKey());
+    clauses.push(Incidents.primaryKey());
   } else if (includeTotalOnly) {
-    clauses.push(`COUNT(${Incident.primaryKey()}) AS total`);
+    clauses.push(`COUNT(${Incidents.primaryKey()}) AS total`);
   } else {
-    clauses.push(Incident.fields().join(', '));
+    clauses.push(Incidents.fields().join(', '));
   }
 
-  clauses.push(`FROM ${Incident.tableName}`);
+  clauses.push(`FROM ${Incidents.tableName()}`);
 
   if (hasPersonId || hasRole) {
-    clauses.push(queryHelper.leftJoin(Incident, IncidentAttendee));
+    clauses.push(queryHelper.leftJoin(Incidents, IncidentAttendees));
   }
 
   if (hasForeignKeyOption || hasDateOption) {
@@ -135,22 +135,22 @@ const buildQuery = (options = {}) => {
 
     if (hasForeignKeyOption) {
       if (hasEntityId) {
-        conditions.push(`${Incident.field(Entity.foreignKey())} = ?`);
+        conditions.push(`${Incidents.field(Entities.foreignKey())} = ?`);
         params.push(entityId || withEntityId);
       }
 
       if (hasSourceId) {
-        conditions.push(`${Incident.field(Source.foreignKey())} = ?`);
+        conditions.push(`${Incidents.field(Sources.foreignKey())} = ?`);
         params.push(sourceId || quarterSourceId);
       }
 
       if (hasPersonId) {
-        conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+        conditions.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
         params.push(personIds.at(0));
       }
 
       if (hasRole) {
-        conditions.push(`${IncidentAttendee.field('role')} = ?`);
+        conditions.push(`${IncidentAttendees.field('role')} = ?`);
         params.push(role);
       }
 
@@ -180,7 +180,7 @@ const buildQuery = (options = {}) => {
             subqueryClauses.push(...intersection.params);
           });
 
-          subqueryConditions.push(`${Incident.primaryKey()} IN (${subqueryStatements.join(' INTERSECT ')})`);
+          subqueryConditions.push(`${Incidents.primaryKey()} IN (${subqueryStatements.join(' INTERSECT ')})`);
 
           conditions.push(...subqueryConditions);
           params.push(...subqueryClauses);
@@ -201,11 +201,11 @@ const buildQuery = (options = {}) => {
   if (!primaryKeyOnly && !includeTotalOnly) {
     if (hasPeople || hasPersonIds) {
       clauses.push('GROUP BY');
-      clauses.push(Incident.primaryKey());
+      clauses.push(Incidents.primaryKey());
     }
 
     clauses.push('ORDER BY');
-    clauses.push(`${Incident.field('contact_date')}`);
+    clauses.push(`${Incidents.field('contact_date')}`);
     clauses.push(sort);
 
     if (page && perPage) {
@@ -226,10 +226,10 @@ const getAtIdQuery = (id) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`${Incident.fields().join(', ')}, ${Entity.field('name')} AS entity_name`);
-  clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(queryHelper.leftJoin(Incident, Entity, true));
-  clauses.push(`WHERE ${Incident.primaryKey()} = ?`);
+  clauses.push(`${Incidents.fields().join(', ')}, ${Entities.field('name')} AS entity_name`);
+  clauses.push(`FROM ${Incidents.tableName()}`);
+  clauses.push(queryHelper.leftJoin(Incidents, Entities, true));
+  clauses.push(`WHERE ${Incidents.primaryKey()} = ?`);
   clauses.push('LIMIT 1');
 
   params.push(id);
@@ -241,9 +241,9 @@ const getBoundaryDateSubquery = () => {
   const clauses = [];
 
   clauses.push('SELECT');
-  clauses.push(Incident.fields().join(', '));
-  clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(queryHelper.leftJoin(Incident, Source, true));
+  clauses.push(Incidents.fields().join(', '));
+  clauses.push(`FROM ${Incidents.tableName()}`);
+  clauses.push(queryHelper.leftJoin(Incidents, Sources, true));
 
   return clauses;
 };
@@ -271,28 +271,28 @@ const getFirstAndLastDatesQuery = (options = {}) => {
     const conditions = [];
 
     segment.push(getBoundaryDateSubquery().join(' '));
-    conditions.push(`SUBSTRING(${Incident.field('contact_date')}, 1, 4) = ${Source.field('year')}`);
+    conditions.push(`SUBSTRING(${Incidents.field('contact_date')}, 1, 4) = ${Sources.field('year')}`);
 
     if (hasEntityId) {
-      conditions.push(`${Incident.field(Entity.foreignKey())} = ?`);
+      conditions.push(`${Incidents.field(Entities.foreignKey())} = ?`);
       params.push(entityId);
     }
 
     if (hasPersonId) {
-      segment.push(queryHelper.leftJoin(Incident, IncidentAttendee));
-      conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+      segment.push(queryHelper.leftJoin(Incidents, IncidentAttendees));
+      conditions.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
       params.push(personId);
     }
 
     if (hasSourceId) {
-      conditions.push(`${Incident.field(Source.foreignKey())} = ?`);
+      conditions.push(`${Incidents.field(Sources.foreignKey())} = ?`);
       params.push(sourceId);
     }
 
     segment.push('WHERE');
     segment.push(...queryHelper.joinConditions(conditions));
     segment.push('ORDER BY');
-    segment.push(Incident.field('contact_date'));
+    segment.push(Incidents.field('contact_date'));
     segment.push(sort);
     segment.push('LIMIT 1');
 

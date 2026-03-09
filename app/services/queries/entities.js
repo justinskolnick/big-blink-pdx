@@ -6,8 +6,9 @@ const {
 } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
-const Entity = require('../../models/entity/entity');
-const Incident = require('../../models/incident');
+
+const Entities = require('../tables/entities');
+const Incidents = require('../tables/incidents');
 
 const { buildDateConditions } = require('./incidents');
 
@@ -41,25 +42,25 @@ const buildQuery = (options = {}) => {
   clauses.push('SELECT');
 
   if (includeTotalOnly) {
-    clauses.push(`COUNT(DISTINCT(${Entity.primaryKey()})) AS total`);
+    clauses.push(`COUNT(DISTINCT(${Entities.primaryKey()})) AS total`);
   } else {
-    selections.push(...Entity.fields());
+    selections.push(...Entities.fields());
 
     if (includeTotal) {
-      selections.push(`COUNT(${Incident.primaryKey()}) AS total`);
+      selections.push(`COUNT(${Incidents.primaryKey()}) AS total`);
     }
 
     if (!sortBy || sortBy === SORT_BY_NAME) {
-      selections.push(`CASE WHEN ${Entity.field('name')} LIKE 'The %' THEN TRIM(SUBSTR(${Entity.field('name')} FROM 4)) ELSE ${Entity.field('name')} END AS sort_name`);
+      selections.push(`CASE WHEN ${Entities.field('name')} LIKE 'The %' THEN TRIM(SUBSTR(${Entities.field('name')} FROM 4)) ELSE ${Entities.field('name')} END AS sort_name`);
     }
 
     clauses.push(selections.join(', '));
   }
 
-  clauses.push(`FROM ${Entity.tableName}`);
+  clauses.push(`FROM ${Entities.tableName()}`);
 
   if (includeTotal || hasDateOption) {
-    clauses.push(queryHelper.leftJoin(Entity, Incident));
+    clauses.push(queryHelper.leftJoin(Entities, Incidents));
 
     if (hasDateOption) {
       const dateConditions = buildDateConditions(options);
@@ -73,7 +74,7 @@ const buildQuery = (options = {}) => {
     clauses.push(...queryHelper.joinConditions(conditions));
 
     if (!includeTotalOnly) {
-      clauses.push(`GROUP BY ${Entity.primaryKey()}`);
+      clauses.push(`GROUP BY ${Entities.primaryKey()}`);
     }
   }
 
@@ -109,9 +110,9 @@ const getAtIdQuery = (id) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(Entity.fields().join(', '));
-  clauses.push(`FROM ${Entity.tableName}`);
-  clauses.push(`WHERE ${Entity.field('id')} = ?`);
+  clauses.push(Entities.fields().join(', '));
+  clauses.push(`FROM ${Entities.tableName()}`);
+  clauses.push(`WHERE ${Entities.field('id')} = ?`);
   params.push(id);
 
   clauses.push('LIMIT 1');

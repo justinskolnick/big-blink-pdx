@@ -3,6 +3,12 @@ const Table = require('../../lib/db/mysql/table');
 class DataSources extends Table {
   static perPage = 40;
 
+  static types = {
+    activity: 'activity',
+    personnel: 'personnel',
+    registration: 'registration',
+  };
+
   /* eslint-disable camelcase */
   static fieldNames = {
     id:                     { select: true, },

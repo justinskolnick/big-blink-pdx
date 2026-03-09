@@ -7,11 +7,11 @@ const {
 
 const queryHelper = require('../../helpers/query');
 
-const Entity = require('../../models/entity/entity');
-const Incident = require('../../models/incident');
-const IncidentAttendee = require('../../models/incident-attendee');
-const Person = require('../../models/person/person');
-const Source = require('../../models/source/source');
+const Entities = require('../tables/entities');
+const Incidents = require('../tables/incidents');
+const IncidentAttendees = require('../tables/incident-attendees');
+const People = require('../tables/people');
+const Sources = require('../tables/data-sources');
 
 const getAllQuery = (options = {}) => {
   const {
@@ -31,26 +31,26 @@ const getAllQuery = (options = {}) => {
 
   clauses.push('SELECT');
 
-  selections.push(...IncidentAttendee.fields());
-  selections.push(`${Person.field('id')} AS ${Person.foreignKey()}`);
-  selections.push(...IncidentAttendee.personFields(['id']));
+  selections.push(...IncidentAttendees.fields());
+  selections.push(`${People.field('id')} AS ${People.foreignKey()}`);
+  selections.push(...IncidentAttendees.personFields(['id']));
 
   clauses.push(selections.join(', '));
 
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
+  clauses.push(`FROM ${IncidentAttendees.tableName()}`);
+  clauses.push(queryHelper.leftJoin(IncidentAttendees, People, true));
 
   if (hasIncidentId) {
     clauses.push('WHERE');
 
-    conditions.push(`${IncidentAttendee.field(Incident.foreignKey())} = ?`);
+    conditions.push(`${IncidentAttendees.field(Incidents.foreignKey())} = ?`);
     params.push(incidentId);
 
     clauses.push(...queryHelper.joinConditions(conditions));
   }
 
   clauses.push('ORDER BY');
-  clauses.push(`${IncidentAttendee.field('role')} ASC, ${Person.field('family')} ASC`);
+  clauses.push(`${IncidentAttendees.field('role')} ASC, ${People.field('family')} ASC`);
 
   if (hasPage && hasPerPage) {
     const offset = queryHelper.getOffset(page, perPage);
@@ -81,47 +81,47 @@ const buildEntitiesQuery = (options = {}, limit = null) => {
   clauses.push('SELECT');
 
   if (includeTotalOnly) {
-    clauses.push(`COUNT(DISTINCT ${Entity.primaryKey()}) AS total`);
+    clauses.push(`COUNT(DISTINCT ${Entities.primaryKey()}) AS total`);
   } else {
-    selections.push(Entity.field('id'));
-    selections.push(Entity.field('name'));
-    selections.push(`COUNT(${Incident.field(Entity.foreignKey())}) AS total`);
+    selections.push(Entities.field('id'));
+    selections.push(Entities.field('name'));
+    selections.push(`COUNT(${Incidents.field(Entities.foreignKey())}) AS total`);
 
     clauses.push(selections.join(', '));
   }
 
-  clauses.push(`FROM ${Incident.tableName}`);
-  clauses.push(queryHelper.leftJoin(Incident, Entity, true));
+  clauses.push(`FROM ${Incidents.tableName()}`);
+  clauses.push(queryHelper.leftJoin(Incidents, Entities, true));
 
   if (hasPersonId) {
     const subqueryClauses = [];
 
     subqueryClauses.push('SELECT');
-    subqueryClauses.push(`${IncidentAttendee.field(Incident.foreignKey())} AS id`);
-    subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
+    subqueryClauses.push(`${IncidentAttendees.field(Incidents.foreignKey())} AS id`);
+    subqueryClauses.push(`FROM ${IncidentAttendees.tableName()}`);
     subqueryClauses.push('WHERE');
-    subqueryClauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+    subqueryClauses.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
     params.push(personId);
 
     if (hasPersonRole) {
       subqueryClauses.push('AND');
-      subqueryClauses.push(`${IncidentAttendee.field('role')} = ?`);
+      subqueryClauses.push(`${IncidentAttendees.field('role')} = ?`);
       params.push(personRole);
     }
 
     clauses.push('WHERE');
-    clauses.push(`${Incident.primaryKey()} IN (${subqueryClauses.join(' ')})`);
+    clauses.push(`${Incidents.primaryKey()} IN (${subqueryClauses.join(' ')})`);
   }
 
   if (!includeTotalOnly) {
     clauses.push('GROUP BY');
-    clauses.push(Incident.field(Entity.foreignKey()));
+    clauses.push(Incidents.field(Entities.foreignKey()));
   }
 
   sorting.push('total DESC');
 
   if (!includeTotalOnly) {
-    sorting.push(`${Entity.field('name')} ASC`);
+    sorting.push(`${Entities.field('name')} ASC`);
   }
 
   clauses.push('ORDER BY');
@@ -156,16 +156,16 @@ const getHasLobbiedOrBeenLobbiedQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`IF(COUNT(${IncidentAttendee.primaryKey()}) > 0, 'true', 'false') AS hasLobbiedOrBeenLobbied`);
+  clauses.push(`IF(COUNT(${IncidentAttendees.primaryKey()}) > 0, 'true', 'false') AS hasLobbiedOrBeenLobbied`);
 
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
+  clauses.push(`FROM ${IncidentAttendees.tableName()}`);
 
   if (hasPersonId && hasRole) {
     clauses.push('WHERE');
-    conditions.push(`${IncidentAttendee.field('role')} = ?`);
+    conditions.push(`${IncidentAttendees.field('role')} = ?`);
     params.push(role);
 
-    conditions.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+    conditions.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -205,21 +205,21 @@ const buildPeopleQuery = (options = {}, limit = null) => {
   clauses.push('SELECT');
 
   if (includeTotalOnly) {
-    clauses.push(`COUNT(DISTINCT ${IncidentAttendee.field(Person.foreignKey())}) AS total`);
+    clauses.push(`COUNT(DISTINCT ${IncidentAttendees.field(People.foreignKey())}) AS total`);
   } else {
-    selections.push(`${IncidentAttendee.field(Person.foreignKey())} AS id`);
-    selections.push(Person.field('name'));
-    selections.push(Person.field('type'));
+    selections.push(`${IncidentAttendees.field(People.foreignKey())} AS id`);
+    selections.push(People.field('name'));
+    selections.push(People.field('type'));
 
     if (includeTotal) {
-      selections.push(`COUNT(${IncidentAttendee.field(Person.foreignKey())}) AS total`);
+      selections.push(`COUNT(${IncidentAttendees.field(People.foreignKey())}) AS total`);
     }
 
     clauses.push(selections.join(', '));
   }
 
-  clauses.push(`FROM ${IncidentAttendee.tableName}`);
-  clauses.push(queryHelper.leftJoin(IncidentAttendee, Person, true));
+  clauses.push(`FROM ${IncidentAttendees.tableName()}`);
+  clauses.push(queryHelper.leftJoin(IncidentAttendees, People, true));
 
   if (hasAssociation || hasEntityId || hasPersonId || hasRole || hasSourceId) {
     const subqueryClauses = [];
@@ -228,42 +228,42 @@ const buildPeopleQuery = (options = {}, limit = null) => {
 
     if (hasEntityId || hasSourceId) {
       subqueryClauses.push('SELECT');
-      subqueryClauses.push(Incident.field('id'));
-      subqueryClauses.push(`FROM ${Incident.tableName}`);
+      subqueryClauses.push(Incidents.field('id'));
+      subqueryClauses.push(`FROM ${Incidents.tableName()}`);
       subqueryClauses.push('WHERE');
 
       if (hasEntityId) {
-        subqueryClauses.push(`${Incident.field(Entity.foreignKey())} = ?`);
+        subqueryClauses.push(`${Incidents.field(Entities.foreignKey())} = ?`);
         params.push(entityId);
       }
 
       if (hasSourceId) {
-        subqueryClauses.push(`${Incident.field(Source.foreignKey())} = ?`);
+        subqueryClauses.push(`${Incidents.field(Sources.foreignKey())} = ?`);
         params.push(sourceId);
       }
     }
 
     if (hasPersonId) {
       subqueryClauses.push('SELECT');
-      subqueryClauses.push(`${IncidentAttendee.field(Incident.foreignKey())} AS id`);
-      subqueryClauses.push(`FROM ${IncidentAttendee.tableName}`);
+      subqueryClauses.push(`${IncidentAttendees.field(Incidents.foreignKey())} AS id`);
+      subqueryClauses.push(`FROM ${IncidentAttendees.tableName()}`);
       subqueryClauses.push('WHERE');
-      subqueryClauses.push(`${IncidentAttendee.field(Person.foreignKey())} = ?`);
+      subqueryClauses.push(`${IncidentAttendees.field(People.foreignKey())} = ?`);
       params.push(personId);
 
       if (hasPersonRole) {
         subqueryClauses.push('AND');
-        subqueryClauses.push(`${IncidentAttendee.field('role')} = ?`);
+        subqueryClauses.push(`${IncidentAttendees.field('role')} = ?`);
         params.push(personRole);
       }
     }
 
     if (subqueryClauses.length) {
-      conditions.push(`${IncidentAttendee.field(Incident.foreignKey())} IN (${subqueryClauses.join(' ')})`);
+      conditions.push(`${IncidentAttendees.field(Incidents.foreignKey())} IN (${subqueryClauses.join(' ')})`);
     }
 
     if (hasAssociation || hasRole) {
-      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+      conditions.push(`${IncidentAttendees.field('role')} = ?`);
 
       if (hasAssociation) {
         if (association === ASSOCIATION_LOBBYISTS) {
@@ -277,7 +277,7 @@ const buildPeopleQuery = (options = {}, limit = null) => {
     }
 
     if (hasPersonId) {
-      conditions.push(`${IncidentAttendee.field(Person.foreignKey())} != ?`);
+      conditions.push(`${IncidentAttendees.field(People.foreignKey())} != ?`);
       params.push(personId);
     }
   }
@@ -287,14 +287,14 @@ const buildPeopleQuery = (options = {}, limit = null) => {
   if (!includeTotalOnly) {
     if (includeTotal) {
       clauses.push('GROUP BY');
-      clauses.push(IncidentAttendee.field(Person.foreignKey()));
+      clauses.push(IncidentAttendees.field(People.foreignKey()));
     }
 
     if (includeTotal) {
       sorting.push('total DESC');
-      sorting.push(`${Person.field('family')} ASC`);
+      sorting.push(`${People.field('family')} ASC`);
     } else {
-      sorting.push(`${IncidentAttendee.field(Person.foreignKey())} ASC`);
+      sorting.push(`${IncidentAttendees.field(People.foreignKey())} ASC`);
     }
 
     clauses.push('ORDER BY');
