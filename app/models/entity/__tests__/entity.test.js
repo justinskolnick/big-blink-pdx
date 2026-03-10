@@ -8,12 +8,6 @@ const {
 
 const Entity = require('../entity');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Entity.tableName).toBe('entities');
-  });
-});
-
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Entity.getLabel('percentage', 'incidents')).toBe('Share of total');
@@ -22,31 +16,9 @@ describe('getLabel()', () => {
   });
 });
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Entity.fields()).toEqual([
-      'entities.id',
-      'entities.name',
-      'entities.domain',
-    ]);
-  });
-});
-
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Entity.primaryKey()).toBe('entities.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Entity.className()).toBe('Entity');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Entity.foreignKey()).toBe('entity_id');
   });
 });
 

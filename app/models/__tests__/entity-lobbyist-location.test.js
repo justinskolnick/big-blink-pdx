@@ -1,36 +1,8 @@
 const EntityLobbyistLocation = require('../entity-lobbyist-location');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(EntityLobbyistLocation.tableName).toBe('entity_lobbyist_locations');
-  });
-});
-
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(EntityLobbyistLocation.fields()).toEqual([
-      'entity_lobbyist_locations.id',
-      'entity_lobbyist_locations.city',
-      'entity_lobbyist_locations.region',
-    ]);
-  });
-});
-
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(EntityLobbyistLocation.primaryKey()).toBe('entity_lobbyist_locations.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(EntityLobbyistLocation.className()).toBe('EntityLobbyistLocation');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(EntityLobbyistLocation.foreignKey()).toBe('entity_lobbyist_location_id');
   });
 });
 

@@ -1,9 +1,10 @@
 const { SORT_ASC, SORT_BY_TOTAL, SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
-const Incident = require('../../models/incident');
-const IncidentAttendee = require('../../models/incident-attendee');
-const Person = require('../../models/person/person');
+
+const Incidents = require('../tables/incidents');
+const IncidentAttendees = require('../tables/incident-attendees');
+const People = require('../tables/people');
 
 const { buildDateConditions } = require('./incidents');
 
@@ -39,34 +40,34 @@ const buildQuery = (options = {}) => {
   clauses.push('SELECT');
 
   if (includeTotalOnly) {
-    clauses.push(`COUNT(DISTINCT(${Person.primaryKey()})) AS total`);
+    clauses.push(`COUNT(DISTINCT(${People.primaryKey()})) AS total`);
   } else {
-    selections.push(...Person.fields());
+    selections.push(...People.fields());
 
     if (includeTotal) {
-      selections.push(`COUNT(${IncidentAttendee.primaryKey()}) AS total`);
+      selections.push(`COUNT(${IncidentAttendees.primaryKey()}) AS total`);
     }
 
     clauses.push(selections.join(', '));
   }
 
-  clauses.push(`FROM ${Person.tableName}`);
+  clauses.push(`FROM ${People.tableName()}`);
 
   if (includeTotal || hasRole || hasDateOption) {
-    clauses.push(queryHelper.leftJoin(Person, IncidentAttendee));
+    clauses.push(queryHelper.leftJoin(People, IncidentAttendees));
   }
 
   if (hasDateOption) {
-    clauses.push(`LEFT JOIN ${Incident.tableName} ON ${Incident.primaryKey()} = ${IncidentAttendee.field(Incident.foreignKey())}`);
+    clauses.push(`LEFT JOIN ${Incidents.tableName()} ON ${Incidents.primaryKey()} = ${IncidentAttendees.field(Incidents.foreignKey())}`);
   }
 
   clauses.push('WHERE');
 
-  conditions.push(`${Person.field('identical_id')} IS NULL`);
+  conditions.push(`${People.field('identical_id')} IS NULL`);
 
   if (includeTotal || hasRole || hasDateOption) {
     if (hasRole) {
-      conditions.push(`${IncidentAttendee.field('role')} = ?`);
+      conditions.push(`${IncidentAttendees.field('role')} = ?`);
       params.push(role);
     }
 
@@ -82,7 +83,7 @@ const buildQuery = (options = {}) => {
 
   if (includeTotal || hasRole || hasDateOption) {
     if (!includeTotalOnly) {
-      clauses.push(`GROUP BY ${Person.primaryKey()}`);
+      clauses.push(`GROUP BY ${People.primaryKey()}`);
     }
   }
 
@@ -90,9 +91,9 @@ const buildQuery = (options = {}) => {
     clauses.push('ORDER BY');
 
     if (includeTotal && sortBy === SORT_BY_TOTAL) {
-      clauses.push(`total ${sort || SORT_DESC}, ${Person.field('family')} ASC, ${Person.field('given')} ASC`);
+      clauses.push(`total ${sort || SORT_DESC}, ${People.field('family')} ASC, ${People.field('given')} ASC`);
     } else {
-      clauses.push(`${Person.field('family')} ${sort || SORT_ASC}, ${Person.field('given')} ${sort || SORT_ASC}`);
+      clauses.push(`${People.field('family')} ${sort || SORT_ASC}, ${People.field('given')} ${sort || SORT_ASC}`);
     }
 
     if ((hasPage && hasPerPage) || hasLimit) {
@@ -120,14 +121,14 @@ const getAtIdQuery = (id) => {
 
   clauses.push('SELECT');
 
-  selections.push(...Person.fields());
-  selections.push(`GROUP_CONCAT(distinct ${IncidentAttendee.field('role')}) AS roles`);
+  selections.push(...People.fields());
+  selections.push(`GROUP_CONCAT(distinct ${IncidentAttendees.field('role')}) AS roles`);
 
   clauses.push(selections.join(', '));
 
-  clauses.push(`FROM ${Person.tableName}`);
-  clauses.push(queryHelper.leftJoin(Person, IncidentAttendee));
-  clauses.push(`WHERE ${Person.field('id')} = ?`);
+  clauses.push(`FROM ${People.tableName()}`);
+  clauses.push(queryHelper.leftJoin(People, IncidentAttendees));
+  clauses.push(`WHERE ${People.field('id')} = ?`);
 
   params.push(id);
 

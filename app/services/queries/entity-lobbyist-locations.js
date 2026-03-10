@@ -1,5 +1,5 @@
-const Entity = require('../../models/entity/entity');
-const EntityLobbyistLocation = require('../../models/entity-lobbyist-location');
+const Entities = require('../tables/entities');
+const EntityLobbyistLocations = require('../tables/entity-lobbyist-locations');
 
 const getAllQuery = (options = {}) => {
   const {
@@ -11,14 +11,14 @@ const getAllQuery = (options = {}) => {
 
   if (entityId) {
     clauses.push('SELECT');
-    clauses.push(EntityLobbyistLocation.fields().join(', '));
-    clauses.push(`FROM ${EntityLobbyistLocation.tableName}`);
+    clauses.push(EntityLobbyistLocations.fields().join(', '));
+    clauses.push(`FROM ${EntityLobbyistLocations.tableName()}`);
     clauses.push('WHERE');
-    clauses.push(`${Entity.foreignKey()} = ?`);
+    clauses.push(`${Entities.foreignKey()} = ?`);
     params.push(entityId);
 
     clauses.push('ORDER BY');
-    clauses.push(`${EntityLobbyistLocation.field('region')} DESC, ${EntityLobbyistLocation.field('city')} ASC`);
+    clauses.push(`${EntityLobbyistLocations.field('region')} DESC, ${EntityLobbyistLocations.field('city')} ASC`);
   }
 
   return { clauses, params };

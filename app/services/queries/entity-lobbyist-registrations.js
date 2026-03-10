@@ -1,9 +1,9 @@
 const queryHelper = require('../../helpers/query');
 
-const Entity = require('../../models/entity/entity');
-const EntityLobbyistRegistration = require('../../models/entity-lobbyist-registration');
-const Person = require('../../models/person/person');
-const Source = require('../../models/source/source');
+const Entities = require('../tables/entities');
+const EntityLobbyistRegistrations = require('../tables/entity-lobbyist-registrations');
+const People = require('../tables/people');
+const Sources = require('../tables/data-sources');
 
 const SOURCES_FIELDS = [
   'quarter',
@@ -26,25 +26,25 @@ const getQuartersQuery = (options = {}) => {
   clauses.push('SELECT');
 
   SOURCES_FIELDS.forEach(field => {
-    selections.push(Source.field(field));
+    selections.push(Sources.field(field));
   });
 
   clauses.push(selections.join(', '));
-  clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
+  clauses.push(`FROM ${EntityLobbyistRegistrations.tableName()}`);
 
-  clauses.push(queryHelper.leftJoin(EntityLobbyistRegistration, Source, true));
+  clauses.push(queryHelper.leftJoin(EntityLobbyistRegistrations, Sources, true));
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.field(Entity.foreignKey())} = ?`);
+    conditions.push(`${EntityLobbyistRegistrations.field(Entities.foreignKey())} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
+    conditions.push(`${EntityLobbyistRegistrations.field(People.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -53,7 +53,7 @@ const getQuartersQuery = (options = {}) => {
   }
 
   clauses.push('ORDER BY');
-  clauses.push(`${Source.field('year')} ASC, ${Source.field('quarter')} ASC`);
+  clauses.push(`${Sources.field('year')} ASC, ${Sources.field('quarter')} ASC`);
 
   return { clauses, params };
 };
@@ -71,20 +71,20 @@ const getTotalQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`COUNT(${EntityLobbyistRegistration.primaryKey()}) AS total`);
-  clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
+  clauses.push(`COUNT(${EntityLobbyistRegistrations.primaryKey()}) AS total`);
+  clauses.push(`FROM ${EntityLobbyistRegistrations.tableName()}`);
 
   if (hasEntityId || hasPersonId) {
     clauses.push('WHERE');
   }
 
   if (hasEntityId) {
-    conditions.push(`${EntityLobbyistRegistration.field(Entity.foreignKey())} = ?`);
+    conditions.push(`${EntityLobbyistRegistrations.field(Entities.foreignKey())} = ?`);
     params.push(entityId);
   }
 
   if (hasPersonId) {
-    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
+    conditions.push(`${EntityLobbyistRegistrations.field(People.foreignKey())} = ?`);
     params.push(personId);
   }
 
@@ -104,15 +104,15 @@ const getHasBeenCityEmployeeQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push(`IF(COUNT(${EntityLobbyistRegistration.primaryKey()}) > 0, 'true', 'false') AS hasBeenEmployee`);
+  clauses.push(`IF(COUNT(${EntityLobbyistRegistrations.primaryKey()}) > 0, 'true', 'false') AS hasBeenEmployee`);
 
-  clauses.push(`FROM ${EntityLobbyistRegistration.tableName}`);
+  clauses.push(`FROM ${EntityLobbyistRegistrations.tableName()}`);
 
   if (hasPersonId) {
     clauses.push('WHERE');
-    conditions.push(`${EntityLobbyistRegistration.field('was_city_employee')} = 1`);
-    conditions.push(`${EntityLobbyistRegistration.field('length_of_employment')} IS NOT NULL`);
-    conditions.push(`${EntityLobbyistRegistration.field(Person.foreignKey())} = ?`);
+    conditions.push(`${EntityLobbyistRegistrations.field('was_city_employee')} = 1`);
+    conditions.push(`${EntityLobbyistRegistrations.field('length_of_employment')} IS NOT NULL`);
+    conditions.push(`${EntityLobbyistRegistrations.field(People.foreignKey())} = ?`);
     params.push(personId);
   }
 

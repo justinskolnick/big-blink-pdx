@@ -13,12 +13,6 @@ const {
 
 const Source = require('../source');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Source.tableName).toBe('data_sources');
-  });
-});
-
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Source.getLabel('percentage', 'incidents')).toBe('Share of total');
@@ -44,37 +38,9 @@ describe('getLabel()', () => {
   });
 });
 
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Source.fields()).toEqual([
-      'data_sources.id',
-      'data_sources.type',
-      'data_sources.format',
-      'data_sources.title',
-      'data_sources.year',
-      'data_sources.quarter',
-      'data_sources.public_url',
-      'data_sources.is_via_public_records',
-      'data_sources.retrieved_at',
-    ]);
-  });
-});
-
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Source.primaryKey()).toBe('data_sources.id');
-  });
-});
-
 describe('className()', () => {
   test('returns the expected field', () => {
     expect(Source.className()).toBe('Source');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Source.foreignKey()).toBe('data_source_id');
   });
 });
 

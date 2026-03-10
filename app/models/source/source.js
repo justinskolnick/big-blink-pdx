@@ -6,25 +6,14 @@ const {
 
 const IncidentedBase = require('../shared/base-incidented');
 
+const DataSourcesTable = require('../../services/tables/data-sources');
+
 class Source extends IncidentedBase {
-  static foreignKeyBase = 'data_source';
-  static tableName = 'data_sources';
+  static table = DataSourcesTable;
+
   static linkKey = 'source';
 
   static perPage = 40;
-
-  static fieldNames = {
-    id:                     { select: true, },
-    type:                   { select: true, },
-    format:                 { select: true, },
-    title:                  { select: true, },
-    year:                   { select: true, },
-    quarter:                { select: true, },
-    quarter_id:             { select: false, }, // eslint-disable-line camelcase
-    public_url:             { select: true, }, // eslint-disable-line camelcase
-    is_via_public_records:  { select: true, adapt: { method: this.readableBoolean } }, // eslint-disable-line camelcase
-    retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: this.readableDate } }, // eslint-disable-line camelcase
-  };
 
   static types = {
     activity: 'activity',

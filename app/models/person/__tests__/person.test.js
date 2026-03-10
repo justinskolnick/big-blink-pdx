@@ -11,12 +11,6 @@ const resultOfficial = require('../__mocks__/result-official');
 
 const Person = require('../person');
 
-describe('tableName', () => {
-  test('returns the expected tableName', () => {
-    expect(Person.tableName).toBe('people');
-  });
-});
-
 describe('labelPrefix', () => {
   test('returns the expected labelPrefix', () => {
     expect(Person.labelPrefix).toBe('person');
@@ -28,24 +22,6 @@ describe('getLabel()', () => {
     expect(Person.getLabel('percentage', 'incidents')).toBe('Share of total');
     expect(Person.getLabel('total', 'incidents')).toBe('Incident count');
     expect(Person.getLabel('totals')).toBe('Totals');
-  });
-});
-
-describe('fields()', () => {
-  test('returns the expected fields', () => {
-    expect(Person.fields()).toEqual([
-      'people.id',
-      'people.identical_id',
-      'people.pernr',
-      'people.type',
-      'people.name',
-    ]);
-  });
-});
-
-describe('primaryKey()', () => {
-  test('returns the expected field', () => {
-    expect(Person.primaryKey()).toBe('people.id');
   });
 });
 
@@ -64,12 +40,6 @@ describe('singular()', () => {
 describe('plural()', () => {
   test('returns the expected field', () => {
     expect(Person.plural()).toBe('people');
-  });
-});
-
-describe('foreignKey()', () => {
-  test('returns the expected field', () => {
-    expect(Person.foreignKey()).toBe('person_id');
   });
 });
 

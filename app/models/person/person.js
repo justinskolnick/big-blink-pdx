@@ -7,21 +7,15 @@ const {
 
 const IncidentedBase = require('../shared/base-incidented');
 
+const PeopleTable = require('../../services/tables/people');
+
 class Person extends IncidentedBase {
-  static tableName = 'people';
+  static table = PeopleTable;
+
   static labelPrefix = 'person';
   static linkKey = 'person';
 
   static perPage = 40;
-
-  static fieldNames = {
-    id:           { select: true, },
-    identical_id: { select: true, adapt: false, }, // eslint-disable-line camelcase
-    pernr:        { select: true, },
-    type:         { select: true, },
-    name:         { select: true, },
-    family:       { select: false, },
-  };
 
   static roleOptions = [
     ROLE_OFFICIAL,

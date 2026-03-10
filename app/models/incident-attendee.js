@@ -8,36 +8,17 @@ const { isEmpty } = require('../lib/util');
 const Base = require('./shared/base');
 const Person = require('./person/person');
 
+const IncidentAttendeesTable = require('../services/tables/incident-attendees');
+
 class IncidentAttendee extends Base {
-  static tableName = 'incident_attendees';
+  static table = IncidentAttendeesTable;
 
   static perPage = 20;
-
-  static fieldNames = {
-    id:           { select: true, },
-    incident_id:  { select: false, }, // eslint-disable-line camelcase
-    person_id:    { select: false, }, // eslint-disable-line camelcase
-    appears_as:   { select: true, adapt: { as: 'as' } }, // eslint-disable-line camelcase
-    role:         { select: true, },
-  };
 
   static roles = {
     lobbyist: ROLE_LOBBYIST,
     official: ROLE_OFFICIAL,
   };
-
-  static personFields(without = []) {
-    const fieldNames = [
-      'id',
-      'name',
-      'pernr',
-      'type',
-    ];
-
-    return fieldNames
-      .filter(fieldName => !without.includes(fieldName))
-      .map(fieldName => Person.field(fieldName));
-  }
 
   person = null;
 
