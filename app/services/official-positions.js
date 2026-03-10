@@ -1,7 +1,7 @@
 const OfficialPosition = require('../models/official-position');
-const { getAtPernrQuery } = require('./queries/official-positions');
 
 const db = require('./db');
+const { getAtPernrQuery } = require('./queries/official-positions');
 
 const now = (new Date()).toISOString();
 

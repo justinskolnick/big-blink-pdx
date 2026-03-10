@@ -1,4 +1,5 @@
 const Incident = require('../models/incident');
+
 const db = require('./db');
 const {
   getAllQuery,

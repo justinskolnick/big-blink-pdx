@@ -1,4 +1,5 @@
 const EntityLobbyistLocation = require('../models/entity-lobbyist-location');
+
 const db = require('./db');
 const { getAllQuery } = require('./queries/entity-lobbyist-locations');
 

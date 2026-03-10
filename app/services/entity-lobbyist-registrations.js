@@ -1,4 +1,5 @@
 const EntityLobbyistRegistration = require('../models/entity-lobbyist-registration');
+
 const db = require('./db');
 const {
   getQuartersQuery,
