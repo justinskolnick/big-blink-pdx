@@ -17,7 +17,7 @@ class Labels {
   }
 
   prefixLabelKey(key, prefix = '') {
-    return prefix.length ? [prefix, key].join('__') : key;
+    return prefix?.length ? [prefix, key].join('__') : key;
   }
 
   hasKey(key, prefix = '') {

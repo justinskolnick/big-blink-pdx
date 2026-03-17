@@ -15,29 +15,62 @@ const Person = require('../../person/person');
 const Source = require('../../source/source');
 
 describe('getAssociation()', () => {
+  let associatedPerson = null;
+
+  beforeEach(() => {
+    associatedPerson = new AssociatedPerson();
+    associatedPerson.setAssociatedModel(Person);
+  });
+
+  afterEach(() => {
+    associatedPerson = null;
+  });
+
   test('returns the expected results', () => {
-    expect(AssociatedPerson.getAssociation('lobbyist')).toEqual('lobbyists');
-    expect(AssociatedPerson.getAssociation('official')).toEqual('officials');
+    expect(associatedPerson.getAssociation('lobbyist')).toEqual('lobbyists');
+    expect(associatedPerson.getAssociation('official')).toEqual('officials');
   });
 });
 
 describe('getValueLabelKey()', () => {
+  let associatedPerson = null;
+
+  beforeEach(() => {
+    associatedPerson = new AssociatedPerson();
+    associatedPerson.setAssociatedModel(Person);
+  });
+
+  afterEach(() => {
+    associatedPerson = null;
+  });
+
   test('returns the expected results', () => {
-    expect(AssociatedPerson.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
-    expect(AssociatedPerson.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
-    expect(AssociatedPerson.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
-    expect(AssociatedPerson.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
-    expect(AssociatedPerson.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_lobbyist_lobbyists');
-    expect(AssociatedPerson.getValueLabelKey('lobbyist', 'officials')).toEqual('as_lobbyist_officials');
-    expect(AssociatedPerson.getValueLabelKey('official', 'lobbyists')).toEqual('as_official_lobbyists');
-    expect(AssociatedPerson.getValueLabelKey('official', 'officials')).toEqual('as_official_officials');
+    expect(associatedPerson.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(associatedPerson.getValueLabelKey('entity', 'lobbyists')).toEqual('as_entity_lobbyists');
+    expect(associatedPerson.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
+    expect(associatedPerson.getValueLabelKey('entity', 'officials')).toEqual('as_entity_officials');
+    expect(associatedPerson.getValueLabelKey('lobbyist', 'lobbyists')).toEqual('as_lobbyist_lobbyists');
+    expect(associatedPerson.getValueLabelKey('lobbyist', 'officials')).toEqual('as_lobbyist_officials');
+    expect(associatedPerson.getValueLabelKey('official', 'lobbyists')).toEqual('as_official_lobbyists');
+    expect(associatedPerson.getValueLabelKey('official', 'officials')).toEqual('as_official_officials');
   });
 });
 
 describe('toRoleObject()', () => {
+  let associatedPerson = null;
+
+  beforeEach(() => {
+    associatedPerson = new AssociatedPerson();
+    associatedPerson.setAssociatedModel(Person);
+  });
+
+  afterEach(() => {
+    associatedPerson = null;
+  });
+
   describe('with an Entity', () => {
     test('returns the expected object', () => {
-      expect(AssociatedPerson.toRoleObject(ROLE_ENTITY, resultEntityAttendees, Entity.singular())).toEqual({
+      expect(associatedPerson.toRoleObject(ROLE_ENTITY, resultEntityAttendees, Entity.labelPrefix)).toEqual({
         label: 'Associated People',
         options: [
           'lobbyist',
@@ -234,7 +267,7 @@ describe('toRoleObject()', () => {
   describe('with a Person', () => {
     describe('who is a lobbyist', () => {
       test('returns the expected object', () => {
-        expect(AssociatedPerson.toRoleObject(ROLE_LOBBYIST, resultPersonAttendees, Person.singular())).toEqual({
+        expect(associatedPerson.toRoleObject(ROLE_LOBBYIST, resultPersonAttendees, Person.labelPrefix)).toEqual({
           label: 'Associated People',
           options: [
             'lobbyist',
@@ -364,7 +397,7 @@ describe('toRoleObject()', () => {
 
     describe('who is an official', () => {
       test('returns the expected object', () => {
-        expect(AssociatedPerson.toRoleObject(ROLE_OFFICIAL, resultPersonAttendees, Person.singular())).toEqual({
+        expect(associatedPerson.toRoleObject(ROLE_OFFICIAL, resultPersonAttendees, Person.labelPrefix)).toEqual({
           label: 'Associated People',
           options: [
             'lobbyist',
@@ -495,7 +528,7 @@ describe('toRoleObject()', () => {
 
   describe('with a Source', () => {
     test('returns the expected object', () => {
-      expect(AssociatedPerson.toRoleObject(ROLE_SOURCE, resultSourceAttendees, Source.singular())).toEqual({
+      expect(associatedPerson.toRoleObject(ROLE_SOURCE, resultSourceAttendees, Source.labelPrefix)).toEqual({
         label: 'Associated People',
         options: [
           'lobbyist',

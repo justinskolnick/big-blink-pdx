@@ -6,21 +6,20 @@ const {
 } = require('../../config/constants');
 
 const AssociatedItem = require('./item');
-const Person = require('../person/person');
 
 class AssociatedPerson extends AssociatedItem {
-  static associations = {
+  associations = {
     [ROLE_LOBBYIST]: ASSOCIATION_LOBBYISTS,
     [ROLE_OFFICIAL]: ASSOCIATION_OFFICIALS
   };
 
-  static roles = [
+  roles = [
     ROLE_LOBBYIST,
     ROLE_OFFICIAL,
   ];
 
-  static adaptRecord(record) {
-    const person = new Person(record.person);
+  adaptRecord(record) {
+    const person = new this.associatedModel(record.person);
 
     return {
       ...record,
@@ -28,16 +27,16 @@ class AssociatedPerson extends AssociatedItem {
     };
   }
 
-  static toRoleObject(role, attendees, labelPrefix) {
-    const obj = this.toAssociationObject(Person.plural(), Person.singular());
+  getRoleValues(role, items, labelPrefix) {
+    const values = [];
 
-    Object.entries(attendees).forEach(([key, values]) => {
-      if (values?.records.length) {
-        obj.values.push(this.toValuesObject(key, values, role, labelPrefix));
+    Object.entries(items).forEach(([itemKey, itemValues]) => {
+      if (itemValues?.records.length) {
+        values.push(this.toValuesObject(itemKey, itemValues, role, labelPrefix));
       }
     });
 
-    return obj;
+    return values;
   }
 }
 

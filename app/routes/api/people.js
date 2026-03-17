@@ -31,6 +31,7 @@ const searchParams = require('../../lib/request/search-params');
 
 const AssociatedEntity = require('../../models/associated/entity');
 const AssociatedPerson = require('../../models/associated/person');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
@@ -367,12 +368,18 @@ const getPersonRoleObject = async (person, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
+    const associatedEntity = new AssociatedEntity();
+    const associatedPerson = new AssociatedPerson();
+
+    associatedEntity.setAssociatedModel(Entity);
+    associatedPerson.setAssociatedModel(Person);
+
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      person.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Person.singular()));
+      person.role.setAttendees(associatedPerson.toRoleObject(role, attendees, Person.labelPrefix));
     }
 
     if (entities?.total > 0) {
-      person.role.setEntities(AssociatedEntity.toRoleObject(role, entities, Person.singular()));
+      person.role.setEntities(associatedEntity.toRoleObject(role, entities, Person.labelPrefix));
     }
   }
 

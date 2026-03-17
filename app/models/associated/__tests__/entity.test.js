@@ -7,13 +7,25 @@ const {
 } = require('../../../config/constants');
 
 const AssociatedEntity = require('../entity');
+const Entity = require('../../entity/entity');
 const Person = require('../../person/person');
 const Source = require('../../source/source');
 
 describe('toRoleObject()', () => {
+  let associatedEntity = null;
+
+  beforeEach(() => {
+    associatedEntity = new AssociatedEntity();
+    associatedEntity.setAssociatedModel(Entity);
+  });
+
+  afterEach(() => {
+    associatedEntity = null;
+  });
+
   describe('with a Person', () => {
     test('returns the expected object', () => {
-      expect(AssociatedEntity.toRoleObject(ROLE_OFFICIAL, resultPersonEntities, Person.singular())).toEqual({
+      expect(associatedEntity.toRoleObject(ROLE_OFFICIAL, resultPersonEntities, Person.labelPrefix)).toEqual({
         label: 'Associated Entities',
         options: [
           'entity',
@@ -135,7 +147,7 @@ describe('toRoleObject()', () => {
 
   describe('with a Source', () => {
     test('returns the expected object', () => {
-      expect(AssociatedEntity.toRoleObject(ROLE_SOURCE, resultSourceEntities, Source.singular())).toEqual({
+      expect(associatedEntity.toRoleObject(ROLE_SOURCE, resultSourceEntities, Source.labelPrefix)).toEqual({
         label: 'Associated Entities',
         options: [
           'entity',

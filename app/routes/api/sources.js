@@ -29,7 +29,9 @@ const searchParams = require('../../lib/request/search-params');
 
 const AssociatedPerson = require('../../models/associated/person');
 const AssociatedEntity = require('../../models/associated/entity');
+const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
+const Person = require('../../models/person/person');
 const Source = require('../../models/source/source');
 
 const incidents = require('../../services/incidents');
@@ -232,12 +234,18 @@ const getSourceRoleObject = async (source, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0 || entities?.total > 0) {
+    const associatedEntity = new AssociatedEntity();
+    const associatedPerson = new AssociatedPerson();
+
+    associatedEntity.setAssociatedModel(Entity);
+    associatedPerson.setAssociatedModel(Person);
+
     if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-      source.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Source.singular()));
+      source.role.setAttendees(associatedPerson.toRoleObject(role, attendees, Source.labelPrefix));
     }
 
     if (entities?.total > 0) {
-      source.role.setEntities(AssociatedEntity.toRoleObject(role, entities, Source.singular()));
+      source.role.setEntities(associatedEntity.toRoleObject(role, entities, Source.labelPrefix));
     }
   }
 

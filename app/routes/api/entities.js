@@ -31,6 +31,7 @@ const { toSentence } = require('../../lib/string');
 const AssociatedPerson = require('../../models/associated/person');
 const Entity = require('../../models/entity/entity');
 const Incident = require('../../models/incident');
+const Person = require('../../models/person/person');
 
 const entities = require('../../services/entities');
 const entityLobbyistLocations = require('../../services/entity-lobbyist-locations');
@@ -322,7 +323,11 @@ const getEntityRoleObject = async (entity, options = {}, limit = null) => {
   }
 
   if (attendees?.lobbyists?.total > 0 || attendees?.officials?.total > 0) {
-    entity.role.setAttendees(AssociatedPerson.toRoleObject(role, attendees, Entity.singular()));
+    const associatedPerson = new AssociatedPerson();
+
+    associatedPerson.setAssociatedModel(Person);
+
+    entity.role.setAttendees(associatedPerson.toRoleObject(role, attendees, Entity.labelPrefix));
   }
 
   return entity.role.toObject();

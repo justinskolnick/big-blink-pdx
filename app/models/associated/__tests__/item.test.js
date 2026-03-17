@@ -1,29 +1,39 @@
 const AssociatedItem = require('../item');
 
 describe('getValuesLinks()', () => {
+  let associatedItem = null;
+
+  beforeEach(() => {
+    associatedItem = new AssociatedItem();
+  });
+
+  afterEach(() => {
+    associatedItem = null;
+  });
+
   test('returns the expected values', () => {
-    expect(AssociatedItem.getValuesLinks('entities', 1)).toEqual({
+    expect(associatedItem.getValuesLinks('entities', 1)).toEqual({
       intro: null,
       options: null,
       total: {
         label: '1 entity',
       },
     });
-    expect(AssociatedItem.getValuesLinks('entities', 2)).toEqual({
+    expect(associatedItem.getValuesLinks('entities', 2)).toEqual({
       intro: null,
       options: null,
       total: {
         label: '2 entities',
       },
     });
-    expect(AssociatedItem.getValuesLinks('entities', 5)).toEqual({
+    expect(associatedItem.getValuesLinks('entities', 5)).toEqual({
       intro: null,
       options: null,
       total: {
         label: '5 entities',
       },
     });
-    expect(AssociatedItem.getValuesLinks('entities', 6)).toEqual({
+    expect(associatedItem.getValuesLinks('entities', 6)).toEqual({
       intro: {
         label: 'View',
       },
@@ -45,7 +55,7 @@ describe('getValuesLinks()', () => {
         label: '6 entities',
       },
     });
-    expect(AssociatedItem.getValuesLinks('entities', 11)).toEqual({
+    expect(associatedItem.getValuesLinks('entities', 11)).toEqual({
       intro: {
         label: 'View',
       },

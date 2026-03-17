@@ -11,6 +11,7 @@ const DataSourcesTable = require('../../services/tables/data-sources');
 class Source extends IncidentedBase {
   static table = DataSourcesTable;
 
+  static labelPrefix = 'source';
   static linkKey = 'source';
 
   static perPage = 40;

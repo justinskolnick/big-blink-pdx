@@ -10,55 +10,52 @@ const {
 const Base = require('../shared/base');
 
 class AssociatedItem extends Base {
-  static associations = {
+  associations = {
     [ROLE_ENTITY]: null,
     [ROLE_LOBBYIST]: null,
     [ROLE_OFFICIAL]: null,
     [ROLE_SOURCE]: null,
   };
 
-  static getAssociation(role) {
+  associatedModel = null;
+
+  roles = [];
+
+  setAssociatedModel(associatedModel) {
+    this.associatedModel = associatedModel;
+  }
+
+  getAssociation(role) {
     return this.associations[role];
   }
 
-  static getAssociationLabelKey(association) {
+  getAssociationLabelKey(association) {
     return `associated_${association}`;
   }
 
-  static getValueLabelKey(role, association) {
+  getValueLabelKey(role, association) {
     return `as_${role}_${association}`;
   }
 
-  static getValueLabel(role, key, labelPrefix) {
+  getValueLabel(role, key, labelPrefix) {
     const labelKey = this.getValueLabelKey(role, key);
 
-    return this.labels.getLabel(labelKey, labelPrefix);
+    return this.getLabel(labelKey, labelPrefix);
   }
 
-  static adaptRecord(record) {
+  adaptRecord(record) {
     return record;
   }
 
-  static toAssociationObject(association, type) {
-    const labelKey = this.getAssociationLabelKey(association);
-
-    return {
-      label: this.labels.getLabel(labelKey),
-      options: this.roles,
-      type,
-      values: [],
-    };
-  }
-
-  static getValuesLinks(key, total) {
+  getValuesLinks(key, total) {
     const labelKey = pluralize(key, total);
 
     const links = {
       intro: null,
       options: null,
       total: {
-        label: this.labels.getLabel('total_items', null, {
-          items: this.labels.getLabel(labelKey),
+        label: this.getLabel('total_items', null, {
+          items: this.getLabel(labelKey),
           total,
         }),
       },
@@ -78,7 +75,7 @@ class AssociatedItem extends Base {
     options = limits.sort((a, b) => a - b).map(limit => {
       if (limit === total) {
         return {
-          label: this.labels.getLabel('all'),
+          label: this.getLabel('all'),
           params: {
             limit,
           },
@@ -95,7 +92,7 @@ class AssociatedItem extends Base {
 
     if (options.length) {
       links.intro = {
-        label: this.labels.getLabel('view'),
+        label: this.getLabel('view'),
       };
       links.options = options;
     }
@@ -103,7 +100,7 @@ class AssociatedItem extends Base {
     return links;
   }
 
-  static toValuesObject(key, values, role, labelPrefix) {
+  toValuesObject(key, values, role, labelPrefix) {
     return {
       association: this.getAssociation(values.role),
       label: this.getValueLabel(role, key, labelPrefix),
@@ -111,6 +108,19 @@ class AssociatedItem extends Base {
       role: values.role,
       links: this.getValuesLinks(key, values.total),
       total: values.total,
+    };
+  }
+
+  toRoleObject(role, items, labelPrefix) {
+    const association = this.associatedModel.plural();
+    const type = this.associatedModel.singular();
+    const labelKey = this.getAssociationLabelKey(association);
+
+    return {
+      label: this.getLabel(labelKey),
+      options: this.roles,
+      type,
+      values: this.getRoleValues(role, items, labelPrefix),
     };
   }
 }
