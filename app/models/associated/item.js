@@ -44,7 +44,6 @@ class AssociatedItem extends Base {
 
     return {
       label: this.labels.getLabel(labelKey),
-      model: association,
       options: this.roles,
       type,
       values: [],

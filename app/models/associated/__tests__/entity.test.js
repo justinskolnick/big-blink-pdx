@@ -15,7 +15,6 @@ describe('toRoleObject()', () => {
     test('returns the expected object', () => {
       expect(AssociatedEntity.toRoleObject(ROLE_OFFICIAL, resultPersonEntities, Person.singular())).toEqual({
         label: 'Associated Entities',
-        model: 'entities',
         options: [
           'entity',
         ],
@@ -138,7 +137,6 @@ describe('toRoleObject()', () => {
     test('returns the expected object', () => {
       expect(AssociatedEntity.toRoleObject(ROLE_SOURCE, resultSourceEntities, Source.singular())).toEqual({
         label: 'Associated Entities',
-        model: 'entities',
         options: [
           'entity',
         ],

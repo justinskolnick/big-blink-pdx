@@ -39,7 +39,6 @@ describe('toRoleObject()', () => {
     test('returns the expected object', () => {
       expect(AssociatedPerson.toRoleObject(ROLE_ENTITY, resultEntityAttendees, Entity.singular())).toEqual({
         label: 'Associated People',
-        model: 'people',
         options: [
           'lobbyist',
           'official',
@@ -237,7 +236,6 @@ describe('toRoleObject()', () => {
       test('returns the expected object', () => {
         expect(AssociatedPerson.toRoleObject(ROLE_LOBBYIST, resultPersonAttendees, Person.singular())).toEqual({
           label: 'Associated People',
-          model: 'people',
           options: [
             'lobbyist',
             'official',
@@ -368,7 +366,6 @@ describe('toRoleObject()', () => {
       test('returns the expected object', () => {
         expect(AssociatedPerson.toRoleObject(ROLE_OFFICIAL, resultPersonAttendees, Person.singular())).toEqual({
           label: 'Associated People',
-          model: 'people',
           options: [
             'lobbyist',
             'official',
@@ -500,7 +497,6 @@ describe('toRoleObject()', () => {
     test('returns the expected object', () => {
       expect(AssociatedPerson.toRoleObject(ROLE_SOURCE, resultSourceAttendees, Source.singular())).toEqual({
         label: 'Associated People',
-        model: 'people',
         options: [
           'lobbyist',
           'official',

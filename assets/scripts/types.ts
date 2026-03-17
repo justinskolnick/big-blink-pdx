@@ -495,7 +495,6 @@ export type PersonOfficialPosition = {
 
 type AssociatedItem = {
   label: string;
-  model: Sections;
   options: Role[];
 };
 
