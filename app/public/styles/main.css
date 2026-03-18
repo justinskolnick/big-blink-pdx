@@ -691,7 +691,7 @@ body.has-alert .alert-root {
   color: cornflowerblue;
   color: var(--color-link);
 }
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 621px) {
   .global-footer .global-footer-navigation {
     display: flex;
     align-items: center;
@@ -702,14 +702,16 @@ body.has-alert .alert-root {
     margin-left: calc(var(--gap) * 2);
   }
 }
+@media screen and (max-width: 620px) {
+  .global-footer .global-footer-navigation .global-footer-navigation-title + .global-footer-navigation-links {
+    margin-top: calc(18px / 2);
+    margin-top: calc(var(--gap) / 2);
+  }
+}
 @media screen and (max-width: 600px) {
   .global-footer {
     padding-left: var(--layout-margin-x);
     padding-right: var(--layout-margin-x);
-  }
-  .global-footer .global-footer-navigation .global-footer-navigation-title + .global-footer-navigation-links {
-    margin-top: calc(18px / 2);
-    margin-top: calc(var(--gap) / 2);
   }
 }
 .header-intro p {
@@ -1628,10 +1630,10 @@ body.has-alert .alert-root {
   margin-left: 0.5ch;
 }
 .incident-attendees .incident-attendee + .incident-attendee {
-  margin-top: calc(18px / 6);
-  margin-top: calc(var(--gap) / 6);
-  padding-top: calc(18px / 6);
-  padding-top: calc(var(--gap) / 6);
+  margin-top: calc(18px / 3);
+  margin-top: calc(var(--gap) / 3);
+  padding-top: calc(18px / 3);
+  padding-top: calc(var(--gap) / 3);
   border-top: 1px solid rgba(220, 220, 220, 0.5);
   border-top: 1px solid var(--color-divider-lighter);
 }
@@ -1919,47 +1921,42 @@ body.has-alert .alert-root {
   margin-top: 18px;
   margin-top: var(--gap);
 }
+@media screen and (min-width: 601px) {
+  .incident-modal .modal-incident {
+    border-top-left-radius: var(--incident-space-size);
+    border-bottom-left-radius: var(--incident-space-size);
+  }
+}
 @media screen and (max-width: 600px) {
   .incident-modal .modal-content {
-    top: calc(18px * 2);
-    top: calc(var(--gap) * 2);
     left: 0;
-    max-height: calc(100vh - 36px);
+    max-height: 100%;
   }
   .incident-modal .modal-incident {
     --modal-incident-max-width: 100%;
     --modal-incident-min-width: 100%;
+    max-height: 100%;
   }
 }
-@media screen and (max-height: 420px) {
-  .incident-modal .modal-content {
-    top: calc(18px * 2);
-    top: calc(var(--gap) * 2);
-    bottom: calc(18px * 2);
-    bottom: calc(var(--gap) * 2);
-    max-height: calc(100vh - 18px * 2);
-    max-height: calc(100vh - var(--gap) * 2);
+@media screen and (min-height: 781px) {
+  .incident-modal .modal-incident .incident-header {
+    position: sticky;
   }
-  .incident-modal .modal-incident {
-    height: 100%;
+  .incident-modal .modal-incident .incident-main {
+    padding-top: calc(18px);
+    padding-top: calc(var(--gap));
   }
 }
 @media screen and (max-height: 780px) {
   .incident-modal .modal-content {
     top: calc(18px * 2);
     top: calc(var(--gap) * 2);
-    bottom: calc(18px * 2);
-    bottom: calc(var(--gap) * 2);
+    max-height: calc(100% - 18px * 2);
+    max-height: calc(100% - var(--gap) * 2);
     overflow: auto;
   }
   .incident-modal .modal-incident {
     max-height: 100%;
-  }
-}
-@media screen and (min-width: 601px) {
-  .incident-modal .modal-incident {
-    border-top-left-radius: var(--incident-space-size);
-    border-bottom-left-radius: var(--incident-space-size);
   }
 }
 .incident-table {
@@ -1971,8 +1968,6 @@ body.has-alert .alert-root {
 }
 .incident-table th,
 .incident-table td {
-  padding-top: 3px;
-  padding-bottom: 3px;
   line-height: 18px;
   text-align: left;
   height: 100%;
@@ -1991,6 +1986,10 @@ body.has-alert .alert-root {
   content: ":";
 }
 .incident-table td {
+  padding-top: calc(18px / 3);
+  padding-top: calc(var(--gap) / 3);
+  padding-bottom: calc(18px / 3);
+  padding-bottom: calc(var(--gap) / 3);
   padding-left: 18px;
   padding-left: var(--gap);
   font-size: 14px;

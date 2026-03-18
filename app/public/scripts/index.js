@@ -61057,6 +61057,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const numericId = Number(id);
     const incident = useGetIncidentById(numericId);
     const hasIncident = Boolean(incident);
+    const hasNotes = hasIncident && Boolean(incident.notes);
+    use_fetch_and_scroll_on_route_change_default();
     if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
@@ -61064,7 +61066,7 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { className: "incident-details", children: /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(incident_table_default, { incident }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime87.jsx)("div", { className: "item-content-section item-content-section-secondary", children: /* @__PURE__ */ (0, import_jsx_runtime87.jsxs)(meta_section_default, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
+        hasNotes && /* @__PURE__ */ (0, import_jsx_runtime87.jsx)(
           incident_notes_box_default,
           {
             title: "Notes about this incident",
