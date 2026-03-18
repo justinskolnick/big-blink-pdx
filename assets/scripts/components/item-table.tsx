@@ -30,7 +30,7 @@ export const ItemRow = ({
 }: RowProps) => {
   const hasAuxiliaryType = Boolean(auxiliaryType);
   const hasPercentage = Boolean(percentage);
-  const hasTotal = Boolean(total);
+  const hasTotal = total !== null;
 
   return (
     <tr>

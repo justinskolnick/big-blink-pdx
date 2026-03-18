@@ -46631,7 +46631,7 @@ Hook ${hookName} was either not provided or not a function.`);
   }) => {
     const hasAuxiliaryType = Boolean(auxiliaryType);
     const hasPercentage = Boolean(percentage);
-    const hasTotal = Boolean(total);
+    const hasTotal = total !== null;
     return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("tr", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { className: "cell-type", children: icon3 }),
       hasAuxiliaryType && /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { className: "cell-type", children: auxiliaryType }),
