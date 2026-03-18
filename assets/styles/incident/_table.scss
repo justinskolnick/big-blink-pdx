@@ -8,8 +8,6 @@
   }
 
   th, td {
-    padding-top: 3px;
-    padding-bottom: 3px;
     line-height: 18px;
     text-align: left;
     height: 100%;
@@ -32,6 +30,8 @@
   }
 
   td {
+    padding-top: calc(var(--gap) / 3);
+    padding-bottom: calc(var(--gap) / 3);
     padding-left: var(--gap);
     font-size: 14px;
 
