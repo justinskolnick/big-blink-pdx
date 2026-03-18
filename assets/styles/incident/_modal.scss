@@ -7,7 +7,6 @@
 
   .modal-content {
     top: calc(var(--gap) * 3);
-    // bottom: calc(var(--gap) * 2);
     right: 0;
     max-height: calc(100% - (var(--gap) * 8));
   }
@@ -89,47 +88,48 @@
     margin-top: var(--gap);
   }
 
+  @media screen and (min-width: 601px) {
+    .modal-incident {
+      border-top-left-radius: var(--incident-space-size);
+      border-bottom-left-radius: var(--incident-space-size);
+    }
+  }
+
   @media screen and (max-width: 600px) {
     .modal-content {
-      top: calc(var(--gap) * 2);
       left: 0;
-      max-height: calc(100vh - 36px);
+      max-height: 100%;
     }
 
     .modal-incident {
       --modal-incident-max-width: 100%;
       --modal-incident-min-width: 100%;
+
+      max-height: 100%;
     }
   }
 
-  @media screen and (max-height: 420px) {
-    .modal-content {
-      top: calc(var(--gap) * 2);
-      bottom: calc(var(--gap) * 2);
-      max-height: calc(100vh - calc(var(--gap) * 2));
-    }
-
+  @media screen and (min-height: 781px) {
     .modal-incident {
-      height: 100%;
+      .incident-header {
+        position: sticky;
+      }
+
+      .incident-main {
+        padding-top: calc(var(--gap));
+      }
     }
   }
 
   @media screen and (max-height: 780px) {
     .modal-content {
       top: calc(var(--gap) * 2);
-      bottom: calc(var(--gap) * 2);
+      max-height: calc(100% - calc(var(--gap) * 2));
       overflow: auto;
     }
 
     .modal-incident {
       max-height: 100%;
-    }
-  }
-
-  @media screen and (min-width: 601px) {
-    .modal-incident {
-      border-top-left-radius: var(--incident-space-size);
-      border-bottom-left-radius: var(--incident-space-size);
     }
   }
 }
