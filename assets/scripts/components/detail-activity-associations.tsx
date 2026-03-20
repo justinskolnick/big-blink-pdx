@@ -181,6 +181,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
 const Entities = ({ item, role }: NamedRoleProps) => {
   const namedRole = item?.roles.named?.[role];
   const items = namedRole?.entities;
+  const filterByRole = namedRole?.filterRole;
 
   const hasItems = items?.values.length > 0;
 
@@ -194,7 +195,7 @@ const Entities = ({ item, role }: NamedRoleProps) => {
       {(ref) => items.values.map((value, i: number) => (
         <AssociationGroup
           item={item}
-          role={role}
+          role={filterByRole ? role : undefined}
           value={value}
           key={i}
         >
@@ -207,7 +208,7 @@ const Entities = ({ item, role }: NamedRoleProps) => {
               initialCount={initialLimit}
               links={value.links}
               ref={ref}
-              role={value.role}
+              role={filterByRole ? value.role : undefined}
               setLimit={setLimit}
               title={value.label}
             />

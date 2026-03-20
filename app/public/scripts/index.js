@@ -47342,6 +47342,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var Entities = ({ item, role }) => {
     const namedRole = item?.roles.named?.[role];
     const items = namedRole?.entities;
+    const filterByRole = namedRole?.filterRole;
     const hasItems = items?.values.length > 0;
     if (!hasItems) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
@@ -47353,7 +47354,7 @@ Hook ${hookName} was either not provided or not a function.`);
           AssociationGroup,
           {
             item,
-            role,
+            role: filterByRole ? role : void 0,
             value,
             children: (initialLimit, currentLimit, setLimit) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
               affiliated_entities_table_default,
@@ -47365,7 +47366,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 initialCount: initialLimit,
                 links: value.links,
                 ref,
-                role: value.role,
+                role: filterByRole ? value.role : void 0,
                 setLimit,
                 title: value.label
               }
