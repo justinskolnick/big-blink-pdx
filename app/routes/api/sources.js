@@ -299,68 +299,6 @@ router.get('/:id/roles', async (req, res, next) => {
   }
 });
 
-router.get('/:id/attendees', async (req, res, next) => {
-  const id = Number(req.params.id);
-  const limit = req.searchParams.get(PARAM_LIMIT);
-
-  let source;
-  let record;
-  let attendees;
-  let data;
-  let meta;
-
-  try {
-    source = await sources.getAtId(id);
-    attendees = await incidentAttendees.getAttendees({ sourceId: id }, limit);
-
-    record = source.adapted;
-    record.attendees = AssociatedPerson.toRoleObject(ROLE_SOURCE, attendees, Source.singular());
-
-    data = {
-      source: {
-        record,
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting source attendees:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
-router.get('/:id/entities', async (req, res, next) => {
-  const id = Number(req.params.id);
-  const limit = req.searchParams.get(PARAM_LIMIT);
-
-  let source;
-  let record;
-  let entities;
-  let data;
-  let meta;
-
-  try {
-    source = await sources.getAtId(id);
-    entities = await sources.getEntitiesForId(id, limit);
-
-    record = source.adapted;
-    record.entities = AssociatedEntity.toRoleObject(ROLE_SOURCE, entities, Source.singular());
-
-    data = {
-      source: {
-        record,
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting source entities:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
 router.get('/:id/incidents', async (req, res, next) => {
   const id = Number(req.params.id);
   const page = req.searchParams.get(PARAM_PAGE) || 1;

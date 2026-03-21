@@ -21,7 +21,6 @@ import type {
   Person,
   NamedRoles,
   PersonWithIncidentRecords,
-  Source,
   SourceWithIncidentRecords,
   WarningType
 } from '../types';
@@ -53,18 +52,6 @@ const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
       .map(attendee => attendee?.person)
       .map((person: PersonWithIncidentRecords) => adaptPerson(state, person))
   );
-
-const getAttendeesFromRecord = (state: RootState, record: Source) =>
-  record.attendees.values
-    .flatMap(value => value.records)
-    .map(entry => entry.person)
-    .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
-
-const getEntitiesFromSource = (state: RootState, source: Source) =>
-  source.entities.values
-    .flatMap(value => value.records)
-    .map(entry => entry.entity)
-    .map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
 
 const getAttendeesFromRole = (state: RootState, roles: NamedRoles) => {
   const attendees = Object.values(roles).map(role => role?.attendees).filter(Boolean);
@@ -278,22 +265,6 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
           if (entities.length) {
             dispatch(entityActions.setAll(entities));
           }
-        }
-      }
-
-      if ('entities' in data.source.record) {
-        const entities = getEntitiesFromSource(state, data.source.record);
-
-        if (entities.length) {
-          dispatch(entityActions.setAll(entities));
-        }
-      }
-
-      if ('attendees' in data.source.record) {
-        const attendees = getAttendeesFromRecord(state, data.source.record);
-
-        if (attendees.length) {
-          dispatch(personActions.setAll(attendees));
         }
       }
 

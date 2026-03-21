@@ -34018,13 +34018,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       id: record.person.id
     }
   }));
-  var adaptAttendees = (attendees) => ({
-    ...attendees,
-    values: attendees.values.map((value) => ({
-      ...value,
-      records: adaptAttendeeRecords(value.records)
-    }))
-  });
   var adaptIncidents = (incidents) => {
     const {
       filters,
@@ -37902,7 +37895,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var entities_default = entitiesSlice.reducer;
 
   // assets/scripts/reducers/incidents.ts
-  var adaptAttendees2 = (attendees) => Object.entries(attendees).reduce((all, [key, value]) => {
+  var adaptAttendees = (attendees) => Object.entries(attendees).reduce((all, [key, value]) => {
     all[key] = {
       ...value,
       records: adaptAttendeeRecords(value.records)
@@ -37913,7 +37906,7 @@ Hook ${hookName} was either not provided or not a function.`);
     adaptOne: (state, entry) => {
       const adapted = { ...entry };
       if ("attendees" in entry) {
-        adapted.attendees = adaptAttendees2(adapted.attendees);
+        adapted.attendees = adaptAttendees(adapted.attendees);
       }
       return adapted;
     },
@@ -38016,23 +38009,6 @@ Hook ${hookName} was either not provided or not a function.`);
     adaptOne: (state, entry) => {
       const savedEntry = selectors4.selectById(state, entry.id);
       const adapted = { ...entry };
-      if ("attendees" in entry) {
-        adapted.attendees = adaptAttendees(adapted.attendees);
-      }
-      if ("entities" in entry) {
-        adapted.entities = {
-          ...adapted.entities,
-          values: adapted.entities.values.map((value) => ({
-            ...value,
-            records: value.records.map((record) => ({
-              ...record,
-              entity: {
-                id: record.entity.id
-              }
-            }))
-          }))
-        };
-      }
       if ("roles" in entry) {
         adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
       }
@@ -38179,8 +38155,6 @@ Hook ${hookName} was either not provided or not a function.`);
   var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
     (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adaptPerson(state, person))
   );
-  var getAttendeesFromRecord = (state, record) => record.attendees.values.flatMap((value) => value.records).map((entry) => entry.person).map((person) => adaptPerson(state, person));
-  var getEntitiesFromSource = (state, source) => source.entities.values.flatMap((value) => value.records).map((entry) => entry.entity).map((entity) => adaptEntity(state, entity));
   var getAttendeesFromRole = (state, roles) => {
     const attendees = Object.values(roles).map((role) => role?.attendees).filter(Boolean);
     if (attendees.length) {
@@ -38340,18 +38314,6 @@ Hook ${hookName} was either not provided or not a function.`);
             if (entities.length) {
               dispatch(setAll2(entities));
             }
-          }
-        }
-        if ("entities" in data2.source.record) {
-          const entities = getEntitiesFromSource(state, data2.source.record);
-          if (entities.length) {
-            dispatch(setAll2(entities));
-          }
-        }
-        if ("attendees" in data2.source.record) {
-          const attendees = getAttendeesFromRecord(state, data2.source.record);
-          if (attendees.length) {
-            dispatch(setAll(attendees));
           }
         }
         if (incidents.length) {

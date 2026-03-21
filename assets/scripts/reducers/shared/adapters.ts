@@ -2,7 +2,6 @@ import { unique } from '../../lib/array';
 
 import type {
   Attendee,
-  Attendees,
   Incident,
   Incidented,
   ItemRoles,
@@ -22,14 +21,6 @@ export const adaptAttendeeRecords = (records: Attendee[]) =>
       id: record.person.id,
     },
   }));
-
-export const adaptAttendees = (attendees: Attendees) => ({
-  ...attendees,
-  values: attendees.values.map(value => ({
-    ...value,
-    records: adaptAttendeeRecords(value.records),
-  })),
-} as Attendees);
 
 export const adaptIncidents = (incidents: Incidented) => {
   const {

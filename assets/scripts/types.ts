@@ -96,13 +96,6 @@ export type AttendeeGroup = {
   total: number;
 }
 
-export type Attendees = {
-  label: string;
-  model: Sections;
-  type: 'entity' | 'person' | 'source';
-  values: AttendeeGroup[];
-}
-
 type Details = {
   description?: string;
   domain?: string;
@@ -594,12 +587,6 @@ export enum DataFormat {
 
 export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
 
-export type SourceEntities = {
-  label: string;
-  model: Sections;
-  values: AffiliatedEntityValues;
-};
-
 export type Source = {
   id: number;
   type: string;
@@ -612,9 +599,7 @@ export type Source = {
   retrievedDate: string;
   roles?: ItemRoles;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
-  attendees?: Attendees;
   details?: Details;
-  entities?: SourceEntities;
   overview?: ItemOverview;
   labels: {
     disclaimer: string;

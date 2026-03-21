@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
 import {
-  adaptAttendees,
   adaptIncidents,
   adaptRoles,
 } from './shared/adapters';
@@ -17,7 +16,6 @@ import type {
   Incidents,
   Pagination,
   Source,
-  SourceEntities,
   Sources,
   SourceTypeObject,
   SourceWithIncidentRecords,
@@ -36,25 +34,6 @@ export const adapters = {
   adaptOne: (state: RootState, entry: SourceWithIncidentRecords): Source => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
-
-    if ('attendees' in entry) {
-      adapted.attendees = adaptAttendees(adapted.attendees);
-    }
-
-    if ('entities' in entry) {
-      adapted.entities = {
-        ...adapted.entities,
-        values: adapted.entities.values.map(value => ({
-          ...value,
-          records: value.records.map(record => ({
-            ...record,
-            entity: {
-              id: record.entity.id,
-            },
-          }))
-        })),
-      } as SourceEntities;
-    }
 
     if ('roles' in entry) {
       adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
