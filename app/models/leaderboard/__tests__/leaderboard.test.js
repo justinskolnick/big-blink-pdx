@@ -32,7 +32,7 @@ describe('getValuesForEntities()', () => {
   ];
 
   test('returns the expected string', () => {
-    expect(Leaderboard.getValuesForEntities(items, 123)).toEqual({
+    expect(Leaderboard.getValuesForEntities(items, 337, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
         subtitle: 'Entities are ranked by total number of lobbying incident appearances.',
@@ -47,15 +47,35 @@ describe('getValuesForEntities()', () => {
         title: 'Entities',
       },
       links: {
+        intro: {
+          label: 'View',
+        },
         limit: {
           label: 'View the top 10',
           params: {
             limit: 10,
           },
         },
+        options: [
+          {
+            label: '5',
+            params: {
+              limit: 5,
+            },
+          },
+          {
+            label: '10',
+            params: {
+              limit: 10,
+            },
+          },
+        ],
         more: {
           label: 'View the full list of entities',
           path: '/entities',
+        },
+        total: {
+          label: '337 entities',
         },
       },
     });
@@ -70,7 +90,7 @@ describe('getValuesForLobbyists()', () => {
   ];
 
   test('returns the expected string', () => {
-    expect(Leaderboard.getValuesForLobbyists(items, 123)).toEqual({
+    expect(Leaderboard.getValuesForLobbyists(items, 512, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
         subtitle: 'Lobbyists are ranked by total number of lobbying incident appearances.',
@@ -85,15 +105,35 @@ describe('getValuesForLobbyists()', () => {
         title: 'Lobbyists',
       },
       links: {
+        intro: {
+          label: 'View',
+        },
         limit: {
           label: 'View the top 10',
           params: {
             limit: 10,
           },
         },
+        options: [
+          {
+            label: '5',
+            params: {
+              limit: 5,
+            },
+          },
+          {
+            label: '10',
+            params: {
+              limit: 10,
+            },
+          },
+        ],
         more: {
           label: 'View all lobbyists in the full list of people',
           path: '/people',
+        },
+        total: {
+          label: '512 lobbyists',
         },
       },
     });
@@ -108,7 +148,7 @@ describe('getValuesForOfficials()', () => {
   ];
 
   test('returns the expected string', () => {
-    expect(Leaderboard.getValuesForOfficials(items, 123)).toEqual({
+    expect(Leaderboard.getValuesForOfficials(items, 246, 123)).toEqual({
       ids: [4, 5, 6],
       labels: {
         subtitle: 'Portland City officials are ranked by total number of lobbying incident appearances.',
@@ -123,15 +163,35 @@ describe('getValuesForOfficials()', () => {
         title: 'City Officials',
       },
       links: {
+        intro: {
+          label: 'View',
+        },
         limit: {
           label: 'View the top 10',
           params: {
             limit: 10,
           },
         },
+        options: [
+          {
+            label: '5',
+            params: {
+              limit: 5,
+            },
+          },
+          {
+            label: '10',
+            params: {
+              limit: 10,
+            },
+          },
+        ],
         more: {
           label: 'View all officials in the full list of people',
           path: '/people',
+        },
+        total: {
+          label: '246 officials',
         },
       },
     });

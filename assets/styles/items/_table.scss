@@ -145,11 +145,15 @@
 
 .item-table-more {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   padding-left: calc(var(--gap) / 6);
   padding-right: 0;
   color: var(--color-light);
+
+  &.total-only {
+    justify-content: flex-end;
+  }
 
   .item-text-with-icon {
     .icon + .item-text {
@@ -169,14 +173,29 @@
     }
   }
 
-  .item-table-more-options {
+  .item-table-more-option-group {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
+  }
+
+  .item-table-more-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 2.5ch;
 
     .item-text-with-icon {
       align-items: center;
+
+      &.is-intro {
+        .item-text {
+          &::after {
+            content: ':';
+          }
+        }
+      }
     }
 
     .item-text-with-icon + .item-text {

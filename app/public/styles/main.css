@@ -2011,16 +2011,6 @@ ul.incident-types ::marker {
   color: var(--color-text-lighter);
   font-size: 16px;
 }
-.affiliated-items .item-table-more {
-  flex-direction: row-reverse;
-}
-.affiliated-items .item-table-more-options .item-text-with-icon .item-text::after {
-  content: ":";
-}
-.affiliated-items a {
-  color: cornflowerblue;
-  color: var(--color-link);
-}
 .item-description {
   font-size: 14px;
   line-height: 21px;
@@ -2310,13 +2300,16 @@ ul.incident-types ::marker {
 }
 .item-table-more {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   padding-left: calc(18px / 6);
   padding-left: calc(var(--gap) / 6);
   padding-right: 0;
   color: gray;
   color: var(--color-light);
+}
+.item-table-more.total-only {
+  justify-content: flex-end;
 }
 .item-table-more .item-text-with-icon .icon + .item-text {
   margin-left: 2ch;
@@ -2329,14 +2322,23 @@ ul.incident-types ::marker {
 .item-table-more .item-text.is-selected a {
   font-weight: bold;
 }
-.item-table-more .item-table-more-options {
+.item-table-more .item-table-more-option-group {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+.item-table-more .item-table-more-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 2.5ch;
+}
 .item-table-more .item-table-more-options .item-text-with-icon {
   align-items: center;
+}
+.item-table-more .item-table-more-options .item-text-with-icon.is-intro .item-text::after {
+  content: ":";
 }
 .item-table-more .item-table-more-options .item-text-with-icon + .item-text {
   margin-left: 1ch;
@@ -2466,26 +2468,6 @@ ul.incident-types ::marker {
 .leaderboard-subsection-group .item-subhead + .item-table {
   margin-top: 18px;
   margin-top: var(--gap);
-}
-.leaderboard-subsection-group .item-table-more {
-  padding-left: calc(18px / 3);
-  padding-left: calc(var(--gap) / 3);
-  padding-right: calc(18px / 3);
-  padding-right: calc(var(--gap) / 3);
-}
-.leaderboard-subsection-group .item-table-more .icon {
-  color: gray;
-  color: var(--color-light);
-  font-size: 10px;
-}
-.leaderboard-subsection-group .item-table-more .item-text {
-  font-size: 12px;
-}
-.leaderboard-subsection-group .item-table-more .item-text-with-icon {
-  margin-right: 2.5ch;
-}
-.leaderboard-subsection-group .item-table-more .icon + .item-text {
-  margin-left: 2ch;
 }
 @media screen and (min-width: 401px) {
   .leaderboard-subsection-group .item-subhead-content {

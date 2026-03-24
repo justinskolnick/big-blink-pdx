@@ -6,8 +6,10 @@ import { FnSetLimit } from '../hooks/use-limited-query';
 
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
+import { BetterLink as Link } from './links';
 import ItemTable, {
   ItemTableMore,
+  ItemTableMoreOptionGroup,
   ItemTableMoreOptions,
   ItemTableMoreTotal,
 } from './item-table';
@@ -60,7 +62,7 @@ const AffiliatedItems = ({
   </div>
 );
 
-const Link = ({
+const OptionsLink = ({
   currentCount,
   link,
   setLimit,
@@ -84,39 +86,60 @@ const Link = ({
   );
 };
 
-const Links = ({
+export const TableMoreLinks = ({
   currentCount,
   links,
   setLimit,
 }: LinksProps) => {
   const hasIntro = Boolean(links.intro);
   const hasOptions = Boolean(links.options);
+  const hasMore = Boolean(links.more);
+  const hasTotal = Boolean(links.total);
+  const hasGroup = hasOptions || hasMore;
 
   return (
-    <ItemTableMore>
-      <ItemTableMoreTotal>
-        <ItemText>
-          {links.total.label}
-        </ItemText>
-      </ItemTableMoreTotal>
+    <ItemTableMore className={!hasGroup && hasTotal && 'total-only'}>
+      {hasGroup && (
+        <ItemTableMoreOptionGroup>
 
-      {hasOptions && (
-        <ItemTableMoreOptions>
-          {hasIntro && (
-            <ItemTextWithIcon icon='list-ol'>
-              {links.intro.label}
-            </ItemTextWithIcon>
+          {hasOptions && (
+            <ItemTableMoreOptions>
+              {hasIntro && (
+                <ItemTextWithIcon className='is-intro' icon='list-ol'>
+                  {links.intro.label}
+                </ItemTextWithIcon>
+              )}
+
+              {links.options.map((option) => (
+                <OptionsLink
+                  key={option.params.limit}
+                  link={option}
+                  currentCount={currentCount}
+                  setLimit={setLimit}
+                />
+              ))}
+            </ItemTableMoreOptions>
           )}
 
-          {links.options.map((option) => (
-            <Link
-              key={option.params.limit}
-              link={option}
-              currentCount={currentCount}
-              setLimit={setLimit}
-            />
-          ))}
-        </ItemTableMoreOptions>
+          {hasMore && (
+            <ItemTableMoreOptions>
+              <ItemTextWithIcon icon='link'>
+                <Link to={links.more.path}>
+                  {links.more.label}
+                </Link>
+              </ItemTextWithIcon>
+            </ItemTableMoreOptions>
+          )}
+
+        </ItemTableMoreOptionGroup>
+      )}
+
+      {hasTotal && (
+        <ItemTableMoreTotal>
+          <ItemText>
+            {links.total.label}
+          </ItemText>
+        </ItemTableMoreTotal>
       )}
     </ItemTableMore>
   );
@@ -170,7 +193,7 @@ const AffiliatedItemTable = ({
           </ItemTable>
 
           {hasLinks && (
-            <Links
+            <TableMoreLinks
               currentCount={currentLimit}
               links={links}
               setLimit={setLimit}

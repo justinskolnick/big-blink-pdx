@@ -47,21 +47,8 @@ class AssociatedItem extends Base {
     return record;
   }
 
-  getValuesLinks(key, total) {
-    const labelKey = pluralize(key, total);
-
-    const links = {
-      intro: null,
-      options: null,
-      total: {
-        label: this.getLabel('total_items', null, {
-          items: this.getLabel(labelKey),
-          total,
-        }),
-      },
-    };
+  getLinksLimits(total, includeTotalLink = false) {
     const limits = [];
-    let options = [];
 
     if (total > 10) {
       limits.push(10);
@@ -69,10 +56,17 @@ class AssociatedItem extends Base {
 
     if (total > 5) {
       limits.push(5);
-      limits.push(total);
+
+      if (includeTotalLink) {
+        limits.push(total);
+      }
     }
 
-    options = limits.sort((a, b) => a - b).map(limit => {
+    return limits;
+  }
+
+  getOptionsLinks(limits, total) {
+    return limits.sort((a, b) => a - b).map(limit => {
       if (limit === total) {
         return {
           label: this.getLabel('all'),
@@ -89,6 +83,24 @@ class AssociatedItem extends Base {
         },
       };
     });
+  }
+
+  getLinks(key, total) {
+    const labelKey = pluralize(key, total);
+
+    const links = {
+      intro: null,
+      options: null,
+      total: {
+        label: this.getLabel('total_items', null, {
+          items: this.getLabel(labelKey),
+          total,
+        }),
+      },
+    };
+
+    const limits = this.getLinksLimits(total, true);
+    const options = this.getOptionsLinks(limits, total);
 
     if (options.length) {
       links.intro = {
@@ -106,7 +118,7 @@ class AssociatedItem extends Base {
       label: this.getValueLabel(role, key, labelPrefix),
       records: values.records.map(record => this.adaptRecord(record)),
       role: values.role,
-      links: this.getValuesLinks(key, values.total),
+      links: this.getLinks(key, values.total),
       total: values.total,
     };
   }

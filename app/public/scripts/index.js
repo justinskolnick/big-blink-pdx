@@ -44767,8 +44767,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var ItemTextWithIcon = ({
     after = false,
     children,
+    className,
     icon: icon3
-  }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: "item-text-with-icon", children: after ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+  }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: cx("item-text-with-icon", className), children: after ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children }),
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(icon_default, { name: icon3 })
   ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
@@ -46602,9 +46603,22 @@ Hook ${hookName} was either not provided or not a function.`);
       hasPercentage && /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { className: "cell-percent", children: percentage })
     ] });
   };
-  var ItemTableMore = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "item-table-more", children });
-  var ItemTableMoreOptions = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "item-table-more-options", children });
-  var ItemTableMoreTotal = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "item-table-more-total", children });
+  var ItemTableMore = ({
+    children,
+    className
+  }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: cx("item-table-more", className), children });
+  var ItemTableMoreOptionGroup = ({
+    children,
+    className
+  }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: cx("item-table-more-option-group", className), children });
+  var ItemTableMoreOptions = ({
+    children,
+    className
+  }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: cx("item-table-more-options", className), children });
+  var ItemTableMoreTotal = ({
+    children,
+    className
+  }) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: cx("item-table-more-total", className), children });
   var ItemTable = ({
     children,
     hasAnotherIcon = false,
@@ -46903,7 +46917,7 @@ Hook ${hookName} was either not provided or not a function.`);
     className,
     ref
   }) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: cx("affiliated-items", className), ref, children });
-  var Link2 = ({
+  var OptionsLink = ({
     currentCount,
     link,
     setLimit
@@ -46917,27 +46931,33 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { className: isSelected && "is-selected", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("a", { href, onClick: handleClick, children: link.label }) });
   };
-  var Links2 = ({
+  var TableMoreLinks = ({
     currentCount,
     links,
     setLimit
   }) => {
     const hasIntro = Boolean(links.intro);
     const hasOptions = Boolean(links.options);
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMore, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreTotal, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { children: links.total.label }) }),
-      hasOptions && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptions, { children: [
-        hasIntro && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { icon: "list-ol", children: links.intro.label }),
-        links.options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
-          Link2,
-          {
-            link: option,
-            currentCount,
-            setLimit
-          },
-          option.params.limit
-        ))
-      ] })
+    const hasMore = Boolean(links.more);
+    const hasTotal = Boolean(links.total);
+    const hasGroup = hasOptions || hasMore;
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMore, { className: !hasGroup && hasTotal && "total-only", children: [
+      hasGroup && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptionGroup, { children: [
+        hasOptions && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptions, { children: [
+          hasIntro && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { className: "is-intro", icon: "list-ol", children: links.intro.label }),
+          links.options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+            OptionsLink,
+            {
+              link: option,
+              currentCount,
+              setLimit
+            },
+            option.params.limit
+          ))
+        ] }),
+        hasMore && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreOptions, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(BetterLink, { to: links.more.path, children: links.more.label }) }) })
+      ] }),
+      hasTotal && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreTotal, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { children: links.total.label }) })
     ] });
   };
   var AffiliatedItemTable = ({
@@ -46976,7 +46996,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(stat_box_default, { title, children: hasItems ? /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(AffiliatedItems, { ref: tableRef, children: [
       /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_table_default, { hasAnotherIcon: hasAuxiliaryType, children }),
       hasLinks && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
-        Links2,
+        TableMoreLinks,
         {
           currentCount: currentLimit,
           links,
@@ -60764,35 +60784,6 @@ Hook ${hookName} was either not provided or not a function.`);
       return PersonItem;
     }
   };
-  var LimitLink = ({
-    currentLimit,
-    link,
-    setLimit
-  }) => {
-    const location2 = useLocation();
-    const href = location2.pathname;
-    const hasMoreToShow = link.params.limit > currentLimit;
-    const handleClick = (e2) => {
-      e2.preventDefault();
-      setLimit(link.params.limit);
-    };
-    return /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(item_text_with_icon_default, { icon: hasMoreToShow ? "plus" : "minus", children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)("a", { href, onClick: handleClick, children: link.label }) });
-  };
-  var RankingsLinks = ({
-    currentLimit,
-    links,
-    setLimit
-  }) => /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(ItemTableMore, { children: /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(ItemTableMoreOptions, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
-      LimitLink,
-      {
-        link: links.limit,
-        currentLimit,
-        setLimit
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(BetterLink, { to: links.more.path, children: links.more.label }) })
-  ] }) });
   var Rankings = ({
     isGrid = false,
     rankings,
@@ -60815,9 +60806,9 @@ Hook ${hookName} was either not provided or not a function.`);
         /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(item_subsection_default, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(item_table_default, { hasPercent: true, labels: rankingsLabels.table, children: ids.map((id) => /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(Item2, { id }, id)) }),
           /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(
-            RankingsLinks,
+            TableMoreLinks,
             {
-              currentLimit: ids.length,
+              currentCount: ids.length,
               links: rankingsLinks,
               setLimit
             }

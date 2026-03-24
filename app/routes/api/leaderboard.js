@@ -215,22 +215,34 @@ router.get('/entities', setOptions, async (req, res, next) => {
   const {
     options,
     incidentCountOptions,
+    totalOptions,
   } = res.locals;
 
   let incidentCountResult;
+  let results;
+  let totalResult;
+  let entitiesResult;
   let data;
   let meta;
 
   try {
-    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+    const allResults = await Promise.all([
+      incidents.getTotal(incidentCountOptions),
+      entities.getAll(options),
+      entities.getTotal(totalOptions),
+    ]);
+    [
+      incidentCountResult,
+      results,
+      totalResult,
+    ] = allResults;
 
-    const results = await entities.getAll(options);
-    const entitiesResult = results.map(result => callback(result, incidentCountResult));
+    entitiesResult = results.map(result => callback(result, incidentCountResult));
 
     data = {
       leaderboard: {
         values: {
-          entities: Leaderboard.getValuesForEntities(entitiesResult, incidentCountResult),
+          entities: Leaderboard.getValuesForEntities(entitiesResult, totalResult, incidentCountResult),
         },
       },
       entities: {
@@ -250,25 +262,36 @@ router.get('/lobbyists', setOptions, async (req, res, next) => {
   const {
     options,
     incidentCountOptions,
+    totalOptions,
   } = res.locals;
 
+  const role = ROLE_LOBBYIST;
+
   let incidentCountResult;
+  let results;
+  let totalResult;
+  let lobbyistsResults;
   let data;
   let meta;
 
   try {
-    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+    const allResults = await Promise.all([
+      incidents.getTotal(incidentCountOptions),
+      people.getAll({ ...options, role }),
+      people.getTotal({ ...totalOptions, role }),
+    ]);
+    [
+      incidentCountResult,
+      results,
+      totalResult,
+    ] = allResults;
 
-    const results = await people.getAll({
-      ...options,
-      role: ROLE_LOBBYIST,
-    });
-    const lobbyistsResults = results.map(result => callback(result, incidentCountResult));
+    lobbyistsResults = results.map(result => callback(result, incidentCountResult));
 
     data = {
       leaderboard: {
         values: {
-          lobbyists: Leaderboard.getValuesForLobbyists(lobbyistsResults, incidentCountResult),
+          lobbyists: Leaderboard.getValuesForLobbyists(lobbyistsResults, totalResult, incidentCountResult),
         },
       },
       people: {
@@ -288,25 +311,36 @@ router.get('/officials', setOptions, async (req, res, next) => {
   const {
     options,
     incidentCountOptions,
+    totalOptions,
   } = res.locals;
 
+  const role = ROLE_OFFICIAL;
+
   let incidentCountResult;
+  let results;
+  let totalResult;
+  let officialsResults;
   let data;
   let meta;
 
   try {
-    incidentCountResult = await incidents.getTotal(incidentCountOptions);
+    const allResults = await Promise.all([
+      incidents.getTotal(incidentCountOptions),
+      people.getAll({ ...options, role }),
+      people.getTotal({ ...totalOptions, role }),
+    ]);
+    [
+      incidentCountResult,
+      results,
+      totalResult,
+    ] = allResults;
 
-    const results = await people.getAll({
-      ...options,
-      role: ROLE_OFFICIAL,
-    });
-    const officialsResults = results.map(result => callback(result, incidentCountResult));
+    officialsResults = results.map(result => callback(result, incidentCountResult));
 
     data = {
       leaderboard: {
         values: {
-          officials: Leaderboard.getValuesForOfficials(officialsResults, incidentCountResult),
+          officials: Leaderboard.getValuesForOfficials(officialsResults, totalResult, incidentCountResult),
         },
       },
       people: {

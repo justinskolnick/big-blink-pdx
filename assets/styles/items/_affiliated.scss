@@ -5,21 +5,4 @@
     color: var(--color-text-lighter);
     font-size: 16px;
   }
-
-  .item-table-more {
-    flex-direction: row-reverse;
-  }
-  .item-table-more-options {
-    .item-text-with-icon {
-      .item-text {
-        &::after {
-          content: ':';
-        }
-      }
-    }
-  }
-
-  a {
-    color: var(--color-link);
-  }
 }

@@ -302,41 +302,22 @@ type LeaderboardLabels = {
   title: string;
 };
 
-type LeaderboardLinkLabels = {
-  limit: {
-    label: string;
-    value: number;
-  };
-  more: string;
-};
-
 type LeaderboardTableLabels = {
   column: LeaderboardColumnLabels;
   title: string;
 };
 
 type LeaderboardValuesLabels = {
-  links: LeaderboardLinkLabels;
+  links: AssociatedLinksObject;
   subtitle: string;
   table: LeaderboardTableLabels;
   title: string;
 };
 
-type LeaderboardLinkObject = {
-  label: string;
-  params?: {
-    limit: number;
-  };
-  path?: string;
-};
-
 export type LeaderboardSet = {
   ids: Ids;
   labels: LeaderboardValuesLabels;
-  links: {
-    limit: LeaderboardLinkObject;
-    more: LeaderboardLinkObject;
-  };
+  links: AssociatedLinksObject;
 };
 
 type LeaderboardValues = {
@@ -493,19 +474,21 @@ type AssociatedItem = {
 
 export type AssociatedLinksOption = {
   label: string;
-  params: {
+  params?: {
     limit: number;
   };
-};
-
-type AssociatedLinkLabelObject = {
-  label: string;
+  path?: string;
 };
 
 export type AssociatedLinksObject = {
-  intro?: AssociatedLinkLabelObject;
+  intro?: AssociatedLinksOption;
+  limit?: {
+    label: string;
+    value: number;
+  };
+  more?: AssociatedLinksOption;
   options?: AssociatedLinksOption[];
-  total: AssociatedLinkLabelObject;
+  total: AssociatedLinksOption;
 };
 
 type AssociatedItemValue = {

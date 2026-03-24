@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { cx } from '@emotion/css';
 
 import type { ItemTableLabels } from '../types';
 
@@ -12,6 +13,7 @@ interface RowProps {
 
 interface MoreProps {
   children: ReactNode;
+  className?: string;
 }
 
 interface Props {
@@ -49,20 +51,38 @@ export const ItemRow = ({
   );
 };
 
-export const ItemTableMore = ({ children }: MoreProps) => (
-  <div className='item-table-more'>
+export const ItemTableMore = ({
+  children,
+  className,
+}: MoreProps) => (
+  <div className={cx('item-table-more', className)}>
     {children}
   </div>
 );
 
-export const ItemTableMoreOptions = ({ children }: MoreProps) => (
-  <div className='item-table-more-options'>
+export const ItemTableMoreOptionGroup = ({
+  children,
+  className,
+}: MoreProps) => (
+  <div className={cx('item-table-more-option-group', className)}>
     {children}
   </div>
 );
 
-export const ItemTableMoreTotal = ({ children }: MoreProps) => (
-  <div className='item-table-more-total'>
+export const ItemTableMoreOptions = ({
+  children,
+  className,
+}: MoreProps) => (
+  <div className={cx('item-table-more-options', className)}>
+    {children}
+  </div>
+);
+
+export const ItemTableMoreTotal = ({
+  children,
+  className,
+}: MoreProps) => (
+  <div className={cx('item-table-more-total', className)}>
     {children}
   </div>
 );
