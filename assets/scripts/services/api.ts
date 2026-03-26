@@ -16,7 +16,7 @@ interface QueryFnOptions {
   search?: string;
 }
 
-type QueryFn = (options?: QueryFnOptions) => string;
+type QueryFn = (options: QueryFnOptions) => string;
 
 export type TriggerFn = (options?: QueryFnOptions) => void;
 
@@ -70,16 +70,20 @@ const getAncillaryRoute = (query: QueryFn) => ({
 
 const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
   const newUrl = new URL(pathname, baseUrl);
-  const { limit, search } = options;
+  const limit = options?.limit;
+  const search = options?.search;
 
   if (search) {
-    const values = search.split('?').filter(Boolean).flatMap(p => p.split('&')).reduce((all, item) => {
-      const [key, value] = item.split('=');
+    const values = search.split('?')
+      .filter(Boolean)
+      .flatMap((p: string) => p.split('&'))
+      .reduce((all: GenericObject, item: string) => {
+        const [key, value] = item.split('=');
 
-      all[key] = value;
+        all[key] = value;
 
-      return all;
-    }, {} as GenericObject);
+        return all;
+      }, {} as GenericObject);
     const searchParams = new URLSearchParams(values);
 
     searchParams.forEach((value, key) => {

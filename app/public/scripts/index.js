@@ -38374,13 +38374,13 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     if (meta) {
       if (isPrimary) {
-        if ("description" in meta) {
+        if ("description" in meta && meta.description) {
           dispatch(actions3.setDescription(meta.description));
         }
-        if ("pageTitle" in meta) {
+        if ("pageTitle" in meta && meta.pageTitle) {
           dispatch(actions3.setPageTitle(meta.pageTitle));
         }
-        if ("section" in meta) {
+        if ("section" in meta && meta.section) {
           dispatch(actions3.setSection(meta.section));
         }
       }
@@ -38443,7 +38443,8 @@ Hook ${hookName} was either not provided or not a function.`);
   });
   var getPathnameWithLimit = (pathname, options2) => {
     const newUrl = new URL(pathname, baseUrl);
-    const { limit, search } = options2;
+    const limit = options2?.limit;
+    const search = options2?.search;
     if (search) {
       const values = search.split("?").filter(Boolean).flatMap((p2) => p2.split("&")).reduce((all, item) => {
         const [key, value] = item.split("=");

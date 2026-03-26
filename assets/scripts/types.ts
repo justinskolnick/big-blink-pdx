@@ -627,11 +627,11 @@ export type AlertType = ErrorType | MessageType | WarningType;
 
 export type MetaType = {
   description?: string;
-  errors?: ErrorType[];
+  errors: ErrorType[];
   page?: number;
   pageTitle?: string;
   section?: SectionType;
-  warnings?: WarningType[];
+  warnings: WarningType[];
   view?: {
     section: string;
   };

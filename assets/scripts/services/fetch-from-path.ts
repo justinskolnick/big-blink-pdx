@@ -9,6 +9,7 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
+import type { MaybeError } from '../lib/error';
 import { RootState } from '../lib/store';
 import type {
   AttendeeGroup,
@@ -297,13 +298,13 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
   if (meta) {
     if (isPrimary) {
-      if ('description' in meta) {
+      if ('description' in meta && meta.description) {
         dispatch(uiActions.setDescription(meta.description));
       }
-      if ('pageTitle' in meta) {
+      if ('pageTitle' in meta && meta.pageTitle) {
         dispatch(uiActions.setPageTitle(meta.pageTitle));
       }
-      if ('section' in meta) {
+      if ('section' in meta && meta.section) {
         dispatch(uiActions.setSection(meta.section));
       }
     }
@@ -322,7 +323,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
   }
 };
 
-export const handleError = (error: unknown) => {
+export const handleError = (error: MaybeError) => {
   const dispatch = store.dispatch;
 
   dispatch(uiActions.setError(getError(error)));
