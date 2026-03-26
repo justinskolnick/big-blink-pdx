@@ -139,7 +139,7 @@ router.get('/:id', async (req, res, next) => {
 
   let source;
   let adapted;
-  let description = metaHelper.getDetailDescription();
+  let description;
   let incidentsStats;
   let data;
   let meta;

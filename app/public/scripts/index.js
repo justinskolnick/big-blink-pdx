@@ -23134,7 +23134,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-LFPYN7LY.mjs
+  // node_modules/react-router/dist/development/chunk-UVKPFVEO.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -24271,6 +24271,7 @@
     }
     let dataStrategyImpl = init.dataStrategy || defaultDataStrategyWithMiddleware;
     let future = {
+      unstable_passThroughRequests: false,
       ...init.future
     };
     let unlistenHistory = null;
@@ -24334,10 +24335,11 @@
           relevantMatches = relevantMatches.slice(0, idx + 1);
         }
         renderFallback = false;
-        initialized = relevantMatches.every((m2) => {
+        initialized = true;
+        relevantMatches.forEach((m2) => {
           let status = getRouteHydrationStatus(m2.route, loaderData, errors2);
           renderFallback = renderFallback || status.renderFallback;
-          return !status.shouldLoad;
+          initialized = initialized && !status.shouldLoad;
         });
       }
     }
@@ -24916,6 +24918,7 @@
           mapRouteProperties2,
           manifest,
           request,
+          location2,
           matches2,
           actionMatch,
           initialHydration ? [] : hydrationRouteProperties2,
@@ -24923,6 +24926,7 @@
         );
         let results = await callDataStrategy(
           request,
+          location2,
           dsMatches,
           scopedContext,
           null
@@ -25110,6 +25114,7 @@
         dsMatches,
         revalidatingFetchers,
         request,
+        location2,
         scopedContext
       );
       if (request.signal.aborted) {
@@ -25301,6 +25306,7 @@
         mapRouteProperties2,
         manifest,
         fetchRequest,
+        path,
         requestMatches,
         match2,
         hydrationRouteProperties2,
@@ -25308,6 +25314,7 @@
       );
       let actionResults = await callDataStrategy(
         fetchRequest,
+        path,
         fetchMatches,
         scopedContext,
         key
@@ -25411,6 +25418,7 @@
         dsMatches,
         revalidatingFetchers,
         revalidationRequest,
+        nextLocation,
         scopedContext
       );
       if (abortController.signal.aborted) {
@@ -25525,6 +25533,7 @@
         mapRouteProperties2,
         manifest,
         fetchRequest,
+        path,
         matches2,
         match2,
         hydrationRouteProperties2,
@@ -25532,6 +25541,7 @@
       );
       let results = await callDataStrategy(
         fetchRequest,
+        path,
         dsMatches,
         scopedContext,
         key
@@ -25640,13 +25650,14 @@
         });
       }
     }
-    async function callDataStrategy(request, matches2, scopedContext, fetcherKey) {
+    async function callDataStrategy(request, path, matches2, scopedContext, fetcherKey) {
       let results;
       let dataResults = {};
       try {
         results = await callDataStrategyImpl(
           dataStrategyImpl,
           request,
+          path,
           matches2,
           fetcherKey,
           scopedContext,
@@ -25698,9 +25709,10 @@
       }
       return dataResults;
     }
-    async function callLoadersAndMaybeResolveData(matches2, fetchersToLoad, request, scopedContext) {
+    async function callLoadersAndMaybeResolveData(matches2, fetchersToLoad, request, location2, scopedContext) {
       let loaderResultsPromise = callDataStrategy(
         request,
+        location2,
         matches2,
         scopedContext,
         null
@@ -25710,6 +25722,7 @@
           if (f2.matches && f2.match && f2.request && f2.controller) {
             let results = await callDataStrategy(
               f2.request,
+              f2.path,
               f2.matches,
               scopedContext,
               f2.key
@@ -26311,6 +26324,7 @@
           mapRouteProperties2,
           manifest,
           request,
+          location2,
           pattern,
           match2,
           lazyRoutePropertiesToSkip,
@@ -26341,6 +26355,7 @@
         mapRouteProperties2,
         manifest,
         request,
+        location2,
         pattern,
         match2,
         lazyRoutePropertiesToSkip,
@@ -26390,6 +26405,7 @@
           mapRouteProperties2,
           manifest,
           fetchRequest,
+          f2.path,
           fetcherMatches,
           fetcherMatch,
           lazyRoutePropertiesToSkip,
@@ -26401,6 +26417,7 @@
             mapRouteProperties2,
             manifest,
             fetchRequest,
+            f2.path,
             fetcherMatches,
             fetcherMatch,
             lazyRoutePropertiesToSkip,
@@ -26425,6 +26442,7 @@
             mapRouteProperties2,
             manifest,
             fetchRequest,
+            f2.path,
             fetcherMatches,
             fetcherMatch,
             lazyRoutePropertiesToSkip,
@@ -26780,17 +26798,12 @@
     }
   }
   async function runMiddlewarePipeline(args, handler, processResult2, isResult, errorHandler) {
-    let { matches: matches2, request, params, context, unstable_pattern } = args;
+    let { matches: matches2, ...dataFnArgs } = args;
     let tuples = matches2.flatMap(
       (m2) => m2.route.middleware ? m2.route.middleware.map((fn) => [m2.route.id, fn]) : []
     );
     let result = await callRouteMiddleware(
-      {
-        request,
-        params,
-        context,
-        unstable_pattern
-      },
+      dataFnArgs,
       tuples,
       handler,
       processResult2,
@@ -26868,7 +26881,7 @@
       handler: lazyRoutePromises.lazyHandlerPromise
     };
   }
-  function getDataStrategyMatch(mapRouteProperties2, manifest, request, unstable_pattern, match2, lazyRoutePropertiesToSkip, scopedContext, shouldLoad, shouldRevalidateArgs = null, callSiteDefaultShouldRevalidate) {
+  function getDataStrategyMatch(mapRouteProperties2, manifest, request, path, unstable_pattern, match2, lazyRoutePropertiesToSkip, scopedContext, shouldLoad, shouldRevalidateArgs = null, callSiteDefaultShouldRevalidate) {
     let isUsingNewApi = false;
     let _lazyPromises = getDataStrategyMatchLazyPromises(
       mapRouteProperties2,
@@ -26908,6 +26921,7 @@
         if (callHandler && (isMutationMethod(request.method) || !isMiddlewareOnlyRoute)) {
           return callLoaderOrAction({
             request,
+            path,
             unstable_pattern,
             match: match2,
             lazyHandlerPromise: _lazyPromises?.handler,
@@ -26920,7 +26934,7 @@
       }
     };
   }
-  function getTargetedDataStrategyMatches(mapRouteProperties2, manifest, request, matches2, targetMatch, lazyRoutePropertiesToSkip, scopedContext, shouldRevalidateArgs = null) {
+  function getTargetedDataStrategyMatches(mapRouteProperties2, manifest, request, path, matches2, targetMatch, lazyRoutePropertiesToSkip, scopedContext, shouldRevalidateArgs = null) {
     return matches2.map((match2) => {
       if (match2.route.id !== targetMatch.route.id) {
         return {
@@ -26942,6 +26956,7 @@
         mapRouteProperties2,
         manifest,
         request,
+        path,
         getRoutePattern(matches2),
         match2,
         lazyRoutePropertiesToSkip,
@@ -26951,12 +26966,13 @@
       );
     });
   }
-  async function callDataStrategyImpl(dataStrategyImpl, request, matches2, fetcherKey, scopedContext, isStaticHandler) {
+  async function callDataStrategyImpl(dataStrategyImpl, request, path, matches2, fetcherKey, scopedContext, isStaticHandler) {
     if (matches2.some((m2) => m2._lazyPromises?.middleware)) {
       await Promise.all(matches2.map((m2) => m2._lazyPromises?.middleware));
     }
     let dataStrategyArgs = {
       request,
+      unstable_url: createDataFunctionUrl(request, path),
       unstable_pattern: getRoutePattern(matches2),
       params: matches2[0].params,
       context: scopedContext,
@@ -26998,6 +27014,7 @@
   }
   async function callLoaderOrAction({
     request,
+    path,
     unstable_pattern,
     match: match2,
     lazyHandlerPromise,
@@ -27025,6 +27042,7 @@
         return handler(
           {
             request,
+            unstable_url: createDataFunctionUrl(request, path),
             unstable_pattern,
             params: match2.params,
             context: scopedContext
@@ -27182,20 +27200,20 @@
     }
     return response;
   }
+  var invalidProtocols = [
+    "about:",
+    "blob:",
+    "chrome:",
+    "chrome-untrusted:",
+    "content:",
+    "data:",
+    "devtools:",
+    "file:",
+    "filesystem:",
+    // eslint-disable-next-line no-script-url
+    "javascript:"
+  ];
   function normalizeRedirectLocation(location2, currentUrl, basename, historyInstance) {
-    let invalidProtocols = [
-      "about:",
-      "blob:",
-      "chrome:",
-      "chrome-untrusted:",
-      "content:",
-      "data:",
-      "devtools:",
-      "file:",
-      "filesystem:",
-      // eslint-disable-next-line no-script-url
-      "javascript:"
-    ];
     if (isAbsoluteUrl(location2)) {
       let normalizedLocation = location2;
       let url = normalizedLocation.startsWith("//") ? new URL(currentUrl.protocol + normalizedLocation) : new URL(normalizedLocation);
@@ -27234,6 +27252,24 @@
       }
     }
     return new Request(url, init);
+  }
+  function createDataFunctionUrl(request, path) {
+    let url = new URL(request.url);
+    let parsed = typeof path === "string" ? parsePath(path) : path;
+    url.pathname = parsed.pathname || "/";
+    if (parsed.search) {
+      let searchParams = new URLSearchParams(parsed.search);
+      let indexValues = searchParams.getAll("index");
+      searchParams.delete("index");
+      for (let value of indexValues.filter(Boolean)) {
+        searchParams.append("index", value);
+      }
+      url.search = searchParams.size ? `?${searchParams.toString()}` : "";
+    } else {
+      url.search = "";
+    }
+    url.hash = parsed.hash || "";
+    return url;
   }
   function convertFormDataToSearchParams(formData) {
     let searchParams = new URLSearchParams();
@@ -27940,21 +27976,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           pathname: joinPaths([
             parentPathnameBase,
             // Re-encode pathnames that were decoded inside matchRoutes.
-            // Pre-encode `?` and `#` ahead of `encodeLocation` because it uses
+            // Pre-encode `%`, `?` and `#` ahead of `encodeLocation` because it uses
             // `new URL()` internally and we need to prevent it from treating
             // them as separators
             navigator2.encodeLocation ? navigator2.encodeLocation(
-              match2.pathname.replace(/\?/g, "%3F").replace(/#/g, "%23")
+              match2.pathname.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")
             ).pathname : match2.pathname
           ]),
           pathnameBase: match2.pathnameBase === "/" ? parentPathnameBase : joinPaths([
             parentPathnameBase,
             // Re-encode pathnames that were decoded inside matchRoutes
-            // Pre-encode `?` and `#` ahead of `encodeLocation` because it uses
+            // Pre-encode `%`, `?` and `#` ahead of `encodeLocation` because it uses
             // `new URL()` internally and we need to prevent it from treating
             // them as separators
             navigator2.encodeLocation ? navigator2.encodeLocation(
-              match2.pathnameBase.replace(/\?/g, "%3F").replace(/#/g, "%23")
+              match2.pathnameBase.replace(/%/g, "%25").replace(/\?/g, "%3F").replace(/#/g, "%23")
             ).pathname : match2.pathnameBase
           ])
         })
@@ -29288,7 +29324,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser2) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.13.1";
+      "7.13.2";
     }
   } catch (e2) {
   }
@@ -43978,6 +44014,12 @@ Hook ${hookName} was either not provided or not a function.`);
     });
     return string.charAt(0).toLowerCase() + string.slice(1);
   }
+  var createGradientStops = (stop, index) => import_react8.default.createElement("stop", {
+    key: `${index}-${stop.offset}`,
+    offset: stop.offset,
+    stopColor: stop.color,
+    ...stop.opacity !== void 0 && { stopOpacity: stop.opacity }
+  });
   function capitalize2(val) {
     return val.charAt(0).toUpperCase() + val.slice(1);
   }
@@ -44021,7 +44063,17 @@ Hook ${hookName} was either not provided or not a function.`);
       return element;
     }
     const children = (element.children || []).map((child) => {
-      return convert(createElement14, child);
+      let element2 = child;
+      if (("fill" in extraProps || extraProps.gradientFill) && child.tag === "path" && "fill" in child.attributes) {
+        element2 = {
+          ...child,
+          attributes: {
+            ...child.attributes,
+            fill: void 0
+          }
+        };
+      }
+      return convert(createElement14, element2);
     });
     const elementAttributes = element.attributes || {};
     const attrs = {};
@@ -44049,6 +44101,7 @@ Hook ${hookName} was either not provided or not a function.`);
       style: existingStyle,
       role: existingRole,
       "aria-label": ariaLabel,
+      gradientFill,
       ...remaining
     } = extraProps;
     if (existingStyle) {
@@ -44060,6 +44113,24 @@ Hook ${hookName} was either not provided or not a function.`);
     if (ariaLabel) {
       attrs["aria-label"] = ariaLabel;
       attrs["aria-hidden"] = "false";
+    }
+    if (gradientFill) {
+      attrs.fill = `url(#${gradientFill.id})`;
+      const {
+        type: gradientType,
+        stops: gradientStops = [],
+        ...gradientProps
+      } = gradientFill;
+      children.unshift(
+        createElement14(
+          gradientType === "linear" ? "linearGradient" : "radialGradient",
+          {
+            ...gradientProps,
+            id: gradientFill.id
+          },
+          gradientStops.map(createGradientStops)
+        )
+      );
     }
     return createElement14(element.tag, { ...attrs, ...remaining }, ...children);
   }
@@ -44109,9 +44180,10 @@ Hook ${hookName} was either not provided or not a function.`);
     // @ts-expect-error TS2872 - Expression is always truthy - This is true when v7 of SVGCore is used, but not when v6 is used.
     // This is the point of this check - if the property exists on config, we have v7, otherwise we have v6.
     // TS is checking this against the dev dependencies which uses v7, so it reports a false error here.
-    "searchPseudoElementsFullScan" in config$1 ? "7.0.0" : "6.0.0"
+    "searchPseudoElementsFullScan" in config$1 && typeof config$1.searchPseudoElementsFullScan === "boolean" ? "7.0.0" : "6.0.0"
   );
   var IS_VERSION_7_OR_LATER = Number.parseInt(SVG_CORE_VERSION) >= 7;
+  var getIsVersion7OrLater = () => IS_VERSION_7_OR_LATER;
   var DEFAULT_CLASSNAME_PREFIX = "fa";
   var ANIMATION_CLASSES = {
     beat: "fa-beat",
@@ -44223,7 +44295,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     if (pull !== void 0 && pull !== null) result.push(PULL_CLASSES[pull]);
     if (swapOpacity) result.push(STYLE_CLASSES.swapOpacity);
-    if (!IS_VERSION_7_OR_LATER) return result;
+    if (!getIsVersion7OrLater()) return result;
     if (rotateBy) result.push(STYLE_CLASSES.rotateBy);
     if (widthAuto) result.push(STYLE_CLASSES.widthAuto);
     const prefix2 = config$1.cssPrefix || config$1.familyPrefix || DEFAULT_CLASSNAME_PREFIX;
@@ -61523,10 +61595,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-LFPYN7LY.mjs:
+react-router/dist/development/chunk-UVKPFVEO.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.13.1
+   * react-router v7.13.2
    *
    * Copyright (c) Remix Software Inc.
    *

@@ -2,11 +2,8 @@
 
 import eslint from '@eslint/js';
 import globals from 'globals';
-import jestPlugin from 'eslint-plugin-jest';
 import reactPlugin from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
-
-const jest = jestPlugin.configs['flat/recommended'];
 
 export default tseslint.config(
   {
@@ -24,14 +21,12 @@ export default tseslint.config(
     ],
     plugins: {
       '@typescript-eslint': tseslint.plugin,
-      jest: jestPlugin,
       react: reactPlugin,
     },
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...jest.languageOptions.globals,
         JSX: 'readonly',
       },
       parser: tseslint.parser,
