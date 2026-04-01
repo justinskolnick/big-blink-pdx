@@ -13,7 +13,7 @@ import type { MaybeError } from '../lib/error';
 import { RootState } from '../lib/store';
 import type {
   Entity,
-  EntityWithIncidentRecords,
+  EntityPayload,
   ErrorType,
   Incident,
   IncidentAttendeeGroup,
@@ -24,7 +24,7 @@ import type {
   Person,
   PersonNamedRoles,
   SourceNamedRoles,
-  SourceWithIncidentRecords,
+  SourcePayload,
   WarningType
 } from '../types';
 
@@ -36,7 +36,7 @@ export type Result = {
   title?: string;
 };
 
-const adaptEntity = (state: RootState, entity: Entity | EntityWithIncidentRecords) =>
+const adaptEntity = (state: RootState, entity: Entity | EntityPayload) =>
   entityActions.adapters.adaptOne(state, entity);
 const adaptIncident = (state: RootState, incident: Incident) =>
   incidentActions.adapters.adaptOne(state, incident);
@@ -44,7 +44,7 @@ const adaptIncidents = (state: RootState, incidents: Incidents) =>
   incidents.map(incident => adaptIncident(state, incident));
 const adaptPerson = (state: RootState, person: Person) =>
   personActions.adapters.adaptOne(state, person);
-const adaptSource = (state: RootState, source: SourceWithIncidentRecords) =>
+const adaptSource = (state: RootState, source: SourcePayload) =>
   sourceActions.adapters.adaptOne(state, source);
 
 const getPeopleFromAttendees = (state: RootState, attendees: IncidentAttendees) =>
@@ -165,7 +165,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('entities' in data) {
-      const entities = data.entities.records.map((entity: EntityWithIncidentRecords) => adaptEntity(state, entity));
+      const entities = data.entities.records.map((entity: EntityPayload) => adaptEntity(state, entity));
 
       dispatch(entityActions.setAll(entities));
 
@@ -295,7 +295,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('sources' in data) {
-      const sources = data.sources.records.map((source: SourceWithIncidentRecords) => adaptSource(state, source));
+      const sources = data.sources.records.map((source: SourcePayload) => adaptSource(state, source));
 
       dispatch(sourceActions.setAll(sources));
 

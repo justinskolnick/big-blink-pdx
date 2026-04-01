@@ -2,8 +2,10 @@ import { unique } from '../../lib/array';
 
 import type {
   Attendee,
+  EntityItemRoles,PersonItemRoles,SourceItemRoles,
   Incident,
-  Incidented,
+  IncidentsIdsObject,
+  IncidentsRecordsObject,
   NamedRoles,
   RoleOptions,
 } from '../../types';
@@ -21,7 +23,7 @@ export const adaptAttendeeRecords = (records: Attendee[]) =>
     },
   }));
 
-export const adaptIncidents = (incidents: Incidented) => {
+export const adaptIncidents = (incidents: IncidentsRecordsObject): IncidentsIdsObject => {
   const {
     filters,
     pagination,
@@ -39,7 +41,7 @@ export const adaptIncidents = (incidents: Incidented) => {
 };
 
 export const adaptRoles = (
-  entryRoles,
+  entryRoles: EntityItemRoles | PersonItemRoles | SourceItemRoles,
   savedEntryRoles?
 ) => {
   const roles = {
@@ -129,8 +131,6 @@ export const adaptRoles = (
                 })),
               };
             }
-          } else {
-            all[roleKey] = savedEntryRoles?.named?.[roleKey];
           }
 
           return all;

@@ -16,14 +16,6 @@ type WithIds = {
   ids: number[];
 };
 
-type IdItem = {
-  id: number;
-};
-
-type Item = IdItem & {
-  name: string;
-};
-
 export type GenericObject = Record<string, string>;
 
 export type LocationPathname = string;
@@ -88,7 +80,7 @@ type LinkObject = {
 
 export type Attendee = {
   as?: string;
-  person: Pick<Person, 'id'>;
+  person: PersonIdObject;
   total?: number;
 };
 
@@ -385,7 +377,8 @@ type IncidentPagination = {
   pagination: Pagination;
 };
 
-export type Incidented = IncidentsOverview & IncidentRecords & IncidentPagination;
+export type IncidentsRecordsObject = IncidentsOverview & IncidentRecords & IncidentPagination;
+export type IncidentsIdsObject = IncidentsOverview & WithIds & IncidentPagination;
 
 export type ItemOverview = {
   label: string;
@@ -415,19 +408,25 @@ export type ItemRegistrations = {
   };
 };
 
-export type Entity = IdItem | Item & {
+type EntityObject = {
+  id: Id;
+  name: string;
   details?: Details;
   domain?: string;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  incidents?: IncidentsIdsObject;
   registrations?: ItemRegistrations;
   overview?: ItemOverview;
   roles: EntityItemRoles;
   type: 'entity';
   links?: LinkObject;
-}
+};
 
-export type EntityWithIncidentRecords = Entity & {
-  incidents: Incidented;
+type EntityIdObject = Pick<EntityObject, 'id'>;
+
+export type Entity = EntityObject | EntityIdObject;
+
+export type EntityPayload = Omit<EntityObject, 'incidents'> & {
+  incidents: IncidentsRecordsObject;
 }
 
 export type Entities = Entity[];
@@ -439,7 +438,7 @@ export enum Role {
 }
 
 export type AffiliatedEntityRecord = {
-  entity: Pick<Entity, 'id'>;
+  entity: EntityIdObject;
   lobbyist: ItemRegistrations & {
     id: Id;
   };
@@ -447,7 +446,7 @@ export type AffiliatedEntityRecord = {
 };
 
 export type AffiliatedPersonRecord = {
-  person: Pick<Person, 'id'>;
+  person: PersonIdObject;
   registrations?: string;
   total?: number;
 };
@@ -558,11 +557,23 @@ export type NamedRoles =
   | PersonNamedRoles
   | SourceNamedRoles;
 
-export type RoleOptions = {
-  entity?: boolean;
-  lobbyist?: boolean;
-  official?: boolean;
+type EntityRoleOptions = {
+  entity: boolean;
 };
+
+type PersonRoleOptions = {
+  lobbyist: boolean;
+  official: boolean;
+};
+
+type SourceRoleOptions = {
+  source: boolean;
+};
+
+export type RoleOptions =
+  | EntityRoleOptions
+  | PersonRoleOptions
+  | SourceRoleOptions;
 
 type ItemRolesBase = {
   label: string;
@@ -570,31 +581,37 @@ type ItemRolesBase = {
   options: RoleOptions;
 };
 
-type EntityItemRoles = ItemRolesBase & {
+export type EntityItemRoles = ItemRolesBase & {
   named: EntityNamedRoles;
 };
 
-type PersonItemRoles = ItemRolesBase & {
+export type PersonItemRoles = ItemRolesBase & {
   named: PersonNamedRoles;
 };
 
-type SourceItemRoles = ItemRolesBase & {
+export type SourceItemRoles = ItemRolesBase & {
   named: SourceNamedRoles;
 };
 
-export type Person = IdItem | Item & {
+export type PersonObject = {
+  id: Id;
+  name: string;
   pernr?: number;
   roles: PersonItemRoles;
   type: 'group' | 'person' | 'unknown';
   details?: Details;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  incidents?: IncidentsIdsObject;
   officialPositions?: PersonOfficialPosition[];
   overview?: ItemOverview;
   links?: LinkObject;
-}
+};
 
-export type PersonWithIncidentRecords = Person & {
-  incidents: Incidented;
+type PersonIdObject = Pick<PersonObject, 'id'>;
+
+export type Person = PersonObject | PersonIdObject;
+
+export type PersonPayload = Omit<PersonObject, 'incidents'> & {
+  incidents: IncidentsRecordsObject;
 }
 
 export type People = Person[];
@@ -606,7 +623,7 @@ export enum DataFormat {
 
 export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
 
-export type Source = {
+export type SourceObject = {
   id: number;
   type: string;
   title: string;
@@ -617,7 +634,7 @@ export type Source = {
   isViaPublicRecords: boolean;
   retrievedDate: string;
   roles: SourceItemRoles;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  incidents?: IncidentsIdsObject;
   details?: Details;
   overview?: ItemOverview;
   labels: {
@@ -626,19 +643,23 @@ export type Source = {
   links?: LinkObject;
 };
 
-export type SourceWithIncidentRecords = Source & {
-  incidents: Incidented;
+type SourceIdObject = Pick<SourceObject, 'id'>;
+
+export type Source = SourceObject | SourceIdObject;
+
+export type SourcePayload = Omit<SourceObject, 'incidents'> & {
+  incidents: IncidentsRecordsObject;
 }
 
 export type Sources = Source[];
 
 export type SourcesByYear = {
-  year: Source['year'];
-  items: Source[];
+  year: SourceObject['year'];
+  items: SourceObject[];
 };
 export type SourcesByType = {
-  type: Source['type'];
-  years: Record<Source['year'], SourcesByYear>;
+  type: SourceObject['type'];
+  years: Record<SourceObject['year'], SourcesByYear>;
 };
 
 type Error = {

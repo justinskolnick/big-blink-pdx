@@ -112,14 +112,16 @@ const getIndexedTotals = (sourceIds: Ids, values: Value[]) =>
   values.map(value => value.id).reduce((indexed, id) => {
     const match = values.find(value => value.id === id);
 
-    indexed[id] = sourceIds.map(sourceId => {
-      const data = match.stats.find((stat: Stat) => stat.dataSourceId === sourceId);
+    if (match) {
+      indexed[id] = sourceIds.map(sourceId => {
+        const data = match.stats.find((stat: Stat) => stat.dataSourceId === sourceId);
 
-      return data ? data.total : null;
-    });
+        return data ? data.total : null;
+      });
+    }
 
     return indexed;
-  }, {} as { [index: Id]: number[]; });
+  }, {} as { [index: Id]: (number | null)[]; });
 
 const getEntitiesStats = createSelector(getStats, stats => stats.entities);
 export const getEntitiesChartData = createSelector(

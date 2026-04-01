@@ -10,7 +10,7 @@ import type { RootState } from '../lib/store';
 import type {
   Entities,
   Entity,
-  EntityWithIncidentRecords,
+  EntityPayload,
   Id,
   Ids,
   Incidents,
@@ -32,7 +32,7 @@ export const useGetEntityById = (id: Id): Entity => {
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: Entity | EntityWithIncidentRecords): Entity => {
+  adaptOne: (state: RootState, entry: Entity | EntityPayload): Entity => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 
@@ -55,7 +55,7 @@ export const adapters = {
   },
   getIds: (entities: Entities): Ids =>
     entities.map((entity: Entity) => entity.id),
-  getIncidents: (entity: EntityWithIncidentRecords): Incidents =>
+  getIncidents: (entity: EntityPayload): Incidents =>
     entity.incidents?.records ?? [],
 };
 
