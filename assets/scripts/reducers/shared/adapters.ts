@@ -4,7 +4,6 @@ import type {
   Attendee,
   Incident,
   Incidented,
-  ItemRoles,
   NamedRoles,
   RoleOptions,
 } from '../../types';
@@ -40,8 +39,8 @@ export const adaptIncidents = (incidents: Incidented) => {
 };
 
 export const adaptRoles = (
-  entryRoles: ItemRoles,
-  savedEntryRoles?: ItemRoles
+  entryRoles,
+  savedEntryRoles?
 ) => {
   const roles = {
     ...savedEntryRoles,

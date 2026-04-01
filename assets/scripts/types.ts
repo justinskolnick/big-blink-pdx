@@ -16,8 +16,11 @@ type WithIds = {
   ids: number[];
 };
 
-type Item = {
+type IdItem = {
   id: number;
+};
+
+type Item = IdItem & {
   name: string;
 };
 
@@ -101,12 +104,18 @@ type Details = {
   domain?: string;
 };
 
+export type IncidentAttendeeGroup = {
+  records: Attendee[];
+  role?: Exclude<Role, Role.Entity>;
+};
+
 export type IncidentAttendees = {
-  officials: AttendeeGroup;
-  lobbyists: AttendeeGroup;
+  lobbyists: IncidentAttendeeGroup;
+  officials: IncidentAttendeeGroup;
 };
 
 export type Incident = {
+  attendees: IncidentAttendees;
   category: string;
   contactDate: string;
   contactDateEnd?: string;
@@ -120,7 +129,6 @@ export type Incident = {
   sourceId: number;
   topic: string;
   notes: string;
-  attendees?: IncidentAttendees;
   details?: Details;
   links?: LinkObject;
   raw: {
@@ -407,13 +415,13 @@ export type ItemRegistrations = {
   };
 };
 
-export type Entity = Item & {
+export type Entity = IdItem | Item & {
   details?: Details;
   domain?: string;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   registrations?: ItemRegistrations;
   overview?: ItemOverview;
-  roles: ItemRoles;
+  roles: EntityItemRoles;
   type: 'entity';
   links?: LinkObject;
 }
@@ -518,20 +526,37 @@ export type AssociatedEntities = AssociatedItem & {
   values: AssociatedEntitiesValue[];
 };
 
-type NamedRole = {
+type NamedRoleBase = {
   label: string;
   role: Role;
   filterRole: boolean;
-  attendees?: AssociatedPersons;
-  entities?: AssociatedEntities;
 };
 
-export type NamedRoles = {
-  entity?: NamedRole;
-  lobbyist?: NamedRole;
-  official?: NamedRole;
-  source?: NamedRole;
+type NamedRoleWithAttendees = NamedRoleBase & {
+  attendees: AssociatedPersons;
 };
+
+type NamedRoleWithEntities = NamedRoleBase & {
+  entities: AssociatedEntities;
+};
+
+type EntityNamedRoles = {
+  entity: NamedRoleWithAttendees;
+};
+
+export type PersonNamedRoles = {
+  lobbyist: NamedRoleWithAttendees & NamedRoleWithEntities;
+  official: NamedRoleWithAttendees & NamedRoleWithEntities;
+};
+
+export type SourceNamedRoles = {
+  source: NamedRoleWithAttendees & NamedRoleWithEntities;
+};
+
+export type NamedRoles =
+  | EntityNamedRoles
+  | PersonNamedRoles
+  | SourceNamedRoles;
 
 export type RoleOptions = {
   entity?: boolean;
@@ -539,16 +564,27 @@ export type RoleOptions = {
   official?: boolean;
 };
 
-export type ItemRoles = {
+type ItemRolesBase = {
   label: string;
   list: Role[];
-  named?: NamedRoles;
-  options?: RoleOptions;
+  options: RoleOptions;
 };
 
-export type Person = Item & {
+type EntityItemRoles = ItemRolesBase & {
+  named: EntityNamedRoles;
+};
+
+type PersonItemRoles = ItemRolesBase & {
+  named: PersonNamedRoles;
+};
+
+type SourceItemRoles = ItemRolesBase & {
+  named: SourceNamedRoles;
+};
+
+export type Person = IdItem | Item & {
   pernr?: number;
-  roles: ItemRoles;
+  roles: PersonItemRoles;
   type: 'group' | 'person' | 'unknown';
   details?: Details;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
@@ -580,7 +616,7 @@ export type Source = {
   publicUrl?: string;
   isViaPublicRecords: boolean;
   retrievedDate: string;
-  roles?: ItemRoles;
+  roles: SourceItemRoles;
   incidents?: IncidentsOverview & WithIds & IncidentPagination;
   details?: Details;
   overview?: ItemOverview;
@@ -605,23 +641,15 @@ export type SourcesByType = {
   years: Record<Source['year'], SourcesByYear>;
 };
 
-export type ErrorType = {
+type Error = {
   customMessage?: string;
-  message: string
+  message: string;
   status?: number;
-}
+};
 
-export type MessageType = {
-  customMessage?: string;
-  message: string
-  status?: number;
-}
-
-export type WarningType = {
-  customMessage?: string;
-  message: string
-  status?: number;
-}
+export type ErrorType = Error;
+export type MessageType = Error;
+export type WarningType = Error;
 
 export type AlertType = ErrorType | MessageType | WarningType;
 

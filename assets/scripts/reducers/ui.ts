@@ -33,17 +33,27 @@ export const actions = {
   setWarning,
 };
 
-const initialState = {
-  description: null as string,
-  pageTitle: null as string,
-  errors: [] as ErrorType[],
-  messages: [] as MessageType[],
-  positionY: 0 as number,
-  section: {} as SectionType,
-  warnings: [] as WarningType[],
+interface InitialState {
+  description?: string;
+  pageTitle?: string;
+  errors: ErrorType[];
+  messages: MessageType[];
+  positionY: number;
+  section: SectionType | object;
+  warnings: WarningType[];
+}
+
+const initialState: InitialState = {
+  description: undefined,
+  pageTitle: undefined,
+  errors: [],
+  messages: [],
+  positionY: 0,
+  section: {},
+  warnings: [],
 };
 
-const customMessageExists = (alerts: AlertType[], customMessage: string) =>
+const customMessageExists = (alerts: AlertType[], customMessage?: string) =>
   customMessage && alerts.some(alert => alert.customMessage === customMessage);
 
 const uiReducer = createReducer(initialState, (builder) => {

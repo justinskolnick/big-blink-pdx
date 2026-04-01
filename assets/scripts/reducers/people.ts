@@ -54,7 +54,7 @@ export const useGetPersonPosition = (id: Id, date: string) => {
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: PersonWithIncidentRecords): Person => {
+  adaptOne: (state: RootState, entry: Person): Person => {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 

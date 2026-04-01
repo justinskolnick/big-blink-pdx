@@ -14,6 +14,7 @@ import type {
   Id,
   Ids,
   Incidents,
+  ItemOverview,
   Pagination,
   Source,
   Sources,
@@ -35,11 +36,11 @@ export const adapters = {
     const savedEntry = selectors.selectById(state, entry.id);
     const adapted = { ...entry };
 
-    if ('roles' in entry) {
+    if ('roles' in entry && entry.roles) {
       adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
     }
 
-    if ('incidents' in adapted) {
+    if ('incidents' in adapted && adapted.incidents) {
       adapted.incidents = adaptIncidents(adapted.incidents);
     }
 
@@ -47,7 +48,7 @@ export const adapters = {
       adapted.overview = {
         ...savedEntry.overview,
         ...adapted.overview,
-      };
+      } as ItemOverview;
     }
 
     return camelcaseKeys(adapted, { deep: false });
@@ -58,13 +59,21 @@ export const adapters = {
     source.incidents?.records ?? [],
 };
 
+interface InitialState {
+  pageIds: Ids | [];
+  pagination?: Pagination;
+  types: SourceTypeObject | object;
+}
+
+const initialState: InitialState = {
+  pageIds: [],
+  pagination: undefined,
+  types: {},
+};
+
 export const sourcesSlice = createSlice({
   name: 'sources',
-  initialState: adapter.getInitialState({
-    pageIds: [],
-    pagination: null,
-    types: {} as SourceTypeObject,
-  }),
+  initialState: adapter.getInitialState(initialState),
   reducers: {
     set: (state, action: PayloadAction<Source>) => {
       adapter.upsertOne(state, action.payload);

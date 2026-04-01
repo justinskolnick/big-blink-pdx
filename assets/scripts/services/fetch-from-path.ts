@@ -12,16 +12,18 @@ import { actions as uiActions } from '../reducers/ui';
 import type { MaybeError } from '../lib/error';
 import { RootState } from '../lib/store';
 import type {
-  AttendeeGroup,
   Entity,
   EntityWithIncidentRecords,
   ErrorType,
   Incident,
+  IncidentAttendeeGroup,
+  IncidentAttendees,
   Incidents,
   MetaType,
-  Person,
   NamedRoles,
-  PersonWithIncidentRecords,
+  Person,
+  PersonNamedRoles,
+  SourceNamedRoles,
   SourceWithIncidentRecords,
   WarningType
 } from '../types';
@@ -40,36 +42,54 @@ const adaptIncident = (state: RootState, incident: Incident) =>
   incidentActions.adapters.adaptOne(state, incident);
 const adaptIncidents = (state: RootState, incidents: Incidents) =>
   incidents.map(incident => adaptIncident(state, incident));
-const adaptPerson = (state: RootState, person: PersonWithIncidentRecords) =>
+const adaptPerson = (state: RootState, person: Person) =>
   personActions.adapters.adaptOne(state, person);
 const adaptSource = (state: RootState, source: SourceWithIncidentRecords) =>
   sourceActions.adapters.adaptOne(state, source);
 
-const getPeopleFromIncidents = (state: RootState, incidents: Incidents) =>
-  incidents.flatMap((incident: Incident) =>
-    Object.values(incident.attendees)
-      .filter((group: AttendeeGroup) => 'records' in group)
-      .map((group: AttendeeGroup) => group.records).flat()
-      .map(attendee => attendee?.person)
-      .map((person: PersonWithIncidentRecords) => adaptPerson(state, person))
-  );
+const getPeopleFromAttendees = (state: RootState, attendees: IncidentAttendees) =>
+  Object.values(attendees)
+    .filter((group: IncidentAttendeeGroup) => group && 'records' in group && group.records)
+    .map((group: IncidentAttendeeGroup) => group.records)
+    .flat()
+    .map(attendee => attendee?.person)
+    .map((person: Person) => adaptPerson(state, person));
+
+const getPeopleFromIncident = (state: RootState, incident: Incident) =>
+  getPeopleFromAttendees(state, incident.attendees);
+
+const getPeopleFromIncidents = (state: RootState, incidents: Incidents) => {
+  if (incidents.length) {
+    return incidents
+      .map(incident => incident.attendees)
+      .flatMap((attendees: IncidentAttendees) => getPeopleFromAttendees(state, attendees));
+  }
+
+  return [];
+};
 
 const getAttendeesFromRole = (state: RootState, roles: NamedRoles) => {
-  const attendees = Object.values(roles).map(role => role?.attendees).filter(Boolean);
+  const attendees = Object.values(roles)
+    .filter(role => 'attendees' in role && role.attendees)
+    .map(role => role.attendees)
+    .filter(Boolean);
 
   if (attendees.length) {
     return attendees
       .flatMap(item => item.values)
       .flatMap(item => item.records)
       .map(record => record.person)
-      .map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
+      .map((person: Person) => adaptPerson(state, person));
   }
 
   return [] as Person[];
 };
 
-const getEntitiesFromRole = (state: RootState, roles: NamedRoles) => {
-  const entities = Object.values(roles).map(role => role?.entities).filter(Boolean);
+const getEntitiesFromRole = (state: RootState, roles: PersonNamedRoles | SourceNamedRoles) => {
+  const entities = Object.values(roles)
+    .filter(role => 'entities' in role && role.entities)
+    .map(role => role.entities)
+    .filter(Boolean);
 
   if (entities.length) {
     return entities
@@ -128,13 +148,9 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       if ('roles' in data.entity.record) {
         if ('named' in data.entity.record.roles) {
           const attendees = getAttendeesFromRole(state, data.entity.record.roles.named);
-          const entities = getEntitiesFromRole(state, data.entity.record.roles.named);
 
           if (attendees.length) {
             dispatch(personActions.setAll(attendees));
-          }
-          if (entities.length) {
-            dispatch(entityActions.setAll(entities));
           }
         }
       }
@@ -163,7 +179,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
     if ('incident' in data) {
       const incident = adaptIncident(state, data.incident.record);
-      const people = getPeopleFromIncidents(state, [data.incident.record]);
+      const people = getPeopleFromIncident(state, data.incident.record);
 
       dispatch(incidentActions.set(incident));
       dispatch(personActions.setAll(people));
@@ -171,14 +187,14 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
     if ('incidents' in data) {
       if ('first' in data.incidents) {
-        const firstPeople = getPeopleFromIncidents(state, [data.incidents.first]);
+        const firstPeople = getPeopleFromIncident(state, data.incidents.first);
 
         dispatch(incidentActions.setFirst(adaptIncident(state, data.incidents.first)));
         dispatch(personActions.setAll(firstPeople));
       }
 
       if ('last' in data.incidents) {
-        const lastPeople = getPeopleFromIncidents(state, [data.incidents.last]);
+        const lastPeople = getPeopleFromIncident(state, data.incidents.last);
 
         dispatch(incidentActions.setLast(adaptIncident(state, data.incidents.last)));
         dispatch(personActions.setAll(lastPeople));
@@ -236,7 +252,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('people' in data) {
-      const people = data.people.records.map((person: PersonWithIncidentRecords) => adaptPerson(state, person));
+      const people = data.people.records.map((person: Person) => adaptPerson(state, person));
 
       dispatch(personActions.setAll(people));
 
