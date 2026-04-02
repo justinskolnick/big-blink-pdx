@@ -1,4 +1,4 @@
-import type { Person } from '../types';
+import type { PersonObject } from '../types';
 import { MiddlewareHandlerFn } from '../types';
 
 import { hasPernr, lookupOfficialPositionsForId } from './handle-set-person';
@@ -6,7 +6,7 @@ import { hasPernr, lookupOfficialPositionsForId } from './handle-set-person';
 const handleSetPeople: MiddlewareHandlerFn = (store, action) => {
   const { payload } = action;
 
-  const people = payload as Person[];
+  const people = payload as PersonObject[];
 
   const peopleWithPernr = people.filter(hasPernr);
   const ids = peopleWithPernr.map(person => person.id);

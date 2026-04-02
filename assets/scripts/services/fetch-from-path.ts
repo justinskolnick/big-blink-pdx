@@ -12,19 +12,19 @@ import { actions as uiActions } from '../reducers/ui';
 import type { MaybeError } from '../lib/error';
 import { RootState } from '../lib/store';
 import type {
-  Entity,
+  EntityObject,
   EntityPayload,
   ErrorType,
-  Incident,
-  IncidentAttendeeGroup,
-  IncidentAttendees,
-  Incidents,
+  IncidentPayload,
+  IncidentPayloadAttendeeGroup,
+  IncidentPayloadAttendees,
   MetaType,
-  NamedRoles,
-  Person,
-  PersonNamedRoles,
-  SourceNamedRoles,
+  PayloadNamedRoles,
+  PersonObject,
+  PersonPayload,
+  PersonPayloadNamedRoles,
   SourcePayload,
+  SourcePayloadNamedRoles,
   WarningType
 } from '../types';
 
@@ -36,39 +36,39 @@ export type Result = {
   title?: string;
 };
 
-const adaptEntity = (state: RootState, entity: Entity | EntityPayload) =>
+const adaptEntity = (state: RootState, entity: EntityPayload) =>
   entityActions.adapters.adaptOne(state, entity);
-const adaptIncident = (state: RootState, incident: Incident) =>
+const adaptIncident = (state: RootState, incident: IncidentPayload) =>
   incidentActions.adapters.adaptOne(state, incident);
-const adaptIncidents = (state: RootState, incidents: Incidents) =>
+const adaptIncidents = (state: RootState, incidents: IncidentPayload[]) =>
   incidents.map(incident => adaptIncident(state, incident));
-const adaptPerson = (state: RootState, person: Person) =>
+const adaptPerson = (state: RootState, person: PersonPayload) =>
   personActions.adapters.adaptOne(state, person);
 const adaptSource = (state: RootState, source: SourcePayload) =>
   sourceActions.adapters.adaptOne(state, source);
 
-const getPeopleFromAttendees = (state: RootState, attendees: IncidentAttendees) =>
+const getPeopleFromAttendees = (state: RootState, attendees: IncidentPayloadAttendees) =>
   Object.values(attendees)
-    .filter((group: IncidentAttendeeGroup) => group && 'records' in group && group.records)
-    .map((group: IncidentAttendeeGroup) => group.records)
+    .filter((group: IncidentPayloadAttendeeGroup) => group && 'records' in group && group.records)
+    .map((group: IncidentPayloadAttendeeGroup) => group.records)
     .flat()
     .map(attendee => attendee?.person)
-    .map((person: Person) => adaptPerson(state, person));
+    .map((person: PersonPayload) => adaptPerson(state, person));
 
-const getPeopleFromIncident = (state: RootState, incident: Incident) =>
+const getPeopleFromIncident = (state: RootState, incident: IncidentPayload) =>
   getPeopleFromAttendees(state, incident.attendees);
 
-const getPeopleFromIncidents = (state: RootState, incidents: Incidents) => {
+const getPeopleFromIncidents = (state: RootState, incidents: IncidentPayload[]) => {
   if (incidents.length) {
     return incidents
       .map(incident => incident.attendees)
-      .flatMap((attendees: IncidentAttendees) => getPeopleFromAttendees(state, attendees));
+      .flatMap((attendees: IncidentPayloadAttendees) => getPeopleFromAttendees(state, attendees));
   }
 
   return [];
 };
 
-const getAttendeesFromRole = (state: RootState, roles: NamedRoles) => {
+const getAttendeesFromRole = (state: RootState, roles: PayloadNamedRoles) => {
   const attendees = Object.values(roles)
     .filter(role => 'attendees' in role && role.attendees)
     .map(role => role.attendees)
@@ -79,13 +79,13 @@ const getAttendeesFromRole = (state: RootState, roles: NamedRoles) => {
       .flatMap(item => item.values)
       .flatMap(item => item.records)
       .map(record => record.person)
-      .map((person: Person) => adaptPerson(state, person));
+      .map((person: PersonPayload) => adaptPerson(state, person));
   }
 
-  return [] as Person[];
+  return [] as PersonObject[];
 };
 
-const getEntitiesFromRole = (state: RootState, roles: PersonNamedRoles | SourceNamedRoles) => {
+const getEntitiesFromRole = (state: RootState, roles: PersonPayloadNamedRoles | SourcePayloadNamedRoles) => {
   const entities = Object.values(roles)
     .filter(role => 'entities' in role && role.entities)
     .map(role => role.entities)
@@ -96,10 +96,10 @@ const getEntitiesFromRole = (state: RootState, roles: PersonNamedRoles | SourceN
       .flatMap(item => item.values)
       .flatMap(item => item.records)
       .map(record => record.entity)
-      .map((entity: Entity) => adaptEntity(state, entity));
+      .map((entity: EntityPayload) => adaptEntity(state, entity));
   }
 
-  return [] as Entity[];
+  return [] as EntityObject[];
 };
 
 export const handleResult = (result: Result, isPrimary?: boolean) => {
@@ -252,7 +252,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
     }
 
     if ('people' in data) {
-      const people = data.people.records.map((person: Person) => adaptPerson(state, person));
+      const people = data.people.records.map((person: PersonPayload) => adaptPerson(state, person));
 
       dispatch(personActions.setAll(people));
 

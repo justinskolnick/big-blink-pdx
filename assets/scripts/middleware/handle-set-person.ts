@@ -1,4 +1,4 @@
-import type { Id, Ids, Person } from '../types';
+import type { Id, Ids, PersonObject } from '../types';
 import { MiddlewareHandlerFn } from '../types';
 
 import { unique } from '../lib/array';
@@ -10,7 +10,7 @@ import {
   getOfficialPositionsLookupQueue,
 } from '../selectors';
 
-export const hasPernr = (person: Person) => person.pernr !== null;
+export const hasPernr = (person: PersonObject) => person.pernr !== null;
 
 export interface MiddlewareHandlerIdsFn {
   (store: any, idOrIds: Id | Ids): void;
@@ -40,7 +40,7 @@ export const lookupOfficialPositionsForId: MiddlewareHandlerIdsFn = (store, idOr
 const handleSetPerson: MiddlewareHandlerFn = (store, action) => {
   const { payload } = action;
 
-  const person = payload as Person;
+  const person = payload as PersonObject;
 
   if (hasPernr(person)) {
     lookupOfficialPositionsForId(store, person.id);

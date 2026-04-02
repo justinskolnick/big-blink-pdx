@@ -8,70 +8,73 @@ import { getEntities } from '../selectors';
 
 import type { RootState } from '../lib/store';
 import type {
-  Entities,
-  Entity,
+  EntityObject,
+  EntityObjectRoles,
   EntityPayload,
+  EntityPayloadRoles,
   Id,
   Ids,
-  Incidents,
+  IncidentPayload,
+  ItemOverview,
   Pagination,
 } from '../types';
 
-type InitialState = {
+interface InitialState {
   pageIds: Ids;
   pagination?: Pagination;
-};
+}
 
-const adapter = createEntityAdapter<Entity>();
+const adapter = createEntityAdapter<EntityObject>();
 
 const selectors = adapter.getSelectors(getEntities);
-export const useGetEntityById = (id: Id): Entity => {
+export const useGetEntityById = (id: Id): EntityObject => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
 
   return entity;
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: Entity | EntityPayload): Entity => {
+  adaptOne: (state: RootState, entry: EntityPayload): EntityObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const adapted = { ...entry };
+    const { incidents, roles, ...rest } = entry;
+    const adapted = { ...rest } as EntityObject;
 
-    if ('incidents' in adapted) {
-      adapted.incidents = adaptIncidents(adapted.incidents);
-    }
-
-    if ('roles' in entry) {
-      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+    if ('incidents' in adapted && incidents) {
+      adapted.incidents = adaptIncidents(incidents);
     }
 
     if (savedEntry && 'overview' in savedEntry) {
       adapted.overview = {
         ...savedEntry.overview,
         ...adapted.overview,
-      };
+      } as ItemOverview;
+    }
+
+    if ('roles' in entry && roles) {
+      adapted.roles = adaptRoles<EntityPayloadRoles, EntityObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
   },
-  getIds: (entities: Entities): Ids =>
-    entities.map((entity: Entity) => entity.id),
-  getIncidents: (entity: EntityPayload): Incidents =>
+  getIds: (entities: EntityObject[]): Ids =>
+    entities.map((entity: EntityObject) => entity.id),
+  getIncidents: (entity: EntityPayload): IncidentPayload[] =>
     entity.incidents?.records ?? [],
 };
 
-const initialState = {
+const initialState: InitialState = {
   pageIds: [],
-  pagination: null,
-} as InitialState;
+  pagination: undefined,
+};
 
 export const entitiesSlice = createSlice({
   name: 'entities',
   initialState: adapter.getInitialState(initialState),
   reducers: {
-    set: (state, action: PayloadAction<Entity>) => {
+    set: (state, action: PayloadAction<EntityObject>) => {
       adapter.upsertOne(state, action.payload);
     },
-    setAll: (state, action: PayloadAction<Entities>) => {
+    setAll: (state, action: PayloadAction<EntityObject[]>) => {
       adapter.upsertMany(state, action.payload);
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {

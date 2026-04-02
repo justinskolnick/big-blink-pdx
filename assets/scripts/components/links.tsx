@@ -15,11 +15,11 @@ import useQueryParams from '../hooks/use-query-params';
 import ItemTextWithIcon from './item-text-with-icon';
 
 import type {
-  Entity,
+  EntityObject,
   Id,
   LocationState,
   NewParams,
-  Person,
+  PersonObject,
   SortValue,
 } from '../types';
 import { Role, SortByValues, SortValues } from '../types';
@@ -63,7 +63,7 @@ interface LinkIdProps extends LinkProps {
   id: Id;
 }
 
-export const getWithEntityParams = (entity: Entity, role?: Role) => {
+export const getWithEntityParams = (entity: EntityObject, role?: Role) => {
   const params = {} as NewParams;
 
   if (role) {
@@ -75,7 +75,7 @@ export const getWithEntityParams = (entity: Entity, role?: Role) => {
   return params;
 };
 
-export const getWithPeopleParams = (person: Person, personRole?: Role, role?: Role) => {
+export const getWithPeopleParams = (person: PersonObject, personRole?: Role, role?: Role) => {
   const params = {} as NewParams;
 
   if (role) {

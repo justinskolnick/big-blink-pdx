@@ -5,12 +5,12 @@ import {
   LinkToPerson,
 } from '../links';
 
-import type { Person } from '../../types';
+import type { PersonObject } from '../../types';
 
 interface Props {
   children: ReactNode;
   className?: string;
-  item: Person;
+  item: PersonObject;
 }
 
 const ItemLink = ({ children, className, item }: Props) => {

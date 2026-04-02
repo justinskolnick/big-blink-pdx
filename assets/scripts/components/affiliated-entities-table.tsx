@@ -17,8 +17,8 @@ import { useGetEntityById } from '../reducers/entities';
 
 import { Role } from '../types';
 import type {
-  AffiliatedEntityRecord,
-  AffiliatedEntityValue,
+  AffiliatedEntityObjectRecord,
+  AffiliatedEntityObjectValue,
   AssociatedLinksObject,
   ItemRegistrations,
 } from '../types';
@@ -31,13 +31,13 @@ interface RegistrationProps {
 interface AffiliatedEntityProps {
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
-  item: AffiliatedEntityRecord;
+  item: AffiliatedEntityObjectRecord;
   role?: Role;
 }
 
 interface Props {
   currentLimit: number;
-  entities: AffiliatedEntityValue;
+  entities: AffiliatedEntityObjectValue;
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
   initialCount: number;

@@ -7,10 +7,10 @@ import ItemLink from './sources/item-link';
 import { useGetSourceById } from '../reducers/sources';
 import api from '../services/api';
 
-import type { Incident } from '../types';
+import type { IncidentObject } from '../types';
 
 interface Props {
-  incident: Incident;
+  incident: IncidentObject;
   title: string;
 }
 

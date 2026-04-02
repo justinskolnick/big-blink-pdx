@@ -15,7 +15,7 @@ import { useGetPersonById } from '../reducers/people';
 
 import { Role } from '../types';
 import type {
-  AffiliatedPersonRecord,
+  AffiliatedPersonObjectRecord,
   AssociatedLinksObject,
   AttendeeGroup,
 } from '../types';
@@ -31,7 +31,7 @@ interface Props {
 }
 
 interface AffiliatedPersonProps {
-  item: AffiliatedPersonRecord;
+  item: AffiliatedPersonObjectRecord;
   personRole?: Role;
   role?: Role;
 }

@@ -8,67 +8,76 @@ import { getIncidents } from '../selectors';
 
 import type { RootState } from '../lib/store';
 import type {
-  AttendeeGroup,
   Id,
   Ids,
-  Incident,
-  IncidentAttendees,
-  Incidents,
+  IncidentObject,
+  IncidentObjectAttendeeGroup,
+  IncidentObjectAttendees,
+  IncidentPayload,
+  IncidentPayloadAttendees,
   Pagination,
 } from '../types';
 
-type AttendeesTuple = [
-  key: keyof IncidentAttendees,
-  value: AttendeeGroup
-];
+interface InitialState {
+  pageIds: Ids;
+  pagination?: Pagination;
+  first?: IncidentObject;
+  last?: IncidentObject;
+  total: number;
+}
 
-const adaptAttendees = (attendees: IncidentAttendees) =>
-  Object.entries(attendees).reduce((all, [key, value]: AttendeesTuple) => {
+const adaptAttendees = (attendees: IncidentPayloadAttendees): IncidentObjectAttendees =>
+  Object.entries(attendees).reduce((all, [k, value]) => {
+    const key = k as keyof typeof attendees;
+
     all[key] = {
       ...value,
       records: adaptAttendeeRecords(value.records),
-    };
+    } as IncidentObjectAttendeeGroup;
 
     return all;
-  }, {} as IncidentAttendees);
+  }, {} as IncidentObjectAttendees);
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: Incident): Incident => {
-    const adapted = { ...entry };
+  adaptOne: (state: RootState, entry: IncidentPayload): IncidentObject => {
+    const { attendees, ...rest } = entry;
+    const adapted = { ...rest } as IncidentObject;
 
-    if ('attendees' in entry) {
-      adapted.attendees = adaptAttendees(adapted.attendees);
+    if ('attendees' in entry && attendees) {
+      adapted.attendees = adaptAttendees(attendees);
     }
 
     return adapted;
   },
-  getIds: (people: Incidents): Ids =>
-    people.map((incident: Incident) => incident.id),
+  getIds: (incidents: IncidentPayload[]): Ids =>
+    incidents.map((incident: IncidentPayload) => incident.id),
 };
 
-export const adapter = createEntityAdapter<Incident>();
+export const adapter = createEntityAdapter<IncidentObject>();
 
 const selectors = adapter.getSelectors(getIncidents);
-export const useGetIncidentById = (id: Id): Incident => {
+export const useGetIncidentById = (id: Id): IncidentObject => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
 
   return entity;
 };
 
+const initialState: InitialState = {
+  pageIds: [],
+  pagination: undefined,
+  first: undefined,
+  last: undefined,
+  total: 0,
+};
+
 export const incidentsSlice = createSlice({
   name: 'incidents',
-  initialState: adapter.getInitialState({
-    pageIds: [],
-    pagination: null,
-    first: null,
-    last: null,
-    total: 0,
-  }),
+  initialState: adapter.getInitialState(initialState),
   reducers: {
-    set: (state, action: PayloadAction<Incident>) => {
+    set: (state, action: PayloadAction<IncidentObject>) => {
       adapter.upsertOne(state, action.payload);
     },
-    setAll: (state, action: PayloadAction<Incidents>) => {
+    setAll: (state, action: PayloadAction<IncidentObject[]>) => {
       adapter.upsertMany(state, action.payload);
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {
@@ -77,11 +86,11 @@ export const incidentsSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
-    setFirst(state, action: PayloadAction<Incident>) {
+    setFirst(state, action: PayloadAction<IncidentObject>) {
       state.first = action.payload;
       adapter.upsertOne(state, action.payload);
     },
-    setLast(state, action: PayloadAction<Incident>) {
+    setLast(state, action: PayloadAction<IncidentObject>) {
       state.last = action.payload;
       adapter.upsertOne(state, action.payload);
     },

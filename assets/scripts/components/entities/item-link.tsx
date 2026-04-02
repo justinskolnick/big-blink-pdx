@@ -5,12 +5,12 @@ import {
   LinkToEntity,
 } from '../links';
 
-import type { Entity } from '../../types';
+import type { EntityObject } from '../../types';
 
 interface Props {
   children: ReactNode;
   className?: string;
-  item: Entity;
+  item: EntityObject;
 }
 
 const ItemLink = ({ children, className, item }: Props) => {

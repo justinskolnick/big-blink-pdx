@@ -2,10 +2,10 @@ import React from 'react';
 
 import { MetaSectionBox } from './meta-section';
 
-import type { Incident } from '../types';
+import type { IncidentObject } from '../types';
 
 interface Props {
-  incident: Incident;
+  incident: IncidentObject;
   title: string;
 }
 

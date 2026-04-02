@@ -10,7 +10,7 @@ import {
 import { Role } from '../types';
 import type {
   Attendee,
-  Incident,
+  IncidentObject,
 } from '../types';
 
 interface IncidentAttendeeProps {
@@ -28,7 +28,7 @@ interface Props {
   role: Role;
 }
 
-const useGetAttendeesByRole = (incident: Incident, role: Role) => {
+const useGetAttendeesByRole = (incident: IncidentObject, role: Role) => {
   if (role === Role.Lobbyist) {
     return incident.attendees.lobbyists;
   } else if (role === Role.Official) {

@@ -1,4 +1,4 @@
-import type { NamedRoles } from '../../types';
+import type { ObjectNamedRoles } from '../../types';
 
 import { iconName as entityIconName } from '../entities/icon';
 import { iconName as sourceIconName } from '../sources/icon';
@@ -10,4 +10,4 @@ enum RoleIcon {
   source = sourceIconName,
 }
 
-export const getIconName = (role: keyof NamedRoles) => RoleIcon[role];
+export const getIconName = (role: keyof ObjectNamedRoles) => RoleIcon[role];

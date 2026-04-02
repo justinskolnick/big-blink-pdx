@@ -13,11 +13,13 @@ import { RootState } from '../lib/store';
 import type {
   Id,
   Ids,
-  Incidents,
+  IncidentPayload,
   ItemOverview,
   Pagination,
   SourceObject,
+  SourceObjectRoles,
   SourcePayload,
+  SourcePayloadRoles,
   SourceTypeObject,
 } from '../types';
 
@@ -39,7 +41,7 @@ export const useGetSourceById = (id: Id): SourceObject => {
 export const adapters = {
   adaptOne: (state: RootState, entry: SourcePayload): SourceObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const { incidents, ...rest } = entry;
+    const { incidents, roles, ...rest } = entry;
     const adapted = { ...rest } as SourceObject;
 
     if ('incidents' in entry && incidents) {
@@ -53,15 +55,15 @@ export const adapters = {
       } as ItemOverview;
     }
 
-    if ('roles' in entry && entry.roles) {
-      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+    if ('roles' in entry && roles) {
+      adapted.roles = adaptRoles<SourcePayloadRoles, SourceObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
   },
   getIds: (values: SourcePayload[]): Ids =>
     values.map((value: SourcePayload) => value.id),
-  getIncidents: (value: SourcePayload): Incidents =>
+  getIncidents: (value: SourcePayload): IncidentPayload[] =>
     value.incidents?.records ?? [],
 };
 

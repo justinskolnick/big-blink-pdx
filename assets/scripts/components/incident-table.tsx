@@ -4,10 +4,10 @@ import Attendees from './incident-attendees';
 import Entity from './incident-entity';
 
 import { Role } from '../types';
-import type { Incident } from '../types';
+import type { IncidentObject } from '../types';
 
 interface Props {
-  incident: Incident;
+  incident: IncidentObject;
 }
 
 const IncidentTable = ({ incident }: Props) => {

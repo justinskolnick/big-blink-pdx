@@ -12,11 +12,13 @@ import type { RootState } from '../lib/store';
 import type {
   Id,
   Ids,
-  Incidents,
+  IncidentPayload,
   ItemOverview,
   Pagination,
   PersonObject,
+  PersonObjectRoles,
   PersonPayload,
+  PersonPayloadRoles,
 } from '../types';
 
 interface InitialState {
@@ -53,7 +55,7 @@ export const useGetPersonPosition = (id: Id, date: string) => {
 export const adapters = {
   adaptOne: (state: RootState, entry: PersonPayload): PersonObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const { incidents, ...rest } = entry;
+    const { incidents, roles, ...rest } = entry;
     const adapted = { ...rest } as PersonObject;
 
     if ('incidents' in entry && incidents) {
@@ -67,15 +69,15 @@ export const adapters = {
       } as ItemOverview;
     }
 
-    if ('roles' in entry && entry.roles) {
-      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+    if ('roles' in entry && roles) {
+      adapted.roles = adaptRoles<PersonPayloadRoles, PersonObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
   },
   getIds: (values: PersonPayload[]): Ids =>
     values.map((value: PersonPayload) => value.id),
-  getIncidents: (value: PersonPayload): Incidents =>
+  getIncidents: (value: PersonPayload): IncidentPayload[] =>
     value.incidents?.records ?? [],
 };
 

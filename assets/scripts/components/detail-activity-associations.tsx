@@ -17,17 +17,19 @@ import IncidentActivityGroup from './incident-activity-group';
 import ItemSubsection from './item-subsection';
 
 import type {
-  AssociatedEntitiesValue,
-  AssociatedPersonsValue,
-  Entity,
-  Person,
-  Source,
+  AssociatedEntitiesObjectValue,
+  AssociatedPersonsObjectValue,
+  EntityObject,
+  PersonObject,
+  SourceObject,
 } from '../types';
 import { GenericObject, Role } from '../types';
 
+type Item = EntityObject | PersonObject | SourceObject;
+
 interface FnUseGetItemRolesById {
   (
-    item: Entity | Person | Source,
+    item: Item,
     options: GenericObject,
     isPaused: boolean,
   ): {
@@ -54,18 +56,18 @@ interface AssociationGroupProps {
     currentLimit: number,
     setLimit: FnSetLimit
   ) => ReactNode;
-  item: Entity | Person | Source;
+  item: Item;
   role?: Role;
-  value?: AssociatedEntitiesValue | AssociatedPersonsValue;
+  value?: AssociatedEntitiesObjectValue | AssociatedPersonsObjectValue;
 }
 
 interface NamedRoleProps {
-  item?: Entity | Person | Source;
+  item?: Item;
   role: Role;
 }
 
 interface Props {
-  item: Entity | Person | Source;
+  item: Item;
 }
 
 const getRoleQuery: FnGetQueryByType = (type) => {
