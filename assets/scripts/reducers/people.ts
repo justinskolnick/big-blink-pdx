@@ -13,7 +13,6 @@ import type {
   Id,
   Ids,
   IncidentPayload,
-  ItemOverview,
   Pagination,
   PersonObject,
   PersonObjectRoles,
@@ -55,18 +54,18 @@ export const useGetPersonPosition = (id: Id, date: string) => {
 export const adapters = {
   adaptOne: (state: RootState, entry: PersonPayload): PersonObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const { incidents, roles, ...rest } = entry;
-    const adapted = { ...rest } as PersonObject;
+    const { incidents, overview, roles, ...rest } = entry;
+    const adapted: PersonObject = { ...rest };
 
     if ('incidents' in entry && incidents) {
       adapted.incidents = adaptIncidents(incidents);
     }
 
-    if (savedEntry && 'overview' in savedEntry) {
+    if ('overview' in entry && overview) {
       adapted.overview = {
-        ...savedEntry.overview,
-        ...adapted.overview,
-      } as ItemOverview;
+        ...savedEntry?.overview,
+        ...overview,
+      };
     }
 
     if ('roles' in entry && roles) {

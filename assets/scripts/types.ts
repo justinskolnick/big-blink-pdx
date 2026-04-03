@@ -104,7 +104,7 @@ export type IncidentObjectAttendees = {
 };
 
 export type IncidentObject = {
-  attendees: IncidentObjectAttendees;
+  attendees?: IncidentObjectAttendees;
   category: string;
   contactDate: string;
   contactDateEnd?: string;

@@ -14,7 +14,6 @@ import type {
   Id,
   Ids,
   IncidentPayload,
-  ItemOverview,
   Pagination,
   SourceObject,
   SourceObjectRoles,
@@ -41,18 +40,18 @@ export const useGetSourceById = (id: Id): SourceObject => {
 export const adapters = {
   adaptOne: (state: RootState, entry: SourcePayload): SourceObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const { incidents, roles, ...rest } = entry;
-    const adapted = { ...rest } as SourceObject;
+    const { incidents, overview, roles, ...rest } = entry;
+    const adapted: SourceObject = { ...rest };
 
     if ('incidents' in entry && incidents) {
       adapted.incidents = adaptIncidents(incidents);
     }
 
-    if (savedEntry && 'overview' in savedEntry) {
+    if ('overview' in entry && overview) {
       adapted.overview = {
-        ...savedEntry.overview,
-        ...adapted.overview,
-      } as ItemOverview;
+        ...savedEntry?.overview,
+        ...overview,
+      };
     }
 
     if ('roles' in entry && roles) {

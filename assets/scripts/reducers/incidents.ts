@@ -41,7 +41,7 @@ const adaptAttendees = (attendees: IncidentPayloadAttendees): IncidentObjectAtte
 export const adapters = {
   adaptOne: (state: RootState, entry: IncidentPayload): IncidentObject => {
     const { attendees, ...rest } = entry;
-    const adapted = { ...rest } as IncidentObject;
+    const adapted: IncidentObject = { ...rest };
 
     if ('attendees' in entry && attendees) {
       adapted.attendees = adaptAttendees(attendees);
