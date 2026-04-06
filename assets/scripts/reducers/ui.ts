@@ -11,9 +11,9 @@ import type {
 
 const setDescription = createAction<string>('ui/setDescription');
 const setPageTitle = createAction<string>('ui/setPageTitle');
-const clearErrors = createAction<string>('ui/clearErrors');
-const clearMessages = createAction<string>('ui/clearMessages');
-const clearWarnings = createAction<string>('ui/clearWarnings');
+const clearErrors = createAction('ui/clearErrors');
+const clearMessages = createAction('ui/clearMessages');
+const clearWarnings = createAction('ui/clearWarnings');
 const setError = createAction<ErrorType>('ui/setError');
 const setMessage = createAction<MessageType>('ui/setMessage');
 const setPositionY = createAction<number>('ui/setPositionY');
@@ -53,7 +53,7 @@ const initialState: InitialState = {
   warnings: [],
 };
 
-const customMessageExists = (alerts: AlertType[], customMessage?: string) =>
+const customMessageExists = (alerts: AlertType[], customMessage: string | TrustedHTML) =>
   customMessage && alerts.some(alert => alert.customMessage === customMessage);
 
 const uiReducer = createReducer(initialState, (builder) => {

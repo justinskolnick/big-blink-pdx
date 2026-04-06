@@ -24,13 +24,15 @@ import type {
 } from '../types';
 import { Role, SortByValues, SortValues } from '../types';
 
+type LinkTo = string | LocationState;
+
 interface LinkProps {
   children: ReactNode;
   className?: string;
   onClick?: (event?: ReactMouseEvent) => void;
   preventScrollReset?: boolean;
   title?: string;
-  to?: string | LocationState;
+  to?: LinkTo;
 }
 
 interface LinkToPageProps extends LinkProps {
@@ -40,11 +42,11 @@ interface LinkToPageProps extends LinkProps {
 interface LinkToProps {
   children: ReactNode;
   className?: string;
-  to?: string | LocationState;
+  to?: LinkTo;
 }
 
 interface BetterLinkProps extends LinkProps {
-  to: string | LocationState;
+  to?: LinkTo;
 }
 
 interface FilterLinkProps extends LinkProps {

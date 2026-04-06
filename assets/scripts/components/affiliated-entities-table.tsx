@@ -41,11 +41,11 @@ interface Props {
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: RefObject<HTMLDivElement | null>;
   role?: Role;
   setLimit: FnSetLimit;
-  title?: string;
+  title: string;
 }
 
 const Registration = ({

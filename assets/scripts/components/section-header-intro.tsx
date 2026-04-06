@@ -27,6 +27,7 @@ const DateRangeNote = () => {
     event.stopPropagation();
 
     dispatch(uiActions.setMessage({
+      customMessage: dateRangeMessage,
       message: dateRangeMessage,
     }));
   };

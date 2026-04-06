@@ -64,6 +64,8 @@ export const getError = (maybeError: MaybeError): ErrorType => {
     error.customMessage = serverError;
   } else if (error.status === 404) {
     error.customMessage = notFoundError;
+  } else {
+    error.customMessage = errorObject.message;
   }
 
   return error;

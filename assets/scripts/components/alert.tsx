@@ -12,6 +12,14 @@ interface MessageContentProps {
   alert: AlertType;
 }
 
+interface MessageProps {
+  alert: AlertType;
+}
+
+interface CustomMessageProps {
+  alert: AlertType;
+}
+
 interface AlertProps {
   alerts: AlertType[];
   deactivate: () => void;
@@ -20,9 +28,8 @@ interface AlertProps {
 }
 
 const isObject = (alert: AlertType) => typeof alert === 'object';
-const getHasCustomMessage = (alert: AlertType) => isObject && Boolean(alert.customMessage);
-const getHasMessage = (alert: AlertType) => isObject && Boolean(alert.message);
-const getHasStatus = (alert: AlertType) => isObject && Boolean(alert.status);
+const getHasMessage = (alert: AlertType) => isObject(alert) && Boolean(alert.message);
+const getHasStatus = (alert: AlertType) => isObject(alert) && Boolean(alert.status);
 
 const MessageContent = ({ alert }: MessageContentProps) => {
   const hasMessage = getHasMessage(alert);
@@ -38,25 +45,30 @@ const MessageContent = ({ alert }: MessageContentProps) => {
   );
 };
 
-const AlertMessageContent = ({ alert }: MessageContentProps) => {
-  const hasCustomMessage = getHasCustomMessage(alert);
+const Message = ({ alert }: MessageProps) => (
+  <p className='message-content'>
+    <MessageContent alert={alert} />
+  </p>
+);
 
-  return hasCustomMessage ? (
-    <>
-      <p
-        className='message-content'
-        dangerouslySetInnerHTML={{ __html: alert.customMessage }}
-      />
-      <p className='original-message-content'>
-        (<MessageContent alert={alert} />)
-      </p>
-    </>
-  ) : (
-    <p className='message-content'>
-      <MessageContent alert={alert} />
+const CustomMessage = ({ alert }: CustomMessageProps) => (
+  <>
+    <p
+      className='message-content'
+      dangerouslySetInnerHTML={{ __html: alert.customMessage }}
+    />
+    <p className='original-message-content'>
+      (<MessageContent alert={alert} />)
     </p>
+  </>
+);
+
+const AlertMessageContent = ({ alert }: MessageContentProps) =>
+  alert.customMessage === alert.message ? (
+    <Message alert={alert} />
+  ) : (
+    <CustomMessage alert={alert} />
   );
-};
 
 const Alert = ({
   alerts,

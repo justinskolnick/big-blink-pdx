@@ -24,8 +24,8 @@ interface Props {
   attendees: AttendeeGroup;
   currentLimit: number;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: RefObject<HTMLDivElement | null>;
   role?: Role;
   setLimit: FnSetLimit;
 }

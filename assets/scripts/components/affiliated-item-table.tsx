@@ -19,18 +19,19 @@ import StatBox from './stat-box';
 
 import type {
   AssociatedLinksObject,
-  AssociatedLinksOption,
+  AssociatedLabeledLinkOption,
+  ClassNames,
 } from '../types';
 
 interface AffiliatedItemsProps {
   children: ReactNode;
-  className?: string;
-  ref?: RefObject<HTMLDivElement>;
+  className?: ClassNames;
+  ref?: RefObject<HTMLDivElement | null>;
 }
 
 interface LinkProps {
   currentCount: number;
-  link: AssociatedLinksOption;
+  link: AssociatedLabeledLinkOption;
   setLimit: FnSetLimit;
 }
 
@@ -45,8 +46,8 @@ interface Props {
   currentLimit: number;
   hasAuxiliaryType?: boolean;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: RefObject<HTMLDivElement | null>;
   setLimit: FnSetLimit;
   title: string;
   total: number;
@@ -106,11 +107,11 @@ export const TableMoreLinks = ({
             <ItemTableMoreOptions>
               {hasIntro && (
                 <ItemTextWithIcon className='is-intro' icon='list-ol'>
-                  {links.intro.label}
+                  {links.intro?.label}
                 </ItemTextWithIcon>
               )}
 
-              {links.options.map((option) => (
+              {links.options?.map((option) => (
                 <OptionsLink
                   key={option.params.limit}
                   link={option}
@@ -124,8 +125,8 @@ export const TableMoreLinks = ({
           {hasMore && (
             <ItemTableMoreOptions>
               <ItemTextWithIcon icon='link'>
-                <Link to={links.more.path}>
-                  {links.more.label}
+                <Link to={links.more?.path}>
+                  {links.more?.label}
                 </Link>
               </ItemTextWithIcon>
             </ItemTableMoreOptions>
@@ -156,7 +157,7 @@ const AffiliatedItemTable = ({
   title,
   total = 0,
 }: Props) => {
-  const tableRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = ref || tableRef;
 
   const [lastCount, setLastCount] = useState<number>(initialCount);

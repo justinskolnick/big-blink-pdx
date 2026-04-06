@@ -21,7 +21,7 @@ const AlertPortal = forwardRef<HTMLDivElement, Props>(({
   isActive,
 }, ref) => {
   const elementRef = ref as MutableRefObject<HTMLDivElement>;
-  const target = document.getElementById(alertPortalId);
+  const target = document.getElementById(alertPortalId)!;
 
   const handleClick = (e: MouseEvent): void => {
     e.stopPropagation();

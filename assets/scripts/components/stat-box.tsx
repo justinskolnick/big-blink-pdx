@@ -9,7 +9,7 @@ interface Props {
   className?: string;
   icon?: IconName;
   onClick?: () => void;
-  title?: string;
+  title: string;
 }
 
 const StatBox = ({
@@ -30,11 +30,9 @@ const StatBox = ({
     <div className='activity-stat-content'>
       {title && (
         <h6 className='activity-stat-titles'>
-          {title && (
-            <span className='activity-stat-title'>
-              {title}
-            </span>
-          )}
+          <span className='activity-stat-title'>
+            {title}
+          </span>
         </h6>
       )}
       <div

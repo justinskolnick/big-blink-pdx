@@ -1,7 +1,10 @@
 import React, { ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
-import type { ItemTableLabels } from '../types';
+import type {
+  ClassNames,
+  ItemTableLabels,
+} from '../types';
 
 interface RowProps {
   auxiliaryType?: ReactNode;
@@ -13,7 +16,7 @@ interface RowProps {
 
 interface MoreProps {
   children: ReactNode;
-  className?: string;
+  className?: ClassNames;
 }
 
 interface Props {

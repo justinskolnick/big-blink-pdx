@@ -1,6 +1,8 @@
 import { ReactNode, RefObject } from 'react';
 import type { UnknownAction } from '@reduxjs/toolkit';
 
+export type ClassNames = string | boolean | undefined;
+
 export type Id = number;
 
 export type Ids = Id[];
@@ -82,7 +84,7 @@ export type IncidentObjectAttendee = {
 export type Attendee = IncidentObjectAttendee;
 
 export type AttendeeGroup = {
-  label?: string;
+  label: string;
   records: IncidentObjectAttendee[];
   role?: Role;
   total: number;
@@ -496,23 +498,29 @@ type AssociatedItem = {
   options: Role[];
 };
 
-export type AssociatedLinksOption = {
+type AssociatedLabeledLink = {
   label: string;
-  params?: {
+};
+
+export type AssociatedLabeledLinkOption = AssociatedLabeledLink & {
+  params: {
     limit: number;
   };
-  path?: string;
+};
+
+type AssociatedLinkMore = AssociatedLabeledLink & {
+  path: string;
 };
 
 export type AssociatedLinksObject = {
-  intro?: AssociatedLinksOption;
+  intro?: AssociatedLabeledLink;
   limit?: {
     label: string;
     value: number;
   };
-  more?: AssociatedLinksOption;
-  options?: AssociatedLinksOption[];
-  total: AssociatedLinksOption;
+  more?: AssociatedLinkMore;
+  options?: AssociatedLabeledLinkOption[];
+  total: AssociatedLabeledLink;
 };
 
 type AssociatedItemValue = {
@@ -531,7 +539,7 @@ type AssociatedPersonsPayloadValue = Omit<AssociatedPersonsObjectValue, 'records
   records: AffiliatedPersonPayloadRecord[];
 };
 
-type AssociatedPersonsObject = AssociatedItem & {
+export type AssociatedPersonsObject = AssociatedItem & {
   type: 'person';
   values: AssociatedPersonsObjectValue[];
 };
@@ -549,7 +557,7 @@ type AssociatedEntitiesPayloadValue = Omit<AssociatedEntitiesObjectValue, 'recor
   records: AffiliatedEntityPayloadRecord[];
 };
 
-type AssociatedEntitiesObject = AssociatedItem & {
+export type AssociatedEntitiesObject = AssociatedItem & {
   type: 'entity';
   values: AssociatedEntitiesObjectValue[];
 };
@@ -564,11 +572,11 @@ type NamedRoleBase = {
   filterRole: boolean;
 };
 
-export type ObjectNamedRoleWithAttendees = NamedRoleBase & {
+type ObjectNamedRoleWithAttendees = NamedRoleBase & {
   attendees: AssociatedPersonsObject;
 };
 
-export type ObjectNamedRoleWithEntities = NamedRoleBase & {
+type ObjectNamedRoleWithEntities = NamedRoleBase & {
   entities: AssociatedEntitiesObject;
 };
 
@@ -732,7 +740,7 @@ export type SourcesByType = {
 };
 
 type Error = {
-  customMessage?: string;
+  customMessage: string | TrustedHTML;
   message: string;
   status?: number;
 };
@@ -741,7 +749,10 @@ export type ErrorType = Error;
 export type MessageType = Error;
 export type WarningType = Error;
 
-export type AlertType = ErrorType | MessageType | WarningType;
+export type AlertType =
+  | ErrorType
+  | MessageType
+  | WarningType;
 
 export type MetaType = {
   description?: string;
@@ -764,15 +775,15 @@ export interface FnDelay {
 }
 
 export interface FnRef {
-  (ref: RefObject<HTMLElement>): void;
+  (ref: RefObject<HTMLElement | HTMLDivElement | null>): void;
 }
 
 export interface FnRefBoolean {
-  (ref: RefObject<HTMLElement>): boolean;
+  (ref: RefObject<HTMLElement | HTMLDivElement | null>): boolean;
 }
 
 export interface FnRefDelay {
-  (ref: RefObject<HTMLElement>, delay?: number): void;
+  (ref: RefObject<HTMLElement | HTMLDivElement | null>, delay?: number): void;
 }
 
 export interface MiddlewareHandlerFn {

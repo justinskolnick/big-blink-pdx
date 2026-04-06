@@ -45,7 +45,7 @@ interface FnGetQueryByType {
 }
 
 interface GroupProps {
-  children: (ref: RefObject<HTMLElement>) => ReactNode;
+  children: (ref: RefObject<HTMLElement | null>) => ReactNode;
   icon?: IconName;
   title: string;
 }
@@ -94,7 +94,7 @@ const useGetItemRolesByItem: FnUseGetItemRolesById = (item, options, isPaused) =
 };
 
 export const Group = ({ children, icon, title }: GroupProps) => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLElement | null>(null);
 
   return (
     <IncidentActivityGroups
