@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 
 import { isObject } from '../lib/util';
 
@@ -8,40 +8,36 @@ import type { GenericObject, Id } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ApiQueryType = TypedUseLazyQuery<any, any, any>;
 
-type SearchValue = string | GenericObject | URLSearchParams;
+type SearchValue = string | GenericObject | URLSearchParams | undefined;
 
 type QueryOptions = {
   id?: Id;
-  limit?: number;
+  limit: number;
   pause?: boolean;
-  search?: SearchValue;
+  search: SearchValue;
 };
 
-export interface FnSetLimit {
-  (limit?: number): void;
-}
-
-export interface FnSetPaused {
-  (paused: boolean): void;
-}
+export type FnSetLimit = Dispatch<SetStateAction<number>>;
+export type FnSetPaused = Dispatch<SetStateAction<boolean>>;
+export type LimitedQueryReturnType = {
+  currentLimit: number;
+  initialLimit: number;
+  setPaused: FnSetPaused;
+  setRecordLimit: FnSetLimit;
+};
 
 interface Fn {
   (
     query: ApiQueryType,
     options: QueryOptions,
-  ): {
-    currentLimit: number;
-    initialLimit: number;
-    setPaused: FnSetPaused;
-    setRecordLimit: FnSetLimit;
-  }
+  ): LimitedQueryReturnType
 }
 
 const useLimitedQuery: Fn = (query, options) => {
   const [paused, setPaused] = useState<boolean>(options.pause || false);
   const initialLimit = options.limit;
   const id = options.id;
-  let search: SearchValue;
+  let search: SearchValue = undefined;
 
   if (options.search) {
     if (typeof options.search === 'string') {
@@ -50,7 +46,9 @@ const useLimitedQuery: Fn = (query, options) => {
       search = new URLSearchParams(options.search);
     }
 
-    search = `?${search.toString()}`;
+    if (search) {
+      search = `?${search.toString()}`;
+    }
   }
 
   const [recordLimit, setRecordLimit] = useState<number>(initialLimit);

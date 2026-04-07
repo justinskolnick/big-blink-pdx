@@ -1,10 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
 import { adaptIncidents, adaptRoles } from './shared/adapters';
 import { getEntities } from '../selectors';
+
+import useSelector from '../hooks/use-app-selector';
 
 import type { RootState } from '../lib/store';
 import type {

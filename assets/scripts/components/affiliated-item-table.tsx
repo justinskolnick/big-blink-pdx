@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, MouseEvent, ReactNode, RefObject } 
 import { useLocation } from 'react-router';
 import { cx } from '@emotion/css';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 

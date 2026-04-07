@@ -11,7 +11,7 @@ import Icon from './icon';
 import { ItemRow } from './item-table';
 import PersonIcon from './people/icon';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetEntityById } from '../reducers/entities';
 

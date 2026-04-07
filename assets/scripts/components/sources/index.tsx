@@ -1,7 +1,7 @@
 import React, { useRef, MouseEvent, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useSelector from '../../hooks/use-app-selector';
 
 import { scrollToTop } from '../../lib/dom';
 

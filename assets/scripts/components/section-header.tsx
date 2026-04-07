@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
@@ -14,6 +13,8 @@ import {
   LinkToSources,
 } from './links';
 import SectionIcon from './section-icon';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { getSection } from '../selectors';
 import { useGetEntityById } from '../reducers/entities';

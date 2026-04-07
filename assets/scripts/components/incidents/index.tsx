@@ -1,10 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import IncidentList from '../incident-list';
 import SectionIndex from '../section-index';
 
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useSelector from '../../hooks/use-app-selector';
 
 import { getIncidentsPageIds, getIncidentsPagination } from '../../selectors';
 

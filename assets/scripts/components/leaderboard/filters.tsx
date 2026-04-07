@@ -1,7 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import Filter, { Filters, FilterIntro } from '../filter';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import {
   getLeaderboardFilters,

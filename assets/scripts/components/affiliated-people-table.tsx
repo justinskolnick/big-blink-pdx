@@ -9,7 +9,7 @@ import { ItemRow } from './item-table';
 import Icon from './people/icon';
 import ItemLink from './people/item-link';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetPersonById } from '../reducers/people';
 

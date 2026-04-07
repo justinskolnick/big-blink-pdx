@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, Outlet } from 'react-router';
 import { Helmet } from 'react-helmet';
-import { useSelector } from 'react-redux';
 
 import { hasAlertClass } from './alert-portal';
 import { hasModalClass } from './modal-portal';
@@ -12,6 +11,7 @@ import GlobalFooter from './global-footer';
 import Section from './section';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
+import useSelector from '../hooks/use-app-selector';
 import useTriggerPrimaryQuery from '../hooks/use-trigger-primary-query';
 
 import api from '../services/api';

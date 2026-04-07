@@ -1,6 +1,12 @@
-import type { Source } from '../types';
+import type { SourceObject } from '../types';
 
-const demoteIfQuarterIsNull = (obj: Source) => obj.quarter === null ? 5 : obj.quarter;
+const demoteIfQuarterIsNull = (obj: SourceObject) => {
+  if ('quarter' in obj && obj.quarter) {
+    return obj.quarter;
+  }
 
-export const sortQuarterAscendingTypeDecending = (a: Source, b: Source) =>
+  return 5;
+};
+
+export const sortQuarterAscendingTypeDecending = (a: SourceObject, b: SourceObject) =>
   demoteIfQuarterIsNull(a) - demoteIfQuarterIsNull(b) || a.type.localeCompare(b.type);

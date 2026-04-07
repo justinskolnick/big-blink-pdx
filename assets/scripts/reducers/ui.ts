@@ -53,7 +53,7 @@ const initialState: InitialState = {
   warnings: [],
 };
 
-const customMessageExists = (alerts: AlertType[], customMessage: string | TrustedHTML) =>
+const customMessageExists = (alerts: AlertType[], customMessage?: string | TrustedHTML) =>
   customMessage && alerts.some(alert => alert.customMessage === customMessage);
 
 const uiReducer = createReducer(initialState, (builder) => {

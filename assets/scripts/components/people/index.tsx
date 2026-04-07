@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { useSelector } from 'react-redux';
 
 import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/use-fetch-and-scroll-on-route-change';
 
@@ -8,6 +7,8 @@ import ItemLink from './item-link';
 import { ItemRow } from '../item-table';
 import SectionIndex from '../section-index';
 import { SortLink } from '../links';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import { useGetPersonById } from '../../reducers/people';
 import {

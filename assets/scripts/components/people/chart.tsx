@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
 
 import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import api from '../../services/api';
 

@@ -1,5 +1,6 @@
-import type { Id, Ids, PersonObject } from '../types';
-import { MiddlewareHandlerFn } from '../types';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { ListenerAPI } from '../lib/store';
 
 import { unique } from '../lib/array';
 
@@ -10,19 +11,21 @@ import {
   getOfficialPositionsLookupQueue,
 } from '../selectors';
 
+import type { Id, Ids, PersonObject } from '../types';
+
 export const hasPernr = (person: PersonObject) => person.pernr !== null;
 
-export interface MiddlewareHandlerIdsFn {
-  (store: any, idOrIds: Id | Ids): void;
+export interface LookupIdsFn {
+  (state: ListenerAPI, idOrIds: Id | Ids): void;
 }
 
-export const lookupOfficialPositionsForId: MiddlewareHandlerIdsFn = (store, idOrIds) => {
-  const { dispatch, getState } = store;
+export const lookupOfficialPositionsForId: LookupIdsFn = (state, idOrIds) => {
+  const { dispatch, getState } = state;
 
   const queue = getOfficialPositionsLookupQueue(getState());
   const completed = getOfficialPositionsLookupCompleted(getState());
 
-  let ids = [] as Ids;
+  let ids: Ids = [];
 
   if (Array.isArray(idOrIds)) {
     ids = unique(idOrIds.filter(id => !queue.includes(id) && !completed.includes(id)));
@@ -37,13 +40,11 @@ export const lookupOfficialPositionsForId: MiddlewareHandlerIdsFn = (store, idOr
   }
 };
 
-const handleSetPerson: MiddlewareHandlerFn = (store, action) => {
+const handleSetPerson = (action: PayloadAction<PersonObject>, state: ListenerAPI) => {
   const { payload } = action;
 
-  const person = payload as PersonObject;
-
-  if (hasPernr(person)) {
-    lookupOfficialPositionsForId(store, person.id);
+  if (hasPernr(payload)) {
+    lookupOfficialPositionsForId(state, payload.id);
   }
 };
 

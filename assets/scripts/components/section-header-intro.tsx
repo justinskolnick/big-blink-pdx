@@ -1,5 +1,4 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import {
@@ -8,6 +7,9 @@ import {
 } from './links';
 import Icon from './icon';
 import IncidentModal from './incident-modal';
+
+import useDispatch from '../hooks/use-app-dispatch';
+import useSelector from '../hooks/use-app-selector';
 
 import { actions as uiActions } from '../reducers/ui';
 

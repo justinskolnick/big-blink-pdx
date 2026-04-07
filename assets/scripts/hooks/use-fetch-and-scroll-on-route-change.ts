@@ -1,4 +1,4 @@
-import { useEffect, useState, RefObject } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 
 import { delayedScrollToRef, delayedScrollToTop } from '../lib/dom';
@@ -8,12 +8,14 @@ import {
   hasSortSearchParams,
 } from '../lib/params';
 
-interface ActionCallback {
-  (ref?: RefObject<HTMLElement>): void;
-}
+import { Fn, FnRef, Ref } from '../types';
 
 export interface FetchWithCallback {
-  (callback: ActionCallback): void;
+  (callback: Fn): void;
+}
+
+export interface FetchWithCallbackRef {
+  (callback: FnRef): void;
 }
 
 const defaultFetch: FetchWithCallback = (callback) => {
@@ -22,7 +24,7 @@ const defaultFetch: FetchWithCallback = (callback) => {
   }
 };
 
-const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll: boolean = true) => {
+const useScrollOnRouteChange = (fetch: FetchWithCallback | FetchWithCallbackRef = defaultFetch, scroll: boolean = true) => {
   const hasFetch = Boolean(fetch);
 
   const location = useLocation();
@@ -34,8 +36,7 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll:
   const [lastSearchParams, setLastSearchParams] = useState(searchParams);
   const [hasFetched, setHasFetched] = useState(false);
 
-  const action: ActionCallback = (ref) => {
-    const hasRef = Boolean(ref?.current);
+  const action = (ref?: Ref) => {
     const hasPageParams = hasPageSearchParams(searchParams);
     const hasSortParams = hasSortSearchParams(searchParams);
     const hasIncidentFilterParams = hasIncidentFilterSearchParams(searchParams);
@@ -49,13 +50,13 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback = defaultFetch, scroll:
         const hadIncidentFilterParams = hasIncidentFilterSearchParams(lastSearchParams);
         const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
 
-        if (hasRef && (hasParams || hadParams)) {
+        if (ref?.current && (hasParams || hadParams)) {
           delayedScrollToRef(ref);
         } else {
           delayedScrollToTop();
         }
       } else {
-        if (hasRef && hasParams) { // eslint-disable-line no-lonely-if
+        if (ref?.current && hasParams) { // eslint-disable-line no-lonely-if
           delayedScrollToRef(ref);
         } else {
           delayedScrollToTop();

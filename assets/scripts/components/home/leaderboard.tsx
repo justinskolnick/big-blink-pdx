@@ -1,10 +1,11 @@
 import React, { RefObject } from 'react';
-import { useSelector } from 'react-redux';
 
 import Section from '../leaderboard/section';
 import EntitiesLeaderboard from '../leaderboard/leaderboard-entities';
 import LobbyistsLeaderboard from '../leaderboard/leaderboard-lobbyists';
 import OfficialsLeaderboard from '../leaderboard/leaderboard-officials';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import { getHasSourcesChartData } from '../../selectors';
 

@@ -1,26 +1,29 @@
-import * as actions from '../reducers/people';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { batchPromiseAll } from '../lib/async';
+import type { ListenerAPI } from '../lib/store';
+
+import * as actions from '../reducers/people';
+
 import api from '../services/api';
 
 import type { Id, Ids } from '../types';
-import { MiddlewareHandlerFn } from '../types';
 
-const handleAddToPositionLookupQueue: MiddlewareHandlerFn = async (store, action) => {
-  const { dispatch } = store;
+const handleAddToPositionLookupQueue = async (action: PayloadAction<Ids>, state: ListenerAPI) => {
+  const { dispatch } = state;
   const { payload } = action;
   const { endpoints } = api;
 
   const endpoint = endpoints.getPersonOfficialPositionsById;
-
-  const ids = payload as Ids;
 
   const method = async (id: Id) => {
     const promise = dispatch(endpoint.initiate({ id }));
     const result = await promise;
 
     if (result.isSuccess) {
-      dispatch(actions.addToLookupCompleted(result.originalArgs.id));
+      if (result.originalArgs.id) {
+        dispatch(actions.addToLookupCompleted(result.originalArgs.id));
+      }
     }
 
     promise.unsubscribe();
@@ -29,9 +32,11 @@ const handleAddToPositionLookupQueue: MiddlewareHandlerFn = async (store, action
   };
 
   try {
-    await batchPromiseAll(ids, method);
-  } catch (error) {
-    console.error('Failed to fetch:', error.message); // eslint-disable-line no-console
+    await batchPromiseAll(payload, method);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('Failed to fetch:', error.message); // eslint-disable-line no-console
+    }
   }
 };
 

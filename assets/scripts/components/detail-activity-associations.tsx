@@ -1,7 +1,10 @@
 import React, { ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import useLimitedQuery, { FnSetLimit, FnSetPaused } from '../hooks/use-limited-query';
+import useLimitedQuery, {
+  type FnSetLimit,
+  type LimitedQueryReturnType,
+} from '../hooks/use-limited-query';
 import type { ApiQueryType } from '../hooks/use-limited-query';
 
 import api from '../services/api';
@@ -21,6 +24,7 @@ import type {
   AssociatedPersonsObjectValue,
   EntityObject,
   PersonObject,
+  RefElement,
   SourceObject,
 } from '../types';
 import { GenericObject, Role } from '../types';
@@ -32,12 +36,7 @@ interface FnUseGetItemRolesById {
     item: Item,
     options: GenericObject,
     isPaused: boolean,
-  ): {
-    currentLimit: number;
-    initialLimit: number;
-    setPaused: FnSetPaused;
-    setRecordLimit: FnSetLimit;
-  }
+  ): LimitedQueryReturnType
 }
 
 interface FnGetQueryByType {
@@ -45,7 +44,7 @@ interface FnGetQueryByType {
 }
 
 interface GroupProps {
-  children: (ref: RefObject<HTMLElement | null>) => ReactNode;
+  children: (ref: RefObject<RefElement>) => ReactNode;
   icon?: IconName;
   title: string;
 }
@@ -94,7 +93,7 @@ const useGetItemRolesByItem: FnUseGetItemRolesById = (item, options, isPaused) =
 };
 
 export const Group = ({ children, icon, title }: GroupProps) => {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<RefElement>(null);
 
   return (
     <IncidentActivityGroups

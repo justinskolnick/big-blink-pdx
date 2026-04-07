@@ -1,4 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  type ListenerEffectAPI,
+} from '@reduxjs/toolkit';
 
 import handlers from './middleware';
 
@@ -24,11 +27,13 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(api.middleware, handlers),
+      .prepend(handlers.middleware)
+      .concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type ListenerAPI = ListenerEffectAPI<RootState, AppDispatch>;
 
 export default store;

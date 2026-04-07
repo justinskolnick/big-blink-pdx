@@ -1,10 +1,10 @@
 import { Fn, FnDelay, FnRef, FnRefBoolean, FnRefDelay } from '../types';
 
 export const isRefTopInView: FnRefBoolean = (ref) =>
-  ref.current.offsetTop >= window.scrollY;
+  (ref.current?.offsetTop ?? 0) >= window.scrollY;
 
 export const scrollToRef: FnRef = (ref) => {
-  ref.current.scrollIntoView({ behavior: 'smooth' });
+  ref.current?.scrollIntoView({ behavior: 'smooth' });
 };
 
 export const delayedScrollToRef: FnRefDelay = (ref, delay = 250) => {

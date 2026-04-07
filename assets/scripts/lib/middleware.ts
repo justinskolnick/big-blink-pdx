@@ -1,5 +1,4 @@
-import type { UnknownAction } from '@reduxjs/toolkit';
-import type { Middleware } from 'redux';
+import { createListenerMiddleware } from '@reduxjs/toolkit';
 
 import handleAddToPositionLookupQueue from '../middleware/handle-add-to-position-lookup-queue';
 import handleSetPeople from '../middleware/handle-set-people';
@@ -7,20 +6,31 @@ import handleSetPerson from '../middleware/handle-set-person';
 
 import * as peopleActions from '../reducers/people';
 
-import { MiddlewareHandlerFn } from '../types';
+import type { AppDispatch, RootState } from '../lib/store';
 
-const types = {
-  [peopleActions.addToLookupQueue.type]: handleAddToPositionLookupQueue,
-  [peopleActions.set.type]: handleSetPerson,
-  [peopleActions.setAll.type]: handleSetPeople,
-} as Record<string, MiddlewareHandlerFn>;
+declare type ExtraArgument = null;
 
-const handlers: Middleware = store => next => (action: UnknownAction) => {
-  if (action.type in types) {
-    types[action.type](store, action);
-  }
+const listenerMiddleware = createListenerMiddleware();
 
-  return next(action);
-};
+export const startAppListening = listenerMiddleware.startListening.withTypes<
+  RootState,
+  AppDispatch,
+  ExtraArgument
+>();
 
-export default handlers;
+startAppListening({
+  actionCreator: peopleActions.addToLookupQueue,
+  effect: handleAddToPositionLookupQueue,
+});
+
+startAppListening({
+  actionCreator: peopleActions.set,
+  effect: handleSetPerson,
+});
+
+startAppListening({
+  actionCreator: peopleActions.setAll,
+  effect: handleSetPeople,
+});
+
+export default listenerMiddleware;

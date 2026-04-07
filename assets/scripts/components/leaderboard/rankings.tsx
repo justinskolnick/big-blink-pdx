@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { FnSetLimit } from '../../hooks/use-limited-query';
+import { type FnSetLimit } from '../../hooks/use-limited-query';
+import useSelector from '../../hooks/use-app-selector';
 
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';

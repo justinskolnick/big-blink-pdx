@@ -1,10 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import Icon from '../icon';
 import IncidentActivityChart from '../incident-activity-chart';
 import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
 import ItemSubhead from '../item-subhead';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import {
   getHasSourcesChartData,

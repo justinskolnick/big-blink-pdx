@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
   Chart as ChartJS,
   BarElement,
@@ -14,6 +13,8 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { getSourcesDataForChart } from '../selectors';
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import Header, { HeaderOverview } from '../header';
+
+import useSelector from '../../hooks/use-app-selector';
 
 import {
   getHasLeaderboardLabels,

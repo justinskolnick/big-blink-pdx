@@ -1,7 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { unique } from '../lib/array';
 
@@ -23,7 +24,7 @@ import type {
 interface InitialState {
   pageIds: Ids;
   pagination?: Pagination;
-  positionLookup: Record<'completed' | 'queue', Ids>;
+  positionLookup: Record<'completed' | 'queue', (Id | undefined)[]>;
 }
 
 export const adapter = createEntityAdapter<PersonObject>();

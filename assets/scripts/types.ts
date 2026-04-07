@@ -1,5 +1,4 @@
 import { ReactNode, RefObject } from 'react';
-import type { UnknownAction } from '@reduxjs/toolkit';
 
 export type ClassNames = string | boolean | undefined;
 
@@ -740,7 +739,7 @@ export type SourcesByType = {
 };
 
 type Error = {
-  customMessage: string | TrustedHTML;
+  customMessage?: string | TrustedHTML;
   message: string;
   status?: number;
 };
@@ -766,6 +765,9 @@ export type MetaType = {
   };
 };
 
+export type RefElement = HTMLElement | HTMLDivElement | null;
+export type Ref = RefObject<RefElement>;
+
 export interface Fn {
   (): void;
 }
@@ -775,19 +777,15 @@ export interface FnDelay {
 }
 
 export interface FnRef {
-  (ref: RefObject<HTMLElement | HTMLDivElement | null>): void;
+  (ref: Ref): void;
 }
 
 export interface FnRefBoolean {
-  (ref: RefObject<HTMLElement | HTMLDivElement | null>): boolean;
+  (ref: Ref): boolean;
 }
 
 export interface FnRefDelay {
-  (ref: RefObject<HTMLElement | HTMLDivElement | null>, delay?: number): void;
-}
-
-export interface MiddlewareHandlerFn {
-  (store: any, action: UnknownAction): void;
+  (ref: Ref, delay?: number): void;
 }
 
 export interface OutletContext {

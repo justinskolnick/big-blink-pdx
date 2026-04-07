@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
+import useSelector from '../../hooks/use-app-selector';
 
 import { getLeaderboardOfficialsValues } from '../../selectors';
 

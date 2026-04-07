@@ -1,8 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 
 import { adaptAttendeeRecords } from './shared/adapters';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { getIncidents } from '../selectors';
 

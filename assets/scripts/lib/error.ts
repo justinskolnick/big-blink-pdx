@@ -26,8 +26,8 @@ const toErrorWithMessage = (maybeError: unknown): ErrorType => {
 
   try {
     return new Error(JSON.stringify(maybeError));
-  } catch (e) {
-    console.error(e);
+  } catch (error: unknown) {
+    console.error(error);
     // fallback in case there's an error stringifying the maybeError
     // like with circular references for example.
     return new Error(String(maybeError));
