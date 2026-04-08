@@ -12,7 +12,6 @@ import type {
   EntityObject,
   EntityObjectRoles,
   EntityPayload,
-  EntityPayloadRoles,
   Id,
   Ids,
   IncidentPayload,
@@ -51,7 +50,7 @@ export const adapters = {
     }
 
     if ('roles' in entry && roles) {
-      adapted.roles = adaptRoles<EntityPayloadRoles, EntityObjectRoles>(roles, savedEntry?.roles);
+      adapted.roles = adaptRoles<EntityObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });

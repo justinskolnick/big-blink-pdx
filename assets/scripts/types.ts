@@ -464,7 +464,7 @@ export type AffiliatedEntityObjectRecord = {
   total?: number;
 };
 
-type AffiliatedEntityPayloadRecord = Omit<AffiliatedEntityObjectRecord, 'entity'> & {
+export type AffiliatedEntityPayloadRecord = Omit<AffiliatedEntityObjectRecord, 'entity'> & {
   entity: EntityPayload;
 };
 
@@ -474,7 +474,7 @@ export type AffiliatedPersonObjectRecord = {
   total?: number;
 };
 
-type AffiliatedPersonPayloadRecord = Omit<AffiliatedPersonObjectRecord, 'person'> & {
+export type AffiliatedPersonPayloadRecord = Omit<AffiliatedPersonObjectRecord, 'person'> & {
   person: PersonPayload;
 };
 
@@ -534,7 +534,7 @@ export type AssociatedPersonsObjectValue = AssociatedItemValue & {
   records: AffiliatedPersonObjectRecord[];
 };
 
-type AssociatedPersonsPayloadValue = Omit<AssociatedPersonsObjectValue, 'records'> & {
+export type AssociatedPersonsPayloadValue = Omit<AssociatedPersonsObjectValue, 'records'> & {
   records: AffiliatedPersonPayloadRecord[];
 };
 
@@ -547,12 +547,12 @@ type AssociatedPersonsPayload = Omit<AssociatedPersonsObject, 'values'> & {
   values: AssociatedPersonsPayloadValue[];
 };
 
-export type AssociatedEntitiesObjectValue = AssociatedItemValue & {
+type AssociatedEntitiesObjectValue = AssociatedItemValue & {
   association: 'entities';
   records: AffiliatedEntityObjectRecord[];
 };
 
-type AssociatedEntitiesPayloadValue = Omit<AssociatedEntitiesObjectValue, 'records'> & {
+export type AssociatedEntitiesPayloadValue = Omit<AssociatedEntitiesObjectValue, 'records'> & {
   records: AffiliatedEntityPayloadRecord[];
 };
 
@@ -588,7 +588,7 @@ type PayloadNamedRoleWithEntities = Omit<ObjectNamedRoleWithEntities, 'entities'
 };
 
 type EntityObjectNamedRoles = {
-  entity: ObjectNamedRoleWithAttendees;
+  entity: ObjectNamedRoleWithAttendees & { entities: null; };
 };
 
 type PersonObjectNamedRoles = {
@@ -606,7 +606,7 @@ export type ObjectNamedRoles =
   | SourceObjectNamedRoles;
 
 type EntityPayloadNamedRoles = {
-  entity: PayloadNamedRoleWithAttendees;
+  entity: PayloadNamedRoleWithAttendees & { entities: null; };
 };
 
 export type PersonPayloadNamedRoles = {

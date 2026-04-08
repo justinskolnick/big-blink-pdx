@@ -18,7 +18,6 @@ import type {
   PersonObject,
   PersonObjectRoles,
   PersonPayload,
-  PersonPayloadRoles,
 } from '../types';
 
 interface InitialState {
@@ -70,7 +69,7 @@ export const adapters = {
     }
 
     if ('roles' in entry && roles) {
-      adapted.roles = adaptRoles<PersonPayloadRoles, PersonObjectRoles>(roles, savedEntry?.roles);
+      adapted.roles = adaptRoles<PersonObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });

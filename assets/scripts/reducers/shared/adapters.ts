@@ -1,15 +1,27 @@
 import { unique } from '../../lib/array';
 
 import type {
+  AffiliatedEntityPayloadRecord,
+  AffiliatedPersonPayloadRecord,
   AssociatedEntitiesObject,
+  AssociatedEntitiesPayloadValue,
   AssociatedPersonsObject,
+  AssociatedPersonsObjectValue,
+  AssociatedPersonsPayloadValue,
+  EntityObjectRoles,
+  EntityPayloadRoles,
   IncidentObjectAttendee,
   IncidentPayload,
   IncidentsIdsObject,
   IncidentsPayloadsObject,
   ObjectNamedRoles,
   PayloadNamedRoles,
+  PersonObjectRoles,
+  PersonPayloadRoles,
+  Role,
   RoleOptions,
+  SourceObjectRoles,
+  SourcePayloadRoles,
 } from '../../types';
 
 export const adaptAttendeeRecords = (records: IncidentObjectAttendee[]) =>
@@ -37,38 +49,48 @@ export const adaptIncidents = (incidents: IncidentsPayloadsObject): IncidentsIds
   };
 };
 
-export const adaptRoles = <ItemPayloadType, ItemObjectType>(
-  entryRoles: ItemPayloadType,
-  savedEntryRoles?: ItemObjectType
-) => {
-  let roles = {} as ItemObjectType;
+export const adaptRoles = <
+  ItemObjectType extends object
+>(
+  entryRoles: SourcePayloadRoles | PersonPayloadRoles | EntityPayloadRoles,
+  savedEntryRoles?: SourceObjectRoles | PersonObjectRoles | EntityObjectRoles
+): ItemObjectType => {
+  let lastList: Role[] = [];
+  let lastOptions = {} as RoleOptions;
+  let lastNamed = {} as ObjectNamedRoles;
 
-  if (savedEntryRoles) {
-    roles = { ...savedEntryRoles };
-  }
+  let nextLabel: string = '';
+  let nextList: Role[] = [];
+  let nextOptions = {} as RoleOptions;
+  let nextNamed = {} as ObjectNamedRoles;
 
   if ('label' in entryRoles) {
-    roles = {
-      ...roles,
-      label: entryRoles.label,
-    };
+    nextLabel = entryRoles.label;
   }
 
   if ('list' in entryRoles) {
-    roles = {
-      ...roles,
-      list: unique([].concat(
-        ...savedEntryRoles?.list ?? [],
+    if (savedEntryRoles && 'list' in savedEntryRoles) {
+      lastList = savedEntryRoles.list;
+    }
+
+    if (lastList.length) {
+      const emptyRoleArray: Role[] = [];
+
+      nextList = unique(emptyRoleArray.concat(
+        ...lastList,
         ...entryRoles.list,
-      )),
-    };
+      ));
+    } else {
+      nextList = entryRoles.list;
+    }
   }
 
   if ('options' in entryRoles) {
-    let options: RoleOptions = savedEntryRoles?.options ?? {};
-    let named = { ...savedEntryRoles?.named };
+    if (savedEntryRoles && 'options' in savedEntryRoles) {
+      lastOptions = savedEntryRoles.options;
+    }
 
-    options = Object.entries(entryRoles.options)
+    nextOptions = Object.entries(entryRoles.options)
       .reduce((all, [k, value]) => {
         const key = k as keyof RoleOptions;
 
@@ -83,33 +105,46 @@ export const adaptRoles = <ItemPayloadType, ItemObjectType>(
         }
 
         return all;
-      }, options as RoleOptions);
+      }, lastOptions || {});
+
+    if (savedEntryRoles && 'named' in savedEntryRoles) {
+      lastNamed = savedEntryRoles.named;
+    }
+
+    nextNamed = lastNamed;
 
     if ('named' in entryRoles) {
-      named = {
-        ...named,
-        ...Object.entries(entryRoles.named).reduce((all, [key, values]) => {
+      nextNamed = entryRoles.named;
+
+      nextNamed = {
+        ...lastNamed,
+        ...Object.entries(nextNamed).reduce((all: ObjectNamedRoles, [key, values]) => {
           const roleKey = key as keyof PayloadNamedRoles;
-          const savedRole = savedEntryRoles?.named?.[roleKey];
+          const savedRole: ObjectNamedRoles = lastNamed?.[roleKey] ?? {};
+          const {
+            attendees: lastAttendees = {} as AssociatedPersonsObject,
+            entities: lastEntities = {} as AssociatedEntitiesObject,
+          } = savedRole;
+          let roleObj = {};
 
           if (values) {
             const { attendees, entities, ...rest } = values;
 
-            let nextAttendees: AssociatedPersonsObject = { ...savedRole?.attendees };
-            let nextEntities: AssociatedEntitiesObject = { ...savedRole?.entities };
+            let nextAttendees = { ...lastAttendees };
+            let nextEntities = { ...lastEntities };
 
             if (attendees) {
               nextAttendees = {
                 ...nextAttendees,
                 ...attendees,
-                values: attendees.options.map(role => {
-                  const savedValue = savedRole?.attendees?.values?.find(value => value?.role === role);
-                  const newValue = attendees.values.find(value => value?.role === role);
+                values: attendees.options.map((role: Role) => {
+                  const savedValue = lastAttendees?.values?.find((value: AssociatedPersonsObjectValue) => value?.role === role);
+                  const newValue = attendees.values.find((value: AssociatedPersonsPayloadValue) => value?.role === role);
 
                   if (newValue) {
                     return {
                       ...newValue,
-                      records: newValue.records.map(record => ({
+                      records: newValue.records.map((record: AffiliatedPersonPayloadRecord) => ({
                         ...record,
                         person: {
                           id: record.person.id,
@@ -126,10 +161,10 @@ export const adaptRoles = <ItemPayloadType, ItemObjectType>(
             if (entities) {
               nextEntities = {
                 ...nextEntities,
-                ...values.entities,
-                values: entities.values.map(value => ({
+                ...entities,
+                values: entities.values.map((value: AssociatedEntitiesPayloadValue) => ({
                   ...value,
-                  records: value.records.map(record => ({
+                  records: value.records.map((record: AffiliatedEntityPayloadRecord) => ({
                     ...record,
                     entity: {
                       id: record.entity.id,
@@ -139,27 +174,26 @@ export const adaptRoles = <ItemPayloadType, ItemObjectType>(
               };
             }
 
-            const obj: ObjectNamedRoles = {
-              ...savedEntryRoles?.named?.[roleKey],
+            roleObj = {
               ...rest,
               attendees: nextAttendees,
               entities: nextEntities,
             };
-
-            all[roleKey] = obj;
           }
 
-          return all;
+          return {
+            ...all,
+            [roleKey]: roleObj,
+          };
         }, {} as ObjectNamedRoles),
       };
     }
-
-    roles = {
-      ...roles,
-      options,
-      named,
-    };
   }
 
-  return roles;
+  return {
+    label: nextLabel,
+    list: nextList,
+    options: nextOptions,
+    named: nextNamed,
+  } as ItemObjectType;
 };

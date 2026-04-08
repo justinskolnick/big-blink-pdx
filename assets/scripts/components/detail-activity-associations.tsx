@@ -146,7 +146,7 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
   const items = namedRole?.attendees;
   const filterByRole = namedRole?.filterRole;
 
-  const hasItems = items?.values.length > 0;
+  const hasItems = items?.values?.length > 0;
 
   if (!hasItems) return null;
 
@@ -184,7 +184,7 @@ const Entities = ({ item, role }: NamedRoleProps) => {
   const items = namedRole?.entities;
   const filterByRole = namedRole?.filterRole;
 
-  const hasItems = items?.values.length > 0;
+  const hasItems = items?.values?.length > 0;
 
   if (!hasItems) return null;
 

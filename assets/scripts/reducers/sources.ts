@@ -19,7 +19,6 @@ import type {
   SourceObject,
   SourceObjectRoles,
   SourcePayload,
-  SourcePayloadRoles,
   SourceTypeObject,
 } from '../types';
 
@@ -56,7 +55,7 @@ export const adapters = {
     }
 
     if ('roles' in entry && roles) {
-      adapted.roles = adaptRoles<SourcePayloadRoles, SourceObjectRoles>(roles, savedEntry?.roles);
+      adapted.roles = adaptRoles<SourceObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
