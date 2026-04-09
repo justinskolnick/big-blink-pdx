@@ -1,4 +1,7 @@
+const pluralize = require('pluralize');
+
 const { Labels } = require('./labels');
+const { links } = require('./links');
 
 const labels = new Labels();
 const labelPrefix = 'description';
@@ -24,6 +27,31 @@ const getIndexDescription = (type) => {
   return labels.getLabel(labelKey, labelPrefix, { type });
 };
 
+const getSectionLinks = (section) => {
+  const { slug, title, subtitle, id } = section;
+  let sectionLinks;
+
+  if (slug in links) {
+    sectionLinks = {
+      section: {
+        label: title,
+        path: links[slug](),
+      }
+    };
+
+    if (id) {
+      const key = pluralize(slug, 1);
+
+      sectionLinks.detail = {
+        label: subtitle,
+        path: links[key](id),
+      };
+    }
+  }
+
+  return sectionLinks;
+};
+
 const getPageTitle = (section) => {
   const { subtitle, title } = section;
 
@@ -31,10 +59,14 @@ const getPageTitle = (section) => {
 };
 
 const getMeta = (req, options = {}) => {
-  const meta = { ...options };
+  const meta = {
+    ...options,
+  };
 
-  if (!('pageTitle' in options)) {
-    if ('section' in options) {
+  if ('section' in options) {
+    meta.section.links = getSectionLinks(options.section);
+
+    if (!('pageTitle' in options)) {
       meta.pageTitle = getPageTitle(options.section);
     }
   }

@@ -49,19 +49,75 @@ describe('getMeta()', () => {
   };
 
   describe('with a section', () => {
-    const section = {
-      slug: 'people',
-      title: 'People',
-      id: 2062,
-      subtitle: 'George Jetson',
-    };
+    let section = null;
 
-    test('returns the expected object', () => {
-      expect(getMeta(res, { section })).toEqual({
-        errors: res.flash.errors,
-        pageTitle: 'George Jetson · People',
-        section,
-        warnings: res.flash.warnings,
+    beforeEach(() => {
+      section = {
+        slug: 'people',
+        title: 'People',
+      };
+    });
+
+    afterEach(() => {
+      section = null;
+    });
+
+    describe('by default', () => {
+      test('returns the expected object', () => {
+        expect(getMeta(res, { section })).toEqual({
+          errors: res.flash.errors,
+          pageTitle: 'People',
+          section: {
+            links: {
+              section: {
+                label: 'People',
+                path: '/people',
+              },
+            },
+            slug: 'people',
+            title: 'People',
+          },
+          warnings: res.flash.warnings,
+        });
+      });
+    });
+
+    describe('and an item', () => {
+      beforeEach(() => {
+        section = {
+          id: 2062,
+          slug: 'people',
+          subtitle: 'George Jetson',
+          title: 'People',
+        };
+      });
+
+      afterEach(() => {
+        section = null;
+      });
+
+      test('returns the expected object', () => {
+        expect(getMeta(res, { section })).toEqual({
+          errors: res.flash.errors,
+          pageTitle: 'George Jetson · People',
+          section: {
+            id: 2062,
+            links: {
+              section: {
+                label: 'People',
+                path: '/people',
+              },
+              detail: {
+                label: 'George Jetson',
+                path: '/people/2062',
+              },
+            },
+            slug: 'people',
+            subtitle: 'George Jetson',
+            title: 'People',
+          },
+          warnings: res.flash.warnings,
+        });
       });
     });
 
@@ -70,7 +126,16 @@ describe('getMeta()', () => {
         expect(getMeta(res, { section, pageTitle: 'Okay whatever' })).toEqual({
           errors: res.flash.errors,
           pageTitle: 'Okay whatever',
-          section,
+          section: {
+            links: {
+              section: {
+                label: 'People',
+                path: '/people',
+              },
+            },
+            slug: 'people',
+            title: 'People',
+          },
           warnings: res.flash.warnings,
         });
       });
