@@ -25,7 +25,7 @@ import type {
 interface InitialState {
   pageIds: Ids | [];
   pagination?: Pagination;
-  types: SourceTypeObject | object;
+  types?: SourceTypeObject;
 }
 
 export const adapter = createEntityAdapter<SourceObject>();
@@ -69,7 +69,7 @@ export const adapters = {
 const initialState: InitialState = {
   pageIds: [],
   pagination: undefined,
-  types: {},
+  types: undefined,
 };
 
 export const sourcesSlice = createSlice({

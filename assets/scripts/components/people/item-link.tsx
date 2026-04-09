@@ -21,7 +21,7 @@ const ItemLink = ({ children, className, item }: Props) => {
   }
 
   return hasSelfLink ? (
-    <Link to={item.links.self} className={className}>{children}</Link>
+    <Link to={item.links?.self} className={className}>{children}</Link>
   ) : (
     <LinkToPerson id={item.id} className={className}>{children}</LinkToPerson>
   );

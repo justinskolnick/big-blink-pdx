@@ -6,7 +6,12 @@ export type Id = number;
 
 export type Ids = Id[];
 
-type KeyLabelValue = {
+type KeyLabel = {
+  key: string;
+  label: string;
+};
+
+type KeyLabelValue = KeyLabel & {
   key: string;
   label: string;
   value?: string;
@@ -696,11 +701,13 @@ export enum DataFormat {
   excel = 'excel',
 }
 
-export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
+
+export type SourceType = 'activity' | 'personnel' | 'registration';
+export type SourceTypeObject = Record<SourceType, KeyLabel>;
 
 export type SourceObject = {
   id: number;
-  type: string;
+  type: SourceType;
   title: string;
   format: DataFormat;
   quarter?: number;
@@ -734,7 +741,7 @@ export type SourcesByYear = {
   items: SourceObject[];
 };
 export type SourcesByType = {
-  type: SourceObject['type'];
+  type: SourceType;
   years: Record<SourceObject['year'], SourcesByYear>;
 };
 

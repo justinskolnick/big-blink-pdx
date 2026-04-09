@@ -5,12 +5,12 @@ import {
   LinkToSource,
 } from '../links';
 
-import type { Source } from '../../types';
+import type { SourceObject } from '../../types';
 
 interface Props {
   children: ReactNode;
   className?: string;
-  item: Source;
+  item: SourceObject;
 }
 
 const ItemLink = ({ children, className, item }: Props) => {
@@ -21,7 +21,7 @@ const ItemLink = ({ children, className, item }: Props) => {
   }
 
   return hasSelfLink ? (
-    <Link to={item.links.self} className={className}>{children}</Link>
+    <Link to={item.links?.self} className={className}>{children}</Link>
   ) : (
     <LinkToSource id={item.id} className={className}>{children}</LinkToSource>
   );
