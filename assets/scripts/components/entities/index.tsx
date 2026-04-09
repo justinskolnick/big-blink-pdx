@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 
-import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useFetchAndScrollOnRouteChange, {
+  FetchWithCallbackRef
+} from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import EntityIcon from './icon';
 import ItemLink from './item-link';
@@ -25,9 +27,11 @@ interface EntityItemProps {
 
 export const EntityItem = ({ id }: EntityItemProps) => {
   const entity = useGetEntityById(id);
+  const percentage = entity?.overview?.totals?.values?.percentage?.value;
+  const total = entity?.overview?.totals?.values?.total?.value;
 
   const hasEntity = Boolean(entity);
-  const hasTotal = Boolean(entity?.overview?.totals?.values.total.value);
+  const hasTotal = Boolean(total);
 
   if (!hasEntity) return null;
 
@@ -41,8 +45,8 @@ export const EntityItem = ({ id }: EntityItemProps) => {
           entity.name
         )
       )}
-      percentage={entity.overview?.totals.values.percentage.value ?? <>-</>}
-      total={entity.overview?.totals.values.total.value ?? <>-</>}
+      percentage={percentage ?? <>-</>}
+      total={total ?? <>-</>}
     />
   );
 };
@@ -65,7 +69,7 @@ const Index = () => {
   const pageIds = useSelector(getEntitiesPageIds);
   const hasPageIds = pageIds?.length > 0;
 
-  const fetch: FetchWithCallback = async (callback) => {
+  const fetch: FetchWithCallbackRef = async (callback) => {
     if (callback) {
       callback(ref);
     }

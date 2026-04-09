@@ -3,13 +3,13 @@ import { useSearchParams } from 'react-router';
 
 import ItemChart, { Loading } from './item-chart';
 
-type LineProps = {
-  data: number[];
+export type LineProps = {
+  data: (number | null)[];
   label?: string;
 }
 
 interface Props {
-  lineProps: LineProps;
+  lineProps?: LineProps;
 }
 
 const IncidentQuarterlyActivityChart = ({ lineProps }: Props) => {

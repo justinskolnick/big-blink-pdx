@@ -1,4 +1,4 @@
-import React, { useRef, RefObject } from 'react';
+import React, { useRef } from 'react';
 import { useParams } from 'react-router';
 
 import Associations from '../detail-activity-associations';
@@ -14,11 +14,15 @@ import SourceInformationBox from '../source-information-box';
 
 import { useGetSourceById } from '../../reducers/sources';
 
-import type { Source } from '../../types';
+import type {
+  Ref,
+  RefElement,
+  SourceObject
+} from '../../types';
 
 interface DetailActivityProps {
-  source: Source;
-  ref: RefObject<HTMLDivElement>;
+  source: SourceObject;
+  ref?: Ref;
 }
 
 const DetailActivity = ({ source, ref }: DetailActivityProps) => {
@@ -61,7 +65,7 @@ const DetailActivity = ({ source, ref }: DetailActivityProps) => {
 };
 
 const Detail = () => {
-  const incidentsRef = useRef<HTMLDivElement>(null);
+  const incidentsRef = useRef<RefElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);
@@ -71,7 +75,7 @@ const Detail = () => {
   const hasSource = Boolean(source);
   const isActivity = source?.type === 'activity';
 
-  const label = hasSource ? `${source.year} Q${source.quarter}` : null;
+  const label = hasSource ? `${source.year} Q${source.quarter}` : undefined;
 
   if (!hasSource) return null;
 

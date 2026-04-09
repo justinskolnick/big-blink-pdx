@@ -1,5 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import type {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query';
+import type { TypedLazyQueryTrigger } from '@reduxjs/toolkit/query/react';
+
+
 import { handleError, handleResult } from './fetch-from-path';
 import type { Result } from './fetch-from-path';
 
@@ -18,7 +26,11 @@ interface QueryFnOptions {
 
 type QueryFn = (options: QueryFnOptions) => string;
 
-export type TriggerFn = (options?: QueryFnOptions) => void;
+export type LazyTriggerFn = TypedLazyQueryTrigger<
+  unknown,
+  QueryFnOptions,
+  BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
+>;
 
 const getUrl = (url: string) => new URL(url, window.location.toString());
 

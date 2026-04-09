@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
+import IncidentQuarterlyActivityChart, {
+  type LineProps
+} from '../incident-activity-chart-quarterly';
 
 import useSelector from '../../hooks/use-app-selector';
 
@@ -10,7 +12,7 @@ import api from '../../services/api';
 import { getPeopleChartData } from '../../selectors';
 
 interface Props {
-  label: string;
+  label?: string;
 }
 
 const Chart = ({ label }: Props) => {
@@ -23,9 +25,9 @@ const Chart = ({ label }: Props) => {
   const data = peopleData?.[numericId];
   const hasData = data?.length > 0;
 
-  const lineProps = {
-    label,
+  const lineProps: LineProps = {
     data,
+    label,
   };
 
   useEffect(() => {

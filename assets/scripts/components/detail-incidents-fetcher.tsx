@@ -1,14 +1,17 @@
-import { ReactNode, RefObject } from 'react';
+import { ReactNode } from 'react';
 
 import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../hooks/use-fetch-and-scroll-on-route-change';
-import type { TriggerFn } from '../services/api';
-import type { Id } from '../types';
+import { type LazyTriggerFn } from '../services/api';
+import type {
+  Id,
+  Ref,
+} from '../types';
 
 interface Props {
   children: ReactNode;
   id: Id;
-  ref: RefObject<HTMLElement>;
-  trigger?: TriggerFn;
+  ref?: Ref;
+  trigger?: LazyTriggerFn;
 }
 
 const IncidentsFetcher = ({ children, id, ref, trigger }: Props) => {

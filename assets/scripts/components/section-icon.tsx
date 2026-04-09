@@ -14,7 +14,7 @@ const SOURCES = 'sources' as const;
 
 interface Props {
   name?: IconName;
-  slug?: string;
+  slug: string;
 }
 
 const SectionIcon = ({ name, slug }: Props) => {

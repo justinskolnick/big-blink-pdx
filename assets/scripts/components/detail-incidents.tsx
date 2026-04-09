@@ -7,16 +7,17 @@ import IncidentList from './incident-list';
 import type {
   Filters as FiltersType,
   Ids,
+  Ref,
   Pagination,
 } from '../types';
 
 interface Props {
   filters?: FiltersType;
   hasSort?: boolean;
-  ids: Ids;
+  ids?: Ids;
   label: string;
-  pagination: Pagination;
-  ref: React.RefObject<HTMLElement>;
+  pagination?: Pagination;
+  ref?: Ref;
   roleIsPrimary?: boolean;
 }
 

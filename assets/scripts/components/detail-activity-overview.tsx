@@ -12,12 +12,15 @@ import StatBox from './stat-box';
 import StatGroup from './stat-group';
 import StatSection from './stat-section';
 
-import type { ItemOverview } from '../types';
+import type {
+  ItemOverview,
+  Ref,
+} from '../types';
 
 interface Props {
   children: ReactNode;
   overview?: ItemOverview;
-  ref: React.RefObject<HTMLElement>;
+  ref?: Ref;
 }
 
 const ActivityOverview = ({

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { MetaSectionBox } from './meta-section';
 
-import type { Source } from '../types';
+import type { SourceObject } from '../types';
 
 enum DataFormatIcon {
   csv = 'file-csv',
@@ -10,7 +10,7 @@ enum DataFormatIcon {
 }
 
 interface Props {
-  source: Source;
+  source: SourceObject;
   title: string;
 }
 

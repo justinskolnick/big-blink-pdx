@@ -39,7 +39,7 @@ interface InitialState {
   errors: ErrorType[];
   messages: MessageType[];
   positionY: number;
-  section: SectionType | object;
+  section?: SectionType;
   warnings: WarningType[];
 }
 
@@ -49,7 +49,7 @@ const initialState: InitialState = {
   errors: [],
   messages: [],
   positionY: 0,
-  section: {},
+  section: undefined,
   warnings: [],
 };
 
