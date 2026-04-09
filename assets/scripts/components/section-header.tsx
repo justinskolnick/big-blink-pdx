@@ -7,10 +7,6 @@ import Header, { HeaderOverview } from './header';
 import {
   BetterLink as Link,
   GlobalLink,
-  LinkToEntities,
-  LinkToIncidents,
-  LinkToPeople,
-  LinkToSources,
 } from './links';
 import SectionIcon from './section-icon';
 
@@ -22,8 +18,17 @@ import { useGetIncidentById } from '../reducers/incidents';
 import { useGetPersonById } from '../reducers/people';
 import { useGetSourceById } from '../reducers/sources';
 
-import { Sections } from '../types';
-import type { SectionType } from '../types';
+import {
+  type Id,
+  type ItemObject,
+  type Slug,
+  Sections,
+} from '../types';
+
+type LinkObject = {
+  label: string;
+  path: string;
+};
 
 interface Props {
   children?: ReactNode;
@@ -31,129 +36,99 @@ interface Props {
   title?: ReactNode | string;
 }
 
-interface SectionLinkProps {
-  children: ReactNode;
-  slug?: string;
-}
-
-interface ItemLinkProps {
-  children: ReactNode;
-  section?: SectionType;
-}
-
-interface SectionDescriptionLinkProps {
-  section?: SectionType;
+interface DescriptionLinkProps {
+  link?: LinkObject;
 }
 
 interface DescriptionProps {
-  section?: SectionType;
+  id?: Id;
+  slug: Slug;
 }
 
-const getItemSelector = (section?: SectionType) => {
-  let selector = null;
-
-  if (section?.slug === Sections.Entities) {
-    selector = useGetEntityById;
-  } else if (section?.slug === Sections.Incidents) {
-    selector = useGetIncidentById;
-  } else if (section?.slug === Sections.People) {
-    selector = useGetPersonById;
-  } else if (section?.slug === Sections.Sources) {
-    selector = useGetSourceById;
-  }
-
-  return selector;
-};
-
-const getHasLink = (slug?: string) =>
-  slug && Object.values(Sections).includes(slug as Sections);
-
-const SectionLink = ({ children, slug, ...rest }: SectionLinkProps) => {
-  if (!slug) return null;
-
-  let Component = null;
-
-  if (slug === Sections.Entities) {
-    Component = LinkToEntities;
-  } else if (slug === Sections.Incidents) {
-    Component = LinkToIncidents;
-  } else if (slug === Sections.People) {
-    Component = LinkToPeople;
-  } else if (slug === Sections.Sources) {
-    Component = LinkToSources;
-  }
-
-  if (!Component) return null;
-
-  return (
-    <Component {...rest}>{children}</Component>
-  );
-};
-
-interface WhenSectionProps {
-  children: (section?: SectionType) => ReactNode;
-  section?: SectionType;
+interface IconLinkProps {
+  icon?: IconName;
+  link?: LinkObject;
+  slug: Slug;
 }
 
-const WhenSection = ({ children, section }: WhenSectionProps) => {
-  return section ? children(section) : null;
-};
+interface TitleLinkProps {
+  link?: LinkObject;
+  title: ReactNode | string;
+}
 
-const SectionDescriptionLink = ({ section }: SectionDescriptionLinkProps) => {
-  return (
-    <h3>
-      <WhenSection section={section}>
-        {item => (
-          <SectionItemLink section={item}>
-            {item?.subtitle}
-          </SectionItemLink>
-        )}
-      </WhenSection>
-    </h3>
-  );
-};
+const useGetItemSelector = (slug: Slug, id?: Id): ItemObject | null => {
+  const slugValue: string = slug;
+  const slugValues: string[] = Object.values(Sections);
 
-const SectionItemLink = ({ children, section }: ItemLinkProps) => {
-  let selector;
-  let item;
-
-  if (section) {
-    selector = getItemSelector(section);
-
-    if (selector) {
-      item = selector(section.id);
+  if (id && slugValues.includes(slugValue)) {
+    if (slug === Sections.Entities) {
+      return useGetEntityById(id);
+    } else if (slug === Sections.Incidents) {
+      return useGetIncidentById(id);
+    } else if (slug === Sections.People) {
+      return useGetPersonById(id);
+    } else if (slug === Sections.Sources) {
+      return useGetSourceById(id);
     }
   }
 
-  if (!item) return null;
-
-  return <Link to={item.links.self}>{children}</Link>;
+  return null;
 };
 
-const SectionDescription = ({ section }: DescriptionProps) => {
-  let selector;
-  let item;
+const SectionDescriptionLink = ({ link }: DescriptionLinkProps) => (
+  <h3>
+    <Link to={link?.path}>
+      {link?.label}
+    </Link>
+  </h3>
+);
 
-  if (section) {
-    selector = getItemSelector(section);
-
-    if (selector) {
-      item = selector(section.id);
-    }
-  }
+const SectionDescription = ({ id, slug }: DescriptionProps) => {
+  const item = useGetItemSelector(slug, id);
+  const details = Object.values(item?.details ?? {});
 
   if (!item) return null;
 
-  const hasDetails = Object.keys(item.details || {}).length > 0;
+  const hasDetails = details.length > 0;
 
   return (
     <h4>
-      {hasDetails && Object.values(item.details).map((detail, i) => (
+      {hasDetails && details.map((detail, i) => (
         <span key={i} className='header-section-detail'>{detail}</span>
       ))}
     </h4>
   );
 };
+
+const HeaderIdentityLogo = () => (
+  <h1>
+    <GlobalLink to='/' className='header-identity-link'>
+      <span className='text-secondary'>The</span>
+      {' '}
+      <span className='text-primary'>Big Blink</span>
+      {' '}
+      <span className='text-secondary'>PDX</span>
+    </GlobalLink>
+  </h1>
+);
+
+const HeaderIdentityEyes = () => (
+  <div className='header-identity-eyes'>
+    <Eyes />
+  </div>
+);
+
+const SectionIconLink = ({ icon, link, slug }: IconLinkProps) => (
+  <Link to={link?.path} aria-label='section-icon'>
+    <SectionIcon name={icon} slug={slug} />
+  </Link>
+);
+
+const SectionTitleLink = ({ link, title }: TitleLinkProps) => (
+  <Link to={link?.path} aria-label='section-title'>
+    {title}
+  </Link>
+);
 
 const SectionHeader = ({
   children,
@@ -161,41 +136,27 @@ const SectionHeader = ({
   title,
 }: Props) => {
   const section = useSelector(getSection);
-  const hasSection = Boolean(section);
   const hasSubhead = Boolean(section?.subtitle);
 
-  const hasLink = getHasLink(section?.slug);
+  const hasLinks = section && 'links' in section && section.links;
 
   return (
     <Header className={hasSubhead && 'has-subheader'}>
       <HeaderOverview>
         <div className='header-identity'>
-          <h1>
-            <GlobalLink to='/' className='header-identity-link'>
-              <span className='text-secondary'>The</span>
-              {' '}
-              <span className='text-primary'>Big Blink</span>
-              {' '}
-              <span className='text-secondary'>PDX</span>
-            </GlobalLink>
-          </h1>
-
-          <div className='header-identity-eyes'>
-            <Eyes />
-          </div>
+          <HeaderIdentityLogo />
+          <HeaderIdentityEyes />
         </div>
 
-        {hasSection && (
+        {section && (
           <div className='header-section'>
-            <div className={cx('header-section-icon', hasLink && 'has-link')}>
-              {hasLink ? (
-                <WhenSection section={section}>
-                  {(item) => (
-                    <SectionLink slug={item?.slug} aria-label='section-icon'>
-                      <SectionIcon name={icon} slug={item?.slug} />
-                    </SectionLink>
-                  )}
-                </WhenSection>
+            <div className={cx('header-section-icon', hasLinks && 'has-link')}>
+              {hasLinks ? (
+                <SectionIconLink
+                  icon={icon}
+                  link={section.links?.section}
+                  slug={section.slug}
+                />
               ) : (
                 <SectionIcon name={icon} slug={section?.slug} />
               )}
@@ -203,18 +164,24 @@ const SectionHeader = ({
 
             <div className='header-section-title'>
               <h2>
-                {hasLink ? (
-                  <SectionLink slug={section?.slug} aria-label='section-title'>
-                    {title ?? section?.title}
-                  </SectionLink>
+                {hasLinks ? (
+                  <SectionTitleLink
+                    link={section.links?.section}
+                    title={title ?? section.title}
+                  />
                 ) : (
                   title ?? section?.title
                 )}
               </h2>
               {hasSubhead && (
                 <>
-                  <SectionDescriptionLink section={section} />
-                  <SectionDescription section={section} />
+                  <SectionDescriptionLink
+                    link={section.links?.detail}
+                  />
+                  <SectionDescription
+                    id={section.id}
+                    slug={section.slug}
+                  />
                 </>
               )}
             </div>

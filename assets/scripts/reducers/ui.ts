@@ -39,7 +39,7 @@ interface InitialState {
   errors: ErrorType[];
   messages: MessageType[];
   positionY: number;
-  section?: SectionType;
+  section: SectionType;
   warnings: WarningType[];
 }
 
@@ -49,7 +49,9 @@ const initialState: InitialState = {
   errors: [],
   messages: [],
   positionY: 0,
-  section: undefined,
+  section: {
+    slug: '/',
+  },
   warnings: [],
 };
 

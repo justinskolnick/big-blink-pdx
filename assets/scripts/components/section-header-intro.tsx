@@ -44,22 +44,19 @@ const DateRangeNote = () => {
 const HeaderIntro = () => {
   const { pathname } = useLocation();
   const [savedPathname, setSavedPathname] = useState<string>(pathname);
-  const [selectedId, setSelectedId] = useState<number>();
+  const [selectedId, setSelectedId] = useState<number | null>();
 
   const total = useSelector(getIncidentTotal);
   const first = useSelector(getIncidentFirst);
   const last = useSelector(getIncidentLast);
-  const hasFirst = Boolean(first);
-  const hasLast = Boolean(last);
-  const hasData = total > 0 && hasFirst && hasLast;
 
   const deactivate = () => setSelectedId(null);
-  const handleClick = (event: MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const handleClick = (event?: MouseEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
 
-    if (event.target instanceof HTMLAnchorElement) {
-      setSelectedId(Number(event.target.dataset.id));
+    if (event?.target instanceof HTMLAnchorElement) {
+      setSelectedId(Number(event?.target.dataset.id));
     }
   };
 
@@ -73,7 +70,7 @@ const HeaderIntro = () => {
     }
   }, [pathname, savedPathname, setSelectedId]);
 
-  if (!hasData) return null;
+  if (!first || !last || total === 0) return null;
 
   return (
     <div className='header-intro'>
@@ -84,14 +81,14 @@ const HeaderIntro = () => {
         {' '}
         reported between
         {' '}
-        <Link to={first.links.self} data-id={first.id} onClick={handleClick}>
-          {first.contactDate}
+        <Link to={first?.links?.self} data-id={first?.id} onClick={handleClick}>
+          {first?.contactDate}
         </Link>
         {' '}
         and
         {' '}
-        <Link to={last.links.self} data-id={last.id} onClick={handleClick}>
-          {last.contactDate}
+        <Link to={last?.links?.self} data-id={last?.id} onClick={handleClick}>
+          {last?.contactDate}
         </Link>
         .
         {' '}
@@ -100,13 +97,13 @@ const HeaderIntro = () => {
 
       <IncidentModal
         deactivate={deactivate}
-        id={first.id}
+        id={first?.id}
         isActive={selectedId === first.id}
       />
       <IncidentModal
         deactivate={deactivate}
-        id={last.id}
-        isActive={selectedId === last.id}
+        id={last?.id}
+        isActive={selectedId === last?.id}
       />
     </div>
   );

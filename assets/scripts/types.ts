@@ -34,11 +34,25 @@ export enum Sections {
   Sources = 'sources',
 }
 
+type SectionLinks = {
+  section: {
+    label: string;
+    path: string;
+  };
+  detail?: {
+    label: string;
+    path: string;
+  };
+}
+
+export type Slug = Sections | string;
+
 export type SectionType = {
   id?: number;
-  slug?: string;
+  slug: Slug;
   subtitle?: string;
-  title: string;
+  title?: string;
+  links?: SectionLinks;
 };
 
 type PageObject = {
@@ -744,6 +758,8 @@ export type SourcesByType = {
   type: SourceType;
   years: Record<SourceObject['year'], SourcesByYear>;
 };
+
+export type ItemObject = EntityObject | IncidentObject | PersonObject | SourceObject;
 
 type Error = {
   customMessage?: string | TrustedHTML;
