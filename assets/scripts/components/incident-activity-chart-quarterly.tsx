@@ -9,7 +9,7 @@ export type LineProps = {
 }
 
 interface Props {
-  lineProps?: LineProps;
+  lineProps: LineProps;
 }
 
 const IncidentQuarterlyActivityChart = ({ lineProps }: Props) => {

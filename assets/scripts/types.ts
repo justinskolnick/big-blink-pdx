@@ -6,6 +6,8 @@ export type Id = number;
 
 export type Ids = Id[];
 
+export type LinkTo = string | LocationState;
+
 type KeyLabel = {
   key: string;
   label: string;

@@ -9,7 +9,7 @@ interface Props {
   after?: boolean;
   children: ReactNode;
   className?: string;
-  icon: IconName;
+  icon?: IconName;
 }
 
 const ItemTextWithIcon = ({
@@ -19,16 +19,20 @@ const ItemTextWithIcon = ({
   icon
 }: Props) => (
   <span className={cx('item-text-with-icon', className)}>
-    {after ? (
-      <>
-        <ItemText>{children}</ItemText>
-        <Icon name={icon} />
-      </>
+    {icon ? (
+      after ? (
+        <>
+          <ItemText>{children}</ItemText>
+          <Icon name={icon} />
+        </>
+      ) : (
+        <>
+          <Icon name={icon} />
+          <ItemText>{children}</ItemText>
+        </>
+      )
     ) : (
-      <>
-        <Icon name={icon} />
-        <ItemText>{children}</ItemText>
-      </>
+      <ItemText>{children}</ItemText>
     )}
   </span>
 );

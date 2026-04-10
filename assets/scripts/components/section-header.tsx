@@ -47,12 +47,12 @@ interface DescriptionProps {
 
 interface IconLinkProps {
   icon?: IconName;
-  link?: LinkObject;
+  link: LinkObject;
   slug: Slug;
 }
 
 interface TitleLinkProps {
-  link?: LinkObject;
+  link: LinkObject;
   title: ReactNode | string;
 }
 
@@ -77,9 +77,11 @@ const useGetItemSelector = (slug: Slug, id?: Id): ItemObject | null => {
 
 const SectionDescriptionLink = ({ link }: DescriptionLinkProps) => (
   <h3>
-    <Link to={link?.path}>
-      {link?.label}
-    </Link>
+    {link ? (
+      <Link to={link?.path}>
+        {link?.label}
+      </Link>
+    ) : null}
   </h3>
 );
 
@@ -119,13 +121,13 @@ const HeaderIdentityEyes = () => (
 );
 
 const SectionIconLink = ({ icon, link, slug }: IconLinkProps) => (
-  <Link to={link?.path} aria-label='section-icon'>
+  <Link to={link.path} aria-label='section-icon'>
     <SectionIcon name={icon} slug={slug} />
   </Link>
 );
 
 const SectionTitleLink = ({ link, title }: TitleLinkProps) => (
-  <Link to={link?.path} aria-label='section-title'>
+  <Link to={link.path} aria-label='section-title'>
     {title}
   </Link>
 );
@@ -138,8 +140,6 @@ const SectionHeader = ({
   const section = useSelector(getSection);
   const hasSubhead = Boolean(section?.subtitle);
 
-  const hasLinks = section && 'links' in section && section.links;
-
   return (
     <Header className={hasSubhead && 'has-subheader'}>
       <HeaderOverview>
@@ -150,8 +150,8 @@ const SectionHeader = ({
 
         {section && (
           <div className='header-section'>
-            <div className={cx('header-section-icon', hasLinks && 'has-link')}>
-              {hasLinks ? (
+            <div className={cx('header-section-icon', section.links && 'has-link')}>
+              {section.links ? (
                 <SectionIconLink
                   icon={icon}
                   link={section.links?.section}
@@ -164,7 +164,7 @@ const SectionHeader = ({
 
             <div className='header-section-title'>
               <h2>
-                {hasLinks ? (
+                {section.links ? (
                   <SectionTitleLink
                     link={section.links?.section}
                     title={title ?? section.title}

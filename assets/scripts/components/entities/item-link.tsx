@@ -14,13 +14,11 @@ interface Props {
 }
 
 const ItemLink = ({ children, className, item }: Props) => {
-  const hasSelfLink = Boolean(item?.links?.self);
-
-  if (!hasSelfLink) {
+  if (!item.links?.self) {
     console.log('*', item);
   }
 
-  return hasSelfLink ? (
+  return item.links?.self ? (
     <Link to={item.links?.self} className={className}>{children}</Link>
   ) : (
     <LinkToEntity id={item.id} className={className}>{children}</LinkToEntity>

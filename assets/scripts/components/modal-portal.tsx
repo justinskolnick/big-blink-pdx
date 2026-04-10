@@ -23,7 +23,7 @@ const ModalPortal = forwardRef<HTMLDivElement, Props>(({
   deactivate,
   isActive,
 }, ref) => {
-  const target = document.getElementById(modalPortalId);
+  const target = document.getElementById(modalPortalId)!;
 
   const handleOverlayClick = (): void => {
     deactivate();

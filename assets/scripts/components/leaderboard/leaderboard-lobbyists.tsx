@@ -23,6 +23,8 @@ const LobbyistsLeaderboard = () => {
 
   const result = useSelector(getLeaderboardLobbyistsValues);
 
+  if (!result) return null;
+
   return (
     <LeaderboardRankings
       isGrid

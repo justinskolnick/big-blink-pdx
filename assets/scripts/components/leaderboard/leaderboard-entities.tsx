@@ -23,6 +23,8 @@ const EntitiesLeaderboard = () => {
 
   const result = useSelector(getLeaderboardEntitiesValues);
 
+  if (!result) return null;
+
   return (
     <LeaderboardRankings
       isGrid

@@ -21,26 +21,22 @@ const ItemSubhead = ({
   icon,
   title,
   subtitle,
-}: Props) => {
-  const hasIcon = Boolean(icon);
-
-  return (
-    <header
-      className={cx(
-        'item-subhead',
-        hasBorder && 'has-border',
-        hasIcon && 'has-icon',
-        className
-      )}
-    >
-      {hasIcon && <Icon name={icon} />}
-      <div className='item-subhead-content'>
-        {title && <h4>{title}</h4>}
-        {subtitle && <h5>{subtitle}</h5>}
-        {children}
-      </div>
-    </header>
-  );
-};
+}: Props) => (
+  <header
+    className={cx(
+      'item-subhead',
+      hasBorder && 'has-border',
+      icon && 'has-icon',
+      className
+    )}
+  >
+    {icon && <Icon name={icon} />}
+    <div className='item-subhead-content'>
+      {title && <h4>{title}</h4>}
+      {subtitle && <h5>{subtitle}</h5>}
+      {children}
+    </div>
+  </header>
+);
 
 export default ItemSubhead;

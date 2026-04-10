@@ -51,7 +51,7 @@ const Rankings = ({
 
   const Item = useGetItem(section);
 
-  if (!hasIds || !hasLabels) return null;
+  if (!hasIds || !hasLabels || !Item) return null;
 
   return (
     <LeaderboardSubsection isGrid={isGrid}>

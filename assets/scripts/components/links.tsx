@@ -17,14 +17,16 @@ import ItemTextWithIcon from './item-text-with-icon';
 import type {
   EntityObject,
   Id,
-  LocationState,
+  LinkTo,
   NewParams,
   PersonObject,
   SortValue,
 } from '../types';
-import { Role, SortByValues, SortValues } from '../types';
-
-type LinkTo = string | LocationState;
+import {
+  Role,
+  SortByValues,
+  SortValues,
+} from '../types';
 
 interface LinkProps {
   children: ReactNode;
@@ -37,26 +39,27 @@ interface LinkProps {
 
 interface LinkToPageProps extends LinkProps {
   isCurrent?: boolean;
+  to: LinkTo;
 }
 
-interface LinkToProps {
+interface GlobalLinkProps {
   children: ReactNode;
   className?: string;
-  to?: LinkTo;
+  to: LinkTo;
 }
 
 interface BetterLinkProps extends LinkProps {
-  to?: LinkTo;
+  to: LinkTo;
 }
 
 interface FilterLinkProps extends LinkProps {
   hasIcon?: boolean;
-  newParams?: NewParams;
+  newParams: NewParams;
   replace?: boolean;
 }
 
 interface SortLinkProps extends LinkProps {
-  defaultSort?: SortValue;
+  defaultSort: SortValue;
   isDefault?: boolean;
   name?: SortByValues;
 }
@@ -97,7 +100,7 @@ export const BetterLink = ({
   onClick,
   ...rest
 }: BetterLinkProps) => {
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLAnchorElement | null>(null);
 
   const handleClick = (e: ReactMouseEvent<HTMLAnchorElement>) => {
     if (e.button || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
@@ -110,7 +113,7 @@ export const BetterLink = ({
       });
 
       e.preventDefault();
-      ref.current.dispatchEvent(customEvent);
+      ref.current?.dispatchEvent(customEvent);
     } else {
       onClick?.(e);
     }
@@ -184,7 +187,7 @@ export const SortLink = ({
   const currentSortBy = searchParams.get(sortByParam);
   const currentSort = searchParams.get(sortParam);
   const isCurrentSortBy = name === currentSortBy || (currentSortBy === null && isDefault);
-  const newSearchParams = new Map(searchParams);
+  const newSearchParams = new Map<string, string | null | undefined>(searchParams);
   let icon;
 
   if (isCurrentSortBy) {
@@ -223,7 +226,7 @@ export const SortLink = ({
   );
 };
 
-export const GlobalLink = ({ children, to, ...rest }: LinkToProps) => (
+export const GlobalLink = ({ children, to, ...rest }: GlobalLinkProps) => (
   <NavLink
     to={to}
     className={({ isActive }) => isActive ? 'is-active' : undefined}

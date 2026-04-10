@@ -23,6 +23,8 @@ const OfficialsLeaderboard = () => {
 
   const result = useSelector(getLeaderboardOfficialsValues);
 
+  if (!result) return null;
+
   return (
     <LeaderboardRankings
       isGrid

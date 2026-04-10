@@ -70,7 +70,7 @@ const HeaderIntro = () => {
     }
   }, [pathname, savedPathname, setSelectedId]);
 
-  if (!first || !last || total === 0) return null;
+  if (!first?.links?.self || !last?.links?.self || total === 0) return null;
 
   return (
     <div className='header-intro'>
