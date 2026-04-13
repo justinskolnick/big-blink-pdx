@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 
 import Section from '../leaderboard/section';
 import EntitiesLeaderboard from '../leaderboard/leaderboard-entities';
@@ -9,8 +9,10 @@ import useSelector from '../../hooks/use-app-selector';
 
 import { getHasSourcesChartData } from '../../selectors';
 
+import type { Ref } from '../../types';
+
 interface Props {
-  ref?: RefObject<HTMLElement>
+  ref?: Ref;
 }
 
 const Leaderboard = ({ ref }: Props) => {

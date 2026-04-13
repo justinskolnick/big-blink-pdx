@@ -50,11 +50,13 @@ const DetailIncidents = ({
       </Filters>
     </IncidentsHeader>
 
-    <IncidentList
-      hasSort={hasSort}
-      ids={ids}
-      pagination={pagination}
-    />
+    {ids?.length && pagination && (
+      <IncidentList
+        hasSort={hasSort}
+        ids={ids}
+        pagination={pagination}
+      />
+    )}
   </section>
 );
 

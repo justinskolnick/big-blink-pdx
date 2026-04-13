@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 
-import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../hooks/use-fetch-and-scroll-on-route-change';
+import useFetchAndScrollOnRouteChange, {
+  FetchWithCallbackRef
+} from '../hooks/use-fetch-and-scroll-on-route-change';
 import { type LazyTriggerFn } from '../services/api';
 import type {
   Id,
@@ -11,14 +13,14 @@ interface Props {
   children: ReactNode;
   id: Id;
   ref?: Ref;
-  trigger?: LazyTriggerFn;
+  trigger: LazyTriggerFn;
 }
 
 const IncidentsFetcher = ({ children, id, ref, trigger }: Props) => {
-  const fetch: FetchWithCallback = async (callback) => {
+  const fetch: FetchWithCallbackRef = async (callback) => {
     await trigger({ id, search: location.search });
 
-    if (callback) {
+    if (callback && ref) {
       callback(ref);
     }
   };

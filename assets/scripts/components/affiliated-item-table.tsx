@@ -21,12 +21,13 @@ import type {
   AssociatedLinksObject,
   AssociatedLabeledLinkOption,
   ClassNames,
+  Ref,
 } from '../types';
 
 interface AffiliatedItemsProps {
   children: ReactNode;
   className?: ClassNames;
-  ref?: RefObject<HTMLDivElement | null>;
+  ref?: Ref;
 }
 
 interface LinkProps {
@@ -47,7 +48,7 @@ interface Props {
   hasAuxiliaryType?: boolean;
   initialCount: number;
   links: AssociatedLinksObject;
-  ref?: RefObject<HTMLDivElement | null>;
+  ref?: Ref;
   setLimit: FnSetLimit;
   title: string;
   total: number;

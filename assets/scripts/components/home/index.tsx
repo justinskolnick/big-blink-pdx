@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 
-import useFetchAndScrollOnRouteChange, { FetchWithCallback } from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useFetchAndScrollOnRouteChange, {
+  FetchWithCallbackRef
+} from '../../hooks/use-fetch-and-scroll-on-route-change';
 
 import { delayedScrollToRef } from '../../lib/dom';
 import { hasLeaderboardFilterSearchParams } from '../../lib/params';
@@ -21,7 +23,7 @@ const Home = () => {
 
   const [trigger] = api.useLazyGetLeaderboardQuery();
 
-  const fetch: FetchWithCallback = async (callback) => {
+  const fetch: FetchWithCallbackRef = async (callback) => {
     await trigger({ search: location.search });
 
     if (callback) {

@@ -1,12 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 
-import ItemChart, { Loading } from './item-chart';
-
-export type LineProps = {
-  data: (number | null)[];
-  label?: string;
-}
+import ItemChart, { LineProps, Loading } from './item-chart';
 
 interface Props {
   lineProps: LineProps;
@@ -17,8 +12,10 @@ const IncidentQuarterlyActivityChart = ({ lineProps }: Props) => {
   const quarterParam = searchParams.get('quarter');
   const [quarter, setQuarter] = useState(quarterParam);
 
-  const handleClick = (value: string) => {
-    setQuarter(value.split(' ').sort().join('-'));
+  const handleClick = (value?: string) => {
+    if (value) {
+      setQuarter(value.split(' ').sort().join('-'));
+    }
   };
 
   useEffect(() => {

@@ -422,21 +422,25 @@ export type IncidentsIdsObject = IncidentsOverview & IncidentPagination & {
   ids?: number[];
 };
 
+export type ItemOverviewAppearancesValues = {
+  first?: IncidentsStatsValue;
+  last?: IncidentsStatsValue;
+};
+
+export type ItemOverviewTotalsValues = {
+  percentage?: IncidentsPercentageValue;
+  total?: IncidentsTotalValue;
+};
+
 export type ItemOverview = {
   label: string;
   appearances?: {
     label: string;
-    values?: {
-      first?: IncidentsStatsValue;
-      last?: IncidentsStatsValue;
-    };
+    values?: ItemOverviewAppearancesValues;
   };
   totals?: {
     label: string;
-    values?: {
-      percentage?: IncidentsPercentageValue;
-      total?: IncidentsTotalValue;
-    };
+    values?: ItemOverviewTotalsValues;
   };
 };
 

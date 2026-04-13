@@ -12,8 +12,10 @@ import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 
+import type { RefElement } from '../../types';
+
 const Detail = () => {
-  const incidentsRef = useRef<HTMLDivElement>(null);
+  const incidentsRef = useRef<RefElement>(null);
 
   const { id } = useParams();
   const numericId = Number(id);

@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import IncidentQuarterlyActivityChart, {
-  type LineProps
-} from '../incident-activity-chart-quarterly';
+import IncidentQuarterlyActivityChart from '../incident-activity-chart-quarterly';
+import { LineProps } from '../item-chart';
 
 import useSelector from '../../hooks/use-app-selector';
 

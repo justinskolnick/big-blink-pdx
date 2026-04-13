@@ -3,9 +3,11 @@ import React, { ReactNode, RefObject } from 'react';
 import Filters from './filters';
 import Header from './header';
 
+import type { Ref } from '../../types';
+
 interface Props {
   children: ReactNode;
-  ref?: RefObject<HTMLElement>
+  ref?: Ref;
 }
 
 const Section = ({ children, ref }: Props) => (

@@ -44,21 +44,25 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
           <ItemSubhead
             title={(
               <>
-                <LinkIcon
-                  name={iconName}
-                  to={incident.links.self}
-                />
+                {incident?.links && (
+                  <LinkIcon
+                    name={iconName}
+                    to={incident.links.self}
+                  />
+                )}
                 <span className='item-text'>
                   Lobbying Incident
                 </span>
               </>
             )}
           >
-            <LinkIcon
-              name='link'
-              title='View the full record'
-              to={incident.links.self}
-            />
+            {incident?.links && (
+              <LinkIcon
+                name='link'
+                title='View the full record'
+                to={incident.links.self}
+              />
+            )}
           </ItemSubhead>
         </header>
 

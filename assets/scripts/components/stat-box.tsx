@@ -4,9 +4,11 @@ import { cx } from '@emotion/css';
 
 import Icon from './icon';
 
+import type { ClassNames } from '../types';
+
 interface Props {
   children: string | number | ReactNode;
-  className?: string;
+  className?: ClassNames;
   icon?: IconName;
   onClick?: () => void;
   title: string;

@@ -78,8 +78,8 @@ const options: ChartOptions<BarType> | ChartOptions<BarOrLine> = {
   },
 };
 
-interface LineProps {
-  data: number[];
+export interface LineProps {
+  data: (number | null)[];
   label?: string;
 }
 

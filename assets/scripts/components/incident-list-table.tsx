@@ -62,9 +62,11 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
         <td className='cell-entity'>{incident.entity}</td>
         <td className='cell-topic'>{incident.topic}</td>
         <td className='cell-link'>
-          <Link to={incident.links.self} aria-label='View'>
-            <Icon name='chevron-right' />
-          </Link>
+          {incident?.links && (
+            <Link to={incident.links.self} aria-label='View'>
+              <Icon name='chevron-right' />
+            </Link>
+          )}
           <IncidentModal
             deactivate={deactivate}
             id={incident.id}
