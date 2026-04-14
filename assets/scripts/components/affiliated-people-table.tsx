@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import {
@@ -18,6 +18,7 @@ import type {
   AffiliatedPersonObjectRecord,
   AssociatedLinksObject,
   AttendeeGroup,
+  Ref,
 } from '../types';
 
 interface Props {
@@ -25,7 +26,7 @@ interface Props {
   currentLimit: number;
   initialCount: number;
   links: AssociatedLinksObject;
-  ref?: RefObject<HTMLDivElement | null>;
+  ref?: Ref;
   role?: Role;
   setLimit: FnSetLimit;
 }

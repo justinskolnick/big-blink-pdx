@@ -7,7 +7,6 @@ import type {
 } from '@reduxjs/toolkit/query';
 import type { TypedLazyQueryTrigger } from '@reduxjs/toolkit/query/react';
 
-
 import { handleError, handleResult } from './fetch-from-path';
 import type { Result } from './fetch-from-path';
 
@@ -18,17 +17,18 @@ interface LocationOptions {
   search: string;
 }
 
-interface QueryFnOptions {
+interface AncillaryQueryFnOptions {
   id?: Id;
   limit?: number;
   search?: string;
 }
 
-type QueryFn = (options: QueryFnOptions) => string;
+type QueryFn = () => string;
+type AncillaryQueryFn = (options: AncillaryQueryFnOptions) => string;
 
 export type LazyTriggerFn = TypedLazyQueryTrigger<
   unknown,
-  QueryFnOptions,
+  AncillaryQueryFnOptions,
   BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
 >;
 
@@ -72,7 +72,7 @@ const getPrimaryRoute = () => ({
   transformErrorResponse: handleError,
 });
 
-const getAncillaryRoute = (query: QueryFn) => ({
+const getSecondaryRoute = (query: QueryFn) => ({
   query,
   transformResponse: (result: Result) => {
     handleResult(result);
@@ -80,7 +80,15 @@ const getAncillaryRoute = (query: QueryFn) => ({
   transformErrorResponse: handleError,
 });
 
-const getPathnameWithLimit = (pathname: string, options?: QueryFnOptions) => {
+const getAncillaryRoute = (query: AncillaryQueryFn) => ({
+  query,
+  transformResponse: (result: Result) => {
+    handleResult(result);
+  },
+  transformErrorResponse: handleError,
+});
+
+const getPathnameWithLimit = (pathname: string, options?: AncillaryQueryFnOptions) => {
   const newUrl = new URL(pathname, baseUrl);
   const limit = options?.limit;
   const search = options?.search;
@@ -123,7 +131,7 @@ const api = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getOverview: builder.query(getAncillaryRoute(
+    getOverview: builder.query(getSecondaryRoute(
       () => 'api/stats'
     )),
     getLeaderboard: builder.query(getAncillaryRoute(

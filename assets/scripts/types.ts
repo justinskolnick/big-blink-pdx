@@ -172,50 +172,56 @@ export type IncidentPayload = Omit<IncidentObject, 'attendees'> & {
 
 export type Incident = IncidentObject;
 
-type DatesParams = {
-  date_on?: string;
-  date_range_from?: string;
-  date_range_to?: string;
+type DateOnParam = {
+  date_on?: string | null;
+};
+type DateRangeFromParam = {
+  date_range_from?: string | null;
+};
+type DateRangeToParam = {
+  date_range_to?: string | null;
 };
 
+type DatesParams = DateOnParam & DateRangeFromParam & DateRangeToParam;
+
 type EntitiesParams = {
-  with_entity_id?: Id;
+  with_entity_id?: Id | null;
 };
 
 export type PaginationParams = {
-  page?: string | number;
+  page?: string | number | null;
 };
 
 type PeopleParams = {
-  people?: Id | string | string[];
+  people?: Id | string | string[] | null;
 };
 type PeopleFilterParams = {
-  people?: string[];
+  people?: string[] | null;
 };
 
 type WithPersonParams = {
-  with_person_id?: Id;
+  with_person_id?: Id | null;
 };
 
 type QuarterParams = {
-  quarter?: string;
+  quarter?: string | null;
 };
 
 type RoleParams = {
-  role?: Role;
+  role?: Role | null;
 };
 
 type YearParams = {
-  quarter?: string;
+  quarter?: string | null;
 };
 
 type SortParams = {
-  sort?: SortValue;
-  sort_by?: SortByValue;
+  sort?: SortValue | null;
+  sort_by?: SortByValue | null;
 };
 
 export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams & WithPersonParams;
-export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & QuarterParams & RoleParams & WithPersonParams;
+export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & PeopleFilterParams & QuarterParams & RoleParams & WithPersonParams & YearParams;
 
 export enum FiltersLabelTypes {
   Id = 'id',
@@ -313,6 +319,8 @@ type FiltersYear = {
   model: undefined;
   values: YearParams;
 };
+
+export type FiltersValues = DatesParams | EntitiesParams | WithPersonParams | PeopleFilterParams | QuarterParams | RoleParams | YearParams;
 
 export type Filters = {
   dates?: FiltersDates;
@@ -422,12 +430,12 @@ export type IncidentsIdsObject = IncidentsOverview & IncidentPagination & {
   ids?: number[];
 };
 
-export type ItemOverviewAppearancesValues = {
+type ItemOverviewAppearancesValues = {
   first?: IncidentsStatsValue;
   last?: IncidentsStatsValue;
 };
 
-export type ItemOverviewTotalsValues = {
+type ItemOverviewTotalsValues = {
   percentage?: IncidentsPercentageValue;
   total?: IncidentsTotalValue;
 };
@@ -572,7 +580,7 @@ type AssociatedPersonsPayload = Omit<AssociatedPersonsObject, 'values'> & {
   values: AssociatedPersonsPayloadValue[];
 };
 
-type AssociatedEntitiesObjectValue = AssociatedItemValue & {
+export type AssociatedEntitiesObjectValue = AssociatedItemValue & {
   association: 'entities';
   records: AffiliatedEntityObjectRecord[];
 };

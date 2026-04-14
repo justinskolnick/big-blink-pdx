@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from 'react';
+import React, { ReactNode } from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import EntityIcon from './entities/icon';
@@ -21,6 +21,7 @@ import type {
   AffiliatedEntityObjectValue,
   AssociatedLinksObject,
   ItemRegistrations,
+  Ref,
 } from '../types';
 
 interface RegistrationProps {
@@ -42,7 +43,7 @@ interface Props {
   hasLobbyist?: boolean;
   initialCount: number;
   links: AssociatedLinksObject;
-  ref?: RefObject<HTMLDivElement | null>;
+  ref?: Ref;
   role?: Role;
   setLimit: FnSetLimit;
   title: string;

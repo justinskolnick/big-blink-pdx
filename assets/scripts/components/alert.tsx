@@ -53,10 +53,12 @@ const Message = ({ alert }: MessageProps) => (
 
 const CustomMessage = ({ alert }: CustomMessageProps) => (
   <>
-    <p
-      className='message-content'
-      dangerouslySetInnerHTML={{ __html: alert.customMessage }}
-    />
+    {alert.customMessage && (
+      <p
+        className='message-content'
+        dangerouslySetInnerHTML={{ __html: alert.customMessage }}
+      />
+    )}
     <p className='original-message-content'>
       (<MessageContent alert={alert} />)
     </p>

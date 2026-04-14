@@ -14,8 +14,6 @@ import StatSection from './stat-section';
 
 import type {
   ItemOverview,
-  ItemOverviewAppearancesValues,
-  ItemOverviewTotalsValues,
   Ref,
 } from '../types';
 
