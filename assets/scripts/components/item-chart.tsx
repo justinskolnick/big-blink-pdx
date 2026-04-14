@@ -47,9 +47,9 @@ const options: ChartOptions<BarType> | ChartOptions<BarOrLine> = {
   animation: false,
   plugins: {
     legend: {
-      align: 'center' as const,
+      align: 'center',
       display: false,
-      position: 'bottom' as const,
+      position: 'bottom',
       labels: {
         borderRadius: 6,
         boxHeight: 12,

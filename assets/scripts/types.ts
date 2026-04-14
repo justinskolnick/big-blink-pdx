@@ -557,7 +557,7 @@ export type AssociatedLinksObject = {
 
 type AssociatedItemValue = {
   label: string;
-  links?: AssociatedLinksObject;
+  links: AssociatedLinksObject;
   role: Role;
   total: number;
 };
@@ -604,11 +604,11 @@ type NamedRoleBase = {
   filterRole: boolean;
 };
 
-type ObjectNamedRoleWithAttendees = NamedRoleBase & {
+export type ObjectNamedRoleWithAttendees = NamedRoleBase & {
   attendees: AssociatedPersonsObject;
 };
 
-type ObjectNamedRoleWithEntities = NamedRoleBase & {
+export type ObjectNamedRoleWithEntities = NamedRoleBase & {
   entities: AssociatedEntitiesObject;
 };
 

@@ -25,12 +25,14 @@ interface Props {
   setLimit: FnSetLimit;
 }
 
-const useGetItem = (section: string) => {
+const useGetItem = (section: string): typeof EntityItem | typeof PersonItem | null => {
   if (section === Sections.Entities) {
     return EntityItem;
   } else if (section === Sections.People) {
     return PersonItem;
   }
+
+  return null;
 };
 
 const Rankings = ({

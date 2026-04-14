@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom';
 
 import useFixedBodyWhenHasClass from '../hooks/use-fixed-body-when-has-class';
 
-export const hasAlertClass = 'has-alert' as const;
-export const alertRootId = 'alert-root' as const;
-export const alertPortalId = 'alert-root-portal' as const;
+export const hasAlertClass = 'has-alert';
+export const alertRootId = 'alert-root';
+export const alertPortalId = 'alert-root-portal';
 
 interface Props {
   children: ReactNode;
@@ -13,7 +13,7 @@ interface Props {
   isActive: boolean;
 }
 
-const Escape = 'Escape' as const;
+const Escape = 'Escape';
 
 const AlertPortal = forwardRef<HTMLDivElement, Props>(({
   children,

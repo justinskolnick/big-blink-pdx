@@ -5,10 +5,9 @@ import { isObject } from '../lib/util';
 import type { TypedUseLazyQuery } from '@reduxjs/toolkit/query/react';
 import type { GenericObject, Id } from '../types';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ApiQueryType = TypedUseLazyQuery<any, any, any>;
 
-type SearchValue = string | GenericObject | URLSearchParams | undefined;
+export type SearchValue = string | GenericObject | URLSearchParams | undefined;
 
 type QueryOptions = {
   id?: Id;
@@ -26,14 +25,7 @@ export type LimitedQueryReturnType = {
   setRecordLimit: FnSetLimit;
 };
 
-interface Fn {
-  (
-    query: ApiQueryType,
-    options: QueryOptions,
-  ): LimitedQueryReturnType
-}
-
-const useLimitedQuery: Fn = (query, options) => {
+const useLimitedQuery = (query: ApiQueryType, options: QueryOptions): LimitedQueryReturnType => {
   const [paused, setPaused] = useState<boolean>(options.pause || false);
   const initialLimit = options.limit;
   const id = options.id;

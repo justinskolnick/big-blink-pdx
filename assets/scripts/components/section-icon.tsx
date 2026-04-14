@@ -7,10 +7,7 @@ import IncidentsIcon from './incidents/icon';
 import PeopleIcon from './people/icon';
 import SourcesIcon from './sources/icon';
 
-const ENTITIES = 'entities' as const;
-const INCIDENTS = 'incidents' as const;
-const PEOPLE = 'people' as const;
-const SOURCES = 'sources' as const;
+import { Sections } from '../types';
 
 interface Props {
   name?: IconName;
@@ -20,13 +17,13 @@ interface Props {
 const SectionIcon = ({ name, slug }: Props) => {
   if (name) {
     return <Icon name={name} />;
-  } else if (slug === ENTITIES) {
+  } else if (slug === Sections.Entities) {
     return <EntitiesIcon />;
-  } else if (slug === INCIDENTS) {
+  } else if (slug === Sections.Incidents) {
     return <IncidentsIcon />;
-  } else if (slug === PEOPLE) {
+  } else if (slug === Sections.People) {
     return <PeopleIcon />;
-  } else if (slug === SOURCES) {
+  } else if (slug === Sections.Sources) {
     return <SourcesIcon />;
   }
 
