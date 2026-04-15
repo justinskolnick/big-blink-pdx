@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Alert from './alert';
+
+import useDispatch from '../hooks/use-app-dispatch';
+import useSelector from '../hooks/use-app-selector';
 
 import { actions as uiActions } from '../reducers/ui';
 

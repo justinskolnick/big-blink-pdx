@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import {
@@ -9,29 +9,30 @@ import { ItemRow } from './item-table';
 import Icon from './people/icon';
 import ItemLink from './people/item-link';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetPersonById } from '../reducers/people';
 
 import { Role } from '../types';
 import type {
-  AffiliatedPersonRecord,
+  AffiliatedPersonObjectRecord,
   AssociatedLinksObject,
   AttendeeGroup,
+  Ref,
 } from '../types';
 
 interface Props {
   attendees: AttendeeGroup;
   currentLimit: number;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: Ref;
   role?: Role;
   setLimit: FnSetLimit;
 }
 
 interface AffiliatedPersonProps {
-  item: AffiliatedPersonRecord;
+  item: AffiliatedPersonObjectRecord;
   personRole?: Role;
   role?: Role;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { FnSetLimit } from '../../hooks/use-limited-query';
+import { type FnSetLimit } from '../../hooks/use-limited-query';
+import useSelector from '../../hooks/use-app-selector';
 
 import { EntityItem } from '../entities/index';
 import ItemSubhead from '../item-subhead';
@@ -25,12 +25,14 @@ interface Props {
   setLimit: FnSetLimit;
 }
 
-const useGetItem = (section: string) => {
+const useGetItem = (section: string): typeof EntityItem | typeof PersonItem | null => {
   if (section === Sections.Entities) {
     return EntityItem;
   } else if (section === Sections.People) {
     return PersonItem;
   }
+
+  return null;
 };
 
 const Rankings = ({
@@ -51,7 +53,7 @@ const Rankings = ({
 
   const Item = useGetItem(section);
 
-  if (!hasIds || !hasLabels) return null;
+  if (!hasIds || !hasLabels || !Item) return null;
 
   return (
     <LeaderboardSubsection isGrid={isGrid}>

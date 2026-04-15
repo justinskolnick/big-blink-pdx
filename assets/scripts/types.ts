@@ -1,24 +1,23 @@
 import { ReactNode, RefObject } from 'react';
-import type { UnknownAction } from '@reduxjs/toolkit';
+
+export type ClassNames = string | boolean | undefined;
 
 export type Id = number;
 
 export type Ids = Id[];
 
-type KeyLabelValue = {
+export type LinkTo = string | LocationState;
+
+type KeyLabel = {
+  key: string;
+  label: string;
+};
+
+type KeyLabelValue = KeyLabel & {
   key: string;
   label: string;
   value?: string;
   values?: [];
-};
-
-type WithIds = {
-  ids: number[];
-};
-
-type Item = {
-  id: number;
-  name: string;
 };
 
 export type GenericObject = Record<string, string>;
@@ -37,11 +36,25 @@ export enum Sections {
   Sources = 'sources',
 }
 
+type SectionLinks = {
+  section: {
+    label: string;
+    path: string;
+  };
+  detail?: {
+    label: string;
+    path: string;
+  };
+}
+
+export type Slug = Sections | string;
+
 export type SectionType = {
   id?: number;
-  slug?: string;
+  slug: Slug;
   subtitle?: string;
-  title: string;
+  title?: string;
+  links?: SectionLinks;
 };
 
 type PageObject = {
@@ -83,15 +96,16 @@ type LinkObject = {
   self: string;
 };
 
-export type Attendee = {
+export type IncidentObjectAttendee = {
   as?: string;
-  person: Pick<Person, 'id'>;
+  person: PersonPayload | PersonIdObject;
   total?: number;
 };
+export type Attendee = IncidentObjectAttendee;
 
 export type AttendeeGroup = {
-  label?: string;
-  records: Attendee[];
+  label: string;
+  records: IncidentObjectAttendee[];
   role?: Role;
   total: number;
 }
@@ -101,12 +115,18 @@ type Details = {
   domain?: string;
 };
 
-export type IncidentAttendees = {
-  officials: AttendeeGroup;
-  lobbyists: AttendeeGroup;
+export type IncidentObjectAttendeeGroup = {
+  records: IncidentObjectAttendee[];
+  role?: Exclude<Role, Role.Entity | Role.Source>;
 };
 
-export type Incident = {
+export type IncidentObjectAttendees = {
+  lobbyists: IncidentObjectAttendeeGroup;
+  officials: IncidentObjectAttendeeGroup;
+};
+
+export type IncidentObject = {
+  attendees?: IncidentObjectAttendees;
   category: string;
   contactDate: string;
   contactDateEnd?: string;
@@ -120,7 +140,6 @@ export type Incident = {
   sourceId: number;
   topic: string;
   notes: string;
-  attendees?: IncidentAttendees;
   details?: Details;
   links?: LinkObject;
   raw: {
@@ -131,52 +150,78 @@ export type Incident = {
   };
 };
 
-export type Incidents = Incident[];
-
-type DatesParams = {
-  date_on?: string;
-  date_range_from?: string;
-  date_range_to?: string;
+type IncidentPayloadAttendee = {
+  as?: string;
+  person: PersonPayload;
+  total?: number;
 };
 
+export type IncidentPayloadAttendeeGroup = {
+  records: IncidentPayloadAttendee[];
+  role?: Exclude<Role, Role.Entity | Role.Source>;
+};
+
+export type IncidentPayloadAttendees = {
+  lobbyists: IncidentPayloadAttendeeGroup;
+  officials: IncidentPayloadAttendeeGroup;
+};
+
+export type IncidentPayload = Omit<IncidentObject, 'attendees'> & {
+  attendees: IncidentPayloadAttendees;
+}
+
+export type Incident = IncidentObject;
+
+type DateOnParam = {
+  date_on?: string | null;
+};
+type DateRangeFromParam = {
+  date_range_from?: string | null;
+};
+type DateRangeToParam = {
+  date_range_to?: string | null;
+};
+
+type DatesParams = DateOnParam & DateRangeFromParam & DateRangeToParam;
+
 type EntitiesParams = {
-  with_entity_id?: Id;
+  with_entity_id?: Id | null;
 };
 
 export type PaginationParams = {
-  page?: string | number;
+  page?: string | number | null;
 };
 
 type PeopleParams = {
-  people?: Id | string | string[];
+  people?: Id | string | string[] | null;
 };
 type PeopleFilterParams = {
-  people?: string[];
+  people?: string[] | null;
 };
 
 type WithPersonParams = {
-  with_person_id?: Id;
+  with_person_id?: Id | null;
 };
 
 type QuarterParams = {
-  quarter?: string;
+  quarter?: string | null;
 };
 
 type RoleParams = {
-  role?: Role;
+  role?: Role | null;
 };
 
 type YearParams = {
-  quarter?: string;
+  quarter?: string | null;
 };
 
 type SortParams = {
-  sort?: SortValue;
-  sort_by?: SortByValue;
+  sort?: SortValue | null;
+  sort_by?: SortByValue | null;
 };
 
 export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams & WithPersonParams;
-export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & QuarterParams & RoleParams & WithPersonParams;
+export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & PeopleFilterParams & QuarterParams & RoleParams & WithPersonParams & YearParams;
 
 export enum FiltersLabelTypes {
   Id = 'id',
@@ -275,6 +320,8 @@ type FiltersYear = {
   values: YearParams;
 };
 
+export type FiltersValues = DatesParams | EntitiesParams | WithPersonParams | PeopleFilterParams | QuarterParams | RoleParams | YearParams;
+
 export type Filters = {
   dates?: FiltersDates;
   entities?: FiltersEntities;
@@ -366,34 +413,42 @@ type IncidentsStats = {
 
 type IncidentsOverview = {
   filters?: Filters;
-  stats: IncidentsStats;
+  stats?: IncidentsStats;
 };
 
-export type IncidentRecords = {
-  records?: Incidents;
+type IncidentPayloadRecords = {
+  pagination: Pagination;
+  records: IncidentPayload[];
 };
 
 type IncidentPagination = {
   pagination: Pagination;
 };
 
-export type Incidented = IncidentsOverview & IncidentRecords & IncidentPagination;
+export type IncidentsPayloadsObject = IncidentsOverview & IncidentPayloadRecords;
+export type IncidentsIdsObject = IncidentsOverview & IncidentPagination & {
+  ids?: number[];
+};
+
+type ItemOverviewAppearancesValues = {
+  first?: IncidentsStatsValue;
+  last?: IncidentsStatsValue;
+};
+
+type ItemOverviewTotalsValues = {
+  percentage?: IncidentsPercentageValue;
+  total?: IncidentsTotalValue;
+};
 
 export type ItemOverview = {
   label: string;
   appearances?: {
     label: string;
-    values?: {
-      first?: IncidentsStatsValue;
-      last?: IncidentsStatsValue;
-    };
+    values?: ItemOverviewAppearancesValues;
   };
   totals?: {
     label: string;
-    values?: {
-      percentage?: IncidentsPercentageValue;
-      total?: IncidentsTotalValue;
-    };
+    values?: ItemOverviewTotalsValues;
   };
 };
 
@@ -407,56 +462,59 @@ export type ItemRegistrations = {
   };
 };
 
-export type Entity = Item & {
+export type EntityObject = {
+  id: Id;
+  name: string;
   details?: Details;
   domain?: string;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  incidents?: IncidentsIdsObject;
   registrations?: ItemRegistrations;
   overview?: ItemOverview;
-  roles: ItemRoles;
+  roles?: EntityObjectRoles;
   type: 'entity';
   links?: LinkObject;
-}
+};
 
-export type EntityWithIncidentRecords = Entity & {
-  incidents: Incidented;
-}
+type EntityIdObject = Pick<EntityObject, 'id'>;
 
-export type Entities = Entity[];
+export type EntityPayload = Omit<EntityObject, 'incidents' | 'roles'> & {
+  incidents: IncidentPayloadRecords;
+  roles?: EntityPayloadRoles;
+}
 
 export enum Role {
   Entity = 'entity',
   Lobbyist = 'lobbyist',
   Official = 'official',
+  Source = 'source',
 }
 
-export type AffiliatedEntityRecord = {
-  entity: Pick<Entity, 'id'>;
+export type AffiliatedEntityObjectRecord = {
+  entity: EntityIdObject;
   lobbyist: ItemRegistrations & {
     id: Id;
   };
   total?: number;
 };
 
-export type AffiliatedPersonRecord = {
-  person: Pick<Person, 'id'>;
+export type AffiliatedEntityPayloadRecord = Omit<AffiliatedEntityObjectRecord, 'entity'> & {
+  entity: EntityPayload;
+};
+
+export type AffiliatedPersonObjectRecord = {
+  person: PersonIdObject;
   registrations?: string;
   total?: number;
 };
 
-export type AffiliatedEntityValue = {
-  records: AffiliatedEntityRecord[];
-  role?: Role;
-  total: number;
+export type AffiliatedPersonPayloadRecord = Omit<AffiliatedPersonObjectRecord, 'person'> & {
+  person: PersonPayload;
 };
 
-export type AffiliatedEntityValues = AffiliatedEntityValue[];
-
-export type PersonEntityRole = {
-  label: string;
-  model: Sections;
-  role: Role;
-  values: AffiliatedEntityValues;
+export type AffiliatedEntityObjectValue = {
+  records: AffiliatedEntityObjectRecord[];
+  role?: Role;
+  total: number;
 };
 
 export type PersonOfficialPosition = {
@@ -472,107 +530,212 @@ type AssociatedItem = {
   options: Role[];
 };
 
-export type AssociatedLinksOption = {
+type AssociatedLabeledLink = {
   label: string;
-  params?: {
+};
+
+export type AssociatedLabeledLinkOption = AssociatedLabeledLink & {
+  params: {
     limit: number;
   };
-  path?: string;
+};
+
+type AssociatedLinkMore = AssociatedLabeledLink & {
+  path: string;
 };
 
 export type AssociatedLinksObject = {
-  intro?: AssociatedLinksOption;
+  intro?: AssociatedLabeledLink;
   limit?: {
     label: string;
     value: number;
   };
-  more?: AssociatedLinksOption;
-  options?: AssociatedLinksOption[];
-  total: AssociatedLinksOption;
+  more?: AssociatedLinkMore;
+  options?: AssociatedLabeledLinkOption[];
+  total: AssociatedLabeledLink;
 };
 
 type AssociatedItemValue = {
   label: string;
-  links?: AssociatedLinksObject;
+  links: AssociatedLinksObject;
   role: Role;
   total: number;
 };
 
-export type AssociatedPersonsValue = AssociatedItemValue & {
+export type AssociatedPersonsObjectValue = AssociatedItemValue & {
   association: 'lobbyists' | 'officials';
-  records: AffiliatedPersonRecord[];
+  records: AffiliatedPersonObjectRecord[];
 };
 
-export type AssociatedPersons = AssociatedItem & {
+export type AssociatedPersonsPayloadValue = Omit<AssociatedPersonsObjectValue, 'records'> & {
+  records: AffiliatedPersonPayloadRecord[];
+};
+
+export type AssociatedPersonsObject = AssociatedItem & {
   type: 'person';
-  values: AssociatedPersonsValue[];
+  values: AssociatedPersonsObjectValue[];
 };
 
-export type AssociatedEntitiesValue = AssociatedItemValue & {
+type AssociatedPersonsPayload = Omit<AssociatedPersonsObject, 'values'> & {
+  values: AssociatedPersonsPayloadValue[];
+};
+
+export type AssociatedEntitiesObjectValue = AssociatedItemValue & {
   association: 'entities';
-  records: AffiliatedEntityRecord[];
+  records: AffiliatedEntityObjectRecord[];
 };
 
-export type AssociatedEntities = AssociatedItem & {
+export type AssociatedEntitiesPayloadValue = Omit<AssociatedEntitiesObjectValue, 'records'> & {
+  records: AffiliatedEntityPayloadRecord[];
+};
+
+export type AssociatedEntitiesObject = AssociatedItem & {
   type: 'entity';
-  values: AssociatedEntitiesValue[];
+  values: AssociatedEntitiesObjectValue[];
 };
 
-type NamedRole = {
+type AssociatedEntitiesPayload = Omit<AssociatedEntitiesObject, 'values'> & {
+  values: AssociatedEntitiesPayloadValue[];
+};
+
+type NamedRoleBase = {
   label: string;
   role: Role;
   filterRole: boolean;
-  attendees?: AssociatedPersons;
-  entities?: AssociatedEntities;
 };
 
-export type NamedRoles = {
-  entity?: NamedRole;
-  lobbyist?: NamedRole;
-  official?: NamedRole;
-  source?: NamedRole;
+export type ObjectNamedRoleWithAttendees = NamedRoleBase & {
+  attendees: AssociatedPersonsObject;
 };
 
-export type RoleOptions = {
-  entity?: boolean;
-  lobbyist?: boolean;
-  official?: boolean;
+export type ObjectNamedRoleWithEntities = NamedRoleBase & {
+  entities: AssociatedEntitiesObject;
 };
 
-export type ItemRoles = {
+type PayloadNamedRoleWithAttendees = Omit<ObjectNamedRoleWithAttendees, 'attendees'> & {
+  attendees: AssociatedPersonsPayload;
+};
+
+type PayloadNamedRoleWithEntities = Omit<ObjectNamedRoleWithEntities, 'entities'> & {
+  entities: AssociatedEntitiesPayload;
+};
+
+type EntityObjectNamedRoles = {
+  entity: ObjectNamedRoleWithAttendees & { entities: null; };
+};
+
+type PersonObjectNamedRoles = {
+  lobbyist: ObjectNamedRoleWithAttendees & ObjectNamedRoleWithEntities;
+  official: ObjectNamedRoleWithAttendees & ObjectNamedRoleWithEntities;
+};
+
+type SourceObjectNamedRoles = {
+  source: ObjectNamedRoleWithAttendees & ObjectNamedRoleWithEntities;
+};
+
+export type ObjectNamedRoles =
+  | EntityObjectNamedRoles
+  | PersonObjectNamedRoles
+  | SourceObjectNamedRoles;
+
+type EntityPayloadNamedRoles = {
+  entity: PayloadNamedRoleWithAttendees & { entities: null; };
+};
+
+export type PersonPayloadNamedRoles = {
+  lobbyist: PayloadNamedRoleWithAttendees & PayloadNamedRoleWithEntities;
+  official: PayloadNamedRoleWithAttendees & PayloadNamedRoleWithEntities;
+};
+
+export type SourcePayloadNamedRoles = {
+  source: PayloadNamedRoleWithAttendees & PayloadNamedRoleWithEntities;
+};
+
+export type PayloadNamedRoles =
+  | EntityPayloadNamedRoles
+  | PersonPayloadNamedRoles
+  | SourcePayloadNamedRoles;
+
+type EntityRoleOptions = {
+  entity: boolean;
+};
+
+type PersonRoleOptions = {
+  lobbyist: boolean;
+  official: boolean;
+};
+
+type SourceRoleOptions = {
+  source: boolean;
+};
+
+export type RoleOptions =
+  | EntityRoleOptions
+  | PersonRoleOptions
+  | SourceRoleOptions;
+
+type ItemRolesBase = {
   label: string;
   list: Role[];
-  named?: NamedRoles;
-  options?: RoleOptions;
+  options: RoleOptions;
 };
 
-export type Person = Item & {
+export type EntityObjectRoles = ItemRolesBase & {
+  named: EntityObjectNamedRoles;
+};
+
+export type PersonObjectRoles = ItemRolesBase & {
+  named: PersonObjectNamedRoles;
+};
+
+export type SourceObjectRoles = ItemRolesBase & {
+  named: SourceObjectNamedRoles;
+};
+
+export type EntityPayloadRoles = Omit<EntityObjectRoles, 'named'> & {
+  named: EntityPayloadNamedRoles;
+};
+
+export type PersonPayloadRoles = Omit<PersonObjectRoles, 'named'> & {
+  named: PersonPayloadNamedRoles;
+};
+
+export type SourcePayloadRoles = Omit<SourceObjectRoles, 'named'> & {
+  named: SourcePayloadNamedRoles;
+};
+
+export type PersonObject = {
+  id: Id;
+  name: string;
   pernr?: number;
-  roles: ItemRoles;
+  roles?: PersonObjectRoles;
   type: 'group' | 'person' | 'unknown';
   details?: Details;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  incidents?: IncidentsIdsObject;
   officialPositions?: PersonOfficialPosition[];
   overview?: ItemOverview;
   links?: LinkObject;
-}
+};
 
-export type PersonWithIncidentRecords = Person & {
-  incidents: Incidented;
-}
+export type PersonIdObject = Pick<PersonObject, 'id'>;
 
-export type People = Person[];
+export type PersonPayload = Omit<PersonObject, 'incidents' | 'roles'> & {
+  incidents: IncidentPayloadRecords;
+  roles?: PersonPayloadRoles;
+}
 
 export enum DataFormat {
   csv = 'csv',
   excel = 'excel',
 }
 
-export type SourceTypeObject = Record<KeyLabelValue['key'], KeyLabelValue>;
 
-export type Source = {
+export type SourceType = 'activity' | 'personnel' | 'registration';
+export type SourceTypeObject = Record<SourceType, KeyLabel>;
+
+export type SourceObject = {
   id: number;
-  type: string;
+  type: SourceType;
   title: string;
   format: DataFormat;
   quarter?: number;
@@ -580,8 +743,8 @@ export type Source = {
   publicUrl?: string;
   isViaPublicRecords: boolean;
   retrievedDate: string;
-  roles?: ItemRoles;
-  incidents?: IncidentsOverview & WithIds & IncidentPagination;
+  roles?: SourceObjectRoles;
+  incidents?: IncidentsIdsObject;
   details?: Details;
   overview?: ItemOverview;
   labels: {
@@ -590,40 +753,42 @@ export type Source = {
   links?: LinkObject;
 };
 
-export type SourceWithIncidentRecords = Source & {
-  incidents: Incidented;
+type SourceIdObject = Pick<SourceObject, 'id'>;
+
+export type Source = SourceObject | SourceIdObject;
+
+export type SourcePayload = Omit<SourceObject, 'incidents' | 'roles'> & {
+  incidents: IncidentPayloadRecords;
+  roles?: SourcePayloadRoles;
 }
 
 export type Sources = Source[];
 
 export type SourcesByYear = {
-  year: Source['year'];
-  items: Source[];
+  year: SourceObject['year'];
+  items: SourceObject[];
 };
 export type SourcesByType = {
-  type: Source['type'];
-  years: Record<Source['year'], SourcesByYear>;
+  type: SourceType;
+  years: Record<SourceObject['year'], SourcesByYear>;
 };
 
-export type ErrorType = {
-  customMessage?: string;
-  message: string
-  status?: number;
-}
+export type ItemObject = EntityObject | IncidentObject | PersonObject | SourceObject;
 
-export type MessageType = {
-  customMessage?: string;
-  message: string
+type Error = {
+  customMessage?: string | TrustedHTML;
+  message: string;
   status?: number;
-}
+};
 
-export type WarningType = {
-  customMessage?: string;
-  message: string
-  status?: number;
-}
+export type ErrorType = Error;
+export type MessageType = Error;
+export type WarningType = Error;
 
-export type AlertType = ErrorType | MessageType | WarningType;
+export type AlertType =
+  | ErrorType
+  | MessageType
+  | WarningType;
 
 export type MetaType = {
   description?: string;
@@ -637,6 +802,9 @@ export type MetaType = {
   };
 };
 
+export type RefElement = HTMLElement | HTMLDivElement | null;
+export type Ref = RefObject<RefElement>;
+
 export interface Fn {
   (): void;
 }
@@ -646,19 +814,15 @@ export interface FnDelay {
 }
 
 export interface FnRef {
-  (ref: RefObject<HTMLElement>): void;
+  (ref: Ref): void;
 }
 
 export interface FnRefBoolean {
-  (ref: RefObject<HTMLElement>): boolean;
+  (ref: Ref): boolean;
 }
 
 export interface FnRefDelay {
-  (ref: RefObject<HTMLElement>, delay?: number): void;
-}
-
-export interface MiddlewareHandlerFn {
-  (store: any, action: UnknownAction): void;
+  (ref: Ref, delay?: number): void;
 }
 
 export interface OutletContext {

@@ -11,9 +11,9 @@ import type {
 
 const setDescription = createAction<string>('ui/setDescription');
 const setPageTitle = createAction<string>('ui/setPageTitle');
-const clearErrors = createAction<string>('ui/clearErrors');
-const clearMessages = createAction<string>('ui/clearMessages');
-const clearWarnings = createAction<string>('ui/clearWarnings');
+const clearErrors = createAction('ui/clearErrors');
+const clearMessages = createAction('ui/clearMessages');
+const clearWarnings = createAction('ui/clearWarnings');
 const setError = createAction<ErrorType>('ui/setError');
 const setMessage = createAction<MessageType>('ui/setMessage');
 const setPositionY = createAction<number>('ui/setPositionY');
@@ -33,17 +33,29 @@ export const actions = {
   setWarning,
 };
 
-const initialState = {
-  description: null as string,
-  pageTitle: null as string,
-  errors: [] as ErrorType[],
-  messages: [] as MessageType[],
-  positionY: 0 as number,
-  section: {} as SectionType,
-  warnings: [] as WarningType[],
+interface InitialState {
+  description?: string;
+  pageTitle?: string;
+  errors: ErrorType[];
+  messages: MessageType[];
+  positionY: number;
+  section: SectionType;
+  warnings: WarningType[];
+}
+
+const initialState: InitialState = {
+  description: undefined,
+  pageTitle: undefined,
+  errors: [],
+  messages: [],
+  positionY: 0,
+  section: {
+    slug: '/',
+  },
+  warnings: [],
 };
 
-const customMessageExists = (alerts: AlertType[], customMessage: string) =>
+const customMessageExists = (alerts: AlertType[], customMessage?: string | TrustedHTML) =>
   customMessage && alerts.some(alert => alert.customMessage === customMessage);
 
 const uiReducer = createReducer(initialState, (builder) => {

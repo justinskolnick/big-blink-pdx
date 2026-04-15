@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from 'react';
+import React, { ReactNode } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
@@ -6,12 +6,14 @@ import ItemDescription from './item-description';
 import ItemSubhead from './item-subhead';
 import SubsectionSubhead from './subsection-subhead';
 
+import type { Ref } from '../types';
+
 interface Props {
   children: ReactNode;
   className?: string;
   description?: string | ReactNode;
   icon?: IconName;
-  ref?: RefObject<HTMLElement>;
+  ref?: Ref;
   stylized?: boolean;
   subtitle?: string | ReactNode;
   title?: string | ReactNode;

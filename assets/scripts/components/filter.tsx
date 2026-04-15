@@ -18,12 +18,14 @@ import type {
   FiltersLabelId,
   FiltersObjects,
   FiltersSelectField,
+  FiltersValues,
   Id,
   NewFilterParams,
   PaginationParams,
 } from '../types';
 
-type NewFilterParamsKey = keyof NewFilterParams & keyof PaginationParams;
+type NewFilterAndPaginationParams = NewFilterParams & PaginationParams;
+type FiltersValuesKeys = keyof FiltersValues;
 
 interface FilterActionHandlerType {
   (event: MouseEvent, action?: FiltersDatesActionValue): void;
@@ -70,7 +72,7 @@ interface FilterTextProps {
 interface FilterLabelsProps {
   filter: FiltersObjects;
   handleActionClick?: FilterActionHandlerType;
-  filterRelated: FiltersObjects;
+  filterRelated?: FiltersObjects;
 }
 
 interface FilterLabelArrayProps {
@@ -80,7 +82,7 @@ interface FilterLabelArrayProps {
 }
 
 interface FilterFormProps {
-  action: FiltersDatesActionValue;
+  action: FiltersDatesActionValue | null;
   filter: FiltersObjects;
   handleActionClick?: FilterActionHandlerType;
   handleCancel: FilterActionHandlerType;
@@ -88,7 +90,7 @@ interface FilterFormProps {
 
 interface FilterModelIdProps {
   label: FiltersLabelId;
-  model: Sections;
+  model?: Sections;
 }
 
 interface FilterDateFieldProps {
@@ -100,14 +102,19 @@ interface FilterSelecteFieldProps {
 }
 
 interface FilterRemoveProps {
-  newParams: NewFilterParams;
+  newParams: NewFilterAndPaginationParams;
 }
 
 const FilterAction = ({ action, children, handleClick }: FilterActionProps) => {
-  const hasAction = Boolean(action);
+  const hasAction = action !== undefined;
+  const hasHandler = handleClick !== undefined;
 
-  return (
-    <span className='filter-link' onClick={hasAction ? e => handleClick(e, action) : null}>
+  return hasAction && hasHandler ? (
+    <span className='filter-link' onClick={event => handleClick(event, action)}>
+      {children}
+    </span>
+  ) : (
+    <span className='filter-link'>
       {children}
     </span>
   );
@@ -203,9 +210,9 @@ const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArray
 )).reduce((prev: ReactElement, curr: ReactElement): any => [prev, ' ', curr]);
 
 const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterFormProps) => {
-  const hasFields = 'fields' in filter;
-  const hasAction = hasFields && action in filter.fields;
-  const actionFields = hasAction && filter.fields[action];
+  const hasFields = filter && 'fields' in filter && typeof filter.fields === 'object';
+  const hasAction = hasFields && action && filter.fields && action in filter.fields;
+  const actionFields = hasFields && hasAction && filter.fields ? filter?.fields[action] : undefined;
 
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
@@ -223,9 +230,11 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
 
   return (
     <form className='filter-form' action={handleSubmit}>
-      <fieldset className='filter-form-fieldset'>
-        <FilterLabelArray labels={actionFields} handleActionClick={handleActionClick} />
-      </fieldset>
+      {actionFields !== undefined && (
+        <fieldset className='filter-form-fieldset'>
+          <FilterLabelArray labels={actionFields} handleActionClick={handleActionClick} />
+        </fieldset>
+      )}
 
       <button
         className='filter-form-button filter-form-submit'
@@ -246,35 +255,40 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
 
 const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabelsProps) => {
   const [searchParams] = useSearchParams();
-  const hasOtherFilter = Boolean(filterRelated);
+  const hasOtherFilter = filterRelated !== undefined;
 
-  const hasValues = 'values' in filter && Boolean(filter.values);
+  const hasValues = filter && 'values' in filter && Boolean(filter.values);
   const isRemovable = hasValues && !isEmpty(filter.values);
   const newParamsBase = {
     page: null,
-  } as Record<NewFilterParamsKey, null>;
-  let newParams = newParamsBase;
+  } as NewFilterAndPaginationParams;
+  let newParams: NewFilterAndPaginationParams = newParamsBase;
 
   if (hasValues) {
-    const keys = Object.keys(filter.values);
-    const otherKeys = Object.keys(filterRelated?.values ?? {});
+    const keys = Object.keys(filter.values) as FiltersValuesKeys[];
+    const otherKeys = Object.keys(filterRelated?.values ?? {}) as FiltersValuesKeys[];
+    const emptyKeyArray: FiltersValuesKeys[] = [];
+    const allKeys = emptyKeyArray.concat(keys as FiltersValuesKeys[], otherKeys as FiltersValuesKeys[]);
 
-    newParams = [].concat(keys, otherKeys).reduce((all, key: NewFilterParamsKey) => {
+    newParams = allKeys.reduce((all, key: FiltersValuesKeys) => {
       const keyValues = searchParams.get(key);
-      const filterKeyValues = filter.values[key];
+      const filterKeyValues: FiltersValuesKeys = filter.values[key];
       let newValue = null;
 
       if (keyValues && Array.isArray(filterKeyValues)) {
-        const values = filterKeyValues as string[];
+        const values = filterKeyValues as FiltersValuesKeys[];
 
-        newValue = keyValues.split(',').filter(v => !values.includes(v)).join(',');
+        newValue = keyValues.split(',').filter((v: string) => !values.includes(v as FiltersValuesKeys)).join(',');
       }
 
-      all[key] = newValue;
-
-      return all;
+      return {
+        ...all,
+        [key]: newValue,
+      };
     }, newParamsBase);
   }
+
+  if (!filter) return null;
 
   return (
     <>
@@ -315,25 +329,25 @@ export const Filters = ({ children, className }: FiltersProps) => (
 );
 
 const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) => {
-  const hasFilter = Boolean(filter);
+  const hasFilter = filter !== undefined;
   const hasFields = hasFilter && 'fields' in filter;
   const hasValues = hasFilter && 'values' in filter;
 
-  const [activeAction, setActiveAction] = useState<FiltersDatesActionValue>(null);
+  const [activeAction, setActiveAction] = useState<FiltersDatesActionValue | null>(null);
 
   const clearAction = () => setActiveAction(null);
 
   const hasActiveAction = Boolean(activeAction);
 
-  const handleActionClick: FilterActionHandlerType = (e, action) => {
-    e.preventDefault();
+  const handleActionClick: FilterActionHandlerType = (event, action) => {
+    event.preventDefault();
 
     if (action) {
       setActiveAction(action);
     }
   };
-  const handleCancelActionClick: FilterActionHandlerType = (e) => {
-    e.preventDefault();
+  const handleCancelActionClick: FilterActionHandlerType = (event) => {
+    event.preventDefault();
 
     clearAction();
   };

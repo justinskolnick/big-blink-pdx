@@ -1,7 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { unique } from '../lib/array';
 
@@ -12,27 +13,24 @@ import type { RootState } from '../lib/store';
 import type {
   Id,
   Ids,
-  Incidents,
+  IncidentPayload,
   Pagination,
-  People,
-  Person,
-  PersonWithIncidentRecords,
+  PersonObject,
+  PersonObjectRoles,
+  PersonPayload,
 } from '../types';
 
-type InitialState = {
+interface InitialState {
   pageIds: Ids;
   pagination?: Pagination;
-  positionLookup: {
-    completed: Ids;
-    queue: Ids;
-  };
-};
+  positionLookup: Record<'completed' | 'queue', (Id | undefined)[]>;
+}
 
-export const adapter = createEntityAdapter<Person>();
+export const adapter = createEntityAdapter<PersonObject>();
 
 const selectors = adapter.getSelectors(getPeople);
 
-export const useGetPersonById = (id: Id): Person => {
+export const useGetPersonById = (id: Id): PersonObject => {
   const person = useSelector((state: RootState) => selectors.selectById(state, id));
 
   return person;
@@ -54,50 +52,51 @@ export const useGetPersonPosition = (id: Id, date: string) => {
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: PersonWithIncidentRecords): Person => {
+  adaptOne: (state: RootState, entry: PersonPayload): PersonObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const adapted = { ...entry };
+    const { incidents, overview, roles, ...rest } = entry;
+    const adapted: PersonObject = { ...rest };
 
-    if ('incidents' in entry) {
-      adapted.incidents = adaptIncidents(adapted.incidents);
+    if ('incidents' in entry && incidents) {
+      adapted.incidents = adaptIncidents(incidents);
     }
 
-    if ('roles' in entry) {
-      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
-    }
-
-    if (savedEntry && 'overview' in savedEntry) {
+    if ('overview' in entry && overview) {
       adapted.overview = {
-        ...savedEntry.overview,
-        ...adapted.overview,
+        ...savedEntry?.overview,
+        ...overview,
       };
+    }
+
+    if ('roles' in entry && roles) {
+      adapted.roles = adaptRoles<PersonObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
   },
-  getIds: (people: People): number[] =>
-    people.map((person: Person) => person.id),
-  getIncidents: (person: PersonWithIncidentRecords): Incidents =>
-    person.incidents?.records ?? [],
+  getIds: (values: PersonPayload[]): Ids =>
+    values.map((value: PersonPayload) => value.id),
+  getIncidents: (value: PersonPayload): IncidentPayload[] =>
+    value.incidents?.records ?? [],
 };
 
-const initialState = {
+const initialState: InitialState = {
   pageIds: [],
-  pagination: null,
+  pagination: undefined,
   positionLookup: {
     completed: [],
     queue: [],
   },
-} as InitialState;
+};
 
 export const peopleSlice = createSlice({
   name: 'people',
   initialState: adapter.getInitialState(initialState),
   reducers: {
-    set: (state, action: PayloadAction<Person>) => {
+    set: (state, action: PayloadAction<PersonObject>) => {
       adapter.upsertOne(state, action.payload);
     },
-    setAll: (state, action: PayloadAction<People>) => {
+    setAll: (state, action: PayloadAction<PersonObject[]>) => {
       adapter.upsertMany(state, action.payload);
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {
@@ -111,7 +110,7 @@ export const peopleSlice = createSlice({
       state.positionLookup.completed.push(action.payload);
     },
     addToLookupQueue: (state, action: PayloadAction<Ids>) => {
-      state.positionLookup.queue = unique([].concat(state.positionLookup.queue, action.payload));
+      state.positionLookup.queue = unique([...state.positionLookup.queue, ...action.payload]);
     },
   },
 });

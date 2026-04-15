@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 
 import useLimitedQuery from '../../hooks/use-limited-query';
+import useSelector from '../../hooks/use-app-selector';
 
 import { getLeaderboardLobbyistsValues } from '../../selectors';
 
@@ -22,6 +22,8 @@ const LobbyistsLeaderboard = () => {
   });
 
   const result = useSelector(getLeaderboardLobbyistsValues);
+
+  if (!result) return null;
 
   return (
     <LeaderboardRankings

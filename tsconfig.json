@@ -3,16 +3,24 @@
     "allowJs": true,
     "checkJs": false,
     "esModuleInterop": true,
+    "exactOptionalPropertyTypes": false,
     "jsx": "react-jsx",
     "module": "es2022",
     "moduleResolution": "bundler",
     "noEmit": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": false,
     "preserveConstEnums": true,
     "resolveJsonModule": true,
+    "rootDir": "./",
     "skipLibCheck": true,
-    "strict": false,
-    "target": "es2022"
+    "strict": true,
+    "target": "es2022",
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "app/**/*",

@@ -10,7 +10,7 @@ import {
 import { Role } from '../types';
 import type {
   Attendee,
-  Incident,
+  IncidentObject,
 } from '../types';
 
 interface IncidentAttendeeProps {
@@ -24,15 +24,15 @@ interface IncidentRoleProps {
 }
 
 interface Props {
-  incident: Incident;
+  incident: IncidentObject;
   role: Role;
 }
 
-const useGetAttendeesByRole = (incident: Incident, role: Role) => {
+const useGetAttendeesByRole = (incident: IncidentObject, role: Role) => {
   if (role === Role.Lobbyist) {
-    return incident.attendees.lobbyists;
+    return incident.attendees?.lobbyists;
   } else if (role === Role.Official) {
-    return incident.attendees.officials;
+    return incident.attendees?.officials;
   }
 
   return null;
@@ -64,9 +64,7 @@ const IncidentAttendee = ({ attendee, children }: IncidentAttendeeProps) => {
 const IncidentRole = ({ attendee, date }: IncidentRoleProps) => {
   const position = useGetPersonPosition(attendee.person.id, date);
 
-  const hasRole = Boolean(position?.role);
-
-  if (!hasRole) return null;
+  if (!position?.role) return null;
 
   return (
     <div className='attendee-role'>
@@ -77,10 +75,9 @@ const IncidentRole = ({ attendee, date }: IncidentRoleProps) => {
 
 const IncidentAttendees = ({ incident, role }: Props) => {
   const attendees = useGetAttendeesByRole(incident, role);
-  const hasAttendees = attendees?.records?.length > 0;
   const date = incident.raw.dateStart;
 
-  if (!hasAttendees) {
+  if (!attendees?.records?.length) {
     return 'none';
   }
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import debounce from 'debounce';
+
+import useDispatch from './use-app-dispatch';
 
 import { actions } from '../reducers/ui';
 

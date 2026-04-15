@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, MouseEvent, ReactNode, RefObject } 
 import { useLocation } from 'react-router';
 import { cx } from '@emotion/css';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { delayedScrollToRef, isRefTopInView } from '../lib/dom';
 
@@ -19,18 +19,20 @@ import StatBox from './stat-box';
 
 import type {
   AssociatedLinksObject,
-  AssociatedLinksOption,
+  AssociatedLabeledLinkOption,
+  ClassNames,
+  Ref,
 } from '../types';
 
 interface AffiliatedItemsProps {
   children: ReactNode;
-  className?: string;
-  ref?: RefObject<HTMLDivElement>;
+  className?: ClassNames;
+  ref?: RefObject<HTMLDivElement | null>;
 }
 
 interface LinkProps {
   currentCount: number;
-  link: AssociatedLinksOption;
+  link: AssociatedLabeledLinkOption;
   setLimit: FnSetLimit;
 }
 
@@ -45,8 +47,8 @@ interface Props {
   currentLimit: number;
   hasAuxiliaryType?: boolean;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: Ref;
   setLimit: FnSetLimit;
   title: string;
   total: number;
@@ -92,25 +94,23 @@ export const TableMoreLinks = ({
   setLimit,
 }: LinksProps) => {
   const hasIntro = Boolean(links.intro);
-  const hasOptions = Boolean(links.options);
-  const hasMore = Boolean(links.more);
   const hasTotal = Boolean(links.total);
-  const hasGroup = hasOptions || hasMore;
+  const hasGroup = links.options || links.more;
 
   return (
     <ItemTableMore className={!hasGroup && hasTotal && 'total-only'}>
       {hasGroup && (
         <ItemTableMoreOptionGroup>
 
-          {hasOptions && (
+          {links.options && (
             <ItemTableMoreOptions>
               {hasIntro && (
                 <ItemTextWithIcon className='is-intro' icon='list-ol'>
-                  {links.intro.label}
+                  {links.intro?.label}
                 </ItemTextWithIcon>
               )}
 
-              {links.options.map((option) => (
+              {links.options?.map((option) => (
                 <OptionsLink
                   key={option.params.limit}
                   link={option}
@@ -121,11 +121,11 @@ export const TableMoreLinks = ({
             </ItemTableMoreOptions>
           )}
 
-          {hasMore && (
+          {links.more && (
             <ItemTableMoreOptions>
               <ItemTextWithIcon icon='link'>
-                <Link to={links.more.path}>
-                  {links.more.label}
+                <Link to={links.more?.path}>
+                  {links.more?.label}
                 </Link>
               </ItemTextWithIcon>
             </ItemTableMoreOptions>
@@ -156,7 +156,7 @@ const AffiliatedItemTable = ({
   title,
   total = 0,
 }: Props) => {
-  const tableRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = ref || tableRef;
 
   const [lastCount, setLastCount] = useState<number>(initialCount);

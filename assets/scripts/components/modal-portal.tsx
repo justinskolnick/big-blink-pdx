@@ -4,9 +4,9 @@ import { cx } from '@emotion/css';
 
 import useFixedBodyWhenHasClass from '../hooks/use-fixed-body-when-has-class';
 
-export const hasModalClass = 'has-modal' as const;
-export const modalRootId = 'modal-root' as const;
-export const modalPortalId = 'modal-root-portal' as const;
+export const hasModalClass = 'has-modal';
+export const modalRootId = 'modal-root';
+export const modalPortalId = 'modal-root-portal';
 
 interface Props {
   children: ReactNode;
@@ -15,7 +15,7 @@ interface Props {
   isActive: boolean;
 }
 
-const Escape = 'Escape' as const;
+const Escape = 'Escape';
 
 const ModalPortal = forwardRef<HTMLDivElement, Props>(({
   children,
@@ -23,7 +23,7 @@ const ModalPortal = forwardRef<HTMLDivElement, Props>(({
   deactivate,
   isActive,
 }, ref) => {
-  const target = document.getElementById(modalPortalId);
+  const target = document.getElementById(modalPortalId)!;
 
   const handleOverlayClick = (): void => {
     deactivate();

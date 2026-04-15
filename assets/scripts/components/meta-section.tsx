@@ -15,33 +15,29 @@ interface BoxProps {
   title: string;
 }
 
-export const MetaSectionBox = ({ children, className, icon, title }: BoxProps) => {
-  const hasIcon = Boolean(icon);
+export const MetaSectionBox = ({ children, className, icon, title }: BoxProps) => (
+  <div className={cx(
+    'meta-section-box',
+    className,
+    icon && 'has-icon',
+  )}>
+    {icon && (
+      <div className='meta-section-box-icon'>
+        <Icon name={icon} />
+      </div>
+    )}
 
-  return (
-    <div className={cx(
-      'meta-section-box',
-      className,
-      hasIcon && 'has-icon',
-    )}>
-      {hasIcon && (
-        <div className='meta-section-box-icon'>
-          <Icon name={icon} />
-        </div>
-      )}
+    <div className='meta-section-box-content'>
+      <div className='meta-section-box-title'>
+        <h6>{title}</h6>
+      </div>
 
-      <div className='meta-section-box-content'>
-        <div className='meta-section-box-title'>
-          <h6>{title}</h6>
-        </div>
-
-        <div className='meta-section-box-description'>
-          {children}
-        </div>
+      <div className='meta-section-box-description'>
+        {children}
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const MetaSection = ({ children }: Props) => (
   <div className='meta-section'>

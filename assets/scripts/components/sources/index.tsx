@@ -1,7 +1,7 @@
 import React, { useRef, MouseEvent, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useSelector from '../../hooks/use-app-selector';
 
 import { scrollToTop } from '../../lib/dom';
 
@@ -19,6 +19,7 @@ import {
 } from '../../selectors';
 
 import type {
+  SourceType,
   SourcesByType,
   SourcesByYear,
 } from '../../types';
@@ -34,12 +35,12 @@ interface SourceTypeProps {
   children: ReactNode;
   handleScroll: Fn;
   ref: (node: HTMLDivElement) => () => void;
-  type: SourcesByType;
+  type: SourceType;
 }
 
 interface TypeAnchorLinkProps {
   handleScroll: Fn;
-  typeKey: string;
+  typeKey: SourceType;
 }
 
 interface SourcesProps {
@@ -47,10 +48,11 @@ interface SourcesProps {
   types: SourcesByType[];
 }
 
-const useTypeLabel = (type: SourceTypeKey) => {
+const useTypeLabel = (type: SourceType) => {
   const types = useSelector(getSourceTypes);
+  const typeObj = types?.[type];
 
-  return types[type]?.label ?? '';
+  return typeObj?.label ?? '';
 };
 
 const SourceTypeYear = ({ year }: SourceTypeYearProps) => (
@@ -65,11 +67,11 @@ const SourceTypeYear = ({ year }: SourceTypeYearProps) => (
   </div>
 );
 
-const SourceType = ({ children, handleScroll, ref, type }: SourceTypeProps) => {
-  const label = useTypeLabel(type.type);
+const SourceTypeGroup = ({ children, handleScroll, ref, type }: SourceTypeProps) => {
+  const label = useTypeLabel(type);
 
   return (
-    <div className='item-index-group' id={type.type} ref={ref}>
+    <div className='item-index-group' id={type} ref={ref}>
       <ItemSubhead title={label}>
         <p>
           <a
@@ -116,7 +118,7 @@ const Sources = ({ isLoading, types }: SourcesProps) => {
     const map = getMap();
     const node = map.get(type);
 
-    node.scrollIntoView({ behavior: 'smooth' });
+    node?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const getMap = () => {
@@ -146,7 +148,7 @@ const Sources = ({ isLoading, types }: SourcesProps) => {
 
       <Content isLoading={isLoading}>
         {types.map((type) => (
-          <SourceType
+          <SourceTypeGroup
             key={type.type}
             handleScroll={scrollToTop}
             ref={(node: HTMLDivElement) => {
@@ -158,12 +160,12 @@ const Sources = ({ isLoading, types }: SourcesProps) => {
                 map.delete(type.type);
               };
             }}
-            type={type}
+            type={type.type}
           >
             {Object.values(type.years).map(year => (
               <SourceTypeYear key={year.year} year={year} />
             ))}
-          </SourceType>
+          </SourceTypeGroup>
         ))}
       </Content>
     </>

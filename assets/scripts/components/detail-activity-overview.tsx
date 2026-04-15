@@ -12,12 +12,15 @@ import StatBox from './stat-box';
 import StatGroup from './stat-group';
 import StatSection from './stat-section';
 
-import type { ItemOverview } from '../types';
+import type {
+  ItemOverview,
+  Ref,
+} from '../types';
 
 interface Props {
   children: ReactNode;
   overview?: ItemOverview;
-  ref: React.RefObject<HTMLElement>;
+  ref?: Ref;
 }
 
 const ActivityOverview = ({
@@ -25,14 +28,18 @@ const ActivityOverview = ({
   overview,
   ref,
 }: Props) => {
-  const hasOverview = Boolean(overview);
+  const hasOverview = overview !== undefined;
 
-  const hasAppearances = Object.values(overview?.appearances?.values ?? {})?.some(value => value.value);
-  const hasTotals = Object.values(overview?.totals?.values ?? {})?.some(value => value.value);
+  const hasAppearances = overview?.appearances !== undefined;
+  const hasTotals = overview?.appearances !== undefined;
 
-  const scrollToIncidents = () => scrollToRef(ref);
+  const appearancesValues = overview?.appearances?.values ? Object.values(overview.appearances.values) : [];
+  const totalsValues = overview?.totals?.values ? Object.values(overview?.totals?.values ?? {}) : [];
 
-  if (!hasOverview) return null;
+  const hasAppearancesValues = appearancesValues.some(value => value.value);
+  const hasTotalsValues = totalsValues.some(value => value.value);
+
+  const scrollToIncidents = () => ref && scrollToRef(ref);
 
   return (
     <div className='activity-overview'>
@@ -41,14 +48,14 @@ const ActivityOverview = ({
           <ActivityHeader title={overview.label} />
 
           <StatGroup className='activity-numbers-and-dates'>
-            {hasTotals && (
+            {hasTotals && hasTotalsValues && (
               <NumbersGroup>
                 <ActivitySubhead
-                  title={overview.totals.label}
+                  title={overview.totals?.label ?? ''}
                   icon='chart-line'
                 />
 
-                {Object.values(overview.totals.values).map(item => {
+                {totalsValues.map(item => {
                   const isInteractive = item.key === 'total';
 
                   return (
@@ -65,14 +72,14 @@ const ActivityOverview = ({
               </NumbersGroup>
             )}
 
-            {hasAppearances && (
+            {hasAppearances && hasAppearancesValues && (
               <IncidentStatGroup className='activity-dates'>
                 <ActivitySubhead
-                  title={overview.appearances.label}
+                  title={overview.appearances?.label ?? ''}
                   icon='calendar'
                 />
 
-                {Object.values(overview.appearances.values).map(item => (
+                {appearancesValues.map(item => (
                   <DateBox key={item.key} incident={item} />
                 ))}
               </IncidentStatGroup>

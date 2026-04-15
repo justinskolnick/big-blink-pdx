@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import camelcaseKeys from 'camelcase-keys';
 
 import {
@@ -9,67 +8,78 @@ import {
 } from './shared/adapters';
 import { getSources } from '../selectors';
 
+import useSelector from '../hooks/use-app-selector';
+
 import { RootState } from '../lib/store';
 import type {
   Id,
   Ids,
-  Incidents,
+  IncidentPayload,
   Pagination,
-  Source,
-  Sources,
+  SourceObject,
+  SourceObjectRoles,
+  SourcePayload,
   SourceTypeObject,
-  SourceWithIncidentRecords,
 } from '../types';
 
-export const adapter = createEntityAdapter<Source>();
+interface InitialState {
+  pageIds: Ids | [];
+  pagination?: Pagination;
+  types?: SourceTypeObject;
+}
+
+export const adapter = createEntityAdapter<SourceObject>();
 
 const selectors = adapter.getSelectors(getSources);
-export const useGetSourceById = (id: Id): Source => {
+export const useGetSourceById = (id: Id): SourceObject => {
   const entity = useSelector((state: RootState) => selectors.selectById(state, id));
 
   return entity;
 };
 
 export const adapters = {
-  adaptOne: (state: RootState, entry: SourceWithIncidentRecords): Source => {
+  adaptOne: (state: RootState, entry: SourcePayload): SourceObject => {
     const savedEntry = selectors.selectById(state, entry.id);
-    const adapted = { ...entry };
+    const { incidents, overview, roles, ...rest } = entry;
+    const adapted: SourceObject = { ...rest };
 
-    if ('roles' in entry) {
-      adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+    if ('incidents' in entry && incidents) {
+      adapted.incidents = adaptIncidents(incidents);
     }
 
-    if ('incidents' in adapted) {
-      adapted.incidents = adaptIncidents(adapted.incidents);
-    }
-
-    if (savedEntry && 'overview' in savedEntry) {
+    if ('overview' in entry && overview) {
       adapted.overview = {
-        ...savedEntry.overview,
-        ...adapted.overview,
+        ...savedEntry?.overview,
+        ...overview,
       };
+    }
+
+    if ('roles' in entry && roles) {
+      adapted.roles = adaptRoles<SourceObjectRoles>(roles, savedEntry?.roles);
     }
 
     return camelcaseKeys(adapted, { deep: false });
   },
-  getIds: (sources: Sources): Ids =>
-    sources.map((source: Source) => source.id),
-  getIncidents: (source: SourceWithIncidentRecords): Incidents =>
-    source.incidents?.records ?? [],
+  getIds: (values: SourcePayload[]): Ids =>
+    values.map((value: SourcePayload) => value.id),
+  getIncidents: (value: SourcePayload): IncidentPayload[] =>
+    value.incidents?.records ?? [],
+};
+
+const initialState: InitialState = {
+  pageIds: [],
+  pagination: undefined,
+  types: undefined,
 };
 
 export const sourcesSlice = createSlice({
   name: 'sources',
-  initialState: adapter.getInitialState({
-    pageIds: [],
-    pagination: null,
-    types: {} as SourceTypeObject,
-  }),
+  initialState: adapter.getInitialState(initialState),
   reducers: {
-    set: (state, action: PayloadAction<Source>) => {
+    set: (state, action: PayloadAction<SourceObject>) => {
       adapter.upsertOne(state, action.payload);
     },
-    setAll: (state, action: PayloadAction<Sources>) => {
+    setAll: (state, action: PayloadAction<SourceObject[]>) => {
       adapter.upsertMany(state, action.payload);
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {

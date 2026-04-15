@@ -5,10 +5,10 @@ import Icon from '../icon';
 
 import { useGetPersonById } from '../../reducers/people';
 
-import type { Person } from '../../types';
+import type { PersonObject } from '../../types';
 
 interface Props {
-  person?: Person;
+  person?: PersonObject;
 }
 
 enum TypeForIcon {
@@ -19,7 +19,7 @@ enum TypeForIcon {
 
 export const iconName = TypeForIcon.group;
 
-const getIconName = (person?: Person) => TypeForIcon[person?.type ?? 'person'];
+const getIconName = (person?: PersonObject) => TypeForIcon[person?.type ?? 'person'];
 
 const PeopleIcon = ({ person }: Props) => {
   const { id } = useParams();

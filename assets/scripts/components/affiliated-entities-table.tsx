@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from 'react';
+import React, { ReactNode } from 'react';
 
 import AffiliatedItemTable from './affiliated-item-table';
 import EntityIcon from './entities/icon';
@@ -11,16 +11,17 @@ import Icon from './icon';
 import { ItemRow } from './item-table';
 import PersonIcon from './people/icon';
 
-import { FnSetLimit } from '../hooks/use-limited-query';
+import { type FnSetLimit } from '../hooks/use-limited-query';
 
 import { useGetEntityById } from '../reducers/entities';
 
 import { Role } from '../types';
 import type {
-  AffiliatedEntityRecord,
-  AffiliatedEntityValue,
+  AffiliatedEntityObjectRecord,
+  AffiliatedEntityObjectValue,
   AssociatedLinksObject,
   ItemRegistrations,
+  Ref,
 } from '../types';
 
 interface RegistrationProps {
@@ -31,21 +32,21 @@ interface RegistrationProps {
 interface AffiliatedEntityProps {
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
-  item: AffiliatedEntityRecord;
+  item: AffiliatedEntityObjectRecord;
   role?: Role;
 }
 
 interface Props {
   currentLimit: number;
-  entities: AffiliatedEntityValue;
+  entities: AffiliatedEntityObjectValue;
   hasAuxiliaryType?: boolean;
   hasLobbyist?: boolean;
   initialCount: number;
-  links?: AssociatedLinksObject;
-  ref?: RefObject<HTMLElement>;
+  links: AssociatedLinksObject;
+  ref?: Ref;
   role?: Role;
   setLimit: FnSetLimit;
-  title?: string;
+  title: string;
 }
 
 const Registration = ({

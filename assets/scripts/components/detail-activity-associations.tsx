@@ -1,8 +1,11 @@
 import React, { ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
-import useLimitedQuery, { FnSetLimit, FnSetPaused } from '../hooks/use-limited-query';
-import type { ApiQueryType } from '../hooks/use-limited-query';
+import useLimitedQuery, {
+  type FnSetLimit,
+  type LimitedQueryReturnType,
+} from '../hooks/use-limited-query';
+import type { SearchValue } from '../hooks/use-limited-query';
 
 import api from '../services/api';
 
@@ -17,33 +20,41 @@ import IncidentActivityGroup from './incident-activity-group';
 import ItemSubsection from './item-subsection';
 
 import type {
-  AssociatedEntitiesValue,
-  AssociatedPersonsValue,
-  Entity,
-  Person,
-  Source,
+  AssociatedPersonsObject,
+  AssociatedEntitiesObject,
+  AssociatedEntitiesObjectValue,
+  AssociatedPersonsObjectValue,
+  EntityObject,
+  ObjectNamedRoles,
+  ObjectNamedRoleWithAttendees,
+  ObjectNamedRoleWithEntities,
+  PersonObject,
+  RefElement,
+  RoleOptions,
+  SourceObject,
 } from '../types';
-import { GenericObject, Role } from '../types';
+import { Role } from '../types';
+
+type Item = EntityObject | PersonObject | SourceObject;
+type ObjectNamedRole = ObjectNamedRoleWithAttendees & ObjectNamedRoleWithEntities;
+type RoleKey = keyof RoleOptions;
 
 interface FnUseGetItemRolesById {
   (
-    item: Entity | Person | Source,
-    options: GenericObject,
+    item: Item,
+    searchOptions: SearchValue,
     isPaused: boolean,
-  ): {
-    currentLimit: number;
-    initialLimit: number;
-    setPaused: FnSetPaused;
-    setRecordLimit: FnSetLimit;
-  }
+  ): LimitedQueryReturnType
 }
 
+type QueryType = typeof api.useLazyGetPersonRolesByIdQuery | typeof api.useLazyGetEntityRolesByIdQuery | typeof api.useLazyGetSourceRolesByIdQuery;
+
 interface FnGetQueryByType {
-  (type: string): ApiQueryType
+  (type: string): QueryType
 }
 
 interface GroupProps {
-  children: (ref: RefObject<HTMLElement>) => ReactNode;
+  children: (ref: RefObject<RefElement>) => ReactNode;
   icon?: IconName;
   title: string;
 }
@@ -54,18 +65,32 @@ interface AssociationGroupProps {
     currentLimit: number,
     setLimit: FnSetLimit
   ) => ReactNode;
-  item: Entity | Person | Source;
+  item: Item;
   role?: Role;
-  value?: AssociatedEntitiesValue | AssociatedPersonsValue;
+  value?: AssociatedEntitiesObjectValue | AssociatedPersonsObjectValue;
 }
 
 interface NamedRoleProps {
-  item?: Entity | Person | Source;
-  role: Role;
+  item: Item;
+  role: keyof ObjectNamedRoles;
+}
+
+interface AttendeesProps {
+  items?: AssociatedPersonsObject;
+  filterByRole: boolean;
+  item: Item;
+  role: keyof ObjectNamedRoles;
+}
+
+interface EntitiesProps {
+  items?: AssociatedEntitiesObject;
+  filterByRole: boolean;
+  item: Item;
+  role: keyof ObjectNamedRoles;
 }
 
 interface Props {
-  item: Entity | Person | Source;
+  item: Item;
 }
 
 const getRoleQuery: FnGetQueryByType = (type) => {
@@ -77,22 +102,23 @@ const getRoleQuery: FnGetQueryByType = (type) => {
     return api.useLazyGetSourceRolesByIdQuery;
   }
 
-  return null;
+  return api.useLazyGetPersonRolesByIdQuery;
+  // return null;
 };
 
-const useGetItemRolesByItem: FnUseGetItemRolesById = (item, options, isPaused) => {
+const useGetItemRolesByItem: FnUseGetItemRolesById = (item, searchOptions, isPaused) => {
   const query = getRoleQuery(item.type);
 
   return useLimitedQuery(query, {
     id: item.id,
     limit: 5,
     pause: isPaused,
-    search: options,
+    search: searchOptions,
   });
 };
 
 export const Group = ({ children, icon, title }: GroupProps) => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<RefElement>(null);
 
   return (
     <IncidentActivityGroups
@@ -115,12 +141,14 @@ const AssociationGroup = ({
   role,
   value
 }: AssociationGroupProps) => {
-  const options = {
-    association: value?.association,
-  } as GenericObject;
+  const searchOptions: SearchValue = {};
+
+  if (value) {
+    searchOptions.association = value.association;
+  }
 
   if (role) {
-    options.role = role;
+    searchOptions.role = role;
   }
 
   const {
@@ -128,7 +156,7 @@ const AssociationGroup = ({
     initialLimit,
     setPaused,
     setRecordLimit,
-  } = useGetItemRolesByItem(item, options, true);
+  } = useGetItemRolesByItem(item, searchOptions, true);
 
   const setLimit: FnSetLimit = (limit) => {
     setPaused(false);
@@ -140,21 +168,22 @@ const AssociationGroup = ({
   return children(initialLimit, currentLimit, setLimit);
 };
 
-const Attendees = ({ item, role }: NamedRoleProps) => {
-  const namedRole = item?.roles.named?.[role];
-  const items = namedRole?.attendees;
-  const filterByRole = namedRole?.filterRole;
-
-  const hasItems = items?.values.length > 0;
+const Attendees = ({
+  filterByRole,
+  item,
+  items,
+  role
+}: AttendeesProps) => {
+  const hasItems = items?.values?.length ?? 0 > 0;
 
   if (!hasItems) return null;
 
   return (
     <Group
-      title={items.label}
+      title={items?.label ?? ''}
       icon='user-group'
     >
-      {(ref) => items.values.map((value, i: number) => (
+      {(ref) => items?.values.map((value: AssociatedPersonsObjectValue, i: number) => (
         <AssociationGroup
           item={item}
           role={filterByRole ? role : undefined}
@@ -178,21 +207,22 @@ const Attendees = ({ item, role }: NamedRoleProps) => {
   );
 };
 
-const Entities = ({ item, role }: NamedRoleProps) => {
-  const namedRole = item?.roles.named?.[role];
-  const items = namedRole?.entities;
-  const filterByRole = namedRole?.filterRole;
-
-  const hasItems = items?.values.length > 0;
+const Entities = ({
+  filterByRole,
+  item,
+  items,
+  role
+}: EntitiesProps) => {
+  const hasItems = items?.values?.length ?? 0 > 0;
 
   if (!hasItems) return null;
 
   return (
     <Group
-      title={items.label}
+      title={items?.label ?? ''}
       icon='building'
     >
-      {(ref) => items.values.map((value, i: number) => (
+      {(ref) => items?.values.map((value: AssociatedEntitiesObjectValue, i: number) => (
         <AssociationGroup
           item={item}
           role={filterByRole ? role : undefined}
@@ -221,18 +251,19 @@ const Entities = ({ item, role }: NamedRoleProps) => {
 
 const NamedRole = ({ item, role }: NamedRoleProps) => {
   const [hasRun, setHasRun] = useState<boolean>(false);
-  const options = { role };
-  const namedRole = item?.roles.named?.[role];
+  const searchOptions = { role };
+  const namedRole = item?.roles?.named?.[role] ?? {} as ObjectNamedRole;
 
-  useGetItemRolesByItem(item, options, hasRun);
+  useGetItemRolesByItem(item, searchOptions, hasRun);
 
   useEffect(() => {
     setHasRun(true);
   }, [setHasRun]);
 
-  const hasNamedRole = Boolean(namedRole);
+  const hasItem = item !== undefined;
+  const hasNamedRole = namedRole !== undefined;
 
-  if (!hasNamedRole) return null;
+  if (!hasItem || !hasNamedRole) return null;
 
   return (
     <ActivityDetailsSection>
@@ -241,27 +272,46 @@ const NamedRole = ({ item, role }: NamedRoleProps) => {
         icon={getIconName(namedRole.role)}
       />
 
-      <Entities item={item} role={role} />
-      <Attendees item={item} role={role} />
+      <Entities
+        filterByRole={namedRole.filterRole}
+        item={item}
+        items={namedRole.entities}
+        role={role}
+      />
+      <Attendees
+        filterByRole={namedRole.filterRole}
+        item={item}
+        items={namedRole.attendees}
+        role={role}
+      />
     </ActivityDetailsSection>
   );
 };
 
 const Associations = ({ item }: Props) => {
-  const options = item.roles.options;
+  const options = item.roles?.options;
 
-  const roles = useMemo(() =>
-    Object.entries(options).reduce((all, [key, value]) => {
-      if (value) {
-        all.push(key);
+  const roles = useMemo(() => {
+    const availableOptions: RoleKey[] = [];
+    return Object.entries(options || {}).reduce((all, [key, value]) => {
+      const k = key as RoleKey;
+
+      if (value === true) {
+        all.push(k);
       }
 
       return all;
-    }, []), [options]);
+    }, availableOptions);
+  }, [options]);
+
+  const hasItem = item !== undefined;
+  const hasItemRoles = item?.roles !== undefined;
+
+  if (!hasItem || !hasItemRoles) return null;
 
   return (
     <>
-      <ActivityHeader title={item.roles.label} />
+      <ActivityHeader title={item.roles?.label ?? ''} />
 
       {roles.map((role, i) => (
         <NamedRole key={i} item={item} role={role} />

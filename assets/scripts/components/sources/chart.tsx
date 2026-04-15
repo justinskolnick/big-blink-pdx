@@ -1,9 +1,9 @@
 import React from 'react';
 
-import ItemChart from '../item-chart';
+import { ItemChartStacked as ItemChart} from '../item-chart';
 
 interface Props {
-  label: string;
+  label?: string;
 }
 
 const Chart = ({ label }: Props) => (

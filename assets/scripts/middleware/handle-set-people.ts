@@ -1,17 +1,20 @@
-import type { Person } from '../types';
-import { MiddlewareHandlerFn } from '../types';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { ListenerAPI } from '../lib/store';
 
 import { hasPernr, lookupOfficialPositionsForId } from './handle-set-person';
 
-const handleSetPeople: MiddlewareHandlerFn = (store, action) => {
+import type { PersonObject } from '../types';
+
+const handleSetPeople = (action: PayloadAction<PersonObject[]>, state: ListenerAPI) => {
   const { payload } = action;
 
-  const people = payload as Person[];
+  const people = payload;
 
   const peopleWithPernr = people.filter(hasPernr);
   const ids = peopleWithPernr.map(person => person.id);
 
-  lookupOfficialPositionsForId(store, ids);
+  lookupOfficialPositionsForId(state, ids);
 };
 
 export default handleSetPeople;

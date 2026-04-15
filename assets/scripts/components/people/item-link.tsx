@@ -5,23 +5,21 @@ import {
   LinkToPerson,
 } from '../links';
 
-import type { Person } from '../../types';
+import type { PersonObject } from '../../types';
 
 interface Props {
   children: ReactNode;
   className?: string;
-  item: Person;
+  item: PersonObject;
 }
 
 const ItemLink = ({ children, className, item }: Props) => {
-  const hasSelfLink = Boolean(item?.links?.self);
-
-  if (!hasSelfLink) {
+  if (!item.links?.self) {
     console.log('*', item);
   }
 
-  return hasSelfLink ? (
-    <Link to={item.links.self} className={className}>{children}</Link>
+  return item.links?.self ? (
+    <Link to={item.links?.self} className={className}>{children}</Link>
   ) : (
     <LinkToPerson id={item.id} className={className}>{children}</LinkToPerson>
   );

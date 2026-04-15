@@ -5,10 +5,10 @@ import EntityItemLink from './entities/item-link';
 import { useGetEntityById } from '../reducers/entities';
 import api from '../services/api';
 
-import type { Incident } from '../types';
+import type { IncidentObject } from '../types';
 
 interface Props {
-  incident: Incident;
+  incident: IncidentObject;
 }
 
 const IncidentEntity = ({ incident }: Props) => {

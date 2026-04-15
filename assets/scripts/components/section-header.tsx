@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
@@ -8,12 +7,10 @@ import Header, { HeaderOverview } from './header';
 import {
   BetterLink as Link,
   GlobalLink,
-  LinkToEntities,
-  LinkToIncidents,
-  LinkToPeople,
-  LinkToSources,
 } from './links';
 import SectionIcon from './section-icon';
+
+import useSelector from '../hooks/use-app-selector';
 
 import { getSection } from '../selectors';
 import { useGetEntityById } from '../reducers/entities';
@@ -21,8 +18,17 @@ import { useGetIncidentById } from '../reducers/incidents';
 import { useGetPersonById } from '../reducers/people';
 import { useGetSourceById } from '../reducers/sources';
 
-import { Sections } from '../types';
-import type { SectionType } from '../types';
+import {
+  type Id,
+  type ItemObject,
+  type Slug,
+  Sections,
+} from '../types';
+
+type LinkObject = {
+  label: string;
+  path: string;
+};
 
 interface Props {
   children?: ReactNode;
@@ -30,65 +36,101 @@ interface Props {
   title?: ReactNode | string;
 }
 
-interface ItemLinkProps {
-  children: ReactNode;
-  section: SectionType;
+interface DescriptionLinkProps {
+  link?: LinkObject;
 }
 
 interface DescriptionProps {
-  section: SectionType;
+  id?: Id;
+  slug: Slug;
 }
 
-const getItemSelector = (section?: SectionType) => {
-  let selector = null;
+interface IconLinkProps {
+  icon?: IconName;
+  link: LinkObject;
+  slug: Slug;
+}
 
-  if (section?.slug === Sections.Entities) {
-    selector = useGetEntityById;
-  } else if (section?.slug === Sections.Incidents) {
-    selector = useGetIncidentById;
-  } else if (section?.slug === Sections.People) {
-    selector = useGetPersonById;
-  } else if (section?.slug === Sections.Sources) {
-    selector = useGetSourceById;
+interface TitleLinkProps {
+  link: LinkObject;
+  title: ReactNode | string;
+}
+
+const useGetItemSelector = (slug: Slug, id?: Id): ItemObject | null => {
+  const slugValue: string = slug;
+  const slugValues: string[] = Object.values(Sections);
+
+  if (id && slugValues.includes(slugValue)) {
+    if (slug === Sections.Entities) {
+      return useGetEntityById(id);
+    } else if (slug === Sections.Incidents) {
+      return useGetIncidentById(id);
+    } else if (slug === Sections.People) {
+      return useGetPersonById(id);
+    } else if (slug === Sections.Sources) {
+      return useGetSourceById(id);
+    }
   }
 
-  return selector;
+  return null;
 };
 
-const useGetSectionLink = (slug: string) => {
-  if (slug === Sections.Entities) {
-    return LinkToEntities;
-  } else if (slug === Sections.Incidents) {
-    return LinkToIncidents;
-  } else if (slug === Sections.People) {
-    return LinkToPeople;
-  } else if (slug === Sections.Sources) {
-    return LinkToSources;
-  }
-};
+const SectionDescriptionLink = ({ link }: DescriptionLinkProps) => (
+  <h3>
+    {link ? (
+      <Link to={link?.path}>
+        {link?.label}
+      </Link>
+    ) : null}
+  </h3>
+);
 
-const SectionItemLink = ({ children, section }: ItemLinkProps) => {
-  const selector = getItemSelector(section);
-  const item = selector(section.id);
+const SectionDescription = ({ id, slug }: DescriptionProps) => {
+  const item = useGetItemSelector(slug, id);
+  const details = Object.values(item?.details ?? {});
 
-  return <Link to={item.links.self}>{children}</Link>;
-};
+  if (!item) return null;
 
-const SectionDescription = ({ section }: DescriptionProps) => {
-  const selector = getItemSelector(section);
-  const item = selector(section.id);
-  const details = item.details;
-
-  const hasDetails = Object.keys(details || {}).length > 0;
+  const hasDetails = details.length > 0;
 
   return (
     <h4>
-      {hasDetails && Object.values(details).map((detail, i) => (
+      {hasDetails && details.map((detail, i) => (
         <span key={i} className='header-section-detail'>{detail}</span>
       ))}
     </h4>
   );
 };
+
+const HeaderIdentityLogo = () => (
+  <h1>
+    <GlobalLink to='/' className='header-identity-link'>
+      <span className='text-secondary'>The</span>
+      {' '}
+      <span className='text-primary'>Big Blink</span>
+      {' '}
+      <span className='text-secondary'>PDX</span>
+    </GlobalLink>
+  </h1>
+);
+
+const HeaderIdentityEyes = () => (
+  <div className='header-identity-eyes'>
+    <Eyes />
+  </div>
+);
+
+const SectionIconLink = ({ icon, link, slug }: IconLinkProps) => (
+  <Link to={link.path} aria-label='section-icon'>
+    <SectionIcon name={icon} slug={slug} />
+  </Link>
+);
+
+const SectionTitleLink = ({ link, title }: TitleLinkProps) => (
+  <Link to={link.path} aria-label='section-title'>
+    {title}
+  </Link>
+);
 
 const SectionHeader = ({
   children,
@@ -96,60 +138,55 @@ const SectionHeader = ({
   title,
 }: Props) => {
   const section = useSelector(getSection);
-
-  const slug = section?.slug;
-
-  const SectionLink = useGetSectionLink(slug);
-
-  const hasLink = Boolean(SectionLink);
-  const hasSubhead = Boolean(section.subtitle);
+  const hasSubhead = Boolean(section?.subtitle);
 
   return (
     <Header className={hasSubhead && 'has-subheader'}>
       <HeaderOverview>
         <div className='header-identity'>
-          <h1>
-            <GlobalLink to='/' className='header-identity-link'>
-              <span className='text-secondary'>The</span>
-              {' '}
-              <span className='text-primary'>Big Blink</span>
-              {' '}
-              <span className='text-secondary'>PDX</span>
-            </GlobalLink>
-          </h1>
-
-          <div className='header-identity-eyes'>
-            <Eyes />
-          </div>
+          <HeaderIdentityLogo />
+          <HeaderIdentityEyes />
         </div>
 
-        <div className='header-section'>
-          <div className={cx('header-section-icon', hasLink && 'has-link')}>
-            {hasLink ? (
-              <SectionLink aria-label='section-icon'>
-                <SectionIcon name={icon} slug={slug} />
-              </SectionLink>
-            ) : (
-              <SectionIcon name={icon} slug={slug} />
-            )}
-          </div>
+        {section && (
+          <div className='header-section'>
+            <div className={cx('header-section-icon', section.links && 'has-link')}>
+              {section.links ? (
+                <SectionIconLink
+                  icon={icon}
+                  link={section.links?.section}
+                  slug={section.slug}
+                />
+              ) : (
+                <SectionIcon name={icon} slug={section?.slug} />
+              )}
+            </div>
 
-          <div className='header-section-title'>
-            <h2>{hasLink ? (
-              <SectionLink aria-label='section-title'>{title ?? section.title}</SectionLink>
-            ) : (
-              title ?? section.title
-            )}</h2>
-            {hasSubhead && (
-              <>
-                <h3>
-                  <SectionItemLink section={section}>{section.subtitle}</SectionItemLink>
-                </h3>
-                <SectionDescription section={section} />
-              </>
-            )}
+            <div className='header-section-title'>
+              <h2>
+                {section.links ? (
+                  <SectionTitleLink
+                    link={section.links?.section}
+                    title={title ?? section.title}
+                  />
+                ) : (
+                  title ?? section?.title
+                )}
+              </h2>
+              {hasSubhead && (
+                <>
+                  <SectionDescriptionLink
+                    link={section.links?.detail}
+                  />
+                  <SectionDescription
+                    id={section.id}
+                    slug={section.slug}
+                  />
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </HeaderOverview>
 
       {children}

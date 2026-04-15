@@ -11,14 +11,16 @@ type Stat = {
   total: number;
 };
 
+type Stats = Stat[];
+
 type StatsObject = {
   id: Id;
   stats: Stat[];
 };
 
-const setEntity = createAction('stats/setEntity');
-const setPerson = createAction('stats/setPerson');
-const setSources = createAction('stats/setSources');
+const setEntity = createAction<StatsObject>('stats/setEntity');
+const setPerson = createAction<StatsObject>('stats/setPerson');
+const setSources = createAction<Stats>('stats/setSources');
 
 export const actions = {
   setEntity,
@@ -26,22 +28,28 @@ export const actions = {
   setSources,
 };
 
-const initialState = {
-  entities: [] as StatsObject[],
-  people: [] as StatsObject[],
-  sources: [] as Stat[],
+interface InitialState {
+  entities: StatsObject[];
+  people: StatsObject[];
+  sources: Stats;
+}
+
+const initialState: InitialState = {
+  entities: [],
+  people: [],
+  sources: [],
 };
 
 const statsReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(setSources, (state, action: PayloadAction<Stat[]>) => {
-      state.sources = action.payload;
-    })
     .addCase(setEntity, (state, action: PayloadAction<StatsObject>) => {
       state.entities.push(action.payload);
     })
     .addCase(setPerson, (state, action: PayloadAction<StatsObject>) => {
       state.people.push(action.payload);
+    })
+    .addCase(setSources, (state, action: PayloadAction<Stats>) => {
+      state.sources = action.payload;
     });
 });
 

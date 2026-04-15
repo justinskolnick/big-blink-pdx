@@ -5,23 +5,21 @@ import {
   LinkToEntity,
 } from '../links';
 
-import type { Entity } from '../../types';
+import type { EntityObject } from '../../types';
 
 interface Props {
   children: ReactNode;
   className?: string;
-  item: Entity;
+  item: EntityObject;
 }
 
 const ItemLink = ({ children, className, item }: Props) => {
-  const hasSelfLink = Boolean(item?.links?.self);
-
-  if (!hasSelfLink) {
+  if (!item.links?.self) {
     console.log('*', item);
   }
 
-  return hasSelfLink ? (
-    <Link to={item.links.self} className={className}>{children}</Link>
+  return item.links?.self ? (
+    <Link to={item.links?.self} className={className}>{children}</Link>
   ) : (
     <LinkToEntity id={item.id} className={className}>{children}</LinkToEntity>
   );

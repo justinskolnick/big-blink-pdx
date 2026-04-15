@@ -1,13 +1,15 @@
 import React, { ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
+import type { ClassNames } from '../types';
+
 interface OverviewProps {
   children: ReactNode;
 }
 
 interface Props {
   children: ReactNode;
-  className?: string;
+  className?: ClassNames;
 }
 
 export const HeaderOverview = ({ children }: OverviewProps) => (

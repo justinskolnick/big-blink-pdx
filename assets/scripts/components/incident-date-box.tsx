@@ -15,12 +15,12 @@ const IncidentDateBox = ({ incident }: Props) => {
   const hasIncident = Boolean(incident?.value);
 
   const deactivate = () => setIsActive(false);
-  const handleLinkClick = (event: MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const handleLinkClick = (event?: MouseEvent) => {
+    event?.preventDefault();
+    event?.stopPropagation();
 
-    if (event.target instanceof HTMLElement) {
-      if (event.target.closest('.activity-stat')) {
+    if (event?.target instanceof HTMLElement) {
+      if (event?.target.closest('.activity-stat')) {
         setIsActive(true);
       }
     }
@@ -30,12 +30,14 @@ const IncidentDateBox = ({ incident }: Props) => {
 
   return (
     <StatBox className='activity-stat-details' title={incident.label}>
-      <Link
-        to={incident.value.links.self}
-        onClick={handleLinkClick}
-      >
-        {incident.value.contactDate}
-      </Link>
+      {incident.value.links?.self ? (
+        <Link
+          to={incident.value.links.self}
+          onClick={handleLinkClick}
+        >
+          {incident.value.contactDate}
+        </Link>
+      ) : incident.value.contactDate}
       <IncidentModal
         deactivate={deactivate}
         id={incident.value.id}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import IncidentList from '../incident-list';
 import SectionIndex from '../section-index';
 
 import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useSelector from '../../hooks/use-app-selector';
 
 import { getIncidentsPageIds, getIncidentsPagination } from '../../selectors';
 
@@ -17,6 +17,8 @@ const Introduction = () => (
 const Index = () => {
   const pagination = useSelector(getIncidentsPagination);
   const pageIds = useSelector(getIncidentsPageIds);
+
+  const hasPagination = pagination !== undefined;
   const hasPageIds = pageIds?.length > 0;
 
   useFetchAndScrollOnRouteChange();
@@ -24,14 +26,16 @@ const Index = () => {
   return (
     <SectionIndex
       introduction={<Introduction />}
-      isLoading={!hasPageIds}
+      isLoading={!hasPagination || !hasPageIds}
     >
       <div className='incident-list-anchor'>
-        <IncidentList
-          hasSort
-          ids={pageIds}
-          pagination={pagination}
-        />
+        {hasPagination && hasPageIds && (
+          <IncidentList
+            hasSort
+            ids={pageIds}
+            pagination={pagination}
+          />
+        )}
       </div>
     </SectionIndex>
   );

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+
+import useSelector from './use-app-selector';
 
 import { getUI } from '../selectors';
 

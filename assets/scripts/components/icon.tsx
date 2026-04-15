@@ -68,7 +68,7 @@ library.add(
 
 import { BetterLink as Link } from './links';
 
-import type { LocationState } from '../types';
+import type { LinkTo } from '../types';
 
 enum IconSets {
   Regular = 'far',
@@ -114,7 +114,7 @@ interface Props {
 }
 
 interface LinkIconProps extends Props {
-  to: string | LocationState;
+  to: LinkTo;
 }
 
 interface FnGetIconFromSet {
