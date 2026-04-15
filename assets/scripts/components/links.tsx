@@ -14,21 +14,18 @@ import useQueryParams from '../hooks/use-query-params';
 
 import ItemTextWithIcon from './item-text-with-icon';
 
-import type {
-  EntityObject,
-  Id,
-  LinkTo,
-  NewParams,
-  PersonObject,
-  SortValue,
-} from '../types';
 import {
   Role,
   SortByValues,
   SortValues,
+  type EntityObject,
+  type LinkTo,
+  type NewParams,
+  type PersonObject,
+  type SortValue,
 } from '../types';
 
-interface LinkProps {
+export interface LinkProps {
   children: ReactNode;
   className?: string;
   onClick?: (event?: ReactMouseEvent) => void;
@@ -62,10 +59,6 @@ interface SortLinkProps extends LinkProps {
   defaultSort: SortValue;
   isDefault?: boolean;
   name?: SortByValues;
-}
-
-interface LinkIdProps extends LinkProps {
-  id: Id;
 }
 
 export const getWithEntityParams = (entity: EntityObject, role?: Role) => {
@@ -255,30 +248,10 @@ export const LinkToPage = ({
   </NavLink>
 );
 
-export const LinkToEntities = ({ children, ...rest }: LinkProps) => (
-  <BetterLink to='/entities' {...rest}>{children}</BetterLink>
-);
-
-export const LinkToEntity = ({ children, id, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/entities/${id}`} {...rest}>{children}</BetterLink>
-);
-
 export const LinkToIncidents = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/incidents' {...rest}>{children}</BetterLink>
 );
 
-export const LinkToPeople = ({ children, ...rest }: LinkProps) => (
-  <BetterLink to='/people' {...rest}>{children}</BetterLink>
-);
-
-export const LinkToPerson = ({ children, id, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/people/${id}`} {...rest}>{children}</BetterLink>
-);
-
 export const LinkToSources = ({ children, ...rest }: LinkProps) => (
   <BetterLink to='/sources' {...rest}>{children}</BetterLink>
-);
-
-export const LinkToSource = ({ children, id, ...rest }: LinkIdProps) => (
-  <BetterLink to={`/sources/${id}`} {...rest}>{children}</BetterLink>
 );

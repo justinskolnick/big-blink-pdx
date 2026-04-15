@@ -45271,11 +45271,8 @@ Hook ${hookName} was either not provided or not a function.`);
       children
     }
   );
-  var LinkToEntity = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/entities/${id}`, ...rest, children });
   var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/incidents", ...rest, children });
-  var LinkToPerson = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/people/${id}`, ...rest, children });
   var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/sources", ...rest, children });
-  var LinkToSource = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/sources/${id}`, ...rest, children });
 
   // assets/scripts/components/icon.tsx
   var import_jsx_runtime4 = __toESM(require_jsx_runtime());
@@ -46556,12 +46553,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/item-link.tsx
   var import_jsx_runtime24 = __toESM(require_jsx_runtime());
-  var ItemLink = ({ children, className, item }) => {
-    if (!item.links?.self) {
-      console.log("*", item);
-    }
-    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToPerson, { id: item.id, className, children });
-  };
+  var ItemLink = ({ children, item, ...rest }) => item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(BetterLink, { to: item.links?.self, ...rest, children }) : children;
   var item_link_default = ItemLink;
 
   // assets/scripts/components/incident-attendees.tsx
@@ -46607,12 +46599,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/entities/item-link.tsx
   var import_jsx_runtime26 = __toESM(require_jsx_runtime());
-  var ItemLink2 = ({ children, className, item }) => {
-    if (!item.links?.self) {
-      console.log("*", item);
-    }
-    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(LinkToEntity, { id: item.id, className, children });
-  };
+  var ItemLink2 = ({ children, item, ...rest }) => item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(BetterLink, { to: item.links?.self, ...rest, children }) : children;
   var item_link_default2 = ItemLink2;
 
   // assets/scripts/components/incident-entity.tsx
@@ -61638,12 +61625,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/item-link.tsx
   var import_jsx_runtime85 = __toESM(require_jsx_runtime());
-  var ItemLink3 = ({ children, className, item }) => {
-    if (!item.links?.self) {
-      console.log("*", item);
-    }
-    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(LinkToSource, { id: item.id, className, children });
-  };
+  var ItemLink3 = ({ children, item, ...rest }) => item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(BetterLink, { to: item.links?.self, ...rest, children }) : children;
   var item_link_default3 = ItemLink3;
 
   // assets/scripts/components/incident-source-box.tsx

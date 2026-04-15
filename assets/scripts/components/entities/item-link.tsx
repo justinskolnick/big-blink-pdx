@@ -1,28 +1,19 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import {
   BetterLink as Link,
-  LinkToEntity,
+  LinkProps,
 } from '../links';
 
-import type { EntityObject } from '../../types';
+import { type EntityObject } from '../../types';
 
-interface Props {
-  children: ReactNode;
-  className?: string;
+interface Props extends LinkProps {
   item: EntityObject;
 }
 
-const ItemLink = ({ children, className, item }: Props) => {
-  if (!item.links?.self) {
-    console.log('*', item);
-  }
-
-  return item.links?.self ? (
-    <Link to={item.links?.self} className={className}>{children}</Link>
-  ) : (
-    <LinkToEntity id={item.id} className={className}>{children}</LinkToEntity>
-  );
-};
+const ItemLink = ({ children, item, ...rest }: Props) =>
+  item.links?.self ? (
+    <Link to={item.links?.self} {...rest}>{children}</Link>
+  ) : children;
 
 export default ItemLink;
