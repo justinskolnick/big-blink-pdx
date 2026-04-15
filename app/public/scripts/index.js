@@ -1264,7 +1264,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.2.4";
+        exports.version = "19.2.5";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1520,7 +1520,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.2.4";
+        exports.version = "19.2.5";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21312,9 +21312,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React50.version;
-          if ("19.2.4" !== isomorphicReactPackageVersion)
+          if ("19.2.5" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.5\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -21338,10 +21338,10 @@
         if (!(function() {
           var internals = {
             bundleType: 1,
-            version: "19.2.4",
+            version: "19.2.5",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.2.4"
+            reconcilerVersion: "19.2.5"
           };
           internals.overrideHookState = overrideHookState;
           internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -21432,7 +21432,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.2.4";
+        exports.version = "19.2.5";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -23135,7 +23135,7 @@
   var useSelector = /* @__PURE__ */ createSelectorHook();
   var batch = defaultNoopBatch;
 
-  // node_modules/react-router/dist/development/chunk-UVKPFVEO.mjs
+  // node_modules/react-router/dist/development/chunk-OE4NN4TA.mjs
   var React2 = __toESM(require_react(), 1);
   var React22 = __toESM(require_react(), 1);
   var React3 = __toESM(require_react(), 1);
@@ -23803,7 +23803,7 @@
     } = typeof to2 === "string" ? parsePath(to2) : to2;
     let pathname;
     if (toPathname) {
-      toPathname = toPathname.replace(/\/\/+/g, "/");
+      toPathname = removeDoubleSlashes(toPathname);
       if (toPathname.startsWith("/")) {
         pathname = resolvePathname(toPathname.substring(1), "/");
       } else {
@@ -23819,7 +23819,7 @@
     };
   }
   function resolvePathname(relativePath, fromPathname) {
-    let segments = fromPathname.replace(/\/+$/, "").split("/");
+    let segments = removeTrailingSlash(fromPathname).split("/");
     let relativeSegments = relativePath.split("/");
     relativeSegments.forEach((segment) => {
       if (segment === "..") {
@@ -23890,8 +23890,10 @@
     }
     return path;
   }
-  var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
-  var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+  var removeDoubleSlashes = (path) => path.replace(/\/\/+/g, "/");
+  var joinPaths = (paths) => removeDoubleSlashes(paths.join("/"));
+  var removeTrailingSlash = (path) => path.replace(/\/+$/, "");
+  var normalizePathname = (pathname) => removeTrailingSlash(pathname).replace(/^\/*/, "/");
   var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
   var normalizeHash = (hash2) => !hash2 || hash2 === "#" ? "" : hash2.startsWith("#") ? hash2 : "#" + hash2;
   var ErrorResponseImpl = class {
@@ -23911,7 +23913,8 @@
     return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
   }
   function getRoutePattern(matches2) {
-    return matches2.map((m2) => m2.route.path).filter(Boolean).join("/").replace(/\/\/*/g, "/") || "/";
+    let parts = matches2.map((m2) => m2.route.path).filter(Boolean);
+    return joinPaths(parts) || "/";
   }
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   function parseToInfo(_to, basename) {
@@ -27223,7 +27226,7 @@
       }
       let isSameBasename = stripBasename(url.pathname, basename) != null;
       if (url.origin === currentUrl.origin && isSameBasename) {
-        return url.pathname + url.search + url.hash;
+        return removeDoubleSlashes(url.pathname) + url.search + url.hash;
       }
     }
     try {
@@ -28576,6 +28579,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       ]
     );
     React3.useLayoutEffect(() => router2.subscribe(setState), [router2, setState]);
+    let initialized = state.initialized;
+    React3.useLayoutEffect(() => {
+      if (!initialized && router2.state.initialized) {
+        setState(router2.state, {
+          deletedFetchers: [],
+          flushSync: false,
+          newErrors: null
+        });
+      }
+    }, [initialized, setState, router2.state]);
     React3.useEffect(() => {
       if (vtContext.isTransitioning && !vtContext.flushSync) {
         setRenderDfd(new Deferred());
@@ -28935,9 +28948,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (url.pathname === "/") {
         url.pathname = `_root.${extension}`;
       } else if (basename && stripBasename(url.pathname, basename) === "/") {
-        url.pathname = `${basename.replace(/\/$/, "")}/_root.${extension}`;
+        url.pathname = `${removeTrailingSlash(basename)}/_root.${extension}`;
       } else {
-        url.pathname = `${url.pathname.replace(/\/$/, "")}.${extension}`;
+        url.pathname = `${removeTrailingSlash(url.pathname)}.${extension}`;
       }
     }
     return url;
@@ -29186,6 +29199,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     };
   }
   function PrefetchPageLinks({ page, ...linkProps }) {
+    let rsc = useIsRSCRouterContext();
     let { router: router2 } = useDataRouterContext2();
     let matches2 = React8.useMemo(
       () => matchRoutes(router2.routes, page, router2.basename),
@@ -29193,6 +29207,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     );
     if (!matches2) {
       return null;
+    }
+    if (rsc) {
+      return /* @__PURE__ */ React8.createElement(RSCPrefetchPageLinksImpl, { page, matches: matches2, ...linkProps });
     }
     return /* @__PURE__ */ React8.createElement(PrefetchPageLinksImpl, { page, matches: matches2, ...linkProps });
   }
@@ -29213,6 +29230,46 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }, [matches2, manifest, routeModules]);
     return keyedPrefetchLinks;
+  }
+  function RSCPrefetchPageLinksImpl({
+    page,
+    matches: nextMatches,
+    ...linkProps
+  }) {
+    let location2 = useLocation();
+    let { future } = useFrameworkContext();
+    let { basename } = useDataRouterContext2();
+    let dataHrefs = React8.useMemo(() => {
+      if (page === location2.pathname + location2.search + location2.hash) {
+        return [];
+      }
+      let url = singleFetchUrl(
+        page,
+        basename,
+        future.unstable_trailingSlashAwareDataRequests,
+        "rsc"
+      );
+      let hasSomeRoutesWithShouldRevalidate = false;
+      let targetRoutes = [];
+      for (let match2 of nextMatches) {
+        if (typeof match2.route.shouldRevalidate === "function") {
+          hasSomeRoutesWithShouldRevalidate = true;
+        } else {
+          targetRoutes.push(match2.route.id);
+        }
+      }
+      if (hasSomeRoutesWithShouldRevalidate && targetRoutes.length > 0) {
+        url.searchParams.set("_routes", targetRoutes.join(","));
+      }
+      return [url.pathname + url.search];
+    }, [
+      basename,
+      future.unstable_trailingSlashAwareDataRequests,
+      page,
+      location2,
+      nextMatches
+    ]);
+    return /* @__PURE__ */ React8.createElement(React8.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })));
   }
   function PrefetchPageLinksImpl({
     page,
@@ -29325,7 +29382,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   try {
     if (isBrowser2) {
       window.__reactRouterVersion = // @ts-expect-error
-      "7.13.2";
+      "7.14.1";
     }
   } catch (e2) {
   }
@@ -62138,10 +62195,10 @@ react/cjs/react-jsx-runtime.development.js:
    * LICENSE file in the root directory of this source tree.
    *)
 
-react-router/dist/development/chunk-UVKPFVEO.mjs:
+react-router/dist/development/chunk-OE4NN4TA.mjs:
 react-router/dist/development/index.mjs:
   (**
-   * react-router v7.13.2
+   * react-router v7.14.1
    *
    * Copyright (c) Remix Software Inc.
    *
