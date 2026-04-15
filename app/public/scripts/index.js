@@ -1,4 +1,5 @@
 /* eslint-disable */
+"use strict";
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
@@ -185,8 +186,8 @@
         exports.unstable_NormalPriority = 3;
         exports.unstable_Profiling = null;
         exports.unstable_UserBlockingPriority = 2;
-        exports.unstable_cancelCallback = function(task) {
-          task.callback = null;
+        exports.unstable_cancelCallback = function(task2) {
+          task2.callback = null;
         };
         exports.unstable_forceFrameRate = function(fps) {
           0 > fps || 125 < fps ? console.error(
@@ -342,7 +343,7 @@
           this.refs = emptyObject;
           this.updater = updater || ReactNoopUpdateQueue;
         }
-        function noop8() {
+        function noop9() {
         }
         function testStringCoercion(value) {
           return "" + value;
@@ -533,7 +534,7 @@
             case "rejected":
               throw thenable.reason;
             default:
-              switch ("string" === typeof thenable.status ? thenable.then(noop8, noop8) : (thenable.status = "pending", thenable.then(
+              switch ("string" === typeof thenable.status ? thenable.then(noop9, noop9) : (thenable.status = "pending", thenable.then(
                 function(fulfilledValue) {
                   "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
                 },
@@ -692,7 +693,7 @@
         function releaseAsyncTransition() {
           ReactSharedInternals.asyncTransitions--;
         }
-        function enqueueTask(task) {
+        function enqueueTask(task2) {
           if (null === enqueueTaskImpl)
             try {
               var requireString = ("require" + Math.random()).slice(0, 7);
@@ -710,7 +711,7 @@
                 channel.port2.postMessage(void 0);
               };
             }
-          return enqueueTaskImpl(task);
+          return enqueueTaskImpl(task2);
         }
         function aggregateErrors(errors2) {
           return 1 < errors2.length && "function" === typeof AggregateError ? new AggregateError(errors2) : errors2[0];
@@ -1171,7 +1172,7 @@
           try {
             var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
             null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop8, reportGlobalError));
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop9, reportGlobalError));
           } catch (error) {
             reportGlobalError(error);
           } finally {
@@ -1188,10 +1189,10 @@
         exports.use = function(usable) {
           return resolveDispatcher().use(usable);
         };
-        exports.useActionState = function(action, initialState7, permalink) {
+        exports.useActionState = function(action, initialState9, permalink) {
           return resolveDispatcher().useActionState(
             action,
-            initialState7,
+            initialState9,
             permalink
           );
         };
@@ -1250,8 +1251,8 @@
         exports.useRef = function(initialValue) {
           return resolveDispatcher().useRef(initialValue);
         };
-        exports.useState = function(initialState7) {
-          return resolveDispatcher().useState(initialState7);
+        exports.useState = function(initialState9) {
+          return resolveDispatcher().useState(initialState9);
         };
         exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
           return resolveDispatcher().useSyncExternalStore(
@@ -1286,7 +1287,7 @@
     "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
       "use strict";
       (function() {
-        function noop8() {
+        function noop9() {
         }
         function testStringCoercion(value) {
           return "" + value;
@@ -1332,19 +1333,19 @@
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
         var React50 = require_react(), Internals = {
           d: {
-            f: noop8,
+            f: noop9,
             r: function() {
               throw Error(
                 "Invalid form element. requestFormReset must be passed a form that was rendered by React."
               );
             },
-            D: noop8,
-            C: noop8,
-            L: noop8,
-            m: noop8,
-            X: noop8,
-            S: noop8,
-            M: noop8
+            D: noop9,
+            C: noop9,
+            L: noop9,
+            m: noop9,
+            X: noop9,
+            S: noop9,
+            M: noop9
           },
           p: 0,
           findDOMNode: null
@@ -1513,8 +1514,8 @@
         exports.unstable_batchedUpdates = function(fn, a2) {
           return fn(a2);
         };
-        exports.useFormState = function(action, initialState7, permalink) {
-          return resolveDispatcher().useFormState(action, initialState7, permalink);
+        exports.useFormState = function(action, initialState9, permalink) {
+          return resolveDispatcher().useFormState(action, initialState9, permalink);
         };
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
@@ -1601,7 +1602,7 @@
             "Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."
           );
         }
-        function noop8() {
+        function noop9() {
         }
         function warnForMissingKey() {
         }
@@ -7115,7 +7116,7 @@
         function mountReducer(reducer2, initialArg, init) {
           var hook = mountWorkInProgressHook();
           if (void 0 !== init) {
-            var initialState7 = init(initialArg);
+            var initialState9 = init(initialArg);
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -7124,14 +7125,14 @@
                 setIsStrictModeForDevtools(false);
               }
             }
-          } else initialState7 = initialArg;
-          hook.memoizedState = hook.baseState = initialState7;
+          } else initialState9 = initialArg;
+          hook.memoizedState = hook.baseState = initialState9;
           reducer2 = {
             pending: null,
             lanes: 0,
             dispatch: null,
             lastRenderedReducer: reducer2,
-            lastRenderedState: initialState7
+            lastRenderedState: initialState9
           };
           hook.queue = reducer2;
           reducer2 = reducer2.dispatch = dispatchReducerAction.bind(
@@ -7363,11 +7364,11 @@
           var root2 = enqueueConcurrentRenderForLane(fiber, 2);
           null !== root2 && scheduleUpdateOnFiber(root2, fiber, 2);
         }
-        function mountStateImpl(initialState7) {
+        function mountStateImpl(initialState9) {
           var hook = mountWorkInProgressHook();
-          if ("function" === typeof initialState7) {
-            var initialStateInitializer = initialState7;
-            initialState7 = initialStateInitializer();
+          if ("function" === typeof initialState9) {
+            var initialStateInitializer = initialState9;
+            initialState9 = initialStateInitializer();
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -7377,21 +7378,21 @@
               }
             }
           }
-          hook.memoizedState = hook.baseState = initialState7;
+          hook.memoizedState = hook.baseState = initialState9;
           hook.queue = {
             pending: null,
             lanes: 0,
             dispatch: null,
             lastRenderedReducer: basicStateReducer,
-            lastRenderedState: initialState7
+            lastRenderedState: initialState9
           };
           return hook;
         }
-        function mountState(initialState7) {
-          initialState7 = mountStateImpl(initialState7);
-          var queue = initialState7.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
+        function mountState(initialState9) {
+          initialState9 = mountStateImpl(initialState9);
+          var queue = initialState9.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
           queue.dispatch = dispatch;
-          return [initialState7.memoizedState, dispatch];
+          return [initialState9.memoizedState, dispatch];
         }
         function mountOptimistic(passthrough) {
           var hook = mountWorkInProgressHook();
@@ -7916,7 +7917,7 @@
             queue,
             pendingState,
             NotPendingTransition,
-            null === action ? noop8 : function() {
+            null === action ? noop9 : function() {
               requestFormReset$1(formFiber);
               return action(formData);
             }
@@ -19986,13 +19987,13 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState7) {
+          useState: function(initialState9) {
             currentHookNameInDev = "useState";
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState7);
+              return mountState(initialState9);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20025,16 +20026,16 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState7) {
+          useFormState: function(action, initialState9) {
             currentHookNameInDev = "useFormState";
             mountHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
-          useActionState: function(action, initialState7) {
+          useActionState: function(action, initialState9) {
             currentHookNameInDev = "useActionState";
             mountHookTypesDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -20116,13 +20117,13 @@
             updateHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState7) {
+          useState: function(initialState9) {
             currentHookNameInDev = "useState";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState7);
+              return mountState(initialState9);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20155,16 +20156,16 @@
             updateHookTypesDev();
             return mountId();
           },
-          useActionState: function(action, initialState7) {
+          useActionState: function(action, initialState9) {
             currentHookNameInDev = "useActionState";
             updateHookTypesDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
-          useFormState: function(action, initialState7) {
+          useFormState: function(action, initialState9) {
             currentHookNameInDev = "useFormState";
             updateHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -20519,14 +20520,14 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState7) {
+          useState: function(initialState9) {
             currentHookNameInDev = "useState";
             warnInvalidHookAccess();
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState7);
+              return mountState(initialState9);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20564,17 +20565,17 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState7) {
+          useFormState: function(action, initialState9) {
             currentHookNameInDev = "useFormState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
-          useActionState: function(action, initialState7) {
+          useActionState: function(action, initialState9) {
             currentHookNameInDev = "useActionState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState7);
+            return mountActionState(action, initialState9);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -30243,10 +30244,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function assertReducerShape(reducers) {
     Object.keys(reducers).forEach((key) => {
       const reducer2 = reducers[key];
-      const initialState7 = reducer2(void 0, {
+      const initialState9 = reducer2(void 0, {
         type: actionTypes_default.INIT
       });
-      if (typeof initialState7 === "undefined") {
+      if (typeof initialState9 === "undefined") {
         throw new Error(false ? formatProdErrorMessage(12) : `The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
       }
       if (typeof reducer2(void 0, {
@@ -32442,7 +32443,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isStateFunction(x2) {
     return typeof x2 === "function";
   }
-  function createReducer(initialState7, mapOrBuilderCallback) {
+  function createReducer(initialState9, mapOrBuilderCallback) {
     if (true) {
       if (typeof mapOrBuilderCallback === "object") {
         throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
@@ -32450,10 +32451,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     let [actionsMap, finalActionMatchers, finalDefaultCaseReducer] = executeReducerBuilderCallback(mapOrBuilderCallback);
     let getInitialState;
-    if (isStateFunction(initialState7)) {
-      getInitialState = () => freezeDraftable(initialState7());
+    if (isStateFunction(initialState9)) {
+      getInitialState = () => freezeDraftable(initialState9());
     } else {
-      const frozenInitialState = freezeDraftable(initialState7);
+      const frozenInitialState = freezeDraftable(initialState9);
       getInitialState = () => frozenInitialState;
     }
     function reducer2(state = getInitialState(), action) {
@@ -33465,6 +33466,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       ...stateAdapter
     };
   }
+  var task = "task";
   var listener = "listener";
   var completed = "completed";
   var cancelled = "cancelled";
@@ -33472,10 +33474,225 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var taskCompleted = `task-${completed}`;
   var listenerCancelled = `${listener}-${cancelled}`;
   var listenerCompleted = `${listener}-${completed}`;
+  var TaskAbortError = class {
+    constructor(code) {
+      this.code = code;
+      this.message = `${task} ${cancelled} (reason: ${code})`;
+    }
+    name = "TaskAbortError";
+    message;
+  };
+  var assertFunction = (func, expected) => {
+    if (typeof func !== "function") {
+      throw new TypeError(false ? formatProdErrorMessage(32) : `${expected} is not a function`);
+    }
+  };
+  var noop2 = () => {
+  };
+  var catchRejection = (promise, onError = noop2) => {
+    promise.catch(onError);
+    return promise;
+  };
+  var addAbortSignalListener = (abortSignal, callback2) => {
+    abortSignal.addEventListener("abort", callback2, {
+      once: true
+    });
+    return () => abortSignal.removeEventListener("abort", callback2);
+  };
+  var validateActive = (signal) => {
+    if (signal.aborted) {
+      throw new TaskAbortError(signal.reason);
+    }
+  };
+  function raceWithSignal(signal, promise) {
+    let cleanup = noop2;
+    return new Promise((resolve2, reject) => {
+      const notifyRejection = () => reject(new TaskAbortError(signal.reason));
+      if (signal.aborted) {
+        notifyRejection();
+        return;
+      }
+      cleanup = addAbortSignalListener(signal, notifyRejection);
+      promise.finally(() => cleanup()).then(resolve2, reject);
+    }).finally(() => {
+      cleanup = noop2;
+    });
+  }
+  var runTask = async (task2, cleanUp) => {
+    try {
+      await Promise.resolve();
+      const value = await task2();
+      return {
+        status: "ok",
+        value
+      };
+    } catch (error) {
+      return {
+        status: error instanceof TaskAbortError ? "cancelled" : "rejected",
+        error
+      };
+    } finally {
+      cleanUp?.();
+    }
+  };
+  var createPause = (signal) => {
+    return (promise) => {
+      return catchRejection(raceWithSignal(signal, promise).then((output) => {
+        validateActive(signal);
+        return output;
+      }));
+    };
+  };
+  var createDelay = (signal) => {
+    const pause = createPause(signal);
+    return (timeoutMs) => {
+      return pause(new Promise((resolve2) => setTimeout(resolve2, timeoutMs)));
+    };
+  };
   var {
     assign
   } = Object;
+  var INTERNAL_NIL_TOKEN = {};
   var alm = "listenerMiddleware";
+  var createFork = (parentAbortSignal, parentBlockingPromises) => {
+    const linkControllers = (controller) => addAbortSignalListener(parentAbortSignal, () => controller.abort(parentAbortSignal.reason));
+    return (taskExecutor, opts) => {
+      assertFunction(taskExecutor, "taskExecutor");
+      const childAbortController = new AbortController();
+      linkControllers(childAbortController);
+      const result = runTask(async () => {
+        validateActive(parentAbortSignal);
+        validateActive(childAbortController.signal);
+        const result2 = await taskExecutor({
+          pause: createPause(childAbortController.signal),
+          delay: createDelay(childAbortController.signal),
+          signal: childAbortController.signal
+        });
+        validateActive(childAbortController.signal);
+        return result2;
+      }, () => childAbortController.abort(taskCompleted));
+      if (opts?.autoJoin) {
+        parentBlockingPromises.push(result.catch(noop2));
+      }
+      return {
+        result: createPause(parentAbortSignal)(result),
+        cancel() {
+          childAbortController.abort(taskCancelled);
+        }
+      };
+    };
+  };
+  var createTakePattern = (startListening, signal) => {
+    const take = async (predicate, timeout2) => {
+      validateActive(signal);
+      let unsubscribe = () => {
+      };
+      const tuplePromise = new Promise((resolve2, reject) => {
+        let stopListening = startListening({
+          predicate,
+          effect: (action, listenerApi) => {
+            listenerApi.unsubscribe();
+            resolve2([action, listenerApi.getState(), listenerApi.getOriginalState()]);
+          }
+        });
+        unsubscribe = () => {
+          stopListening();
+          reject();
+        };
+      });
+      const promises = [tuplePromise];
+      if (timeout2 != null) {
+        promises.push(new Promise((resolve2) => setTimeout(resolve2, timeout2, null)));
+      }
+      try {
+        const output = await raceWithSignal(signal, Promise.race(promises));
+        validateActive(signal);
+        return output;
+      } finally {
+        unsubscribe();
+      }
+    };
+    return (predicate, timeout2) => catchRejection(take(predicate, timeout2));
+  };
+  var getListenerEntryPropsFrom = (options2) => {
+    let {
+      type,
+      actionCreator,
+      matcher,
+      predicate,
+      effect
+    } = options2;
+    if (type) {
+      predicate = createAction(type).match;
+    } else if (actionCreator) {
+      type = actionCreator.type;
+      predicate = actionCreator.match;
+    } else if (matcher) {
+      predicate = matcher;
+    } else if (predicate) {
+    } else {
+      throw new Error(false ? formatProdErrorMessage(21) : "Creating or removing a listener requires one of the known fields for matching an action");
+    }
+    assertFunction(effect, "options.listener");
+    return {
+      predicate,
+      type,
+      effect
+    };
+  };
+  var createListenerEntry = /* @__PURE__ */ assign((options2) => {
+    const {
+      type,
+      predicate,
+      effect
+    } = getListenerEntryPropsFrom(options2);
+    const entry = {
+      id: nanoid(),
+      effect,
+      type,
+      predicate,
+      pending: /* @__PURE__ */ new Set(),
+      unsubscribe: () => {
+        throw new Error(false ? formatProdErrorMessage(22) : "Unsubscribe not initialized");
+      }
+    };
+    return entry;
+  }, {
+    withTypes: () => createListenerEntry
+  });
+  var findListenerEntry = (listenerMap, options2) => {
+    const {
+      type,
+      effect,
+      predicate
+    } = getListenerEntryPropsFrom(options2);
+    return Array.from(listenerMap.values()).find((entry) => {
+      const matchPredicateOrType = typeof type === "string" ? entry.type === type : entry.predicate === predicate;
+      return matchPredicateOrType && entry.effect === effect;
+    });
+  };
+  var cancelActiveListeners = (entry) => {
+    entry.pending.forEach((controller) => {
+      controller.abort(listenerCancelled);
+    });
+  };
+  var createClearListenerMiddleware = (listenerMap, executingListeners) => {
+    return () => {
+      for (const listener22 of executingListeners.keys()) {
+        cancelActiveListeners(listener22);
+      }
+      listenerMap.clear();
+    };
+  };
+  var safelyNotifyError = (errorHandler, errorToNotify, errorInfo) => {
+    try {
+      errorHandler(errorToNotify, errorInfo);
+    } catch (errorHandlerError) {
+      setTimeout(() => {
+        throw errorHandlerError;
+      }, 0);
+    }
+  };
   var addListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/add`), {
     withTypes: () => addListener
   });
@@ -33483,11 +33700,207 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var removeListener = /* @__PURE__ */ assign(/* @__PURE__ */ createAction(`${alm}/remove`), {
     withTypes: () => removeListener
   });
+  var defaultErrorHandler = (...args) => {
+    console.error(`${alm}/error`, ...args);
+  };
+  var createListenerMiddleware = (middlewareOptions = {}) => {
+    const listenerMap = /* @__PURE__ */ new Map();
+    const executingListeners = /* @__PURE__ */ new Map();
+    const trackExecutingListener = (entry) => {
+      const count = executingListeners.get(entry) ?? 0;
+      executingListeners.set(entry, count + 1);
+    };
+    const untrackExecutingListener = (entry) => {
+      const count = executingListeners.get(entry) ?? 1;
+      if (count === 1) {
+        executingListeners.delete(entry);
+      } else {
+        executingListeners.set(entry, count - 1);
+      }
+    };
+    const {
+      extra,
+      onError = defaultErrorHandler
+    } = middlewareOptions;
+    assertFunction(onError, "onError");
+    const insertEntry = (entry) => {
+      entry.unsubscribe = () => listenerMap.delete(entry.id);
+      listenerMap.set(entry.id, entry);
+      return (cancelOptions) => {
+        entry.unsubscribe();
+        if (cancelOptions?.cancelActive) {
+          cancelActiveListeners(entry);
+        }
+      };
+    };
+    const startListening = (options2) => {
+      const entry = findListenerEntry(listenerMap, options2) ?? createListenerEntry(options2);
+      return insertEntry(entry);
+    };
+    assign(startListening, {
+      withTypes: () => startListening
+    });
+    const stopListening = (options2) => {
+      const entry = findListenerEntry(listenerMap, options2);
+      if (entry) {
+        entry.unsubscribe();
+        if (options2.cancelActive) {
+          cancelActiveListeners(entry);
+        }
+      }
+      return !!entry;
+    };
+    assign(stopListening, {
+      withTypes: () => stopListening
+    });
+    const notifyListener = async (entry, action, api3, getOriginalState) => {
+      const internalTaskController = new AbortController();
+      const take = createTakePattern(startListening, internalTaskController.signal);
+      const autoJoinPromises = [];
+      try {
+        entry.pending.add(internalTaskController);
+        trackExecutingListener(entry);
+        await Promise.resolve(entry.effect(
+          action,
+          // Use assign() rather than ... to avoid extra helper functions added to bundle
+          assign({}, api3, {
+            getOriginalState,
+            condition: (predicate, timeout2) => take(predicate, timeout2).then(Boolean),
+            take,
+            delay: createDelay(internalTaskController.signal),
+            pause: createPause(internalTaskController.signal),
+            extra,
+            signal: internalTaskController.signal,
+            fork: createFork(internalTaskController.signal, autoJoinPromises),
+            unsubscribe: entry.unsubscribe,
+            subscribe: () => {
+              listenerMap.set(entry.id, entry);
+            },
+            cancelActiveListeners: () => {
+              entry.pending.forEach((controller, _2, set8) => {
+                if (controller !== internalTaskController) {
+                  controller.abort(listenerCancelled);
+                  set8.delete(controller);
+                }
+              });
+            },
+            cancel: () => {
+              internalTaskController.abort(listenerCancelled);
+              entry.pending.delete(internalTaskController);
+            },
+            throwIfCancelled: () => {
+              validateActive(internalTaskController.signal);
+            }
+          })
+        ));
+      } catch (listenerError) {
+        if (!(listenerError instanceof TaskAbortError)) {
+          safelyNotifyError(onError, listenerError, {
+            raisedBy: "effect"
+          });
+        }
+      } finally {
+        await Promise.all(autoJoinPromises);
+        internalTaskController.abort(listenerCompleted);
+        untrackExecutingListener(entry);
+        entry.pending.delete(internalTaskController);
+      }
+    };
+    const clearListenerMiddleware = createClearListenerMiddleware(listenerMap, executingListeners);
+    const middleware2 = (api3) => (next2) => (action) => {
+      if (!isAction(action)) {
+        return next2(action);
+      }
+      if (addListener.match(action)) {
+        return startListening(action.payload);
+      }
+      if (clearAllListeners.match(action)) {
+        clearListenerMiddleware();
+        return;
+      }
+      if (removeListener.match(action)) {
+        return stopListening(action.payload);
+      }
+      let originalState = api3.getState();
+      const getOriginalState = () => {
+        if (originalState === INTERNAL_NIL_TOKEN) {
+          throw new Error(false ? formatProdErrorMessage(23) : `${alm}: getOriginalState can only be called synchronously`);
+        }
+        return originalState;
+      };
+      let result;
+      try {
+        result = next2(action);
+        if (listenerMap.size > 0) {
+          const currentState = api3.getState();
+          const listenerEntries = Array.from(listenerMap.values());
+          for (const entry of listenerEntries) {
+            let runListener = false;
+            try {
+              runListener = entry.predicate(action, currentState, originalState);
+            } catch (predicateError) {
+              runListener = false;
+              safelyNotifyError(onError, predicateError, {
+                raisedBy: "predicate"
+              });
+            }
+            if (!runListener) {
+              continue;
+            }
+            notifyListener(entry, action, api3, getOriginalState);
+          }
+        }
+      } finally {
+        originalState = INTERNAL_NIL_TOKEN;
+      }
+      return result;
+    };
+    return {
+      middleware: middleware2,
+      startListening,
+      stopListening,
+      clearListeners: clearListenerMiddleware
+    };
+  };
+
+  // assets/scripts/lib/util.ts
+  var isEmpty = (item) => {
+    if (!item) {
+      return true;
+    } else if (Array.isArray(item)) {
+      return item.length === 0;
+    } else if (typeof item === "object") {
+      return isEmpty(Object.values(item));
+    } else if (typeof item === "string") {
+      return item.length === 0;
+    }
+    return null;
+  };
+  var isObject = (item) => Boolean(item) && typeof item === "object" && !Array.isArray(item);
+  var sleep = async (delay) => {
+    await new Promise((resolve2, reject) => {
+      setInterval(resolve2, delay);
+    });
+  };
+
+  // assets/scripts/lib/async.ts
+  var batchPromiseAll = async (items, callback2, increment = 5, delay = 250) => {
+    const allResults = [];
+    let index = 0;
+    while (index < items.length) {
+      const batchItems = items.slice(index, index + increment);
+      const results = await Promise.allSettled(batchItems.map((item) => callback2(item)));
+      allResults.push(...results);
+      index = index + increment;
+      await sleep(delay);
+    }
+    return allResults;
+  };
 
   // node_modules/map-obj/index.js
-  var isObject = (value) => typeof value === "object" && value !== null;
+  var isObject2 = (value) => typeof value === "object" && value !== null;
   var isObjectCustom = (value) => {
-    if (!isObject(value)) {
+    if (!isObject2(value)) {
       return false;
     }
     if (value instanceof RegExp || value instanceof Error || value instanceof Date || value instanceof Map || value instanceof Set || value instanceof WeakMap || value instanceof WeakSet || value instanceof Promise || value instanceof ArrayBuffer || value instanceof DataView || ArrayBuffer.isView(value) || globalThis.Blob && value instanceof globalThis.Blob) {
@@ -33555,7 +33968,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return target;
   };
   function mapObject(object, mapper, options2) {
-    if (!isObject(object)) {
+    if (!isObject2(object)) {
       throw new TypeError(`Expected an object, got \`${object}\` (${typeof object})`);
     }
     if (Array.isArray(object)) {
@@ -33982,9 +34395,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var isNumericKey = (key) => key.trim() !== "" && !Number.isNaN(Number(key));
   var cache = new QuickLRU({ maxSize: 1e5 });
   var isBuiltIn = (value) => ArrayBuffer.isView(value) || value instanceof Date || value instanceof RegExp || value instanceof Error || value instanceof Map || value instanceof Set || value instanceof WeakMap || value instanceof WeakSet || value instanceof Promise;
-  var isObject2 = (value) => typeof value === "object" && value !== null && !isBuiltIn(value);
+  var isObject3 = (value) => typeof value === "object" && value !== null && !isBuiltIn(value);
   var transform = (input, options2 = {}, isSeen = /* @__PURE__ */ new WeakMap(), parentPath) => {
-    if (!isObject2(input)) {
+    if (!isObject3(input)) {
       return input;
     }
     if (isSeen.has(input)) {
@@ -34002,17 +34415,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const result2 = [];
       isSeen.set(input, result2);
       for (const item of input) {
-        result2.push(isObject2(item) ? transform(item, options2, isSeen, parentPath) : item);
+        result2.push(isObject3(item) ? transform(item, options2, isSeen, parentPath) : item);
       }
       return result2;
     }
     const result = {};
     isSeen.set(input, result);
     const makeMapper = (currentParentPath) => (key, value) => {
-      if (deep && isObject2(value)) {
+      if (deep && isObject3(value)) {
         const path = currentParentPath === void 0 ? key : `${currentParentPath}.${key}`;
         if (!stopPathsSet.has(path)) {
-          value = Array.isArray(value) ? value.map((item) => isObject2(item) ? transform(item, options2, isSeen, path) : item) : transform(value, options2, isSeen, path);
+          value = Array.isArray(value) ? value.map((item) => isObject3(item) ? transform(item, options2, isSeen, path) : item) : transform(value, options2, isSeen, path);
         }
       }
       if (typeof key === "string" && !isNumericKey(key) && !(exclude && has2(exclude, key))) {
@@ -34032,17 +34445,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     Object.assign(result, mappedResult);
     const symbols = Object.getOwnPropertySymbols(input);
     for (const symbol of symbols) {
-      result[symbol] = deep && isObject2(input[symbol]) ? transform(input[symbol], options2, isSeen, parentPath) : input[symbol];
+      result[symbol] = deep && isObject3(input[symbol]) ? transform(input[symbol], options2, isSeen, parentPath) : input[symbol];
     }
     return result;
   };
   function camelcaseKeys(input, options2) {
     const isSeen = /* @__PURE__ */ new WeakMap();
     if (Array.isArray(input)) {
-      return input.map((item) => isObject2(item) ? transform(item, options2, isSeen, void 0) : item);
+      return input.map((item) => isObject3(item) ? transform(item, options2, isSeen, void 0) : item);
     }
     return transform(input, options2, isSeen);
   }
+
+  // assets/scripts/hooks/use-app-selector.ts
+  var useAppSelector = useSelector.withTypes();
+  var use_app_selector_default = useAppSelector;
 
   // assets/scripts/lib/array.ts
   var unique = (arr) => [...new Set(arr)];
@@ -34070,20 +34487,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
   };
   var adaptRoles = (entryRoles, savedEntryRoles) => {
-    const roles = {
-      ...savedEntryRoles
-    };
+    let lastList = [];
+    let lastOptions = {};
+    let lastNamed = {};
+    let nextLabel = "";
+    let nextList = [];
+    let nextOptions = {};
+    let nextNamed = {};
     if ("label" in entryRoles) {
-      roles.label = entryRoles.label;
+      nextLabel = entryRoles.label;
     }
     if ("list" in entryRoles) {
-      roles.list = unique([].concat(
-        ...savedEntryRoles?.list ?? [],
-        ...entryRoles.list
-      ));
+      if (savedEntryRoles && "list" in savedEntryRoles) {
+        lastList = savedEntryRoles.list;
+      }
+      if (lastList.length) {
+        const emptyRoleArray = [];
+        nextList = unique(emptyRoleArray.concat(
+          ...lastList,
+          ...entryRoles.list
+        ));
+      } else {
+        nextList = entryRoles.list;
+      }
     }
     if ("options" in entryRoles) {
-      roles.options = Object.entries(entryRoles.options).reduce((all, [key, value]) => {
+      if (savedEntryRoles && "options" in savedEntryRoles) {
+        lastOptions = savedEntryRoles.options;
+      }
+      nextOptions = Object.entries(entryRoles.options).reduce((all, [k2, value]) => {
+        const key = k2;
         const isFresh = !(key in all);
         const valueHasBecomeTrue = !isFresh && value === true && !all[key] === false;
         if (isFresh || valueHasBecomeTrue) {
@@ -34093,25 +34526,33 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           };
         }
         return all;
-      }, savedEntryRoles?.options ?? {});
+      }, lastOptions || {});
+      if (savedEntryRoles && "named" in savedEntryRoles) {
+        lastNamed = savedEntryRoles.named;
+      }
+      nextNamed = lastNamed;
       if ("named" in entryRoles) {
-        roles.named = {
-          ...savedEntryRoles?.named,
-          ...Object.entries(entryRoles.named).reduce((all, [key, values]) => {
+        nextNamed = entryRoles.named;
+        nextNamed = {
+          ...lastNamed,
+          ...Object.entries(nextNamed).reduce((all, [key, values]) => {
             const roleKey = key;
-            const savedRole = savedEntryRoles?.named?.[roleKey];
+            const savedRole = lastNamed?.[roleKey] ?? {};
+            const {
+              attendees: lastAttendees = {},
+              entities: lastEntities = {}
+            } = savedRole;
+            let roleObj = {};
             if (values) {
               const { attendees, entities, ...rest } = values;
-              all[roleKey] = {
-                ...savedEntryRoles?.named?.[roleKey],
-                ...rest
-              };
+              let nextAttendees = { ...lastAttendees };
+              let nextEntities = { ...lastEntities };
               if (attendees) {
-                all[roleKey].attendees = {
-                  ...savedRole?.attendees,
+                nextAttendees = {
+                  ...nextAttendees,
                   ...attendees,
                   values: attendees.options.map((role) => {
-                    const savedValue = savedRole?.attendees?.values?.find((value) => value?.role === role);
+                    const savedValue = lastAttendees?.values?.find((value) => value?.role === role);
                     const newValue = attendees.values.find((value) => value?.role === role);
                     if (newValue) {
                       return {
@@ -34129,9 +34570,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 };
               }
               if (entities) {
-                all[roleKey].entities = {
-                  ...savedRole?.entities,
-                  ...values.entities,
+                nextEntities = {
+                  ...nextEntities,
+                  ...entities,
                   values: entities.values.map((value) => ({
                     ...value,
                     records: value.records.map((record) => ({
@@ -34143,19 +34584,35 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                   }))
                 };
               }
-            } else {
-              all[roleKey] = savedEntryRoles?.named?.[roleKey];
+              roleObj = {
+                ...rest,
+                attendees: nextAttendees,
+                entities: nextEntities
+              };
             }
-            return all;
+            return {
+              ...all,
+              [roleKey]: roleObj
+            };
           }, {})
         };
       }
     }
-    return roles;
+    return {
+      label: nextLabel,
+      list: nextList,
+      options: nextOptions,
+      named: nextNamed
+    };
   };
 
   // assets/scripts/lib/sorting.ts
-  var demoteIfQuarterIsNull = (obj) => obj.quarter === null ? 5 : obj.quarter;
+  var demoteIfQuarterIsNull = (obj) => {
+    if ("quarter" in obj && obj.quarter) {
+      return obj.quarter;
+    }
+    return 5;
+  };
   var sortQuarterAscendingTypeDecending = (a2, b2) => demoteIfQuarterIsNull(a2) - demoteIfQuarterIsNull(b2) || a2.type.localeCompare(b2.type);
 
   // assets/scripts/selectors.ts
@@ -34222,31 +34679,35 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   );
   var getSourceTypes = createSelector(getSources, (sources) => sources.types);
   var getSourcesByType = createSelector(getSources, (sources) => {
-    const types2 = Object.values(sources.entities).reduce((byType, item) => {
-      if (!(item.type in byType)) {
-        byType[item.type] = {
-          type: item.type,
+    const types = Object.values(sources.entities).reduce((byType, item) => {
+      const type = item.type;
+      const year = item.year;
+      if (!(type in byType)) {
+        byType[type] = {
+          type,
           years: {}
         };
       }
-      if (!(item.year in byType[item.type].years)) {
-        byType[item.type].years[item.year] = {
-          year: item.year,
+      if (!(year in byType[type].years)) {
+        byType[type].years[year] = {
+          year,
           items: []
         };
       }
-      byType[item.type].years[item.year].items.push(item);
-      byType[item.type].years[item.year].items.sort(sortQuarterAscendingTypeDecending);
+      byType[type].years[year].items.push(item);
+      byType[type].years[year].items.sort(sortQuarterAscendingTypeDecending);
       return byType;
     }, {});
-    return Object.values(types2);
+    return Object.values(types);
   });
   var getIndexedTotals = (sourceIds, values) => values.map((value) => value.id).reduce((indexed, id) => {
     const match2 = values.find((value) => value.id === id);
-    indexed[id] = sourceIds.map((sourceId) => {
-      const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
-      return data2 ? data2.total : null;
-    });
+    if (match2) {
+      indexed[id] = sourceIds.map((sourceId) => {
+        const data2 = match2.stats.find((stat) => stat.dataSourceId === sourceId);
+        return data2 ? data2.total : null;
+      });
+    }
     return indexed;
   }, {});
   var getEntitiesStats = createSelector(getStats, (stats) => stats.entities);
@@ -34270,7 +34731,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var adapter = createEntityAdapter();
   var selectors = adapter.getSelectors(getPeople);
   var useGetPersonById = (id) => {
-    const person = useSelector((state) => selectors.selectById(state, id));
+    const person = use_app_selector_default((state) => selectors.selectById(state, id));
     return person;
   };
   var useGetPersonPosition = (id, date) => {
@@ -34287,27 +34748,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var adapters = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors.selectById(state, entry.id);
-      const adapted = { ...entry };
-      if ("incidents" in entry) {
-        adapted.incidents = adaptIncidents(adapted.incidents);
+      const { incidents, overview, roles, ...rest } = entry;
+      const adapted = { ...rest };
+      if ("incidents" in entry && incidents) {
+        adapted.incidents = adaptIncidents(incidents);
       }
-      if ("roles" in entry) {
-        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
-      }
-      if (savedEntry && "overview" in savedEntry) {
+      if ("overview" in entry && overview) {
         adapted.overview = {
-          ...savedEntry.overview,
-          ...adapted.overview
+          ...savedEntry?.overview,
+          ...overview
         };
+      }
+      if ("roles" in entry && roles) {
+        adapted.roles = adaptRoles(roles, savedEntry?.roles);
       }
       return camelcaseKeys(adapted, { deep: false });
     },
-    getIds: (people) => people.map((person) => person.id),
-    getIncidents: (person) => person.incidents?.records ?? []
+    getIds: (values) => values.map((value) => value.id),
+    getIncidents: (value) => value.incidents?.records ?? []
   };
   var initialState = {
     pageIds: [],
-    pagination: null,
+    pagination: void 0,
     positionLookup: {
       completed: [],
       queue: []
@@ -34334,7 +34796,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         state.positionLookup.completed.push(action.payload);
       },
       addToLookupQueue: (state, action) => {
-        state.positionLookup.queue = unique([].concat(state.positionLookup.queue, action.payload));
+        state.positionLookup.queue = unique([...state.positionLookup.queue, ...action.payload]);
       }
     }
   });
@@ -34347,40 +34809,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     setPagination
   } = peopleSlice.actions;
   var people_default = peopleSlice.reducer;
-
-  // assets/scripts/lib/util.ts
-  var isEmpty = (item) => {
-    if (!item) {
-      return true;
-    } else if (Array.isArray(item)) {
-      return item.length === 0;
-    } else if (typeof item === "object") {
-      return isEmpty(Object.values(item));
-    } else if (typeof item === "string") {
-      return item.length === 0;
-    }
-    return null;
-  };
-  var isObject3 = (item) => Boolean(item) && typeof item === "object" && !Array.isArray(item);
-  var sleep = async (delay) => {
-    await new Promise((resolve2, reject) => {
-      setInterval(resolve2, delay);
-    });
-  };
-
-  // assets/scripts/lib/async.ts
-  var batchPromiseAll = async (items, callback2, increment = 5, delay = 250) => {
-    const allResults = [];
-    let index = 0;
-    while (index < items.length) {
-      const batchItems = items.slice(index, index + increment);
-      const results = await Promise.allSettled(batchItems.map((item) => callback2(item)));
-      allResults.push(...results);
-      index = index + increment;
-      await sleep(delay);
-    }
-    return allResults;
-  };
 
   // node_modules/@standard-schema/utils/dist/index.js
   var SchemaError = class extends Error {
@@ -36950,7 +37378,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         isThisApiSliceAction,
         mwApi
       };
-      const handlers2 = handlerBuilders.map((build3) => build3(builderArgs));
+      const handlers = handlerBuilders.map((build3) => build3(builderArgs));
       const batchedActionsHandler = buildBatchedActionsHandler(builderArgs);
       const windowEventsHandler = buildWindowEventHandler(builderArgs);
       return (next2) => {
@@ -36977,7 +37405,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
           if (!!mwApi.getState()[reducerPath]) {
             windowEventsHandler(action, mwApiWithNext, stateBefore);
             if (isThisApiSliceAction(action) || context.hasRehydrationInfo(action)) {
-              for (const handler of handlers2) {
+              for (const handler of handlers) {
                 handler(action, mwApiWithNext, stateBefore);
               }
             }
@@ -37840,8 +38268,8 @@ Hook ${hookName} was either not provided or not a function.`);
     if (isErrorWithMessage(maybeError)) return maybeError;
     try {
       return new Error(JSON.stringify(maybeError));
-    } catch (e2) {
-      console.error(e2);
+    } catch (error) {
+      console.error(error);
       return new Error(String(maybeError));
     }
   };
@@ -37868,6 +38296,8 @@ Hook ${hookName} was either not provided or not a function.`);
       error.customMessage = serverError;
     } else if (error.status === 404) {
       error.customMessage = notFoundError;
+    } else {
+      error.customMessage = errorObject.message;
     }
     return error;
   };
@@ -37876,24 +38306,25 @@ Hook ${hookName} was either not provided or not a function.`);
   var adapter2 = createEntityAdapter();
   var selectors2 = adapter2.getSelectors(getEntities);
   var useGetEntityById = (id) => {
-    const entity = useSelector((state) => selectors2.selectById(state, id));
+    const entity = use_app_selector_default((state) => selectors2.selectById(state, id));
     return entity;
   };
   var adapters2 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors2.selectById(state, entry.id);
-      const adapted = { ...entry };
-      if ("incidents" in adapted) {
-        adapted.incidents = adaptIncidents(adapted.incidents);
+      const { incidents, overview, roles, ...rest } = entry;
+      const adapted = { ...rest };
+      if ("incidents" in entry && incidents) {
+        adapted.incidents = adaptIncidents(incidents);
       }
-      if ("roles" in entry) {
-        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
-      }
-      if (savedEntry && "overview" in savedEntry) {
+      if ("overview" in entry && overview) {
         adapted.overview = {
-          ...savedEntry.overview,
-          ...adapted.overview
+          ...savedEntry?.overview,
+          ...overview
         };
+      }
+      if ("roles" in entry && roles) {
+        adapted.roles = adaptRoles(roles, savedEntry?.roles);
       }
       return camelcaseKeys(adapted, { deep: false });
     },
@@ -37902,7 +38333,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var initialState3 = {
     pageIds: [],
-    pagination: null
+    pagination: void 0
   };
   var entitiesSlice = createSlice({
     name: "entities",
@@ -37931,7 +38362,8 @@ Hook ${hookName} was either not provided or not a function.`);
   var entities_default = entitiesSlice.reducer;
 
   // assets/scripts/reducers/incidents.ts
-  var adaptAttendees = (attendees) => Object.entries(attendees).reduce((all, [key, value]) => {
+  var adaptAttendees = (attendees) => Object.entries(attendees).reduce((all, [k2, value]) => {
+    const key = k2;
     all[key] = {
       ...value,
       records: adaptAttendeeRecords(value.records)
@@ -37940,29 +38372,31 @@ Hook ${hookName} was either not provided or not a function.`);
   }, {});
   var adapters3 = {
     adaptOne: (state, entry) => {
-      const adapted = { ...entry };
-      if ("attendees" in entry) {
-        adapted.attendees = adaptAttendees(adapted.attendees);
+      const { attendees, ...rest } = entry;
+      const adapted = { ...rest };
+      if ("attendees" in entry && attendees) {
+        adapted.attendees = adaptAttendees(attendees);
       }
       return adapted;
     },
-    getIds: (people) => people.map((incident) => incident.id)
+    getIds: (incidents) => incidents.map((incident) => incident.id)
   };
   var adapter3 = createEntityAdapter();
   var selectors3 = adapter3.getSelectors(getIncidents);
   var useGetIncidentById = (id) => {
-    const entity = useSelector((state) => selectors3.selectById(state, id));
+    const entity = use_app_selector_default((state) => selectors3.selectById(state, id));
     return entity;
+  };
+  var initialState4 = {
+    pageIds: [],
+    pagination: void 0,
+    first: void 0,
+    last: void 0,
+    total: 0
   };
   var incidentsSlice = createSlice({
     name: "incidents",
-    initialState: adapter3.getInitialState({
-      pageIds: [],
-      pagination: null,
-      first: null,
-      last: null,
-      total: 0
-    }),
+    initialState: adapter3.getInitialState(initialState4),
     reducers: {
       set: (state, action) => {
         adapter3.upsertOne(state, action.payload);
@@ -38001,7 +38435,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_default = incidentsSlice.reducer;
 
   // assets/scripts/reducers/leaderboard.ts
-  var initialState4 = {
+  var initialState5 = {
     filters: {},
     labels: {},
     values: {
@@ -38020,7 +38454,7 @@ Hook ${hookName} was either not provided or not a function.`);
     setLeaderboardLobbyists,
     setLeaderboardOfficials
   };
-  var reducer = createReducer(initialState4, (builder) => {
+  var reducer = createReducer(initialState5, (builder) => {
     builder.addCase(setLeaderboard, (state, action) => {
       state.filters = action.payload.filters;
       state.labels = action.payload.labels;
@@ -38038,37 +38472,39 @@ Hook ${hookName} was either not provided or not a function.`);
   var adapter4 = createEntityAdapter();
   var selectors4 = adapter4.getSelectors(getSources);
   var useGetSourceById = (id) => {
-    const entity = useSelector((state) => selectors4.selectById(state, id));
+    const entity = use_app_selector_default((state) => selectors4.selectById(state, id));
     return entity;
   };
   var adapters4 = {
     adaptOne: (state, entry) => {
       const savedEntry = selectors4.selectById(state, entry.id);
-      const adapted = { ...entry };
-      if ("roles" in entry) {
-        adapted.roles = adaptRoles(entry.roles, savedEntry?.roles);
+      const { incidents, overview, roles, ...rest } = entry;
+      const adapted = { ...rest };
+      if ("incidents" in entry && incidents) {
+        adapted.incidents = adaptIncidents(incidents);
       }
-      if ("incidents" in adapted) {
-        adapted.incidents = adaptIncidents(adapted.incidents);
-      }
-      if (savedEntry && "overview" in savedEntry) {
+      if ("overview" in entry && overview) {
         adapted.overview = {
-          ...savedEntry.overview,
-          ...adapted.overview
+          ...savedEntry?.overview,
+          ...overview
         };
+      }
+      if ("roles" in entry && roles) {
+        adapted.roles = adaptRoles(roles, savedEntry?.roles);
       }
       return camelcaseKeys(adapted, { deep: false });
     },
-    getIds: (sources) => sources.map((source) => source.id),
-    getIncidents: (source) => source.incidents?.records ?? []
+    getIds: (values) => values.map((value) => value.id),
+    getIncidents: (value) => value.incidents?.records ?? []
+  };
+  var initialState6 = {
+    pageIds: [],
+    pagination: void 0,
+    types: void 0
   };
   var sourcesSlice = createSlice({
     name: "sources",
-    initialState: adapter4.getInitialState({
-      pageIds: [],
-      pagination: null,
-      types: {}
-    }),
+    initialState: adapter4.getInitialState(initialState6),
     reducers: {
       set: (state, action) => {
         adapter4.upsertOne(state, action.payload);
@@ -38099,18 +38535,18 @@ Hook ${hookName} was either not provided or not a function.`);
     setPerson,
     setSources
   };
-  var initialState5 = {
+  var initialState7 = {
     entities: [],
     people: [],
     sources: []
   };
-  var statsReducer = createReducer(initialState5, (builder) => {
-    builder.addCase(setSources, (state, action) => {
-      state.sources = action.payload;
-    }).addCase(setEntity, (state, action) => {
+  var statsReducer = createReducer(initialState7, (builder) => {
+    builder.addCase(setEntity, (state, action) => {
       state.entities.push(action.payload);
     }).addCase(setPerson, (state, action) => {
       state.people.push(action.payload);
+    }).addCase(setSources, (state, action) => {
+      state.sources = action.payload;
     });
   });
   var stats_default = statsReducer;
@@ -38138,26 +38574,28 @@ Hook ${hookName} was either not provided or not a function.`);
     setSection,
     setWarning
   };
-  var initialState6 = {
-    description: null,
-    pageTitle: null,
+  var initialState8 = {
+    description: void 0,
+    pageTitle: void 0,
     errors: [],
     messages: [],
     positionY: 0,
-    section: {},
+    section: {
+      slug: "/"
+    },
     warnings: []
   };
   var customMessageExists = (alerts, customMessage) => customMessage && alerts.some((alert) => alert.customMessage === customMessage);
-  var uiReducer = createReducer(initialState6, (builder) => {
+  var uiReducer = createReducer(initialState8, (builder) => {
     builder.addCase(clearErrors, (state) => {
-      state.errors = initialState6.errors;
+      state.errors = initialState8.errors;
     }).addCase(setError, (state, action) => {
       if (customMessageExists(state.errors, action.payload.customMessage)) {
         return;
       }
       state.errors.push(action.payload);
     }).addCase(clearMessages, (state) => {
-      state.messages = initialState6.messages;
+      state.messages = initialState8.messages;
     }).addCase(setMessage, (state, action) => {
       if (customMessageExists(state.messages, action.payload.customMessage)) {
         return;
@@ -38170,7 +38608,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }).addCase(setPositionY, (state, action) => {
       state.positionY = action.payload;
     }).addCase(clearWarnings, (state) => {
-      state.warnings = initialState6.warnings;
+      state.warnings = initialState8.warnings;
     }).addCase(setSection, (state, action) => {
       state.section = action.payload;
     }).addCase(setWarning, (state, action) => {
@@ -38188,18 +38626,23 @@ Hook ${hookName} was either not provided or not a function.`);
   var adaptIncidents2 = (state, incidents) => incidents.map((incident) => adaptIncident(state, incident));
   var adaptPerson = (state, person) => adapters.adaptOne(state, person);
   var adaptSource = (state, source) => adapters4.adaptOne(state, source);
-  var getPeopleFromIncidents = (state, incidents) => incidents.flatMap(
-    (incident) => Object.values(incident.attendees).filter((group) => "records" in group).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adaptPerson(state, person))
-  );
+  var getPeopleFromAttendees = (state, attendees) => Object.values(attendees).filter((group) => group && "records" in group && group.records).map((group) => group.records).flat().map((attendee) => attendee?.person).map((person) => adaptPerson(state, person));
+  var getPeopleFromIncident = (state, incident) => getPeopleFromAttendees(state, incident.attendees);
+  var getPeopleFromIncidents = (state, incidents) => {
+    if (incidents.length) {
+      return incidents.map((incident) => incident.attendees).flatMap((attendees) => getPeopleFromAttendees(state, attendees));
+    }
+    return [];
+  };
   var getAttendeesFromRole = (state, roles) => {
-    const attendees = Object.values(roles).map((role) => role?.attendees).filter(Boolean);
+    const attendees = Object.values(roles).filter((role) => "attendees" in role && role.attendees).map((role) => role.attendees).filter(Boolean);
     if (attendees.length) {
       return attendees.flatMap((item) => item.values).flatMap((item) => item.records).map((record) => record.person).map((person) => adaptPerson(state, person));
     }
     return [];
   };
   var getEntitiesFromRole = (state, roles) => {
-    const entities = Object.values(roles).map((role) => role?.entities).filter(Boolean);
+    const entities = Object.values(roles).filter((role) => "entities" in role && role.entities).map((role) => role.entities).filter(Boolean);
     if (entities.length) {
       return entities.flatMap((item) => item.values).flatMap((item) => item.records).map((record) => record.entity).map((entity) => adaptEntity(state, entity));
     }
@@ -38245,12 +38688,8 @@ Hook ${hookName} was either not provided or not a function.`);
         if ("roles" in data2.entity.record) {
           if ("named" in data2.entity.record.roles) {
             const attendees = getAttendeesFromRole(state, data2.entity.record.roles.named);
-            const entities = getEntitiesFromRole(state, data2.entity.record.roles.named);
             if (attendees.length) {
               dispatch(setAll(attendees));
-            }
-            if (entities.length) {
-              dispatch(setAll2(entities));
             }
           }
         }
@@ -38272,18 +38711,18 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       if ("incident" in data2) {
         const incident = adaptIncident(state, data2.incident.record);
-        const people = getPeopleFromIncidents(state, [data2.incident.record]);
+        const people = getPeopleFromIncident(state, data2.incident.record);
         dispatch(set4(incident));
         dispatch(setAll(people));
       }
       if ("incidents" in data2) {
         if ("first" in data2.incidents) {
-          const firstPeople = getPeopleFromIncidents(state, [data2.incidents.first]);
+          const firstPeople = getPeopleFromIncident(state, data2.incidents.first);
           dispatch(setFirst(adaptIncident(state, data2.incidents.first)));
           dispatch(setAll(firstPeople));
         }
         if ("last" in data2.incidents) {
-          const lastPeople = getPeopleFromIncidents(state, [data2.incidents.last]);
+          const lastPeople = getPeopleFromIncident(state, data2.incidents.last);
           dispatch(setLast(adaptIncident(state, data2.incidents.last)));
           dispatch(setAll(lastPeople));
         }
@@ -38434,6 +38873,13 @@ Hook ${hookName} was either not provided or not a function.`);
     },
     transformErrorResponse: handleError
   });
+  var getSecondaryRoute = (query) => ({
+    query,
+    transformResponse: (result) => {
+      handleResult(result);
+    },
+    transformErrorResponse: handleError
+  });
   var getAncillaryRoute = (query) => ({
     query,
     transformResponse: (result) => {
@@ -38473,7 +38919,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     }),
     endpoints: (builder) => ({
-      getOverview: builder.query(getAncillaryRoute(
+      getOverview: builder.query(getSecondaryRoute(
         () => "api/stats"
       )),
       getLeaderboard: builder.query(getAncillaryRoute(
@@ -38530,33 +38976,36 @@ Hook ${hookName} was either not provided or not a function.`);
   var api_default = api;
 
   // assets/scripts/middleware/handle-add-to-position-lookup-queue.ts
-  var handleAddToPositionLookupQueue = async (store2, action) => {
-    const { dispatch } = store2;
+  var handleAddToPositionLookupQueue = async (action, state) => {
+    const { dispatch } = state;
     const { payload } = action;
     const { endpoints } = api_default;
     const endpoint = endpoints.getPersonOfficialPositionsById;
-    const ids = payload;
     const method = async (id) => {
       const promise = dispatch(endpoint.initiate({ id }));
       const result = await promise;
       if (result.isSuccess) {
-        dispatch(addToLookupCompleted(result.originalArgs.id));
+        if (result.originalArgs.id) {
+          dispatch(addToLookupCompleted(result.originalArgs.id));
+        }
       }
       promise.unsubscribe();
       return result;
     };
     try {
-      await batchPromiseAll(ids, method);
+      await batchPromiseAll(payload, method);
     } catch (error) {
-      console.error("Failed to fetch:", error.message);
+      if (error instanceof Error) {
+        console.error("Failed to fetch:", error.message);
+      }
     }
   };
   var handle_add_to_position_lookup_queue_default = handleAddToPositionLookupQueue;
 
   // assets/scripts/middleware/handle-set-person.ts
   var hasPernr = (person) => person.pernr !== null;
-  var lookupOfficialPositionsForId = (store2, idOrIds) => {
-    const { dispatch, getState } = store2;
+  var lookupOfficialPositionsForId = (state, idOrIds) => {
+    const { dispatch, getState } = state;
     const queue = getOfficialPositionsLookupQueue(getState());
     const completed2 = getOfficialPositionsLookupCompleted(getState());
     let ids = [];
@@ -38571,38 +39020,40 @@ Hook ${hookName} was either not provided or not a function.`);
       dispatch(addToLookupQueue(ids));
     }
   };
-  var handleSetPerson = (store2, action) => {
+  var handleSetPerson = (action, state) => {
     const { payload } = action;
-    const person = payload;
-    if (hasPernr(person)) {
-      lookupOfficialPositionsForId(store2, person.id);
+    if (hasPernr(payload)) {
+      lookupOfficialPositionsForId(state, payload.id);
     }
   };
   var handle_set_person_default = handleSetPerson;
 
   // assets/scripts/middleware/handle-set-people.ts
-  var handleSetPeople = (store2, action) => {
+  var handleSetPeople = (action, state) => {
     const { payload } = action;
     const people = payload;
     const peopleWithPernr = people.filter(hasPernr);
     const ids = peopleWithPernr.map((person) => person.id);
-    lookupOfficialPositionsForId(store2, ids);
+    lookupOfficialPositionsForId(state, ids);
   };
   var handle_set_people_default = handleSetPeople;
 
   // assets/scripts/lib/middleware.ts
-  var types = {
-    [addToLookupQueue.type]: handle_add_to_position_lookup_queue_default,
-    [set2.type]: handle_set_person_default,
-    [setAll.type]: handle_set_people_default
-  };
-  var handlers = (store2) => (next2) => (action) => {
-    if (action.type in types) {
-      types[action.type](store2, action);
-    }
-    return next2(action);
-  };
-  var middleware_default = handlers;
+  var listenerMiddleware = createListenerMiddleware();
+  var startAppListening = listenerMiddleware.startListening.withTypes();
+  startAppListening({
+    actionCreator: addToLookupQueue,
+    effect: handle_add_to_position_lookup_queue_default
+  });
+  startAppListening({
+    actionCreator: set2,
+    effect: handle_set_person_default
+  });
+  startAppListening({
+    actionCreator: setAll,
+    effect: handle_set_people_default
+  });
+  var middleware_default = listenerMiddleware;
 
   // assets/scripts/lib/store.ts
   var store = configureStore({
@@ -38616,7 +39067,7 @@ Hook ${hookName} was either not provided or not a function.`);
       stats: stats_default,
       ui: ui_default
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api_default.middleware, middleware_default),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(middleware_default.middleware).concat(api_default.middleware),
     devTools: true
   });
   var store_default = store;
@@ -39119,7 +39570,7 @@ Hook ${hookName} was either not provided or not a function.`);
      */
     onExited: import_prop_types2.default.func
   } : {};
-  function noop2() {
+  function noop3() {
   }
   Transition.defaultProps = {
     in: false,
@@ -39128,12 +39579,12 @@ Hook ${hookName} was either not provided or not a function.`);
     appear: false,
     enter: true,
     exit: true,
-    onEnter: noop2,
-    onEntering: noop2,
-    onEntered: noop2,
-    onExit: noop2,
-    onExiting: noop2,
-    onExited: noop2
+    onEnter: noop3,
+    onEntering: noop3,
+    onEntered: noop3,
+    onExit: noop3,
+    onExiting: noop3,
+    onExited: noop3
   };
   Transition.UNMOUNTED = UNMOUNTED;
   Transition.EXITED = EXITED;
@@ -39410,7 +39861,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/hooks/use-fixed-body-when-has-class.ts
   var import_react6 = __toESM(require_react());
   var useFixedBodyWhenHasClass = (className) => {
-    const { positionY } = useSelector(getUI);
+    const { positionY } = use_app_selector_default(getUI);
     (0, import_react6.useEffect)(() => {
       document.body.classList.add(className);
       document.body.style.position = "fixed";
@@ -40880,14 +41331,14 @@ Hook ${hookName} was either not provided or not a function.`);
       return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r2, a2) : void 0;
     }
   }
-  var noop3 = function noop4() {
+  var noop4 = function noop5() {
   };
   var _WINDOW = {};
   var _DOCUMENT = {};
   var _MUTATION_OBSERVER = null;
   var _PERFORMANCE = {
-    mark: noop3,
-    measure: noop3
+    mark: noop4,
+    measure: noop4
   };
   try {
     if (typeof window !== "undefined") _WINDOW = window;
@@ -42804,7 +43255,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }));
     });
   }
-  var noop$1 = function noop5() {
+  var noop$1 = function noop6() {
   };
   var p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
     mark: noop$1,
@@ -42825,7 +43276,7 @@ Hook ${hookName} was either not provided or not a function.`);
     begin,
     end
   };
-  var noop$2 = function noop6() {
+  var noop$2 = function noop7() {
   };
   function isWatched(node2) {
     var i2svg2 = node2.getAttribute ? node2.getAttribute(DATA_FA_I2SVG) : null;
@@ -44598,6 +45049,15 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var use_query_params_default = useQueryParams;
 
+  // assets/scripts/types.ts
+  var Sections = /* @__PURE__ */ ((Sections2) => {
+    Sections2["Entities"] = "entities";
+    Sections2["Incidents"] = "incidents";
+    Sections2["People"] = "people";
+    Sections2["Sources"] = "sources";
+    return Sections2;
+  })(Sections || {});
+
   // assets/scripts/components/links.tsx
   var import_jsx_runtime3 = __toESM(require_jsx_runtime());
   var getWithEntityParams = (entity, role) => {
@@ -44635,7 +45095,7 @@ Hook ${hookName} was either not provided or not a function.`);
           button: e2.button
         });
         e2.preventDefault();
-        ref.current.dispatchEvent(customEvent);
+        ref.current?.dispatchEvent(customEvent);
       } else {
         onClick?.(e2);
       }
@@ -44754,10 +45214,8 @@ Hook ${hookName} was either not provided or not a function.`);
       children
     }
   );
-  var LinkToEntities = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/entities", ...rest, children });
   var LinkToEntity = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/entities/${id}`, ...rest, children });
   var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/incidents", ...rest, children });
-  var LinkToPeople = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/people", ...rest, children });
   var LinkToPerson = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/people/${id}`, ...rest, children });
   var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/sources", ...rest, children });
   var LinkToSource = ({ children, id, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: `/sources/${id}`, ...rest, children });
@@ -44842,21 +45300,20 @@ Hook ${hookName} was either not provided or not a function.`);
     children,
     className,
     icon: icon3
-  }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: cx("item-text-with-icon", className), children: after ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+  }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: cx("item-text-with-icon", className), children: icon3 ? after ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children }),
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(icon_default, { name: icon3 })
   ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(icon_default, { name: icon3 }),
     /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children })
-  ] }) });
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children }) });
   var item_text_with_icon_default = ItemTextWithIcon;
 
   // assets/scripts/components/alert.tsx
   var import_jsx_runtime7 = __toESM(require_jsx_runtime());
   var isObject4 = (alert) => typeof alert === "object";
-  var getHasCustomMessage = (alert) => isObject4 && Boolean(alert.customMessage);
-  var getHasMessage = (alert) => isObject4 && Boolean(alert.message);
-  var getHasStatus = (alert) => isObject4 && Boolean(alert.status);
+  var getHasMessage = (alert) => isObject4(alert) && Boolean(alert.message);
+  var getHasStatus = (alert) => isObject4(alert) && Boolean(alert.status);
   var MessageContent = ({ alert }) => {
     const hasMessage = getHasMessage(alert);
     const hasStatus = getHasStatus(alert);
@@ -44867,23 +45324,22 @@ Hook ${hookName} was either not provided or not a function.`);
       !hasStatus && !hasMessage && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "Something went wrong" })
     ] });
   };
-  var AlertMessageContent = ({ alert }) => {
-    const hasCustomMessage = getHasCustomMessage(alert);
-    return hasCustomMessage ? /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-        "p",
-        {
-          className: "message-content",
-          dangerouslySetInnerHTML: { __html: alert.customMessage }
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "original-message-content", children: [
-        "(",
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }),
-        ")"
-      ] })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }) });
-  };
+  var Message = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }) });
+  var CustomMessage = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
+    alert.customMessage && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+      "p",
+      {
+        className: "message-content",
+        dangerouslySetInnerHTML: { __html: alert.customMessage }
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "original-message-content", children: [
+      "(",
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }),
+      ")"
+    ] })
+  ] });
+  var AlertMessageContent = ({ alert }) => alert.customMessage === alert.message ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Message, { alert }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CustomMessage, { alert });
   var Alert = ({
     alerts,
     deactivate,
@@ -44923,18 +45379,22 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var alert_default = Alert;
 
+  // assets/scripts/hooks/use-app-dispatch.ts
+  var useAppDispatch = useDispatch.withTypes();
+  var use_app_dispatch_default = useAppDispatch;
+
   // assets/scripts/components/alert-error.tsx
   var import_jsx_runtime8 = __toESM(require_jsx_runtime());
   var AlertError = () => {
     const [isActive, setIsActive] = (0, import_react11.useState)(false);
-    const dispatch = useDispatch();
+    const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
         dispatch(actions3.clearErrors());
       }, 250);
     };
-    const alerts = useSelector(getErrors);
+    const alerts = use_app_selector_default(getErrors);
     const hasAlerts = alerts.length > 0;
     (0, import_react11.useEffect)(() => {
       if (hasAlerts) {
@@ -45726,14 +46186,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   var AlertMessage = () => {
     const [isActive, setIsActive] = (0, import_react14.useState)(false);
-    const dispatch = useDispatch();
+    const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
         dispatch(actions3.clearMessages());
       }, 250);
     };
-    const alerts = useSelector(getMessages);
+    const alerts = use_app_selector_default(getMessages);
     const hasAlerts = alerts.length > 0;
     (0, import_react14.useEffect)(() => {
       if (hasAlerts) {
@@ -45757,14 +46217,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   var AlertWarning = () => {
     const [isActive, setIsActive] = (0, import_react15.useState)(false);
-    const dispatch = useDispatch();
+    const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
         dispatch(actions3.clearWarnings());
       }, 250);
     };
-    const alerts = useSelector(getWarnings);
+    const alerts = use_app_selector_default(getWarnings);
     const hasAlerts = alerts.length > 0;
     (0, import_react15.useEffect)(() => {
       if (hasAlerts) {
@@ -45897,20 +46357,16 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/section-icon.tsx
   var import_jsx_runtime20 = __toESM(require_jsx_runtime());
-  var ENTITIES = "entities";
-  var INCIDENTS = "incidents";
-  var PEOPLE = "people";
-  var SOURCES = "sources";
   var SectionIcon = ({ name, slug }) => {
     if (name) {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default, { name });
-    } else if (slug === ENTITIES) {
+    } else if (slug === "entities" /* Entities */) {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default2, {});
-    } else if (slug === INCIDENTS) {
+    } else if (slug === "incidents" /* Incidents */) {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default3, {});
-    } else if (slug === PEOPLE) {
+    } else if (slug === "people" /* People */) {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default4, {});
-    } else if (slug === SOURCES) {
+    } else if (slug === "sources" /* Sources */) {
       return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(icon_default5, {});
     }
     return null;
@@ -45919,71 +46375,84 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/section-header.tsx
   var import_jsx_runtime21 = __toESM(require_jsx_runtime());
-  var getItemSelector = (section) => {
-    let selector = null;
-    if (section?.slug === "entities" /* Entities */) {
-      selector = useGetEntityById;
-    } else if (section?.slug === "incidents" /* Incidents */) {
-      selector = useGetIncidentById;
-    } else if (section?.slug === "people" /* People */) {
-      selector = useGetPersonById;
-    } else if (section?.slug === "sources" /* Sources */) {
-      selector = useGetSourceById;
+  var useGetItemSelector = (slug, id) => {
+    const slugValue = slug;
+    const slugValues = Object.values(Sections);
+    if (id && slugValues.includes(slugValue)) {
+      if (slug === "entities" /* Entities */) {
+        return useGetEntityById(id);
+      } else if (slug === "incidents" /* Incidents */) {
+        return useGetIncidentById(id);
+      } else if (slug === "people" /* People */) {
+        return useGetPersonById(id);
+      } else if (slug === "sources" /* Sources */) {
+        return useGetSourceById(id);
+      }
     }
-    return selector;
+    return null;
   };
-  var useGetSectionLink = (slug) => {
-    if (slug === "entities" /* Entities */) {
-      return LinkToEntities;
-    } else if (slug === "incidents" /* Incidents */) {
-      return LinkToIncidents;
-    } else if (slug === "people" /* People */) {
-      return LinkToPeople;
-    } else if (slug === "sources" /* Sources */) {
-      return LinkToSources;
-    }
+  var SectionDescriptionLink = ({ link }) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h3", { children: link ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(BetterLink, { to: link?.path, children: link?.label }) : null });
+  var SectionDescription = ({ id, slug }) => {
+    const item = useGetItemSelector(slug, id);
+    const details = Object.values(item?.details ?? {});
+    if (!item) return null;
+    const hasDetails = details.length > 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h4", { children: hasDetails && details.map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "header-section-detail", children: detail }, i2)) });
   };
-  var SectionItemLink = ({ children, section }) => {
-    const selector = getItemSelector(section);
-    const item = selector(section.id);
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(BetterLink, { to: item.links.self, children });
-  };
-  var SectionDescription = ({ section }) => {
-    const selector = getItemSelector(section);
-    const item = selector(section.id);
-    const details = item.details;
-    const hasDetails = Object.keys(details || {}).length > 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h4", { children: hasDetails && Object.values(details).map((detail, i2) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "header-section-detail", children: detail }, i2)) });
-  };
+  var HeaderIdentityLogo = () => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-secondary", children: "The" }),
+    " ",
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-primary", children: "Big Blink" }),
+    " ",
+    /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-secondary", children: "PDX" })
+  ] }) });
+  var HeaderIdentityEyes = () => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(eyes_default, {}) });
+  var SectionIconLink = ({ icon: icon3, link, slug }) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(BetterLink, { to: link.path, "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug }) });
+  var SectionTitleLink = ({ link, title }) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(BetterLink, { to: link.path, "aria-label": "section-title", children: title });
   var SectionHeader = ({
     children,
     icon: icon3,
     title
   }) => {
-    const section = useSelector(getSection);
-    const slug = section?.slug;
-    const SectionLink = useGetSectionLink(slug);
-    const hasLink = Boolean(SectionLink);
-    const hasSubhead = Boolean(section.subtitle);
+    const section = use_app_selector_default(getSection);
+    const hasSubhead = Boolean(section?.subtitle);
     return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(header_default, { className: hasSubhead && "has-subheader", children: [
       /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(HeaderOverview, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-identity", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(GlobalLink, { to: "/", className: "header-identity-link", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-secondary", children: "The" }),
-            " ",
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-primary", children: "Big Blink" }),
-            " ",
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "text-secondary", children: "PDX" })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "header-identity-eyes", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(eyes_default, {}) })
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(HeaderIdentityLogo, {}),
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(HeaderIdentityEyes, {})
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-section", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: cx("header-section-icon", hasLink && "has-link"), children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(SectionLink, { "aria-label": "section-icon", children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug }) }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug }) }),
+        section && /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-section", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: cx("header-section-icon", section.links && "has-link"), children: section.links ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+            SectionIconLink,
+            {
+              icon: icon3,
+              link: section.links?.section,
+              slug: section.slug
+            }
+          ) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug: section?.slug }) }),
           /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-section-title", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h2", { children: hasLink ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(SectionLink, { "aria-label": "section-title", children: title ?? section.title }) : title ?? section.title }),
+            /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h2", { children: section.links ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+              SectionTitleLink,
+              {
+                link: section.links?.section,
+                title: title ?? section.title
+              }
+            ) : title ?? section?.title }),
             hasSubhead && /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(import_jsx_runtime21.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h3", { children: /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(SectionItemLink, { section, children: section.subtitle }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(SectionDescription, { section })
+              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+                SectionDescriptionLink,
+                {
+                  link: section.links?.detail
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+                SectionDescription,
+                {
+                  id: section.id,
+                  slug: section.slug
+                }
+              )
             ] })
           ] })
         ] })
@@ -46001,20 +46470,17 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/meta-section.tsx
   var import_jsx_runtime22 = __toESM(require_jsx_runtime());
-  var MetaSectionBox = ({ children, className, icon: icon3, title }) => {
-    const hasIcon = Boolean(icon3);
-    return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: cx(
-      "meta-section-box",
-      className,
-      hasIcon && "has-icon"
-    ), children: [
-      hasIcon && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-icon", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(icon_default, { name: icon3 }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "meta-section-box-content", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-title", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("h6", { children: title }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-description", children })
-      ] })
-    ] });
-  };
+  var MetaSectionBox = ({ children, className, icon: icon3, title }) => /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: cx(
+    "meta-section-box",
+    className,
+    icon3 && "has-icon"
+  ), children: [
+    icon3 && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-icon", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(icon_default, { name: icon3 }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "meta-section-box-content", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-title", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("h6", { children: title }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section-box-description", children })
+    ] })
+  ] });
   var MetaSection = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "meta-section", children });
   var meta_section_default = MetaSection;
 
@@ -46034,11 +46500,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/item-link.tsx
   var import_jsx_runtime24 = __toESM(require_jsx_runtime());
   var ItemLink = ({ children, className, item }) => {
-    const hasSelfLink = Boolean(item?.links?.self);
-    if (!hasSelfLink) {
+    if (!item.links?.self) {
       console.log("*", item);
     }
-    return hasSelfLink ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(BetterLink, { to: item.links.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToPerson, { id: item.id, className, children });
+    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(LinkToPerson, { id: item.id, className, children });
   };
   var item_link_default = ItemLink;
 
@@ -46046,9 +46511,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime25 = __toESM(require_jsx_runtime());
   var useGetAttendeesByRole = (incident, role) => {
     if (role === "lobbyist" /* Lobbyist */) {
-      return incident.attendees.lobbyists;
+      return incident.attendees?.lobbyists;
     } else if (role === "official" /* Official */) {
-      return incident.attendees.officials;
+      return incident.attendees?.officials;
     }
     return null;
   };
@@ -46067,15 +46532,13 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var IncidentRole = ({ attendee, date }) => {
     const position2 = useGetPersonPosition(attendee.person.id, date);
-    const hasRole = Boolean(position2?.role);
-    if (!hasRole) return null;
+    if (!position2?.role) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("div", { className: "attendee-role", children: position2.role });
   };
   var IncidentAttendees = ({ incident, role }) => {
     const attendees = useGetAttendeesByRole(incident, role);
-    const hasAttendees = attendees?.records?.length > 0;
     const date = incident.raw.dateStart;
-    if (!hasAttendees) {
+    if (!attendees?.records?.length) {
       return "none";
     }
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("ul", { className: "incident-attendees", children: attendees.records.map((attendee) => /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("li", { className: "incident-attendee", children: /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(IncidentAttendee, { attendee, children: role === "official" /* Official */ && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(IncidentRole, { attendee, date }) }) }, attendee.person.id)) });
@@ -46088,11 +46551,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/item-link.tsx
   var import_jsx_runtime26 = __toESM(require_jsx_runtime());
   var ItemLink2 = ({ children, className, item }) => {
-    const hasSelfLink = Boolean(item?.links?.self);
-    if (!hasSelfLink) {
+    if (!item.links?.self) {
       console.log("*", item);
     }
-    return hasSelfLink ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(BetterLink, { to: item.links.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(LinkToEntity, { id: item.id, className, children });
+    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(LinkToEntity, { id: item.id, className, children });
   };
   var item_link_default2 = ItemLink2;
 
@@ -46164,28 +46626,25 @@ Hook ${hookName} was either not provided or not a function.`);
     icon: icon3,
     title,
     subtitle
-  }) => {
-    const hasIcon = Boolean(icon3);
-    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
-      "header",
-      {
-        className: cx(
-          "item-subhead",
-          hasBorder && "has-border",
-          hasIcon && "has-icon",
-          className
-        ),
-        children: [
-          hasIcon && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(icon_default, { name: icon3 }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "item-subhead-content", children: [
-            title && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h4", { children: title }),
-            subtitle && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h5", { children: subtitle }),
-            children
-          ] })
-        ]
-      }
-    );
-  };
+  }) => /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(
+    "header",
+    {
+      className: cx(
+        "item-subhead",
+        hasBorder && "has-border",
+        icon3 && "has-icon",
+        className
+      ),
+      children: [
+        icon3 && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(icon_default, { name: icon3 }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "item-subhead-content", children: [
+          title && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h4", { children: title }),
+          subtitle && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h5", { children: subtitle }),
+          children
+        ] })
+      ]
+    }
+  );
   var item_subhead_default = ItemSubhead;
 
   // assets/scripts/components/modal.tsx
@@ -46239,7 +46698,7 @@ Hook ${hookName} was either not provided or not a function.`);
         item_subhead_default,
         {
           title: /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+            incident?.links && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
               LinkIcon,
               {
                 name: iconName2,
@@ -46248,7 +46707,7 @@ Hook ${hookName} was either not provided or not a function.`);
             ),
             /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "item-text", children: "Lobbying Incident" })
           ] }),
-          children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+          children: incident?.links && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
             LinkIcon,
             {
               name: "link",
@@ -46276,11 +46735,12 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime32 = __toESM(require_jsx_runtime());
   var dateRangeMessage = "Some incident dates appear to be anomalous and have been omitted from this range, pending official word from the City Auditor\u2019s office. Refer to individual incident records for more details.";
   var DateRangeNote = () => {
-    const dispatch = useDispatch();
+    const dispatch = use_app_dispatch_default();
     const handleClick = (event) => {
       event.preventDefault();
       event.stopPropagation();
       dispatch(actions3.setMessage({
+        customMessage: dateRangeMessage,
         message: dateRangeMessage
       }));
     };
@@ -46290,18 +46750,15 @@ Hook ${hookName} was either not provided or not a function.`);
     const { pathname } = useLocation();
     const [savedPathname, setSavedPathname] = (0, import_react19.useState)(pathname);
     const [selectedId, setSelectedId] = (0, import_react19.useState)();
-    const total = useSelector(getIncidentTotal);
-    const first = useSelector(getIncidentFirst);
-    const last = useSelector(getIncidentLast);
-    const hasFirst = Boolean(first);
-    const hasLast = Boolean(last);
-    const hasData = total > 0 && hasFirst && hasLast;
+    const total = use_app_selector_default(getIncidentTotal);
+    const first = use_app_selector_default(getIncidentFirst);
+    const last = use_app_selector_default(getIncidentLast);
     const deactivate = () => setSelectedId(null);
     const handleClick = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.target instanceof HTMLAnchorElement) {
-        setSelectedId(Number(event.target.dataset.id));
+      event?.preventDefault();
+      event?.stopPropagation();
+      if (event?.target instanceof HTMLAnchorElement) {
+        setSelectedId(Number(event?.target.dataset.id));
       }
     };
     (0, import_react19.useEffect)(() => {
@@ -46312,7 +46769,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setSelectedId(null);
       }
     }, [pathname, savedPathname, setSelectedId]);
-    if (!hasData) return null;
+    if (!first?.links?.self || !last?.links?.self || total === 0) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "header-intro", children: [
       /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("p", { children: [
         "The Big Blink remixes lobbying data published by the City of Portland, Oregon, including",
@@ -46324,11 +46781,11 @@ Hook ${hookName} was either not provided or not a function.`);
         " ",
         "reported between",
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: first.links.self, "data-id": first.id, onClick: handleClick, children: first.contactDate }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: first?.links?.self, "data-id": first?.id, onClick: handleClick, children: first?.contactDate }),
         " ",
         "and",
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: last.links.self, "data-id": last.id, onClick: handleClick, children: last.contactDate }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: last?.links?.self, "data-id": last?.id, onClick: handleClick, children: last?.contactDate }),
         ".",
         " ",
         /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(DateRangeNote, {})
@@ -46337,7 +46794,7 @@ Hook ${hookName} was either not provided or not a function.`);
         incident_modal_default,
         {
           deactivate,
-          id: first.id,
+          id: first?.id,
           isActive: selectedId === first.id
         }
       ),
@@ -46345,8 +46802,8 @@ Hook ${hookName} was either not provided or not a function.`);
         incident_modal_default,
         {
           deactivate,
-          id: last.id,
-          isActive: selectedId === last.id
+          id: last?.id,
+          isActive: selectedId === last?.id
         }
       )
     ] });
@@ -46455,7 +46912,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/hooks/use-capture-scroll-position.ts
   var useCaptureScrollPosition = (classNames = []) => {
-    const dispatch = useDispatch();
+    const dispatch = use_app_dispatch_default();
     const [scrollPos, setScrollPos] = (0, import_react20.useState)(0);
     const handleScroll = () => {
       setScrollPos(Number(window.scrollY) * -1);
@@ -46494,8 +46951,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const [triggerOverview, overviewResult] = api_default.useLazyGetOverviewQuery();
     const [triggerLeaderboard, leaderboardResult] = api_default.useLazyGetLeaderboardQuery();
     const location2 = useLocation();
-    const description = useSelector(getDescription);
-    const pageTitle = useSelector(getPageTitle);
+    const description = use_app_selector_default(getDescription);
+    const pageTitle = use_app_selector_default(getPageTitle);
     const isHome = location2.pathname === "/";
     const className = ["section", location2.pathname.split("/").at(1)].join("-");
     const scrollCaptureClasses = [hasAlertClass, hasModalClass];
@@ -46542,9 +46999,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react23 = __toESM(require_react());
 
   // assets/scripts/lib/dom.ts
-  var isRefTopInView = (ref) => ref.current.offsetTop >= window.scrollY;
+  var isRefTopInView = (ref) => (ref.current?.offsetTop ?? 0) >= window.scrollY;
   var scrollToRef = (ref) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
+    ref.current?.scrollIntoView({ behavior: "smooth" });
   };
   var delayedScrollToRef = (ref, delay = 250) => {
     setTimeout(() => {
@@ -46602,7 +47059,6 @@ Hook ${hookName} was either not provided or not a function.`);
     const [lastSearchParams, setLastSearchParams] = (0, import_react23.useState)(searchParams);
     const [hasFetched, setHasFetched] = (0, import_react23.useState)(false);
     const action = (ref) => {
-      const hasRef = Boolean(ref?.current);
       const hasPageParams = hasPageSearchParams(searchParams);
       const hasSortParams = hasSortSearchParams(searchParams);
       const hasIncidentFilterParams = hasIncidentFilterSearchParams(searchParams);
@@ -46613,13 +47069,13 @@ Hook ${hookName} was either not provided or not a function.`);
           const hadSortParams = hasSortSearchParams(lastSearchParams);
           const hadIncidentFilterParams = hasIncidentFilterSearchParams(lastSearchParams);
           const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
-          if (hasRef && (hasParams || hadParams)) {
+          if (ref?.current && (hasParams || hadParams)) {
             delayedScrollToRef(ref);
           } else {
             delayedScrollToTop();
           }
         } else {
-          if (hasRef && hasParams) {
+          if (ref?.current && hasParams) {
             delayedScrollToRef(ref);
           } else {
             delayedScrollToTop();
@@ -46797,16 +47253,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime39 = __toESM(require_jsx_runtime());
   var EntityItem = ({ id }) => {
     const entity = useGetEntityById(id);
+    const percentage = entity?.overview?.totals?.values?.percentage?.value;
+    const total = entity?.overview?.totals?.values?.total?.value;
     const hasEntity = Boolean(entity);
-    const hasTotal = Boolean(entity?.overview?.totals?.values.total.value);
+    const hasTotal = Boolean(total);
     if (!hasEntity) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
       ItemRow,
       {
         icon: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(icon_default2, {}),
         name: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(item_link_default2, { item: entity, children: entity.name }) : entity.name,
-        percentage: entity.overview?.totals.values.percentage.value ?? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: "-" }),
-        total: entity.overview?.totals.values.total.value ?? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: "-" })
+        percentage: percentage ?? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: "-" }),
+        total: total ?? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children: "-" })
       }
     );
   };
@@ -46820,8 +47278,8 @@ Hook ${hookName} was either not provided or not a function.`);
   ] });
   var Index2 = () => {
     const ref = (0, import_react25.useRef)(null);
-    const pagination = useSelector(getEntitiesPagination);
-    const pageIds = useSelector(getEntitiesPageIds);
+    const pagination = use_app_selector_default(getEntitiesPagination);
+    const pageIds = use_app_selector_default(getEntitiesPageIds);
     const hasPageIds = pageIds?.length > 0;
     const fetch2 = async (callback2) => {
       if (callback2) {
@@ -46877,14 +47335,16 @@ Hook ${hookName} was either not provided or not a function.`);
     const [paused, setPaused] = (0, import_react26.useState)(options2.pause || false);
     const initialLimit = options2.limit;
     const id = options2.id;
-    let search;
+    let search = void 0;
     if (options2.search) {
       if (typeof options2.search === "string") {
         search = options2.search;
-      } else if (isObject3(options2.search)) {
+      } else if (isObject(options2.search)) {
         search = new URLSearchParams(options2.search);
       }
-      search = `?${search.toString()}`;
+      if (search) {
+        search = `?${search.toString()}`;
+      }
     }
     const [recordLimit, setRecordLimit] = (0, import_react26.useState)(initialLimit);
     const [trigger, result] = query();
@@ -46968,7 +47428,7 @@ Hook ${hookName} was either not provided or not a function.`);
       children: [
         icon3 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(icon_default, { name: icon3 }),
         /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "activity-stat-content", children: [
-          title && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h6", { className: "activity-stat-titles", children: title && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "activity-stat-title", children: title }) }),
+          title && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h6", { className: "activity-stat-titles", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "activity-stat-title", children: title }) }),
           /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
             "div",
             {
@@ -47010,15 +47470,13 @@ Hook ${hookName} was either not provided or not a function.`);
     setLimit
   }) => {
     const hasIntro = Boolean(links.intro);
-    const hasOptions = Boolean(links.options);
-    const hasMore = Boolean(links.more);
     const hasTotal = Boolean(links.total);
-    const hasGroup = hasOptions || hasMore;
+    const hasGroup = links.options || links.more;
     return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMore, { className: !hasGroup && hasTotal && "total-only", children: [
       hasGroup && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptionGroup, { children: [
-        hasOptions && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptions, { children: [
-          hasIntro && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { className: "is-intro", icon: "list-ol", children: links.intro.label }),
-          links.options.map((option) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
+        links.options && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(ItemTableMoreOptions, { children: [
+          hasIntro && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { className: "is-intro", icon: "list-ol", children: links.intro?.label }),
+          links.options?.map((option) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(
             OptionsLink,
             {
               link: option,
@@ -47028,7 +47486,7 @@ Hook ${hookName} was either not provided or not a function.`);
             option.params.limit
           ))
         ] }),
-        hasMore && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreOptions, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(BetterLink, { to: links.more.path, children: links.more.label }) }) })
+        links.more && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreOptions, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_with_icon_default, { icon: "link", children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(BetterLink, { to: links.more?.path, children: links.more?.label }) }) })
       ] }),
       hasTotal && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ItemTableMoreTotal, { children: /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(item_text_default, { children: links.total.label }) })
     ] });
@@ -47311,15 +47769,15 @@ Hook ${hookName} was either not provided or not a function.`);
     } else if (type === "activity") {
       return api_default.useLazyGetSourceRolesByIdQuery;
     }
-    return null;
+    return api_default.useLazyGetPersonRolesByIdQuery;
   };
-  var useGetItemRolesByItem = (item, options2, isPaused) => {
+  var useGetItemRolesByItem = (item, searchOptions, isPaused) => {
     const query = getRoleQuery(item.type);
     return use_limited_query_default(query, {
       id: item.id,
       limit: 5,
       pause: isPaused,
-      search: options2
+      search: searchOptions
     });
   };
   var Group = ({ children, icon: icon3, title }) => {
@@ -47340,18 +47798,19 @@ Hook ${hookName} was either not provided or not a function.`);
     role,
     value
   }) => {
-    const options2 = {
-      association: value?.association
-    };
+    const searchOptions = {};
+    if (value) {
+      searchOptions.association = value.association;
+    }
     if (role) {
-      options2.role = role;
+      searchOptions.role = role;
     }
     const {
       currentLimit,
       initialLimit,
       setPaused,
       setRecordLimit
-    } = useGetItemRolesByItem(item, options2, true);
+    } = useGetItemRolesByItem(item, searchOptions, true);
     const setLimit = (limit) => {
       setPaused(false);
       setRecordLimit(limit);
@@ -47359,18 +47818,20 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!value) return null;
     return children(initialLimit, currentLimit, setLimit);
   };
-  var Attendees = ({ item, role }) => {
-    const namedRole = item?.roles.named?.[role];
-    const items = namedRole?.attendees;
-    const filterByRole = namedRole?.filterRole;
-    const hasItems = items?.values.length > 0;
+  var Attendees = ({
+    filterByRole,
+    item,
+    items,
+    role
+  }) => {
+    const hasItems = items?.values?.length ?? 0 > 0;
     if (!hasItems) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Group,
       {
-        title: items.label,
+        title: items?.label ?? "",
         icon: "user-group",
-        children: (ref) => items.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+        children: (ref) => items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
           AssociationGroup,
           {
             item,
@@ -47394,18 +47855,20 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var Entities = ({ item, role }) => {
-    const namedRole = item?.roles.named?.[role];
-    const items = namedRole?.entities;
-    const filterByRole = namedRole?.filterRole;
-    const hasItems = items?.values.length > 0;
+  var Entities = ({
+    filterByRole,
+    item,
+    items,
+    role
+  }) => {
+    const hasItems = items?.values?.length ?? 0 > 0;
     if (!hasItems) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
       Group,
       {
-        title: items.label,
+        title: items?.label ?? "",
         icon: "building",
-        children: (ref) => items.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+        children: (ref) => items?.values.map((value, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
           AssociationGroup,
           {
             item,
@@ -47434,14 +47897,15 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var NamedRole = ({ item, role }) => {
     const [hasRun, setHasRun] = (0, import_react28.useState)(false);
-    const options2 = { role };
-    const namedRole = item?.roles.named?.[role];
-    useGetItemRolesByItem(item, options2, hasRun);
+    const searchOptions = { role };
+    const namedRole = item?.roles?.named?.[role] ?? {};
+    useGetItemRolesByItem(item, searchOptions, hasRun);
     (0, import_react28.useEffect)(() => {
       setHasRun(true);
     }, [setHasRun]);
-    const hasNamedRole = Boolean(namedRole);
-    if (!hasNamedRole) return null;
+    const hasItem = item !== void 0;
+    const hasNamedRole = namedRole !== void 0;
+    if (!hasItem || !hasNamedRole) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(ActivityDetailsSection, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
         detail_activity_subhead_default,
@@ -47450,20 +47914,43 @@ Hook ${hookName} was either not provided or not a function.`);
           icon: getIconName3(namedRole.role)
         }
       ),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Entities, { item, role }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Attendees, { item, role })
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+        Entities,
+        {
+          filterByRole: namedRole.filterRole,
+          item,
+          items: namedRole.entities,
+          role
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(
+        Attendees,
+        {
+          filterByRole: namedRole.filterRole,
+          item,
+          items: namedRole.attendees,
+          role
+        }
+      )
     ] });
   };
   var Associations = ({ item }) => {
-    const options2 = item.roles.options;
-    const roles = (0, import_react28.useMemo)(() => Object.entries(options2).reduce((all, [key, value]) => {
-      if (value) {
-        all.push(key);
-      }
-      return all;
-    }, []), [options2]);
+    const options2 = item.roles?.options;
+    const roles = (0, import_react28.useMemo)(() => {
+      const availableOptions = [];
+      return Object.entries(options2 || {}).reduce((all, [key, value]) => {
+        const k2 = key;
+        if (value === true) {
+          all.push(k2);
+        }
+        return all;
+      }, availableOptions);
+    }, [options2]);
+    const hasItem = item !== void 0;
+    const hasItemRoles = item?.roles !== void 0;
+    if (!hasItem || !hasItemRoles) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(import_jsx_runtime54.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(detail_activity_header_default, { title: item.roles.label }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(detail_activity_header_default, { title: item.roles?.label ?? "" }),
       roles.map((role, i2) => /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(NamedRole, { item, role }, i2))
     ] });
   };
@@ -47477,24 +47964,24 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasIncident = Boolean(incident?.value);
     const deactivate = () => setIsActive(false);
     const handleLinkClick = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.target instanceof HTMLElement) {
-        if (event.target.closest(".activity-stat")) {
+      event?.preventDefault();
+      event?.stopPropagation();
+      if (event?.target instanceof HTMLElement) {
+        if (event?.target.closest(".activity-stat")) {
           setIsActive(true);
         }
       }
     };
     if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)(stat_box_default, { className: "activity-stat-details", title: incident.label, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
+      incident.value.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
         BetterLink,
         {
           to: incident.value.links.self,
           onClick: handleLinkClick,
           children: incident.value.contactDate
         }
-      ),
+      ) : incident.value.contactDate,
       /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
         incident_modal_default,
         {
@@ -47551,24 +48038,27 @@ Hook ${hookName} was either not provided or not a function.`);
     overview,
     ref
   }) => {
-    const hasOverview = Boolean(overview);
-    const hasAppearances = Object.values(overview?.appearances?.values ?? {})?.some((value) => value.value);
-    const hasTotals = Object.values(overview?.totals?.values ?? {})?.some((value) => value.value);
-    const scrollToIncidents = () => scrollToRef(ref);
-    if (!hasOverview) return null;
+    const hasOverview = overview !== void 0;
+    const hasAppearances = overview?.appearances !== void 0;
+    const hasTotals = overview?.appearances !== void 0;
+    const appearancesValues = overview?.appearances?.values ? Object.values(overview.appearances.values) : [];
+    const totalsValues = overview?.totals?.values ? Object.values(overview?.totals?.values ?? {}) : [];
+    const hasAppearancesValues = appearancesValues.some((value) => value.value);
+    const hasTotalsValues = totalsValues.some((value) => value.value);
+    const scrollToIncidents = () => ref && scrollToRef(ref);
     return /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { className: "activity-overview", children: [
       hasOverview && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(stat_section_default, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(detail_activity_header_default, { title: overview.label }),
         /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
-          hasTotals && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(stat_group_numbers_default, { children: [
+          hasTotals && hasTotalsValues && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(stat_group_numbers_default, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
               detail_activity_subhead_default,
               {
-                title: overview.totals.label,
+                title: overview.totals?.label ?? "",
                 icon: "chart-line"
               }
             ),
-            Object.values(overview.totals.values).map((item) => {
+            totalsValues.map((item) => {
               const isInteractive = item.key === "total";
               return /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
                 stat_box_default,
@@ -47582,15 +48072,15 @@ Hook ${hookName} was either not provided or not a function.`);
               );
             })
           ] }),
-          hasAppearances && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
+          hasAppearances && hasAppearancesValues && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(incident_stat_group_default, { className: "activity-dates", children: [
             /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(
               detail_activity_subhead_default,
               {
-                title: overview.appearances.label,
+                title: overview.appearances?.label ?? "",
                 icon: "calendar"
               }
             ),
-            Object.values(overview.appearances.values).map((item) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(incident_date_box_default, { incident: item }, item.key))
+            appearancesValues.map((item) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(incident_date_box_default, { incident: item }, item.key))
           ] })
         ] })
       ] }),
@@ -48166,7 +48656,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
 
   // node_modules/chart.js/dist/chunks/helpers.dataset.js
-  function noop7() {
+  function noop8() {
   }
   var uid = /* @__PURE__ */ (() => {
     let id = 0;
@@ -53183,12 +53673,12 @@ Hook ${hookName} was either not provided or not a function.`);
     addEventListener(chart, type, listener3) {
       this.removeEventListener(chart, type);
       const proxies = chart.$proxies || (chart.$proxies = {});
-      const handlers2 = {
+      const handlers = {
         attach: createAttachObserver,
         detach: createDetachObserver,
         resize: createResizeObserver
       };
-      const handler = handlers2[type] || createProxyAndListen;
+      const handler = handlers[type] || createProxyAndListen;
       proxies[type] = handler(chart, type, listener3);
     }
     removeEventListener(chart, type) {
@@ -53197,12 +53687,12 @@ Hook ${hookName} was either not provided or not a function.`);
       if (!proxy) {
         return;
       }
-      const handlers2 = {
+      const handlers = {
         attach: releaseObserver,
         detach: releaseObserver,
         resize: releaseObserver
       };
-      const handler = handlers2[type] || removeListener2;
+      const handler = handlers[type] || removeListener2;
       handler(chart, type, proxy);
       proxies[type] = void 0;
     }
@@ -57647,7 +58137,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return override ? callbacks.override(override) : callbacks;
   }
   var defaultCallbacks = {
-    beforeTitle: noop7,
+    beforeTitle: noop8,
     title(tooltipItems) {
       if (tooltipItems.length > 0) {
         const item = tooltipItems[0];
@@ -57663,9 +58153,9 @@ Hook ${hookName} was either not provided or not a function.`);
       }
       return "";
     },
-    afterTitle: noop7,
-    beforeBody: noop7,
-    beforeLabel: noop7,
+    afterTitle: noop8,
+    beforeBody: noop8,
+    beforeLabel: noop8,
     label(tooltipItem) {
       if (this && this.options && this.options.mode === "dataset") {
         return tooltipItem.label + ": " + tooltipItem.formattedValue || tooltipItem.formattedValue;
@@ -57703,11 +58193,11 @@ Hook ${hookName} was either not provided or not a function.`);
         rotation: options2.rotation
       };
     },
-    afterLabel: noop7,
-    afterBody: noop7,
-    beforeFooter: noop7,
-    footer: noop7,
-    afterFooter: noop7
+    afterLabel: noop8,
+    afterBody: noop8,
+    beforeFooter: noop8,
+    footer: noop8,
+    afterFooter: noop8
   };
   function invokeCallbackWithFallback(callbacks, name, ctx, arg) {
     const result = callbacks[name].call(ctx, arg);
@@ -60094,15 +60584,11 @@ Hook ${hookName} was either not provided or not a function.`);
     plugin_title,
     plugin_tooltip
   );
+  var itemColorStatic = "olivedrab";
+  var itemColorLink = "cornflowerblue";
   var colorStatLabel = "darkolivegreen";
   var options = {
     animation: false,
-    elements: {
-      bar: {
-        borderWidth: 2
-      }
-    },
-    maintainAspectRatio: true,
     plugins: {
       legend: {
         align: "center",
@@ -60123,80 +60609,116 @@ Hook ${hookName} was either not provided or not a function.`);
         grid: {
           display: false
         },
-        stacked: true,
         ticks: {
           align: "start",
           color: colorStatLabel
         }
       },
       y: {
-        stacked: true,
         ticks: {
           color: colorStatLabel
         }
       }
-    },
-    type: "bar"
+    }
   };
-  var itemColorStatic = "olivedrab";
-  var itemColorLink = "cornflowerblue";
-  var ItemChart = ({ handleClick, label, lineProps }) => {
-    const [hasLineLabel, setHasLineLabel] = (0, import_react31.useState)(false);
-    const sources = useSelector(getSourcesDataForChart);
+  var barType = "bar";
+  var lineType = "line";
+  var ItemChartStacked = ({ label }) => {
+    const sources = use_app_selector_default(getSourcesDataForChart);
     const sourceData = {
-      id: "sources",
       label: "All incidents",
       data: sources.data,
       borderColor: "rgba(222, 184, 135, 0.5)",
       backgroundColor: "rgba(222, 184, 135, 0.5)",
-      type: "bar"
+      stack: "combined",
+      type: barType
     };
-    const itemColor = handleClick ? itemColorLink : itemColorStatic;
-    let itemData = null;
-    if (lineProps) {
-      itemData = {
-        label: lineProps.label,
-        data: lineProps.data,
-        borderColor: itemColor,
-        backgroundColor: itemColor,
-        stack: "combined",
-        type: "line"
-      };
-    }
+    let itemData = void 0;
     if (label) {
       const labelIndex = sources.labels.indexOf(label);
       sourceData.data = sources.data.map((item, i2) => i2 === labelIndex ? 0 : item);
       itemData = {
         label,
         data: sources.data.map((item, i2) => i2 === labelIndex ? item : 0),
-        borderColor: itemColor,
-        backgroundColor: itemColor,
-        type: "bar"
+        borderColor: itemColorStatic,
+        backgroundColor: itemColorStatic,
+        borderWidth: 2,
+        stack: "combined",
+        type: barType
       };
-      options.scales.y.stacked = false;
     }
     const data2 = {
       labels: sources.labels,
       datasets: itemData ? [itemData, sourceData] : [sourceData]
     };
     const hasDatasets = data2.datasets.length > 1;
-    if (handleClick) {
-      options.onClick = (event, elements, chart) => {
-        if (elements.length && chart?.tooltip?.title) {
-          handleClick(chart.tooltip.title.at(0));
+    const chartOptions = {
+      ...options,
+      plugins: {
+        ...options.plugins,
+        legend: {
+          ...options.plugins?.legend,
+          display: hasDatasets
         }
-      };
-    }
-    options.plugins.legend.display = hasDatasets && hasLineLabel;
-    (0, import_react31.useEffect)(() => {
-      setHasLineLabel(Boolean(lineProps?.label));
-    }, [lineProps, setHasLineLabel]);
+      }
+    };
     return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
       Bar,
       {
-        datasetIdKey: "id",
-        options,
+        options: chartOptions,
         data: data2
+      }
+    );
+  };
+  var ItemChart = ({ handleClick, lineProps }) => {
+    const [hasLineLabel, setHasLineLabel] = (0, import_react31.useState)(false);
+    const sources = use_app_selector_default(getSourcesDataForChart);
+    const sourceData = {
+      label: "All incidents",
+      data: sources.data,
+      borderColor: "rgba(222, 184, 135, 0.5)",
+      backgroundColor: "rgba(222, 184, 135, 0.5)",
+      type: barType
+    };
+    const itemData = {
+      label: lineProps.label,
+      data: lineProps.data,
+      borderColor: itemColorLink,
+      backgroundColor: itemColorLink,
+      stack: "combined",
+      type: lineType
+    };
+    const datasets = [itemData, sourceData];
+    const data2 = {
+      labels: sources.labels,
+      datasets
+    };
+    const hasDatasets = data2.datasets.length > 1;
+    const chartOptions = {
+      ...options,
+      onClick: (event, elements, chart) => {
+        if (elements.length && chart?.tooltip?.title) {
+          handleClick(chart.tooltip.title.at(0));
+        }
+      },
+      plugins: {
+        ...options.plugins,
+        legend: {
+          ...options.plugins?.legend,
+          display: hasDatasets && hasLineLabel
+        }
+      }
+    };
+    (0, import_react31.useEffect)(() => {
+      setHasLineLabel(Boolean(lineProps.label));
+    }, [lineProps, setHasLineLabel]);
+    return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
+      Chart2,
+      {
+        datasetIdKey: "id",
+        options: chartOptions,
+        data: data2,
+        type: barType
       }
     );
   };
@@ -60210,7 +60732,9 @@ Hook ${hookName} was either not provided or not a function.`);
     const quarterParam2 = searchParams.get("quarter");
     const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
     const handleClick = (value) => {
-      setQuarter(value.split(" ").sort().join("-"));
+      if (value) {
+        setQuarter(value.split(" ").sort().join("-"));
+      }
     };
     (0, import_react32.useEffect)(() => {
       if (quarter) {
@@ -60236,12 +60760,12 @@ Hook ${hookName} was either not provided or not a function.`);
     const [trigger] = api_default.useLazyGetEntityStatsByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
-    const entitiesData = useSelector(getEntitiesChartData);
+    const entitiesData = use_app_selector_default(getEntitiesChartData);
     const data2 = entitiesData?.[numericId];
     const hasData = data2?.length > 0;
     const lineProps = {
-      label,
-      data: data2
+      data: data2,
+      label
     };
     (0, import_react33.useEffect)(() => {
       if (!hasData) {
@@ -60256,8 +60780,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_react34 = __toESM(require_react());
   var import_jsx_runtime64 = __toESM(require_jsx_runtime());
   var FilterAction = ({ action, children, handleClick }) => {
-    const hasAction = Boolean(action);
-    return /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("span", { className: "filter-link", onClick: hasAction ? (e2) => handleClick(e2, action) : null, children });
+    const hasAction = action !== void 0;
+    const hasHandler = handleClick !== void 0;
+    return hasAction && hasHandler ? /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("span", { className: "filter-link", onClick: (event) => handleClick(event, action), children }) : /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("span", { className: "filter-link", children });
   };
   var FilterLabel = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("span", { className: "filter-label", children: label });
   var FilterText = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("span", { className: "filter-text", children });
@@ -60318,9 +60843,9 @@ Hook ${hookName} was either not provided or not a function.`);
     label.type === "text" /* Text */ && /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(FilterText, { children: label.value })
   ] }, i2)).reduce((prev2, curr) => [prev2, " ", curr]);
   var FilterForm = ({ action, filter, handleActionClick, handleCancel }) => {
-    const hasFields = "fields" in filter;
-    const hasAction = hasFields && action in filter.fields;
-    const actionFields = hasAction && filter.fields[action];
+    const hasFields = filter && "fields" in filter && typeof filter.fields === "object";
+    const hasAction = hasFields && action && filter.fields && action in filter.fields;
+    const actionFields = hasFields && hasAction && filter.fields ? filter?.fields[action] : void 0;
     const location2 = useLocation();
     const [, setSearchParams] = useSearchParams();
     const handleSubmit = (formData) => {
@@ -60333,7 +60858,7 @@ Hook ${hookName} was either not provided or not a function.`);
       setSearchParams(queryParams.searchParams);
     };
     return /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)("form", { className: "filter-form", action: handleSubmit, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("fieldset", { className: "filter-form-fieldset", children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(FilterLabelArray, { labels: actionFields, handleActionClick }) }),
+      actionFields !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("fieldset", { className: "filter-form-fieldset", children: /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(FilterLabelArray, { labels: actionFields, handleActionClick }) }),
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(
         "button",
         {
@@ -60355,8 +60880,8 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var FilterLabels = ({ filter, filterRelated, handleActionClick }) => {
     const [searchParams] = useSearchParams();
-    const hasOtherFilter = Boolean(filterRelated);
-    const hasValues = "values" in filter && Boolean(filter.values);
+    const hasOtherFilter = filterRelated !== void 0;
+    const hasValues = filter && "values" in filter && Boolean(filter.values);
     const isRemovable = hasValues && !isEmpty(filter.values);
     const newParamsBase = {
       page: null
@@ -60365,7 +60890,9 @@ Hook ${hookName} was either not provided or not a function.`);
     if (hasValues) {
       const keys = Object.keys(filter.values);
       const otherKeys = Object.keys(filterRelated?.values ?? {});
-      newParams = [].concat(keys, otherKeys).reduce((all, key) => {
+      const emptyKeyArray = [];
+      const allKeys = emptyKeyArray.concat(keys, otherKeys);
+      newParams = allKeys.reduce((all, key) => {
         const keyValues = searchParams.get(key);
         const filterKeyValues = filter.values[key];
         let newValue = null;
@@ -60373,10 +60900,13 @@ Hook ${hookName} was either not provided or not a function.`);
           const values = filterKeyValues;
           newValue = keyValues.split(",").filter((v2) => !values.includes(v2)).join(",");
         }
-        all[key] = newValue;
-        return all;
+        return {
+          ...all,
+          [key]: newValue
+        };
       }, newParamsBase);
     }
+    if (!filter) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime64.jsxs)(import_jsx_runtime64.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime64.jsx)(
         FilterLabelArray,
@@ -60405,20 +60935,20 @@ Hook ${hookName} was either not provided or not a function.`);
   var FilterIntro = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("div", { className: "filter-intro", children });
   var Filters = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime64.jsx)("div", { className: cx("filters", className), children });
   var FilterTag = ({ children, filter, filterRelated, inline }) => {
-    const hasFilter = Boolean(filter);
+    const hasFilter = filter !== void 0;
     const hasFields = hasFilter && "fields" in filter;
     const hasValues = hasFilter && "values" in filter;
     const [activeAction, setActiveAction] = (0, import_react34.useState)(null);
     const clearAction = () => setActiveAction(null);
     const hasActiveAction = Boolean(activeAction);
-    const handleActionClick = (e2, action) => {
-      e2.preventDefault();
+    const handleActionClick = (event, action) => {
+      event.preventDefault();
       if (action) {
         setActiveAction(action);
       }
     };
-    const handleCancelActionClick = (e2) => {
-      e2.preventDefault();
+    const handleCancelActionClick = (event) => {
+      event.preventDefault();
       clearAction();
     };
     const Tag = inline ? "span" : "div";
@@ -60541,7 +61071,7 @@ Hook ${hookName} was either not provided or not a function.`);
           /* @__PURE__ */ (0, import_jsx_runtime66.jsx)("td", { className: "cell-entity", children: incident.entity }),
           /* @__PURE__ */ (0, import_jsx_runtime66.jsx)("td", { className: "cell-topic", children: incident.topic }),
           /* @__PURE__ */ (0, import_jsx_runtime66.jsxs)("td", { className: "cell-link", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(BetterLink, { to: incident.links.self, "aria-label": "View", children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(icon_default, { name: "chevron-right" }) }),
+            incident?.links && /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(BetterLink, { to: incident.links.self, "aria-label": "View", children: /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(icon_default, { name: "chevron-right" }) }),
             /* @__PURE__ */ (0, import_jsx_runtime66.jsx)(
               incident_modal_default,
               {
@@ -60608,7 +61138,7 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(filter_default, { filter: filters?.quarter }),
       /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(filter_default, { filter: filters?.dates })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
+    ids?.length && pagination && /* @__PURE__ */ (0, import_jsx_runtime68.jsx)(
       incident_list_default,
       {
         hasSort,
@@ -60623,7 +61153,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentsFetcher = ({ children, id, ref, trigger }) => {
     const fetch2 = async (callback2) => {
       await trigger({ id, search: location.search });
-      if (callback2) {
+      if (callback2 && ref) {
         callback2(ref);
       }
     };
@@ -60696,8 +61226,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/home/chart.tsx
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var Chart4 = () => {
-    const hasData = useSelector(getHasSourcesChartData);
-    const sources = useSelector(getSourcesDataForChart);
+    const hasData = use_app_selector_default(getHasSourcesChartData);
+    const sources = use_app_selector_default(getSourcesDataForChart);
     const data2 = sources?.data;
     const lineProps = {
       data: data2
@@ -60721,8 +61251,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/leaderboard/filters.tsx
   var import_jsx_runtime72 = __toESM(require_jsx_runtime());
   var LeaderboardFilters = () => {
-    const filters = useSelector(getLeaderboardFilters);
-    const labels = useSelector(getLeaderboardLabels);
+    const filters = use_app_selector_default(getLeaderboardFilters);
+    const labels = use_app_selector_default(getLeaderboardLabels);
     const hasFilters = !isEmpty(filters);
     if (!hasFilters) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)(Filters, { children: [
@@ -60735,8 +61265,8 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/leaderboard/header.tsx
   var import_jsx_runtime73 = __toESM(require_jsx_runtime());
   var LeaderboardHeader = () => {
-    const labels = useSelector(getLeaderboardLabels);
-    const hasLabels = useSelector(getHasLeaderboardLabels);
+    const labels = use_app_selector_default(getLeaderboardLabels);
+    const hasLabels = use_app_selector_default(getHasLeaderboardLabels);
     if (!hasLabels) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(header_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(HeaderOverview, { children: [
@@ -60778,16 +61308,18 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime77 = __toESM(require_jsx_runtime());
   var PersonItem = ({ id }) => {
     const person = useGetPersonById(id);
+    const percentage = person?.overview?.totals?.values?.percentage?.value;
+    const total = person?.overview?.totals?.values?.total?.value;
     const hasPerson = Boolean(person);
-    const hasTotal = Boolean(person?.overview?.totals?.values.total.value);
+    const hasTotal = Boolean(total);
     if (!hasPerson) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(
       ItemRow,
       {
         icon: /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(icon_default4, { person }),
         name: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(item_link_default, { item: person, children: person.name }) : person.name,
-        percentage: person.overview?.totals.values.percentage.value ?? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(import_jsx_runtime77.Fragment, { children: "-" }),
-        total: person.overview?.totals.values.total.value ?? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(import_jsx_runtime77.Fragment, { children: "-" })
+        percentage: percentage ?? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(import_jsx_runtime77.Fragment, { children: "-" }),
+        total: total ?? /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(import_jsx_runtime77.Fragment, { children: "-" })
       }
     );
   };
@@ -60803,8 +61335,8 @@ Hook ${hookName} was either not provided or not a function.`);
   ] });
   var Index3 = () => {
     const ref = (0, import_react37.useRef)(null);
-    const pagination = useSelector(getPeoplePagination);
-    const pageIds = useSelector(getPeoplePageIds);
+    const pagination = use_app_selector_default(getPeoplePagination);
+    const pageIds = use_app_selector_default(getPeoplePageIds);
     const hasPageIds = pageIds?.length > 0;
     const fetch2 = async (callback2) => {
       if (callback2) {
@@ -60856,6 +61388,7 @@ Hook ${hookName} was either not provided or not a function.`);
     } else if (section === "people" /* People */) {
       return PersonItem;
     }
+    return null;
   };
   var Rankings = ({
     isGrid = false,
@@ -60863,7 +61396,7 @@ Hook ${hookName} was either not provided or not a function.`);
     section,
     setLimit
   }) => {
-    const labels = useSelector(getLeaderboardLabels);
+    const labels = use_app_selector_default(getLeaderboardLabels);
     const hasPeriod = Boolean(labels?.period);
     const ids = rankings?.ids;
     const rankingsLabels = rankings?.labels;
@@ -60871,7 +61404,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasIds = ids?.length > 0;
     const hasLabels = Boolean(labels);
     const Item2 = useGetItem(section);
-    if (!hasIds || !hasLabels) return null;
+    if (!hasIds || !hasLabels || !Item2) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(subsection_default, { isGrid, children: [
       /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(subsection_subhead_default, { title: rankingsLabels.title, children: rankingsLabels.subtitle }),
       /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(subsection_group_default, { children: [
@@ -60901,7 +61434,8 @@ Hook ${hookName} was either not provided or not a function.`);
       limit: 5,
       search: location2.search
     });
-    const result = useSelector(getLeaderboardEntitiesValues);
+    const result = use_app_selector_default(getLeaderboardEntitiesValues);
+    if (!result) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime79.jsx)(
       rankings_default,
       {
@@ -60923,7 +61457,8 @@ Hook ${hookName} was either not provided or not a function.`);
       limit: 5,
       search: location2.search
     });
-    const result = useSelector(getLeaderboardLobbyistsValues);
+    const result = use_app_selector_default(getLeaderboardLobbyistsValues);
+    if (!result) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime80.jsx)(
       rankings_default,
       {
@@ -60945,7 +61480,8 @@ Hook ${hookName} was either not provided or not a function.`);
       limit: 5,
       search: location2.search
     });
-    const result = useSelector(getLeaderboardOfficialsValues);
+    const result = use_app_selector_default(getLeaderboardOfficialsValues);
+    if (!result) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
       rankings_default,
       {
@@ -60961,7 +61497,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/home/leaderboard.tsx
   var import_jsx_runtime82 = __toESM(require_jsx_runtime());
   var Leaderboard = ({ ref }) => {
-    const hasChartData = useSelector(getHasSourcesChartData);
+    const hasChartData = use_app_selector_default(getHasSourcesChartData);
     const isReady = hasChartData;
     return /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(section_default2, { ref, children: isReady && /* @__PURE__ */ (0, import_jsx_runtime82.jsxs)(import_jsx_runtime82.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(leaderboard_entities_default, {}),
@@ -61017,16 +61553,17 @@ Hook ${hookName} was either not provided or not a function.`);
     "). The incidents listed below have been extracted from the published quarterly lobbying reports and sorted in chronological order. Click an incident row for more details."
   ] });
   var Index4 = () => {
-    const pagination = useSelector(getIncidentsPagination);
-    const pageIds = useSelector(getIncidentsPageIds);
+    const pagination = use_app_selector_default(getIncidentsPagination);
+    const pageIds = use_app_selector_default(getIncidentsPageIds);
+    const hasPagination = pagination !== void 0;
     const hasPageIds = pageIds?.length > 0;
     use_fetch_and_scroll_on_route_change_default();
     return /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
       section_index_default,
       {
         introduction: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(Introduction4, {}),
-        isLoading: !hasPageIds,
-        children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "incident-list-anchor", children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
+        isLoading: !hasPagination || !hasPageIds,
+        children: /* @__PURE__ */ (0, import_jsx_runtime84.jsx)("div", { className: "incident-list-anchor", children: hasPagination && hasPageIds && /* @__PURE__ */ (0, import_jsx_runtime84.jsx)(
           incident_list_default,
           {
             hasSort: true,
@@ -61045,11 +61582,10 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/item-link.tsx
   var import_jsx_runtime85 = __toESM(require_jsx_runtime());
   var ItemLink3 = ({ children, className, item }) => {
-    const hasSelfLink = Boolean(item?.links?.self);
-    if (!hasSelfLink) {
+    if (!item.links?.self) {
       console.log("*", item);
     }
-    return hasSelfLink ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(BetterLink, { to: item.links.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(LinkToSource, { id: item.id, className, children });
+    return item.links?.self ? /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(BetterLink, { to: item.links?.self, className, children }) : /* @__PURE__ */ (0, import_jsx_runtime85.jsx)(LinkToSource, { id: item.id, className, children });
   };
   var item_link_default3 = ItemLink3;
 
@@ -61122,12 +61658,12 @@ Hook ${hookName} was either not provided or not a function.`);
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
     const { id } = useParams();
     const numericId = Number(id);
-    const peopleData = useSelector(getPeopleChartData);
+    const peopleData = use_app_selector_default(getPeopleChartData);
     const data2 = peopleData?.[numericId];
     const hasData = data2?.length > 0;
     const lineProps = {
-      label,
-      data: data2
+      data: data2,
+      label
     };
     (0, import_react40.useEffect)(() => {
       if (!hasData) {
@@ -61197,11 +61733,22 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/item.tsx
   var import_react42 = __toESM(require_react());
   var import_jsx_runtime90 = __toESM(require_jsx_runtime());
+  var ActivityItem = ({ source }) => {
+    const total = source.overview?.totals?.values?.total?.value;
+    const hasTotals = Boolean(total);
+    return /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)("div", { className: "item-source-quarter-description", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("h6", { children: source.title }),
+      hasTotals && /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)("p", { children: [
+        total,
+        " incidents"
+      ] })
+    ] });
+  };
+  var OtherItem = ({ source }) => /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("div", { className: "item-source-quarter-description", children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("h6", { children: source.title }) });
   var Item = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useGetSourceById(id);
     const hasSource = Boolean(source);
-    const hasTotals = Boolean(source?.overview?.totals.values.total.value);
     (0, import_react42.useEffect)(() => {
       if (source) return;
       trigger({ id });
@@ -61209,13 +61756,7 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
       /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(icon_default5, {}) }),
-      /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)("div", { className: "item-source-quarter-description", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime90.jsx)("h6", { children: source.title }),
-        hasTotals && /* @__PURE__ */ (0, import_jsx_runtime90.jsxs)("p", { children: [
-          source?.overview?.totals.values.total.value,
-          " incidents"
-        ] })
-      ] })
+      source.type === "activity" ? /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(ActivityItem, { source }) : /* @__PURE__ */ (0, import_jsx_runtime90.jsx)(OtherItem, { source })
     ] });
   };
   var item_default = Item;
@@ -61223,16 +61764,17 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/sources/index.tsx
   var import_jsx_runtime91 = __toESM(require_jsx_runtime());
   var useTypeLabel = (type) => {
-    const types2 = useSelector(getSourceTypes);
-    return types2[type]?.label ?? "";
+    const types = use_app_selector_default(getSourceTypes);
+    const typeObj = types?.[type];
+    return typeObj?.label ?? "";
   };
   var SourceTypeYear = ({ year }) => /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("div", { className: "item-index-subgroup", children: [
     /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subhead_default, { subtitle: year.year }),
     /* @__PURE__ */ (0, import_jsx_runtime91.jsx)("div", { className: "item-index-group-grid", children: year.items.map((source) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_default, { id: source.id }, source.id)) })
   ] }, year.year);
-  var SourceType = ({ children, handleScroll, ref, type }) => {
-    const label = useTypeLabel(type.type);
-    return /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("div", { className: "item-index-group", id: type.type, ref, children: [
+  var SourceTypeGroup = ({ children, handleScroll, ref, type }) => {
+    const label = useTypeLabel(type);
+    return /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("div", { className: "item-index-group", id: type, ref, children: [
       /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subhead_default, { title: label, children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
         "a",
         {
@@ -61261,13 +61803,13 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var Sources = ({ isLoading, types: types2 }) => {
+  var Sources = ({ isLoading, types }) => {
     const refs = (0, import_react43.useRef)(null);
-    const keys = types2.map((type) => type.type);
+    const keys = types.map((type) => type.type);
     const scrollToList = (type) => {
       const map2 = getMap();
       const node2 = map2.get(type);
-      node2.scrollIntoView({ behavior: "smooth" });
+      node2?.scrollIntoView({ behavior: "smooth" });
     };
     const getMap = () => {
       if (!refs.current) {
@@ -61286,8 +61828,8 @@ Hook ${hookName} was either not provided or not a function.`);
           }
         ) }, key)) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Content, { isLoading, children: types2.map((type) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
-        SourceType,
+      /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Content, { isLoading, children: types.map((type) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
+        SourceTypeGroup,
         {
           handleScroll: scrollToTop,
           ref: (node2) => {
@@ -61297,7 +61839,7 @@ Hook ${hookName} was either not provided or not a function.`);
               map2.delete(type.type);
             };
           },
-          type,
+          type: type.type,
           children: Object.values(type.years).map((year) => /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(SourceTypeYear, { year }, year.year))
         },
         type.type
@@ -61305,7 +61847,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ] });
   };
   var Index5 = () => {
-    const byType = useSelector(getSourcesByType);
+    const byType = use_app_selector_default(getSourcesByType);
     const hasSources = byType.length > 0;
     use_fetch_and_scroll_on_route_change_default();
     return /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Index, { children: hasSources && /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(Sources, { isLoading: !hasSources, types: byType }) });
@@ -61317,7 +61859,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/sources/chart.tsx
   var import_jsx_runtime92 = __toESM(require_jsx_runtime());
-  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(item_chart_default, { label });
+  var Chart6 = ({ label }) => /* @__PURE__ */ (0, import_jsx_runtime92.jsx)(ItemChartStacked, { label });
   var chart_default4 = Chart6;
 
   // assets/scripts/components/sources/detail-incidents-trigger.tsx
@@ -61385,7 +61927,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const source = useGetSourceById(numericId);
     const hasSource = Boolean(source);
     const isActivity = source?.type === "activity";
-    const label = hasSource ? `${source.year} Q${source.quarter}` : null;
+    const label = hasSource ? `${source.year} Q${source.quarter}` : void 0;
     if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime94.jsx)(
