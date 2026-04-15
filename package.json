@@ -81,8 +81,8 @@
     "react-transition-group": "^4.4.5",
     "redux": "^5.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.2"
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.58.2"
   },
   "resolutions": {
     "glob": "^10.5.0",
