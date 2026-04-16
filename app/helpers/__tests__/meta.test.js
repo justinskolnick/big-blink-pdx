@@ -36,7 +36,7 @@ describe('getIndexDescription()', () => {
 });
 
 describe('getMeta()', () => {
-  const res = {
+  const req = {
     flash: {
       errors: [],
       warnings: [
@@ -49,9 +49,16 @@ describe('getMeta()', () => {
   };
 
   describe('with a section', () => {
+    let routeReq = {};
     let section = null;
 
     beforeEach(() => {
+      routeReq = {
+        ...req,
+        baseUrl: '/people',
+        originalUrl: '/people',
+        params: {},
+      };
       section = {
         slug: 'people',
         title: 'People',
@@ -59,13 +66,14 @@ describe('getMeta()', () => {
     });
 
     afterEach(() => {
+      routeReq = {};
       section = null;
     });
 
     describe('by default', () => {
       test('returns the expected object', () => {
-        expect(getMeta(res, { section })).toEqual({
-          errors: res.flash.errors,
+        expect(getMeta(routeReq, { section })).toEqual({
+          errors: req.flash.errors,
           pageTitle: 'People',
           section: {
             links: {
@@ -77,13 +85,21 @@ describe('getMeta()', () => {
             slug: 'people',
             title: 'People',
           },
-          warnings: res.flash.warnings,
+          warnings: req.flash.warnings,
         });
       });
     });
 
     describe('and an item', () => {
       beforeEach(() => {
+        routeReq = {
+          ...req,
+          baseUrl: '/people',
+          originalUrl: '/people/2062',
+          params: {
+            id: '2062',
+          },
+        };
         section = {
           id: 2062,
           slug: 'people',
@@ -97,8 +113,12 @@ describe('getMeta()', () => {
       });
 
       test('returns the expected object', () => {
-        expect(getMeta(res, { section })).toEqual({
-          errors: res.flash.errors,
+        expect(getMeta(routeReq, {
+          id: 2062,
+          section,
+        })).toEqual({
+          errors: req.flash.errors,
+          id: 2062,
           pageTitle: 'George Jetson · People',
           section: {
             id: 2062,
@@ -116,16 +136,24 @@ describe('getMeta()', () => {
             subtitle: 'George Jetson',
             title: 'People',
           },
-          warnings: res.flash.warnings,
+          warnings: req.flash.warnings,
         });
       });
     });
 
-    describe('and a page title', () => {
+    describe('and other values', () => {
       test('returns the expected object', () => {
-        expect(getMeta(res, { section, pageTitle: 'Okay whatever' })).toEqual({
-          errors: res.flash.errors,
+        expect(getMeta(routeReq, {
+          section,
+          description: 'A singular page',
           pageTitle: 'Okay whatever',
+          perPage: 10,
+          view: 'primary',
+        })).toEqual({
+          description: 'A singular page',
+          errors: req.flash.errors,
+          pageTitle: 'Okay whatever',
+          perPage: 10,
           section: {
             links: {
               section: {
@@ -136,7 +164,8 @@ describe('getMeta()', () => {
             slug: 'people',
             title: 'People',
           },
-          warnings: res.flash.warnings,
+          view: 'primary',
+          warnings: req.flash.warnings,
         });
       });
     });
