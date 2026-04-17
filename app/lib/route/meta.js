@@ -1,4 +1,5 @@
 const { titleCase } = require('../string');
+const { Labels } = require('../../helpers/labels');
 
 const ALLOWED_OTHER_VALUES = [
   'description',
@@ -6,6 +7,8 @@ const ALLOWED_OTHER_VALUES = [
   'perPage',
   'view',
 ];
+
+const labels = new Labels();
 
 class Meta {
   #request = null;
@@ -24,8 +27,8 @@ class Meta {
     const { flash } = request;
 
     this.setRequest(request);
-    this.setSection();
     this.setDetail(detail);
+    this.setSection();
     this.setLinks();
 
     if (flash.errors.length) {
@@ -41,9 +44,27 @@ class Meta {
     this.#request = request;
   }
 
+  setDetail(detail = null) {
+    const id = this.getParamsId();
+    let title;
+
+    if (detail) {
+      if ('name' in detail) {
+        title = detail.name;
+      } else if ('title' in detail) {
+        title = detail.title;
+      }
+    }
+
+    if (id || title) {
+      this.#detail = { id, title };
+    }
+  }
+
   setSection() {
     const { baseUrl } = this.#request;
     let slug;
+    let subtitle;
     let title;
 
     if (baseUrl) {
@@ -52,39 +73,30 @@ class Meta {
     }
 
     if (slug) {
-      title = titleCase(slug);
+      if (labels.hasKey(slug, 'section')) {
+        title = labels.getLabel(slug, 'section');
+      } else {
+        title = titleCase(slug);
+      }
+    }
+
+    if (title && this.hasDetails()) {
+      subtitle = this.#detail.title;
     }
 
     this.#section = {
       slug,
+      subtitle,
       title,
     };
-  }
-
-  setDetail(detail = null) {
-    const params = this.getParams();
-    const id = this.getParamsId();
-    let title;
-
-    if (detail && 'name' in detail) {
-      title = detail.name;
-    }
-
-    if (id && title) {
-      this.#detail = { id, title };
-    }
   }
 
   getPublicPathnameFromApi(pathname) {
     return pathname.replace('/api', '');
   }
 
-  getParams() {
-    return this.#request.params;
-  }
-
   getParamsId() {
-    const params = this.getParams();
+    const params = this.#request.params;
 
     if ('id' in params) {
       return Number(params.id);
@@ -117,7 +129,7 @@ class Meta {
     let label;
     let path;
 
-    if (this.#detail && originalUrl !== baseUrl) {
+    if (this.hasDetails() && originalUrl !== baseUrl) {
       label = this.#detail.title;
       path = this.getPublicPathnameFromApi(originalUrl);
 
@@ -240,12 +252,21 @@ class Meta {
     return undefined;
   }
 
+  getSectionSubtitle() {
+    if (this.hasSection() && !this.isHome()) {
+      return this.#section.subtitle;
+    }
+
+    return undefined;
+  }
+
   getSection() {
     if (this.hasSection()) {
       return {
         id: this.getParamsId(),
         links: this.getSectionLinks(),
         slug: this.getSectionSlug(),
+        subtitle: this.getSectionSubtitle(),
         title: this.getSectionTitle(),
       };
     }
@@ -267,13 +288,13 @@ class Meta {
 
   toObject(isPrimary = true) {
     const values = {
-      id: this.getParamsId(),
       errors: this.getErrors(),
       warnings: this.getWarnings(),
       ...this.getOtherValues(),
     };
 
     if (isPrimary) {
+      values.id = this.getParamsId();
       values.pageTitle = this.getPageTitle();
       values.section = this.getSection();
     }

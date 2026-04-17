@@ -101,38 +101,81 @@ describe('toObject()', () => {
     });
 
     describe('and details', () => {
-      beforeEach(() => {
-        req = {
-          ...baseReq,
-          baseUrl: '/people',
-          originalUrl: '/people/2062',
-          params: {
-            id: '2062',
-          },
-        };
-        meta = new Meta(req, { name: 'George Jetson' });
+      describe('in /people', () => {
+        beforeEach(() => {
+          req = {
+            ...baseReq,
+            baseUrl: '/people',
+            originalUrl: '/people/2062',
+            params: {
+              id: '2062',
+            },
+          };
+          meta = new Meta(req, { name: 'George Jetson' });
+        });
+
+        test('returns the expected object', () => {
+          expect(meta.toObject()).toEqual({
+            errors: [],
+            id: 2062,
+            pageTitle: 'George Jetson · People',
+            section: {
+              id: 2062,
+              links: {
+                section: {
+                  label: 'People',
+                  path: '/people',
+                },
+                detail: {
+                  label: 'George Jetson',
+                  path: '/people/2062',
+                },
+              },
+              slug: 'people',
+              subtitle: 'George Jetson',
+              title: 'People',
+            },
+            warnings: [],
+          });
+        });
       });
 
-      test('returns the expected object', () => {
-        expect(meta.toObject()).toEqual({
-          errors: [],
-          pageTitle: 'George Jetson · People',
-          section: {
-            id: 2062,
-            links: {
-              section: {
-                label: 'People',
-                path: '/people',
-              },
-              detail: {
-                label: 'George Jetson',
-                path: '/people/2062',
-              },
+      describe('in /sources', () => {
+        beforeEach(() => {
+          req = {
+            ...baseReq,
+            baseUrl: '/sources',
+            originalUrl: '/sources/262',
+            params: {
+              id: '262',
             },
-            slug: 'people',
-            title: 'People',
-          },
-          warnings: [],
+          };
+          meta = new Meta(req, { title: 'Lobbying Activity Report for Q1 2034' });
+        });
+
+        test('returns the expected object', () => {
+          expect(meta.toObject()).toEqual({
+            errors: [],
+            id: 262,
+            pageTitle: 'Lobbying Activity Report for Q1 2034 · Data Sources',
+            section: {
+              id: 262,
+              links: {
+                section: {
+                  label: 'Data Sources',
+                  path: '/sources',
+                },
+                detail: {
+                  label: 'Lobbying Activity Report for Q1 2034',
+                  path: '/sources/262',
+                },
+              },
+              slug: 'sources',
+              subtitle: 'Lobbying Activity Report for Q1 2034',
+              title: 'Data Sources',
+            },
+            warnings: [],
+          });
         });
       });
     });
@@ -153,6 +196,7 @@ describe('toObject()', () => {
       test('returns the expected object', () => {
         expect(meta.toObject()).toEqual({
           errors: [],
+          id: 2062,
           pageTitle: 'George Jetson · People',
           section: {
             id: 2062,
@@ -167,6 +211,7 @@ describe('toObject()', () => {
               },
             },
             slug: 'people',
+            subtitle: 'George Jetson',
             title: 'People',
           },
           warnings: [],

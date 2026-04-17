@@ -2,41 +2,35 @@ const createError = require('http-errors');
 const express = require('express');
 const router = express.Router();
 
-const { SECTION_INCIDENTS } = require('../config/constants');
-
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
+const Meta = require('../lib/route/meta');
 
 const incidents = require('../services/incidents');
 
 const title = 'Incidents';
 const template = 'main';
-const slug = SECTION_INCIDENTS;
-const section = {
-  slug,
-  title,
-};
 
 router.get('/', (req, res) => {
-  const description = metaHelper.getIndexDescription();
-
-  section.id = null;
-  section.subtitle = null;
-
-  const meta = metaHelper.getMeta(req, {
-    description,
-    section,
+  const meta = new Meta(req);
+  meta.setOtherValues({
+    description: metaHelper.getIndexDescription(),
   });
+  meta.setCustomPageTitle(title);
 
-  res.render(template, { title, meta, robots: headers.robots });
+  res.render(template, {
+    title,
+    meta: meta.toObject(),
+    robots: headers.robots,
+  });
 });
 
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
-  const description = metaHelper.getDetailDescription();
 
   let result;
+  let adapted;
 
   try {
     result = await incidents.getAtId(id);
@@ -45,20 +39,25 @@ router.get('/:id', async (req, res, next) => {
     return next(createError(err));
   }
 
-  if (result.exists) {
+  if (result?.exists) {
     adapted = result.adapted;
-
-    section.id = adapted.id;
   } else {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
-  const meta = metaHelper.getMeta(req, {
-    description,
-    section,
+  const meta = new Meta(req, {
+    ...adapted,
+    name: 'Incident',
+  });
+  meta.setOtherValues({
+    description: metaHelper.getDetailDescription(),
   });
 
-  res.render(template, { title, meta, robots: headers.robots });
+  res.render(template, {
+    title,
+    meta: meta.toObject(),
+    robots: headers.robots,
+  });
 });
 
 module.exports = router;
