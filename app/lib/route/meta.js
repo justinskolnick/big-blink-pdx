@@ -1,4 +1,4 @@
-const { titleCase } = require('./string');
+const { titleCase } = require('../string');
 
 const ALLOWED_OTHER_VALUES = [
   'description',
@@ -62,13 +62,9 @@ class Meta {
   }
 
   setDetail(detail = null) {
-    const { params } = this.#request;
-    let id;
+    const params = this.getParams();
+    const id = this.getParamsId();
     let title;
-
-    if ('id' in params) {
-      id = Number(params.id);
-    }
 
     if (detail && 'name' in detail) {
       title = detail.name;
@@ -81,6 +77,20 @@ class Meta {
 
   getPublicPathnameFromApi(pathname) {
     return pathname.replace('/api', '');
+  }
+
+  getParams() {
+    return this.#request.params;
+  }
+
+  getParamsId() {
+    const params = this.getParams();
+
+    if ('id' in params) {
+      return Number(params.id);
+    }
+
+    return undefined;
   }
 
   getSectionLink() {
@@ -233,6 +243,7 @@ class Meta {
   getSection() {
     if (this.hasSection()) {
       return {
+        id: this.getParamsId(),
         links: this.getSectionLinks(),
         slug: this.getSectionSlug(),
         title: this.getSectionTitle(),
@@ -256,6 +267,7 @@ class Meta {
 
   toObject(isPrimary = true) {
     const values = {
+      id: this.getParamsId(),
       errors: this.getErrors(),
       warnings: this.getWarnings(),
       ...this.getOtherValues(),

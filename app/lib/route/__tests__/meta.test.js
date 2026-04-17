@@ -118,6 +118,7 @@ describe('toObject()', () => {
           errors: [],
           pageTitle: 'George Jetson · People',
           section: {
+            id: 2062,
             links: {
               section: {
                 label: 'People',
@@ -154,6 +155,7 @@ describe('toObject()', () => {
           errors: [],
           pageTitle: 'George Jetson · People',
           section: {
+            id: 2062,
             links: {
               section: {
                 label: 'People',
