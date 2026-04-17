@@ -1,7 +1,4 @@
-const pluralize = require('pluralize');
-
 const { Labels } = require('./labels');
-const { links } = require('./links');
 
 const labels = new Labels();
 const labelPrefix = 'description';
@@ -27,24 +24,26 @@ const getIndexDescription = (type) => {
   return labels.getLabel(labelKey, labelPrefix, { type });
 };
 
-const getSectionLinks = (section) => {
-  const { slug, title, subtitle, id } = section;
+const getSectionLinks = (req, section) => {
+  const {
+    baseUrl,
+    originalUrl,
+  } = req;
+  const { title, subtitle } = section;
   let sectionLinks;
 
-  if (slug in links) {
+  if (!baseUrl.includes('/home')) {
     sectionLinks = {
       section: {
         label: title,
-        path: links[slug](),
+        path: baseUrl.replace('/api', ''),
       }
     };
 
-    if (id) {
-      const key = pluralize(slug, 1);
-
+    if (baseUrl !== originalUrl) {
       sectionLinks.detail = {
         label: subtitle,
-        path: links[key](id),
+        path: originalUrl.replace('/api', ''),
       };
     }
   }
@@ -59,12 +58,24 @@ const getPageTitle = (section) => {
 };
 
 const getMeta = (req, options = {}) => {
+  const { params } = req;
   const meta = {
     ...options,
   };
 
+  let id;
+  let section;
+
+  if (params && 'id' in params) {
+    id = Number(params.id);
+  }
+
   if ('section' in options) {
-    meta.section.links = getSectionLinks(options.section);
+    section = {
+      ...options.section,
+      id,
+      links: getSectionLinks(req, options.section),
+    };
 
     if (!('pageTitle' in options)) {
       meta.pageTitle = getPageTitle(options.section);
@@ -74,7 +85,9 @@ const getMeta = (req, options = {}) => {
   return {
     errors: req.flash.errors,
     warnings: req.flash.warnings,
+    id,
     ...meta,
+    section,
   };
 };
 

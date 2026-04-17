@@ -7,61 +7,55 @@ const { SECTION_ENTITIES } = require('../config/constants');
 const metaHelper = require('../helpers/meta');
 
 const headers = require('../lib/headers');
+const Meta = require('../lib/route/meta');
 
 const entities = require('../services/entities');
 
 const title = 'Entities';
 const template = 'main';
-const slug = SECTION_ENTITIES;
-const section = {
-  slug,
-  title,
-};
 
 router.get('/', (req, res) => {
-  const description = metaHelper.getIndexDescription(SECTION_ENTITIES);
+  const meta = new Meta(req);
+  meta.setOtherValues({
+    description: metaHelper.getIndexDescription(SECTION_ENTITIES),
+  });
 
-  section.id = null;
-  section.subtitle = null;
-
-  const meta = {
-    description,
-    section,
-  };
-
-  res.render(template, { title, meta, robots: headers.robots });
+  res.render(template, {
+    title,
+    meta: meta.toObject(),
+    robots: headers.robots,
+  });
 });
 
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
 
-  let entity;
+  let result;
   let adapted;
-  let description;
 
   try {
-    entity = await entities.getAtId(id);
+    result = await entities.getAtId(id);
   } catch (err) {
-    console.error('Error while getting person:', err.message); // eslint-disable-line no-console
+    console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (entity.exists) {
-    adapted = entity.adapted;
-
-    description = metaHelper.getDetailDescription(adapted.name);
-    section.id = adapted.id;
-    section.subtitle = adapted.name;
+  if (result?.exists) {
+    adapted = result.adapted;
   } else {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
-  const meta = metaHelper.getMeta(req, {
-    description,
-    section,
+  const meta = new Meta(req, adapted);
+  meta.setOtherValues({
+    description: metaHelper.getDetailDescription(adapted.name),
   });
 
-  res.render(template, { title, meta, robots: headers.robots });
+  res.render(template, {
+    title,
+    meta: meta.toObject(),
+    robots: headers.robots,
+  });
 });
 
 module.exports = router;
