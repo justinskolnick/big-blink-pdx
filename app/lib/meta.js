@@ -47,7 +47,8 @@ class Meta {
     let title;
 
     if (baseUrl) {
-      slug = baseUrl.replace(/^\//, '');
+      slug = this.getPublicPathnameFromApi(baseUrl);
+      slug = slug.replace(/^\//, '');
     }
 
     if (slug) {
@@ -253,14 +254,19 @@ class Meta {
     return this.#otherValues;
   }
 
-  toObject() {
-    return {
+  toObject(isPrimary = true) {
+    const values = {
       errors: this.getErrors(),
-      pageTitle: this.getPageTitle(),
-      section: this.getSection(),
       warnings: this.getWarnings(),
       ...this.getOtherValues(),
     };
+
+    if (isPrimary) {
+      values.pageTitle = this.getPageTitle();
+      values.section = this.getSection();
+    }
+
+    return values;
   }
 }
 

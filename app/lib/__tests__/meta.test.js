@@ -136,6 +136,63 @@ describe('toObject()', () => {
       });
     });
 
+    describe('with an API route', () => {
+      beforeEach(() => {
+        req = {
+          ...baseReq,
+          baseUrl: '/api/people',
+          originalUrl: '/api/people/2062',
+          params: {
+            id: '2062',
+          },
+        };
+        meta = new Meta(req, { name: 'George Jetson' });
+      });
+
+      test('returns the expected object', () => {
+        expect(meta.toObject()).toEqual({
+          errors: [],
+          pageTitle: 'George Jetson · People',
+          section: {
+            links: {
+              section: {
+                label: 'People',
+                path: '/people',
+              },
+              detail: {
+                label: 'George Jetson',
+                path: '/people/2062',
+              },
+            },
+            slug: 'people',
+            title: 'People',
+          },
+          warnings: [],
+        });
+      });
+    });
+
+    describe('with a non-primary API route', () => {
+      beforeEach(() => {
+        req = {
+          ...baseReq,
+          baseUrl: '/api/people',
+          originalUrl: '/api/people/2062/incidents',
+          params: {
+            id: '2062',
+          },
+        };
+        meta = new Meta(req, { name: 'George Jetson' });
+      });
+
+      test('returns the expected object', () => {
+        expect(meta.toObject(false)).toEqual({
+          errors: [],
+          warnings: [],
+        });
+      });
+    });
+
     describe('and errors', () => {
       let error = null;
 
