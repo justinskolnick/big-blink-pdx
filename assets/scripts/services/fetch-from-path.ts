@@ -325,6 +325,7 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
     }
 
+
     if ('errors' in meta) {
       meta.errors.forEach((error: ErrorType) => {
         dispatch(uiActions.setError(error));

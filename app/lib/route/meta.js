@@ -1,8 +1,11 @@
 const { titleCase } = require('../string');
 const { Labels } = require('../../helpers/labels');
 
-const ALLOWED_OTHER_VALUES = [
+const Link = require('./link');
+
+const ALLOWED_OTHER_PROPERTIES = [
   'description',
+  'id',
   'page',
   'perPage',
   'view',
@@ -107,17 +110,21 @@ class Meta {
 
   getSectionLink() {
     const { baseUrl } = this.#request;
-    let label;
-    let path;
 
     if (baseUrl && !this.isHome()) {
-      label = this.#section.title;
-      path = this.getPublicPathnameFromApi(baseUrl);
+      const pathname = this.getPublicPathnameFromApi(baseUrl);
+      const link = new Link(pathname, this.#section.title);
+      const linkObj = link.toObject();
+
+      return {
+        label: linkObj.label,
+        path: linkObj.pathname,
+      };
     }
 
     return {
-      label,
-      path,
+      label: undefined,
+      path: undefined,
     };
   }
 
@@ -126,16 +133,16 @@ class Meta {
       baseUrl,
       originalUrl,
     } = this.#request;
-    let label;
-    let path;
 
     if (this.hasDetails() && originalUrl !== baseUrl) {
-      label = this.#detail.title;
-      path = this.getPublicPathnameFromApi(originalUrl);
+      const pathname = this.getPublicPathnameFromApi(originalUrl);
+
+      const link = new Link(pathname, this.#detail.title);
+      const linkObj = link.toObject();
 
       return {
-        label,
-        path,
+        label: linkObj.label,
+        path: linkObj.pathname,
       };
     }
 
@@ -176,10 +183,10 @@ class Meta {
   setOtherValues(values) {
     const otherValues = {};
     const entries = Object.entries(values);
-    const hasValidEntries = entries.some(([key,]) => ALLOWED_OTHER_VALUES.includes(key));
+    const hasValidEntries = entries.some(([key,]) => ALLOWED_OTHER_PROPERTIES.includes(key));
 
     if (hasValidEntries) {
-      entries.filter(([key,]) => ALLOWED_OTHER_VALUES.includes(key)).forEach(([key, value]) => {
+      entries.filter(([key,]) => ALLOWED_OTHER_PROPERTIES.includes(key)).forEach(([key, value]) => {
         otherValues[key] = value;
       });
 
@@ -293,9 +300,14 @@ class Meta {
       ...this.getOtherValues(),
     };
 
-    if (isPrimary) {
-      values.id = this.getParamsId();
+    if (isPrimary || this.isHome()) {
       values.pageTitle = this.getPageTitle();
+    }
+
+    if (this.isHome()) {
+      values.section = {};
+    } else if (isPrimary) {
+      values.id = values.id || this.getParamsId();
       values.section = this.getSection();
     }
 

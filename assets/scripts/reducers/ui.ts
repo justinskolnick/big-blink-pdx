@@ -39,7 +39,7 @@ interface InitialState {
   errors: ErrorType[];
   messages: MessageType[];
   positionY: number;
-  section: SectionType;
+  section: SectionType | Partial<SectionType>;
   warnings: WarningType[];
 }
 

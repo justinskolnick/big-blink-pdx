@@ -151,14 +151,14 @@ const SectionHeader = ({
         {section && (
           <div className='header-section'>
             <div className={cx('header-section-icon', section.links && 'has-link')}>
-              {section.links ? (
+              {section?.links ? (
                 <SectionIconLink
                   icon={icon}
                   link={section.links?.section}
-                  slug={section.slug}
+                  slug={section?.slug ?? ''}
                 />
               ) : (
-                <SectionIcon name={icon} slug={section?.slug} />
+                <SectionIcon name={icon} slug={section?.slug ?? ''} />
               )}
             </div>
 
@@ -180,7 +180,7 @@ const SectionHeader = ({
                   />
                   <SectionDescription
                     id={section.id}
-                    slug={section.slug}
+                    slug={section?.slug ?? ''}
                   />
                 </>
               )}

@@ -28,6 +28,7 @@ const metaHelper = require('../../helpers/meta');
 
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
+const Meta = require('../../lib/route/meta');
 
 const AssociatedEntity = require('../../models/associated/entity');
 const AssociatedPerson = require('../../models/associated/person');
@@ -45,10 +46,6 @@ const stats = require('../../services/stats');
 
 const title = 'People';
 const slug = SECTION_PEOPLE;
-const section = {
-  slug,
-  title,
-};
 const view = {
   section: slug,
 };
@@ -65,28 +62,25 @@ router.get('/', async (req, res, next) => {
   const params = {};
   const perPage = Person.perPage;
   const links = linkHelper.links;
-  const description = metaHelper.getIndexDescription(SECTION_PEOPLE);
 
-  let peopleResult;
+  let result;
+  let records;
   let personTotal;
   let incidentCountResult;
   let data;
   let meta;
 
-  section.id = null;
-  section.subtitle = null;
-
   try {
     incidentCountResult = await incidents.getTotal();
 
-    peopleResult = await people.getAll({
+    result = await people.getAll({
       page,
       perPage,
       includeTotal: true,
       sort,
       sortBy,
     });
-    peopleResult = peopleResult.map(person => {
+    records = result.map(person => {
       person.setGlobalIncidentCount(incidentCountResult);
       person.setOverview();
 
@@ -104,7 +98,7 @@ router.get('/', async (req, res, next) => {
 
     data = {
       people: {
-        records: peopleResult,
+        records,
         pagination: linkHelper.getPagination({
           total: personTotal,
           perPage,
@@ -115,14 +109,19 @@ router.get('/', async (req, res, next) => {
         total: personTotal,
       },
     };
-    meta = metaHelper.getMeta(req, {
-      description,
+
+    meta = new Meta(req);
+    meta.setOtherValues({
+      description: metaHelper.getIndexDescription(SECTION_PEOPLE),
       page,
-      section,
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting people:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -137,27 +136,20 @@ router.get('/:id', async (req, res, next) => {
 
   const labelPrefix = 'person';
 
-  let person;
-  let adapted;
-  let description;
+  let result;
+  let record;
   let incidentsStats;
   let data;
   let meta;
 
   try {
-    person = await people.getAtId(id);
+    result = await people.getAtId(id);
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (person.exists) {
-    adapted = person.adapted;
-
-    description = metaHelper.getDetailDescription(adapted.name);
-    section.id = adapted.id;
-    section.subtitle = adapted.name;
-  } else {
+  if (!result?.exists) {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
@@ -170,11 +162,11 @@ router.get('/:id', async (req, res, next) => {
       hasBeenEmployee,
       hasBeenLobbied,
       hasLobbied,
-    } = await people.getHasLobbiedOrBeenLobbied(person);
+    } = await people.getHasLobbiedOrBeenLobbied(result);
 
-    person.setOverview(incidentsStats);
+    result.setOverview(incidentsStats);
 
-    record = person.adapted;
+    record = result.adapted;
     record.details = {};
 
     let labelKey;
@@ -198,16 +190,20 @@ router.get('/:id', async (req, res, next) => {
         record,
       },
     };
-    meta = metaHelper.getMeta(req, {
-      description,
-      id,
+
+    meta = new Meta(req, record);
+    meta.setOtherValues({
+      description: metaHelper.getDetailDescription(record.name),
       page,
       perPage,
-      section,
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+      });
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));

@@ -57,16 +57,7 @@ describe('toObject()', () => {
       expect(meta.toObject()).toEqual({
         errors: [],
         pageTitle: undefined,
-        section: {
-          links: {
-            section: {
-              label: undefined,
-              path: undefined,
-            },
-          },
-          slug: undefined,
-          title: undefined,
-        },
+        section: {},
         warnings: [],
       });
     });
@@ -106,7 +97,7 @@ describe('toObject()', () => {
           req = {
             ...baseReq,
             baseUrl: '/people',
-            originalUrl: '/people/2062',
+            originalUrl: '/people/2062?page=2',
             params: {
               id: '2062',
             },
@@ -564,6 +555,7 @@ describe('toObject()', () => {
           meta.setOtherValues({
             description: 'A singular page',
             foo: 'bar',
+            id: 252,
             page: 2,
             pageTitle: 'Okay whatever',
             perPage: 10,
@@ -575,6 +567,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             description: 'A singular page',
             errors: [],
+            id: 252,
             page: 2,
             pageTitle: 'People',
             perPage: 10,

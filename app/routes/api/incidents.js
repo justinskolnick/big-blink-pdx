@@ -17,6 +17,7 @@ const metaHelper = require('../../helpers/meta');
 
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
+const Meta = require('../../lib/route/meta');
 
 const Incident = require('../../models/incident');
 
@@ -26,10 +27,6 @@ const stats = require('../../services/stats');
 
 const title = 'Incidents';
 const slug = SECTION_INCIDENTS;
-const section = {
-  slug,
-  title,
-};
 const view = {
   section: slug,
 };
@@ -47,9 +44,8 @@ router.get('/', async (req, res, next) => {
 
   const perPage = Incident.perPage;
   const links = linkHelper.links;
-  const description = metaHelper.getIndexDescription();
 
-  let incidentsResult;
+  let results;
   let incidentCountResult;
   let paginationTotal;
   let records;
@@ -58,16 +54,13 @@ router.get('/', async (req, res, next) => {
   let data;
   let meta;
 
-  section.id = null;
-  section.subtitle = null;
-
   try {
     paginationTotal = await stats.getPaginationStats({
       dateOn,
       dateRangeFrom,
       dateRangeTo,
     });
-    incidentsResult = await incidents.getAll({
+    results = await incidents.getAll({
       dateOn,
       dateRangeFrom,
       dateRangeTo,
@@ -75,10 +68,10 @@ router.get('/', async (req, res, next) => {
       perPage,
       sort,
     });
-    incidentsResult = incidentsResult.map(incident => incident.adapted);
+    records = results.map(incident => incident.adapted);
 
     incidentCountResult = await incidents.getTotal();
-    records = await incidentAttendees.getAllForIncidents(incidentsResult);
+    records = await incidentAttendees.getAllForIncidents(records);
 
     filters = getFilters(req.query);
     params = searchParams.getParamsFromFilters(req.query, filters);
@@ -96,15 +89,20 @@ router.get('/', async (req, res, next) => {
         total: incidentCountResult,
       }
     };
-    meta = metaHelper.getMeta(req, {
-      description,
+
+    meta = new Meta(req);
+    meta.setOtherValues({
+      description: metaHelper.getIndexDescription(),
       page,
       perPage,
-      section,
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting incidents:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -113,28 +111,21 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   const id = Number(req.params.id);
-  const description = metaHelper.getDetailDescription();
 
-  let incidentResult;
+  let result;
   let record;
-  let adapted;
   let attendeesResult;
   let data;
   let meta;
 
   try {
-    incidentResult = await incidents.getAtId(id);
+    result = await incidents.getAtId(id);
   } catch (err) {
     console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (incidentResult.exists) {
-    adapted = incidentResult.adapted;
-
-    section.id = adapted.id;
-    section.subtitle = 'Incident';
-  } else {
+  if (!result?.exists) {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
@@ -146,7 +137,7 @@ router.get('/:id', async (req, res, next) => {
       officials,
     } = attendeesResult;
 
-    record = incidentResult.adapted;
+    record = result.adapted;
     record.attendees = {
       lobbyists: {
         records: lobbyists?.map(value => value.adapted) ?? [],
@@ -163,14 +154,18 @@ router.get('/:id', async (req, res, next) => {
         record,
       },
     };
-    meta = metaHelper.getMeta(req, {
-      description,
-      id,
-      section,
+
+    meta = new Meta(req, { ...record, title: 'Incident' });
+    meta.setOtherValues({
+      description: metaHelper.getDetailDescription(),
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting incident:', err.message); // eslint-disable-line no-console
     return next(createError(err));
