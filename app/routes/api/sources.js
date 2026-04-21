@@ -26,6 +26,7 @@ const metaHelper = require('../../helpers/meta');
 const { unique } = require('../../lib/array');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
+const Meta = require('../../lib/route/meta');
 
 const AssociatedPerson = require('../../models/associated/person');
 const AssociatedEntity = require('../../models/associated/entity');
@@ -41,10 +42,6 @@ const stats = require('../../services/stats');
 
 const title = 'Data Sources';
 const slug = SECTION_SOURCES;
-const section = {
-  slug,
-  title,
-};
 const view = {
   section: slug,
 };
@@ -54,8 +51,6 @@ const router = express.Router({
 });
 
 router.get('/', async (req, res, next) => {
-  const description = metaHelper.getIndexDescription();
-
   let activitySourcesResult;
   let registrationSourcesResult;
   let sourceTotal;
@@ -63,9 +58,6 @@ router.get('/', async (req, res, next) => {
   let types;
   let data;
   let meta;
-
-  section.id = null;
-  section.subtitle = null;
 
   try {
     activitySourcesResult = await sources.getAll({
@@ -118,13 +110,18 @@ router.get('/', async (req, res, next) => {
         types,
       }
     };
-    meta = metaHelper.getMeta(req, {
-      description,
-      section,
+
+    meta = new Meta(req);
+    meta.setOtherValues({
+      description: metaHelper.getIndexDescription(),
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting sources:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -137,66 +134,66 @@ router.get('/:id', async (req, res, next) => {
 
   const perPage = Incident.perPage;
 
-  let source;
-  let adapted;
-  let description;
+  let result;
+  let record;
   let incidentsStats;
   let data;
   let meta;
 
   try {
-    source = await sources.getAtId(id);
+    result = await sources.getAtId(id);
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (source.exists) {
-    adapted = source.adapted;
-
-    description = metaHelper.getDetailDescription(adapted.title, 'from');
-    section.id = adapted.id;
-    section.subtitle = adapted.title;
+  if (result?.exists) {
+    record = result.adapted;
   } else {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
   try {
-    if (source.data.type === Source.types.activity) {
+    if (result.data.type === Source.types.activity) {
       incidentsStats = await stats.getIncidentsStats({
         sourceId: id,
       });
 
-      source.setOverview(incidentsStats);
+      result.setOverview(incidentsStats);
+      record = result.adapted;
 
       data = {
         source: {
-          record: source.adapted,
+          record,
         },
       };
-      meta = metaHelper.getMeta(req, {
-        description,
-        id,
+
+      meta = new Meta(req, record);
+      meta.setOtherValues({
+        description: metaHelper.getDetailDescription(record.title, 'from'),
         page,
         perPage,
-        section,
         view,
       });
     } else {
       data = {
         source: {
-          record: source.adapted,
+          record,
         },
       };
-      meta = metaHelper.getMeta(req, {
-        description,
-        id,
-        section,
+
+      meta = new Meta(req, record);
+      meta.setOtherValues({
+        description: metaHelper.getDetailDescription(record.title, 'from'),
         view,
       });
     }
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting source:', err.message); // eslint-disable-line no-console
     return next(createError(err));
@@ -261,24 +258,24 @@ router.get('/:id/roles', async (req, res, next) => {
   const hasAssociation = Boolean(association);
   const hasRole = Boolean(role) && Source.isValidRoleOption(role);
 
-  let source;
+  let result;
   let record;
   let asRole;
   let data;
   let meta;
 
   try {
-    source = await sources.getAtId(id);
-    record = source.adapted;
+    result = await sources.getAtId(id);
+    record = result.adapted;
 
     if (hasAssociation && hasRole) {
-      asRole = await getSourceRoleObject(source, { association, role }, limit);
+      asRole = await getSourceRoleObject(result, { association, role }, limit);
 
       record.roles.named = {
         [role]: asRole,
       };
     } else {
-      asRole = await getSourceRoleObject(source, { association, role }, limit);
+      asRole = await getSourceRoleObject(result, { association, role }, limit);
 
       record.roles.named = {
         [role]: asRole,
@@ -290,9 +287,17 @@ router.get('/:id/roles', async (req, res, next) => {
         record,
       },
     };
-    meta = metaHelper.getMeta(req, { id, view });
 
-    res.status(200).json({ title, data, meta });
+    meta = new Meta(req, record);
+    meta.setOtherValues({
+      view,
+    });
+
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+      });
   } catch (err) {
     console.error('Error while getting person roles:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -314,7 +319,8 @@ router.get('/:id/incidents', async (req, res, next) => {
   const perPage = Incident.perPage;
   const links = linkHelper.links;
 
-  let source;
+  let result;
+  let record;
   let paginationTotal;
   let sourceIncidents;
   let records;
@@ -324,7 +330,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   try {
-    source = await sources.getAtId(id);
+    result = await sources.getAtId(id);
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -350,7 +356,9 @@ router.get('/:id/incidents', async (req, res, next) => {
   };
 
   try {
-    if (source.data.type === Source.types.activity) {
+    if (result.data.type === Source.types.activity) {
+      record = result.adapted;
+
       paginationTotal = await stats.getPaginationStats(options);
       sourceIncidents = await incidents.getAll(incidentsOptions);
 
@@ -379,17 +387,23 @@ router.get('/:id/incidents', async (req, res, next) => {
           },
         },
       };
-      meta = metaHelper.getMeta(req, {
-        id,
+
+      meta = new Meta(req, record);
+      meta.setOtherValues({
         page,
         perPage,
+        view,
       });
     } else {
       data = {};
-      meta = {};
+      meta = new Meta(req);
     }
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting source:', err.message); // eslint-disable-line no-console
     next(createError(err));

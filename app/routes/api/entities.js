@@ -26,6 +26,7 @@ const metaHelper = require('../../helpers/meta');
 
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
+const Meta = require('../../lib/route/meta');
 const { toSentence } = require('../../lib/string');
 
 const AssociatedPerson = require('../../models/associated/person');
@@ -42,10 +43,6 @@ const stats = require('../../services/stats');
 
 const title = 'Entities';
 const slug = SECTION_ENTITIES;
-const section = {
-  slug,
-  title,
-};
 const view = {
   section: slug,
 };
@@ -62,28 +59,24 @@ router.get('/', async (req, res, next) => {
   const params = {};
   const perPage = Entity.perPage;
   const links = linkHelper.links;
-  const description = metaHelper.getIndexDescription(SECTION_ENTITIES);
 
-  let entitiesResult;
+  let results;
   let entityTotal;
   let incidentCountResult;
   let data;
   let meta;
 
-  section.id = null;
-  section.subtitle = null;
-
   try {
     incidentCountResult = await incidents.getTotal();
 
-    entitiesResult = await entities.getAll({
+    results = await entities.getAll({
       page,
       perPage,
       includeTotal: true,
       sort,
       sortBy,
     });
-    entitiesResult = entitiesResult.map(entity => {
+    results = results.map(entity => {
       entity.setGlobalIncidentCount(incidentCountResult);
       entity.setOverview();
 
@@ -101,7 +94,7 @@ router.get('/', async (req, res, next) => {
 
     data = {
       entities: {
-        records: entitiesResult,
+        records: results,
         pagination: linkHelper.getPagination({
           total: entityTotal,
           perPage,
@@ -112,14 +105,19 @@ router.get('/', async (req, res, next) => {
         total: entityTotal,
       },
     };
-    meta = metaHelper.getMeta(req, {
-      description,
+
+    meta = new Meta(req);
+    meta.setOtherValues({
+      description: metaHelper.getIndexDescription(SECTION_ENTITIES),
       page,
-      section,
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+      });
   } catch (err) {
     console.error('Error while getting entities:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -132,29 +130,21 @@ router.get('/:id', async (req, res, next) => {
 
   const perPage = Incident.perPage;
 
-  let entity;
+  let result;
   let record;
-  let adapted;
-  let description;
   let incidentsStats;
   let entityLocations;
   let data;
   let meta;
 
   try {
-    entity = await entities.getAtId(id);
+    result = await entities.getAtId(id);
   } catch (err) {
     console.error('Error while getting person:', err.message); // eslint-disable-line no-console
     return next(createError(err));
   }
 
-  if (entity.exists) {
-    adapted = entity.adapted;
-
-    description = metaHelper.getDetailDescription(adapted.name);
-    section.id = adapted.id;
-    section.subtitle = adapted.name;
-  } else {
+  if (!result?.exists) {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
@@ -164,9 +154,9 @@ router.get('/:id', async (req, res, next) => {
       entityId: id,
     });
 
-    entity.setOverview(incidentsStats);
+    result.setOverview(incidentsStats);
 
-    record = entity.adapted;
+    record = result.adapted;
 
     const hasDomain = Boolean(record.domain);
     const hasLocations = entityLocations.length;
@@ -191,16 +181,20 @@ router.get('/:id', async (req, res, next) => {
         record,
       },
     };
-    meta = metaHelper.getMeta(req, {
-      description,
-      id,
+
+    meta = new Meta(req, record);
+    meta.setOtherValues({
+      description: metaHelper.getDetailDescription(record.name),
       page,
       perPage,
-      section,
       view,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(),
+    });
   } catch (err) {
     console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
     return next(createError(err));
@@ -284,13 +278,19 @@ router.get('/:id/incidents', async (req, res, next) => {
         },
       },
     };
-    meta = metaHelper.getMeta(req, {
+
+    meta = new Meta(req);
+    meta.setOtherValues({
       id,
       page,
       perPage,
     });
 
-    res.status(200).json({ title, data, meta });
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -341,16 +341,17 @@ router.get('/:id/roles', async (req, res, next) => {
 
   const hasRole = Boolean(role) && Entity.isValidRoleOption(role);
 
-  let entity;
+  let result;
   let asRole;
   let record;
+  let meta;
 
   try {
-    entity = await entities.getAtId(id);
-    record = entity.adapted;
+    result = await entities.getAtId(id);
+    record = result.adapted;
 
     if (hasRole) {
-      asRole = await getEntityRoleObject(entity, { association, role }, limit);
+      asRole = await getEntityRoleObject(result, { association, role }, limit);
 
       record.roles.named = {
         [role]: asRole,
@@ -362,9 +363,18 @@ router.get('/:id/roles', async (req, res, next) => {
         record,
       },
     };
-    meta = metaHelper.getMeta(req, { id, view });
 
-    res.status(200).json({ title, data, meta });
+    meta = new Meta(req, record);
+    meta.setOtherValues({
+      id,
+      view,
+    });
+
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting entity roles:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -389,9 +399,18 @@ router.get('/:id/stats', async (req, res, next) => {
         },
       },
     };
-    meta = metaHelper.getMeta(req, { id, view });
 
-    res.status(200).json({ title, data, meta });
+    meta = new Meta(req);
+    meta.setOtherValues({
+      id,
+      view,
+    });
+
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
     next(createError(err));

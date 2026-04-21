@@ -10,11 +10,10 @@ const {
   SORT_BY_TOTAL,
 } = require('../../config/constants');
 
-const metaHelper = require('../../helpers/meta');
-
 const { getFilters } = require('../../lib/filters/leaderboard');
 const { getOutOfRangeValueMessage } = require('../../lib/request/messages');
 const searchParams = require('../../lib/request/search-params');
+const Meta = require('../../lib/route/meta');
 
 const Entity = require('../../models/entity/entity');
 const Leaderboard = require('../../models/leaderboard/leaderboard');
@@ -202,9 +201,13 @@ router.get('/', setOptions, async (req, res, next) => {
         values: {},
       },
     };
-    meta = metaHelper.getMeta(req);
 
-    res.status(200).json({ data, meta });
+    meta = new Meta(req);
+
+    res.status(200).json({
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting leaderboard:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -249,9 +252,13 @@ router.get('/entities', setOptions, async (req, res, next) => {
         records: entitiesResult,
       },
     };
-    meta = metaHelper.getMeta(req);
 
-    res.status(200).json({ data, meta });
+    meta = new Meta(req);
+
+    res.status(200).json({
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting leaderboard:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -298,9 +305,13 @@ router.get('/lobbyists', setOptions, async (req, res, next) => {
         records: lobbyistsResults,
       },
     };
-    meta = metaHelper.getMeta(req);
 
-    res.status(200).json({ data, meta });
+    meta = new Meta(req);
+
+    res.status(200).json({
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting leaderboard lobbyists:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -347,9 +358,13 @@ router.get('/officials', setOptions, async (req, res, next) => {
         records: officialsResults,
       },
     };
-    meta = metaHelper.getMeta(req);
 
-    res.status(200).json({ data, meta });
+    meta = new Meta(req);
+
+    res.status(200).json({
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting leaderboard officials:', err.message); // eslint-disable-line no-console
     next(createError(err));

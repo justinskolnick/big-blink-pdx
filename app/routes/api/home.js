@@ -3,25 +3,20 @@ const express = require('express');
 
 const metaHelper = require('../../helpers/meta');
 
+const Meta = require('../../lib/route/meta');
+
 const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
 
 const title = 'Remixing lobbying data published by the City of Portland, Oregon';
-const section = {};
 
 const router = express.Router({
   mergeParams: true,
 });
 
 router.get('/', async (req, res, next) => {
-  const description = metaHelper.getIndexDescription();
-  const meta = metaHelper.getMeta(req, {
-    description,
-    pageTitle: title,
-    section,
-  });
-
   let data;
+  let meta;
 
   try {
     const results = await Promise.all([
@@ -42,7 +37,17 @@ router.get('/', async (req, res, next) => {
       },
     };
 
-    res.status(200).json({ title, data, meta });
+    meta = new Meta(req);
+    meta.setOtherValues({
+      description: metaHelper.getIndexDescription(),
+    });
+    meta.setCustomPageTitle(title);
+
+    res.status(200).json({
+      title,
+      data,
+      meta: meta.toObject(false),
+    });
   } catch (err) {
     console.error('Error while getting home:', err.message); // eslint-disable-line no-console
     next(createError(err));

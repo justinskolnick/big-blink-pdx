@@ -46477,14 +46477,14 @@ Hook ${hookName} was either not provided or not a function.`);
           /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(HeaderIdentityEyes, {})
         ] }),
         section && /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-section", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: cx("header-section-icon", section.links && "has-link"), children: section.links ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: cx("header-section-icon", section.links && "has-link"), children: section?.links ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
             SectionIconLink,
             {
               icon: icon3,
               link: section.links?.section,
-              slug: section.slug
+              slug: section?.slug ?? ""
             }
-          ) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug: section?.slug }) }),
+          ) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(section_icon_default, { name: icon3, slug: section?.slug ?? "" }) }),
           /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-section-title", children: [
             /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h2", { children: section.links ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
               SectionTitleLink,
@@ -46504,7 +46504,7 @@ Hook ${hookName} was either not provided or not a function.`);
                 SectionDescription,
                 {
                   id: section.id,
-                  slug: section.slug
+                  slug: section?.slug ?? ""
                 }
               )
             ] })
