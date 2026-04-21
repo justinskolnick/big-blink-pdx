@@ -26,10 +26,10 @@ class Meta {
 
   #otherValues;
 
-  constructor(request, detail = null) {
-    const { flash } = request;
+  constructor(req, detail = null) {
+    const { flash } = req;
 
-    this.setRequest(request);
+    this.setRequest(req);
     this.setDetail(detail);
     this.setSection();
     this.setLinks();
@@ -43,8 +43,8 @@ class Meta {
     }
   }
 
-  setRequest(request) {
-    this.#request = request;
+  setRequest(req) {
+    this.#request = req;
   }
 
   setDetail(detail = null) {
@@ -113,7 +113,7 @@ class Meta {
 
     if (baseUrl && !this.isHome()) {
       const pathname = this.getPublicPathnameFromApi(baseUrl);
-      const link = new Link(pathname, this.#section.title);
+      const link = new Link(this.#request, pathname, this.#section.title);
       const linkObj = link.toObject();
 
       return {
@@ -137,7 +137,7 @@ class Meta {
     if (this.hasDetails() && originalUrl !== baseUrl) {
       const pathname = this.getPublicPathnameFromApi(originalUrl);
 
-      const link = new Link(pathname, this.#detail.title);
+      const link = new Link(this.#request, pathname, this.#detail.title);
       const linkObj = link.toObject();
 
       return {

@@ -1,14 +1,18 @@
 const { URL } = require('node:url');
 
-const URL_BASE = process.env.ROOT_URL;
-
 class Link {
+  #base = null;
   #label = null;
   #url = null;
 
-  constructor(pathname, label) {
+  constructor(req, pathname, label) {
+    this.setBase(req);
     this.setLabel(label);
     this.setURL(pathname);
+  }
+
+  setBase(req) {
+    this.#base = `${req.protocol}://${req.host}`;
   }
 
   setLabel(label) {
@@ -19,7 +23,7 @@ class Link {
 
   setURL(pathname) {
     if (pathname) {
-      this.#url = new URL(pathname, URL_BASE);
+      this.#url = new URL(pathname, this.#base);
     }
   }
 

@@ -19,8 +19,6 @@ Next, clone this repository and `cd` into the directory in your Terminal.
 The [dotenv](https://github.com/motdotla/dotenv) package is included for development. To configure your instance with it, create a new `.env` file in the root directory, using the following block as a template. If the values for `DB_USER` and `DB_DATABASE` aren't your thing, edit `config/docker/db/init/init.sql` to match your new values before you build the project.
 
 ```env
-ROOT_URL="http://localhost:3000"
-
 DB_HOST="db"
 DB_USER="user"
 DB_PASSWORD=""

@@ -1,7 +1,12 @@
 const Link = require('../link');
 
 const getLink = (pathname, label) => {
-  const l = new Link(pathname, label);
+  const req = {
+    host: 'localhost:3000',
+    protocol: 'http',
+  };
+
+  const l = new Link(req, pathname, label);
   return l.toObject();
 };
 
