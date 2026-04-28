@@ -436,18 +436,18 @@ router.get('/:id/roles', async (req, res, next) => {
 router.get('/:id/stats', async (req, res, next) => {
   const id = Number(req.params.id);
 
-  let statsResult;
+  let result;
   let data;
   let meta;
 
   try {
-    statsResult = await stats.getStats({ personId: id });
+    result = await stats.getStats({ personId: id });
 
     data = {
       stats: {
         person: {
           id,
-          stats: statsResult,
+          stats: result,
         },
       },
     };

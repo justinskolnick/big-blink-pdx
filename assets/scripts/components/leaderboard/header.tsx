@@ -1,6 +1,10 @@
 import React from 'react';
 
-import Header, { HeaderOverview } from '../header';
+import Header, {
+  Content,
+  Intro,
+  Overview,
+} from '../header';
 
 import useSelector from '../../hooks/use-app-selector';
 
@@ -19,18 +23,18 @@ const LeaderboardHeader = () => {
 
   return (
     <Header>
-      <HeaderOverview>
+      <Overview>
         <Icon name='trophy' />
 
-        <div className='header-content'>
+        <Content>
           <h3>{labels.title}</h3>
           <h4>{labels.period}</h4>
-        </div>
-      </HeaderOverview>
+        </Content>
+      </Overview>
 
-      <div className='header-intro'>
+      <Intro>
         <p>{labels.description}</p>
-      </div>
+      </Intro>
     </Header>
   );
 };

@@ -6,7 +6,10 @@ import { LineProps } from '../item-chart';
 
 import useSelector from '../../hooks/use-app-selector';
 
-import { getEntitiesChartData } from '../../selectors';
+import {
+  getEntitiesChartData,
+  getStatsLabels,
+} from '../../selectors';
 
 import api from '../../services/api';
 
@@ -20,13 +23,22 @@ const Chart = ({ label }: Props) => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const entitiesData = useSelector(getEntitiesChartData);
-  const data = entitiesData?.[numericId];
-  const hasData = data?.length > 0;
+  const labels = useSelector(getStatsLabels);
+
+  const chartData = useSelector(getEntitiesChartData);
+  const entityChartData = chartData?.[numericId];
+
+  const hasData = entityChartData?.entries?.length > 0;
 
   const lineProps: LineProps = {
-    data,
-    label,
+    entries: {
+      data: entityChartData?.entries,
+      label: label || labels.entries,
+    },
+    // estimates: {
+    //   data: entityChartData?.estimates,
+    //   label: labels.estimates,
+    // },
   };
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 const createError = require('http-errors');
 const express = require('express');
 
+const { Labels } = require('../../helpers/labels');
+
 const sources = require('../../services/sources');
 
 const router = express.Router({
@@ -8,6 +10,8 @@ const router = express.Router({
 });
 
 router.get('/', async (req, res, next) => {
+  const labels = new Labels();
+
   let stats;
   let data;
 
@@ -16,6 +20,10 @@ router.get('/', async (req, res, next) => {
 
     data = {
       stats: {
+        labels: {
+          entries: labels.getLabel('entries', 'stats'),
+          estimates: labels.getLabel('estimates', 'stats'),
+        },
         sources: stats,
       },
     };

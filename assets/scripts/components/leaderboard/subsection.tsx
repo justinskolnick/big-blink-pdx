@@ -8,7 +8,7 @@ interface Props {
 
 const Subsection = ({ children, isGrid = false }: Props) => (
   <section className={cx(
-    'leaderboard-subsection',
+    'home-subsection leaderboard-subsection',
     isGrid && 'is-grid',
   )}>
     {children}

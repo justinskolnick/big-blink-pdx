@@ -775,6 +775,30 @@ export type SourcesByType = {
 
 export type ItemObject = EntityObject | IncidentObject | PersonObject | SourceObject;
 
+export type ItemStat = {
+  dataSourceId: Id;
+  id: Id;
+  total: number;
+};
+
+type Stat = {
+  id: Id;
+  label: string;
+  total: number;
+};
+
+export type Stats = Stat[];
+
+export type StatsObject = {
+  entries: ItemStat[];
+  estimates: ItemStat[];
+};
+
+export type StatsObjectWithId = {
+  id: Id;
+  stats: StatsObject;
+}
+
 type Error = {
   customMessage?: string | TrustedHTML;
   message: string;
