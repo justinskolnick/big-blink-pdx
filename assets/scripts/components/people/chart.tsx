@@ -35,10 +35,10 @@ const Chart = ({ label }: Props) => {
       data: personChartData?.entries,
       label: label || labels.entries,
     },
-    // estimates: {
-    //   data: personChartData?.estimates,
-    //   label: labels.estimates,
-    // },
+    estimates: {
+      data: personChartData?.estimates,
+      label: labels.estimates,
+    },
   };
 
   useEffect(() => {

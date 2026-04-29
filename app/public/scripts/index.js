@@ -60853,11 +60853,11 @@ Hook ${hookName} was either not provided or not a function.`);
       entries: {
         data: entityChartData?.entries,
         label: label || labels.entries
+      },
+      estimates: {
+        data: entityChartData?.estimates,
+        label: labels.estimates
       }
-      // estimates: {
-      //   data: entityChartData?.estimates,
-      //   label: labels.estimates,
-      // },
     };
     (0, import_react33.useEffect)(() => {
       if (!hasData) {
@@ -61343,11 +61343,11 @@ Hook ${hookName} was either not provided or not a function.`);
       entries: {
         data: homeData?.entries ?? [],
         label: labels.entries
+      },
+      estimates: {
+        data: homeData?.estimates ?? [],
+        label: labels.estimates
       }
-      // estimates: {
-      //   data: homeData?.estimates ?? [],
-      //   label: labels.estimates,
-      // },
     };
     return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: "home-subsection", children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(incident_activity_chart_default, { children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
       incident_activity_chart_quarterly_default,
@@ -61780,11 +61780,11 @@ Hook ${hookName} was either not provided or not a function.`);
       entries: {
         data: personChartData?.entries,
         label: label || labels.entries
+      },
+      estimates: {
+        data: personChartData?.estimates,
+        label: labels.estimates
       }
-      // estimates: {
-      //   data: personChartData?.estimates,
-      //   label: labels.estimates,
-      // },
     };
     (0, import_react40.useEffect)(() => {
       if (!hasData) {

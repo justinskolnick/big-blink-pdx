@@ -21,10 +21,10 @@ const Chart = () => {
       data: homeData?.entries ?? [],
       label: labels.entries,
     },
-    // estimates: {
-    //   data: homeData?.estimates ?? [],
-    //   label: labels.estimates,
-    // },
+    estimates: {
+      data: homeData?.estimates ?? [],
+      label: labels.estimates,
+    },
   };
 
   return (
