@@ -7,6 +7,7 @@ const Meta = require('../../lib/route/meta');
 
 const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
+const stats = require('../../services/stats');
 
 const title = 'Remixing lobbying data published by the City of Portland, Oregon';
 
@@ -15,15 +16,18 @@ const router = express.Router({
 });
 
 router.get('/', async (req, res, next) => {
+  let results;
   let data;
   let meta;
 
   try {
-    const results = await Promise.all([
+    results = await Promise.all([
       incidents.getTotal(),
       incidents.getFirstAndLastDates(),
+      stats.getStats(),
     ]);
-    const [total, firstAndLast] = results;
+
+    const [total, firstAndLast, homeStats] = results;
     const [first, last] = await incidentAttendees.getAllForIncidents([
       firstAndLast.first,
       firstAndLast.last,
@@ -34,6 +38,9 @@ router.get('/', async (req, res, next) => {
         first,
         last,
         total,
+      },
+      stats: {
+        home: homeStats,
       },
     };
 

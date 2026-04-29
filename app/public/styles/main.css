@@ -2371,45 +2371,6 @@ ul.incident-types ::marker {
   margin-top: calc(18px * 2);
   margin-top: calc(var(--gap) * 2);
 }
-.leaderboard-section .header .header-overview {
-  flex-direction: row;
-}
-.leaderboard-section .header .header-overview .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  width: var(--header-section-icon-size);
-  height: var(--header-section-icon-size);
-  border-radius: 50%;
-  background-color: olivedrab;
-  background-color: var(--color-accent-alt);
-  color: snow;
-  color: var(--color-background);
-  font-size: calc(var(--header-section-icon-size) / 9 * 4);
-  text-align: center;
-}
-.leaderboard-section .header .header-overview .header-content {
-  display: inline-flex;
-  flex-wrap: wrap;
-  padding-top: calc(18px / 2);
-  padding-top: calc(var(--gap) / 2);
-  padding-bottom: calc(18px / 2);
-  padding-bottom: calc(var(--gap) / 2);
-}
-.leaderboard-section .header .header-overview .icon + .header-content {
-  margin-left: 18px;
-  margin-left: var(--header-section-icon-space-after);
-}
-.leaderboard-section .header .header-overview h4 {
-  font-weight: 100;
-}
-.leaderboard-section .header .header-overview h3::after {
-  content: "\b7";
-  margin-left: 0.5ch;
-  margin-right: 0.5ch;
-}
 .leaderboard-section .filters {
   color: gray;
   color: var(--color-light);
@@ -2424,29 +2385,9 @@ ul.incident-types ::marker {
   margin-top: calc(18px * 2);
   margin-top: calc(var(--gap) * 2);
 }
-.leaderboard-section .filters + .leaderboard-subsection {
+.leaderboard-section .filters + .home-subsection {
   margin-top: calc(18px * 2);
   margin-top: calc(var(--gap) * 2);
-}
-@media screen and (min-width: 613px) {
-  .leaderboard-section .header-overview h3,
-  .leaderboard-section .header-overview h4 {
-    font-size: 45px;
-  }
-  .leaderboard-section .header + .leaderboard-subsection {
-    margin-top: calc(18px * 3);
-    margin-top: calc(var(--gap) * 3);
-  }
-}
-@media screen and (max-width: 612px) {
-  .leaderboard-section .header-overview h3,
-  .leaderboard-section .header-overview h4 {
-    font-size: 27px;
-  }
-  .leaderboard-section .header + .leaderboard-subsection {
-    margin-top: calc(18px * 2);
-    margin-top: calc(var(--gap) * 2);
-  }
 }
 .leaderboard-subsection + .leaderboard-subsection {
   margin-top: calc(18px * 3);
@@ -2480,7 +2421,54 @@ ul.incident-types ::marker {
   margin-top: calc(18px * 2);
   margin-top: calc(var(--gap) * 2);
 }
+.section.section-home .home-section .header .header-overview {
+  flex-direction: row;
+}
+.section.section-home .home-section .header .header-overview .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--header-section-icon-size);
+  height: var(--header-section-icon-size);
+  border-radius: 50%;
+  background-color: olivedrab;
+  background-color: var(--color-accent-alt);
+  color: snow;
+  color: var(--color-background);
+  font-size: calc(var(--header-section-icon-size) / 9 * 4);
+  text-align: center;
+}
+.section.section-home .home-section .header .header-overview .header-content {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding-top: calc(18px / 2);
+  padding-top: calc(var(--gap) / 2);
+  padding-bottom: calc(18px / 2);
+  padding-bottom: calc(var(--gap) / 2);
+}
+.section.section-home .home-section .header .header-overview .icon + .header-content {
+  margin-left: 18px;
+  margin-left: var(--header-section-icon-space-after);
+}
+.section.section-home .home-section .header .header-overview h3:has(+ h4)::after {
+  content: "\b7";
+  margin-left: 0.5ch;
+  margin-right: 0.5ch;
+}
+.section.section-home .home-section .header .header-overview h4 {
+  font-weight: 100;
+}
 @media screen and (min-width: 613px) {
+  .section.section-home .header-overview h3,
+  .section.section-home .header-overview h4 {
+    font-size: 45px;
+  }
+  .section.section-home .header + .home-subsection {
+    margin-top: calc(18px * 3);
+    margin-top: calc(var(--gap) * 3);
+  }
   .section.section-home .chart-section + .leaderboard-section {
     margin-top: calc(18px * 2);
     margin-top: calc(var(--gap) * 2);
@@ -2489,6 +2477,14 @@ ul.incident-types ::marker {
   }
 }
 @media screen and (max-width: 612px) {
+  .section.section-home .header-overview h3,
+  .section.section-home .header-overview h4 {
+    font-size: 27px;
+  }
+  .section.section-home .header + .home-subsection {
+    margin-top: calc(18px * 2);
+    margin-top: calc(var(--gap) * 2);
+  }
   .section.section-home .chart-section + .leaderboard-section {
     margin-top: calc(18px * 1.5);
     margin-top: calc(var(--gap) * 1.5);

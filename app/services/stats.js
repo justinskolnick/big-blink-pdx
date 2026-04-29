@@ -1,11 +1,36 @@
 const { percentage } = require('../lib/number');
 
-const { getStatsQuery } = require('./queries/stats');
+const {
+  getContentTypesQuery,
+  getStatsQuery,
+} = require('./queries/stats');
 
 const db = require('./db');
 const incidents = require('./incidents');
 
-const getStats = async (options = {}) => {
+const getEstimates = async (options = {}) => {
+  const { clauses, params } = getContentTypesQuery(options);
+
+  const results = await db.getAll(clauses, params);
+
+  return results.reduce((all, result) => {
+    const dataSourceId = Number(result.data_source_id);
+    const total = result.contact_type.split('; ').length - 1;
+
+    if (dataSourceId in all) {
+      all[dataSourceId].total = all[dataSourceId].total + total;
+    } else {
+      all[dataSourceId] = {
+        dataSourceId,
+        total,
+      };
+    }
+
+    return all;
+  }, []).filter(Boolean);
+};
+
+const getEntries = async (options = {}) => {
   const { clauses, params, id } = getStatsQuery(options);
 
   const results = await db.getAll(clauses, params);
@@ -15,6 +40,32 @@ const getStats = async (options = {}) => {
     id: Number(id),
     total: result.total,
   }));
+};
+
+const getStats = async (options = {}) => {
+  const results = await Promise.all([
+    getEntries(options),
+    getEstimates(options),
+  ]);
+
+  const [entries, estimates] = results;
+
+  return {
+    entries,
+    estimates: estimates.map(estimate => {
+      const entry = entries.find(e => e.dataSourceId === estimate.dataSourceId);
+      let total = null;
+
+      if (estimate.total > 0) {
+        total = entry.total + estimate.total;
+      }
+
+      return {
+        ...estimate,
+        total,
+      };
+    }),
+  };
 };
 
 const getIncidentsStats = async (options = {}) => {

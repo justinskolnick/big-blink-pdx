@@ -6,16 +6,15 @@ import { RootState } from './lib/store';
 import type {
   Id,
   Ids,
+  ItemStat,
   SourcesByType,
   SourceType,
+  StatsObject,
 } from './types';
 
-type Stat = {
-  dataSourceId?: Id;
+type StatsValue = {
   id: Id;
-  incidentId?: Id;
-  label?: string;
-  total: number;
+  stats: StatsObject;
 };
 
 export const getEntities = (state: RootState) => state.entities;
@@ -58,6 +57,14 @@ export const getOfficialPositionsLookupCompleted = createSelector(
 export const getOfficialPositionsLookupQueue = createSelector(
   getOfficialPositionsLookup, lookup => lookup.queue
 );
+
+export const getStatsLabels = createSelector(getStats, stats => stats.labels);
+
+const getHomeStats = createSelector(getStats, stats => stats.home);
+export const getHomeChartData = createSelector(getHomeStats, (stats) => ({
+  entries: stats?.entries?.map(item => item.total),
+  estimates: stats?.estimates?.map(item => item.total),
+}));
 
 const getSourcesStats = createSelector(getStats, stats => stats.sources);
 const getSourcesChartIds = createSelector(
@@ -111,36 +118,39 @@ export const getSourcesByType = createSelector(getSources, (sources) => {
   return Object.values(types);
 });
 
-type Value = {
-  id: Id;
-  stats: Stat[];
-};
+const getTotalFromSourceIds = (sourceIds: Ids, items: ItemStat[]) =>
+  sourceIds.map(sourceId => {
+    const item = items.find((stat: ItemStat) => (
+      stat.dataSourceId === sourceId
+    ));
 
-const getIndexedTotals = (sourceIds: Ids, values: Value[]) =>
+    return item ? item.total : null;
+  });
+
+const getIndexedEntriesAndEstimates = (sourceIds: Ids, values: StatsValue[]) =>
   values.map(value => value.id).reduce((indexed, id) => {
     const match = values.find(value => value.id === id);
 
     if (match) {
-      indexed[id] = sourceIds.map(sourceId => {
-        const data = match.stats.find((stat: Stat) => stat.dataSourceId === sourceId);
-
-        return data ? data.total : null;
-      });
+      indexed[id] = {
+        entries: getTotalFromSourceIds(sourceIds, match.stats.entries),
+        estimates: getTotalFromSourceIds(sourceIds, match.stats.estimates),
+      };
     }
 
     return indexed;
-  }, {} as { [index: Id]: (number | null)[]; });
+  }, {} as { [index: Id]: Record<keyof StatsObject, (number | null)[]>; });
 
 const getEntitiesStats = createSelector(getStats, stats => stats.entities);
 export const getEntitiesChartData = createSelector(
   [getSourcesChartIds, getEntitiesStats],
-  getIndexedTotals
+  getIndexedEntriesAndEstimates
 );
 
 const getPeopleStats = createSelector(getStats, stats => stats.people);
 export const getPeopleChartData = createSelector(
   [getSourcesChartIds, getPeopleStats],
-  getIndexedTotals
+  getIndexedEntriesAndEstimates
 );
 
 export const getDescription = createSelector(getUI, ui => ui.description);

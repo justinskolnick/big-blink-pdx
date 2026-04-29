@@ -3,7 +3,7 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import Eyes from './eyes';
-import Header, { HeaderOverview } from './header';
+import Header, { Overview } from './header';
 import {
   BetterLink as Link,
   GlobalLink,
@@ -142,7 +142,7 @@ const SectionHeader = ({
 
   return (
     <Header className={hasSubhead && 'has-subheader'}>
-      <HeaderOverview>
+      <Overview>
         <div className='header-identity'>
           <HeaderIdentityLogo />
           <HeaderIdentityEyes />
@@ -187,7 +187,7 @@ const SectionHeader = ({
             </div>
           </div>
         )}
-      </HeaderOverview>
+      </Overview>
 
       {children}
     </Header>

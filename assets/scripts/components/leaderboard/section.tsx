@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Section = ({ children, ref }: Props) => (
-  <section className='leaderboard-section' ref={ref}>
+  <section className='home-section leaderboard-section' ref={ref}>
     <Header />
     <Filters />
 

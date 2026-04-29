@@ -4,7 +4,64 @@
       margin-top: calc(var(--gap) * 2);
     }
 
+    .home-section {
+      .header {
+        .header-overview {
+          flex-direction: row;
+
+          .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            width: var(--header-section-icon-size);
+            height: var(--header-section-icon-size);
+            border-radius: 50%;
+            background-color: var(--color-accent-alt);
+            color: var(--color-background);
+            font-size: calc(var(--header-section-icon-size) / 9 * 4);
+            text-align: center;
+          }
+
+          .header-content {
+            display: inline-flex;
+            flex-wrap: wrap;
+            padding-top: calc(var(--gap) / 2);
+            padding-bottom: calc(var(--gap) / 2);
+          }
+
+          .icon + .header-content {
+            margin-left: var(--header-section-icon-space-after);
+          }
+
+          h3:has(+ h4) {
+            &::after {
+              content: '·';
+              margin-left: 0.5ch;
+              margin-right: 0.5ch;
+            }
+          }
+
+          h4 {
+            font-weight: 100;
+          }
+        }
+      }
+    }
+
     @media screen and (min-width: 613px) {
+      .header-overview {
+        h3,
+        h4 {
+          font-size: 45px;
+        }
+      }
+
+      .header + .home-subsection {
+        margin-top: calc(var(--gap) * 3);
+      }
+
       .chart-section + .leaderboard-section {
         margin-top: calc(var(--gap) * 2);
         padding-top: calc(var(--gap) * 2);
@@ -12,6 +69,17 @@
     }
 
     @media screen and (max-width: 612px) {
+      .header-overview {
+        h3,
+        h4 {
+          font-size: 27px;
+        }
+      }
+
+      .header + .home-subsection {
+        margin-top: calc(var(--gap) * 2);
+      }
+
       .chart-section + .leaderboard-section {
         margin-top: calc(var(--gap) * 1.5);
         padding-top: calc(var(--gap) * 1.5);

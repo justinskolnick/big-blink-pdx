@@ -41,6 +41,7 @@ ChartJS.register(
 
 const itemColorStatic: Color = 'olivedrab';
 const itemColorLink: Color = 'cornflowerblue';
+const itemColorDashed: Color = 'LightSkyBlue';
 const colorStatLabel: Color = 'darkolivegreen';
 
 const options: ChartOptions<BarType> | ChartOptions<BarOrLine> = {
@@ -78,9 +79,14 @@ const options: ChartOptions<BarType> | ChartOptions<BarOrLine> = {
   },
 };
 
-export interface LineProps {
+interface LinePropSet {
   data: (number | null)[];
   label?: string;
+}
+
+export interface LineProps {
+  entries: LinePropSet;
+  estimates?: LinePropSet;
 }
 
 interface StackedProps {
@@ -96,9 +102,12 @@ const barType: ChartType = 'bar';
 const lineType: ChartType = 'line';
 
 export const ItemChartStacked = ({ label }: StackedProps) => {
+  const defaultLabel = 'All incident entries';
+
   const sources = useSelector(getSourcesDataForChart);
+
   const sourceData: ChartDataset<BarType> = {
-    label: 'All incidents',
+    label: defaultLabel,
     data: sources.data,
     borderColor: 'rgba(222, 184, 135, 0.5)',
     backgroundColor: 'rgba(222, 184, 135, 0.5)',
@@ -152,23 +161,38 @@ export const ItemChartStacked = ({ label }: StackedProps) => {
 const ItemChart = ({ handleClick, lineProps }: Props) => {
   const [hasLineLabel, setHasLineLabel] = useState<boolean>(false);
 
+  const defaultLabel = 'All incident entries';
+
   const sources = useSelector(getSourcesDataForChart);
+
   const sourceData: ChartDataset<BarType> = {
-    label: 'All incidents',
+    label: defaultLabel,
     data: sources.data,
     borderColor: 'rgba(222, 184, 135, 0.5)',
     backgroundColor: 'rgba(222, 184, 135, 0.5)',
     type: barType,
   };
   const itemData: ChartDataset<LineType> = {
-    label: lineProps.label,
-    data: lineProps.data,
+    label: lineProps.entries.label,
+    data: lineProps.entries.data,
     borderColor: itemColorLink,
     backgroundColor: itemColorLink,
-    stack: 'combined',
     type: lineType,
   };
-  const datasets: ChartDataset<BarOrLine>[] = [itemData, sourceData];
+  let datasets: ChartDataset<BarOrLine>[] = [itemData, sourceData];
+
+  if ('estimates' in lineProps && lineProps.estimates) {
+    const estimateData: ChartDataset<LineType> = {
+      label: lineProps.estimates.label,
+      data: lineProps.estimates.data,
+      borderColor: itemColorDashed,
+      borderDash: [2, 2],
+      backgroundColor: itemColorDashed,
+      type: lineType,
+    };
+
+    datasets = [itemData, estimateData, sourceData];
+  }
 
   const data: ChartData<BarOrLine> = {
     labels: sources.labels,
@@ -194,7 +218,7 @@ const ItemChart = ({ handleClick, lineProps }: Props) => {
   };
 
   useEffect(() => {
-    setHasLineLabel(Boolean(lineProps.label));
+    setHasLineLabel(Boolean(lineProps.entries.label));
   }, [lineProps, setHasLineLabel]);
 
   return (

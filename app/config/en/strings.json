@@ -99,6 +99,8 @@
     "source__officials": "City Officials",
     "source__personnel_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.",
     "source__registration_disclaimer": "Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.",
+    "stats__entries": "Entries",
+    "stats__estimates": "Estimated",
     "total_items": ":total :items",
     "totals": "Totals",
     "view": "View",

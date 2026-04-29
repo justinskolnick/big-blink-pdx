@@ -4,33 +4,89 @@ const IncidentAttendees = require('../tables/incident-attendees');
 const People = require('../tables/people');
 const Sources = require('../tables/data-sources');
 
-const getStatsQuery = (options = {}) => {
-  const { entityId, personId } = options;
+const getContentTypesQuery = (options = {}) => {
+  const {
+    entityId,
+    personId,
+  } = options;
+
+  const hasEntityId = Boolean(entityId);
+  const hasPersonId = Boolean(personId);
 
   const clauses = [];
-  const columns = [];
+  const selections = [];
   const params = [];
+
   let id;
 
   clauses.push('SELECT');
-  columns.push(
+
+  selections.push(
+    `${Incidents.field(Sources.foreignKey())}`,
+    `${Incidents.field('contact_type')}`,
+  );
+
+  clauses.push(selections.join(', '));
+  clauses.push(`FROM ${Incidents.tableName()}`);
+
+  if (hasEntityId || hasPersonId) {
+    clauses.push('WHERE');
+
+    if (hasEntityId) {
+      id = entityId;
+
+      clauses.push(`${Incidents.field(Entities.foreignKey())} = ?`);
+      params.push(entityId);
+    } else if (hasPersonId) {
+      id = personId;
+
+      clauses.push(`${Incidents.primaryKey()} IN (SELECT ${Incidents.foreignKey()} FROM ${IncidentAttendees.tableName()} WHERE ${People.foreignKey()} = ?)`);
+      params.push(personId);
+    }
+  }
+
+  return { clauses, params, id };
+};
+
+const getStatsQuery = (options = {}) => {
+  const {
+    entityId,
+    personId,
+  } = options;
+
+  const hasEntityId = Boolean(entityId);
+  const hasPersonId = Boolean(personId);
+
+  const clauses = [];
+  const selections = [];
+  const params = [];
+
+  let id;
+
+  clauses.push('SELECT');
+
+  selections.push(
     `${Incidents.field(Sources.foreignKey())}`,
     `COUNT(${Incidents.primaryKey()}) AS total`,
   );
 
-  clauses.push(columns.join(', '));
+  clauses.push(selections.join(', '));
   clauses.push(`FROM ${Incidents.tableName()}`);
 
-  if (entityId) {
-    id = entityId;
+  if (hasEntityId || hasPersonId) {
+    clauses.push('WHERE');
 
-    clauses.push(`WHERE ${Incidents.field(Entities.foreignKey())} = ?`);
-    params.push(entityId);
-  } else if (personId) {
-    id = personId;
+    if (hasEntityId) {
+      id = entityId;
 
-    clauses.push(`WHERE ${Incidents.primaryKey()} IN (SELECT ${Incidents.foreignKey()} FROM ${IncidentAttendees.tableName()} WHERE ${People.foreignKey()} = ?)`);
-    params.push(personId);
+      clauses.push(`${Incidents.field(Entities.foreignKey())} = ?`);
+      params.push(entityId);
+    } else if (hasPersonId) {
+      id = personId;
+
+      clauses.push(`${Incidents.primaryKey()} IN (SELECT ${Incidents.foreignKey()} FROM ${IncidentAttendees.tableName()} WHERE ${People.foreignKey()} = ?)`);
+      params.push(personId);
+    }
   }
 
   clauses.push(`GROUP BY ${Incidents.field(Sources.foreignKey())}`);
@@ -40,5 +96,6 @@ const getStatsQuery = (options = {}) => {
 };
 
 module.exports = {
+  getContentTypesQuery,
   getStatsQuery,
 };

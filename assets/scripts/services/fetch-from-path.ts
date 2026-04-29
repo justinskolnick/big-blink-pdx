@@ -109,6 +109,12 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
   if (data) {
     if ('stats' in data) {
+      if ('home' in data.stats) {
+        dispatch(statsActions.setHome(data.stats.home));
+      }
+      if ('labels' in data.stats) {
+        dispatch(statsActions.setLabels(data.stats.labels));
+      }
       if ('sources' in data.stats) {
         dispatch(statsActions.setSources(data.stats.sources));
       }

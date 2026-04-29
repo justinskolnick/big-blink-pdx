@@ -10,7 +10,7 @@ import { hasLeaderboardFilterSearchParams } from '../../lib/params';
 
 import api from '../../services/api';
 
-import Chart from './chart';
+import Activity from './activity';
 import Leaderboard from './leaderboard';
 import Section from '../section';
 
@@ -47,7 +47,7 @@ const Home = () => {
       title='Lobbying in Portland, Oregon'
       className='section-home'
     >
-      <Chart />
+      <Activity />
       <Leaderboard ref={ref} />
     </Section>
   );
