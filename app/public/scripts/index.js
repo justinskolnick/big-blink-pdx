@@ -61322,7 +61322,7 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "chart-simple" }),
       /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("h3", { children: "Lobbying activity over time" }) })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: "The figures in the chart below represent the total number of lobbying incident entries submitted to the City of Portland by lobbying entities. Since 2025 Q2, a single entry can represent any number of lobbying interactions. Entry contact types are tallied in an attempt to estimate this number; in many cases, the actual number of interactions are likely much higher." }) })
+    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: "The figures in the chart below represent the total number of lobbying incident entries submitted to the City of Portland by lobbying entities. Since 2025 Q2, a single entry can represent any number of lobbying interactions. Entry contact types are tallied in an attempt to estimate this number; in many cases, the actual number of interactions is likely much higher." }) })
   ] });
   var header_default2 = ChartHeader;
 
