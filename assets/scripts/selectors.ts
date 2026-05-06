@@ -18,6 +18,7 @@ type StatsValue = {
 };
 
 export const getEntities = (state: RootState) => state.entities;
+export const getHome = (state: RootState) => state.home;
 export const getIncidents = (state: RootState) => state.incidents;
 export const getLeaderboard = (state: RootState) => state.leaderboard;
 export const getPeople = (state: RootState) => state.people;
@@ -28,11 +29,11 @@ export const getUI = (state: RootState) => state.ui;
 export const getEntitiesPagination = createSelector(getEntities, entities => entities.pagination);
 export const getEntitiesPageIds = createSelector(getEntities, entities => entities.pageIds);
 
+export const getHomeHeader = createSelector(getHome, home => home.header);
+export const getHomeOverview = createSelector(getHome, home => home.overview);
+
 export const getIncidentsPagination = createSelector(getIncidents, incidents => incidents.pagination);
 export const getIncidentsPageIds = createSelector(getIncidents, incidents => incidents.pageIds);
-export const getIncidentFirst = createSelector(getIncidents, incidents => incidents.first);
-export const getIncidentLast = createSelector(getIncidents, incidents => incidents.last);
-export const getIncidentTotal = createSelector(getIncidents, incidents => incidents.total);
 
 export const getLeaderboardLabels = createSelector(getLeaderboard, leaderboard => leaderboard.labels);
 export const getHasLeaderboardLabels = createSelector(getLeaderboard, leaderboard => Object.values(leaderboard?.labels ?? {}).length > 0);

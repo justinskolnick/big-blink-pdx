@@ -1,10 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
-import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 
-import {
-  BetterLink as Link,
-  LinkToIncidents,
-} from './links';
 import Icon from './icon';
 import IncidentModal from './incident-modal';
 
@@ -13,15 +9,13 @@ import useSelector from '../hooks/use-app-selector';
 
 import { actions as uiActions } from '../reducers/ui';
 
-import {
-  getIncidentFirst,
-  getIncidentLast,
-  getIncidentTotal,
-} from '../selectors';
+import { getHomeHeader } from '../selectors';
 
-const dateRangeMessage = 'Some incident dates appear to be anomalous and have been omitted from this range, pending official word from the City Auditor’s office. Refer to individual incident records for more details.' as const;
+interface Props {
+  note: string;
+}
 
-const DateRangeNote = () => {
+const DateRangeNote = ({ note }: Props) => {
   const dispatch = useDispatch();
 
   const handleClick = (event: MouseEvent) => {
@@ -29,8 +23,8 @@ const DateRangeNote = () => {
     event.stopPropagation();
 
     dispatch(uiActions.setMessage({
-      customMessage: dateRangeMessage,
-      message: dateRangeMessage,
+      customMessage: note,
+      message: note,
     }));
   };
 
@@ -42,69 +36,57 @@ const DateRangeNote = () => {
 };
 
 const HeaderIntro = () => {
-  const { pathname } = useLocation();
-  const [savedPathname, setSavedPathname] = useState<string>(pathname);
+  const navigate = useNavigate();
+
+  const [provisionalId, setProvisionalId] = useState<number | null>();
   const [selectedId, setSelectedId] = useState<number | null>();
 
-  const total = useSelector(getIncidentTotal);
-  const first = useSelector(getIncidentFirst);
-  const last = useSelector(getIncidentLast);
+  const header = useSelector(getHomeHeader);
 
   const deactivate = () => setSelectedId(null);
-  const handleClick = (event?: MouseEvent) => {
-    event?.preventDefault();
-    event?.stopPropagation();
+  const hasProvisionalId = typeof provisionalId === 'number';
+  const hasSelectedId = typeof selectedId === 'number';
 
-    if (event?.target instanceof HTMLAnchorElement) {
-      setSelectedId(Number(event?.target.dataset.id));
+  const handleClick = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.target instanceof HTMLAnchorElement) {
+      if (event.target.tagName === 'A') {
+        if (event.target.dataset.id && !isNaN(event.target.dataset.id)) {
+          setSelectedId(Number(event?.target.dataset.id));
+        } else {
+          navigate(event.target.pathname);
+        }
+      }
     }
   };
 
   useEffect(() => {
-    setSavedPathname(pathname);
-  }, [setSavedPathname, pathname]);
+    const match = header.intro?.match(/data-id="([\d]+)"/);
 
-  useEffect(() => {
-    if (pathname !== savedPathname) {
-      setSelectedId(null);
+    if (match) {
+      const [, id] = match;
+      setProvisionalId(Number(id));
     }
-  }, [pathname, savedPathname, setSelectedId]);
-
-  if (!first?.links?.self || !last?.links?.self || total === 0) return null;
+  }, [header, setProvisionalId]);
 
   return (
     <div className='header-intro'>
-      <p>
-        The Big Blink remixes lobbying data published by the City of Portland, Oregon, including
-        {' '}
-        <LinkToIncidents>{total} lobbying incidents</LinkToIncidents>
-        {' '}
-        reported between
-        {' '}
-        <Link to={first?.links?.self} data-id={first?.id} onClick={handleClick}>
-          {first?.contactDate}
-        </Link>
-        {' '}
-        and
-        {' '}
-        <Link to={last?.links?.self} data-id={last?.id} onClick={handleClick}>
-          {last?.contactDate}
-        </Link>
-        .
-        {' '}
-        <DateRangeNote />
-      </p>
+      {header && (
+        <p onClick={handleClick}>
+          <span dangerouslySetInnerHTML={{ __html: header.intro }} />
+          <DateRangeNote note={header.note} />
+        </p>
+      )}
 
-      <IncidentModal
-        deactivate={deactivate}
-        id={first?.id}
-        isActive={selectedId === first.id}
-      />
-      <IncidentModal
-        deactivate={deactivate}
-        id={last?.id}
-        isActive={selectedId === last?.id}
-      />
+      {hasProvisionalId && (
+        <IncidentModal
+          deactivate={deactivate}
+          id={selectedId || provisionalId}
+          isActive={hasSelectedId}
+        />
+      )}
     </div>
   );
 };

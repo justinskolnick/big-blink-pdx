@@ -13,7 +13,6 @@ import {
 
 const Chart = () => {
   const homeData = useSelector(getHomeChartData);
-
   const labels = useSelector(getStatsLabels);
 
   const lineProps: LineProps = {

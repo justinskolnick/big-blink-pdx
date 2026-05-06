@@ -7,6 +7,7 @@ import handlers from './middleware';
 
 import api from '../services/api';
 import entities from '../reducers/entities';
+import home from '../reducers/home';
 import incidents from '../reducers/incidents';
 import leaderboard from '../reducers/leaderboard';
 import people from '../reducers/people';
@@ -18,6 +19,7 @@ export const store = configureStore({
   reducer: {
     api: api.reducer,
     entities,
+    home,
     incidents,
     leaderboard,
     people,

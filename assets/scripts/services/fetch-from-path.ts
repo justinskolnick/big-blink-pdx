@@ -2,6 +2,7 @@ import { getError } from '../lib/error';
 import store from '../lib/store';
 
 import * as entityActions from '../reducers/entities';
+import { actions as homeActions } from '../reducers/home';
 import * as incidentActions from '../reducers/incidents';
 import { actions as leaderboardActions } from '../reducers/leaderboard';
 import * as personActions from '../reducers/people';
@@ -108,6 +109,15 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
   const { data, meta } = result;
 
   if (data) {
+    if ('home' in data) {
+      if ('header' in data.home) {
+        dispatch(homeActions.setHeader(data.home.header));
+      }
+      if ('overview' in data.home) {
+        dispatch(homeActions.setOverview(data.home.overview));
+      }
+    }
+
     if ('stats' in data) {
       if ('home' in data.stats) {
         dispatch(statsActions.setHome(data.stats.home));

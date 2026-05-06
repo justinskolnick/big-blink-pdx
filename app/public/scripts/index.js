@@ -1189,10 +1189,10 @@
         exports.use = function(usable) {
           return resolveDispatcher().use(usable);
         };
-        exports.useActionState = function(action, initialState9, permalink) {
+        exports.useActionState = function(action, initialState10, permalink) {
           return resolveDispatcher().useActionState(
             action,
-            initialState9,
+            initialState10,
             permalink
           );
         };
@@ -1242,17 +1242,17 @@
         exports.useMemo = function(create, deps) {
           return resolveDispatcher().useMemo(create, deps);
         };
-        exports.useOptimistic = function(passthrough, reducer2) {
-          return resolveDispatcher().useOptimistic(passthrough, reducer2);
+        exports.useOptimistic = function(passthrough, reducer3) {
+          return resolveDispatcher().useOptimistic(passthrough, reducer3);
         };
-        exports.useReducer = function(reducer2, initialArg, init) {
-          return resolveDispatcher().useReducer(reducer2, initialArg, init);
+        exports.useReducer = function(reducer3, initialArg, init) {
+          return resolveDispatcher().useReducer(reducer3, initialArg, init);
         };
         exports.useRef = function(initialValue) {
           return resolveDispatcher().useRef(initialValue);
         };
-        exports.useState = function(initialState9) {
-          return resolveDispatcher().useState(initialState9);
+        exports.useState = function(initialState10) {
+          return resolveDispatcher().useState(initialState10);
         };
         exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
           return resolveDispatcher().useSyncExternalStore(
@@ -1514,8 +1514,8 @@
         exports.unstable_batchedUpdates = function(fn, a2) {
           return fn(a2);
         };
-        exports.useFormState = function(action, initialState9, permalink) {
-          return resolveDispatcher().useFormState(action, initialState9, permalink);
+        exports.useFormState = function(action, initialState10, permalink) {
+          return resolveDispatcher().useFormState(action, initialState10, permalink);
         };
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
@@ -7113,10 +7113,10 @@
         function basicStateReducer(state, action) {
           return "function" === typeof action ? action(state) : action;
         }
-        function mountReducer(reducer2, initialArg, init) {
+        function mountReducer(reducer3, initialArg, init) {
           var hook = mountWorkInProgressHook();
           if (void 0 !== init) {
-            var initialState9 = init(initialArg);
+            var initialState10 = init(initialArg);
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -7125,34 +7125,34 @@
                 setIsStrictModeForDevtools(false);
               }
             }
-          } else initialState9 = initialArg;
-          hook.memoizedState = hook.baseState = initialState9;
-          reducer2 = {
+          } else initialState10 = initialArg;
+          hook.memoizedState = hook.baseState = initialState10;
+          reducer3 = {
             pending: null,
             lanes: 0,
             dispatch: null,
-            lastRenderedReducer: reducer2,
-            lastRenderedState: initialState9
+            lastRenderedReducer: reducer3,
+            lastRenderedState: initialState10
           };
-          hook.queue = reducer2;
-          reducer2 = reducer2.dispatch = dispatchReducerAction.bind(
+          hook.queue = reducer3;
+          reducer3 = reducer3.dispatch = dispatchReducerAction.bind(
             null,
             currentlyRenderingFiber,
-            reducer2
+            reducer3
           );
-          return [hook.memoizedState, reducer2];
+          return [hook.memoizedState, reducer3];
         }
-        function updateReducer(reducer2) {
+        function updateReducer(reducer3) {
           var hook = updateWorkInProgressHook();
-          return updateReducerImpl(hook, currentHook, reducer2);
+          return updateReducerImpl(hook, currentHook, reducer3);
         }
-        function updateReducerImpl(hook, current3, reducer2) {
+        function updateReducerImpl(hook, current3, reducer3) {
           var queue = hook.queue;
           if (null === queue)
             throw Error(
               "Should have a queue. You are likely calling Hooks conditionally, which is not allowed. (https://react.dev/link/invalid-hook-call)"
             );
-          queue.lastRenderedReducer = reducer2;
+          queue.lastRenderedReducer = reducer3;
           var baseQueue = hook.baseQueue, pendingQueue = queue.pending;
           if (null !== pendingQueue) {
             if (null !== baseQueue) {
@@ -7200,8 +7200,8 @@
                     next: null
                   }, null === newBaseQueueLast ? (newBaseQueueFirst = newBaseQueueLast = updateLane, baseFirst = pendingQueue) : newBaseQueueLast = newBaseQueueLast.next = updateLane, currentlyRenderingFiber.lanes |= revertLane, workInProgressRootSkippedLanes |= revertLane;
                 updateLane = update.action;
-                shouldDoubleInvokeUserFnsInHooksDEV && reducer2(pendingQueue, updateLane);
-                pendingQueue = update.hasEagerState ? update.eagerState : reducer2(pendingQueue, updateLane);
+                shouldDoubleInvokeUserFnsInHooksDEV && reducer3(pendingQueue, updateLane);
+                pendingQueue = update.hasEagerState ? update.eagerState : reducer3(pendingQueue, updateLane);
               } else
                 revertLane = {
                   lane: updateLane,
@@ -7215,8 +7215,8 @@
               update = update.next;
             } while (null !== update && update !== current3);
             null === newBaseQueueLast ? baseFirst = pendingQueue : newBaseQueueLast.next = newBaseQueueFirst;
-            if (!objectIs(pendingQueue, hook.memoizedState) && (didReceiveUpdate = true, didReadFromEntangledAsyncAction2 && (reducer2 = currentEntangledActionThenable, null !== reducer2)))
-              throw reducer2;
+            if (!objectIs(pendingQueue, hook.memoizedState) && (didReceiveUpdate = true, didReadFromEntangledAsyncAction2 && (reducer3 = currentEntangledActionThenable, null !== reducer3)))
+              throw reducer3;
             hook.memoizedState = pendingQueue;
             hook.baseState = baseFirst;
             hook.baseQueue = newBaseQueueLast;
@@ -7225,19 +7225,19 @@
           null === baseQueue && (queue.lanes = 0);
           return [hook.memoizedState, queue.dispatch];
         }
-        function rerenderReducer(reducer2) {
+        function rerenderReducer(reducer3) {
           var hook = updateWorkInProgressHook(), queue = hook.queue;
           if (null === queue)
             throw Error(
               "Should have a queue. You are likely calling Hooks conditionally, which is not allowed. (https://react.dev/link/invalid-hook-call)"
             );
-          queue.lastRenderedReducer = reducer2;
+          queue.lastRenderedReducer = reducer3;
           var dispatch = queue.dispatch, lastRenderPhaseUpdate = queue.pending, newState = hook.memoizedState;
           if (null !== lastRenderPhaseUpdate) {
             queue.pending = null;
             var update = lastRenderPhaseUpdate = lastRenderPhaseUpdate.next;
             do
-              newState = reducer2(newState, update.action), update = update.next;
+              newState = reducer3(newState, update.action), update = update.next;
             while (update !== lastRenderPhaseUpdate);
             objectIs(newState, hook.memoizedState) || (didReceiveUpdate = true);
             hook.memoizedState = newState;
@@ -7364,11 +7364,11 @@
           var root2 = enqueueConcurrentRenderForLane(fiber, 2);
           null !== root2 && scheduleUpdateOnFiber(root2, fiber, 2);
         }
-        function mountStateImpl(initialState9) {
+        function mountStateImpl(initialState10) {
           var hook = mountWorkInProgressHook();
-          if ("function" === typeof initialState9) {
-            var initialStateInitializer = initialState9;
-            initialState9 = initialStateInitializer();
+          if ("function" === typeof initialState10) {
+            var initialStateInitializer = initialState10;
+            initialState10 = initialStateInitializer();
             if (shouldDoubleInvokeUserFnsInHooksDEV) {
               setIsStrictModeForDevtools(true);
               try {
@@ -7378,21 +7378,21 @@
               }
             }
           }
-          hook.memoizedState = hook.baseState = initialState9;
+          hook.memoizedState = hook.baseState = initialState10;
           hook.queue = {
             pending: null,
             lanes: 0,
             dispatch: null,
             lastRenderedReducer: basicStateReducer,
-            lastRenderedState: initialState9
+            lastRenderedState: initialState10
           };
           return hook;
         }
-        function mountState(initialState9) {
-          initialState9 = mountStateImpl(initialState9);
-          var queue = initialState9.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
+        function mountState(initialState10) {
+          initialState10 = mountStateImpl(initialState10);
+          var queue = initialState10.queue, dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
           queue.dispatch = dispatch;
-          return [initialState9.memoizedState, dispatch];
+          return [initialState10.memoizedState, dispatch];
         }
         function mountOptimistic(passthrough) {
           var hook = mountWorkInProgressHook();
@@ -7414,22 +7414,22 @@
           queue.dispatch = hook;
           return [passthrough, hook];
         }
-        function updateOptimistic(passthrough, reducer2) {
+        function updateOptimistic(passthrough, reducer3) {
           var hook = updateWorkInProgressHook();
-          return updateOptimisticImpl(hook, currentHook, passthrough, reducer2);
+          return updateOptimisticImpl(hook, currentHook, passthrough, reducer3);
         }
-        function updateOptimisticImpl(hook, current3, passthrough, reducer2) {
+        function updateOptimisticImpl(hook, current3, passthrough, reducer3) {
           hook.baseState = passthrough;
           return updateReducerImpl(
             hook,
             currentHook,
-            "function" === typeof reducer2 ? reducer2 : basicStateReducer
+            "function" === typeof reducer3 ? reducer3 : basicStateReducer
           );
         }
-        function rerenderOptimistic(passthrough, reducer2) {
+        function rerenderOptimistic(passthrough, reducer3) {
           var hook = updateWorkInProgressHook();
           if (null !== currentHook)
-            return updateOptimisticImpl(hook, currentHook, passthrough, reducer2);
+            return updateOptimisticImpl(hook, currentHook, passthrough, reducer3);
           hook.baseState = passthrough;
           return [passthrough, hook.queue.dispatch];
         }
@@ -19971,13 +19971,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer2, initialArg, init);
+              return mountReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -19987,13 +19987,13 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState9) {
+          useState: function(initialState10) {
             currentHookNameInDev = "useState";
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState9);
+              return mountState(initialState10);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20026,16 +20026,16 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState9) {
+          useFormState: function(action, initialState10) {
             currentHookNameInDev = "useFormState";
             mountHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
-          useActionState: function(action, initialState9) {
+          useActionState: function(action, initialState10) {
             currentHookNameInDev = "useActionState";
             mountHookTypesDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -20101,13 +20101,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer2, initialArg, init);
+              return mountReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20117,13 +20117,13 @@
             updateHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState9) {
+          useState: function(initialState10) {
             currentHookNameInDev = "useState";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState9);
+              return mountState(initialState10);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20156,16 +20156,16 @@
             updateHookTypesDev();
             return mountId();
           },
-          useActionState: function(action, initialState9) {
+          useActionState: function(action, initialState10) {
             currentHookNameInDev = "useActionState";
             updateHookTypesDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
-          useFormState: function(action, initialState9) {
+          useFormState: function(action, initialState10) {
             currentHookNameInDev = "useFormState";
             updateHookTypesDev();
             warnOnUseFormStateInDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -20231,13 +20231,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return updateReducer(reducer2, initialArg, init);
+              return updateReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20297,10 +20297,10 @@
             updateHookTypesDev();
             return updateActionState(action);
           },
-          useOptimistic: function(passthrough, reducer2) {
+          useOptimistic: function(passthrough, reducer3) {
             currentHookNameInDev = "useOptimistic";
             updateHookTypesDev();
-            return updateOptimistic(passthrough, reducer2);
+            return updateOptimistic(passthrough, reducer3);
           },
           useHostTransitionStatus,
           useMemoCache,
@@ -20361,13 +20361,13 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnRerenderInDEV;
             try {
-              return rerenderReducer(reducer2, initialArg, init);
+              return rerenderReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20427,10 +20427,10 @@
             updateHookTypesDev();
             return rerenderActionState(action);
           },
-          useOptimistic: function(passthrough, reducer2) {
+          useOptimistic: function(passthrough, reducer3) {
             currentHookNameInDev = "useOptimistic";
             updateHookTypesDev();
-            return rerenderOptimistic(passthrough, reducer2);
+            return rerenderOptimistic(passthrough, reducer3);
           },
           useHostTransitionStatus,
           useMemoCache,
@@ -20502,14 +20502,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountReducer(reducer2, initialArg, init);
+              return mountReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20520,14 +20520,14 @@
             mountHookTypesDev();
             return mountRef(initialValue);
           },
-          useState: function(initialState9) {
+          useState: function(initialState10) {
             currentHookNameInDev = "useState";
             warnInvalidHookAccess();
             mountHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnMountInDEV;
             try {
-              return mountState(initialState9);
+              return mountState(initialState10);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20565,17 +20565,17 @@
             mountHookTypesDev();
             return mountId();
           },
-          useFormState: function(action, initialState9) {
+          useFormState: function(action, initialState10) {
             currentHookNameInDev = "useFormState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
-          useActionState: function(action, initialState9) {
+          useActionState: function(action, initialState10) {
             currentHookNameInDev = "useActionState";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountActionState(action, initialState9);
+            return mountActionState(action, initialState10);
           },
           useOptimistic: function(passthrough) {
             currentHookNameInDev = "useOptimistic";
@@ -20657,14 +20657,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return updateReducer(reducer2, initialArg, init);
+              return updateReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20732,11 +20732,11 @@
             updateHookTypesDev();
             return updateActionState(action);
           },
-          useOptimistic: function(passthrough, reducer2) {
+          useOptimistic: function(passthrough, reducer3) {
             currentHookNameInDev = "useOptimistic";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return updateOptimistic(passthrough, reducer2);
+            return updateOptimistic(passthrough, reducer3);
           },
           useMemoCache: function(size) {
             warnInvalidHookAccess();
@@ -20812,14 +20812,14 @@
               ReactSharedInternals.H = prevDispatcher;
             }
           },
-          useReducer: function(reducer2, initialArg, init) {
+          useReducer: function(reducer3, initialArg, init) {
             currentHookNameInDev = "useReducer";
             warnInvalidHookAccess();
             updateHookTypesDev();
             var prevDispatcher = ReactSharedInternals.H;
             ReactSharedInternals.H = InvalidNestedHooksDispatcherOnUpdateInDEV;
             try {
-              return rerenderReducer(reducer2, initialArg, init);
+              return rerenderReducer(reducer3, initialArg, init);
             } finally {
               ReactSharedInternals.H = prevDispatcher;
             }
@@ -20887,11 +20887,11 @@
             updateHookTypesDev();
             return rerenderActionState(action);
           },
-          useOptimistic: function(passthrough, reducer2) {
+          useOptimistic: function(passthrough, reducer3) {
             currentHookNameInDev = "useOptimistic";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return rerenderOptimistic(passthrough, reducer2);
+            return rerenderOptimistic(passthrough, reducer3);
           },
           useMemoCache: function(size) {
             warnInvalidHookAccess();
@@ -30131,9 +30131,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }
     return typeOfVal;
   }
-  function createStore(reducer2, preloadedState, enhancer) {
-    if (typeof reducer2 !== "function") {
-      throw new Error(false ? formatProdErrorMessage(2) : `Expected the root reducer to be a function. Instead, received: '${kindOf(reducer2)}'`);
+  function createStore(reducer3, preloadedState, enhancer) {
+    if (typeof reducer3 !== "function") {
+      throw new Error(false ? formatProdErrorMessage(2) : `Expected the root reducer to be a function. Instead, received: '${kindOf(reducer3)}'`);
     }
     if (typeof preloadedState === "function" && typeof enhancer === "function" || typeof enhancer === "function" && typeof arguments[3] === "function") {
       throw new Error(false ? formatProdErrorMessage(0) : "It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
@@ -30146,9 +30146,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (typeof enhancer !== "function") {
         throw new Error(false ? formatProdErrorMessage(1) : `Expected the enhancer to be a function. Instead, received: '${kindOf(enhancer)}'`);
       }
-      return enhancer(createStore)(reducer2, preloadedState);
+      return enhancer(createStore)(reducer3, preloadedState);
     }
-    let currentReducer = reducer2;
+    let currentReducer = reducer3;
     let currentState = preloadedState;
     let currentListeners = /* @__PURE__ */ new Map();
     let nextListeners = currentListeners;
@@ -30300,14 +30300,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   function assertReducerShape(reducers) {
     Object.keys(reducers).forEach((key) => {
-      const reducer2 = reducers[key];
-      const initialState9 = reducer2(void 0, {
+      const reducer3 = reducers[key];
+      const initialState10 = reducer3(void 0, {
         type: actionTypes_default.INIT
       });
-      if (typeof initialState9 === "undefined") {
+      if (typeof initialState10 === "undefined") {
         throw new Error(false ? formatProdErrorMessage(12) : `The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
       }
-      if (typeof reducer2(void 0, {
+      if (typeof reducer3(void 0, {
         type: actionTypes_default.PROBE_UNKNOWN_ACTION()
       }) === "undefined") {
         throw new Error(false ? formatProdErrorMessage(13) : `The slice reducer for key "${key}" returned undefined when probed with a random type. Don't try to handle '${actionTypes_default.INIT}' or other actions in "redux/*" namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined, but can be null.`);
@@ -30353,9 +30353,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const nextState = {};
       for (let i2 = 0; i2 < finalReducerKeys.length; i2++) {
         const key = finalReducerKeys[i2];
-        const reducer2 = finalReducers[key];
+        const reducer3 = finalReducers[key];
         const previousStateForKey = state[key];
-        const nextStateForKey = reducer2(previousStateForKey, action);
+        const nextStateForKey = reducer3(previousStateForKey, action);
         if (typeof nextStateForKey === "undefined") {
           const actionType = action && action.type;
           throw new Error(false ? formatProdErrorMessage(14) : `When called with an action of type ${actionType ? `"${String(actionType)}"` : "(unknown type)"}, the slice reducer for key "${key}" returned undefined. To ignore an action, you must explicitly return the previous state. If you want this reducer to hold no value, you can return null instead of undefined.`);
@@ -30377,8 +30377,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     return funcs.reduce((a2, b2) => (...args) => a2(b2(...args)));
   }
   function applyMiddleware(...middlewares) {
-    return (createStore2) => (reducer2, preloadedState) => {
-      const store2 = createStore2(reducer2, preloadedState);
+    return (createStore2) => (reducer3, preloadedState) => {
+      const store2 = createStore2(reducer3, preloadedState);
       let dispatch = () => {
         throw new Error(false ? formatProdErrorMessage(15) : "Dispatching while constructing your middleware is not allowed. Other middleware would not be applied to this dispatch.");
       };
@@ -32368,7 +32368,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function configureStore(options2) {
     const getDefaultMiddleware = buildGetDefaultMiddleware();
     const {
-      reducer: reducer2 = void 0,
+      reducer: reducer3 = void 0,
       middleware: middleware2,
       devTools = true,
       duplicateMiddlewareCheck = true,
@@ -32376,10 +32376,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       enhancers = void 0
     } = options2 || {};
     let rootReducer;
-    if (typeof reducer2 === "function") {
-      rootReducer = reducer2;
-    } else if (isPlainObject2(reducer2)) {
-      rootReducer = combineReducers(reducer2);
+    if (typeof reducer3 === "function") {
+      rootReducer = reducer3;
+    } else if (isPlainObject2(reducer3)) {
+      rootReducer = combineReducers(reducer3);
     } else {
       throw new Error(false ? formatProdErrorMessage(1) : "`reducer` is a required argument, and must be a function or an object of functions that can be passed to combineReducers");
     }
@@ -32438,7 +32438,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const actionMatchers = [];
     let defaultCaseReducer;
     const builder = {
-      addCase(typeOrActionCreator, reducer2) {
+      addCase(typeOrActionCreator, reducer3) {
         if (true) {
           if (actionMatchers.length > 0) {
             throw new Error(false ? formatProdErrorMessage(26) : "`builder.addCase` should only be called before calling `builder.addMatcher`");
@@ -32454,7 +32454,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (type in actionsMap) {
           throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
         }
-        actionsMap[type] = reducer2;
+        actionsMap[type] = reducer3;
         return builder;
       },
       addAsyncThunk(asyncThunk, reducers) {
@@ -32472,7 +32472,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
         return builder;
       },
-      addMatcher(matcher, reducer2) {
+      addMatcher(matcher, reducer3) {
         if (true) {
           if (defaultCaseReducer) {
             throw new Error(false ? formatProdErrorMessage(30) : "`builder.addMatcher` should only be called before calling `builder.addDefaultCase`");
@@ -32480,17 +32480,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
         actionMatchers.push({
           matcher,
-          reducer: reducer2
+          reducer: reducer3
         });
         return builder;
       },
-      addDefaultCase(reducer2) {
+      addDefaultCase(reducer3) {
         if (true) {
           if (defaultCaseReducer) {
             throw new Error(false ? formatProdErrorMessage(31) : "`builder.addDefaultCase` can only be called once");
           }
         }
-        defaultCaseReducer = reducer2;
+        defaultCaseReducer = reducer3;
         return builder;
       }
     };
@@ -32500,7 +32500,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function isStateFunction(x2) {
     return typeof x2 === "function";
   }
-  function createReducer(initialState9, mapOrBuilderCallback) {
+  function createReducer(initialState10, mapOrBuilderCallback) {
     if (true) {
       if (typeof mapOrBuilderCallback === "object") {
         throw new Error(false ? formatProdErrorMessage(8) : "The object notation for `createReducer` has been removed. Please use the 'builder callback' notation instead: https://redux-toolkit.js.org/api/createReducer");
@@ -32508,13 +32508,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     let [actionsMap, finalActionMatchers, finalDefaultCaseReducer] = executeReducerBuilderCallback(mapOrBuilderCallback);
     let getInitialState;
-    if (isStateFunction(initialState9)) {
-      getInitialState = () => freezeDraftable(initialState9());
+    if (isStateFunction(initialState10)) {
+      getInitialState = () => freezeDraftable(initialState10());
     } else {
-      const frozenInitialState = freezeDraftable(initialState9);
+      const frozenInitialState = freezeDraftable(initialState10);
       getInitialState = () => frozenInitialState;
     }
-    function reducer2(state = getInitialState(), action) {
+    function reducer3(state = getInitialState(), action) {
       let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({
         matcher
       }) => matcher(action)).map(({
@@ -32550,8 +32550,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return previousState;
       }, state);
     }
-    reducer2.getInitialState = getInitialState;
-    return reducer2;
+    reducer3.getInitialState = getInitialState;
+    return reducer3;
   }
   var matches = (matcher, action) => {
     if (hasMatchFunction(matcher)) {
@@ -32933,7 +32933,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const injectedSelectorCache = /* @__PURE__ */ new Map();
       const injectedStateCache = /* @__PURE__ */ new WeakMap();
       let _reducer;
-      function reducer2(state, action) {
+      function reducer3(state, action) {
         if (!_reducer) _reducer = buildReducer();
         return _reducer(state, action);
       }
@@ -32974,7 +32974,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const slice2 = {
         name,
-        reducer: reducer2,
+        reducer: reducer3,
         actions: context.actionCreators,
         caseReducers: context.sliceCaseReducersByName,
         getInitialState,
@@ -32986,7 +32986,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           const newReducerPath = pathOpt ?? reducerPath;
           injectable.inject({
             reducerPath: newReducerPath,
-            reducer: reducer2
+            reducer: reducer3
           }, config2);
           return {
             ...slice2,
@@ -33035,11 +33035,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           /* reducer */
         });
       },
-      preparedReducer(prepare, reducer2) {
+      preparedReducer(prepare, reducer3) {
         return {
           _reducerDefinitionType: "reducerWithPrepare",
           prepare,
-          reducer: reducer2
+          reducer: reducer3
         };
       },
       asyncThunk
@@ -34674,6 +34674,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // assets/scripts/selectors.ts
   var getEntities = (state) => state.entities;
+  var getHome = (state) => state.home;
   var getIncidents = (state) => state.incidents;
   var getLeaderboard = (state) => state.leaderboard;
   var getPeople = (state) => state.people;
@@ -34682,11 +34683,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var getUI = (state) => state.ui;
   var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
   var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
+  var getHomeHeader = createSelector(getHome, (home) => home.header);
+  var getHomeOverview = createSelector(getHome, (home) => home.overview);
   var getIncidentsPagination = createSelector(getIncidents, (incidents) => incidents.pagination);
   var getIncidentsPageIds = createSelector(getIncidents, (incidents) => incidents.pageIds);
-  var getIncidentFirst = createSelector(getIncidents, (incidents) => incidents.first);
-  var getIncidentLast = createSelector(getIncidents, (incidents) => incidents.last);
-  var getIncidentTotal = createSelector(getIncidents, (incidents) => incidents.total);
   var getLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => leaderboard.labels);
   var getHasLeaderboardLabels = createSelector(getLeaderboard, (leaderboard) => Object.values(leaderboard?.labels ?? {}).length > 0);
   var getLeaderboardFilters = createSelector(getLeaderboard, (leaderboard) => leaderboard.filters);
@@ -36394,7 +36394,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       subscriptions: internalSubscriptionsSlice.reducer,
       config: configSlice.reducer
     });
-    const reducer2 = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
+    const reducer3 = (state, action) => combinedReducer(resetApiState.match(action) ? void 0 : state, action);
     const actions22 = {
       ...configSlice.actions,
       ...querySlice.actions,
@@ -36405,7 +36405,7 @@ In the case of an unhandled error, no tags will be "provided" or "invalidated".`
       resetApiState
     };
     return {
-      reducer: reducer2,
+      reducer: reducer3,
       actions: actions22
     };
   }
@@ -37570,7 +37570,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
         skipSchemaValidation
       });
       const {
-        reducer: reducer2,
+        reducer: reducer3,
         actions: sliceActions
       } = buildSlice({
         context,
@@ -37648,7 +37648,7 @@ If you have multiple apis, you *have* to specify the reducerPath option when usi
       });
       safeAssign(api3.util, middlewareActions);
       safeAssign(api3, {
-        reducer: reducer2,
+        reducer: reducer3,
         middleware: middleware2
       });
       return {
@@ -38428,6 +38428,26 @@ Hook ${hookName} was either not provided or not a function.`);
   } = entitiesSlice.actions;
   var entities_default = entitiesSlice.reducer;
 
+  // assets/scripts/reducers/home.ts
+  var initialState4 = {
+    header: {},
+    overview: {}
+  };
+  var setHeader = createAction("api/setHeader");
+  var setOverview = createAction("api/setOverview");
+  var actions = {
+    setHeader,
+    setOverview
+  };
+  var reducer = createReducer(initialState4, (builder) => {
+    builder.addCase(setHeader, (state, action) => {
+      state.header = action.payload;
+    }).addCase(setOverview, (state, action) => {
+      state.overview = action.payload;
+    });
+  });
+  var home_default = reducer;
+
   // assets/scripts/reducers/incidents.ts
   var adaptAttendees = (attendees) => Object.entries(attendees).reduce((all, [k2, value]) => {
     const key = k2;
@@ -38454,7 +38474,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const entity = use_app_selector_default((state) => selectors3.selectById(state, id));
     return entity;
   };
-  var initialState4 = {
+  var initialState5 = {
     pageIds: [],
     pagination: void 0,
     first: void 0,
@@ -38463,7 +38483,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var incidentsSlice = createSlice({
     name: "incidents",
-    initialState: adapter3.getInitialState(initialState4),
+    initialState: adapter3.getInitialState(initialState5),
     reducers: {
       set: (state, action) => {
         adapter3.upsertOne(state, action.payload);
@@ -38502,7 +38522,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_default = incidentsSlice.reducer;
 
   // assets/scripts/reducers/leaderboard.ts
-  var initialState5 = {
+  var initialState6 = {
     filters: {},
     labels: {},
     values: {
@@ -38515,13 +38535,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var setLeaderboardEntities = createAction("api/setLeaderboardEntities");
   var setLeaderboardLobbyists = createAction("api/setLeaderboardLobbyists");
   var setLeaderboardOfficials = createAction("api/setLeaderboardOfficials");
-  var actions = {
+  var actions2 = {
     setLeaderboard,
     setLeaderboardEntities,
     setLeaderboardLobbyists,
     setLeaderboardOfficials
   };
-  var reducer = createReducer(initialState5, (builder) => {
+  var reducer2 = createReducer(initialState6, (builder) => {
     builder.addCase(setLeaderboard, (state, action) => {
       state.filters = action.payload.filters;
       state.labels = action.payload.labels;
@@ -38533,7 +38553,7 @@ Hook ${hookName} was either not provided or not a function.`);
       state.values.officials = action.payload;
     });
   });
-  var leaderboard_default = reducer;
+  var leaderboard_default = reducer2;
 
   // assets/scripts/reducers/sources.ts
   var adapter4 = createEntityAdapter();
@@ -38564,14 +38584,14 @@ Hook ${hookName} was either not provided or not a function.`);
     getIds: (values) => values.map((value) => value.id),
     getIncidents: (value) => value.incidents?.records ?? []
   };
-  var initialState6 = {
+  var initialState7 = {
     pageIds: [],
     pagination: void 0,
     types: void 0
   };
   var sourcesSlice = createSlice({
     name: "sources",
-    initialState: adapter4.getInitialState(initialState6),
+    initialState: adapter4.getInitialState(initialState7),
     reducers: {
       set: (state, action) => {
         adapter4.upsertOne(state, action.payload);
@@ -38599,21 +38619,21 @@ Hook ${hookName} was either not provided or not a function.`);
   var setLabels = createAction("stats/setLabels");
   var setPerson = createAction("stats/setPerson");
   var setSources = createAction("stats/setSources");
-  var actions2 = {
+  var actions3 = {
     setEntity,
     setHome,
     setLabels,
     setPerson,
     setSources
   };
-  var initialState7 = {
+  var initialState8 = {
     entities: [],
     home: void 0,
     labels: {},
     people: [],
     sources: []
   };
-  var statsReducer = createReducer(initialState7, (builder) => {
+  var statsReducer = createReducer(initialState8, (builder) => {
     builder.addCase(setEntity, (state, action) => {
       state.entities.push(action.payload);
     }).addCase(setHome, (state, action) => {
@@ -38639,7 +38659,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var setPositionY = createAction("ui/setPositionY");
   var setSection = createAction("ui/setSection");
   var setWarning = createAction("ui/setWarning");
-  var actions3 = {
+  var actions4 = {
     clearErrors,
     clearMessages,
     clearWarnings,
@@ -38651,7 +38671,7 @@ Hook ${hookName} was either not provided or not a function.`);
     setSection,
     setWarning
   };
-  var initialState8 = {
+  var initialState9 = {
     description: void 0,
     pageTitle: void 0,
     errors: [],
@@ -38663,16 +38683,16 @@ Hook ${hookName} was either not provided or not a function.`);
     warnings: []
   };
   var customMessageExists = (alerts, customMessage) => customMessage && alerts.some((alert) => alert.customMessage === customMessage);
-  var uiReducer = createReducer(initialState8, (builder) => {
+  var uiReducer = createReducer(initialState9, (builder) => {
     builder.addCase(clearErrors, (state) => {
-      state.errors = initialState8.errors;
+      state.errors = initialState9.errors;
     }).addCase(setError, (state, action) => {
       if (customMessageExists(state.errors, action.payload.customMessage)) {
         return;
       }
       state.errors.push(action.payload);
     }).addCase(clearMessages, (state) => {
-      state.messages = initialState8.messages;
+      state.messages = initialState9.messages;
     }).addCase(setMessage, (state, action) => {
       if (customMessageExists(state.messages, action.payload.customMessage)) {
         return;
@@ -38685,7 +38705,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }).addCase(setPositionY, (state, action) => {
       state.positionY = action.payload;
     }).addCase(clearWarnings, (state) => {
-      state.warnings = initialState8.warnings;
+      state.warnings = initialState9.warnings;
     }).addCase(setSection, (state, action) => {
       state.section = action.payload;
     }).addCase(setWarning, (state, action) => {
@@ -38730,36 +38750,44 @@ Hook ${hookName} was either not provided or not a function.`);
     const state = store_default.getState();
     const { data: data2, meta } = result;
     if (data2) {
+      if ("home" in data2) {
+        if ("header" in data2.home) {
+          dispatch(actions.setHeader(data2.home.header));
+        }
+        if ("overview" in data2.home) {
+          dispatch(actions.setOverview(data2.home.overview));
+        }
+      }
       if ("stats" in data2) {
         if ("home" in data2.stats) {
-          dispatch(actions2.setHome(data2.stats.home));
+          dispatch(actions3.setHome(data2.stats.home));
         }
         if ("labels" in data2.stats) {
-          dispatch(actions2.setLabels(data2.stats.labels));
+          dispatch(actions3.setLabels(data2.stats.labels));
         }
         if ("sources" in data2.stats) {
-          dispatch(actions2.setSources(data2.stats.sources));
+          dispatch(actions3.setSources(data2.stats.sources));
         }
         if ("entity" in data2.stats) {
-          dispatch(actions2.setEntity(data2.stats.entity));
+          dispatch(actions3.setEntity(data2.stats.entity));
         }
         if ("person" in data2.stats) {
-          dispatch(actions2.setPerson(data2.stats.person));
+          dispatch(actions3.setPerson(data2.stats.person));
         }
       }
       if ("leaderboard" in data2) {
         if ("filters" in data2.leaderboard || "labels" in data2.leaderboard) {
-          dispatch(actions.setLeaderboard(data2.leaderboard));
+          dispatch(actions2.setLeaderboard(data2.leaderboard));
         }
         if ("values" in data2.leaderboard) {
           if ("entities" in data2.leaderboard.values) {
-            dispatch(actions.setLeaderboardEntities(data2.leaderboard.values.entities));
+            dispatch(actions2.setLeaderboardEntities(data2.leaderboard.values.entities));
           }
           if ("lobbyists" in data2.leaderboard.values) {
-            dispatch(actions.setLeaderboardLobbyists(data2.leaderboard.values.lobbyists));
+            dispatch(actions2.setLeaderboardLobbyists(data2.leaderboard.values.lobbyists));
           }
           if ("officials" in data2.leaderboard.values) {
-            dispatch(actions.setLeaderboardOfficials(data2.leaderboard.values.officials));
+            dispatch(actions2.setLeaderboardOfficials(data2.leaderboard.values.officials));
           }
         }
       }
@@ -38897,30 +38925,30 @@ Hook ${hookName} was either not provided or not a function.`);
     if (meta) {
       if (isPrimary) {
         if ("description" in meta && meta.description) {
-          dispatch(actions3.setDescription(meta.description));
+          dispatch(actions4.setDescription(meta.description));
         }
         if ("pageTitle" in meta && meta.pageTitle) {
-          dispatch(actions3.setPageTitle(meta.pageTitle));
+          dispatch(actions4.setPageTitle(meta.pageTitle));
         }
         if ("section" in meta && meta.section) {
-          dispatch(actions3.setSection(meta.section));
+          dispatch(actions4.setSection(meta.section));
         }
       }
       if ("errors" in meta) {
         meta.errors.forEach((error) => {
-          dispatch(actions3.setError(error));
+          dispatch(actions4.setError(error));
         });
       }
       if ("warnings" in meta) {
         meta.warnings.forEach((warning3) => {
-          dispatch(actions3.setWarning(warning3));
+          dispatch(actions4.setWarning(warning3));
         });
       }
     }
   };
   var handleError = (error) => {
     const dispatch = store_default.dispatch;
-    dispatch(actions3.setError(getError(error)));
+    dispatch(actions4.setError(getError(error)));
   };
 
   // assets/scripts/services/api.ts
@@ -39143,6 +39171,7 @@ Hook ${hookName} was either not provided or not a function.`);
     reducer: {
       api: api_default.reducer,
       entities: entities_default,
+      home: home_default,
       incidents: incidents_default,
       leaderboard: leaderboard_default,
       people: people_default,
@@ -42646,9 +42675,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   }
   var build = function build2() {
-    var lookup = function lookup2(reducer2) {
+    var lookup = function lookup2(reducer3) {
       return reduce(styles, function(o$$1, style, prefix2) {
-        o$$1[prefix2] = reduce(style, reducer2, {});
+        o$$1[prefix2] = reduce(style, reducer3, {});
         return o$$1;
       }, {});
     };
@@ -45297,7 +45326,6 @@ Hook ${hookName} was either not provided or not a function.`);
       children
     }
   );
-  var LinkToIncidents = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/incidents", ...rest, children });
   var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/sources", ...rest, children });
 
   // assets/scripts/components/icon.tsx
@@ -45471,7 +45499,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions3.clearErrors());
+        dispatch(actions4.clearErrors());
       }, 250);
     };
     const alerts = use_app_selector_default(getErrors);
@@ -46270,7 +46298,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions3.clearMessages());
+        dispatch(actions4.clearMessages());
       }, 250);
     };
     const alerts = use_app_selector_default(getMessages);
@@ -46301,7 +46329,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const deactivate = () => {
       setIsActive(false);
       setTimeout(() => {
-        dispatch(actions3.clearWarnings());
+        dispatch(actions4.clearWarnings());
       }, 250);
     };
     const alerts = use_app_selector_default(getWarnings);
@@ -46805,77 +46833,57 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/section-header-intro.tsx
   var import_jsx_runtime32 = __toESM(require_jsx_runtime());
-  var dateRangeMessage = "Some incident dates appear to be anomalous and have been omitted from this range, pending official word from the City Auditor\u2019s office. Refer to individual incident records for more details.";
-  var DateRangeNote = () => {
+  var DateRangeNote = ({ note }) => {
     const dispatch = use_app_dispatch_default();
     const handleClick = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      dispatch(actions3.setMessage({
-        customMessage: dateRangeMessage,
-        message: dateRangeMessage
+      dispatch(actions4.setMessage({
+        customMessage: note,
+        message: note
       }));
     };
     return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { className: "global-date-range-note", onClick: handleClick, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(icon_default, { name: "asterisk" }) });
   };
   var HeaderIntro = () => {
-    const { pathname } = useLocation();
-    const [savedPathname, setSavedPathname] = (0, import_react19.useState)(pathname);
+    const navigate = useNavigate();
+    const [provisionalId, setProvisionalId] = (0, import_react19.useState)();
     const [selectedId, setSelectedId] = (0, import_react19.useState)();
-    const total = use_app_selector_default(getIncidentTotal);
-    const first = use_app_selector_default(getIncidentFirst);
-    const last = use_app_selector_default(getIncidentLast);
+    const header = use_app_selector_default(getHomeHeader);
     const deactivate = () => setSelectedId(null);
+    const hasProvisionalId = typeof provisionalId === "number";
+    const hasSelectedId = typeof selectedId === "number";
     const handleClick = (event) => {
-      event?.preventDefault();
-      event?.stopPropagation();
-      if (event?.target instanceof HTMLAnchorElement) {
-        setSelectedId(Number(event?.target.dataset.id));
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.target instanceof HTMLAnchorElement) {
+        if (event.target.tagName === "A") {
+          if (event.target.dataset.id && !isNaN(event.target.dataset.id)) {
+            setSelectedId(Number(event?.target.dataset.id));
+          } else {
+            navigate(event.target.pathname);
+          }
+        }
       }
     };
     (0, import_react19.useEffect)(() => {
-      setSavedPathname(pathname);
-    }, [setSavedPathname, pathname]);
-    (0, import_react19.useEffect)(() => {
-      if (pathname !== savedPathname) {
-        setSelectedId(null);
+      const match2 = header.intro?.match(/data-id="([\d]+)"/);
+      if (match2) {
+        const [, id] = match2;
+        setProvisionalId(Number(id));
       }
-    }, [pathname, savedPathname, setSelectedId]);
-    if (!first?.links?.self || !last?.links?.self || total === 0) return null;
+    }, [header, setProvisionalId]);
     return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "header-intro", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("p", { children: [
-        "The Big Blink remixes lobbying data published by the City of Portland, Oregon, including",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(LinkToIncidents, { children: [
-          total,
-          " lobbying incidents"
-        ] }),
-        " ",
-        "reported between",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: first?.links?.self, "data-id": first?.id, onClick: handleClick, children: first?.contactDate }),
-        " ",
-        "and",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(BetterLink, { to: last?.links?.self, "data-id": last?.id, onClick: handleClick, children: last?.contactDate }),
-        ".",
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(DateRangeNote, {})
+      header && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("p", { onClick: handleClick, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { dangerouslySetInnerHTML: { __html: header.intro } }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(DateRangeNote, { note: header.note })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
+      hasProvisionalId && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
         incident_modal_default,
         {
           deactivate,
-          id: first?.id,
-          isActive: selectedId === first.id
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(
-        incident_modal_default,
-        {
-          deactivate,
-          id: last?.id,
-          isActive: selectedId === last?.id
+          id: selectedId || provisionalId,
+          isActive: hasSelectedId
         }
       )
     ] });
@@ -47000,7 +47008,7 @@ Hook ${hookName} was either not provided or not a function.`);
       };
     }, [debounced]);
     (0, import_react20.useEffect)(() => {
-      dispatch(actions3.setPositionY(scrollPos));
+      dispatch(actions4.setPositionY(scrollPos));
     }, [dispatch, scrollPos]);
   };
   var use_capture_scroll_position_default = useCaptureScrollPosition;
@@ -61317,13 +61325,16 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/home/chart/header.tsx
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
-  var ChartHeader = () => /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(header_default, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(Overview, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "chart-simple" }),
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("h3", { children: "Lobbying activity over time" }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: "The figures in the chart below represent the total number of lobbying incident entries submitted to the City of Portland by lobbying entities. Since 2025 Q2, a single entry can represent any number of lobbying interactions. Entry contact types are tallied in an attempt to estimate this number; in many cases, the actual number of interactions is likely much higher." }) })
-  ] });
+  var ChartHeader = () => {
+    const labels = use_app_selector_default(getHomeOverview);
+    return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(header_default, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(Overview, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "chart-simple" }),
+        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("h3", { children: labels.title }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: labels.intro }) })
+    ] });
+  };
   var header_default2 = ChartHeader;
 
   // assets/scripts/components/home/chart/section.tsx
@@ -61660,7 +61671,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var home_default = Home;
+  var home_default2 = Home;
 
   // assets/scripts/components/incidents/index.tsx
   var import_jsx_runtime87 = __toESM(require_jsx_runtime());
@@ -62088,7 +62099,7 @@ Hook ${hookName} was either not provided or not a function.`);
       children: [
         {
           path: "",
-          element: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(home_default, {})
+          element: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(home_default2, {})
         },
         {
           path: "entities/*",
