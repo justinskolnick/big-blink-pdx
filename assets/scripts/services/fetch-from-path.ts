@@ -1,4 +1,8 @@
-import { getError } from '../lib/error';
+import {
+  getError,
+  type DataMetaErrors,
+  type MaybeError,
+} from '../lib/error';
 import store from '../lib/store';
 
 import * as entityActions from '../reducers/entities';
@@ -10,7 +14,6 @@ import * as sourceActions from '../reducers/sources';
 import { actions as statsActions } from '../reducers/stats';
 import { actions as uiActions } from '../reducers/ui';
 
-import type { MaybeError } from '../lib/error';
 import { RootState } from '../lib/store';
 import type {
   EntityObject,
@@ -356,8 +359,16 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
   }
 };
 
-export const handleError = (error: MaybeError) => {
+export const handleError = (error: MaybeError | DataMetaErrors) => {
   const dispatch = store.dispatch;
 
-  dispatch(uiActions.setError(getError(error)));
+  if ('data' in error && error.data) {
+    const errors = error as DataMetaErrors;
+
+    errors.data.meta.errors.forEach((err: MaybeError) => {
+      dispatch(uiActions.setError(getError(err)));
+    });
+  } else {
+    dispatch(uiActions.setError(getError(error)));
+  }
 };

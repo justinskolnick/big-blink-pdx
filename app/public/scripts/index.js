@@ -38357,7 +38357,9 @@ Hook ${hookName} was either not provided or not a function.`);
         error.message = messageObject.error;
       }
     }
-    if (error.message.includes("NetworkError")) {
+    if (errorObject.customMessage) {
+      error.customMessage = errorObject.customMessage;
+    } else if (error.message.includes("NetworkError")) {
       error.customMessage = networkError;
     } else if (error.status === 500) {
       error.customMessage = serverError;
@@ -38948,7 +38950,14 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var handleError = (error) => {
     const dispatch = store_default.dispatch;
-    dispatch(actions4.setError(getError(error)));
+    if ("data" in error && error.data) {
+      const errors2 = error;
+      errors2.data.meta.errors.forEach((err) => {
+        dispatch(actions4.setError(getError(err)));
+      });
+    } else {
+      dispatch(actions4.setError(getError(error)));
+    }
   };
 
   // assets/scripts/services/api.ts
@@ -46858,8 +46867,8 @@ Hook ${hookName} was either not provided or not a function.`);
       event.stopPropagation();
       if (event.target instanceof HTMLAnchorElement) {
         if (event.target.tagName === "A") {
-          if (event.target.dataset.id && !isNaN(event.target.dataset.id)) {
-            setSelectedId(Number(event?.target.dataset.id));
+          if (event.target.dataset.id && !Number.isNaN(event.target.dataset.id)) {
+            setSelectedId(Number(event.target.dataset.id));
           } else {
             navigate(event.target.pathname);
           }

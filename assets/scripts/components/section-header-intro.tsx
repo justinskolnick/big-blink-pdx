@@ -53,8 +53,8 @@ const HeaderIntro = () => {
 
     if (event.target instanceof HTMLAnchorElement) {
       if (event.target.tagName === 'A') {
-        if (event.target.dataset.id && !isNaN(event.target.dataset.id)) {
-          setSelectedId(Number(event?.target.dataset.id));
+        if (event.target.dataset.id && !Number.isNaN(event.target.dataset.id)) {
+          setSelectedId(Number(event.target.dataset.id));
         } else {
           navigate(event.target.pathname);
         }

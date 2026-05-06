@@ -1,12 +1,27 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import type { ErrorType } from '../types';
 
-export type MaybeError = {
-  data?: string;
-  error?: string;
-  originalStatus?: number;
-  status?: string;
-} | FetchBaseQueryError;
+type DataMeta = {
+  errors: MaybeError[];
+};
+
+type Data = {
+  meta: DataMeta;
+};
+
+export type DataMetaErrors = {
+  data: Data;
+};
+
+export type MaybeError =
+| {
+    data?: string;
+    error?: string;
+    originalStatus?: number;
+    status?: string;
+  }
+| DataMetaErrors
+| FetchBaseQueryError;
 
 const networkError = 'It looks like you lost your internet connection. Please reload this page and try again.';
 const notFoundError = 'Some data requested by this page could not be loaded.';
@@ -58,7 +73,9 @@ export const getError = (maybeError: MaybeError): ErrorType => {
     }
   }
 
-  if (error.message.includes('NetworkError')) {
+  if (errorObject.customMessage) {
+    error.customMessage = errorObject.customMessage;
+  } else if (error.message.includes('NetworkError')) {
     error.customMessage = networkError;
   } else if (error.status === 500) {
     error.customMessage = serverError;
