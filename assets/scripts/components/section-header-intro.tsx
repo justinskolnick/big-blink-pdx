@@ -1,5 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router';
+import { cx } from '@emotion/css';
 
 import Icon from './icon';
 import IncidentModal from './incident-modal';
@@ -42,6 +43,8 @@ const HeaderIntro = () => {
   const [selectedId, setSelectedId] = useState<number | null>();
 
   const header = useSelector(getHomeHeader);
+  const hasIntro = 'intro' in header;
+  const isLoading = !hasIntro;
 
   const deactivate = () => setSelectedId(null);
   const hasProvisionalId = typeof provisionalId === 'number';
@@ -72,7 +75,7 @@ const HeaderIntro = () => {
   }, [header, setProvisionalId]);
 
   return (
-    <div className='header-intro'>
+    <div className={cx('header-intro', isLoading && 'is-loading')}>
       {header && (
         <p onClick={handleClick}>
           <span dangerouslySetInnerHTML={{ __html: header.intro }} />

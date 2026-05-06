@@ -15,9 +15,11 @@ import {
 
 const ChartHeader = () => {
   const labels = useSelector(getHomeOverview);
+  const hasLabels = 'title' in labels;
+  const isLoading = !hasLabels;
 
   return (
-    <Header>
+    <Header isLoading={isLoading}>
       <Overview>
         <Icon name='chart-simple' />
         <Content>

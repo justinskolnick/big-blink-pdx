@@ -46435,7 +46435,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var Overview = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-overview", children });
   var Content = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-content", children });
   var Intro = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-intro", children });
-  var Header = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("header", { className: cx("header", className), children });
+  var Header = ({ children, className, isLoading = false }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("header", { className: cx("header", className, isLoading && "is-loading"), children });
   var header_default = Header;
 
   // assets/scripts/components/entities/icon.tsx
@@ -46859,6 +46859,8 @@ Hook ${hookName} was either not provided or not a function.`);
     const [provisionalId, setProvisionalId] = (0, import_react19.useState)();
     const [selectedId, setSelectedId] = (0, import_react19.useState)();
     const header = use_app_selector_default(getHomeHeader);
+    const hasIntro = "intro" in header;
+    const isLoading = !hasIntro;
     const deactivate = () => setSelectedId(null);
     const hasProvisionalId = typeof provisionalId === "number";
     const hasSelectedId = typeof selectedId === "number";
@@ -46882,7 +46884,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setProvisionalId(Number(id));
       }
     }, [header, setProvisionalId]);
-    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "header-intro", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: cx("header-intro", isLoading && "is-loading"), children: [
       header && /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("p", { onClick: handleClick, children: [
         /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("span", { dangerouslySetInnerHTML: { __html: header.intro } }),
         /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(DateRangeNote, { note: header.note })
@@ -61332,30 +61334,13 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/home/index.tsx
   var import_react38 = __toESM(require_react());
 
-  // assets/scripts/components/home/chart/header.tsx
-  var import_jsx_runtime71 = __toESM(require_jsx_runtime());
-  var ChartHeader = () => {
-    const labels = use_app_selector_default(getHomeOverview);
-    return /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(header_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsxs)(Overview, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(icon_default, { name: "chart-simple" }),
-        /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("h3", { children: labels.title }) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime71.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("p", { children: labels.intro }) })
-    ] });
-  };
-  var header_default2 = ChartHeader;
-
   // assets/scripts/components/home/chart/section.tsx
-  var import_jsx_runtime72 = __toESM(require_jsx_runtime());
-  var Section2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime72.jsxs)("section", { className: "home-section chart-section", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(header_default2, {}),
-    children
-  ] });
+  var import_jsx_runtime71 = __toESM(require_jsx_runtime());
+  var Section2 = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime71.jsx)("section", { className: "home-section chart-section", children });
   var section_default2 = Section2;
 
   // assets/scripts/components/home/chart/chart.tsx
-  var import_jsx_runtime73 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime72 = __toESM(require_jsx_runtime());
   var Chart4 = () => {
     const homeData = use_app_selector_default(getHomeChartData);
     const labels = use_app_selector_default(getStatsLabels);
@@ -61369,7 +61354,7 @@ Hook ${hookName} was either not provided or not a function.`);
         label: labels.estimates
       }
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("div", { className: "home-subsection", children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(incident_activity_chart_default, { children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime72.jsx)("div", { className: "home-subsection", children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(incident_activity_chart_default, { children: /* @__PURE__ */ (0, import_jsx_runtime72.jsx)(
       incident_activity_chart_quarterly_default,
       {
         lineProps
@@ -61378,12 +61363,31 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var chart_default2 = Chart4;
 
+  // assets/scripts/components/home/chart/header.tsx
+  var import_jsx_runtime73 = __toESM(require_jsx_runtime());
+  var ChartHeader = () => {
+    const labels = use_app_selector_default(getHomeOverview);
+    const hasLabels = "title" in labels;
+    const isLoading = !hasLabels;
+    return /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(header_default, { isLoading, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime73.jsxs)(Overview, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(icon_default, { name: "chart-simple" }),
+        /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("h3", { children: labels.title }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime73.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime73.jsx)("p", { children: labels.intro }) })
+    ] });
+  };
+  var header_default2 = ChartHeader;
+
   // assets/scripts/components/home/activity.tsx
   var import_jsx_runtime74 = __toESM(require_jsx_runtime());
   var Activity = () => {
     const homeData = use_app_selector_default(getHomeChartData);
     const isReady = homeData?.entries !== void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(section_default2, { children: isReady && /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default2, {}) });
+    return /* @__PURE__ */ (0, import_jsx_runtime74.jsxs)(section_default2, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(header_default2, {}),
+      isReady && /* @__PURE__ */ (0, import_jsx_runtime74.jsx)(chart_default2, {})
+    ] });
   };
   var activity_default = Activity;
 

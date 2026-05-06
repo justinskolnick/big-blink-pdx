@@ -2,6 +2,7 @@ import React from 'react';
 
 import Section from './chart/section';
 import Chart from './chart/chart';
+import Header from './chart/header';
 
 import useSelector from '../../hooks/use-app-selector';
 
@@ -13,6 +14,7 @@ const Activity = () => {
 
   return (
     <Section>
+      <Header />
       {isReady && <Chart />}
     </Section>
   );

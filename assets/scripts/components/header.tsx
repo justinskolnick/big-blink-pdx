@@ -10,6 +10,7 @@ interface ContainerProps {
 interface Props {
   children: ReactNode;
   className?: ClassNames;
+  isLoading?: boolean;
 }
 
 export const Overview = ({ children }: ContainerProps) => (
@@ -24,8 +25,8 @@ export const Intro = ({ children }: ContainerProps) => (
   <div className='header-intro'>{children}</div>
 );
 
-const Header = ({ children, className }: Props) => (
-  <header className={cx('header', className)}>
+const Header = ({ children, className, isLoading = false }: Props) => (
+  <header className={cx('header', className, isLoading && 'is-loading')}>
     {children}
   </header>
 );

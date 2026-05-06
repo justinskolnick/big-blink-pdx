@@ -1,11 +1,25 @@
 .section {
   &.section-home {
+    .is-loading {
+      opacity: 0.5;
+    }
+
+    & > .header {
+      .header-intro {
+        opacity: 1;
+        transition: opacity 250ms ease-in-out;
+      }
+    }
+
     .header-overview + .header-intro {
       margin-top: calc(var(--gap) * 2);
     }
 
     .home-section {
       .header {
+        opacity: 1;
+        transition: opacity 250ms ease-in-out;
+
         .header-overview {
           flex-direction: row;
 
@@ -27,19 +41,19 @@
           .header-content {
             display: inline-flex;
             flex-wrap: wrap;
-            padding-top: calc(var(--gap) / 2);
-            padding-bottom: calc(var(--gap) / 2);
           }
 
           .icon + .header-content {
             margin-left: var(--header-section-icon-space-after);
           }
 
-          h3:has(+ h4) {
-            &::after {
-              content: '·';
-              margin-left: 0.5ch;
-              margin-right: 0.5ch;
+          h3 {
+            &:has(+ h4) {
+              &::after {
+                content: '·';
+                margin-left: 0.5ch;
+                margin-right: 0.5ch;
+              }
             }
           }
 
@@ -51,10 +65,24 @@
     }
 
     @media screen and (min-width: 613px) {
+      & > .header {
+        &.is-loading {
+          p {
+            min-height: calc(var(--gap) * 4.25);
+          }
+        }
+      }
+
       .header-overview {
+        .header-content {
+          padding-top: calc(var(--gap) / 4);
+          padding-bottom: calc(var(--gap) / 4);
+        }
+
         h3,
         h4 {
           font-size: 45px;
+          line-height: 54px;
         }
       }
 
@@ -69,7 +97,20 @@
     }
 
     @media screen and (max-width: 612px) {
+      & > .header {
+        &.is-loading {
+          p {
+            min-height: calc(var(--gap) * 4.125);
+          }
+        }
+      }
+
       .header-overview {
+        .header-content {
+          padding-top: calc(var(--gap) / 2);
+          padding-bottom: calc(var(--gap) / 2);
+        }
+
         h3,
         h4 {
           font-size: 27px;

@@ -1,12 +1,11 @@
 .chart-section {
-  .item-subhead {
-    h5 {
-      display: flex;
-      align-items: center;
+  .header {
+    &.is-loading {
+      .header-intro {
+        p {
+          min-height: calc(var(--gap) * 8);
+        }
+      }
     }
-  }
-
-  .item-subhead + .item-chart {
-    margin-top: calc(var(--gap) * 2);
   }
 }
