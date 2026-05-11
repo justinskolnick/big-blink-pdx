@@ -61391,7 +61391,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var activity_default = Activity;
 
-  // assets/scripts/components/leaderboard/filters.tsx
+  // assets/scripts/components/home/leaderboard/filters.tsx
   var import_jsx_runtime75 = __toESM(require_jsx_runtime());
   var LeaderboardFilters = () => {
     const filters = use_app_selector_default(getLeaderboardFilters);
@@ -61405,7 +61405,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var filters_default = LeaderboardFilters;
 
-  // assets/scripts/components/leaderboard/header.tsx
+  // assets/scripts/components/home/leaderboard/header.tsx
   var import_jsx_runtime76 = __toESM(require_jsx_runtime());
   var LeaderboardHeader = () => {
     const labels = use_app_selector_default(getLeaderboardLabels);
@@ -61424,7 +61424,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var header_default3 = LeaderboardHeader;
 
-  // assets/scripts/components/leaderboard/section.tsx
+  // assets/scripts/components/home/leaderboard/section.tsx
   var import_jsx_runtime77 = __toESM(require_jsx_runtime());
   var Section3 = ({ children, ref }) => /* @__PURE__ */ (0, import_jsx_runtime77.jsxs)("section", { className: "home-section leaderboard-section", ref, children: [
     /* @__PURE__ */ (0, import_jsx_runtime77.jsx)(header_default3, {}),
@@ -61433,7 +61433,7 @@ Hook ${hookName} was either not provided or not a function.`);
   ] });
   var section_default3 = Section3;
 
-  // assets/scripts/components/leaderboard/subsection.tsx
+  // assets/scripts/components/home/leaderboard/subsection.tsx
   var import_jsx_runtime78 = __toESM(require_jsx_runtime());
   var Subsection = ({ children, isGrid = false }) => /* @__PURE__ */ (0, import_jsx_runtime78.jsx)("section", { className: cx(
     "home-subsection leaderboard-subsection",
@@ -61441,7 +61441,7 @@ Hook ${hookName} was either not provided or not a function.`);
   ), children });
   var subsection_default = Subsection;
 
-  // assets/scripts/components/leaderboard/subsection-group.tsx
+  // assets/scripts/components/home/leaderboard/subsection-group.tsx
   var import_jsx_runtime79 = __toESM(require_jsx_runtime());
   var SubsectionGroup = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime79.jsx)("div", { className: "leaderboard-subsection-group", children });
   var subsection_group_default = SubsectionGroup;
@@ -61523,7 +61523,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var people_default2 = Index3;
 
-  // assets/scripts/components/leaderboard/rankings.tsx
+  // assets/scripts/components/home/leaderboard/rankings.tsx
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var useGetItem = (section) => {
     if (section === "entities" /* Entities */) {
@@ -61568,7 +61568,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var rankings_default = Rankings;
 
-  // assets/scripts/components/leaderboard/leaderboard-entities.tsx
+  // assets/scripts/components/home/leaderboard/leaderboard-entities.tsx
   var import_jsx_runtime82 = __toESM(require_jsx_runtime());
   var EntitiesLeaderboard = () => {
     const location2 = useLocation();
@@ -61591,7 +61591,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var leaderboard_entities_default = EntitiesLeaderboard;
 
-  // assets/scripts/components/leaderboard/leaderboard-lobbyists.tsx
+  // assets/scripts/components/home/leaderboard/leaderboard-lobbyists.tsx
   var import_jsx_runtime83 = __toESM(require_jsx_runtime());
   var LobbyistsLeaderboard = () => {
     const location2 = useLocation();
@@ -61614,7 +61614,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var leaderboard_lobbyists_default = LobbyistsLeaderboard;
 
-  // assets/scripts/components/leaderboard/leaderboard-officials.tsx
+  // assets/scripts/components/home/leaderboard/leaderboard-officials.tsx
   var import_jsx_runtime84 = __toESM(require_jsx_runtime());
   var OfficialsLeaderboard = () => {
     const location2 = useLocation();

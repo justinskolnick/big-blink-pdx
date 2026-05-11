@@ -1,16 +1,16 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 
-import useLimitedQuery from '../../hooks/use-limited-query';
-import useSelector from '../../hooks/use-app-selector';
+import useLimitedQuery from '../../../hooks/use-limited-query';
+import useSelector from '../../../hooks/use-app-selector';
 
-import { getLeaderboardOfficialsValues } from '../../selectors';
+import { getLeaderboardOfficialsValues } from '../../../selectors';
 
-import api from '../../services/api';
+import api from '../../../services/api';
 
 import LeaderboardRankings from './rankings';
 
-import { Sections } from '../../types';
+import { Sections } from '../../../types';
 
 const OfficialsLeaderboard = () => {
   const location = useLocation();

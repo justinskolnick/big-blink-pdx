@@ -1,15 +1,15 @@
 import React from 'react';
 
-import Filter, { Filters, FilterIntro } from '../filter';
+import Filter, { Filters, FilterIntro } from '../../filter';
 
-import useSelector from '../../hooks/use-app-selector';
+import useSelector from '../../../hooks/use-app-selector';
 
 import {
   getLeaderboardFilters,
   getLeaderboardLabels,
-} from '../../selectors';
+} from '../../../selectors';
 
-import { isEmpty } from '../../lib/util';
+import { isEmpty } from '../../../lib/util';
 
 const LeaderboardFilters = () => {
   const filters = useSelector(getLeaderboardFilters);

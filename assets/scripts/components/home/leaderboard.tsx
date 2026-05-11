@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Section from '../leaderboard/section';
-import EntitiesLeaderboard from '../leaderboard/leaderboard-entities';
-import LobbyistsLeaderboard from '../leaderboard/leaderboard-lobbyists';
-import OfficialsLeaderboard from '../leaderboard/leaderboard-officials';
+import Section from './leaderboard/section';
+import EntitiesLeaderboard from './leaderboard/leaderboard-entities';
+import LobbyistsLeaderboard from './leaderboard/leaderboard-lobbyists';
+import OfficialsLeaderboard from './leaderboard/leaderboard-officials';
 
 import useSelector from '../../hooks/use-app-selector';
 

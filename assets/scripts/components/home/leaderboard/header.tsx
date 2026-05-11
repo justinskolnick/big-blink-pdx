@@ -4,16 +4,16 @@ import Header, {
   Content,
   Intro,
   Overview,
-} from '../header';
+} from '../../header';
 
-import useSelector from '../../hooks/use-app-selector';
+import useSelector from '../../../hooks/use-app-selector';
 
 import {
   getHasLeaderboardLabels,
   getLeaderboardLabels,
-} from '../../selectors';
+} from '../../../selectors';
 
-import Icon from '../icon';
+import Icon from '../../icon';
 
 const LeaderboardHeader = () => {
   const labels = useSelector(getLeaderboardLabels);

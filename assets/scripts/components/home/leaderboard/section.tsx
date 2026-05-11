@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import Filters from './filters';
 import Header from './header';
 
-import type { Ref } from '../../types';
+import type { Ref } from '../../../types';
 
 interface Props {
   children: ReactNode;

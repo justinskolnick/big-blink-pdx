@@ -1,22 +1,22 @@
 import React from 'react';
 
-import { type FnSetLimit } from '../../hooks/use-limited-query';
-import useSelector from '../../hooks/use-app-selector';
+import { type FnSetLimit } from '../../../hooks/use-limited-query';
+import useSelector from '../../../hooks/use-app-selector';
 
-import { EntityItem } from '../entities/index';
-import ItemSubhead from '../item-subhead';
-import ItemSubsection from '../item-subsection';
-import ItemTable from '../item-table';
-import { TableMoreLinks } from '../affiliated-item-table';
+import { EntityItem } from '../../entities/index';
+import ItemSubhead from '../../item-subhead';
+import ItemSubsection from '../../item-subsection';
+import ItemTable from '../../item-table';
+import { TableMoreLinks } from '../../affiliated-item-table';
 import LeaderboardSubsection from './subsection';
 import LeaderboardSubsectionGroup from './subsection-group';
-import { PersonItem } from '../people/index';
-import SubsectionSubhead from '../subsection-subhead';
+import { PersonItem } from '../../people/index';
+import SubsectionSubhead from '../../subsection-subhead';
 
-import { getLeaderboardLabels } from '../../selectors';
+import { getLeaderboardLabels } from '../../../selectors';
 
-import { Sections } from '../../types';
-import type { LeaderboardSet } from '../../types';
+import { Sections } from '../../../types';
+import type { LeaderboardSet } from '../../../types';
 
 interface Props {
   isGrid?: boolean;
