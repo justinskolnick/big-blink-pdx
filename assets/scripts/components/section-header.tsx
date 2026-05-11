@@ -32,8 +32,8 @@ type LinkObject = {
 
 interface Props {
   children?: ReactNode;
-  icon?: IconName;
-  title?: ReactNode | string;
+  icon: IconName;
+  title: ReactNode | string;
 }
 
 interface DescriptionLinkProps {
@@ -46,7 +46,7 @@ interface DescriptionProps {
 }
 
 interface IconLinkProps {
-  icon?: IconName;
+  icon: IconName;
   link: LinkObject;
   slug: Slug;
 }
@@ -167,10 +167,10 @@ const SectionHeader = ({
                 {section.links ? (
                   <SectionTitleLink
                     link={section.links?.section}
-                    title={title ?? section.title}
+                    title={section?.title ?? title}
                   />
                 ) : (
-                  title ?? section?.title
+                  section?.title ?? title
                 )}
               </h2>
               {hasSubhead && (

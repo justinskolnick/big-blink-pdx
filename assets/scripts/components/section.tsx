@@ -8,26 +8,25 @@ import HeaderIntro from './section-header-intro';
 
 interface Props {
   children: ReactNode;
-  className?: string;
-  icon?: IconName;
-  title?: ReactNode | string;
+  icon: IconName;
+  title: ReactNode | string;
 }
 
 const Section = ({
   children,
-  className,
   icon,
   title,
 }: Props) => {
   const location = useLocation();
-  const isRoot = location.pathname === '/';
+  const isHome = location.pathname === '/';
+  const section = location.pathname.split('/').at(1) || 'home';
+  const className = ['section', section].join('-');
 
   return (
     <section className={cx('section', className)}>
       <Header title={title} icon={icon}>
-        {isRoot && <HeaderIntro />}
+        {isHome && <HeaderIntro />}
       </Header>
-
 
       <section className='section-main'>
         {children}

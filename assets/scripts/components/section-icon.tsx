@@ -15,9 +15,7 @@ interface Props {
 }
 
 const SectionIcon = ({ name, slug }: Props) => {
-  if (name) {
-    return <Icon name={name} />;
-  } else if (slug === Sections.Entities) {
+  if (slug === Sections.Entities) {
     return <EntitiesIcon />;
   } else if (slug === Sections.Incidents) {
     return <IncidentsIcon />;
@@ -25,6 +23,8 @@ const SectionIcon = ({ name, slug }: Props) => {
     return <PeopleIcon />;
   } else if (slug === Sections.Sources) {
     return <SourcesIcon />;
+  } else if (name) {
+    return <Icon name={name} />;
   }
 
   return null;

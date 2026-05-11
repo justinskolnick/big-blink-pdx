@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useLocation, Outlet } from 'react-router';
+import React from 'react';
+import { Outlet } from 'react-router';
 import { Helmet } from 'react-helmet';
 
 import { hasAlertClass } from './alert-portal';
@@ -8,44 +8,21 @@ import AlertError from './alert-error';
 import AlertMessage from './alert-message';
 import AlertWarning from './alert-warning';
 import GlobalFooter from './global-footer';
-import Section from './section';
+import GlobalMain from './global-main';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
 import useSelector from '../hooks/use-app-selector';
 import useTriggerPrimaryQuery from '../hooks/use-trigger-primary-query';
 
-import api from '../services/api';
-
 import { getDescription, getPageTitle } from '../selectors';
 
 const App = () => {
-  const [triggerOverview, overviewResult] = api.useLazyGetOverviewQuery();
-  const [triggerLeaderboard, leaderboardResult] = api.useLazyGetLeaderboardQuery();
-
-  const location = useLocation();
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
-  const isHome = location.pathname === '/';
-  const className = ['section', location.pathname.split('/').at(1)].join('-');
 
   const scrollCaptureClasses: Array<string> = [hasAlertClass, hasModalClass];
 
   useCaptureScrollPosition(scrollCaptureClasses);
-
-  useEffect(() => {
-    if (overviewResult.isUninitialized) {
-      triggerOverview(null);
-    }
-    if (leaderboardResult.isUninitialized) {
-      triggerLeaderboard({ search: location.search });
-    }
-  }, [
-    leaderboardResult,
-    overviewResult,
-    triggerLeaderboard,
-    triggerOverview,
-  ]);
-
   useTriggerPrimaryQuery();
 
   return (
@@ -61,19 +38,14 @@ const App = () => {
           <meta name='description' content={description} />
         )}
       </Helmet>
+
       <AlertError />
       <AlertMessage />
       <AlertWarning />
 
-      <main className='global-main'>
-        {isHome ? (
-          <Outlet />
-        ) : (
-          <Section className={className}>
-            <Outlet />
-          </Section>
-        )}
-      </main>
+      <GlobalMain>
+        <Outlet />
+      </GlobalMain>
 
       <GlobalFooter />
     </div>

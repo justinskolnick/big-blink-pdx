@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router';
 
 import Section from './leaderboard/section';
 import EntitiesLeaderboard from './leaderboard/leaderboard-entities';
@@ -9,6 +10,8 @@ import useSelector from '../../hooks/use-app-selector';
 
 import { getHasSourcesChartData } from '../../selectors';
 
+import api from '../../services/api';
+
 import type { Ref } from '../../types';
 
 interface Props {
@@ -16,9 +19,22 @@ interface Props {
 }
 
 const Leaderboard = ({ ref }: Props) => {
+  const [triggerLeaderboard, leaderboardResult] = api.useLazyGetLeaderboardQuery();
+
+  const location = useLocation();
+
   const hasChartData = useSelector(getHasSourcesChartData);
 
   const isReady = hasChartData;
+
+  useEffect(() => {
+    if (leaderboardResult.isUninitialized) {
+      triggerLeaderboard({ search: location.search });
+    }
+  }, [
+    leaderboardResult,
+    triggerLeaderboard,
+  ]);
 
   return (
     <Section ref={ref}>

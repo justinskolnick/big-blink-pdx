@@ -12,7 +12,6 @@ import api from '../../services/api';
 
 import Activity from './activity';
 import Leaderboard from './leaderboard';
-import Section from '../section';
 
 const Home = () => {
   const ref = useRef(null);
@@ -42,14 +41,10 @@ const Home = () => {
   }, [hasFilterParams, ref]);
 
   return (
-    <Section
-      icon='handshake'
-      title='Lobbying in Portland, Oregon'
-      className='section-home'
-    >
+    <>
       <Activity />
       <Leaderboard ref={ref} />
-    </Section>
+    </>
   );
 };
 
