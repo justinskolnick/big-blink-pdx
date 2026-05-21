@@ -1,16 +1,25 @@
 .incident-attendees {
   .incident-attendee {
-    .attendee-name-reported-as {
-      color: var(--color-text-light);
-      font-weight: 200;
-      font-size: 12px;
-
-      &::before {
-        content: 'as “';
+    .attendee-name {
+      a:has(+ .attendee-name-reported) {
+        margin-right: 0.4675ex;
+      }
+      .attendee-name-reported {
+        color: var(--color-text-light);
+        font-weight: 200;
+        font-size: 12px;
       }
 
-      &::after {
-        content: '”';
+      .attendee-name-reported-as {
+        margin-left: 0.4675ex;
+
+        &::before {
+          content: '“';
+        }
+
+        &::after {
+          content: '”';
+        }
       }
     }
 

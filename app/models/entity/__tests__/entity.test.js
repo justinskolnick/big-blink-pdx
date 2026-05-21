@@ -11,7 +11,7 @@ const Entity = require('../entity');
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Entity.getLabel('percentage', 'incidents')).toBe('Share of total');
-    expect(Entity.getLabel('total', 'incidents')).toBe('Incident count');
+    expect(Entity.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Entity.getLabel('totals')).toBe('Totals');
   });
 });
@@ -98,7 +98,7 @@ describe('adapt()', () => {
           values: {
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 123,
             },
           },
@@ -144,7 +144,7 @@ describe('adapt()', () => {
             },
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 123,
             },
           },
@@ -234,7 +234,7 @@ describe('adapt()', () => {
             },
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 123,
             },
           },

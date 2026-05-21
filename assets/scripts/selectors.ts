@@ -155,8 +155,9 @@ export const getPeopleChartData = createSelector(
 );
 
 export const getDescription = createSelector(getUI, ui => ui.description);
-export const getPageTitle = createSelector(getUI, ui => ui.pageTitle);
 export const getErrors = createSelector(getUI, ui => ui.errors);
+export const getLabels = createSelector(getUI, ui => ui.labels);
 export const getMessages = createSelector(getUI, ui => ui.messages);
+export const getPageTitle = createSelector(getUI, ui => ui.pageTitle);
 export const getSection = createSelector(getUI, ui => ui.section);
 export const getWarnings = createSelector(getUI, ui => ui.warnings);

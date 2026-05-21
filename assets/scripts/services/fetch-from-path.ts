@@ -240,6 +240,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
     }
 
+    if ('labels' in data) {
+      dispatch(uiActions.setLabels(data.labels));
+    }
+
     if ('person' in data) {
       const person = adaptPerson(state, data.person.record);
       const incidents = personActions.adapters.getIncidents(data.person.record);

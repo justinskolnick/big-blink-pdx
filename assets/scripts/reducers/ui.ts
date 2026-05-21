@@ -4,18 +4,20 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type {
   AlertType,
   ErrorType,
+  GenericObject,
   MessageType,
   SectionType,
   WarningType
 } from '../types';
 
-const setDescription = createAction<string>('ui/setDescription');
-const setPageTitle = createAction<string>('ui/setPageTitle');
 const clearErrors = createAction('ui/clearErrors');
 const clearMessages = createAction('ui/clearMessages');
 const clearWarnings = createAction('ui/clearWarnings');
+const setDescription = createAction<string>('ui/setDescription');
 const setError = createAction<ErrorType>('ui/setError');
+const setLabels = createAction<GenericObject>('ui/setLabels');
 const setMessage = createAction<MessageType>('ui/setMessage');
+const setPageTitle = createAction<string>('ui/setPageTitle');
 const setPositionY = createAction<number>('ui/setPositionY');
 const setSection = createAction<SectionType>('ui/setSection');
 const setWarning = createAction<WarningType>('ui/setWarning');
@@ -25,9 +27,10 @@ export const actions = {
   clearMessages,
   clearWarnings,
   setDescription,
-  setPageTitle,
   setError,
+  setLabels,
   setMessage,
+  setPageTitle,
   setPositionY,
   setSection,
   setWarning,
@@ -37,6 +40,7 @@ interface InitialState {
   description?: string;
   pageTitle?: string;
   errors: ErrorType[];
+  labels: GenericObject;
   messages: MessageType[];
   positionY: number;
   section: SectionType | Partial<SectionType>;
@@ -47,6 +51,7 @@ const initialState: InitialState = {
   description: undefined,
   pageTitle: undefined,
   errors: [],
+  labels: {},
   messages: [],
   positionY: 0,
   section: {
@@ -69,6 +74,12 @@ const uiReducer = createReducer(initialState, (builder) => {
       }
 
       state.errors.push(action.payload);
+    })
+    .addCase(setLabels, (state, action: PayloadAction<GenericObject>) => {
+      state.labels = {
+        ...state.labels,
+        ...action.payload,
+      };
     })
     .addCase(clearMessages, (state) => {
       state.messages = initialState.messages;

@@ -16,7 +16,7 @@ const Source = require('../source');
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Source.getLabel('percentage', 'incidents')).toBe('Share of total');
-    expect(Source.getLabel('total', 'incidents')).toBe('Incident count');
+    expect(Source.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Source.getLabel('totals')).toBe('Totals');
     expect(Source.getLabel('activity', 'lobbying')).toBe('Lobbying activity');
     expect(Source.getLabel('registration', 'lobbying')).toBe('Lobbying registration');
@@ -141,7 +141,7 @@ describe('adapt()', () => {
           values: {
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 114,
             },
           },
@@ -223,7 +223,7 @@ describe('adapt()', () => {
             },
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 114,
             },
           },

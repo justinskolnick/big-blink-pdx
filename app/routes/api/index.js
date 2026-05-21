@@ -9,6 +9,7 @@ const leaderboardRouter = require('./leaderboard');
 const peopleRouter = require('./people');
 const sourcesRouter = require('./sources');
 const statsRouter = require('./stats');
+const uiRouter = require('./ui');
 
 const router = express.Router();
 
@@ -21,6 +22,7 @@ router.use('/leaderboard', leaderboardRouter);
 router.use('/people', peopleRouter);
 router.use('/sources', sourcesRouter);
 router.use('/stats', statsRouter);
+router.use('/ui', uiRouter);
 
 router.get('/', (req, res) => {
   res.status(200);

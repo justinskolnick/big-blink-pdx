@@ -10,14 +10,20 @@ interface Props {
 
 const Main = ({ children }: Props) => {
   const [triggerOverview, overviewResult] = api.useLazyGetOverviewQuery();
+  const [triggerUi, uiResult] = api.useLazyGetUiQuery();
 
   useEffect(() => {
     if (overviewResult.isUninitialized) {
       triggerOverview(null);
     }
+    if (uiResult.isUninitialized) {
+      triggerUi(null);
+    }
   }, [
     overviewResult,
     triggerOverview,
+    triggerUi,
+    uiResult,
   ]);
 
   return (

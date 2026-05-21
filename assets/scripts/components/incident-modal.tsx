@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 
+import useSelector from '../hooks/use-app-selector';
+
 import { useGetIncidentById } from '../reducers/incidents';
 
 import api from '../services/api';
+
+import { getLabels } from '../selectors';
 
 import { iconName } from './incidents/icon';
 import { LinkIcon } from './icon';
@@ -22,6 +26,8 @@ interface Props {
 
 const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   const [trigger] = api.useLazyGetIncidentByIdQuery();
+
+  const labels = useSelector(getLabels);
 
   const incident = useGetIncidentById(id);
 
@@ -51,7 +57,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
                   />
                 )}
                 <span className='item-text'>
-                  Lobbying Incident
+                  {labels.incidentsModalTitle}
                 </span>
               </>
             )}
@@ -59,7 +65,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
             {incident?.links && (
               <LinkIcon
                 name='link'
-                title='View the full record'
+                title={labels.incidentsModalLinkTitle}
                 to={incident.links.self}
               />
             )}
@@ -72,7 +78,7 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
           {hasNotes && (
             <MetaSection>
               <IncidentNotesBox
-                title='Notes about this incident'
+                title={labels.incidentsItemNotesTitle}
                 incident={incident}
               />
             </MetaSection>

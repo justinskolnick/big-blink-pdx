@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 
+import useSelector from '../hooks/use-app-selector';
+
 import ItemLink from './people/item-link';
 
 import {
@@ -7,10 +9,12 @@ import {
   useGetPersonPosition,
 } from '../reducers/people';
 
-import { Role } from '../types';
-import type {
-  Attendee,
-  IncidentObject,
+import { getLabels } from '../selectors';
+
+import {
+  Role,
+  type Attendee,
+  type IncidentObject,
 } from '../types';
 
 interface IncidentAttendeeProps {
@@ -39,6 +43,7 @@ const useGetAttendeesByRole = (incident: IncidentObject, role: Role) => {
 };
 
 const IncidentAttendee = ({ attendee, children }: IncidentAttendeeProps) => {
+  const labels = useSelector(getLabels);
   const person = useGetPersonById(attendee.person.id);
 
   const hasPerson = Boolean(person);
@@ -51,8 +56,11 @@ const IncidentAttendee = ({ attendee, children }: IncidentAttendeeProps) => {
       <div className='attendee-name'>
         <ItemLink item={person}>{person.name}</ItemLink>
         {hasReportedName && (
-          <span className='attendee-name-reported-as'>
-            {attendee.as}
+          <span className='attendee-name-reported'>
+            {labels.incidentsItemOfficialAlias}
+            <span className='attendee-name-reported-as'>
+              {attendee.as}
+            </span>
           </span>
         )}
       </div>

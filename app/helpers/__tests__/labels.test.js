@@ -11,8 +11,8 @@ describe('getLabel()', () => {
 
   test('returns the expected labels', () => {
     expect(labels.getLabel('incidents__percentage')).toBe('Share of total');
-    expect(labels.getLabel('incidents__total')).toBe('Incident count');
-    expect(labels.getLabel('total', 'incidents')).toBe('Incident count');
+    expect(labels.getLabel('incidents__total')).toBe('Incident entry count');
+    expect(labels.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(labels.getLabel('totals')).toBe('Totals');
   });
 

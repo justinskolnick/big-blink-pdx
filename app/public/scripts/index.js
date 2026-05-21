@@ -34788,9 +34788,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     getIndexedEntriesAndEstimates
   );
   var getDescription = createSelector(getUI, (ui) => ui.description);
-  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
   var getErrors = createSelector(getUI, (ui) => ui.errors);
+  var getLabels = createSelector(getUI, (ui) => ui.labels);
   var getMessages = createSelector(getUI, (ui) => ui.messages);
+  var getPageTitle = createSelector(getUI, (ui) => ui.pageTitle);
   var getSection = createSelector(getUI, (ui) => ui.section);
   var getWarnings = createSelector(getUI, (ui) => ui.warnings);
 
@@ -38651,13 +38652,14 @@ Hook ${hookName} was either not provided or not a function.`);
   var stats_default = statsReducer;
 
   // assets/scripts/reducers/ui.ts
-  var setDescription = createAction("ui/setDescription");
-  var setPageTitle = createAction("ui/setPageTitle");
   var clearErrors = createAction("ui/clearErrors");
   var clearMessages = createAction("ui/clearMessages");
   var clearWarnings = createAction("ui/clearWarnings");
+  var setDescription = createAction("ui/setDescription");
   var setError = createAction("ui/setError");
+  var setLabels2 = createAction("ui/setLabels");
   var setMessage = createAction("ui/setMessage");
+  var setPageTitle = createAction("ui/setPageTitle");
   var setPositionY = createAction("ui/setPositionY");
   var setSection = createAction("ui/setSection");
   var setWarning = createAction("ui/setWarning");
@@ -38666,9 +38668,10 @@ Hook ${hookName} was either not provided or not a function.`);
     clearMessages,
     clearWarnings,
     setDescription,
-    setPageTitle,
     setError,
+    setLabels: setLabels2,
     setMessage,
+    setPageTitle,
     setPositionY,
     setSection,
     setWarning
@@ -38677,6 +38680,7 @@ Hook ${hookName} was either not provided or not a function.`);
     description: void 0,
     pageTitle: void 0,
     errors: [],
+    labels: {},
     messages: [],
     positionY: 0,
     section: {
@@ -38693,6 +38697,11 @@ Hook ${hookName} was either not provided or not a function.`);
         return;
       }
       state.errors.push(action.payload);
+    }).addCase(setLabels2, (state, action) => {
+      state.labels = {
+        ...state.labels,
+        ...action.payload
+      };
     }).addCase(clearMessages, (state) => {
       state.messages = initialState9.messages;
     }).addCase(setMessage, (state, action) => {
@@ -38853,6 +38862,9 @@ Hook ${hookName} was either not provided or not a function.`);
             dispatch(setPagination3(data2.incidents.pagination));
           }
         }
+      }
+      if ("labels" in data2) {
+        dispatch(actions4.setLabels(data2.labels));
       }
       if ("person" in data2) {
         const person = adaptPerson(state, data2.person.record);
@@ -39041,6 +39053,9 @@ Hook ${hookName} was either not provided or not a function.`);
     endpoints: (builder) => ({
       getOverview: builder.query(getSecondaryRoute(
         () => "api/stats"
+      )),
+      getUi: builder.query(getSecondaryRoute(
+        () => "api/ui"
       )),
       getLeaderboard: builder.query(getAncillaryRoute(
         ({ limit, search }) => getPathnameWithLimit("api/leaderboard", { limit, search })
@@ -46632,6 +46647,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return null;
   };
   var IncidentAttendee = ({ attendee, children }) => {
+    const labels = use_app_selector_default(getLabels);
     const person = useGetPersonById(attendee.person.id);
     const hasPerson = Boolean(person);
     const hasReportedName = attendee.as !== person.name;
@@ -46639,7 +46655,10 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)(import_jsx_runtime25.Fragment, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "attendee-name", children: [
         /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(item_link_default, { item: person, children: person.name }),
-        hasReportedName && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "attendee-name-reported-as", children: attendee.as })
+        hasReportedName && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("span", { className: "attendee-name-reported", children: [
+          labels.incidentsItemOfficialAlias,
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "attendee-name-reported-as", children: attendee.as })
+        ] })
       ] }),
       children
     ] });
@@ -46685,41 +46704,42 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/incident-table.tsx
   var import_jsx_runtime28 = __toESM(require_jsx_runtime());
   var IncidentTable = ({ incident }) => {
+    const labels = use_app_selector_default(getLabels);
     const hasDateRange = Boolean(incident.contactDateRange);
     const hasMultipleTypes = incident.contactTypes.length > 1;
     return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("table", { className: "incident-table", cellPadding: "0", cellSpacing: "0", children: /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tbody", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Entity" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemEntity }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(incident_entity_default, { incident }) })
       ] }),
       hasDateRange ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Dates" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemDates }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: incident.contactDateRange })
       ] }) : /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Date" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemDate }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: incident.contactDate })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("tr", { children: hasMultipleTypes ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Types" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemTypes }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("ul", { className: "incident-types", children: incident.contactTypes.map((type) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("li", { children: type }, type)) }) })
       ] }) : /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Type" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemType }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: incident.contactTypes.join() })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Category" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemCategory }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: incident.category })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Topic" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemTopic }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: incident.topic })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Officials" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemOfficials }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(incident_attendees_default, { incident, role: "official" /* Official */ }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("tr", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: "Lobbyists" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("th", { children: labels.incidentsItemLobbyists }),
         /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(incident_attendees_default, { incident, role: "lobbyist" /* Lobbyist */ }) })
       ] })
     ] }) });
@@ -46793,6 +46813,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime31 = __toESM(require_jsx_runtime());
   var IncidentModal = ({ deactivate, id, isActive }) => {
     const [trigger] = api_default.useLazyGetIncidentByIdQuery();
+    const labels = use_app_selector_default(getLabels);
     const incident = useGetIncidentById(id);
     const hasIncident = Boolean(incident);
     const hasAttendees = Boolean(incident && "attendees" in incident);
@@ -46814,13 +46835,13 @@ Hook ${hookName} was either not provided or not a function.`);
                 to: incident.links.self
               }
             ),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "item-text", children: "Lobbying Incident" })
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { className: "item-text", children: labels.incidentsModalTitle })
           ] }),
           children: incident?.links && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
             LinkIcon,
             {
               name: "link",
-              title: "View the full record",
+              title: labels.incidentsModalLinkTitle,
               to: incident.links.self
             }
           )
@@ -46831,7 +46852,7 @@ Hook ${hookName} was either not provided or not a function.`);
         hasNotes && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
           incident_notes_box_default,
           {
-            title: "Notes about this incident",
+            title: labels.incidentsItemNotesTitle,
             incident
           }
         ) })
@@ -46923,13 +46944,19 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime34 = __toESM(require_jsx_runtime());
   var Main = ({ children }) => {
     const [triggerOverview, overviewResult] = api_default.useLazyGetOverviewQuery();
+    const [triggerUi, uiResult] = api_default.useLazyGetUiQuery();
     (0, import_react20.useEffect)(() => {
       if (overviewResult.isUninitialized) {
         triggerOverview(null);
       }
+      if (uiResult.isUninitialized) {
+        triggerUi(null);
+      }
     }, [
       overviewResult,
-      triggerOverview
+      triggerOverview,
+      triggerUi,
+      uiResult
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("main", { className: "global-main", children: /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
       section_default,
@@ -60549,7 +60576,7 @@ Hook ${hookName} was either not provided or not a function.`);
       Object.assign(options2, nextOptions);
     }
   }
-  function setLabels2(currentData, nextLabels) {
+  function setLabels3(currentData, nextLabels) {
     currentData.labels = nextLabels;
   }
   function setDatasets(currentData, nextDatasets, datasetIdKey = defaultDatasetIdKey) {
@@ -60571,7 +60598,7 @@ Hook ${hookName} was either not provided or not a function.`);
       labels: [],
       datasets: []
     };
-    setLabels2(nextData, data2.labels);
+    setLabels3(nextData, data2.labels);
     setDatasets(nextData, data2.datasets, datasetIdKey);
     return nextData;
   }
@@ -60608,7 +60635,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ]);
     (0, import_react30.useEffect)(() => {
       if (!redraw && chartRef.current) {
-        setLabels2(chartRef.current.config.data, data2.labels);
+        setLabels3(chartRef.current.config.data, data2.labels);
       }
     }, [
       redraw,
@@ -61767,6 +61794,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var Detail2 = () => {
     const { id } = useParams();
     const numericId = Number(id);
+    const labels = use_app_selector_default(getLabels);
     const incident = useGetIncidentById(numericId);
     const hasIncident = Boolean(incident);
     const hasNotes = hasIncident && Boolean(incident.notes);
@@ -61781,14 +61809,14 @@ Hook ${hookName} was either not provided or not a function.`);
         hasNotes && /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
           incident_notes_box_default,
           {
-            title: "Notes about this incident",
+            title: labels.incidentsItemNotesTitle,
             incident
           }
         ),
         /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(
           incident_source_box_default,
           {
-            title: "Data source",
+            title: labels.incidentsItemDataSourceTitle,
             incident
           }
         )

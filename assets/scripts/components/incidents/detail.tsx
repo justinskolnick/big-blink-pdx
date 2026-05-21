@@ -1,6 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
+import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import useSelector from '../../hooks/use-app-selector';
+
 import IncidentNotesBox from '../incident-notes-box';
 import IncidentSourceBox from '../incident-source-box';
 import MetaSection from '../meta-section';
@@ -8,13 +11,15 @@ import IncidentTable from '../incident-table';
 import ItemDetail from '../item-detail';
 import ItemSubhead from '../item-subhead';
 
-import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-route-change';
+import { getLabels } from '../../selectors';
 
 import { useGetIncidentById } from '../../reducers/incidents';
 
 const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
+
+  const labels = useSelector(getLabels);
 
   const incident = useGetIncidentById(numericId);
 
@@ -38,13 +43,13 @@ const Detail = () => {
         <MetaSection>
           {hasNotes && (
             <IncidentNotesBox
-              title='Notes about this incident'
+              title={labels.incidentsItemNotesTitle}
               incident={incident}
             />
           )}
 
           <IncidentSourceBox
-            title='Data source'
+            title={labels.incidentsItemDataSourceTitle}
             incident={incident}
           />
         </MetaSection>

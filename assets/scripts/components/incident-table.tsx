@@ -1,16 +1,24 @@
 import React from 'react';
 
+import useSelector from '../hooks/use-app-selector';
+
 import Attendees from './incident-attendees';
 import Entity from './incident-entity';
 
-import { Role } from '../types';
-import type { IncidentObject } from '../types';
+import { getLabels } from '../selectors';
+
+import {
+  Role,
+  type IncidentObject,
+} from '../types';
 
 interface Props {
   incident: IncidentObject;
 }
 
 const IncidentTable = ({ incident }: Props) => {
+  const labels = useSelector(getLabels);
+
   const hasDateRange = Boolean(incident.contactDateRange);
   const hasMultipleTypes = incident.contactTypes.length > 1;
 
@@ -18,26 +26,26 @@ const IncidentTable = ({ incident }: Props) => {
     <table className='incident-table' cellPadding='0' cellSpacing='0'>
       <tbody>
         <tr>
-          <th>Entity</th>
+          <th>{labels.incidentsItemEntity}</th>
           <td>
             <Entity incident={incident} />
           </td>
         </tr>
         {hasDateRange ? (
           <tr>
-            <th>Dates</th>
+            <th>{labels.incidentsItemDates}</th>
             <td>{incident.contactDateRange}</td>
           </tr>
         ) : (
           <tr>
-            <th>Date</th>
+            <th>{labels.incidentsItemDate}</th>
             <td>{incident.contactDate}</td>
           </tr>
         )}
         <tr>
           {hasMultipleTypes ? (
             <>
-              <th>Types</th>
+              <th>{labels.incidentsItemTypes}</th>
               <td>
                 <ul className='incident-types'>
                   {incident.contactTypes.map(type => (
@@ -48,25 +56,25 @@ const IncidentTable = ({ incident }: Props) => {
             </>
           ) : (
             <>
-              <th>Type</th>
+              <th>{labels.incidentsItemType}</th>
               <td>{incident.contactTypes.join()}</td>
             </>
           )}
         </tr>
         <tr>
-          <th>Category</th>
+          <th>{labels.incidentsItemCategory}</th>
           <td>{incident.category}</td>
         </tr>
         <tr>
-          <th>Topic</th>
+          <th>{labels.incidentsItemTopic}</th>
           <td>{incident.topic}</td>
         </tr>
         <tr>
-          <th>Officials</th>
+          <th>{labels.incidentsItemOfficials}</th>
           <td><Attendees incident={incident} role={Role.Official} /></td>
         </tr>
         <tr>
-          <th>Lobbyists</th>
+          <th>{labels.incidentsItemLobbyists}</th>
           <td><Attendees incident={incident} role={Role.Lobbyist} /></td>
         </tr>
       </tbody>

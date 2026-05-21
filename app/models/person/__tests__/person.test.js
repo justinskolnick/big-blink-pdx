@@ -20,7 +20,7 @@ describe('labelPrefix', () => {
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('percentage', 'incidents')).toBe('Share of total');
-    expect(Person.getLabel('total', 'incidents')).toBe('Incident count');
+    expect(Person.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Person.getLabel('totals')).toBe('Totals');
   });
 });
@@ -160,7 +160,7 @@ describe('adapt()', () => {
           values: {
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 123,
             },
           },
@@ -218,7 +218,7 @@ describe('adapt()', () => {
             },
             total: {
               key: 'total',
-              label: 'Incident count',
+              label: 'Incident entry count',
               value: 123,
             },
           },

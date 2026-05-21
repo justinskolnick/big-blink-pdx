@@ -134,6 +134,9 @@ const api = createApi({
     getOverview: builder.query(getSecondaryRoute(
       () => 'api/stats'
     )),
+    getUi: builder.query(getSecondaryRoute(
+      () => 'api/ui'
+    )),
     getLeaderboard: builder.query(getAncillaryRoute(
       ({ limit, search }) => getPathnameWithLimit('api/leaderboard', { limit, search })
     )),
