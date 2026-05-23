@@ -8,17 +8,17 @@ import Icon from './icon';
 import ItemLink from './item-link';
 import { ItemRow } from '../item-table';
 import SectionIndex from '../section-index';
-import { SortLink } from '../links';
 
 import useSelector from '../../hooks/use-app-selector';
 
 import { useGetPersonById } from '../../reducers/people';
+
 import {
   getPeoplePageIds,
   getPeoplePagination,
 } from '../../selectors';
 
-import { SortByValues, SortValues } from '../../types';
+import type { RefTableElement } from '../../types';
 
 interface PersonItemProps {
   id: number;
@@ -68,7 +68,7 @@ const Introduction = () => (
 );
 
 const Index = () => {
-  const ref = useRef(null);
+  const ref = useRef<RefTableElement>(null);
 
   const pagination = useSelector(getPeoplePagination);
   const pageIds = useSelector(getPeoplePageIds);
@@ -84,42 +84,13 @@ const Index = () => {
 
   return (
     <SectionIndex
-      pagination={pagination}
       introduction={<Introduction />}
       isLoading={!hasPageIds}
-    >
-      <table className='section-index-list' cellPadding='0' cellSpacing='0' ref={ref}>
-        <thead>
-          <tr>
-            <th className='cell-name' colSpan={2}>
-              <SortLink
-                defaultSort={SortValues.ASC}
-                isDefault
-                name={SortByValues.Name}
-                title='Sort this list by name'
-              >
-                Name
-              </SortLink>
-            </th>
-            <th className='cell-total'>
-              <SortLink
-                defaultSort={SortValues.DESC}
-                name={SortByValues.Total}
-                title='Sort this list by total'
-              >
-                Total
-              </SortLink>
-            </th>
-            <th className='cell-percent'>%</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pageIds.map((id) => (
-            <PersonItem key={id} id={id} />
-          ))}
-        </tbody>
-      </table>
-    </SectionIndex>
+      item={(id) => <PersonItem id={id} />}
+      pageIds={pageIds}
+      pagination={pagination}
+      ref={ref}
+    />
   );
 };
 

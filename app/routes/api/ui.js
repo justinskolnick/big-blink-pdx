@@ -15,10 +15,12 @@ router.get('/', async (req, res, next) => {
   try {
     data = {
       labels: {
+        incidents: labels.getLabel('incidents'),
         incidentsItemCategory: labels.getLabel('item_category', 'incidents'),
         incidentsItemDataSourceTitle: labels.getLabel('data_source_title', 'incidents'),
         incidentsItemDate: labels.getLabel('item_date', 'incidents'),
         incidentsItemDates: labels.getLabel('item_dates', 'incidents'),
+        incidentsItemDetails: labels.getLabel('item_details', 'incidents'),
         incidentsItemEntity: labels.getLabel('item_entity', 'incidents'),
         incidentsItemLobbyists: labels.getLabel('item_lobbyists', 'incidents'),
         incidentsItemNotesTitle: labels.getLabel('notes_title', 'incidents'),
@@ -29,6 +31,9 @@ router.get('/', async (req, res, next) => {
         incidentsItemTypes: labels.getLabel('item_types', 'incidents'),
         incidentsModalLinkTitle: labels.getLabel('modal_link', 'incidents'),
         incidentsModalTitle: labels.getLabel('modal_title', 'incidents'),
+        sortListByName: labels.getLabel('sort_list_by_name'),
+        sortListByTitle: labels.getLabel('sort_list_by_title'),
+        sourcesItemInformation: labels.getLabel('item_information', 'sources'),
       },
     };
 

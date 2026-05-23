@@ -7,7 +7,6 @@ import useFetchAndScrollOnRouteChange, {
 import EntityIcon from './icon';
 import ItemLink from './item-link';
 import { ItemRow } from '../item-table';
-import { SortLink } from '../links';
 import SectionIndex from '../section-index';
 
 import useSelector from '../../hooks/use-app-selector';
@@ -19,7 +18,7 @@ import {
   getEntitiesPagination,
 } from '../../selectors';
 
-import { SortByValues, SortValues } from '../../types';
+import type { RefTableElement } from '../../types';
 
 interface EntityItemProps {
   id: number;
@@ -63,7 +62,7 @@ const Introduction = () => (
 );
 
 const Index = () => {
-  const ref = useRef(null);
+  const ref = useRef<RefTableElement>(null);
 
   const pagination = useSelector(getEntitiesPagination);
   const pageIds = useSelector(getEntitiesPageIds);
@@ -79,42 +78,13 @@ const Index = () => {
 
   return (
     <SectionIndex
-      pagination={pagination}
       introduction={<Introduction />}
       isLoading={!hasPageIds}
-    >
-      <table className='section-index-list' cellPadding='0' cellSpacing='0' ref={ref}>
-        <thead>
-          <tr>
-            <th className='cell-name' colSpan={2}>
-              <SortLink
-                defaultSort={SortValues.ASC}
-                isDefault
-                name={SortByValues.Name}
-                title='Sort this list by name'
-              >
-                Name
-              </SortLink>
-            </th>
-            <th className='cell-total'>
-              <SortLink
-                defaultSort={SortValues.DESC}
-                name={SortByValues.Total}
-                title='Sort this list by total'
-              >
-                Total
-              </SortLink>
-            </th>
-            <th className='cell-percent'>%</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pageIds.map((id) => (
-            <EntityItem key={id} id={id} />
-          ))}
-        </tbody>
-      </table>
-    </SectionIndex>
+      item={(id) => <EntityItem id={id} />}
+      pageIds={pageIds}
+      pagination={pagination}
+      ref={ref}
+    />
   );
 };
 

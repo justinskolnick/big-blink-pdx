@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router';
 
+import useSelector from '../../hooks/use-app-selector';
+
 import Associations from '../detail-activity-associations';
 import ActivityDetails from '../detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
@@ -11,6 +13,8 @@ import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
+
+import { getLabels } from '../../selectors';
 
 import { useGetSourceById } from '../../reducers/sources';
 
@@ -70,6 +74,8 @@ const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
+  const labels = useSelector(getLabels);
+
   const source = useGetSourceById(numericId);
 
   const hasSource = Boolean(source);
@@ -83,7 +89,7 @@ const Detail = () => {
     <ItemDetail>
       <MetaSection>
         <SourceInformationBox
-          title='Source Information'
+          title={labels.sourcesItemInformation}
           source={source}
         />
       </MetaSection>

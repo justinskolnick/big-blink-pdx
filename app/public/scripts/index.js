@@ -1331,7 +1331,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), Internals = {
+        var React51 = require_react(), Internals = {
           d: {
             f: noop9,
             r: function() {
@@ -1349,7 +1349,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React50.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React51.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2884,7 +2884,7 @@
           "number" === type && getActiveElement(node2.ownerDocument) === node2 || node2.defaultValue === "" + value || (node2.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React50.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React51.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18516,14 +18516,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React50 = require_react(), ReactDOM2 = require_react_dom(), assign3 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React51 = require_react(), ReactDOM2 = require_react_dom(), assign3 = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React50.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React51.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21311,7 +21311,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React50.version;
+          var isomorphicReactPackageVersion = React51.version;
           if ("19.2.5" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.5\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21460,7 +21460,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React50 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React50.useSyncExternalStore, useRef21 = React50.useRef, useEffect34 = React50.useEffect, useMemo9 = React50.useMemo, useDebugValue3 = React50.useDebugValue;
+        var React51 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React51.useSyncExternalStore, useRef21 = React51.useRef, useEffect34 = React51.useEffect, useMemo9 = React51.useMemo, useDebugValue3 = React51.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef21(null);
           if (null === instRef.current) {
@@ -21599,7 +21599,7 @@
           var ContextProvider = REACT_PROVIDER_TYPE;
           var Element3 = REACT_ELEMENT_TYPE;
           var ForwardRef2 = REACT_FORWARD_REF_TYPE2;
-          var Fragment26 = REACT_FRAGMENT_TYPE;
+          var Fragment27 = REACT_FRAGMENT_TYPE;
           var Lazy = REACT_LAZY_TYPE;
           var Memo2 = REACT_MEMO_TYPE2;
           var Portal = REACT_PORTAL_TYPE;
@@ -21658,7 +21658,7 @@
           exports.ContextProvider = ContextProvider;
           exports.Element = Element3;
           exports.ForwardRef = ForwardRef2;
-          exports.Fragment = Fragment26;
+          exports.Fragment = Fragment27;
           exports.Lazy = Lazy;
           exports.Memo = Memo2;
           exports.Portal = Portal;
@@ -22521,18 +22521,18 @@
         function isValidElement2(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
-        var React50 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React50.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var React51 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React51.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React50 = {
+        React51 = {
           react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React50.react_stack_bottom_frame.bind(
-          React50,
+        var unknownOwnerDebugStack = React51.react_stack_bottom_frame.bind(
+          React51,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -22583,8 +22583,8 @@
       function _interopDefault(ex) {
         return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
       }
-      var React50 = require_react();
-      var React__default = _interopDefault(React50);
+      var React51 = require_react();
+      var React__default = _interopDefault(React51);
       function _defineProperty2(obj, key, value) {
         if (key in obj) {
           Object.defineProperty(obj, key, {
@@ -22667,7 +22667,7 @@
               return React__default.createElement(WrappedComponent, this.props);
             };
             return SideEffect2;
-          })(React50.PureComponent);
+          })(React51.PureComponent);
           _defineProperty2(SideEffect, "displayName", "SideEffect(" + getDisplayName(WrappedComponent) + ")");
           _defineProperty2(SideEffect, "canUseDOM", canUseDOM3);
           return SideEffect;
@@ -47117,7 +47117,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var app_default = App;
 
   // assets/scripts/components/entities/index.tsx
-  var import_react25 = __toESM(require_react());
+  var import_react26 = __toESM(require_react());
 
   // assets/scripts/hooks/use-fetch-and-scroll-on-route-change.ts
   var import_react23 = __toESM(require_react());
@@ -47287,6 +47287,9 @@ Hook ${hookName} was either not provided or not a function.`);
   ] });
   var item_table_default = ItemTable;
 
+  // assets/scripts/components/section-index.tsx
+  var import_react25 = __toESM(require_react());
+
   // assets/scripts/components/loading.tsx
   var import_react24 = __toESM(require_react());
   var import_jsx_runtime37 = __toESM(require_jsx_runtime());
@@ -47365,12 +47368,42 @@ Hook ${hookName} was either not provided or not a function.`);
     className,
     introduction,
     isLoading = true,
-    pagination
-  }) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(Index, { className, children: [
-    introduction && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Introduction, { children: introduction }),
-    /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Content2, { isLoading, children }),
-    pagination && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("footer", { className: "item-footer", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(pagination_default, { pagination }) })
-  ] });
+    item,
+    pageIds,
+    pagination,
+    ref
+  }) => {
+    const labels = use_app_selector_default(getLabels);
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(Index, { className, children: [
+      introduction && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Introduction, { children: introduction }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Content2, { isLoading, children: children || /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("table", { className: "section-index-list", cellPadding: "0", cellSpacing: "0", ref, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("tr", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+            SortLink,
+            {
+              defaultSort: "ASC" /* ASC */,
+              isDefault: true,
+              name: "name" /* Name */,
+              title: labels.sortListByName,
+              children: "Name"
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(
+            SortLink,
+            {
+              defaultSort: "DESC" /* DESC */,
+              name: "total" /* Total */,
+              title: labels.sortListByTitle,
+              children: "Total"
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("th", { className: "cell-percent", children: "%" })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("tbody", { children: pageIds?.map((id) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_react25.Fragment, { children: item?.(id) }, id)) })
+      ] }) }),
+      pagination && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("footer", { className: "item-footer", children: /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(pagination_default, { pagination }) })
+    ] });
+  };
   var section_index_default = SectionIndex;
 
   // assets/scripts/components/entities/index.tsx
@@ -47401,7 +47434,7 @@ Hook ${hookName} was either not provided or not a function.`);
     /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("blockquote", { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "any individual, business association, corporation, partnership, association, club, company, business trust, organization or other group who lobbies either by employing or otherwise authorizing a lobbyist to lobby on that person\u2019s behalf." }) })
   ] });
   var Index2 = () => {
-    const ref = (0, import_react25.useRef)(null);
+    const ref = (0, import_react26.useRef)(null);
     const pagination = use_app_selector_default(getEntitiesPagination);
     const pageIds = use_app_selector_default(getEntitiesPageIds);
     const hasPageIds = pageIds?.length > 0;
@@ -47414,49 +47447,27 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
       section_index_default,
       {
-        pagination,
         introduction: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Introduction2, {}),
         isLoading: !hasPageIds,
-        children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("table", { className: "section-index-list", cellPadding: "0", cellSpacing: "0", ref, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-              SortLink,
-              {
-                defaultSort: "ASC" /* ASC */,
-                isDefault: true,
-                name: "name" /* Name */,
-                title: "Sort this list by name",
-                children: "Name"
-              }
-            ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-              SortLink,
-              {
-                defaultSort: "DESC" /* DESC */,
-                name: "total" /* Total */,
-                title: "Sort this list by total",
-                children: "Total"
-              }
-            ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("th", { className: "cell-percent", children: "%" })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(EntityItem, { id }, id)) })
-        ] })
+        item: (id) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(EntityItem, { id }),
+        pageIds,
+        pagination,
+        ref
       }
     );
   };
   var entities_default2 = Index2;
 
   // assets/scripts/components/entities/detail.tsx
-  var import_react36 = __toESM(require_react());
+  var import_react37 = __toESM(require_react());
 
   // assets/scripts/components/detail-activity-associations.tsx
-  var import_react28 = __toESM(require_react());
+  var import_react29 = __toESM(require_react());
 
   // assets/scripts/hooks/use-limited-query.ts
-  var import_react26 = __toESM(require_react());
+  var import_react27 = __toESM(require_react());
   var useLimitedQuery = (query, options2) => {
-    const [paused, setPaused] = (0, import_react26.useState)(options2.pause || false);
+    const [paused, setPaused] = (0, import_react27.useState)(options2.pause || false);
     const initialLimit = options2.limit;
     const id = options2.id;
     let search = void 0;
@@ -47470,9 +47481,9 @@ Hook ${hookName} was either not provided or not a function.`);
         search = `?${search.toString()}`;
       }
     }
-    const [recordLimit, setRecordLimit] = (0, import_react26.useState)(initialLimit);
+    const [recordLimit, setRecordLimit] = (0, import_react27.useState)(initialLimit);
     const [trigger, result] = query();
-    (0, import_react26.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       const lastArgs = result.originalArgs;
       const hasChanged = lastArgs?.id !== id || lastArgs?.limit !== recordLimit || lastArgs?.search !== search;
       if (paused) {
@@ -47531,7 +47542,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_activity_subhead_default = ActivitySubhead;
 
   // assets/scripts/components/affiliated-item-table.tsx
-  var import_react27 = __toESM(require_react());
+  var import_react28 = __toESM(require_react());
 
   // assets/scripts/components/stat-box.tsx
   var import_jsx_runtime44 = __toESM(require_jsx_runtime());
@@ -47626,14 +47637,14 @@ Hook ${hookName} was either not provided or not a function.`);
     title,
     total = 0
   }) => {
-    const tableRef = (0, import_react27.useRef)(null);
+    const tableRef = (0, import_react28.useRef)(null);
     const scrollRef = ref || tableRef;
-    const [lastCount, setLastCount] = (0, import_react27.useState)(initialCount);
+    const [lastCount, setLastCount] = (0, import_react28.useState)(initialCount);
     const hasItems = total > 0;
     const hasLinks = Boolean(links);
     const scrollToRef2 = () => delayedScrollToRef(scrollRef);
     const refIsInView = () => isRefTopInView(scrollRef);
-    (0, import_react27.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (currentLimit !== lastCount) {
         setLastCount(currentLimit);
         if (!refIsInView()) {
@@ -47905,7 +47916,7 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   };
   var Group = ({ children, icon: icon3, title }) => {
-    const ref = (0, import_react28.useRef)(null);
+    const ref = (0, import_react29.useRef)(null);
     return /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(
       incident_activity_groups_default,
       {
@@ -48020,11 +48031,11 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var NamedRole = ({ item, role }) => {
-    const [hasRun, setHasRun] = (0, import_react28.useState)(false);
+    const [hasRun, setHasRun] = (0, import_react29.useState)(false);
     const searchOptions = { role };
     const namedRole = item?.roles?.named?.[role] ?? {};
     useGetItemRolesByItem(item, searchOptions, hasRun);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react29.useEffect)(() => {
       setHasRun(true);
     }, [setHasRun]);
     const hasItem = item !== void 0;
@@ -48060,7 +48071,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
   var Associations = ({ item }) => {
     const options2 = item.roles?.options;
-    const roles = (0, import_react28.useMemo)(() => {
+    const roles = (0, import_react29.useMemo)(() => {
       const availableOptions = [];
       return Object.entries(options2 || {}).reduce((all, [key, value]) => {
         const k2 = key;
@@ -48081,10 +48092,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_activity_associations_default = Associations;
 
   // assets/scripts/components/incident-date-box.tsx
-  var import_react29 = __toESM(require_react());
+  var import_react30 = __toESM(require_react());
   var import_jsx_runtime56 = __toESM(require_jsx_runtime());
   var IncidentDateBox = ({ incident }) => {
-    const [isActive, setIsActive] = (0, import_react29.useState)(false);
+    const [isActive, setIsActive] = (0, import_react30.useState)(false);
     const hasIncident = Boolean(incident?.value);
     const deactivate = () => setIsActive(false);
     const handleLinkClick = (event) => {
@@ -48214,13 +48225,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_activity_overview_default = ActivityOverview;
 
   // assets/scripts/components/entities/chart.tsx
-  var import_react33 = __toESM(require_react());
+  var import_react34 = __toESM(require_react());
 
   // assets/scripts/components/incident-activity-chart-quarterly.tsx
-  var import_react32 = __toESM(require_react());
+  var import_react33 = __toESM(require_react());
 
   // assets/scripts/components/item-chart.tsx
-  var import_react31 = __toESM(require_react());
+  var import_react32 = __toESM(require_react());
 
   // node_modules/@kurkle/color/dist/color.esm.js
   function round(v2) {
@@ -60561,7 +60572,7 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // node_modules/react-chartjs-2/dist/index.js
   var import_jsx_runtime61 = __toESM(require_jsx_runtime(), 1);
-  var import_react30 = __toESM(require_react(), 1);
+  var import_react31 = __toESM(require_react(), 1);
   var defaultDatasetIdKey = "label";
   function reforwardRef(ref, value) {
     if (typeof ref === "function") {
@@ -60604,8 +60615,8 @@ Hook ${hookName} was either not provided or not a function.`);
   }
   function ChartComponent(props, ref) {
     const { height = 150, width = 300, redraw = false, datasetIdKey, type, data: data2, options: options2, plugins: plugins3 = [], fallbackContent, updateMode, ...canvasProps } = props;
-    const canvasRef = (0, import_react30.useRef)(null);
-    const chartRef = (0, import_react30.useRef)(null);
+    const canvasRef = (0, import_react31.useRef)(null);
+    const chartRef = (0, import_react31.useRef)(null);
     const renderChart = () => {
       if (!canvasRef.current) return;
       chartRef.current = new Chart(canvasRef.current, {
@@ -60625,7 +60636,7 @@ Hook ${hookName} was either not provided or not a function.`);
         chartRef.current = null;
       }
     };
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!redraw && chartRef.current && options2) {
         setOptions(chartRef.current, options2);
       }
@@ -60633,7 +60644,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       options2
     ]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!redraw && chartRef.current) {
         setLabels3(chartRef.current.config.data, data2.labels);
       }
@@ -60641,7 +60652,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       data2.labels
     ]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!redraw && chartRef.current && data2.datasets) {
         setDatasets(chartRef.current.config.data, data2.datasets, datasetIdKey);
       }
@@ -60649,7 +60660,7 @@ Hook ${hookName} was either not provided or not a function.`);
       redraw,
       data2.datasets
     ]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!chartRef.current) return;
       if (redraw) {
         destroyChart();
@@ -60664,14 +60675,14 @@ Hook ${hookName} was either not provided or not a function.`);
       data2.datasets,
       updateMode
     ]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       if (!chartRef.current) return;
       destroyChart();
       setTimeout(renderChart);
     }, [
       type
     ]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       renderChart();
       return () => destroyChart();
     }, []);
@@ -60684,10 +60695,10 @@ Hook ${hookName} was either not provided or not a function.`);
       children: fallbackContent
     });
   }
-  var Chart2 = /* @__PURE__ */ (0, import_react30.forwardRef)(ChartComponent);
+  var Chart2 = /* @__PURE__ */ (0, import_react31.forwardRef)(ChartComponent);
   function createTypedChart(type, registerables) {
     Chart.register(registerables);
-    return /* @__PURE__ */ (0, import_react30.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(Chart2, {
+    return /* @__PURE__ */ (0, import_react31.forwardRef)((props, ref) => /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(Chart2, {
       ...props,
       ref,
       type
@@ -60797,7 +60808,7 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var ItemChart = ({ handleClick, lineProps }) => {
-    const [hasLineLabel, setHasLineLabel] = (0, import_react31.useState)(false);
+    const [hasLineLabel, setHasLineLabel] = (0, import_react32.useState)(false);
     const defaultLabel = "All incident entries";
     const sources = use_app_selector_default(getSourcesDataForChart);
     const sourceData = {
@@ -60846,7 +60857,7 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }
     };
-    (0, import_react31.useEffect)(() => {
+    (0, import_react32.useEffect)(() => {
       setHasLineLabel(Boolean(lineProps.entries.label));
     }, [lineProps, setHasLineLabel]);
     return /* @__PURE__ */ (0, import_jsx_runtime62.jsx)(
@@ -60867,13 +60878,13 @@ Hook ${hookName} was either not provided or not a function.`);
   var IncidentQuarterlyActivityChart = ({ lineProps }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const quarterParam2 = searchParams.get("quarter");
-    const [quarter, setQuarter] = (0, import_react32.useState)(quarterParam2);
+    const [quarter, setQuarter] = (0, import_react33.useState)(quarterParam2);
     const handleClick = (value) => {
       if (value) {
         setQuarter(value.split(" ").sort().join("-"));
       }
     };
-    (0, import_react32.useEffect)(() => {
+    (0, import_react33.useEffect)(() => {
       if (quarter) {
         if (!quarterParam2 || quarterParam2 && quarter && quarterParam2 !== quarter) {
           setSearchParams({ quarter });
@@ -60881,7 +60892,7 @@ Hook ${hookName} was either not provided or not a function.`);
         setQuarter(null);
       }
     }, [quarterParam2, quarter, setSearchParams]);
-    return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_react32.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Loading2, {}), children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_react33.Suspense, { fallback: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Loading2, {}), children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
       item_chart_default,
       {
         lineProps,
@@ -60911,7 +60922,7 @@ Hook ${hookName} was either not provided or not a function.`);
         label: labels.estimates
       }
     };
-    (0, import_react33.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       if (!hasData) {
         trigger({ id: numericId });
       }
@@ -60921,7 +60932,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var chart_default = Chart3;
 
   // assets/scripts/components/filter.tsx
-  var import_react34 = __toESM(require_react());
+  var import_react35 = __toESM(require_react());
   var import_jsx_runtime65 = __toESM(require_jsx_runtime());
   var FilterAction = ({ action, children, handleClick }) => {
     const hasAction = action !== void 0;
@@ -60978,7 +60989,7 @@ Hook ${hookName} was either not provided or not a function.`);
       children: Object.entries(field.options).map(([key, value]) => /* @__PURE__ */ (0, import_jsx_runtime65.jsx)("option", { value: key, children: value }, key))
     }
   );
-  var FilterLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i2) => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(import_react34.Fragment, { children: [
+  var FilterLabelArray = ({ handleActionClick, labels, model }) => labels.map((label, i2) => /* @__PURE__ */ (0, import_jsx_runtime65.jsxs)(import_react35.Fragment, { children: [
     label.type === "id" /* Id */ && /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(FilterModelId, { label, model }),
     label.type === "input-date" /* InputDate */ && /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(FilterDateField, { field: label }),
     label.type === "label" /* Label */ && /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(FilterLabel, { label: label.value }),
@@ -61082,7 +61093,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasFilter = filter !== void 0;
     const hasFields = hasFilter && "fields" in filter;
     const hasValues = hasFilter && "values" in filter;
-    const [activeAction, setActiveAction] = (0, import_react34.useState)(null);
+    const [activeAction, setActiveAction] = (0, import_react35.useState)(null);
     const clearAction = () => setActiveAction(null);
     const hasActiveAction = Boolean(activeAction);
     const handleActionClick = (event, action) => {
@@ -61096,7 +61107,7 @@ Hook ${hookName} was either not provided or not a function.`);
       clearAction();
     };
     const Tag = inline ? "span" : "div";
-    (0, import_react34.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       if (hasValues) {
         clearAction();
       }
@@ -61183,10 +61194,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_header_default = IncidentsHeader;
 
   // assets/scripts/components/incident-list-table.tsx
-  var import_react35 = __toESM(require_react());
+  var import_react36 = __toESM(require_react());
   var import_jsx_runtime67 = __toESM(require_jsx_runtime());
   var IncidentRow = ({ id }) => {
-    const [isSelected, setIsSelected] = (0, import_react35.useState)(false);
+    const [isSelected, setIsSelected] = (0, import_react36.useState)(false);
     const incident = useGetIncidentById(id);
     const hasIncident = Boolean(incident);
     const hasDateRange = Boolean(incident?.contactDateRange);
@@ -61321,7 +61332,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/entities/detail.tsx
   var import_jsx_runtime71 = __toESM(require_jsx_runtime());
   var Detail = () => {
-    const incidentsRef = (0, import_react36.useRef)(null);
+    const incidentsRef = (0, import_react37.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const entity = useGetEntityById(numericId);
@@ -61365,7 +61376,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default = Detail;
 
   // assets/scripts/components/home/index.tsx
-  var import_react39 = __toESM(require_react());
+  var import_react40 = __toESM(require_react());
 
   // assets/scripts/components/home/chart/section.tsx
   var import_jsx_runtime72 = __toESM(require_jsx_runtime());
@@ -61425,7 +61436,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var activity_default = Activity;
 
   // assets/scripts/components/home/leaderboard.tsx
-  var import_react38 = __toESM(require_react());
+  var import_react39 = __toESM(require_react());
 
   // assets/scripts/components/home/leaderboard/filters.tsx
   var import_jsx_runtime76 = __toESM(require_jsx_runtime());
@@ -61483,7 +61494,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var subsection_group_default = SubsectionGroup;
 
   // assets/scripts/components/people/index.tsx
-  var import_react37 = __toESM(require_react());
+  var import_react38 = __toESM(require_react());
   var import_jsx_runtime81 = __toESM(require_jsx_runtime());
   var PersonItem = ({ id }) => {
     const person = useGetPersonById(id);
@@ -61513,7 +61524,7 @@ Hook ${hookName} was either not provided or not a function.`);
     /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("blockquote", { children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("p", { children: "any individual who is authorized to lobby on behalf of a lobbying entity." }) })
   ] });
   var Index3 = () => {
-    const ref = (0, import_react37.useRef)(null);
+    const ref = (0, import_react38.useRef)(null);
     const pagination = use_app_selector_default(getPeoplePagination);
     const pageIds = use_app_selector_default(getPeoplePageIds);
     const hasPageIds = pageIds?.length > 0;
@@ -61526,34 +61537,12 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
       section_index_default,
       {
-        pagination,
         introduction: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(Introduction3, {}),
         isLoading: !hasPageIds,
-        children: /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("table", { className: "section-index-list", cellPadding: "0", cellSpacing: "0", ref, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime81.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("th", { className: "cell-name", colSpan: 2, children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-              SortLink,
-              {
-                defaultSort: "ASC" /* ASC */,
-                isDefault: true,
-                name: "name" /* Name */,
-                title: "Sort this list by name",
-                children: "Name"
-              }
-            ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("th", { className: "cell-total", children: /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(
-              SortLink,
-              {
-                defaultSort: "DESC" /* DESC */,
-                name: "total" /* Total */,
-                title: "Sort this list by total",
-                children: "Total"
-              }
-            ) }),
-            /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("th", { className: "cell-percent", children: "%" })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime81.jsx)("tbody", { children: pageIds.map((id) => /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(PersonItem, { id }, id)) })
-        ] })
+        item: (id) => /* @__PURE__ */ (0, import_jsx_runtime81.jsx)(PersonItem, { id }),
+        pageIds,
+        pagination,
+        ref
       }
     );
   };
@@ -61680,7 +61669,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const location2 = useLocation();
     const hasChartData = use_app_selector_default(getHasSourcesChartData);
     const isReady = hasChartData;
-    (0, import_react38.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       if (leaderboardResult.isUninitialized) {
         triggerLeaderboard({ search: location2.search });
       }
@@ -61699,7 +61688,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/home/index.tsx
   var import_jsx_runtime87 = __toESM(require_jsx_runtime());
   var Home = () => {
-    const ref = (0, import_react39.useRef)(null);
+    const ref = (0, import_react40.useRef)(null);
     const location2 = useLocation();
     const [searchParams] = useSearchParams();
     const hasFilterParams = hasLeaderboardFilterSearchParams(searchParams);
@@ -61711,7 +61700,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     };
     use_fetch_and_scroll_on_route_change_default(fetch2, false);
-    (0, import_react39.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       const hasRef = Boolean(ref?.current);
       if (hasFilterParams && hasRef) {
         delayedScrollToRef(ref);
@@ -61758,7 +61747,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incidents_default2 = Index4;
 
   // assets/scripts/components/incident-source-box.tsx
-  var import_react40 = __toESM(require_react());
+  var import_react41 = __toESM(require_react());
 
   // assets/scripts/components/sources/item-link.tsx
   var import_jsx_runtime89 = __toESM(require_jsx_runtime());
@@ -61772,7 +61761,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const id = incident?.sourceId;
     const source = useGetSourceById(id);
     const hasSource = Boolean(source);
-    (0, import_react40.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       if (source || !id) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -61802,7 +61791,7 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!hasIncident) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)(item_detail_default, { children: [
       /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)("div", { className: "item-content-section item-content-section-primary", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subhead_default, { title: "Details" }),
+        /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(item_subhead_default, { title: labels.incidentsItemDetails }),
         /* @__PURE__ */ (0, import_jsx_runtime91.jsx)("div", { className: "incident-details", children: /* @__PURE__ */ (0, import_jsx_runtime91.jsx)(incident_table_default, { incident }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime91.jsx)("div", { className: "item-content-section item-content-section-secondary", children: /* @__PURE__ */ (0, import_jsx_runtime91.jsxs)(meta_section_default, { children: [
@@ -61826,10 +61815,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default2 = Detail2;
 
   // assets/scripts/components/people/detail.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react43 = __toESM(require_react());
 
   // assets/scripts/components/people/chart.tsx
-  var import_react41 = __toESM(require_react());
+  var import_react42 = __toESM(require_react());
   var import_jsx_runtime92 = __toESM(require_jsx_runtime());
   var Chart5 = ({ label }) => {
     const [trigger] = api_default.useLazyGetPersonStatsByIdQuery();
@@ -61849,7 +61838,7 @@ Hook ${hookName} was either not provided or not a function.`);
         label: labels.estimates
       }
     };
-    (0, import_react41.useEffect)(() => {
+    (0, import_react42.useEffect)(() => {
       if (!hasData) {
         trigger({ id: numericId });
       }
@@ -61868,7 +61857,7 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/components/people/detail.tsx
   var import_jsx_runtime93 = __toESM(require_jsx_runtime());
   var Detail3 = () => {
-    const incidentsRef = (0, import_react42.useRef)(null);
+    const incidentsRef = (0, import_react43.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
     const person = useGetPersonById(numericId);
@@ -61912,19 +61901,21 @@ Hook ${hookName} was either not provided or not a function.`);
   var detail_default3 = Detail3;
 
   // assets/scripts/components/sources/index.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react45 = __toESM(require_react());
 
   // assets/scripts/components/sources/item.tsx
-  var import_react43 = __toESM(require_react());
+  var import_react44 = __toESM(require_react());
   var import_jsx_runtime94 = __toESM(require_jsx_runtime());
   var ActivityItem = ({ source }) => {
     const total = source.overview?.totals?.values?.total?.value;
     const hasTotals = Boolean(total);
+    const labels = use_app_selector_default(getLabels);
     return /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)("div", { className: "item-source-quarter-description", children: [
       /* @__PURE__ */ (0, import_jsx_runtime94.jsx)("h6", { children: source.title }),
       hasTotals && /* @__PURE__ */ (0, import_jsx_runtime94.jsxs)("p", { children: [
         total,
-        " incidents"
+        " ",
+        labels.incidents
       ] })
     ] });
   };
@@ -61933,7 +61924,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useGetSourceById(id);
     const hasSource = Boolean(source);
-    (0, import_react43.useEffect)(() => {
+    (0, import_react44.useEffect)(() => {
       if (source) return;
       trigger({ id });
     }, [id, source, trigger]);
@@ -61988,7 +61979,7 @@ Hook ${hookName} was either not provided or not a function.`);
     );
   };
   var Sources = ({ isLoading, types }) => {
-    const refs = (0, import_react44.useRef)(null);
+    const refs = (0, import_react45.useRef)(null);
     const keys = types.map((type) => type.type);
     const scrollToList = (type) => {
       const map2 = getMap();
@@ -62039,7 +62030,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var sources_default2 = Index5;
 
   // assets/scripts/components/sources/detail.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react46 = __toESM(require_react());
 
   // assets/scripts/components/sources/chart.tsx
   var import_jsx_runtime96 = __toESM(require_jsx_runtime());
@@ -62105,9 +62096,10 @@ Hook ${hookName} was either not provided or not a function.`);
     ] });
   };
   var Detail4 = () => {
-    const incidentsRef = (0, import_react45.useRef)(null);
+    const incidentsRef = (0, import_react46.useRef)(null);
     const { id } = useParams();
     const numericId = Number(id);
+    const labels = use_app_selector_default(getLabels);
     const source = useGetSourceById(numericId);
     const hasSource = Boolean(source);
     const isActivity = source?.type === "activity";
@@ -62117,7 +62109,7 @@ Hook ${hookName} was either not provided or not a function.`);
       /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(meta_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime98.jsx)(
         source_information_box_default,
         {
-          title: "Source Information",
+          title: labels.sourcesItemInformation,
           source
         }
       ) }),

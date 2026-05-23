@@ -33,7 +33,7 @@ const Detail = () => {
   return (
     <ItemDetail>
       <div className='item-content-section item-content-section-primary'>
-        <ItemSubhead title='Details' />
+        <ItemSubhead title={labels.incidentsItemDetails} />
         <div className='incident-details'>
           <IncidentTable incident={incident} />
         </div>

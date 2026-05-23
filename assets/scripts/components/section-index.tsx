@@ -1,10 +1,22 @@
-import React, { ReactNode } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
 import Loading from './loading';
 import Pagination from './pagination';
+import { SortLink } from './links';
 
-import type { Pagination as PaginationType } from '../types';
+import useSelector from '../hooks/use-app-selector';
+
+import { getLabels } from '../selectors';
+
+import {
+  SortByValues,
+  SortValues,
+  type Id,
+  type Ids,
+  type Pagination as PaginationType,
+  type RefTable,
+} from '../types';
 
 interface IndexProps {
   className?: string;
@@ -21,11 +33,14 @@ interface ContentProps {
 }
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   introduction?: ReactNode;
   isLoading?: boolean;
+  item?: (id: Id) => ReactNode;
   pagination?: PaginationType;
+  pageIds?: Ids;
+  ref?: RefTable;
 }
 
 export const Index = ({ className, children }: IndexProps) => (
@@ -56,23 +71,64 @@ const SectionIndex = ({
   className,
   introduction,
   isLoading = true,
+  item,
+  pageIds,
   pagination,
-}: Props) => (
-  <Index className={className}>
-    {introduction && (
-      <Introduction>{introduction}</Introduction>
-    )}
+  ref,
+}: Props) => {
+  const labels = useSelector(getLabels);
 
-    <Content isLoading={isLoading}>
-      {children}
-    </Content>
+  return (
+    <Index className={className}>
+      {introduction && (
+        <Introduction>{introduction}</Introduction>
+      )}
 
-    {pagination && (
-      <footer className='item-footer'>
-        <Pagination pagination={pagination} />
-      </footer>
-    )}
-  </Index>
-);
+      <Content isLoading={isLoading}>
+        {children || (
+          <table className='section-index-list' cellPadding='0' cellSpacing='0' ref={ref}>
+            <thead>
+              <tr>
+                <th className='cell-name' colSpan={2}>
+                  <SortLink
+                    defaultSort={SortValues.ASC}
+                    isDefault
+                    name={SortByValues.Name}
+                    title={labels.sortListByName}
+                  >
+                    Name
+                  </SortLink>
+                </th>
+                <th className='cell-total'>
+                  <SortLink
+                    defaultSort={SortValues.DESC}
+                    name={SortByValues.Total}
+                    title={labels.sortListByTitle}
+                  >
+                    Total
+                  </SortLink>
+                </th>
+                <th className='cell-percent'>%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageIds?.map((id: Id) => (
+                <Fragment key={id}>
+                  {item?.(id)}
+                </Fragment>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </Content>
+
+      {pagination && (
+        <footer className='item-footer'>
+          <Pagination pagination={pagination} />
+        </footer>
+      )}
+    </Index>
+  );
+};
 
 export default SectionIndex;
