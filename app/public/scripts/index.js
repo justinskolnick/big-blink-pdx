@@ -21460,7 +21460,7 @@
           return x2 === y2 && (0 !== x2 || 1 / x2 === 1 / y2) || x2 !== x2 && y2 !== y2;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React51 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React51.useSyncExternalStore, useRef21 = React51.useRef, useEffect34 = React51.useEffect, useMemo9 = React51.useMemo, useDebugValue3 = React51.useDebugValue;
+        var React51 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is3, useSyncExternalStore2 = React51.useSyncExternalStore, useRef21 = React51.useRef, useEffect35 = React51.useEffect, useMemo9 = React51.useMemo, useDebugValue3 = React51.useDebugValue;
         exports.useSyncExternalStoreWithSelector = function(subscribe, getSnapshot, getServerSnapshot, selector, isEqual2) {
           var instRef = useRef21(null);
           if (null === instRef.current) {
@@ -21503,7 +21503,7 @@
             [getSnapshot, getServerSnapshot, selector, isEqual2]
           );
           var value = useSyncExternalStore2(subscribe, instRef[0], instRef[1]);
-          useEffect34(
+          useEffect35(
             function() {
               inst.hasValue = true;
               inst.value = value;
@@ -21526,6 +21526,275 @@
         module.exports = null;
       } else {
         module.exports = require_use_sync_external_store_with_selector_development();
+      }
+    }
+  });
+
+  // node_modules/react/cjs/react-jsx-runtime.development.js
+  var require_react_jsx_runtime_development = __commonJS({
+    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+      "use strict";
+      (function() {
+        function getComponentNameFromType(type) {
+          if (null == type) return null;
+          if ("function" === typeof type)
+            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+          if ("string" === typeof type) return type;
+          switch (type) {
+            case REACT_FRAGMENT_TYPE:
+              return "Fragment";
+            case REACT_PROFILER_TYPE:
+              return "Profiler";
+            case REACT_STRICT_MODE_TYPE:
+              return "StrictMode";
+            case REACT_SUSPENSE_TYPE:
+              return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+              return "SuspenseList";
+            case REACT_ACTIVITY_TYPE:
+              return "Activity";
+          }
+          if ("object" === typeof type)
+            switch ("number" === typeof type.tag && console.error(
+              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+            ), type.$$typeof) {
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_CONTEXT_TYPE:
+                return type.displayName || "Context";
+              case REACT_CONSUMER_TYPE:
+                return (type._context.displayName || "Context") + ".Consumer";
+              case REACT_FORWARD_REF_TYPE2:
+                var innerType = type.render;
+                type = type.displayName;
+                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+                return type;
+              case REACT_MEMO_TYPE2:
+                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+              case REACT_LAZY_TYPE:
+                innerType = type._payload;
+                type = type._init;
+                try {
+                  return getComponentNameFromType(type(innerType));
+                } catch (x2) {
+                }
+            }
+          return null;
+        }
+        function testStringCoercion(value) {
+          return "" + value;
+        }
+        function checkKeyStringCoercion(value) {
+          try {
+            testStringCoercion(value);
+            var JSCompiler_inline_result = false;
+          } catch (e2) {
+            JSCompiler_inline_result = true;
+          }
+          if (JSCompiler_inline_result) {
+            JSCompiler_inline_result = console;
+            var JSCompiler_temp_const = JSCompiler_inline_result.error;
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            JSCompiler_temp_const.call(
+              JSCompiler_inline_result,
+              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+              JSCompiler_inline_result$jscomp$0
+            );
+            return testStringCoercion(value);
+          }
+        }
+        function getTaskName(type) {
+          if (type === REACT_FRAGMENT_TYPE) return "<>";
+          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+            return "<...>";
+          try {
+            var name = getComponentNameFromType(type);
+            return name ? "<" + name + ">" : "<...>";
+          } catch (x2) {
+            return "<...>";
+          }
+        }
+        function getOwner() {
+          var dispatcher = ReactSharedInternals.A;
+          return null === dispatcher ? null : dispatcher.getOwner();
+        }
+        function UnknownOwner() {
+          return Error("react-stack-top-frame");
+        }
+        function hasValidKey(config2) {
+          if (hasOwnProperty.call(config2, "key")) {
+            var getter = Object.getOwnPropertyDescriptor(config2, "key").get;
+            if (getter && getter.isReactWarning) return false;
+          }
+          return void 0 !== config2.key;
+        }
+        function defineKeyPropWarningGetter(props, displayName) {
+          function warnAboutAccessingKey() {
+            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+              displayName
+            ));
+          }
+          warnAboutAccessingKey.isReactWarning = true;
+          Object.defineProperty(props, "key", {
+            get: warnAboutAccessingKey,
+            configurable: true
+          });
+        }
+        function elementRefGetterWithDeprecationWarning() {
+          var componentName = getComponentNameFromType(this.type);
+          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+          ));
+          componentName = this.props.ref;
+          return void 0 !== componentName ? componentName : null;
+        }
+        function ReactElement2(type, key, props, owner, debugStack, debugTask) {
+          var refProp = props.ref;
+          type = {
+            $$typeof: REACT_ELEMENT_TYPE,
+            type,
+            key,
+            props,
+            _owner: owner
+          };
+          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
+            enumerable: false,
+            get: elementRefGetterWithDeprecationWarning
+          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+          type._store = {};
+          Object.defineProperty(type._store, "validated", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: 0
+          });
+          Object.defineProperty(type, "_debugInfo", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: null
+          });
+          Object.defineProperty(type, "_debugStack", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugStack
+          });
+          Object.defineProperty(type, "_debugTask", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugTask
+          });
+          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+          return type;
+        }
+        function jsxDEVImpl(type, config2, maybeKey, isStaticChildren, debugStack, debugTask) {
+          var children = config2.children;
+          if (void 0 !== children)
+            if (isStaticChildren)
+              if (isArrayImpl(children)) {
+                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
+                  validateChildKeys(children[isStaticChildren]);
+                Object.freeze && Object.freeze(children);
+              } else
+                console.error(
+                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
+                );
+            else validateChildKeys(children);
+          if (hasOwnProperty.call(config2, "key")) {
+            children = getComponentNameFromType(type);
+            var keys = Object.keys(config2).filter(function(k2) {
+              return "key" !== k2;
+            });
+            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
+            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
+              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
+              isStaticChildren,
+              children,
+              keys,
+              children
+            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
+          }
+          children = null;
+          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
+          hasValidKey(config2) && (checkKeyStringCoercion(config2.key), children = "" + config2.key);
+          if ("key" in config2) {
+            maybeKey = {};
+            for (var propName in config2)
+              "key" !== propName && (maybeKey[propName] = config2[propName]);
+          } else maybeKey = config2;
+          children && defineKeyPropWarningGetter(
+            maybeKey,
+            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+          );
+          return ReactElement2(
+            type,
+            children,
+            maybeKey,
+            getOwner(),
+            debugStack,
+            debugTask
+          );
+        }
+        function validateChildKeys(node2) {
+          isValidElement2(node2) ? node2._store && (node2._store.validated = 1) : "object" === typeof node2 && null !== node2 && node2.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node2._payload.status ? isValidElement2(node2._payload.value) && node2._payload.value._store && (node2._payload.value._store.validated = 1) : node2._store && (node2._store.validated = 1));
+        }
+        function isValidElement2(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        var React51 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React51.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+          return null;
+        };
+        React51 = {
+          react_stack_bottom_frame: function(callStackForError) {
+            return callStackForError();
+          }
+        };
+        var specialPropKeyWarningShown;
+        var didWarnAboutElementRef = {};
+        var unknownOwnerDebugStack = React51.react_stack_bottom_frame.bind(
+          React51,
+          UnknownOwner
+        )();
+        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+        var didWarnAboutKeySpread = {};
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.jsx = function(type, config2, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config2,
+            maybeKey,
+            false,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+        exports.jsxs = function(type, config2, maybeKey) {
+          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return jsxDEVImpl(
+            type,
+            config2,
+            maybeKey,
+            true,
+            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+      })();
+    }
+  });
+
+  // node_modules/react/jsx-runtime.js
+  var require_jsx_runtime = __commonJS({
+    "node_modules/react/jsx-runtime.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_jsx_runtime_development();
       }
     }
   });
@@ -22304,275 +22573,6 @@
       }
       var ReactIs;
       var throwOnDirectAccess;
-    }
-  });
-
-  // node_modules/react/cjs/react-jsx-runtime.development.js
-  var require_react_jsx_runtime_development = __commonJS({
-    "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
-      "use strict";
-      (function() {
-        function getComponentNameFromType(type) {
-          if (null == type) return null;
-          if ("function" === typeof type)
-            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
-          if ("string" === typeof type) return type;
-          switch (type) {
-            case REACT_FRAGMENT_TYPE:
-              return "Fragment";
-            case REACT_PROFILER_TYPE:
-              return "Profiler";
-            case REACT_STRICT_MODE_TYPE:
-              return "StrictMode";
-            case REACT_SUSPENSE_TYPE:
-              return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE:
-              return "SuspenseList";
-            case REACT_ACTIVITY_TYPE:
-              return "Activity";
-          }
-          if ("object" === typeof type)
-            switch ("number" === typeof type.tag && console.error(
-              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-            ), type.$$typeof) {
-              case REACT_PORTAL_TYPE:
-                return "Portal";
-              case REACT_CONTEXT_TYPE:
-                return type.displayName || "Context";
-              case REACT_CONSUMER_TYPE:
-                return (type._context.displayName || "Context") + ".Consumer";
-              case REACT_FORWARD_REF_TYPE2:
-                var innerType = type.render;
-                type = type.displayName;
-                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
-                return type;
-              case REACT_MEMO_TYPE2:
-                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
-              case REACT_LAZY_TYPE:
-                innerType = type._payload;
-                type = type._init;
-                try {
-                  return getComponentNameFromType(type(innerType));
-                } catch (x2) {
-                }
-            }
-          return null;
-        }
-        function testStringCoercion(value) {
-          return "" + value;
-        }
-        function checkKeyStringCoercion(value) {
-          try {
-            testStringCoercion(value);
-            var JSCompiler_inline_result = false;
-          } catch (e2) {
-            JSCompiler_inline_result = true;
-          }
-          if (JSCompiler_inline_result) {
-            JSCompiler_inline_result = console;
-            var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
-            JSCompiler_temp_const.call(
-              JSCompiler_inline_result,
-              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-              JSCompiler_inline_result$jscomp$0
-            );
-            return testStringCoercion(value);
-          }
-        }
-        function getTaskName(type) {
-          if (type === REACT_FRAGMENT_TYPE) return "<>";
-          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
-            return "<...>";
-          try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
-          } catch (x2) {
-            return "<...>";
-          }
-        }
-        function getOwner() {
-          var dispatcher = ReactSharedInternals.A;
-          return null === dispatcher ? null : dispatcher.getOwner();
-        }
-        function UnknownOwner() {
-          return Error("react-stack-top-frame");
-        }
-        function hasValidKey(config2) {
-          if (hasOwnProperty.call(config2, "key")) {
-            var getter = Object.getOwnPropertyDescriptor(config2, "key").get;
-            if (getter && getter.isReactWarning) return false;
-          }
-          return void 0 !== config2.key;
-        }
-        function defineKeyPropWarningGetter(props, displayName) {
-          function warnAboutAccessingKey() {
-            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
-              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-              displayName
-            ));
-          }
-          warnAboutAccessingKey.isReactWarning = true;
-          Object.defineProperty(props, "key", {
-            get: warnAboutAccessingKey,
-            configurable: true
-          });
-        }
-        function elementRefGetterWithDeprecationWarning() {
-          var componentName = getComponentNameFromType(this.type);
-          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
-            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-          ));
-          componentName = this.props.ref;
-          return void 0 !== componentName ? componentName : null;
-        }
-        function ReactElement2(type, key, props, owner, debugStack, debugTask) {
-          var refProp = props.ref;
-          type = {
-            $$typeof: REACT_ELEMENT_TYPE,
-            type,
-            key,
-            props,
-            _owner: owner
-          };
-          null !== (void 0 !== refProp ? refProp : null) ? Object.defineProperty(type, "ref", {
-            enumerable: false,
-            get: elementRefGetterWithDeprecationWarning
-          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
-          type._store = {};
-          Object.defineProperty(type._store, "validated", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: 0
-          });
-          Object.defineProperty(type, "_debugInfo", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: null
-          });
-          Object.defineProperty(type, "_debugStack", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugStack
-          });
-          Object.defineProperty(type, "_debugTask", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugTask
-          });
-          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
-          return type;
-        }
-        function jsxDEVImpl(type, config2, maybeKey, isStaticChildren, debugStack, debugTask) {
-          var children = config2.children;
-          if (void 0 !== children)
-            if (isStaticChildren)
-              if (isArrayImpl(children)) {
-                for (isStaticChildren = 0; isStaticChildren < children.length; isStaticChildren++)
-                  validateChildKeys(children[isStaticChildren]);
-                Object.freeze && Object.freeze(children);
-              } else
-                console.error(
-                  "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
-                );
-            else validateChildKeys(children);
-          if (hasOwnProperty.call(config2, "key")) {
-            children = getComponentNameFromType(type);
-            var keys = Object.keys(config2).filter(function(k2) {
-              return "key" !== k2;
-            });
-            isStaticChildren = 0 < keys.length ? "{key: someKey, " + keys.join(": ..., ") + ": ...}" : "{key: someKey}";
-            didWarnAboutKeySpread[children + isStaticChildren] || (keys = 0 < keys.length ? "{" + keys.join(": ..., ") + ": ...}" : "{}", console.error(
-              'A props object containing a "key" prop is being spread into JSX:\n  let props = %s;\n  <%s {...props} />\nReact keys must be passed directly to JSX without using spread:\n  let props = %s;\n  <%s key={someKey} {...props} />',
-              isStaticChildren,
-              children,
-              keys,
-              children
-            ), didWarnAboutKeySpread[children + isStaticChildren] = true);
-          }
-          children = null;
-          void 0 !== maybeKey && (checkKeyStringCoercion(maybeKey), children = "" + maybeKey);
-          hasValidKey(config2) && (checkKeyStringCoercion(config2.key), children = "" + config2.key);
-          if ("key" in config2) {
-            maybeKey = {};
-            for (var propName in config2)
-              "key" !== propName && (maybeKey[propName] = config2[propName]);
-          } else maybeKey = config2;
-          children && defineKeyPropWarningGetter(
-            maybeKey,
-            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
-          );
-          return ReactElement2(
-            type,
-            children,
-            maybeKey,
-            getOwner(),
-            debugStack,
-            debugTask
-          );
-        }
-        function validateChildKeys(node2) {
-          isValidElement2(node2) ? node2._store && (node2._store.validated = 1) : "object" === typeof node2 && null !== node2 && node2.$$typeof === REACT_LAZY_TYPE && ("fulfilled" === node2._payload.status ? isValidElement2(node2._payload.value) && node2._payload.value._store && (node2._payload.value._store.validated = 1) : node2._store && (node2._store.validated = 1));
-        }
-        function isValidElement2(object) {
-          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        var React51 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React51.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
-          return null;
-        };
-        React51 = {
-          react_stack_bottom_frame: function(callStackForError) {
-            return callStackForError();
-          }
-        };
-        var specialPropKeyWarningShown;
-        var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React51.react_stack_bottom_frame.bind(
-          React51,
-          UnknownOwner
-        )();
-        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
-        var didWarnAboutKeySpread = {};
-        exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.jsx = function(type, config2, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config2,
-            maybeKey,
-            false,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-        exports.jsxs = function(type, config2, maybeKey) {
-          var trackActualOwner = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return jsxDEVImpl(
-            type,
-            config2,
-            maybeKey,
-            true,
-            trackActualOwner ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            trackActualOwner ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-      })();
-    }
-  });
-
-  // node_modules/react/jsx-runtime.js
-  var require_jsx_runtime = __commonJS({
-    "node_modules/react/jsx-runtime.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = require_react_jsx_runtime_development();
-      }
     }
   });
 
@@ -39209,865 +39209,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var store_default = store;
 
   // assets/scripts/components/alert-error.tsx
-  var import_react11 = __toESM(require_react());
+  var import_react6 = __toESM(require_react());
 
   // assets/scripts/components/alert.tsx
-  var import_react10 = __toESM(require_react());
-
-  // node_modules/@babel/runtime/helpers/esm/extends.js
-  function _extends() {
-    return _extends = Object.assign ? Object.assign.bind() : function(n2) {
-      for (var e2 = 1; e2 < arguments.length; e2++) {
-        var t2 = arguments[e2];
-        for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
-      }
-      return n2;
-    }, _extends.apply(null, arguments);
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
-  function _objectWithoutPropertiesLoose(r2, e2) {
-    if (null == r2) return {};
-    var t2 = {};
-    for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
-      if (e2.includes(n2)) continue;
-      t2[n2] = r2[n2];
-    }
-    return t2;
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
-  function _setPrototypeOf(t2, e2) {
-    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e3) {
-      return t3.__proto__ = e3, t3;
-    }, _setPrototypeOf(t2, e2);
-  }
-
-  // node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
-  function _inheritsLoose(t2, o2) {
-    t2.prototype = Object.create(o2.prototype), t2.prototype.constructor = t2, _setPrototypeOf(t2, o2);
-  }
-
-  // node_modules/react-transition-group/esm/CSSTransition.js
-  var import_prop_types3 = __toESM(require_prop_types());
-
-  // node_modules/dom-helpers/esm/hasClass.js
-  function hasClass(element, className) {
-    if (element.classList) return !!className && element.classList.contains(className);
-    return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
-  }
-
-  // node_modules/dom-helpers/esm/addClass.js
-  function addClass(element, className) {
-    if (element.classList) element.classList.add(className);
-    else if (!hasClass(element, className)) if (typeof element.className === "string") element.className = element.className + " " + className;
-    else element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
-  }
-
-  // node_modules/dom-helpers/esm/removeClass.js
-  function replaceClassName(origClass, classToRemove) {
-    return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
-  }
-  function removeClass(element, className) {
-    if (element.classList) {
-      element.classList.remove(className);
-    } else if (typeof element.className === "string") {
-      element.className = replaceClassName(element.className, className);
-    } else {
-      element.setAttribute("class", replaceClassName(element.className && element.className.baseVal || "", className));
-    }
-  }
-
-  // node_modules/react-transition-group/esm/CSSTransition.js
   var import_react5 = __toESM(require_react());
-
-  // node_modules/react-transition-group/esm/Transition.js
-  var import_prop_types2 = __toESM(require_prop_types());
-  var import_react4 = __toESM(require_react());
-  var import_react_dom = __toESM(require_react_dom());
-
-  // node_modules/react-transition-group/esm/config.js
-  var config_default = {
-    disabled: false
-  };
-
-  // node_modules/react-transition-group/esm/utils/PropTypes.js
-  var import_prop_types = __toESM(require_prop_types());
-  var timeoutsShape = true ? import_prop_types.default.oneOfType([import_prop_types.default.number, import_prop_types.default.shape({
-    enter: import_prop_types.default.number,
-    exit: import_prop_types.default.number,
-    appear: import_prop_types.default.number
-  }).isRequired]) : null;
-  var classNamesShape = true ? import_prop_types.default.oneOfType([import_prop_types.default.string, import_prop_types.default.shape({
-    enter: import_prop_types.default.string,
-    exit: import_prop_types.default.string,
-    active: import_prop_types.default.string
-  }), import_prop_types.default.shape({
-    enter: import_prop_types.default.string,
-    enterDone: import_prop_types.default.string,
-    enterActive: import_prop_types.default.string,
-    exit: import_prop_types.default.string,
-    exitDone: import_prop_types.default.string,
-    exitActive: import_prop_types.default.string
-  })]) : null;
-
-  // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react3 = __toESM(require_react());
-  var TransitionGroupContext_default = import_react3.default.createContext(null);
-
-  // node_modules/react-transition-group/esm/utils/reflow.js
-  var forceReflow = function forceReflow2(node2) {
-    return node2.scrollTop;
-  };
-
-  // node_modules/react-transition-group/esm/Transition.js
-  var UNMOUNTED = "unmounted";
-  var EXITED = "exited";
-  var ENTERING = "entering";
-  var ENTERED = "entered";
-  var EXITING = "exiting";
-  var Transition = /* @__PURE__ */ (function(_React$Component) {
-    _inheritsLoose(Transition2, _React$Component);
-    function Transition2(props, context) {
-      var _this;
-      _this = _React$Component.call(this, props, context) || this;
-      var parentGroup = context;
-      var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
-      var initialStatus;
-      _this.appearStatus = null;
-      if (props.in) {
-        if (appear) {
-          initialStatus = EXITED;
-          _this.appearStatus = ENTERING;
-        } else {
-          initialStatus = ENTERED;
-        }
-      } else {
-        if (props.unmountOnExit || props.mountOnEnter) {
-          initialStatus = UNMOUNTED;
-        } else {
-          initialStatus = EXITED;
-        }
-      }
-      _this.state = {
-        status: initialStatus
-      };
-      _this.nextCallback = null;
-      return _this;
-    }
-    Transition2.getDerivedStateFromProps = function getDerivedStateFromProps(_ref2, prevState) {
-      var nextIn = _ref2.in;
-      if (nextIn && prevState.status === UNMOUNTED) {
-        return {
-          status: EXITED
-        };
-      }
-      return null;
-    };
-    var _proto = Transition2.prototype;
-    _proto.componentDidMount = function componentDidMount() {
-      this.updateStatus(true, this.appearStatus);
-    };
-    _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
-      var nextStatus = null;
-      if (prevProps !== this.props) {
-        var status = this.state.status;
-        if (this.props.in) {
-          if (status !== ENTERING && status !== ENTERED) {
-            nextStatus = ENTERING;
-          }
-        } else {
-          if (status === ENTERING || status === ENTERED) {
-            nextStatus = EXITING;
-          }
-        }
-      }
-      this.updateStatus(false, nextStatus);
-    };
-    _proto.componentWillUnmount = function componentWillUnmount() {
-      this.cancelNextCallback();
-    };
-    _proto.getTimeouts = function getTimeouts() {
-      var timeout2 = this.props.timeout;
-      var exit, enter, appear;
-      exit = enter = appear = timeout2;
-      if (timeout2 != null && typeof timeout2 !== "number") {
-        exit = timeout2.exit;
-        enter = timeout2.enter;
-        appear = timeout2.appear !== void 0 ? timeout2.appear : enter;
-      }
-      return {
-        exit,
-        enter,
-        appear
-      };
-    };
-    _proto.updateStatus = function updateStatus(mounting, nextStatus) {
-      if (mounting === void 0) {
-        mounting = false;
-      }
-      if (nextStatus !== null) {
-        this.cancelNextCallback();
-        if (nextStatus === ENTERING) {
-          if (this.props.unmountOnExit || this.props.mountOnEnter) {
-            var node2 = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom.default.findDOMNode(this);
-            if (node2) forceReflow(node2);
-          }
-          this.performEnter(mounting);
-        } else {
-          this.performExit();
-        }
-      } else if (this.props.unmountOnExit && this.state.status === EXITED) {
-        this.setState({
-          status: UNMOUNTED
-        });
-      }
-    };
-    _proto.performEnter = function performEnter(mounting) {
-      var _this2 = this;
-      var enter = this.props.enter;
-      var appearing = this.context ? this.context.isMounting : mounting;
-      var _ref2 = this.props.nodeRef ? [appearing] : [import_react_dom.default.findDOMNode(this), appearing], maybeNode = _ref2[0], maybeAppearing = _ref2[1];
-      var timeouts = this.getTimeouts();
-      var enterTimeout = appearing ? timeouts.appear : timeouts.enter;
-      if (!mounting && !enter || config_default.disabled) {
-        this.safeSetState({
-          status: ENTERED
-        }, function() {
-          _this2.props.onEntered(maybeNode);
-        });
-        return;
-      }
-      this.props.onEnter(maybeNode, maybeAppearing);
-      this.safeSetState({
-        status: ENTERING
-      }, function() {
-        _this2.props.onEntering(maybeNode, maybeAppearing);
-        _this2.onTransitionEnd(enterTimeout, function() {
-          _this2.safeSetState({
-            status: ENTERED
-          }, function() {
-            _this2.props.onEntered(maybeNode, maybeAppearing);
-          });
-        });
-      });
-    };
-    _proto.performExit = function performExit() {
-      var _this3 = this;
-      var exit = this.props.exit;
-      var timeouts = this.getTimeouts();
-      var maybeNode = this.props.nodeRef ? void 0 : import_react_dom.default.findDOMNode(this);
-      if (!exit || config_default.disabled) {
-        this.safeSetState({
-          status: EXITED
-        }, function() {
-          _this3.props.onExited(maybeNode);
-        });
-        return;
-      }
-      this.props.onExit(maybeNode);
-      this.safeSetState({
-        status: EXITING
-      }, function() {
-        _this3.props.onExiting(maybeNode);
-        _this3.onTransitionEnd(timeouts.exit, function() {
-          _this3.safeSetState({
-            status: EXITED
-          }, function() {
-            _this3.props.onExited(maybeNode);
-          });
-        });
-      });
-    };
-    _proto.cancelNextCallback = function cancelNextCallback() {
-      if (this.nextCallback !== null) {
-        this.nextCallback.cancel();
-        this.nextCallback = null;
-      }
-    };
-    _proto.safeSetState = function safeSetState(nextState, callback2) {
-      callback2 = this.setNextCallback(callback2);
-      this.setState(nextState, callback2);
-    };
-    _proto.setNextCallback = function setNextCallback(callback2) {
-      var _this4 = this;
-      var active = true;
-      this.nextCallback = function(event) {
-        if (active) {
-          active = false;
-          _this4.nextCallback = null;
-          callback2(event);
-        }
-      };
-      this.nextCallback.cancel = function() {
-        active = false;
-      };
-      return this.nextCallback;
-    };
-    _proto.onTransitionEnd = function onTransitionEnd(timeout2, handler) {
-      this.setNextCallback(handler);
-      var node2 = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom.default.findDOMNode(this);
-      var doesNotHaveTimeoutOrListener = timeout2 == null && !this.props.addEndListener;
-      if (!node2 || doesNotHaveTimeoutOrListener) {
-        setTimeout(this.nextCallback, 0);
-        return;
-      }
-      if (this.props.addEndListener) {
-        var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node2, this.nextCallback], maybeNode = _ref3[0], maybeNextCallback = _ref3[1];
-        this.props.addEndListener(maybeNode, maybeNextCallback);
-      }
-      if (timeout2 != null) {
-        setTimeout(this.nextCallback, timeout2);
-      }
-    };
-    _proto.render = function render3() {
-      var status = this.state.status;
-      if (status === UNMOUNTED) {
-        return null;
-      }
-      var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
-      return (
-        // allows for nested Transitions
-        /* @__PURE__ */ import_react4.default.createElement(TransitionGroupContext_default.Provider, {
-          value: null
-        }, typeof children === "function" ? children(status, childProps) : import_react4.default.cloneElement(import_react4.default.Children.only(children), childProps))
-      );
-    };
-    return Transition2;
-  })(import_react4.default.Component);
-  Transition.contextType = TransitionGroupContext_default;
-  Transition.propTypes = true ? {
-    /**
-     * A React reference to DOM element that need to transition:
-     * https://stackoverflow.com/a/51127130/4671932
-     *
-     *   - When `nodeRef` prop is used, `node` is not passed to callback functions
-     *      (e.g. `onEnter`) because user already has direct access to the node.
-     *   - When changing `key` prop of `Transition` in a `TransitionGroup` a new
-     *     `nodeRef` need to be provided to `Transition` with changed `key` prop
-     *     (see
-     *     [test/CSSTransition-test.js](https://github.com/reactjs/react-transition-group/blob/13435f897b3ab71f6e19d724f145596f5910581c/test/CSSTransition-test.js#L362-L437)).
-     */
-    nodeRef: import_prop_types2.default.shape({
-      current: typeof Element === "undefined" ? import_prop_types2.default.any : function(propValue, key, componentName, location2, propFullName, secret) {
-        var value = propValue[key];
-        return import_prop_types2.default.instanceOf(value && "ownerDocument" in value ? value.ownerDocument.defaultView.Element : Element)(propValue, key, componentName, location2, propFullName, secret);
-      }
-    }),
-    /**
-     * A `function` child can be used instead of a React element. This function is
-     * called with the current transition status (`'entering'`, `'entered'`,
-     * `'exiting'`, `'exited'`), which can be used to apply context
-     * specific props to a component.
-     *
-     * ```jsx
-     * <Transition in={this.state.in} timeout={150}>
-     *   {state => (
-     *     <MyComponent className={`fade fade-${state}`} />
-     *   )}
-     * </Transition>
-     * ```
-     */
-    children: import_prop_types2.default.oneOfType([import_prop_types2.default.func.isRequired, import_prop_types2.default.element.isRequired]).isRequired,
-    /**
-     * Show the component; triggers the enter or exit states
-     */
-    in: import_prop_types2.default.bool,
-    /**
-     * By default the child component is mounted immediately along with
-     * the parent `Transition` component. If you want to "lazy mount" the component on the
-     * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
-     * mounted, even on "exited", unless you also specify `unmountOnExit`.
-     */
-    mountOnEnter: import_prop_types2.default.bool,
-    /**
-     * By default the child component stays mounted after it reaches the `'exited'` state.
-     * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
-     */
-    unmountOnExit: import_prop_types2.default.bool,
-    /**
-     * By default the child component does not perform the enter transition when
-     * it first mounts, regardless of the value of `in`. If you want this
-     * behavior, set both `appear` and `in` to `true`.
-     *
-     * > **Note**: there are no special appear states like `appearing`/`appeared`, this prop
-     * > only adds an additional enter transition. However, in the
-     * > `<CSSTransition>` component that first enter transition does result in
-     * > additional `.appear-*` classes, that way you can choose to style it
-     * > differently.
-     */
-    appear: import_prop_types2.default.bool,
-    /**
-     * Enable or disable enter transitions.
-     */
-    enter: import_prop_types2.default.bool,
-    /**
-     * Enable or disable exit transitions.
-     */
-    exit: import_prop_types2.default.bool,
-    /**
-     * The duration of the transition, in milliseconds.
-     * Required unless `addEndListener` is provided.
-     *
-     * You may specify a single timeout for all transitions:
-     *
-     * ```jsx
-     * timeout={500}
-     * ```
-     *
-     * or individually:
-     *
-     * ```jsx
-     * timeout={{
-     *  appear: 500,
-     *  enter: 300,
-     *  exit: 500,
-     * }}
-     * ```
-     *
-     * - `appear` defaults to the value of `enter`
-     * - `enter` defaults to `0`
-     * - `exit` defaults to `0`
-     *
-     * @type {number | { enter?: number, exit?: number, appear?: number }}
-     */
-    timeout: function timeout(props) {
-      var pt = timeoutsShape;
-      if (!props.addEndListener) pt = pt.isRequired;
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-      return pt.apply(void 0, [props].concat(args));
-    },
-    /**
-     * Add a custom transition end trigger. Called with the transitioning
-     * DOM node and a `done` callback. Allows for more fine grained transition end
-     * logic. Timeouts are still used as a fallback if provided.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * ```jsx
-     * addEndListener={(node, done) => {
-     *   // use the css transitionend event to mark the finish of a transition
-     *   node.addEventListener('transitionend', done, false);
-     * }}
-     * ```
-     */
-    addEndListener: import_prop_types2.default.func,
-    /**
-     * Callback fired before the "entering" status is applied. An extra parameter
-     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool) -> void
-     */
-    onEnter: import_prop_types2.default.func,
-    /**
-     * Callback fired after the "entering" status is applied. An extra parameter
-     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool)
-     */
-    onEntering: import_prop_types2.default.func,
-    /**
-     * Callback fired after the "entered" status is applied. An extra parameter
-     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool) -> void
-     */
-    onEntered: import_prop_types2.default.func,
-    /**
-     * Callback fired before the "exiting" status is applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement) -> void
-     */
-    onExit: import_prop_types2.default.func,
-    /**
-     * Callback fired after the "exiting" status is applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement) -> void
-     */
-    onExiting: import_prop_types2.default.func,
-    /**
-     * Callback fired after the "exited" status is applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed
-     *
-     * @type Function(node: HtmlElement) -> void
-     */
-    onExited: import_prop_types2.default.func
-  } : {};
-  function noop3() {
-  }
-  Transition.defaultProps = {
-    in: false,
-    mountOnEnter: false,
-    unmountOnExit: false,
-    appear: false,
-    enter: true,
-    exit: true,
-    onEnter: noop3,
-    onEntering: noop3,
-    onEntered: noop3,
-    onExit: noop3,
-    onExiting: noop3,
-    onExited: noop3
-  };
-  Transition.UNMOUNTED = UNMOUNTED;
-  Transition.EXITED = EXITED;
-  Transition.ENTERING = ENTERING;
-  Transition.ENTERED = ENTERED;
-  Transition.EXITING = EXITING;
-  var Transition_default = Transition;
-
-  // node_modules/react-transition-group/esm/CSSTransition.js
-  var _addClass = function addClass2(node2, classes) {
-    return node2 && classes && classes.split(" ").forEach(function(c2) {
-      return addClass(node2, c2);
-    });
-  };
-  var removeClass2 = function removeClass3(node2, classes) {
-    return node2 && classes && classes.split(" ").forEach(function(c2) {
-      return removeClass(node2, c2);
-    });
-  };
-  var CSSTransition = /* @__PURE__ */ (function(_React$Component) {
-    _inheritsLoose(CSSTransition2, _React$Component);
-    function CSSTransition2() {
-      var _this;
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-      _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
-      _this.appliedClasses = {
-        appear: {},
-        enter: {},
-        exit: {}
-      };
-      _this.onEnter = function(maybeNode, maybeAppearing) {
-        var _this$resolveArgument = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument[0], appearing = _this$resolveArgument[1];
-        _this.removeClasses(node2, "exit");
-        _this.addClass(node2, appearing ? "appear" : "enter", "base");
-        if (_this.props.onEnter) {
-          _this.props.onEnter(maybeNode, maybeAppearing);
-        }
-      };
-      _this.onEntering = function(maybeNode, maybeAppearing) {
-        var _this$resolveArgument2 = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument2[0], appearing = _this$resolveArgument2[1];
-        var type = appearing ? "appear" : "enter";
-        _this.addClass(node2, type, "active");
-        if (_this.props.onEntering) {
-          _this.props.onEntering(maybeNode, maybeAppearing);
-        }
-      };
-      _this.onEntered = function(maybeNode, maybeAppearing) {
-        var _this$resolveArgument3 = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument3[0], appearing = _this$resolveArgument3[1];
-        var type = appearing ? "appear" : "enter";
-        _this.removeClasses(node2, type);
-        _this.addClass(node2, type, "done");
-        if (_this.props.onEntered) {
-          _this.props.onEntered(maybeNode, maybeAppearing);
-        }
-      };
-      _this.onExit = function(maybeNode) {
-        var _this$resolveArgument4 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument4[0];
-        _this.removeClasses(node2, "appear");
-        _this.removeClasses(node2, "enter");
-        _this.addClass(node2, "exit", "base");
-        if (_this.props.onExit) {
-          _this.props.onExit(maybeNode);
-        }
-      };
-      _this.onExiting = function(maybeNode) {
-        var _this$resolveArgument5 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument5[0];
-        _this.addClass(node2, "exit", "active");
-        if (_this.props.onExiting) {
-          _this.props.onExiting(maybeNode);
-        }
-      };
-      _this.onExited = function(maybeNode) {
-        var _this$resolveArgument6 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument6[0];
-        _this.removeClasses(node2, "exit");
-        _this.addClass(node2, "exit", "done");
-        if (_this.props.onExited) {
-          _this.props.onExited(maybeNode);
-        }
-      };
-      _this.resolveArguments = function(maybeNode, maybeAppearing) {
-        return _this.props.nodeRef ? [_this.props.nodeRef.current, maybeNode] : [maybeNode, maybeAppearing];
-      };
-      _this.getClassNames = function(type) {
-        var classNames = _this.props.classNames;
-        var isStringClassNames = typeof classNames === "string";
-        var prefix2 = isStringClassNames && classNames ? classNames + "-" : "";
-        var baseClassName = isStringClassNames ? "" + prefix2 + type : classNames[type];
-        var activeClassName = isStringClassNames ? baseClassName + "-active" : classNames[type + "Active"];
-        var doneClassName = isStringClassNames ? baseClassName + "-done" : classNames[type + "Done"];
-        return {
-          baseClassName,
-          activeClassName,
-          doneClassName
-        };
-      };
-      return _this;
-    }
-    var _proto = CSSTransition2.prototype;
-    _proto.addClass = function addClass3(node2, type, phase) {
-      var className = this.getClassNames(type)[phase + "ClassName"];
-      var _this$getClassNames = this.getClassNames("enter"), doneClassName = _this$getClassNames.doneClassName;
-      if (type === "appear" && phase === "done" && doneClassName) {
-        className += " " + doneClassName;
-      }
-      if (phase === "active") {
-        if (node2) forceReflow(node2);
-      }
-      if (className) {
-        this.appliedClasses[type][phase] = className;
-        _addClass(node2, className);
-      }
-    };
-    _proto.removeClasses = function removeClasses(node2, type) {
-      var _this$appliedClasses$ = this.appliedClasses[type], baseClassName = _this$appliedClasses$.base, activeClassName = _this$appliedClasses$.active, doneClassName = _this$appliedClasses$.done;
-      this.appliedClasses[type] = {};
-      if (baseClassName) {
-        removeClass2(node2, baseClassName);
-      }
-      if (activeClassName) {
-        removeClass2(node2, activeClassName);
-      }
-      if (doneClassName) {
-        removeClass2(node2, doneClassName);
-      }
-    };
-    _proto.render = function render3() {
-      var _this$props = this.props, _2 = _this$props.classNames, props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
-      return /* @__PURE__ */ import_react5.default.createElement(Transition_default, _extends({}, props, {
-        onEnter: this.onEnter,
-        onEntered: this.onEntered,
-        onEntering: this.onEntering,
-        onExit: this.onExit,
-        onExiting: this.onExiting,
-        onExited: this.onExited
-      }));
-    };
-    return CSSTransition2;
-  })(import_react5.default.Component);
-  CSSTransition.defaultProps = {
-    classNames: ""
-  };
-  CSSTransition.propTypes = true ? _extends({}, Transition_default.propTypes, {
-    /**
-     * The animation classNames applied to the component as it appears, enters,
-     * exits or has finished the transition. A single name can be provided, which
-     * will be suffixed for each stage, e.g. `classNames="fade"` applies:
-     *
-     * - `fade-appear`, `fade-appear-active`, `fade-appear-done`
-     * - `fade-enter`, `fade-enter-active`, `fade-enter-done`
-     * - `fade-exit`, `fade-exit-active`, `fade-exit-done`
-     *
-     * A few details to note about how these classes are applied:
-     *
-     * 1. They are _joined_ with the ones that are already defined on the child
-     *    component, so if you want to add some base styles, you can use
-     *    `className` without worrying that it will be overridden.
-     *
-     * 2. If the transition component mounts with `in={false}`, no classes are
-     *    applied yet. You might be expecting `*-exit-done`, but if you think
-     *    about it, a component cannot finish exiting if it hasn't entered yet.
-     *
-     * 2. `fade-appear-done` and `fade-enter-done` will _both_ be applied. This
-     *    allows you to define different behavior for when appearing is done and
-     *    when regular entering is done, using selectors like
-     *    `.fade-enter-done:not(.fade-appear-done)`. For example, you could apply
-     *    an epic entrance animation when element first appears in the DOM using
-     *    [Animate.css](https://daneden.github.io/animate.css/). Otherwise you can
-     *    simply use `fade-enter-done` for defining both cases.
-     *
-     * Each individual classNames can also be specified independently like:
-     *
-     * ```js
-     * classNames={{
-     *  appear: 'my-appear',
-     *  appearActive: 'my-active-appear',
-     *  appearDone: 'my-done-appear',
-     *  enter: 'my-enter',
-     *  enterActive: 'my-active-enter',
-     *  enterDone: 'my-done-enter',
-     *  exit: 'my-exit',
-     *  exitActive: 'my-active-exit',
-     *  exitDone: 'my-done-exit',
-     * }}
-     * ```
-     *
-     * If you want to set these classes using CSS Modules:
-     *
-     * ```js
-     * import styles from './styles.css';
-     * ```
-     *
-     * you might want to use camelCase in your CSS file, that way could simply
-     * spread them instead of listing them one by one:
-     *
-     * ```js
-     * classNames={{ ...styles }}
-     * ```
-     *
-     * @type {string | {
-     *  appear?: string,
-     *  appearActive?: string,
-     *  appearDone?: string,
-     *  enter?: string,
-     *  enterActive?: string,
-     *  enterDone?: string,
-     *  exit?: string,
-     *  exitActive?: string,
-     *  exitDone?: string,
-     * }}
-     */
-    classNames: classNamesShape,
-    /**
-     * A `<Transition>` callback fired immediately after the 'enter' or 'appear' class is
-     * applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool)
-     */
-    onEnter: import_prop_types3.default.func,
-    /**
-     * A `<Transition>` callback fired immediately after the 'enter-active' or
-     * 'appear-active' class is applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool)
-     */
-    onEntering: import_prop_types3.default.func,
-    /**
-     * A `<Transition>` callback fired immediately after the 'enter' or
-     * 'appear' classes are **removed** and the `done` class is added to the DOM node.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
-     *
-     * @type Function(node: HtmlElement, isAppearing: bool)
-     */
-    onEntered: import_prop_types3.default.func,
-    /**
-     * A `<Transition>` callback fired immediately after the 'exit' class is
-     * applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed
-     *
-     * @type Function(node: HtmlElement)
-     */
-    onExit: import_prop_types3.default.func,
-    /**
-     * A `<Transition>` callback fired immediately after the 'exit-active' is applied.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed
-     *
-     * @type Function(node: HtmlElement)
-     */
-    onExiting: import_prop_types3.default.func,
-    /**
-     * A `<Transition>` callback fired immediately after the 'exit' classes
-     * are **removed** and the `exit-done` class is added to the DOM node.
-     *
-     * **Note**: when `nodeRef` prop is passed, `node` is not passed
-     *
-     * @type Function(node: HtmlElement)
-     */
-    onExited: import_prop_types3.default.func
-  }) : {};
-  var CSSTransition_default = CSSTransition;
-
-  // assets/scripts/components/alert-portal.tsx
-  var import_react7 = __toESM(require_react());
-  var import_react_dom2 = __toESM(require_react_dom());
-
-  // assets/scripts/hooks/use-fixed-body-when-has-class.ts
-  var import_react6 = __toESM(require_react());
-  var useFixedBodyWhenHasClass = (className) => {
-    const { positionY } = use_app_selector_default(getUI);
-    (0, import_react6.useEffect)(() => {
-      document.body.classList.add(className);
-      document.body.style.position = "fixed";
-      if (positionY !== 0) {
-        document.body.style.top = positionY + "px";
-      }
-      return () => {
-        document.body.classList.remove(className);
-        document.body.style.position = "";
-        document.body.style.top = "";
-        window.scrollTo(0, positionY * -1);
-      };
-    }, [positionY]);
-  };
-  var use_fixed_body_when_has_class_default = useFixedBodyWhenHasClass;
-
-  // assets/scripts/components/alert-portal.tsx
-  var import_jsx_runtime = __toESM(require_jsx_runtime());
-  var hasAlertClass = "has-alert";
-  var alertRootId = "alert-root";
-  var alertPortalId = "alert-root-portal";
-  var Escape = "Escape";
-  var AlertPortal = (0, import_react7.forwardRef)(({
-    children,
-    deactivate,
-    isActive
-  }, ref) => {
-    const elementRef = ref;
-    const target = document.getElementById(alertPortalId);
-    const handleClick = (e2) => {
-      e2.stopPropagation();
-      if (e2.target instanceof HTMLElement) {
-        if (e2.target.tagName !== "A") {
-          e2.preventDefault();
-        }
-      }
-      deactivate();
-    };
-    const handleKeyUp = (e2) => {
-      if (e2.key === Escape && isActive) {
-        deactivate();
-      }
-    };
-    (0, import_react7.useEffect)(() => {
-      if (isActive) {
-        elementRef.current?.focus();
-      }
-      return () => {
-        elementRef.current?.blur();
-      };
-    }, [elementRef, isActive]);
-    use_fixed_body_when_has_class_default(hasAlertClass);
-    return (0, import_react_dom2.createPortal)(
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "div",
-        {
-          className: "alert",
-          onKeyUp: handleKeyUp,
-          ref: elementRef,
-          tabIndex: 0,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "alert-overlay" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "alert-content", onClick: handleClick, children })
-          ]
-        }
-      ),
-      target
-    );
-  });
-  var alert_portal_default = AlertPortal;
 
   // node_modules/@emotion/sheet/dist/emotion-sheet.esm.js
   var isDevelopment = false;
@@ -41299,7 +40444,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var cache3 = _createEmotion.cache;
 
   // node_modules/@fortawesome/react-fontawesome/dist/index.js
-  var import_react8 = __toESM(require_react(), 1);
+  var import_react3 = __toESM(require_react(), 1);
 
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
   function _arrayLikeToArray(r2, a2) {
@@ -41467,14 +40612,14 @@ Hook ${hookName} was either not provided or not a function.`);
       return "Object" === t2 && r2.constructor && (t2 = r2.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r2) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? _arrayLikeToArray(r2, a2) : void 0;
     }
   }
-  var noop4 = function noop5() {
+  var noop3 = function noop4() {
   };
   var _WINDOW = {};
   var _DOCUMENT = {};
   var _MUTATION_OBSERVER = null;
   var _PERFORMANCE = {
-    mark: noop4,
-    measure: noop4
+    mark: noop3,
+    measure: noop3
   };
   try {
     if (typeof window !== "undefined") _WINDOW = window;
@@ -43391,7 +42536,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }));
     });
   }
-  var noop$1 = function noop6() {
+  var noop$1 = function noop5() {
   };
   var p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
     mark: noop$1,
@@ -43412,7 +42557,7 @@ Hook ${hookName} was either not provided or not a function.`);
     begin,
     end
   };
-  var noop$2 = function noop7() {
+  var noop$2 = function noop6() {
   };
   function isWatched(node2) {
     var i2svg2 = node2.getAttribute ? node2.getAttribute(DATA_FA_I2SVG) : null;
@@ -44588,7 +43733,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var counter = api2.counter;
 
   // node_modules/@fortawesome/react-fontawesome/dist/index.js
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
   function _isNumerical(object) {
     object = object - 0;
     return object === object;
@@ -44602,7 +43747,7 @@ Hook ${hookName} was either not provided or not a function.`);
     });
     return string.charAt(0).toLowerCase() + string.slice(1);
   }
-  var createGradientStops = (stop, index) => import_react8.default.createElement("stop", {
+  var createGradientStops = (stop, index) => import_react3.default.createElement("stop", {
     key: `${index}-${stop.offset}`,
     offset: stop.offset,
     stopColor: stop.color,
@@ -44722,9 +43867,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     return createElement14(element.tag, { ...attrs, ...remaining }, ...children);
   }
-  var makeReactConverter = convert.bind(null, import_react8.default.createElement);
+  var makeReactConverter = convert.bind(null, import_react3.default.createElement);
   var useAccessibilityId = (id, hasAccessibleProps) => {
-    const generatedId = (0, import_react8.useId)();
+    const generatedId = (0, import_react3.useId)();
     return id || (hasAccessibleProps ? generatedId : void 0);
   };
   var Logger = class {
@@ -44938,7 +44083,7 @@ Hook ${hookName} was either not provided or not a function.`);
     widthAuto: false
   };
   var DEFAULT_PROP_KEYS = new Set(Object.keys(DEFAULT_PROPS));
-  var FontAwesomeIcon = import_react8.default.forwardRef((props, ref) => {
+  var FontAwesomeIcon = import_react3.default.forwardRef((props, ref) => {
     const allProps = { ...DEFAULT_PROPS, ...props };
     const {
       icon: iconArgs,
@@ -45131,7 +44276,7 @@ Hook ${hookName} was either not provided or not a function.`);
   };
 
   // assets/scripts/components/links.tsx
-  var import_react9 = __toESM(require_react());
+  var import_react4 = __toESM(require_react());
 
   // assets/scripts/config/constants.ts
   var dateOnParam = "date_on";
@@ -45195,7 +44340,7 @@ Hook ${hookName} was either not provided or not a function.`);
   })(Sections || {});
 
   // assets/scripts/components/links.tsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime());
   var getWithEntityParams = (entity, role) => {
     const params = {};
     if (role) {
@@ -45220,7 +44365,7 @@ Hook ${hookName} was either not provided or not a function.`);
     onClick,
     ...rest
   }) => {
-    const ref = (0, import_react9.useRef)(null);
+    const ref = (0, import_react4.useRef)(null);
     const handleClick = (e2) => {
       if (e2.button || e2.altKey || e2.ctrlKey || e2.metaKey || e2.shiftKey) {
         const customEvent = new MouseEvent("click", {
@@ -45236,7 +44381,7 @@ Hook ${hookName} was either not provided or not a function.`);
         onClick?.(e2);
       }
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { ref, onClick: handleClick, ...rest });
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Link, { ref, onClick: handleClick, ...rest });
   };
   var LinkToQueryParams = ({
     children,
@@ -45246,7 +44391,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ...rest
   }) => {
     const queryParams = use_query_params_default(newParams, replace5);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
       Link,
       {
         to: queryParams.link,
@@ -45265,13 +44410,13 @@ Hook ${hookName} was either not provided or not a function.`);
     hasIcon,
     title,
     ...rest
-  }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     LinkToQueryParams,
     {
       className: cx("link-filter", className),
       title: title || "Apply this filter",
       ...rest,
-      children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(item_text_with_icon_default, { icon: "filter", children }) : children
+      children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(item_text_with_icon_default, { icon: "filter", children }) : children
     }
   );
   var toggleSort = (sort) => sort === "ASC" /* ASC */ ? "DESC" /* DESC */ : "ASC" /* ASC */;
@@ -45305,14 +44450,14 @@ Hook ${hookName} was either not provided or not a function.`);
       newSearchParams.set(sortParam, null);
     }
     const hasIcon = Boolean(icon3);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
       LinkToQueryParams,
       {
         className: cx("link-sort", className),
         title: title || "Sort this list",
         newParams: Object.fromEntries(newSearchParams.entries()),
         ...rest,
-        children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+        children: hasIcon ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
           item_text_with_icon_default,
           {
             icon: icon3,
@@ -45323,7 +44468,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     );
   };
-  var GlobalLink = ({ children, to: to2, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+  var GlobalLink = ({ children, to: to2, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     NavLink,
     {
       to: to2,
@@ -45338,7 +44483,7 @@ Hook ${hookName} was either not provided or not a function.`);
     onClick,
     to: to2,
     ...rest
-  }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+  }) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
     NavLink,
     {
       to: to2,
@@ -45350,10 +44495,10 @@ Hook ${hookName} was either not provided or not a function.`);
       children
     }
   );
-  var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { to: "/sources", ...rest, children });
+  var LinkToSources = ({ children, ...rest }) => /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(BetterLink, { to: "/sources", ...rest, children });
 
   // assets/scripts/components/icon.tsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime());
   library$1.add(
     faArrowDown,
     faArrowLeft,
@@ -45416,98 +44561,94 @@ Hook ${hookName} was either not provided or not a function.`);
     return SetForIcon2;
   })(SetForIcon || {});
   var getIconFromSet = (name) => [SetForIcon[name], name];
-  var LinkIcon = ({ className, name, size = "lg", title, to: to2 }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(BetterLink, { className: cx(`icon icon-${name} link-icon`, className), to: to2, title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
-  var Icon = ({ className, name, size = "lg", title }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: cx(`icon icon-${name}`, className), title, children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
+  var LinkIcon = ({ className, name, size = "lg", title, to: to2 }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BetterLink, { className: cx(`icon icon-${name} link-icon`, className), to: to2, title, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
+  var Icon = ({ className, name, size = "lg", title }) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: cx(`icon icon-${name}`, className), title, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(FontAwesomeIcon, { icon: getIconFromSet(name), size }) });
   var icon_default = Icon;
 
   // assets/scripts/components/item-text.tsx
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
-  var ItemText = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: cx("item-text", className), children });
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+  var ItemText = ({ children, className }) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { className: cx("item-text", className), children });
   var item_text_default = ItemText;
 
   // assets/scripts/components/item-text-with-icon.tsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime());
   var ItemTextWithIcon = ({
     after = false,
     children,
     className,
     icon: icon3
-  }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { className: cx("item-text-with-icon", className), children: icon3 ? after ? /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children }),
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(icon_default, { name: icon3 })
-  ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(icon_default, { name: icon3 }),
-    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children })
-  ] }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(item_text_default, { children }) });
+  }) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { className: cx("item-text-with-icon", className), children: icon3 ? after ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(item_text_default, { children }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(icon_default, { name: icon3 })
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(icon_default, { name: icon3 }),
+    /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(item_text_default, { children })
+  ] }) : /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(item_text_default, { children }) });
   var item_text_with_icon_default = ItemTextWithIcon;
 
   // assets/scripts/components/alert.tsx
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime());
   var isObject4 = (alert) => typeof alert === "object";
   var getHasMessage = (alert) => isObject4(alert) && Boolean(alert.message);
   var getHasStatus = (alert) => isObject4(alert) && Boolean(alert.status);
   var MessageContent = ({ alert }) => {
     const hasMessage = getHasMessage(alert);
     const hasStatus = getHasStatus(alert);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
-      hasStatus && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("strong", { children: alert.status }),
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+      hasStatus && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("strong", { children: alert.status }),
       hasStatus && hasMessage && " ",
-      hasMessage && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { dangerouslySetInnerHTML: { __html: alert.message } }),
-      !hasStatus && !hasMessage && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "Something went wrong" })
+      hasMessage && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { dangerouslySetInnerHTML: { __html: alert.message } }),
+      !hasStatus && !hasMessage && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Something went wrong" })
     ] });
   };
-  var Message = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }) });
-  var CustomMessage = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, { children: [
-    alert.customMessage && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+  var Message = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { className: "message-content", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MessageContent, { alert }) });
+  var CustomMessage = ({ alert }) => /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, { children: [
+    alert.customMessage && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
       "p",
       {
         className: "message-content",
         dangerouslySetInnerHTML: { __html: alert.customMessage }
       }
     ),
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "original-message-content", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "original-message-content", children: [
       "(",
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MessageContent, { alert }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MessageContent, { alert }),
       ")"
     ] })
   ] });
-  var AlertMessageContent = ({ alert }) => alert.customMessage === alert.message ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Message, { alert }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(CustomMessage, { alert });
+  var AlertMessageContent = ({ alert }) => alert.customMessage === alert.message ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Message, { alert }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(CustomMessage, { alert });
   var Alert = ({
     alerts,
     deactivate,
     grade,
     isActive
   }) => {
-    const ref = (0, import_react10.useRef)(null);
+    const ref = (0, import_react5.useRef)(null);
     const iconName4 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-      CSSTransition_default,
-      {
-        timeout: 250,
-        classNames: "alert",
-        in: isActive,
-        nodeRef: ref,
-        unmountOnExit: true,
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-          alert_portal_default,
-          {
-            deactivate,
-            isActive,
-            ref,
-            children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { className: classNames, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(item_text_with_icon_default, { icon: iconName4, children: [
-                grade === "error" && "Error",
-                grade === "message" && "Message",
-                grade === "warning" && "Warning"
-              ] }) }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(AlertMessageContent, { alert }, i2)) }),
-              /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
-            ] })
-          }
-        )
+    const handleClick = (e2) => {
+      e2.stopPropagation();
+      if (e2.target instanceof HTMLElement) {
+        if (e2.target.tagName !== "A") {
+          deactivate();
+          ref?.current?.close();
+        }
       }
-    );
+    };
+    (0, import_react5.useEffect)(() => {
+      if (isActive) {
+        ref?.current?.showModal();
+      }
+    }, [ref, isActive]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("dialog", { className: "alert", onClick: handleClick, ref, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: classNames, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(item_text_with_icon_default, { icon: iconName4, children: [
+        grade === "error" && "Error",
+        grade === "message" && "Message",
+        grade === "warning" && "Warning"
+      ] }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AlertMessageContent, { alert }, i2)) }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
+    ] }) });
   };
   var alert_default = Alert;
 
@@ -45516,9 +44657,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var use_app_dispatch_default = useAppDispatch;
 
   // assets/scripts/components/alert-error.tsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime());
   var AlertError = () => {
-    const [isActive, setIsActive] = (0, import_react11.useState)(false);
+    const [isActive, setIsActive] = (0, import_react6.useState)(false);
     const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
@@ -45528,12 +44669,12 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = use_app_selector_default(getErrors);
     const hasAlerts = alerts.length > 0;
-    (0, import_react11.useEffect)(() => {
+    (0, import_react6.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
     }, [hasAlerts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
       alert_default,
       {
         alerts,
@@ -45546,10 +44687,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_error_default = AlertError;
 
   // node_modules/react-helmet/es/Helmet.js
-  var import_prop_types4 = __toESM(require_prop_types());
+  var import_prop_types = __toESM(require_prop_types());
   var import_react_side_effect = __toESM(require_lib());
   var import_react_fast_compare = __toESM(require_react_fast_compare());
-  var import_react12 = __toESM(require_react());
+  var import_react7 = __toESM(require_react());
   var import_object_assign = __toESM(require_object_assign());
   var ATTRIBUTE_NAMES = {
     BODY: "bodyAttributes",
@@ -45633,7 +44774,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return Constructor;
     };
   })();
-  var _extends2 = Object.assign || function(target) {
+  var _extends = Object.assign || function(target) {
     for (var i2 = 1; i2 < arguments.length; i2++) {
       var source = arguments[i2];
       for (var key in source) {
@@ -45701,7 +44842,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }).map(function(props) {
       return props[tagType];
     }).reduce(function(tagAttrs, current2) {
-      return _extends2({}, tagAttrs, current2);
+      return _extends({}, tagAttrs, current2);
     }, {});
   };
   var getBaseTagFromPropsList = function getBaseTagFromPropsList2(primaryAttributes, propsList) {
@@ -46000,7 +45141,7 @@ Hook ${hookName} was either not provided or not a function.`);
       key: title
     }, _initProps[HELMET_ATTRIBUTE] = true, _initProps);
     var props = convertElementAttributestoReactProps(attributes, initProps);
-    return [import_react12.default.createElement(TAG_NAMES.TITLE, props, title)];
+    return [import_react7.default.createElement(TAG_NAMES.TITLE, props, title)];
   };
   var generateTagsAsReactComponent = function generateTagsAsReactComponent2(type, tags) {
     return tags.map(function(tag, i2) {
@@ -46017,7 +45158,7 @@ Hook ${hookName} was either not provided or not a function.`);
           mappedTag[mappedAttribute] = tag[attribute];
         }
       });
-      return import_react12.default.createElement(type, mappedTag);
+      return import_react7.default.createElement(type, mappedTag);
     });
   };
   var getMethodsForTag = function getMethodsForTag2(type, tags, encode) {
@@ -46097,30 +45238,30 @@ Hook ${hookName} was either not provided or not a function.`);
       HelmetWrapper.prototype.flattenArrayTypeChildren = function flattenArrayTypeChildren(_ref2) {
         var _babelHelpers$extends;
         var child = _ref2.child, arrayTypeChildren = _ref2.arrayTypeChildren, newChildProps = _ref2.newChildProps, nestedChildren = _ref2.nestedChildren;
-        return _extends2({}, arrayTypeChildren, (_babelHelpers$extends = {}, _babelHelpers$extends[child.type] = [].concat(arrayTypeChildren[child.type] || [], [_extends2({}, newChildProps, this.mapNestedChildrenToProps(child, nestedChildren))]), _babelHelpers$extends));
+        return _extends({}, arrayTypeChildren, (_babelHelpers$extends = {}, _babelHelpers$extends[child.type] = [].concat(arrayTypeChildren[child.type] || [], [_extends({}, newChildProps, this.mapNestedChildrenToProps(child, nestedChildren))]), _babelHelpers$extends));
       };
       HelmetWrapper.prototype.mapObjectTypeChildren = function mapObjectTypeChildren(_ref2) {
         var _babelHelpers$extends2, _babelHelpers$extends3;
         var child = _ref2.child, newProps = _ref2.newProps, newChildProps = _ref2.newChildProps, nestedChildren = _ref2.nestedChildren;
         switch (child.type) {
           case TAG_NAMES.TITLE:
-            return _extends2({}, newProps, (_babelHelpers$extends2 = {}, _babelHelpers$extends2[child.type] = nestedChildren, _babelHelpers$extends2.titleAttributes = _extends2({}, newChildProps), _babelHelpers$extends2));
+            return _extends({}, newProps, (_babelHelpers$extends2 = {}, _babelHelpers$extends2[child.type] = nestedChildren, _babelHelpers$extends2.titleAttributes = _extends({}, newChildProps), _babelHelpers$extends2));
           case TAG_NAMES.BODY:
-            return _extends2({}, newProps, {
-              bodyAttributes: _extends2({}, newChildProps)
+            return _extends({}, newProps, {
+              bodyAttributes: _extends({}, newChildProps)
             });
           case TAG_NAMES.HTML:
-            return _extends2({}, newProps, {
-              htmlAttributes: _extends2({}, newChildProps)
+            return _extends({}, newProps, {
+              htmlAttributes: _extends({}, newChildProps)
             });
         }
-        return _extends2({}, newProps, (_babelHelpers$extends3 = {}, _babelHelpers$extends3[child.type] = _extends2({}, newChildProps), _babelHelpers$extends3));
+        return _extends({}, newProps, (_babelHelpers$extends3 = {}, _babelHelpers$extends3[child.type] = _extends({}, newChildProps), _babelHelpers$extends3));
       };
       HelmetWrapper.prototype.mapArrayTypeChildrenToProps = function mapArrayTypeChildrenToProps(arrayTypeChildren, newProps) {
-        var newFlattenedProps = _extends2({}, newProps);
+        var newFlattenedProps = _extends({}, newProps);
         Object.keys(arrayTypeChildren).forEach(function(arrayChildName) {
           var _babelHelpers$extends4;
-          newFlattenedProps = _extends2({}, newFlattenedProps, (_babelHelpers$extends4 = {}, _babelHelpers$extends4[arrayChildName] = arrayTypeChildren[arrayChildName], _babelHelpers$extends4));
+          newFlattenedProps = _extends({}, newFlattenedProps, (_babelHelpers$extends4 = {}, _babelHelpers$extends4[arrayChildName] = arrayTypeChildren[arrayChildName], _babelHelpers$extends4));
         });
         return newFlattenedProps;
       };
@@ -46145,7 +45286,7 @@ Hook ${hookName} was either not provided or not a function.`);
       HelmetWrapper.prototype.mapChildrenToProps = function mapChildrenToProps(children, newProps) {
         var _this2 = this;
         var arrayTypeChildren = {};
-        import_react12.default.Children.forEach(children, function(child) {
+        import_react7.default.Children.forEach(children, function(child) {
           if (!child || !child.props) {
             return;
           }
@@ -46180,11 +45321,11 @@ Hook ${hookName} was either not provided or not a function.`);
       };
       HelmetWrapper.prototype.render = function render3() {
         var _props = this.props, children = _props.children, props = objectWithoutProperties(_props, ["children"]);
-        var newProps = _extends2({}, props);
+        var newProps = _extends({}, props);
         if (children) {
           newProps = this.mapChildrenToProps(children, newProps);
         }
-        return import_react12.default.createElement(Component4, newProps);
+        return import_react7.default.createElement(Component4, newProps);
       };
       createClass(HelmetWrapper, null, [{
         key: "canUseDOM",
@@ -46214,23 +45355,23 @@ Hook ${hookName} was either not provided or not a function.`);
         }
       }]);
       return HelmetWrapper;
-    })(import_react12.default.Component), _class.propTypes = {
-      base: import_prop_types4.default.object,
-      bodyAttributes: import_prop_types4.default.object,
-      children: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.node), import_prop_types4.default.node]),
-      defaultTitle: import_prop_types4.default.string,
-      defer: import_prop_types4.default.bool,
-      encodeSpecialCharacters: import_prop_types4.default.bool,
-      htmlAttributes: import_prop_types4.default.object,
-      link: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
-      meta: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
-      noscript: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
-      onChangeClientState: import_prop_types4.default.func,
-      script: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
-      style: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
-      title: import_prop_types4.default.string,
-      titleAttributes: import_prop_types4.default.object,
-      titleTemplate: import_prop_types4.default.string
+    })(import_react7.default.Component), _class.propTypes = {
+      base: import_prop_types.default.object,
+      bodyAttributes: import_prop_types.default.object,
+      children: import_prop_types.default.oneOfType([import_prop_types.default.arrayOf(import_prop_types.default.node), import_prop_types.default.node]),
+      defaultTitle: import_prop_types.default.string,
+      defer: import_prop_types.default.bool,
+      encodeSpecialCharacters: import_prop_types.default.bool,
+      htmlAttributes: import_prop_types.default.object,
+      link: import_prop_types.default.arrayOf(import_prop_types.default.object),
+      meta: import_prop_types.default.arrayOf(import_prop_types.default.object),
+      noscript: import_prop_types.default.arrayOf(import_prop_types.default.object),
+      onChangeClientState: import_prop_types.default.func,
+      script: import_prop_types.default.arrayOf(import_prop_types.default.object),
+      style: import_prop_types.default.arrayOf(import_prop_types.default.object),
+      title: import_prop_types.default.string,
+      titleAttributes: import_prop_types.default.object,
+      titleTemplate: import_prop_types.default.string
     }, _class.defaultProps = {
       defer: true,
       encodeSpecialCharacters: true
@@ -46261,15 +45402,93 @@ Hook ${hookName} was either not provided or not a function.`);
   var HelmetExport = Helmet(HelmetSideEffects);
   HelmetExport.renderStatic = HelmetExport.rewind;
 
+  // assets/scripts/components/alert-portal.tsx
+  var import_react9 = __toESM(require_react());
+  var import_react_dom = __toESM(require_react_dom());
+
+  // assets/scripts/hooks/use-fixed-body-when-has-class.ts
+  var import_react8 = __toESM(require_react());
+  var useFixedBodyWhenHasClass = (className) => {
+    const { positionY } = use_app_selector_default(getUI);
+    (0, import_react8.useEffect)(() => {
+      document.body.classList.add(className);
+      document.body.style.position = "fixed";
+      if (positionY !== 0) {
+        document.body.style.top = positionY + "px";
+      }
+      return () => {
+        document.body.classList.remove(className);
+        document.body.style.position = "";
+        document.body.style.top = "";
+        window.scrollTo(0, positionY * -1);
+      };
+    }, [positionY]);
+  };
+  var use_fixed_body_when_has_class_default = useFixedBodyWhenHasClass;
+
+  // assets/scripts/components/alert-portal.tsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+  var hasAlertClass = "has-alert";
+  var alertRootId = "alert-root";
+  var alertPortalId = "alert-root-portal";
+  var Escape = "Escape";
+  var AlertPortal = (0, import_react9.forwardRef)(({
+    children,
+    deactivate,
+    isActive
+  }, ref) => {
+    const elementRef = ref;
+    const target = document.getElementById(alertPortalId);
+    const handleClick = (e2) => {
+      e2.stopPropagation();
+      if (e2.target instanceof HTMLElement) {
+        if (e2.target.tagName !== "A") {
+          e2.preventDefault();
+        }
+      }
+      deactivate();
+    };
+    const handleKeyUp = (e2) => {
+      if (e2.key === Escape && isActive) {
+        deactivate();
+      }
+    };
+    (0, import_react9.useEffect)(() => {
+      if (isActive) {
+        elementRef.current?.focus();
+      }
+      return () => {
+        elementRef.current?.blur();
+      };
+    }, [elementRef, isActive]);
+    use_fixed_body_when_has_class_default(hasAlertClass);
+    return (0, import_react_dom.createPortal)(
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(
+        "div",
+        {
+          className: "alert",
+          onKeyUp: handleKeyUp,
+          ref: elementRef,
+          tabIndex: 0,
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "alert-overlay" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "alert-content", onClick: handleClick, children })
+          ]
+        }
+      ),
+      target
+    );
+  });
+
   // assets/scripts/components/modal-portal.tsx
-  var import_react13 = __toESM(require_react());
-  var import_react_dom3 = __toESM(require_react_dom());
+  var import_react10 = __toESM(require_react());
+  var import_react_dom2 = __toESM(require_react_dom());
   var import_jsx_runtime9 = __toESM(require_jsx_runtime());
   var hasModalClass = "has-modal";
   var modalRootId = "modal-root";
   var modalPortalId = "modal-root-portal";
   var Escape2 = "Escape";
-  var ModalPortal = (0, import_react13.forwardRef)(({
+  var ModalPortal = (0, import_react10.forwardRef)(({
     children,
     className,
     deactivate,
@@ -46285,7 +45504,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     };
     use_fixed_body_when_has_class_default(hasModalClass);
-    return (0, import_react_dom3.createPortal)(
+    return (0, import_react_dom2.createPortal)(
       /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(
         "div",
         {
@@ -46311,10 +45530,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var modal_portal_default = ModalPortal;
 
   // assets/scripts/components/alert-message.tsx
-  var import_react14 = __toESM(require_react());
+  var import_react11 = __toESM(require_react());
   var import_jsx_runtime10 = __toESM(require_jsx_runtime());
   var AlertMessage = () => {
-    const [isActive, setIsActive] = (0, import_react14.useState)(false);
+    const [isActive, setIsActive] = (0, import_react11.useState)(false);
     const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
@@ -46324,7 +45543,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = use_app_selector_default(getMessages);
     const hasAlerts = alerts.length > 0;
-    (0, import_react14.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
@@ -46342,10 +45561,10 @@ Hook ${hookName} was either not provided or not a function.`);
   var alert_message_default = AlertMessage;
 
   // assets/scripts/components/alert-warning.tsx
-  var import_react15 = __toESM(require_react());
+  var import_react12 = __toESM(require_react());
   var import_jsx_runtime11 = __toESM(require_jsx_runtime());
   var AlertWarning = () => {
-    const [isActive, setIsActive] = (0, import_react15.useState)(false);
+    const [isActive, setIsActive] = (0, import_react12.useState)(false);
     const dispatch = use_app_dispatch_default();
     const deactivate = () => {
       setIsActive(false);
@@ -46355,7 +45574,7 @@ Hook ${hookName} was either not provided or not a function.`);
     };
     const alerts = use_app_selector_default(getWarnings);
     const hasAlerts = alerts.length > 0;
-    (0, import_react15.useEffect)(() => {
+    (0, import_react12.useEffect)(() => {
       if (hasAlerts) {
         setIsActive(true);
       }
@@ -46679,7 +45898,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var incident_attendees_default = IncidentAttendees;
 
   // assets/scripts/components/incident-entity.tsx
-  var import_react16 = __toESM(require_react());
+  var import_react13 = __toESM(require_react());
 
   // assets/scripts/components/entities/item-link.tsx
   var import_jsx_runtime26 = __toESM(require_jsx_runtime());
@@ -46693,7 +45912,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const id = incident.entityId;
     const entity = useGetEntityById(id);
     const hasEntity = Boolean(entity);
-    (0, import_react16.useEffect)(() => {
+    (0, import_react13.useEffect)(() => {
       if (entity || !id) return;
       trigger({ id });
     }, [id, entity, trigger]);
@@ -46778,6 +45997,784 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/modal.tsx
   var import_react17 = __toESM(require_react());
+
+  // node_modules/@babel/runtime/helpers/esm/extends.js
+  function _extends2() {
+    return _extends2 = Object.assign ? Object.assign.bind() : function(n2) {
+      for (var e2 = 1; e2 < arguments.length; e2++) {
+        var t2 = arguments[e2];
+        for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
+      }
+      return n2;
+    }, _extends2.apply(null, arguments);
+  }
+
+  // node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js
+  function _objectWithoutPropertiesLoose(r2, e2) {
+    if (null == r2) return {};
+    var t2 = {};
+    for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
+      if (e2.includes(n2)) continue;
+      t2[n2] = r2[n2];
+    }
+    return t2;
+  }
+
+  // node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js
+  function _setPrototypeOf(t2, e2) {
+    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e3) {
+      return t3.__proto__ = e3, t3;
+    }, _setPrototypeOf(t2, e2);
+  }
+
+  // node_modules/@babel/runtime/helpers/esm/inheritsLoose.js
+  function _inheritsLoose(t2, o2) {
+    t2.prototype = Object.create(o2.prototype), t2.prototype.constructor = t2, _setPrototypeOf(t2, o2);
+  }
+
+  // node_modules/react-transition-group/esm/CSSTransition.js
+  var import_prop_types4 = __toESM(require_prop_types());
+
+  // node_modules/dom-helpers/esm/hasClass.js
+  function hasClass(element, className) {
+    if (element.classList) return !!className && element.classList.contains(className);
+    return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
+  }
+
+  // node_modules/dom-helpers/esm/addClass.js
+  function addClass(element, className) {
+    if (element.classList) element.classList.add(className);
+    else if (!hasClass(element, className)) if (typeof element.className === "string") element.className = element.className + " " + className;
+    else element.setAttribute("class", (element.className && element.className.baseVal || "") + " " + className);
+  }
+
+  // node_modules/dom-helpers/esm/removeClass.js
+  function replaceClassName(origClass, classToRemove) {
+    return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", "g"), "$1").replace(/\s+/g, " ").replace(/^\s*|\s*$/g, "");
+  }
+  function removeClass(element, className) {
+    if (element.classList) {
+      element.classList.remove(className);
+    } else if (typeof element.className === "string") {
+      element.className = replaceClassName(element.className, className);
+    } else {
+      element.setAttribute("class", replaceClassName(element.className && element.className.baseVal || "", className));
+    }
+  }
+
+  // node_modules/react-transition-group/esm/CSSTransition.js
+  var import_react16 = __toESM(require_react());
+
+  // node_modules/react-transition-group/esm/Transition.js
+  var import_prop_types3 = __toESM(require_prop_types());
+  var import_react15 = __toESM(require_react());
+  var import_react_dom3 = __toESM(require_react_dom());
+
+  // node_modules/react-transition-group/esm/config.js
+  var config_default = {
+    disabled: false
+  };
+
+  // node_modules/react-transition-group/esm/utils/PropTypes.js
+  var import_prop_types2 = __toESM(require_prop_types());
+  var timeoutsShape = true ? import_prop_types2.default.oneOfType([import_prop_types2.default.number, import_prop_types2.default.shape({
+    enter: import_prop_types2.default.number,
+    exit: import_prop_types2.default.number,
+    appear: import_prop_types2.default.number
+  }).isRequired]) : null;
+  var classNamesShape = true ? import_prop_types2.default.oneOfType([import_prop_types2.default.string, import_prop_types2.default.shape({
+    enter: import_prop_types2.default.string,
+    exit: import_prop_types2.default.string,
+    active: import_prop_types2.default.string
+  }), import_prop_types2.default.shape({
+    enter: import_prop_types2.default.string,
+    enterDone: import_prop_types2.default.string,
+    enterActive: import_prop_types2.default.string,
+    exit: import_prop_types2.default.string,
+    exitDone: import_prop_types2.default.string,
+    exitActive: import_prop_types2.default.string
+  })]) : null;
+
+  // node_modules/react-transition-group/esm/TransitionGroupContext.js
+  var import_react14 = __toESM(require_react());
+  var TransitionGroupContext_default = import_react14.default.createContext(null);
+
+  // node_modules/react-transition-group/esm/utils/reflow.js
+  var forceReflow = function forceReflow2(node2) {
+    return node2.scrollTop;
+  };
+
+  // node_modules/react-transition-group/esm/Transition.js
+  var UNMOUNTED = "unmounted";
+  var EXITED = "exited";
+  var ENTERING = "entering";
+  var ENTERED = "entered";
+  var EXITING = "exiting";
+  var Transition = /* @__PURE__ */ (function(_React$Component) {
+    _inheritsLoose(Transition2, _React$Component);
+    function Transition2(props, context) {
+      var _this;
+      _this = _React$Component.call(this, props, context) || this;
+      var parentGroup = context;
+      var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
+      var initialStatus;
+      _this.appearStatus = null;
+      if (props.in) {
+        if (appear) {
+          initialStatus = EXITED;
+          _this.appearStatus = ENTERING;
+        } else {
+          initialStatus = ENTERED;
+        }
+      } else {
+        if (props.unmountOnExit || props.mountOnEnter) {
+          initialStatus = UNMOUNTED;
+        } else {
+          initialStatus = EXITED;
+        }
+      }
+      _this.state = {
+        status: initialStatus
+      };
+      _this.nextCallback = null;
+      return _this;
+    }
+    Transition2.getDerivedStateFromProps = function getDerivedStateFromProps(_ref2, prevState) {
+      var nextIn = _ref2.in;
+      if (nextIn && prevState.status === UNMOUNTED) {
+        return {
+          status: EXITED
+        };
+      }
+      return null;
+    };
+    var _proto = Transition2.prototype;
+    _proto.componentDidMount = function componentDidMount() {
+      this.updateStatus(true, this.appearStatus);
+    };
+    _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+      var nextStatus = null;
+      if (prevProps !== this.props) {
+        var status = this.state.status;
+        if (this.props.in) {
+          if (status !== ENTERING && status !== ENTERED) {
+            nextStatus = ENTERING;
+          }
+        } else {
+          if (status === ENTERING || status === ENTERED) {
+            nextStatus = EXITING;
+          }
+        }
+      }
+      this.updateStatus(false, nextStatus);
+    };
+    _proto.componentWillUnmount = function componentWillUnmount() {
+      this.cancelNextCallback();
+    };
+    _proto.getTimeouts = function getTimeouts() {
+      var timeout2 = this.props.timeout;
+      var exit, enter, appear;
+      exit = enter = appear = timeout2;
+      if (timeout2 != null && typeof timeout2 !== "number") {
+        exit = timeout2.exit;
+        enter = timeout2.enter;
+        appear = timeout2.appear !== void 0 ? timeout2.appear : enter;
+      }
+      return {
+        exit,
+        enter,
+        appear
+      };
+    };
+    _proto.updateStatus = function updateStatus(mounting, nextStatus) {
+      if (mounting === void 0) {
+        mounting = false;
+      }
+      if (nextStatus !== null) {
+        this.cancelNextCallback();
+        if (nextStatus === ENTERING) {
+          if (this.props.unmountOnExit || this.props.mountOnEnter) {
+            var node2 = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom3.default.findDOMNode(this);
+            if (node2) forceReflow(node2);
+          }
+          this.performEnter(mounting);
+        } else {
+          this.performExit();
+        }
+      } else if (this.props.unmountOnExit && this.state.status === EXITED) {
+        this.setState({
+          status: UNMOUNTED
+        });
+      }
+    };
+    _proto.performEnter = function performEnter(mounting) {
+      var _this2 = this;
+      var enter = this.props.enter;
+      var appearing = this.context ? this.context.isMounting : mounting;
+      var _ref2 = this.props.nodeRef ? [appearing] : [import_react_dom3.default.findDOMNode(this), appearing], maybeNode = _ref2[0], maybeAppearing = _ref2[1];
+      var timeouts = this.getTimeouts();
+      var enterTimeout = appearing ? timeouts.appear : timeouts.enter;
+      if (!mounting && !enter || config_default.disabled) {
+        this.safeSetState({
+          status: ENTERED
+        }, function() {
+          _this2.props.onEntered(maybeNode);
+        });
+        return;
+      }
+      this.props.onEnter(maybeNode, maybeAppearing);
+      this.safeSetState({
+        status: ENTERING
+      }, function() {
+        _this2.props.onEntering(maybeNode, maybeAppearing);
+        _this2.onTransitionEnd(enterTimeout, function() {
+          _this2.safeSetState({
+            status: ENTERED
+          }, function() {
+            _this2.props.onEntered(maybeNode, maybeAppearing);
+          });
+        });
+      });
+    };
+    _proto.performExit = function performExit() {
+      var _this3 = this;
+      var exit = this.props.exit;
+      var timeouts = this.getTimeouts();
+      var maybeNode = this.props.nodeRef ? void 0 : import_react_dom3.default.findDOMNode(this);
+      if (!exit || config_default.disabled) {
+        this.safeSetState({
+          status: EXITED
+        }, function() {
+          _this3.props.onExited(maybeNode);
+        });
+        return;
+      }
+      this.props.onExit(maybeNode);
+      this.safeSetState({
+        status: EXITING
+      }, function() {
+        _this3.props.onExiting(maybeNode);
+        _this3.onTransitionEnd(timeouts.exit, function() {
+          _this3.safeSetState({
+            status: EXITED
+          }, function() {
+            _this3.props.onExited(maybeNode);
+          });
+        });
+      });
+    };
+    _proto.cancelNextCallback = function cancelNextCallback() {
+      if (this.nextCallback !== null) {
+        this.nextCallback.cancel();
+        this.nextCallback = null;
+      }
+    };
+    _proto.safeSetState = function safeSetState(nextState, callback2) {
+      callback2 = this.setNextCallback(callback2);
+      this.setState(nextState, callback2);
+    };
+    _proto.setNextCallback = function setNextCallback(callback2) {
+      var _this4 = this;
+      var active = true;
+      this.nextCallback = function(event) {
+        if (active) {
+          active = false;
+          _this4.nextCallback = null;
+          callback2(event);
+        }
+      };
+      this.nextCallback.cancel = function() {
+        active = false;
+      };
+      return this.nextCallback;
+    };
+    _proto.onTransitionEnd = function onTransitionEnd(timeout2, handler) {
+      this.setNextCallback(handler);
+      var node2 = this.props.nodeRef ? this.props.nodeRef.current : import_react_dom3.default.findDOMNode(this);
+      var doesNotHaveTimeoutOrListener = timeout2 == null && !this.props.addEndListener;
+      if (!node2 || doesNotHaveTimeoutOrListener) {
+        setTimeout(this.nextCallback, 0);
+        return;
+      }
+      if (this.props.addEndListener) {
+        var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node2, this.nextCallback], maybeNode = _ref3[0], maybeNextCallback = _ref3[1];
+        this.props.addEndListener(maybeNode, maybeNextCallback);
+      }
+      if (timeout2 != null) {
+        setTimeout(this.nextCallback, timeout2);
+      }
+    };
+    _proto.render = function render3() {
+      var status = this.state.status;
+      if (status === UNMOUNTED) {
+        return null;
+      }
+      var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
+      return (
+        // allows for nested Transitions
+        /* @__PURE__ */ import_react15.default.createElement(TransitionGroupContext_default.Provider, {
+          value: null
+        }, typeof children === "function" ? children(status, childProps) : import_react15.default.cloneElement(import_react15.default.Children.only(children), childProps))
+      );
+    };
+    return Transition2;
+  })(import_react15.default.Component);
+  Transition.contextType = TransitionGroupContext_default;
+  Transition.propTypes = true ? {
+    /**
+     * A React reference to DOM element that need to transition:
+     * https://stackoverflow.com/a/51127130/4671932
+     *
+     *   - When `nodeRef` prop is used, `node` is not passed to callback functions
+     *      (e.g. `onEnter`) because user already has direct access to the node.
+     *   - When changing `key` prop of `Transition` in a `TransitionGroup` a new
+     *     `nodeRef` need to be provided to `Transition` with changed `key` prop
+     *     (see
+     *     [test/CSSTransition-test.js](https://github.com/reactjs/react-transition-group/blob/13435f897b3ab71f6e19d724f145596f5910581c/test/CSSTransition-test.js#L362-L437)).
+     */
+    nodeRef: import_prop_types3.default.shape({
+      current: typeof Element === "undefined" ? import_prop_types3.default.any : function(propValue, key, componentName, location2, propFullName, secret) {
+        var value = propValue[key];
+        return import_prop_types3.default.instanceOf(value && "ownerDocument" in value ? value.ownerDocument.defaultView.Element : Element)(propValue, key, componentName, location2, propFullName, secret);
+      }
+    }),
+    /**
+     * A `function` child can be used instead of a React element. This function is
+     * called with the current transition status (`'entering'`, `'entered'`,
+     * `'exiting'`, `'exited'`), which can be used to apply context
+     * specific props to a component.
+     *
+     * ```jsx
+     * <Transition in={this.state.in} timeout={150}>
+     *   {state => (
+     *     <MyComponent className={`fade fade-${state}`} />
+     *   )}
+     * </Transition>
+     * ```
+     */
+    children: import_prop_types3.default.oneOfType([import_prop_types3.default.func.isRequired, import_prop_types3.default.element.isRequired]).isRequired,
+    /**
+     * Show the component; triggers the enter or exit states
+     */
+    in: import_prop_types3.default.bool,
+    /**
+     * By default the child component is mounted immediately along with
+     * the parent `Transition` component. If you want to "lazy mount" the component on the
+     * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
+     * mounted, even on "exited", unless you also specify `unmountOnExit`.
+     */
+    mountOnEnter: import_prop_types3.default.bool,
+    /**
+     * By default the child component stays mounted after it reaches the `'exited'` state.
+     * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
+     */
+    unmountOnExit: import_prop_types3.default.bool,
+    /**
+     * By default the child component does not perform the enter transition when
+     * it first mounts, regardless of the value of `in`. If you want this
+     * behavior, set both `appear` and `in` to `true`.
+     *
+     * > **Note**: there are no special appear states like `appearing`/`appeared`, this prop
+     * > only adds an additional enter transition. However, in the
+     * > `<CSSTransition>` component that first enter transition does result in
+     * > additional `.appear-*` classes, that way you can choose to style it
+     * > differently.
+     */
+    appear: import_prop_types3.default.bool,
+    /**
+     * Enable or disable enter transitions.
+     */
+    enter: import_prop_types3.default.bool,
+    /**
+     * Enable or disable exit transitions.
+     */
+    exit: import_prop_types3.default.bool,
+    /**
+     * The duration of the transition, in milliseconds.
+     * Required unless `addEndListener` is provided.
+     *
+     * You may specify a single timeout for all transitions:
+     *
+     * ```jsx
+     * timeout={500}
+     * ```
+     *
+     * or individually:
+     *
+     * ```jsx
+     * timeout={{
+     *  appear: 500,
+     *  enter: 300,
+     *  exit: 500,
+     * }}
+     * ```
+     *
+     * - `appear` defaults to the value of `enter`
+     * - `enter` defaults to `0`
+     * - `exit` defaults to `0`
+     *
+     * @type {number | { enter?: number, exit?: number, appear?: number }}
+     */
+    timeout: function timeout(props) {
+      var pt = timeoutsShape;
+      if (!props.addEndListener) pt = pt.isRequired;
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      return pt.apply(void 0, [props].concat(args));
+    },
+    /**
+     * Add a custom transition end trigger. Called with the transitioning
+     * DOM node and a `done` callback. Allows for more fine grained transition end
+     * logic. Timeouts are still used as a fallback if provided.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * ```jsx
+     * addEndListener={(node, done) => {
+     *   // use the css transitionend event to mark the finish of a transition
+     *   node.addEventListener('transitionend', done, false);
+     * }}
+     * ```
+     */
+    addEndListener: import_prop_types3.default.func,
+    /**
+     * Callback fired before the "entering" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool) -> void
+     */
+    onEnter: import_prop_types3.default.func,
+    /**
+     * Callback fired after the "entering" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool)
+     */
+    onEntering: import_prop_types3.default.func,
+    /**
+     * Callback fired after the "entered" status is applied. An extra parameter
+     * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool) -> void
+     */
+    onEntered: import_prop_types3.default.func,
+    /**
+     * Callback fired before the "exiting" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExit: import_prop_types3.default.func,
+    /**
+     * Callback fired after the "exiting" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExiting: import_prop_types3.default.func,
+    /**
+     * Callback fired after the "exited" status is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed
+     *
+     * @type Function(node: HtmlElement) -> void
+     */
+    onExited: import_prop_types3.default.func
+  } : {};
+  function noop7() {
+  }
+  Transition.defaultProps = {
+    in: false,
+    mountOnEnter: false,
+    unmountOnExit: false,
+    appear: false,
+    enter: true,
+    exit: true,
+    onEnter: noop7,
+    onEntering: noop7,
+    onEntered: noop7,
+    onExit: noop7,
+    onExiting: noop7,
+    onExited: noop7
+  };
+  Transition.UNMOUNTED = UNMOUNTED;
+  Transition.EXITED = EXITED;
+  Transition.ENTERING = ENTERING;
+  Transition.ENTERED = ENTERED;
+  Transition.EXITING = EXITING;
+  var Transition_default = Transition;
+
+  // node_modules/react-transition-group/esm/CSSTransition.js
+  var _addClass = function addClass2(node2, classes) {
+    return node2 && classes && classes.split(" ").forEach(function(c2) {
+      return addClass(node2, c2);
+    });
+  };
+  var removeClass2 = function removeClass3(node2, classes) {
+    return node2 && classes && classes.split(" ").forEach(function(c2) {
+      return removeClass(node2, c2);
+    });
+  };
+  var CSSTransition = /* @__PURE__ */ (function(_React$Component) {
+    _inheritsLoose(CSSTransition2, _React$Component);
+    function CSSTransition2() {
+      var _this;
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+      _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+      _this.appliedClasses = {
+        appear: {},
+        enter: {},
+        exit: {}
+      };
+      _this.onEnter = function(maybeNode, maybeAppearing) {
+        var _this$resolveArgument = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument[0], appearing = _this$resolveArgument[1];
+        _this.removeClasses(node2, "exit");
+        _this.addClass(node2, appearing ? "appear" : "enter", "base");
+        if (_this.props.onEnter) {
+          _this.props.onEnter(maybeNode, maybeAppearing);
+        }
+      };
+      _this.onEntering = function(maybeNode, maybeAppearing) {
+        var _this$resolveArgument2 = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument2[0], appearing = _this$resolveArgument2[1];
+        var type = appearing ? "appear" : "enter";
+        _this.addClass(node2, type, "active");
+        if (_this.props.onEntering) {
+          _this.props.onEntering(maybeNode, maybeAppearing);
+        }
+      };
+      _this.onEntered = function(maybeNode, maybeAppearing) {
+        var _this$resolveArgument3 = _this.resolveArguments(maybeNode, maybeAppearing), node2 = _this$resolveArgument3[0], appearing = _this$resolveArgument3[1];
+        var type = appearing ? "appear" : "enter";
+        _this.removeClasses(node2, type);
+        _this.addClass(node2, type, "done");
+        if (_this.props.onEntered) {
+          _this.props.onEntered(maybeNode, maybeAppearing);
+        }
+      };
+      _this.onExit = function(maybeNode) {
+        var _this$resolveArgument4 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument4[0];
+        _this.removeClasses(node2, "appear");
+        _this.removeClasses(node2, "enter");
+        _this.addClass(node2, "exit", "base");
+        if (_this.props.onExit) {
+          _this.props.onExit(maybeNode);
+        }
+      };
+      _this.onExiting = function(maybeNode) {
+        var _this$resolveArgument5 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument5[0];
+        _this.addClass(node2, "exit", "active");
+        if (_this.props.onExiting) {
+          _this.props.onExiting(maybeNode);
+        }
+      };
+      _this.onExited = function(maybeNode) {
+        var _this$resolveArgument6 = _this.resolveArguments(maybeNode), node2 = _this$resolveArgument6[0];
+        _this.removeClasses(node2, "exit");
+        _this.addClass(node2, "exit", "done");
+        if (_this.props.onExited) {
+          _this.props.onExited(maybeNode);
+        }
+      };
+      _this.resolveArguments = function(maybeNode, maybeAppearing) {
+        return _this.props.nodeRef ? [_this.props.nodeRef.current, maybeNode] : [maybeNode, maybeAppearing];
+      };
+      _this.getClassNames = function(type) {
+        var classNames = _this.props.classNames;
+        var isStringClassNames = typeof classNames === "string";
+        var prefix2 = isStringClassNames && classNames ? classNames + "-" : "";
+        var baseClassName = isStringClassNames ? "" + prefix2 + type : classNames[type];
+        var activeClassName = isStringClassNames ? baseClassName + "-active" : classNames[type + "Active"];
+        var doneClassName = isStringClassNames ? baseClassName + "-done" : classNames[type + "Done"];
+        return {
+          baseClassName,
+          activeClassName,
+          doneClassName
+        };
+      };
+      return _this;
+    }
+    var _proto = CSSTransition2.prototype;
+    _proto.addClass = function addClass3(node2, type, phase) {
+      var className = this.getClassNames(type)[phase + "ClassName"];
+      var _this$getClassNames = this.getClassNames("enter"), doneClassName = _this$getClassNames.doneClassName;
+      if (type === "appear" && phase === "done" && doneClassName) {
+        className += " " + doneClassName;
+      }
+      if (phase === "active") {
+        if (node2) forceReflow(node2);
+      }
+      if (className) {
+        this.appliedClasses[type][phase] = className;
+        _addClass(node2, className);
+      }
+    };
+    _proto.removeClasses = function removeClasses(node2, type) {
+      var _this$appliedClasses$ = this.appliedClasses[type], baseClassName = _this$appliedClasses$.base, activeClassName = _this$appliedClasses$.active, doneClassName = _this$appliedClasses$.done;
+      this.appliedClasses[type] = {};
+      if (baseClassName) {
+        removeClass2(node2, baseClassName);
+      }
+      if (activeClassName) {
+        removeClass2(node2, activeClassName);
+      }
+      if (doneClassName) {
+        removeClass2(node2, doneClassName);
+      }
+    };
+    _proto.render = function render3() {
+      var _this$props = this.props, _2 = _this$props.classNames, props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
+      return /* @__PURE__ */ import_react16.default.createElement(Transition_default, _extends2({}, props, {
+        onEnter: this.onEnter,
+        onEntered: this.onEntered,
+        onEntering: this.onEntering,
+        onExit: this.onExit,
+        onExiting: this.onExiting,
+        onExited: this.onExited
+      }));
+    };
+    return CSSTransition2;
+  })(import_react16.default.Component);
+  CSSTransition.defaultProps = {
+    classNames: ""
+  };
+  CSSTransition.propTypes = true ? _extends2({}, Transition_default.propTypes, {
+    /**
+     * The animation classNames applied to the component as it appears, enters,
+     * exits or has finished the transition. A single name can be provided, which
+     * will be suffixed for each stage, e.g. `classNames="fade"` applies:
+     *
+     * - `fade-appear`, `fade-appear-active`, `fade-appear-done`
+     * - `fade-enter`, `fade-enter-active`, `fade-enter-done`
+     * - `fade-exit`, `fade-exit-active`, `fade-exit-done`
+     *
+     * A few details to note about how these classes are applied:
+     *
+     * 1. They are _joined_ with the ones that are already defined on the child
+     *    component, so if you want to add some base styles, you can use
+     *    `className` without worrying that it will be overridden.
+     *
+     * 2. If the transition component mounts with `in={false}`, no classes are
+     *    applied yet. You might be expecting `*-exit-done`, but if you think
+     *    about it, a component cannot finish exiting if it hasn't entered yet.
+     *
+     * 2. `fade-appear-done` and `fade-enter-done` will _both_ be applied. This
+     *    allows you to define different behavior for when appearing is done and
+     *    when regular entering is done, using selectors like
+     *    `.fade-enter-done:not(.fade-appear-done)`. For example, you could apply
+     *    an epic entrance animation when element first appears in the DOM using
+     *    [Animate.css](https://daneden.github.io/animate.css/). Otherwise you can
+     *    simply use `fade-enter-done` for defining both cases.
+     *
+     * Each individual classNames can also be specified independently like:
+     *
+     * ```js
+     * classNames={{
+     *  appear: 'my-appear',
+     *  appearActive: 'my-active-appear',
+     *  appearDone: 'my-done-appear',
+     *  enter: 'my-enter',
+     *  enterActive: 'my-active-enter',
+     *  enterDone: 'my-done-enter',
+     *  exit: 'my-exit',
+     *  exitActive: 'my-active-exit',
+     *  exitDone: 'my-done-exit',
+     * }}
+     * ```
+     *
+     * If you want to set these classes using CSS Modules:
+     *
+     * ```js
+     * import styles from './styles.css';
+     * ```
+     *
+     * you might want to use camelCase in your CSS file, that way could simply
+     * spread them instead of listing them one by one:
+     *
+     * ```js
+     * classNames={{ ...styles }}
+     * ```
+     *
+     * @type {string | {
+     *  appear?: string,
+     *  appearActive?: string,
+     *  appearDone?: string,
+     *  enter?: string,
+     *  enterActive?: string,
+     *  enterDone?: string,
+     *  exit?: string,
+     *  exitActive?: string,
+     *  exitDone?: string,
+     * }}
+     */
+    classNames: classNamesShape,
+    /**
+     * A `<Transition>` callback fired immediately after the 'enter' or 'appear' class is
+     * applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool)
+     */
+    onEnter: import_prop_types4.default.func,
+    /**
+     * A `<Transition>` callback fired immediately after the 'enter-active' or
+     * 'appear-active' class is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool)
+     */
+    onEntering: import_prop_types4.default.func,
+    /**
+     * A `<Transition>` callback fired immediately after the 'enter' or
+     * 'appear' classes are **removed** and the `done` class is added to the DOM node.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+     *
+     * @type Function(node: HtmlElement, isAppearing: bool)
+     */
+    onEntered: import_prop_types4.default.func,
+    /**
+     * A `<Transition>` callback fired immediately after the 'exit' class is
+     * applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed
+     *
+     * @type Function(node: HtmlElement)
+     */
+    onExit: import_prop_types4.default.func,
+    /**
+     * A `<Transition>` callback fired immediately after the 'exit-active' is applied.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed
+     *
+     * @type Function(node: HtmlElement)
+     */
+    onExiting: import_prop_types4.default.func,
+    /**
+     * A `<Transition>` callback fired immediately after the 'exit' classes
+     * are **removed** and the `exit-done` class is added to the DOM node.
+     *
+     * **Note**: when `nodeRef` prop is passed, `node` is not passed
+     *
+     * @type Function(node: HtmlElement)
+     */
+    onExited: import_prop_types4.default.func
+  }) : {};
+  var CSSTransition_default = CSSTransition;
+
+  // assets/scripts/components/modal.tsx
   var import_jsx_runtime30 = __toESM(require_jsx_runtime());
   var Modal = ({
     children,
@@ -62286,6 +62283,17 @@ use-sync-external-store/cjs/use-sync-external-store-with-selector.development.js
    * LICENSE file in the root directory of this source tree.
    *)
 
+react/cjs/react-jsx-runtime.development.js:
+  (**
+   * @license React
+   * react-jsx-runtime.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
 react-is/cjs/react-is.development.js:
   (** @license React v16.13.1
    * react-is.development.js
@@ -62302,17 +62310,6 @@ object-assign/index.js:
   (c) Sindre Sorhus
   @license MIT
   *)
-
-react/cjs/react-jsx-runtime.development.js:
-  (**
-   * @license React
-   * react-jsx-runtime.development.js
-   *
-   * Copyright (c) Meta Platforms, Inc. and affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
 
 react-router/dist/development/chunk-OE4NN4TA.mjs:
 react-router/dist/development/index.mjs:

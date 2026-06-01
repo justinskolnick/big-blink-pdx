@@ -9,6 +9,16 @@
   cursor: default;
 }
 
+.alert-static {
+  display: grid;
+  place-items: center;
+  height: 100dvh;
+
+  .alert-message {
+    width: 400px;
+  }
+}
+
 .alert-stack {
   position: absolute;
   bottom: 0;

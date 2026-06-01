@@ -828,7 +828,9 @@ export type MetaType = {
 
 export type RefElement = HTMLElement | HTMLDivElement | null;
 export type RefTableElement = HTMLTableElement | null;
+export type RefDialogElement = HTMLDialogElement | null;
 export type Ref = RefObject<RefElement>;
+export type RefDialog = RefObject<RefDialogElement>;
 export type RefTable = RefObject<RefTableElement>;
 
 export interface Fn {
