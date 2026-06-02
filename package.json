@@ -87,7 +87,7 @@
   "resolutions": {
     "glob": "^10.5.0",
     "nodemon/minimatch": "^10.2.3",
-    "qs": "^6.14.2",
+    "qs": "^6.15.2",
     "sass/immutable": "^5.1.5"
   },
   "packageManager": "yarn@4.12.0"
