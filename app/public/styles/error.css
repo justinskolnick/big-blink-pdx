@@ -440,30 +440,52 @@ body.has-alert .alert-root {
   text-align: center;
 }
 .alert {
-  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
-.alert .alert-overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+.alert::backdrop {
+  background-color: transparent;
 }
-.alert .alert-content {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
+.alert:modal {
+  display: grid;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+  place-items: center;
+  height: 100dvh;
   overflow: hidden;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 250ms ease-in-out, transform 250ms ease-in-out;
 }
-.alert .alert-message {
+.alert[open] {
+  opacity: 1;
+}
+.alert[open]:modal {
+  opacity: 1;
+  transform: scale(1);
+}
+.alert[open]:modal:active {
+  transform: scale(0.75);
+}
+.alert.is-closing[open] {
+  opacity: 0;
+}
+.alert.is-closing[open]:modal {
+  opacity: 0;
+  transform: scale(0.75);
+}
+@starting-style {
+  .alert:modal {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  .alert[open]:modal {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+}
+.alert-message {
   --alert-header-icon-color-error: var(--color-danger);
   --alert-header-icon-color-warning: var(--color-warning);
   --alert-header-icon-color-message: var(--color-accent-alt-lighter);
@@ -476,33 +498,31 @@ body.has-alert .alert-root {
   padding: 18px;
   padding: var(--gap);
   max-width: 400px;
+  min-width: 240px;
   border-radius: 18px;
   background-color: snow;
   background-color: var(--color-background);
   box-shadow: 0 4px 9px gray;
   box-shadow: 0 4px 9px var(--color-gray);
-  opacity: 0;
-  transform: scale(0.75);
-  transition: opacity 250ms ease-in-out, transform 250ms ease-in-out;
 }
-.alert .alert-message .alert-header + .alert-main {
+.alert-message .alert-header + .alert-main {
   margin-top: 18px;
 }
-.alert .alert-message .alert-main + .alert-footer {
+.alert-message .alert-main + .alert-footer {
   margin-top: 36px;
 }
-.alert .alert-message .alert-footer {
+.alert-message .alert-footer {
   color: gray;
   color: var(--color-light);
   font-size: 12px;
 }
-.alert .alert-message h4 .item-text-with-icon {
+.alert-message h4 .item-text-with-icon {
   align-items: center;
 }
-.alert .alert-message h4 .item-text-with-icon .icon + .item-text {
+.alert-message h4 .item-text-with-icon .icon + .item-text {
   margin-left: 1ch;
 }
-.alert .alert-message h4 .icon {
+.alert-message h4 .icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -513,48 +533,38 @@ body.has-alert .alert-root {
   color: white;
   color: var(--color-white);
 }
-.alert .alert-message h4 .icon svg {
+.alert-message h4 .icon svg {
   font-size: calc(var(--alert-header-icon-size) / 9 * 4);
 }
-.alert .alert-message.alert-error {
+.alert-message.alert-error {
   --alert-header-icon-color: var(--alert-header-icon-color-error);
 }
-.alert .alert-message.alert-warning {
+.alert-message.alert-warning {
   --alert-header-icon-color: var(--alert-header-icon-color-warning);
 }
-.alert .alert-message p {
+.alert-message p {
   line-height: 24px;
 }
-.alert .alert-message p.message-content {
+.alert-message p.message-content {
   font-size: 18px;
 }
-.alert .alert-message p.original-message-content {
+.alert-message p.original-message-content {
   color: gray;
   color: var(--color-text-lighter);
   font-size: 10px;
 }
-.alert .alert-message p + p {
+.alert-message p + p {
   margin-top: 9px;
 }
-.alert .alert-message code {
+.alert-message code {
   font-family: monospace;
 }
-.alert .alert-message .alert-footer .item-text-with-icon {
+.alert-message .alert-footer .item-text-with-icon {
   align-items: center;
 }
-.alert .alert-message .alert-footer .item-text {
+.alert-message .alert-footer .item-text {
   font-weight: 600;
   font-size: 14px;
-}
-.alert[class*=alert-enter] .alert-message {
-  opacity: 1;
-  transform: scale(1);
-}
-.alert[class*=alert-enter] .alert-message:hover {
-  transform: scale(1.05);
-}
-.alert[class*=alert-enter] .alert-message:active {
-  transform: scale(0.95);
 }
 .global-layout {
   position: relative;
@@ -1638,6 +1648,16 @@ body.has-alert .alert-root {
 }
 .alert {
   cursor: default;
+}
+.alert-static {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  place-items: center;
+  height: 100dvh;
+}
+.alert-static .alert-message {
+  width: 400px;
 }
 .alert-stack {
   position: absolute;

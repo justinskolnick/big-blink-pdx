@@ -1,12 +1,10 @@
-import React, { useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React, { useEffect, useRef, MouseEvent } from 'react';
 
-import AlertPortal from './alert-portal';
 import ItemTextWithIcon from './item-text-with-icon';
 
 import { unique } from '../lib/array';
 
-import type { AlertType } from '../types';
+import type { AlertType, RefDialogElement } from '../types';
 
 interface MessageContentProps {
   alert: AlertType;
@@ -78,47 +76,68 @@ const Alert = ({
   grade,
   isActive,
 }: AlertProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<RefDialogElement>(null);
 
   const iconName = ['error', 'warning'].includes(grade) ? 'triangle-exclamation' : 'asterisk';
   const classNames = unique(['alert-message', `alert-${grade}`]).join(' ');
 
+  const handleTransitionEnd = () => {
+    const target: RefDialogElement = ref.current;
+
+    deactivate();
+
+    target?.close();
+    target?.classList.remove('is-closing');
+    target?.removeEventListener('transitionend', handleTransitionEnd);
+  };
+
+  const handleClick = (e: MouseEvent) => {
+    const target: RefDialogElement = ref.current;
+
+    e.stopPropagation();
+
+    if (e.target instanceof HTMLElement) {
+      if (e.target.tagName !== 'A') {
+        target?.classList.add('is-closing');
+        target?.addEventListener('transitionend', handleTransitionEnd);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isActive) {
+      ref.current?.showModal();
+    }
+  }, [ref, isActive]);
+
   return (
-    <CSSTransition
-      timeout={250}
-      classNames='alert'
-      in={isActive}
-      nodeRef={ref}
-      unmountOnExit
+    <dialog
+      className='alert'
+      onClick={handleClick}
+      ref={ref}
     >
-      <AlertPortal
-        deactivate={deactivate}
-        isActive={isActive}
-        ref={ref}
-      >
-        <section className={classNames}>
-          <header className='alert-header'>
-            <h4>
-              <ItemTextWithIcon icon={iconName}>
-                {grade === 'error' && 'Error'}
-                {grade === 'message' && 'Message'}
-                {grade === 'warning' && 'Warning'}
-              </ItemTextWithIcon>
-            </h4>
-          </header>
+      <section className={classNames}>
+        <header className='alert-header'>
+          <h4>
+            <ItemTextWithIcon icon={iconName}>
+              {grade === 'error' && 'Error'}
+              {grade === 'message' && 'Message'}
+              {grade === 'warning' && 'Warning'}
+            </ItemTextWithIcon>
+          </h4>
+        </header>
 
-          <main className='alert-main'>
-            {alerts.map((alert, i) => (
-              <AlertMessageContent key={i} alert={alert} />
-            ))}
-          </main>
+        <main className='alert-main'>
+          {alerts.map((alert, i) => (
+            <AlertMessageContent key={i} alert={alert} />
+          ))}
+        </main>
 
-          <footer className='alert-footer'>
-            Click anywhere to exit.
-          </footer>
-        </section>
-      </AlertPortal>
-    </CSSTransition>
+        <footer className='alert-footer'>
+          Click anywhere to exit.
+        </footer>
+      </section>
+    </dialog>
   );
 };
 
