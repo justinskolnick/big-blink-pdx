@@ -81,25 +81,41 @@ const Alert = ({
   const iconName = ['error', 'warning'].includes(grade) ? 'triangle-exclamation' : 'asterisk';
   const classNames = unique(['alert-message', `alert-${grade}`]).join(' ');
 
+  const handleTransitionEnd = () => {
+    const target: RefDialogElement = ref.current;
+
+    deactivate();
+
+    target?.close();
+    target?.classList.remove('is-closing');
+    target?.removeEventListener('transitionend', handleTransitionEnd);
+  };
+
   const handleClick = (e: MouseEvent) => {
+    const target: RefDialogElement = ref.current;
+
     e.stopPropagation();
 
     if (e.target instanceof HTMLElement) {
       if (e.target.tagName !== 'A') {
-        deactivate();
-        ref?.current?.close();
+        target?.classList.add('is-closing');
+        target?.addEventListener('transitionend', handleTransitionEnd);
       }
     }
   };
 
   useEffect(() => {
     if (isActive) {
-      ref?.current?.showModal();
+      ref.current?.showModal();
     }
   }, [ref, isActive]);
 
   return (
-    <dialog className='alert' onClick={handleClick} ref={ref}>
+    <dialog
+      className='alert'
+      onClick={handleClick}
+      ref={ref}
+    >
       <section className={classNames}>
         <header className='alert-header'>
           <h4>

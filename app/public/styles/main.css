@@ -468,6 +468,23 @@ body.has-alert .alert-root {
 .alert[open]:modal:active {
   transform: scale(0.75);
 }
+.alert.is-closing[open] {
+  opacity: 0;
+}
+.alert.is-closing[open]:modal {
+  opacity: 0;
+  transform: scale(0.75);
+}
+@starting-style {
+  .alert:modal {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+  .alert[open]:modal {
+    opacity: 0;
+    transform: scale(0.75);
+  }
+}
 .alert-message {
   --alert-header-icon-color-error: var(--color-danger);
   --alert-header-icon-color-warning: var(--color-warning);
@@ -481,6 +498,7 @@ body.has-alert .alert-root {
   padding: 18px;
   padding: var(--gap);
   max-width: 400px;
+  min-width: 240px;
   border-radius: 18px;
   background-color: snow;
   background-color: var(--color-background);
@@ -547,16 +565,6 @@ body.has-alert .alert-root {
 .alert-message .alert-footer .item-text {
   font-weight: 600;
   font-size: 14px;
-}
-@starting-style {
-  .alert:modal {
-    opacity: 0;
-    transform: scale(0.75);
-  }
-  .alert[open]:modal {
-    opacity: 0;
-    transform: scale(0.75);
-  }
 }
 .global-layout {
   position: relative;

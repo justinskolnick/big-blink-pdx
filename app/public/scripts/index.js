@@ -44626,29 +44626,45 @@ Hook ${hookName} was either not provided or not a function.`);
     const ref = (0, import_react5.useRef)(null);
     const iconName4 = ["error", "warning"].includes(grade) ? "triangle-exclamation" : "asterisk";
     const classNames = unique(["alert-message", `alert-${grade}`]).join(" ");
+    const handleTransitionEnd = () => {
+      const target = ref.current;
+      deactivate();
+      target?.close();
+      target?.classList.remove("is-closing");
+      target?.removeEventListener("transitionend", handleTransitionEnd);
+    };
     const handleClick = (e2) => {
+      const target = ref.current;
       e2.stopPropagation();
       if (e2.target instanceof HTMLElement) {
         if (e2.target.tagName !== "A") {
-          deactivate();
-          ref?.current?.close();
+          target?.classList.add("is-closing");
+          target?.addEventListener("transitionend", handleTransitionEnd);
         }
       }
     };
     (0, import_react5.useEffect)(() => {
       if (isActive) {
-        ref?.current?.showModal();
+        ref.current?.showModal();
       }
     }, [ref, isActive]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("dialog", { className: "alert", onClick: handleClick, ref, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: classNames, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(item_text_with_icon_default, { icon: iconName4, children: [
-        grade === "error" && "Error",
-        grade === "message" && "Message",
-        grade === "warning" && "Warning"
-      ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AlertMessageContent, { alert }, i2)) }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
-    ] }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      "dialog",
+      {
+        className: "alert",
+        onClick: handleClick,
+        ref,
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: classNames, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("header", { className: "alert-header", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h4", { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(item_text_with_icon_default, { icon: iconName4, children: [
+            grade === "error" && "Error",
+            grade === "message" && "Message",
+            grade === "warning" && "Warning"
+          ] }) }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("main", { className: "alert-main", children: alerts.map((alert, i2) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AlertMessageContent, { alert }, i2)) }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("footer", { className: "alert-footer", children: "Click anywhere to exit." })
+        ] })
+      }
+    );
   };
   var alert_default = Alert;
 
