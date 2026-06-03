@@ -814,7 +814,12 @@ export type AlertType =
   | MessageType
   | WarningType;
 
+export type Current = {
+  layout: 'detail' | 'home' | 'index';
+};
+
 export type MetaType = {
+  current?: Current;
   description?: string;
   errors: ErrorType[];
   page?: number;

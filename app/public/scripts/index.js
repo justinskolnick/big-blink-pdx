@@ -38655,6 +38655,7 @@ Hook ${hookName} was either not provided or not a function.`);
   var clearErrors = createAction("ui/clearErrors");
   var clearMessages = createAction("ui/clearMessages");
   var clearWarnings = createAction("ui/clearWarnings");
+  var setCurrent = createAction("ui/setCurrent");
   var setDescription = createAction("ui/setDescription");
   var setError = createAction("ui/setError");
   var setLabels2 = createAction("ui/setLabels");
@@ -38667,6 +38668,7 @@ Hook ${hookName} was either not provided or not a function.`);
     clearErrors,
     clearMessages,
     clearWarnings,
+    setCurrent,
     setDescription,
     setError,
     setLabels: setLabels2,
@@ -38677,6 +38679,7 @@ Hook ${hookName} was either not provided or not a function.`);
     setWarning
   };
   var initialState9 = {
+    current: void 0,
     description: void 0,
     pageTitle: void 0,
     errors: [],
@@ -38709,6 +38712,8 @@ Hook ${hookName} was either not provided or not a function.`);
         return;
       }
       state.messages.push(action.payload);
+    }).addCase(setCurrent, (state, action) => {
+      state.current = action.payload;
     }).addCase(setDescription, (state, action) => {
       state.description = action.payload;
     }).addCase(setPageTitle, (state, action) => {
@@ -38938,6 +38943,9 @@ Hook ${hookName} was either not provided or not a function.`);
     }
     if (meta) {
       if (isPrimary) {
+        if ("current" in meta && meta.current) {
+          dispatch(actions4.setCurrent(meta.current));
+        }
         if ("description" in meta && meta.description) {
           dispatch(actions4.setDescription(meta.description));
         }
@@ -38948,12 +38956,12 @@ Hook ${hookName} was either not provided or not a function.`);
           dispatch(actions4.setSection(meta.section));
         }
       }
-      if ("errors" in meta) {
+      if ("errors" in meta && meta.errors.length) {
         meta.errors.forEach((error) => {
           dispatch(actions4.setError(error));
         });
       }
-      if ("warnings" in meta) {
+      if ("warnings" in meta && meta.warnings.length) {
         meta.warnings.forEach((warning3) => {
           dispatch(actions4.setWarning(warning3));
         });

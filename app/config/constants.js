@@ -41,6 +41,10 @@ const SORT_BY_OPTIONS = {
   [SORT_BY_TOTAL]: SORT_BY_TOTAL,
 };
 
+const LAYOUT_DETAIL = 'detail';
+const LAYOUT_HOME = 'home';
+const LAYOUT_INDEX = 'index';
+
 const MODEL_ENTITIES = 'entities';
 const MODEL_PEOPLE = 'people';
 
@@ -63,6 +67,9 @@ module.exports = {
   COLLECTION_ATTENDEES,
   COLLECTION_ENTITIES,
   LANG_EN,
+  LAYOUT_DETAIL,
+  LAYOUT_HOME,
+  LAYOUT_INDEX,
   LOCALE,
   MODEL_ENTITIES,
   MODEL_PEOPLE,

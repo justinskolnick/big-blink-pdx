@@ -1,3 +1,8 @@
+const {
+  LAYOUT_DETAIL,
+  LAYOUT_HOME,
+  LAYOUT_INDEX,
+} = require('../../config/constants');
 const { titleCase } = require('../string');
 const { Labels } = require('../../helpers/labels');
 
@@ -202,6 +207,10 @@ class Meta {
     return this.#section !== null && typeof this.#section === 'object';
   }
 
+  hasSectionSlug() {
+    return this.hasSection() && this.#section.slug !== undefined;
+  }
+
   hasDetails() {
     return this.#detail !== null && typeof this.#detail === 'object';
   }
@@ -235,6 +244,24 @@ class Meta {
     return undefined;
   }
 
+  getCurrent(isPrimary = true) {
+    let layout = undefined;
+
+    if (isPrimary) {
+      if (this.isHome()) {
+        layout = LAYOUT_HOME;
+      } else if (this.hasDetails()) {
+        layout = LAYOUT_DETAIL;
+      } else if (this.hasSectionSlug()) {
+        layout = LAYOUT_INDEX;
+      }
+    }
+
+    return {
+      layout,
+    };
+  }
+
   getSectionLinks() {
     if (this.hasSection()) {
       return this.#links;
@@ -244,7 +271,7 @@ class Meta {
   }
 
   getSectionSlug() {
-    if (this.hasSection() && !this.isHome()) {
+    if (this.hasSectionSlug()) {
       return this.#section.slug;
     }
 
@@ -267,15 +294,19 @@ class Meta {
     return undefined;
   }
 
-  getSection() {
-    if (this.hasSection()) {
-      return {
-        id: this.getParamsId(),
-        links: this.getSectionLinks(),
-        slug: this.getSectionSlug(),
-        subtitle: this.getSectionSubtitle(),
-        title: this.getSectionTitle(),
-      };
+  getSection(isPrimary = true) {
+    if (isPrimary) {
+      if (this.isHome()) {
+        return {};
+      } else if (this.hasSection()) {
+        return {
+          id: this.getParamsId(),
+          links: this.getSectionLinks(),
+          slug: this.getSectionSlug(),
+          subtitle: this.getSectionSubtitle(),
+          title: this.getSectionTitle(),
+        };
+      }
     }
 
     return undefined;
@@ -295,20 +326,16 @@ class Meta {
 
   toObject(isPrimary = true) {
     const values = {
+      current: this.getCurrent(isPrimary),
       errors: this.getErrors(),
+      section: this.getSection(isPrimary),
       warnings: this.getWarnings(),
       ...this.getOtherValues(),
     };
 
-    if (isPrimary || this.isHome()) {
-      values.pageTitle = this.getPageTitle();
-    }
-
-    if (this.isHome()) {
-      values.section = {};
-    } else if (isPrimary) {
+    if (isPrimary) {
       values.id = values.id || this.getParamsId();
-      values.section = this.getSection();
+      values.pageTitle = this.getPageTitle();
     }
 
     return values;

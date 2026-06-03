@@ -337,6 +337,9 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
   if (meta) {
     if (isPrimary) {
+      if ('current' in meta && meta.current) {
+        dispatch(uiActions.setCurrent(meta.current));
+      }
       if ('description' in meta && meta.description) {
         dispatch(uiActions.setDescription(meta.description));
       }
@@ -348,14 +351,13 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       }
     }
 
-
-    if ('errors' in meta) {
+    if ('errors' in meta && meta.errors.length) {
       meta.errors.forEach((error: ErrorType) => {
         dispatch(uiActions.setError(error));
       });
     }
 
-    if ('warnings' in meta) {
+    if ('warnings' in meta && meta.warnings.length) {
       meta.warnings.forEach((warning: WarningType) => {
         dispatch(uiActions.setWarning(warning));
       });

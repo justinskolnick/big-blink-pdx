@@ -78,7 +78,7 @@ router.get('/', async (req, res, next) => {
     res.status(200).json({
       title,
       data,
-      meta: meta.toObject(false),
+      meta: meta.toObject(),
     });
   } catch (err) {
     console.error('Error while getting home:', err.message); // eslint-disable-line no-console

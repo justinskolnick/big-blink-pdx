@@ -26,6 +26,9 @@ describe('toObject()', () => {
 
     test('returns the expected object', () => {
       expect(meta.toObject()).toEqual({
+        current: {
+          layout: undefined,
+        },
         errors: [],
         pageTitle: undefined,
         section: {
@@ -40,25 +43,60 @@ describe('toObject()', () => {
         },
         warnings: [],
       });
+      expect(meta.toObject(false)).toEqual({
+        current: {
+          layout: undefined,
+        },
+        errors: [],
+        warnings: [],
+      });
     });
   });
 
   describe('when home', () => {
-    beforeEach(() => {
-      req = {
-        ...baseReq,
-        baseUrl: '/home',
-        originalUrl: '/home',
-      };
-      meta = new Meta(req);
+    describe('with a non-API route', () => {
+      beforeEach(() => {
+        req = {
+          ...baseReq,
+          baseUrl: '/api/home',
+          originalUrl: '/api/home',
+        };
+        meta = new Meta(req);
+      });
+
+      test('returns the expected object', () => {
+        expect(meta.toObject()).toEqual({
+          current: {
+            layout: 'home',
+          },
+          errors: [],
+          pageTitle: undefined,
+          section: {},
+          warnings: [],
+        });
+      });
     });
 
-    test('returns the expected object', () => {
-      expect(meta.toObject()).toEqual({
-        errors: [],
-        pageTitle: undefined,
-        section: {},
-        warnings: [],
+    describe('with an API route', () => {
+      beforeEach(() => {
+        req = {
+          ...baseReq,
+          baseUrl: '/home',
+          originalUrl: '/home',
+        };
+        meta = new Meta(req);
+      });
+
+      test('returns the expected object', () => {
+        expect(meta.toObject()).toEqual({
+          current: {
+            layout: 'home',
+          },
+          errors: [],
+          pageTitle: undefined,
+          section: {},
+          warnings: [],
+        });
       });
     });
   });
@@ -75,6 +113,9 @@ describe('toObject()', () => {
 
     test('returns the expected object', () => {
       expect(meta.toObject()).toEqual({
+        current: {
+          layout: 'index',
+        },
         errors: [],
         pageTitle: 'People',
         section: {
@@ -107,6 +148,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'detail',
+            },
             errors: [],
             id: 2062,
             pageTitle: 'George Jetson · People',
@@ -146,6 +190,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'detail',
+            },
             errors: [],
             id: 262,
             pageTitle: 'Lobbying Activity Report for Q1 2034 · Data Sources',
@@ -186,6 +233,9 @@ describe('toObject()', () => {
 
       test('returns the expected object', () => {
         expect(meta.toObject()).toEqual({
+          current: {
+            layout: 'detail',
+          },
           errors: [],
           id: 2062,
           pageTitle: 'George Jetson · People',
@@ -225,6 +275,9 @@ describe('toObject()', () => {
 
       test('returns the expected object', () => {
         expect(meta.toObject(false)).toEqual({
+          current: {
+            layout: undefined,
+          },
           errors: [],
           warnings: [],
         });
@@ -261,6 +314,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [
               {
                 customMessage: 'Something went wrong',
@@ -303,6 +359,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [
               {
                 customMessage: 'Something went wrong',
@@ -345,6 +404,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [
               {
                 customMessage: 'Something went wrong',
@@ -398,6 +460,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [],
             pageTitle: 'People',
             section: {
@@ -438,6 +503,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [],
             pageTitle: 'People',
             section: {
@@ -478,6 +546,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [],
             pageTitle: 'People',
             section: {
@@ -520,6 +591,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             errors: [],
             pageTitle: 'This is a web page',
             section: {
@@ -565,6 +639,9 @@ describe('toObject()', () => {
 
         test('returns the expected object', () => {
           expect(meta.toObject()).toEqual({
+            current: {
+              layout: 'index',
+            },
             description: 'A singular page',
             errors: [],
             id: 252,

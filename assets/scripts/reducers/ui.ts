@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type {
   AlertType,
+  Current,
   ErrorType,
   GenericObject,
   MessageType,
@@ -13,6 +14,7 @@ import type {
 const clearErrors = createAction('ui/clearErrors');
 const clearMessages = createAction('ui/clearMessages');
 const clearWarnings = createAction('ui/clearWarnings');
+const setCurrent = createAction<Current>('ui/setCurrent');
 const setDescription = createAction<string>('ui/setDescription');
 const setError = createAction<ErrorType>('ui/setError');
 const setLabels = createAction<GenericObject>('ui/setLabels');
@@ -26,6 +28,7 @@ export const actions = {
   clearErrors,
   clearMessages,
   clearWarnings,
+  setCurrent,
   setDescription,
   setError,
   setLabels,
@@ -37,6 +40,7 @@ export const actions = {
 };
 
 interface InitialState {
+  current?: Current;
   description?: string;
   pageTitle?: string;
   errors: ErrorType[];
@@ -48,6 +52,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
+  current: undefined,
   description: undefined,
   pageTitle: undefined,
   errors: [],
@@ -90,6 +95,9 @@ const uiReducer = createReducer(initialState, (builder) => {
       }
 
       state.messages.push(action.payload);
+    })
+    .addCase(setCurrent, (state, action: PayloadAction<Current>) => {
+      state.current = action.payload;
     })
     .addCase(setDescription, (state, action: PayloadAction<string>) => {
       state.description = action.payload;
