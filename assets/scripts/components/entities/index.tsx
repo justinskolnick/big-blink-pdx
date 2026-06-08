@@ -4,14 +4,10 @@ import useFetchAndScrollOnRouteChange, {
   FetchWithCallbackRef
 } from '../../hooks/use-fetch-and-scroll-on-route-change';
 
-import EntityIcon from './icon';
-import ItemLink from './item-link';
-import { ItemRow } from '../item-table';
+import EntityItem from './item';
 import SectionIndex from '../section-index';
 
 import useSelector from '../../hooks/use-app-selector';
-
-import { useGetEntityById } from '../../reducers/entities';
 
 import {
   getEntitiesPageIds,
@@ -19,36 +15,6 @@ import {
 } from '../../selectors';
 
 import type { RefTableElement } from '../../types';
-
-interface EntityItemProps {
-  id: number;
-}
-
-export const EntityItem = ({ id }: EntityItemProps) => {
-  const entity = useGetEntityById(id);
-  const percentage = entity?.overview?.totals?.values?.percentage?.value;
-  const total = entity?.overview?.totals?.values?.total?.value;
-
-  const hasEntity = Boolean(entity);
-  const hasTotal = Boolean(total);
-
-  if (!hasEntity) return null;
-
-  return (
-    <ItemRow
-      icon={<EntityIcon />}
-      name={(
-        hasTotal ? (
-          <ItemLink item={entity}>{entity.name}</ItemLink>
-        ) : (
-          entity.name
-        )
-      )}
-      percentage={percentage ?? <>-</>}
-      total={total ?? <>-</>}
-    />
-  );
-};
 
 const Introduction = () => (
   <>

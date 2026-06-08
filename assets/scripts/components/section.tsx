@@ -1,10 +1,13 @@
 import React, { ReactNode } from 'react';
-import { useLocation } from 'react-router';
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import Header from './section-header';
 import HeaderIntro from './section-header-intro';
+
+import useSelector from '../hooks/use-app-selector';
+
+import { getCurrent } from '../selectors';
 
 interface Props {
   children: ReactNode;
@@ -17,10 +20,14 @@ const Section = ({
   icon,
   title,
 }: Props) => {
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const section = location.pathname.split('/').at(1) || 'home';
+  const current = useSelector(getCurrent);
+
+  const isHome = current?.layout === 'home';
+  const section = current?.section;
+
   const className = ['section', section].join('-');
+
+  if (!current) return null;
 
   return (
     <section className={cx('section', className)}>

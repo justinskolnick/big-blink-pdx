@@ -154,6 +154,7 @@ export const getPeopleChartData = createSelector(
   getIndexedEntriesAndEstimates
 );
 
+export const getCurrent = createSelector(getUI, ui => ui.current);
 export const getDescription = createSelector(getUI, ui => ui.description);
 export const getErrors = createSelector(getUI, ui => ui.errors);
 export const getLabels = createSelector(getUI, ui => ui.labels);

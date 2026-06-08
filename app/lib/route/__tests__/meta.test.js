@@ -28,6 +28,7 @@ describe('toObject()', () => {
       expect(meta.toObject()).toEqual({
         current: {
           layout: undefined,
+          section: undefined,
         },
         errors: [],
         pageTitle: undefined,
@@ -46,6 +47,7 @@ describe('toObject()', () => {
       expect(meta.toObject(false)).toEqual({
         current: {
           layout: undefined,
+          section: undefined,
         },
         errors: [],
         warnings: [],
@@ -68,6 +70,7 @@ describe('toObject()', () => {
         expect(meta.toObject()).toEqual({
           current: {
             layout: 'home',
+            section: 'home',
           },
           errors: [],
           pageTitle: undefined,
@@ -91,6 +94,7 @@ describe('toObject()', () => {
         expect(meta.toObject()).toEqual({
           current: {
             layout: 'home',
+            section: 'home',
           },
           errors: [],
           pageTitle: undefined,
@@ -115,6 +119,7 @@ describe('toObject()', () => {
       expect(meta.toObject()).toEqual({
         current: {
           layout: 'index',
+          section: 'people',
         },
         errors: [],
         pageTitle: 'People',
@@ -150,6 +155,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'detail',
+              section: 'people',
             },
             errors: [],
             id: 2062,
@@ -192,6 +198,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'detail',
+              section: 'sources',
             },
             errors: [],
             id: 262,
@@ -235,6 +242,7 @@ describe('toObject()', () => {
         expect(meta.toObject()).toEqual({
           current: {
             layout: 'detail',
+            section: 'people',
           },
           errors: [],
           id: 2062,
@@ -277,6 +285,7 @@ describe('toObject()', () => {
         expect(meta.toObject(false)).toEqual({
           current: {
             layout: undefined,
+            section: undefined,
           },
           errors: [],
           warnings: [],
@@ -316,6 +325,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [
               {
@@ -361,6 +371,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [
               {
@@ -406,6 +417,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [
               {
@@ -462,6 +474,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [],
             pageTitle: 'People',
@@ -505,6 +518,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [],
             pageTitle: 'People',
@@ -548,6 +562,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [],
             pageTitle: 'People',
@@ -593,6 +608,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             errors: [],
             pageTitle: 'This is a web page',
@@ -641,6 +657,7 @@ describe('toObject()', () => {
           expect(meta.toObject()).toEqual({
             current: {
               layout: 'index',
+              section: 'people',
             },
             description: 'A singular page',
             errors: [],

@@ -246,6 +246,7 @@ class Meta {
 
   getCurrent(isPrimary = true) {
     let layout = undefined;
+    let section = undefined;
 
     if (isPrimary) {
       if (this.isHome()) {
@@ -255,10 +256,13 @@ class Meta {
       } else if (this.hasSectionSlug()) {
         layout = LAYOUT_INDEX;
       }
+
+      section = this.getSectionSlug();
     }
 
     return {
       layout,
+      section,
     };
   }
 

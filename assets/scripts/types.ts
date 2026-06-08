@@ -816,6 +816,7 @@ export type AlertType =
 
 export type Current = {
   layout: 'detail' | 'home' | 'index';
+  section: 'home' | 'entities' | 'incidents' | 'people' | 'sources';
 };
 
 export type MetaType = {

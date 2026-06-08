@@ -4,14 +4,10 @@ import useFetchAndScrollOnRouteChange, {
   FetchWithCallbackRef
 } from '../../hooks/use-fetch-and-scroll-on-route-change';
 
-import Icon from './icon';
-import ItemLink from './item-link';
-import { ItemRow } from '../item-table';
+import PersonItem from './item';
 import SectionIndex from '../section-index';
 
 import useSelector from '../../hooks/use-app-selector';
-
-import { useGetPersonById } from '../../reducers/people';
 
 import {
   getPeoplePageIds,
@@ -19,36 +15,6 @@ import {
 } from '../../selectors';
 
 import type { RefTableElement } from '../../types';
-
-interface PersonItemProps {
-  id: number;
-}
-
-export const PersonItem = ({ id }: PersonItemProps) => {
-  const person = useGetPersonById(id);
-  const percentage = person?.overview?.totals?.values?.percentage?.value;
-  const total = person?.overview?.totals?.values?.total?.value;
-
-  const hasPerson = Boolean(person);
-  const hasTotal = Boolean(total);
-
-  if (!hasPerson) return null;
-
-  return (
-    <ItemRow
-      icon={<Icon person={person} />}
-      name={(
-        hasTotal ? (
-          <ItemLink item={person}>{person.name}</ItemLink>
-        ) : (
-          person.name
-        )
-      )}
-      percentage={percentage ?? <>-</>}
-      total={total ?? <>-</>}
-    />
-  );
-};
 
 const Introduction = () => (
   <>
