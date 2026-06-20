@@ -141,6 +141,11 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const person = new Person(resultWithTotal);
 
+    person.setOverviewDescription({
+      hasBeenEmployee: true,
+      hasBeenLobbied: true,
+      hasLobbied: true,
+    });
     person.setOverview();
 
     expect(person.adapted).toEqual({
@@ -155,6 +160,9 @@ describe('adapt()', () => {
       },
       overview: {
         label: 'Overview',
+        labels: {
+          intro: '<strong>John Doe</strong> has worked for the City of Portland and lobbied City officials.',
+        },
         totals: {
           label: 'Totals',
           values: {
@@ -208,6 +216,9 @@ describe('adapt()', () => {
       },
       overview: {
         label: 'Overview',
+        labels: {
+          intro: null,
+        },
         totals: {
           label: 'Totals',
           values: {

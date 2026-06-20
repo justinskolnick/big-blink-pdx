@@ -85,6 +85,20 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const entity = new Entity(resultWithTotal);
 
+    entity.setOverviewDescription({
+      locations: [
+        {
+          id: 9876,
+          city: 'Portland',
+          region: 'OR',
+        },
+        {
+          id: 9876,
+          city: 'Toledo',
+          region: 'OH',
+        },
+      ],
+    });
     entity.setOverview();
 
     expect(entity.adapted).toEqual({
@@ -93,6 +107,9 @@ describe('adapt()', () => {
       domain: 'https://example.com',
       overview: {
         label: 'Overview',
+        labels: {
+          intro: '<strong>Spacely Sprockets</strong> is based in Portland, OR, and Toledo, OH, and has authorized representatives to lobby City of Portland officials on their behalf.',
+        },
         totals: {
           label: 'Totals',
           values: {
@@ -134,6 +151,9 @@ describe('adapt()', () => {
       domain: 'https://example.com',
       overview: {
         label: 'Overview',
+        labels: {
+          intro: null,
+        },
         totals: {
           label: 'Totals',
           values: {
@@ -200,6 +220,9 @@ describe('adapt()', () => {
       domain: 'https://example.com',
       overview: {
         label: 'Overview',
+        labels: {
+          intro: null,
+        },
         appearances: {
           label: 'Appearances',
           values: {

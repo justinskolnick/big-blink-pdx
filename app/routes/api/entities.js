@@ -20,14 +20,12 @@ const {
   SECTION_ENTITIES,
 } = require('../../config/constants');
 
-const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
-const { toSentence } = require('../../lib/string');
 
 const AssociatedPerson = require('../../models/associated/person');
 const Entity = require('../../models/entity/entity');
@@ -154,26 +152,17 @@ router.get('/:id', async (req, res, next) => {
       entityId: id,
     });
 
+    result.setOverviewDescription({
+      locations: entityLocations,
+    });
     result.setOverview(incidentsStats);
 
     record = result.adapted;
 
-    const hasDomain = Boolean(record.domain);
-    const hasLocations = entityLocations.length;
-
-    if (hasLocations || hasDomain) {
-      record.details = {};
-
-      if (hasLocations) {
-        const labels = new Labels();
-        const location = toSentence(entityLocations.map(location => labels.getLabel('location', null, location)));
-
-        record.details.description = location;
-      }
-
-      if (hasDomain) {
-        record.details.domain = record.domain;
-      }
+    if (record.domain) {
+      record.details = {
+        domain: record.domain,
+      };
     }
 
     data = {

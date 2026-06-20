@@ -1314,13 +1314,15 @@ body.has-alert .alert-root {
   padding-top: calc(18px * 1.5);
   padding-top: calc(var(--gap) * 1.5);
 }
-.activity-header {
+.activity-header h4 {
   color: olivedrab;
   color: var(--color-accent);
-}
-.activity-header h4 {
   font-weight: 500;
   font-size: 18px;
+}
+.activity-header h4 + .header-intro {
+  margin-top: 18px;
+  margin-top: var(--gap);
 }
 .activity-subheader {
   color: olivedrab;
@@ -1375,23 +1377,22 @@ body.has-alert .alert-root {
   font-weight: 200;
   font-size: 27px;
 }
-.activity-overview .activity-stat-section + .activity-stat-section {
-  margin-top: calc(2.5 * 18px);
-  margin-top: calc(2.5 * var(--gap));
+.activity-overview .activity-header strong {
+  font-weight: 400;
 }
-.activity-overview .activity-stat-section > .activity-header {
-  height: 27px;
-}
-.activity-overview .activity-stat-section .activity-header + .activity-stat-group {
+.activity-overview .activity-header + .activity-overview-stats {
   margin-top: 18px;
   margin-top: var(--gap);
+}
+.activity-overview .activity-header:has(.header-intro) + .activity-overview-stats {
+  margin-top: calc(2.5 * 18px);
+  margin-top: calc(2.5 * var(--gap));
 }
 .activity-overview .activity-numbers-and-dates {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100% - 27px - 18px);
-  height: calc(100% - 27px - var(--gap));
+  height: 100%;
 }
 .activity-overview .activity-stat-group .activity-subheader + .activity-stat {
   margin-top: calc(18px / 2);
@@ -1407,7 +1408,7 @@ body.has-alert .alert-root {
   font-size: 14px;
 }
 @media screen and (min-width: 813px) {
-  .activity-overview {
+  .activity-overview .activity-overview-stats {
     display: grid;
     grid-template-columns: 3fr 5fr;
     grid-column-gap: 18px;

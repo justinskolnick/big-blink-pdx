@@ -134,8 +134,6 @@ router.get('/:id', async (req, res, next) => {
 
   const perPage = Incident.perPage;
 
-  const labelPrefix = 'person';
-
   let result;
   let record;
   let incidentsStats;
@@ -164,26 +162,15 @@ router.get('/:id', async (req, res, next) => {
       hasLobbied,
     } = await people.getHasLobbiedOrBeenLobbied(result);
 
+    result.setOverviewDescription({
+      hasBeenEmployee,
+      hasBeenLobbied,
+      hasLobbied,
+    });
     result.setOverview(incidentsStats);
 
     record = result.adapted;
     record.details = {};
-
-    let labelKey;
-
-    if (hasBeenEmployee || hasBeenLobbied) {
-      if (hasLobbied) {
-        labelKey = 'has_been_both';
-      } else {
-        labelKey = 'has_been_official';
-      }
-    } else if (hasLobbied) {
-      labelKey = 'has_been_lobbyist';
-    }
-
-    if (labelKey) {
-      record.details.description = Person.getLabel(labelKey, labelPrefix);
-    }
 
     data = {
       person: {

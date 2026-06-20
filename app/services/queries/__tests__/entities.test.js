@@ -12,7 +12,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'ORDER BY',
           'sort_name ASC',
@@ -27,7 +27,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'ORDER BY',
           'sort_name ASC',
@@ -41,7 +41,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+            "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
             'FROM entities',
             'ORDER BY',
             'sort_name ASC',
@@ -61,7 +61,7 @@ describe('getAllQuery()', () => {
       })).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'WHERE',
@@ -87,7 +87,7 @@ describe('getAllQuery()', () => {
       })).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'WHERE',
@@ -106,7 +106,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ limit: 5 })).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'ORDER BY',
           'sort_name ASC',
@@ -122,7 +122,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
-          "entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          "entities.id, entities.name, entities.type, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
           'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'GROUP BY entities.id',
@@ -142,7 +142,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total',
+              'entities.id, entities.name, entities.type, entities.domain, COUNT(incidents.id) AS total',
               'FROM entities',
               'LEFT JOIN incidents ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
@@ -163,7 +163,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              "entities.id, entities.name, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+              "entities.id, entities.name, entities.type, entities.domain, COUNT(incidents.id) AS total, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
               'FROM entities',
               'LEFT JOIN incidents ON incidents.entity_id = entities.id',
               'GROUP BY entities.id',
@@ -190,7 +190,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'entities.id, entities.name, entities.domain',
+          'entities.id, entities.name, entities.type, entities.domain',
           'FROM entities',
           'WHERE entities.id = ?',
           'LIMIT 1',

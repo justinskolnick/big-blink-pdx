@@ -136,6 +136,12 @@ describe('adapt()', () => {
       },
       overview: {
         label: 'Overview',
+        labels: {
+          intro: null,
+        },
+        labels: {
+          intro: null,
+        },
         totals: {
           label: 'Totals',
           values: {
@@ -213,6 +219,9 @@ describe('adapt()', () => {
       },
       overview: {
         label: 'Overview',
+        labels: {
+          intro: null,
+        },
         totals: {
           label: 'Totals',
           values: {

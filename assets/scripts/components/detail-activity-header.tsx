@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import ItemSubhead from './item-subhead';
+import Header, { Intro } from './header';
 
 interface Props {
+  children?: ReactNode;
   title: string;
 }
 
-const ActivityHeader = ({ title }: Props) => (
-  <ItemSubhead
-    title={title}
-    className='activity-header'
-  />
+const ActivityHeader = ({ children, title }: Props) => (
+  <Header className='activity-header'>
+    <h4>{title}</h4>
+    {children && (
+      <Intro>
+        {children}
+      </Intro>
+    )}
+  </Header>
 );
 
 export default ActivityHeader;

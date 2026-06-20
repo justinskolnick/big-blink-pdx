@@ -44,59 +44,67 @@ const ActivityOverview = ({
   return (
     <div className='activity-overview'>
       {hasOverview && (
-        <StatSection>
-          <ActivityHeader title={overview.label} />
-
-          <StatGroup className='activity-numbers-and-dates'>
-            {hasTotals && hasTotalsValues && (
-              <NumbersGroup>
-                <ActivitySubhead
-                  title={overview.totals?.label ?? ''}
-                  icon='chart-line'
-                />
-
-                {totalsValues.map(item => {
-                  const isInteractive = item.key === 'total';
-
-                  return (
-                    <StatBox
-                      key={item.key}
-                      className={isInteractive && 'is-interactive'}
-                      onClick={isInteractive ? scrollToIncidents : undefined}
-                      title={item.label}
-                    >
-                      {item.value}
-                    </StatBox>
-                  );
-                })}
-              </NumbersGroup>
-            )}
-
-            {hasAppearances && hasAppearancesValues && (
-              <IncidentStatGroup className='activity-dates'>
-                <ActivitySubhead
-                  title={overview.appearances?.label ?? ''}
-                  icon='calendar'
-                />
-
-                {appearancesValues.map(item => (
-                  <DateBox key={item.key} incident={item} />
-                ))}
-              </IncidentStatGroup>
-            )}
-          </StatGroup>
-        </StatSection>
+        <ActivityHeader title={overview.label}>
+          {overview.labels.intro !== null && (
+            <p dangerouslySetInnerHTML={{ __html: overview.labels.intro }} />
+          )}
+        </ActivityHeader>
       )}
 
-      <StatSection stylized={false}>
+      <div className='activity-overview-stats'>
         {hasOverview && (
-          <IncidentActivityChart>
-            {hasTotals ? children : (
-              <p>No data is available to display.</p>
-            )}
-          </IncidentActivityChart>
+          <StatSection>
+            <StatGroup className='activity-numbers-and-dates'>
+              {hasTotals && hasTotalsValues && (
+                <NumbersGroup>
+                  <ActivitySubhead
+                    title={overview.totals?.label ?? ''}
+                    icon='chart-line'
+                  />
+
+                  {totalsValues.map(item => {
+                    const isInteractive = item.key === 'total';
+
+                    return (
+                      <StatBox
+                        key={item.key}
+                        className={isInteractive && 'is-interactive'}
+                        onClick={isInteractive ? scrollToIncidents : undefined}
+                        title={item.label}
+                      >
+                        {item.value}
+                      </StatBox>
+                    );
+                  })}
+                </NumbersGroup>
+              )}
+
+              {hasAppearances && hasAppearancesValues && (
+                <IncidentStatGroup className='activity-dates'>
+                  <ActivitySubhead
+                    title={overview.appearances?.label ?? ''}
+                    icon='calendar'
+                  />
+
+                  {appearancesValues.map(item => (
+                    <DateBox key={item.key} incident={item} />
+                  ))}
+                </IncidentStatGroup>
+              )}
+            </StatGroup>
+          </StatSection>
         )}
-      </StatSection>
+
+        <StatSection stylized={false}>
+          {hasOverview && (
+            <IncidentActivityChart>
+              {hasTotals ? children : (
+                <p>No data is available to display.</p>
+              )}
+            </IncidentActivityChart>
+          )}
+        </StatSection>
+      </div>
     </div>
   );
 };

@@ -47743,13 +47743,10 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/detail-activity-header.tsx
   var import_jsx_runtime43 = __toESM(require_jsx_runtime());
-  var ActivityHeader = ({ title }) => /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
-    item_subhead_default,
-    {
-      title,
-      className: "activity-header"
-    }
-  );
+  var ActivityHeader = ({ children, title }) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(header_default, { className: "activity-header", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h4", { children: title }),
+    children && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Intro, { children })
+  ] });
   var detail_activity_header_default = ActivityHeader;
 
   // assets/scripts/components/detail-activity-subhead.tsx
@@ -48408,9 +48405,9 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasTotalsValues = totalsValues.some((value) => value.value);
     const scrollToIncidents = () => ref && scrollToRef(ref);
     return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { className: "activity-overview", children: [
-      hasOverview && /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(stat_section_default, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(detail_activity_header_default, { title: overview.label }),
-        /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
+      hasOverview && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(detail_activity_header_default, { title: overview.label, children: overview.labels.intro !== null && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { dangerouslySetInnerHTML: { __html: overview.labels.intro } }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { className: "activity-overview-stats", children: [
+        hasOverview && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(stat_section_default, { children: /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(stat_group_default, { className: "activity-numbers-and-dates", children: [
           hasTotals && hasTotalsValues && /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)(stat_group_numbers_default, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
               detail_activity_subhead_default,
@@ -48443,9 +48440,9 @@ Hook ${hookName} was either not provided or not a function.`);
             ),
             appearancesValues.map((item) => /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(incident_date_box_default, { incident: item }, item.key))
           ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(stat_section_default, { stylized: false, children: hasOverview && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(incident_activity_chart_default, { children: hasTotals ? children : /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "No data is available to display." }) }) })
+        ] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(stat_section_default, { stylized: false, children: hasOverview && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(incident_activity_chart_default, { children: hasTotals ? children : /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "No data is available to display." }) }) })
+      ] })
     ] });
   };
   var detail_activity_overview_default = ActivityOverview;

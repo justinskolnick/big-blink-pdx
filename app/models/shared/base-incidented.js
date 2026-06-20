@@ -26,6 +26,8 @@ class IncidentedBase extends Base {
     'total',
   ];
 
+  overviewDescription = null;
+
   role = null;
 
   globalIncidentCount = null;
@@ -87,6 +89,9 @@ class IncidentedBase extends Base {
   setOverviewObject() {
     this.setData('overview', {
       label: this.constructor.getLabel('overview'),
+      labels: {
+        intro: this.overviewDescription,
+      },
     });
   }
 
@@ -150,6 +155,11 @@ class IncidentedBase extends Base {
       label: this.constructor.getLabel('percentage', 'incidents'),
       value: `${value}%`,
     };
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setOverviewDescription(values = {}) {
+    this.overviewDescription = null;
   }
 
   setOverview(stats = {}) {
