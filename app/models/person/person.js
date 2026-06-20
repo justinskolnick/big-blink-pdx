@@ -29,6 +29,33 @@ class Person extends IncidentedBase {
 
   static includeRoleInFilters = true;
 
+  setOverviewDescription(values = {}) {
+    const {
+      hasLobbied,
+      hasBeenEmployee,
+      hasBeenLobbied,
+    } = values;
+
+    const labelPrefix = this.constructor.labelPrefix;
+    let labelKey;
+
+    if (hasBeenEmployee || hasBeenLobbied) {
+      if (hasLobbied) {
+        labelKey = 'has_been_both_name';
+      } else {
+        labelKey = 'has_been_official_name';
+      }
+    } else if (hasLobbied) {
+      labelKey = 'has_been_lobbyist_name';
+    }
+
+    if (labelKey) {
+      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+        name: this.getData('name'),
+      });
+    }
+  }
+
   adapt(result) {
     return this.adaptResult(result, {
       roles: this.adaptRoles(result.roles),

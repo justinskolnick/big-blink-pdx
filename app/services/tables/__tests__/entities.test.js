@@ -17,6 +17,7 @@ describe('fields()', () => {
     expect(Entities.fields()).toEqual([
       'entities.id',
       'entities.name',
+      'entities.type',
       'entities.domain',
     ]);
   });

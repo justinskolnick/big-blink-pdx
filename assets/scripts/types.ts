@@ -442,6 +442,9 @@ type ItemOverviewTotalsValues = {
 
 export type ItemOverview = {
   label: string;
+  labels: {
+    intro: string | TrustedHTML | null;
+  };
   appearances?: {
     label: string;
     values?: ItemOverviewAppearancesValues;
