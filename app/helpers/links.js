@@ -96,7 +96,22 @@ const getPagination = (config) => {
   };
 };
 
+const getURLforDomain = (domain = '') => {
+  if (!domain.length) {
+    return null;
+  }
+
+  if (domain.startsWith('https://')) {
+    return domain;
+  } else if (domain.startsWith('http://')) {
+    return domain.replace('http://', 'https://');
+  }
+
+  return `https://${domain}`;
+};
+
 module.exports = {
   links,
   getPagination,
+  getURLforDomain,
 };

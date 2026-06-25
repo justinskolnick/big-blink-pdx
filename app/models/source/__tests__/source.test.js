@@ -107,6 +107,7 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const source = new Source(resultWithTotal);
 
+    source.setOverviewDescription();
     source.setOverview();
 
     expect(source.adapted).toEqual({
@@ -137,7 +138,8 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
-          intro: null,
+          details: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to the <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
           title: 'Overview',
         },
         totals: {
@@ -161,6 +163,7 @@ describe('adapt()', () => {
     const incidentCountResult = 246;
 
     sourceWithTotal.setGlobalIncidentCount(incidentCountResult);
+    sourceWithTotal.setOverviewDescription();
     sourceWithTotal.setOverview();
 
     expect(source.adapted).toEqual({
@@ -218,7 +221,8 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
-          intro: null,
+          details: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to the <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
           title: 'Overview',
         },
         totals: {

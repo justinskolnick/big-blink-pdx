@@ -48,7 +48,7 @@ describe('adapt()', () => {
   const result = {
     id: 1,
     name: 'Spacely Sprockets',
-    domain: 'https://example.com',
+    domain: 'example.com',
   };
   const resultWithTotal = {
     ...result,
@@ -65,7 +65,7 @@ describe('adapt()', () => {
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       links: {
         self: '/entities/1'
       },
@@ -104,11 +104,12 @@ describe('adapt()', () => {
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       overview: {
         label: 'Overview',
         labels: {
-          intro: '<strong>Spacely Sprockets</strong> is based in Portland, OR, and Toledo, OH, and has authorized representatives to lobby City of Portland officials on their behalf.',
+          details: 'Registration records for this entity provide the domain name <a href="https://example.com" target="_blank">example.com</a> and locations in Portland, OR, and Toledo, OH.',
+          intro: '<strong>Spacely Sprockets</strong> has authorized representatives to lobby City of Portland officials on their behalf.',
           title: 'Overview',
         },
         totals: {
@@ -149,10 +150,11 @@ describe('adapt()', () => {
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       overview: {
         label: 'Overview',
         labels: {
+          details: null,
           intro: null,
           title: 'Overview',
         },
@@ -219,10 +221,11 @@ describe('adapt()', () => {
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       overview: {
         label: 'Overview',
         labels: {
+          details: null,
           intro: null,
           title: 'Overview',
         },
@@ -288,7 +291,7 @@ describe('adapt()', () => {
     expect(entity.adapted).toEqual({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       links: {
         self: '/entities/1'
       },
@@ -383,7 +386,7 @@ describe('setData()', () => {
     const entity = new Entity({
       id: 1,
       name: 'Spacely Sprockets',
-      domain: 'https://example.com',
+      domain: 'example.com',
       x: 'y',
     });
 
@@ -393,7 +396,7 @@ describe('setData()', () => {
     expect(entity.hasLinks()).toBe(true);
 
     expect(entity.data).toEqual({
-      domain: 'https://example.com',
+      domain: 'example.com',
       id: 1,
       name: 'Spacely Sprockets',
       x: 'y',
@@ -401,7 +404,7 @@ describe('setData()', () => {
     });
 
     expect(entity.adapted).toEqual({
-      domain: 'https://example.com',
+      domain: 'example.com',
       id: 1,
       name: 'Spacely Sprockets',
       links: {

@@ -3,6 +3,8 @@ const {
   ROLE_ENTITY,
 } = require('../../config/constants');
 
+const { getURLforDomain } = require('../../helpers/links');
+
 const { toSentence } = require('../../lib/string');
 
 const IncidentedBase = require('../shared/base-incidented');
@@ -39,17 +41,20 @@ class Entity extends IncidentedBase {
     const labelPrefix = this.constructor.labelPrefix;
     const isIndividual = this.getData('type') === 'individual';
     const hasLocations = locations.length > 0;
+    const hasManyLocations = locations.length > 1;
 
-    let labelKey;
+    let descriptionLabelKey;
+    let detailsLabelKey;
+    let domainString;
     let locationsString;
 
     if (isIndividual) {
-      labelKey = hasLocations
-        ? 'overview_description_individual_name_locations'
+      descriptionLabelKey = hasLocations
+        ? 'overview_description_individual_name'
         : 'overview_description_individual_name';
     } else {
-      labelKey = hasLocations
-        ? 'overview_description_organization_name_locations'
+      descriptionLabelKey = hasLocations
+        ? 'overview_description_organization_name'
         : 'overview_description_organization_name';
     }
 
@@ -59,12 +64,55 @@ class Entity extends IncidentedBase {
       );
     }
 
-    if (labelKey) {
-      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+    if (this.hasDomain()) {
+      const domainURL = getURLforDomain(this.getData('domain'));
+
+      domainString = `<a href="${domainURL}" target="_blank">${this.getData('domain')}</a>`;
+      detailsLabelKey = 'overview_details_locations_domain';
+    }
+
+    if (hasLocations) {
+      locationsString = toSentence(
+        locations.map((location, i) => {
+          const continues = i + 1 < locations.length;
+
+          return `${this.getLabel('location', null, location)}${continues ? ',' : ''}`;
+        })
+      );
+    }
+
+    if (domainString && locationsString) {
+      if (hasManyLocations) {
+        detailsLabelKey = 'overview_details_locations_domain';
+      } else {
+        detailsLabelKey = 'overview_details_location_domain';
+      }
+    } else if (locationsString) {
+      if (hasManyLocations) {
+        detailsLabelKey = 'overview_details_locations';
+      } else {
+        detailsLabelKey = 'overview_details_location';
+      }
+    } else if (domainString) {
+      detailsLabelKey = 'overview_details_domain';
+    }
+
+    if (descriptionLabelKey) {
+      this.overviewDescription = this.getLabel(descriptionLabelKey, labelPrefix, {
         name: this.getData('name'),
+      });
+    }
+
+    if (detailsLabelKey) {
+      this.overviewDetails = this.getLabel(detailsLabelKey, labelPrefix, {
+        domain: domainString,
         locations: locationsString,
       });
     }
+  }
+
+  hasDomain() {
+    return this.hasData('domain') && Boolean(this.getData('domain'));
   }
 
   adaptRegistrations(result) {

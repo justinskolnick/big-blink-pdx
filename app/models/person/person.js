@@ -41,12 +41,12 @@ class Person extends IncidentedBase {
 
     if (hasBeenEmployee || hasBeenLobbied) {
       if (hasLobbied) {
-        labelKey = 'has_been_both_name';
+        labelKey = 'overview_description_has_been_both_name';
       } else {
-        labelKey = 'has_been_official_name';
+        labelKey = 'overview_description_has_been_official_name';
       }
     } else if (hasLobbied) {
-      labelKey = 'has_been_lobbyist_name';
+      labelKey = 'overview_description_has_been_lobbyist_name';
     }
 
     if (labelKey) {

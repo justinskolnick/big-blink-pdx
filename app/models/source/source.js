@@ -31,6 +31,42 @@ class Source extends IncidentedBase {
     COLLECTION_ENTITIES,
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setOverviewDescription(values = {}) {
+    const labelPrefix = this.constructor.labelPrefix;
+    let descriptionLabelKey;
+    let detailsLabelKey;
+
+    if (this.hasPublicUrl()) {
+      descriptionLabelKey = 'overview_description_url';
+    }
+
+    if (this.isViaPRR()) {
+      descriptionLabelKey = 'overview_description_prr';
+    }
+
+    if (this.getData('type') === this.getType('activity')) {
+      detailsLabelKey = 'activity_disclaimer';
+    } else if (this.getData('type') === this.getType('personnel')) {
+      detailsLabelKey = 'personnel_disclaimer';
+    } else if (this.getData('type') === this.getType('registration')) {
+      detailsLabelKey = 'registration_disclaimer';
+    }
+
+    if (descriptionLabelKey) {
+      this.overviewDescription = this.getLabel(descriptionLabelKey, labelPrefix, {
+        date: this.constructor.readableDate(this.getData('retrieved_at')),
+        format: this.readableFormat(this.getData('format')),
+        title: this.getData('title'),
+        url: this.getData('public_url'),
+      });
+    }
+
+    if (detailsLabelKey) {
+      this.overviewDetails = this.getLabel(detailsLabelKey, labelPrefix);
+    }
+  }
+
   adapt(result) {
     const otherValues = {};
 

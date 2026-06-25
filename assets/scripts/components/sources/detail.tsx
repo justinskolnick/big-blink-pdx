@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router';
 
-import useSelector from '../../hooks/use-app-selector';
-
 import Associations from '../detail-activity-associations';
 import ActivityDetails from '../detail-activity-details';
 import ActivityOverview from '../detail-activity-overview';
@@ -11,10 +9,6 @@ import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
 import { Container as ItemDetail } from '../item-detail';
-import MetaSection from '../meta-section';
-import SourceInformationBox from '../source-information-box';
-
-import { getLabels } from '../../selectors';
 
 import { useGetSourceById } from '../../reducers/sources';
 
@@ -74,32 +68,23 @@ const Detail = () => {
   const { id } = useParams();
   const numericId = Number(id);
 
-  const labels = useSelector(getLabels);
-
   const item = useGetSourceById(numericId);
 
-  const hasSource = Boolean(item);
+  const hasItem = Boolean(item);
   const isActivity = item?.type === 'activity';
 
-  const label = hasSource ? `${item.year} Q${item.quarter}` : undefined;
+  const label = hasItem ? `${item.year} Q${item.quarter}` : undefined;
 
-  if (!hasSource) return null;
+  if (!hasItem) return null;
 
   return (
     <ItemDetail>
-      <MetaSection>
-        <SourceInformationBox
-          title={labels.sourcesItemInformation}
-          source={item}
-        />
-      </MetaSection>
-
       <ActivityOverview
         overview={item.overview}
         ref={incidentsRef}
         title={item.title}
       >
-        <Chart label={label} />
+        {isActivity && <Chart label={label} />}
       </ActivityOverview>
 
       {isActivity && (
