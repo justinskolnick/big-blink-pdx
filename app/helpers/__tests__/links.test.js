@@ -1,6 +1,7 @@
 const {
   links,
   getPagination,
+  getURLforDomain,
 } = require('../links');
 
 describe('links', () => {
@@ -14,6 +15,15 @@ describe('links', () => {
     expect(links.person(1)).toBe('/people/1');
     expect(links.sources()).toBe('/sources');
     expect(links.source(1)).toBe('/sources/1');
+  });
+});
+
+describe('getURLforDomain()', () => {
+  test('returns the expected values', () => {
+    expect(getURLforDomain('example.com')).toBe('https://example.com');
+    expect(getURLforDomain('https://example.com')).toBe('https://example.com');
+    expect(getURLforDomain('http://example.com')).toBe('https://example.com');
+    expect(getURLforDomain('')).toBe(null);
   });
 });
 

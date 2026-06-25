@@ -444,6 +444,7 @@ export type ItemOverview = {
   label: string;
   labels: {
     intro: string | TrustedHTML | null;
+    details: string | TrustedHTML | null;
     title: string | null;
   };
   appearances?: {

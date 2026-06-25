@@ -147,9 +147,7 @@ router.get('/:id', async (req, res, next) => {
     return next(createError(err));
   }
 
-  if (result?.exists) {
-    record = result.adapted;
-  } else {
+  if (!result?.exists) {
     return next(createError(404, `No record was found with an ID of ${id}`));
   }
 
@@ -159,6 +157,7 @@ router.get('/:id', async (req, res, next) => {
         sourceId: id,
       });
 
+      result.setOverviewDescription();
       result.setOverview(incidentsStats);
       record = result.adapted;
 
@@ -176,6 +175,10 @@ router.get('/:id', async (req, res, next) => {
         view,
       });
     } else {
+      result.setOverviewDescription();
+      result.setOverview();
+      record = result.adapted;
+
       data = {
         source: {
           record,

@@ -27,6 +27,7 @@ class IncidentedBase extends Base {
   ];
 
   overviewDescription = null;
+  overviewDetails = null;
 
   role = null;
 
@@ -91,6 +92,7 @@ class IncidentedBase extends Base {
       label: this.constructor.getLabel('overview'),
       labels: {
         intro: this.overviewDescription,
+        details: this.overviewDetails,
         title: this.constructor.getLabel('overview'),
       },
     });
@@ -163,10 +165,14 @@ class IncidentedBase extends Base {
     this.overviewDescription = null;
   }
 
-  setOverview(stats = {}) {
-    if (this.dataHasTotal() || this.overviewProps.some(prop => prop in stats)) {
-      this.setOverviewObject();
+  hasOverviewDescription() {
+    return this.overviewDescription !== null;
+  }
 
+  setOverview(stats = {}) {
+    this.setOverviewObject();
+
+    if (this.dataHasTotal() || this.overviewProps.some(prop => prop in stats)) {
       if (this.statsHasTotal(stats)) {
         this.setData('total', stats.total);
       }
@@ -175,16 +181,14 @@ class IncidentedBase extends Base {
         this.setGlobalIncidentPercentage(stats.percentage);
         this.setData('percentage', stats.total);
       }
-    } else {
-      return;
-    }
 
-    if (this.statsHasFirstOrLastIncident(stats)) {
-      this.setOverviewAppearances(stats);
-    }
+      if (this.dataHasTotal()) {
+        this.setOverviewTotals();
+      }
 
-    if (this.dataHasTotal()) {
-      this.setOverviewTotals();
+      if (this.statsHasFirstOrLastIncident(stats)) {
+        this.setOverviewAppearances(stats);
+      }
     }
   }
 

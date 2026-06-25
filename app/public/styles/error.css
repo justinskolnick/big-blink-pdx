@@ -752,6 +752,21 @@ body.has-alert .alert-root {
     font-weight: 300;
   }
 }
+.header-content p {
+  font-weight: 200;
+}
+@media screen and (min-width: 613px) {
+  .header-content p {
+    font-size: 16px;
+    line-height: 27px;
+  }
+}
+@media screen and (max-width: 612px) {
+  .header-content p {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
 .meta-section .meta-section-box + .meta-section-box {
   margin-top: 18px;
   margin-top: var(--gap);

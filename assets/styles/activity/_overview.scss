@@ -1,10 +1,4 @@
 .activity-overview {
-  .activity-header {
-    strong {
-      font-weight: 400;
-    }
-  }
-
   .activity-header + .activity-overview-stats {
     margin-top: var(--gap);
   }

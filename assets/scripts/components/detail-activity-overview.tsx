@@ -22,7 +22,7 @@ import type {
 } from '../types';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   overview?: ItemOverview;
   ref?: Ref;
   title: string;
@@ -51,16 +51,20 @@ const ActivityOverview = ({
 
   return (
     <div className='activity-overview'>
-      <ActivityHeader title={overview?.labels.title ?? labels.overview}>
-        {hasOverview ? overview.labels.intro !== null && (
+      <ActivityHeader
+        title={overview?.labels.title ?? labels.overview}
+        content={hasOverview && overview.labels.details !== null && (
+          <p dangerouslySetInnerHTML={{ __html: overview.labels.details }} />
+        )}
+        intro={hasOverview ? overview.labels.intro !== null && (
           <p dangerouslySetInnerHTML={{ __html: overview.labels.intro }} />
         ) : (
           <p><strong>{title}</strong></p>
         )}
-      </ActivityHeader>
+      />
 
-      <div className='activity-overview-stats'>
-        {hasOverview && (
+      {hasOverview && hasTotals && (
+        <div className='activity-overview-stats'>
           <StatSection>
             <StatGroup className='activity-numbers-and-dates'>
               {hasTotals && hasTotalsValues && (
@@ -101,18 +105,16 @@ const ActivityOverview = ({
               )}
             </StatGroup>
           </StatSection>
-        )}
 
-        <StatSection stylized={false}>
-          {hasOverview && (
+          <StatSection stylized={false}>
             <IncidentActivityChart>
               {hasTotals ? children : (
                 <p>No data is available to display.</p>
               )}
             </IncidentActivityChart>
-          )}
-        </StatSection>
-      </div>
+          </StatSection>
+        </div>
+      )}
     </div>
   );
 };

@@ -159,12 +159,6 @@ router.get('/:id', async (req, res, next) => {
 
     record = result.adapted;
 
-    if (record.domain) {
-      record.details = {
-        domain: record.domain,
-      };
-    }
-
     data = {
       entity: {
         record,

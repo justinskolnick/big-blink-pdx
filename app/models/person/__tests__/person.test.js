@@ -161,7 +161,8 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
-          intro: '<strong>John Doe</strong> has worked for the City of Portland and lobbied City officials.',
+          details: null,
+          intro: '<strong>John Doe</strong> has been lobbied as a City of Portland official and has lobbied City officials.',
           title: 'Overview',
         },
         totals: {
@@ -218,6 +219,7 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
+          details: null,
           intro: null,
           title: 'Overview',
         },
