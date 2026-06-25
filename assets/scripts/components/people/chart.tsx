@@ -26,17 +26,17 @@ const Chart = ({ label }: Props) => {
   const labels = useSelector(getStatsLabels);
 
   const chartData = useSelector(getPeopleChartData);
-  const personChartData = chartData?.[numericId];
+  const itemChartData = chartData?.[numericId];
 
-  const hasData = personChartData?.entries?.length > 0;
+  const hasData = itemChartData?.entries?.length > 0;
 
   const lineProps: LineProps = {
     entries: {
-      data: personChartData?.entries,
+      data: itemChartData?.entries,
       label: label || labels.entries,
     },
     estimates: {
-      data: personChartData?.estimates,
+      data: itemChartData?.estimates,
       label: labels.estimates,
     },
   };

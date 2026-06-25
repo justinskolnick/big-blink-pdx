@@ -109,6 +109,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           intro: '<strong>Spacely Sprockets</strong> is based in Portland, OR, and Toledo, OH, and has authorized representatives to lobby City of Portland officials on their behalf.',
+          title: 'Overview',
         },
         totals: {
           label: 'Totals',
@@ -153,6 +154,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           intro: null,
+          title: 'Overview',
         },
         totals: {
           label: 'Totals',
@@ -222,6 +224,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           intro: null,
+          title: 'Overview',
         },
         appearances: {
           label: 'Appearances',

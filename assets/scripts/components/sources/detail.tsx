@@ -10,7 +10,7 @@ import Chart from './chart';
 import Incidents from '../detail-incidents';
 import IncidentsFetcher from '../detail-incidents-fetcher';
 import IncidentsTrigger from './detail-incidents-trigger';
-import ItemDetail from '../item-detail';
+import { Container as ItemDetail } from '../item-detail';
 import MetaSection from '../meta-section';
 import SourceInformationBox from '../source-information-box';
 
@@ -76,12 +76,12 @@ const Detail = () => {
 
   const labels = useSelector(getLabels);
 
-  const source = useGetSourceById(numericId);
+  const item = useGetSourceById(numericId);
 
-  const hasSource = Boolean(source);
-  const isActivity = source?.type === 'activity';
+  const hasSource = Boolean(item);
+  const isActivity = item?.type === 'activity';
 
-  const label = hasSource ? `${source.year} Q${source.quarter}` : undefined;
+  const label = hasSource ? `${item.year} Q${item.quarter}` : undefined;
 
   if (!hasSource) return null;
 
@@ -90,20 +90,21 @@ const Detail = () => {
       <MetaSection>
         <SourceInformationBox
           title={labels.sourcesItemInformation}
-          source={source}
+          source={item}
         />
       </MetaSection>
 
       <ActivityOverview
-        overview={source.overview}
+        overview={item.overview}
         ref={incidentsRef}
+        title={item.title}
       >
         <Chart label={label} />
       </ActivityOverview>
 
       {isActivity && (
         <DetailActivity
-          source={source}
+          source={item}
           ref={incidentsRef}
         />
       )}

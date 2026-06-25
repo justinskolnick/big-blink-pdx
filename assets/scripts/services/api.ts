@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import type {
@@ -31,6 +32,8 @@ export type LazyTriggerFn = TypedLazyQueryTrigger<
   AncillaryQueryFnOptions,
   BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>
 >;
+
+export type TriggerChildren = (trigger: LazyTriggerFn) => ReactNode;
 
 const getUrl = (url: string) => new URL(url, window.location.toString());
 

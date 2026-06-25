@@ -444,6 +444,7 @@ export type ItemOverview = {
   label: string;
   labels: {
     intro: string | TrustedHTML | null;
+    title: string | null;
   };
   appearances?: {
     label: string;
@@ -777,6 +778,7 @@ export type SourcesByType = {
 };
 
 export type ItemObject = EntityObject | IncidentObject | PersonObject | SourceObject;
+export type ItemDetailObject = EntityObject | PersonObject;
 
 export type ItemStat = {
   dataSourceId: Id;

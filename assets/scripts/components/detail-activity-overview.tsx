@@ -12,6 +12,10 @@ import StatBox from './stat-box';
 import StatGroup from './stat-group';
 import StatSection from './stat-section';
 
+import useSelector from '../hooks/use-app-selector';
+
+import { getLabels } from '../selectors';
+
 import type {
   ItemOverview,
   Ref,
@@ -21,13 +25,17 @@ interface Props {
   children: ReactNode;
   overview?: ItemOverview;
   ref?: Ref;
+  title: string;
 }
 
 const ActivityOverview = ({
   children,
   overview,
   ref,
+  title,
 }: Props) => {
+  const labels = useSelector(getLabels);
+
   const hasOverview = overview !== undefined;
 
   const hasAppearances = overview?.appearances !== undefined;
@@ -43,13 +51,13 @@ const ActivityOverview = ({
 
   return (
     <div className='activity-overview'>
-      {hasOverview && (
-        <ActivityHeader title={overview.label}>
-          {overview.labels.intro !== null && (
-            <p dangerouslySetInnerHTML={{ __html: overview.labels.intro }} />
-          )}
-        </ActivityHeader>
-      )}
+      <ActivityHeader title={overview?.labels.title ?? labels.overview}>
+        {hasOverview ? overview.labels.intro !== null && (
+          <p dangerouslySetInnerHTML={{ __html: overview.labels.intro }} />
+        ) : (
+          <p><strong>{title}</strong></p>
+        )}
+      </ActivityHeader>
 
       <div className='activity-overview-stats'>
         {hasOverview && (

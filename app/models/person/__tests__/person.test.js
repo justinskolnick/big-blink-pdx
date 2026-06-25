@@ -162,6 +162,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           intro: '<strong>John Doe</strong> has worked for the City of Portland and lobbied City officials.',
+          title: 'Overview',
         },
         totals: {
           label: 'Totals',
@@ -218,6 +219,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           intro: null,
+          title: 'Overview',
         },
         totals: {
           label: 'Totals',

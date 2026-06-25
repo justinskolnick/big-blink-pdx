@@ -91,6 +91,7 @@ class IncidentedBase extends Base {
       label: this.constructor.getLabel('overview'),
       labels: {
         intro: this.overviewDescription,
+        title: this.constructor.getLabel('overview'),
       },
     });
   }

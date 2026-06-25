@@ -1,9 +1,7 @@
-import { ReactNode } from 'react';
-
-import api, { type LazyTriggerFn } from '../../services/api';
+import api, { type TriggerChildren } from '../../services/api';
 
 interface IncidentsTriggerProps {
-  children: (trigger: LazyTriggerFn) => ReactNode;
+  children: TriggerChildren;
 }
 
 const IncidentsTrigger = ({ children }: IncidentsTriggerProps) => {
