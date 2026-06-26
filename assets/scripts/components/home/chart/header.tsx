@@ -4,8 +4,9 @@ import useSelector from '../../../hooks/use-app-selector';
 
 import Header, {
   Content,
+  Details,
   Intro,
-  Overview,
+  Title,
 } from '../../header';
 import Icon from '../../icon';
 
@@ -20,16 +21,24 @@ const ChartHeader = () => {
 
   return (
     <Header isLoading={isLoading}>
-      <Overview>
+      <Title>
         <Icon name='chart-simple' />
         <Content>
           <h3>{labels.title}</h3>
         </Content>
-      </Overview>
+      </Title>
 
       <Intro>
-        <p>{labels.intro}</p>
+        <Content>
+          <p>{labels.intro}</p>
+        </Content>
       </Intro>
+
+      <Details>
+        <Content>
+          <p>{labels.details}</p>
+        </Content>
+      </Details>
     </Header>
   );
 };

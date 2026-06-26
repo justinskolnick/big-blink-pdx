@@ -21,8 +21,16 @@ export const Content = ({ children }: ContainerProps) => (
   <div className='header-content'>{children}</div>
 );
 
+export const Details = ({ children }: ContainerProps) => (
+  <div className='header-details'>{children}</div>
+);
+
 export const Intro = ({ children }: ContainerProps) => (
   <div className='header-intro'>{children}</div>
+);
+
+export const Title = ({ children }: ContainerProps) => (
+  <div className='header-title'>{children}</div>
 );
 
 const Header = ({ children, className, isLoading = false }: Props) => (

@@ -45892,7 +45892,9 @@ Hook ${hookName} was either not provided or not a function.`);
   var import_jsx_runtime15 = __toESM(require_jsx_runtime());
   var Overview = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-overview", children });
   var Content = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-content", children });
+  var Details = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-details", children });
   var Intro = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-intro", children });
+  var Title = ({ children }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "header-title", children });
   var Header = ({ children, className, isLoading = false }) => /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("header", { className: cx("header", className, isLoading && "is-loading"), children });
   var header_default = Header;
 
@@ -45994,7 +45996,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const section = use_app_selector_default(getSection);
     const hasSubhead = Boolean(section?.subtitle);
     return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(header_default, { className: hasSubhead && "has-subheader", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(Overview, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(Title, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "header-identity", children: [
           /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(HeaderIdentityLogo, {}),
           /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(HeaderIdentityEyes, {})
@@ -57350,7 +57352,7 @@ Hook ${hookName} was either not provided or not a function.`);
       }
     }
   };
-  var Title = class extends Element2 {
+  var Title2 = class extends Element2 {
     constructor(config2) {
       super();
       this.chart = config2.chart;
@@ -57442,7 +57444,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }
   };
   function createTitle(chart, titleOpts) {
-    const title = new Title({
+    const title = new Title2({
       ctx: chart.ctx,
       options: titleOpts,
       chart
@@ -57453,7 +57455,7 @@ Hook ${hookName} was either not provided or not a function.`);
   }
   var plugin_title = {
     id: "title",
-    _element: Title,
+    _element: Title2,
     start(chart, _args, options2) {
       createTitle(chart, options2);
     },
@@ -60414,9 +60416,9 @@ Hook ${hookName} was either not provided or not a function.`);
     intro,
     title
   }) => /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(header_default, { className: "activity-header", children: [
-    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { children: title }),
-    intro && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Intro, { children: intro }),
-    content && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Content, { children: content })
+    /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Overview, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("h4", { children: title }) }) }),
+    intro && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Content, { children: intro }) }),
+    content && /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Details, { children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Content, { children: content }) })
   ] });
   var detail_activity_header_default = ActivityHeader;
 
@@ -61670,11 +61672,12 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasLabels = "title" in labels;
     const isLoading = !hasLabels;
     return /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(header_default, { isLoading, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(Overview, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime75.jsxs)(Title, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(icon_default, { name: "chart-simple" }),
         /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("h3", { children: labels.title }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("p", { children: labels.intro }) })
+      /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Intro, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("p", { children: labels.intro }) }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Details, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime75.jsx)("p", { children: labels.details }) }) })
     ] });
   };
   var header_default2 = ChartHeader;
@@ -61715,7 +61718,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const hasLabels = use_app_selector_default(getHasLeaderboardLabels);
     if (!hasLabels) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(header_default, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(Overview, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(Title, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime78.jsx)(icon_default, { name: "trophy" }),
         /* @__PURE__ */ (0, import_jsx_runtime78.jsxs)(Content, { children: [
           /* @__PURE__ */ (0, import_jsx_runtime78.jsx)("h3", { children: labels.title }),

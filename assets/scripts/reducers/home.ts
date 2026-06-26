@@ -8,6 +8,7 @@ type HomeHeader = {
 
 type HomeOverview = {
   title: string;
+  details: string;
   intro: string;
 };
 

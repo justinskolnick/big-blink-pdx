@@ -11,7 +11,7 @@
       }
     }
 
-    .header-overview + .header-intro {
+    .header-title + .header-intro {
       margin-top: calc(var(--gap) * 2);
     }
 
@@ -20,7 +20,7 @@
         opacity: 1;
         transition: opacity 250ms ease-in-out;
 
-        .header-overview {
+        .header-title {
           flex-direction: row;
 
           .icon {
@@ -73,7 +73,7 @@
         }
       }
 
-      .header-overview {
+      .header-title {
         .header-content {
           padding-top: calc(var(--gap) / 4);
           padding-bottom: calc(var(--gap) / 4);
@@ -105,7 +105,7 @@
         }
       }
 
-      .header-overview {
+      .header-title {
         .header-content {
           padding-top: calc(var(--gap) / 2);
           padding-bottom: calc(var(--gap) / 2);

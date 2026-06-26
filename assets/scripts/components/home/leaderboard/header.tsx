@@ -3,7 +3,7 @@ import React from 'react';
 import Header, {
   Content,
   Intro,
-  Overview,
+  Title,
 } from '../../header';
 
 import useSelector from '../../../hooks/use-app-selector';
@@ -23,14 +23,14 @@ const LeaderboardHeader = () => {
 
   return (
     <Header>
-      <Overview>
+      <Title>
         <Icon name='trophy' />
 
         <Content>
           <h3>{labels.title}</h3>
           <h4>{labels.period}</h4>
         </Content>
-      </Overview>
+      </Title>
 
       <Intro>
         <p>{labels.description}</p>

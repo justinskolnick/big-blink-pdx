@@ -37,8 +37,6 @@ router.get('/', async (req, res, next) => {
       firstAndLast.last,
     ]);
 
-    // todo: delete incidents and total
-
     data = {
       home: {
         header: {
@@ -49,7 +47,7 @@ router.get('/', async (req, res, next) => {
             last_id: last.id, // eslint-disable-line camelcase
             last_label: last.contactDate, // eslint-disable-line camelcase
             last_pathname: last.links.self, // eslint-disable-line camelcase
-            pathname: links.incidents(), // eslint-disable-line camelcase
+            pathname: links.incidents(),
             total,
           }),
           note: labels.getLabel('header_note', 'home'),
@@ -57,12 +55,12 @@ router.get('/', async (req, res, next) => {
         overview: {
           title: labels.getLabel('overview_title', 'home'),
           intro: labels.getLabel('overview_intro', 'home'),
+          details: labels.getLabel('overview_details', 'home'),
         },
       },
       incidents: {
         first,
         last,
-        total,
       },
       stats: {
         home: homeStats,
