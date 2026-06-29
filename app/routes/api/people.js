@@ -37,6 +37,7 @@ const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
 
+// const electiveOfficeTerms = require('../../services/elective-office-terms');
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
 const officialPositions = require('../../services/official-positions');
@@ -137,6 +138,7 @@ router.get('/:id', async (req, res, next) => {
   let result;
   let record;
   let incidentsStats;
+  // let terms;
   let data;
   let meta;
 
@@ -155,6 +157,9 @@ router.get('/:id', async (req, res, next) => {
     incidentsStats = await stats.getIncidentsStats({
       personId: id,
     });
+    // terms = await electiveOfficeTerms.getAll({
+    //   personId: id,
+    // });
 
     const {
       hasBeenEmployee,
