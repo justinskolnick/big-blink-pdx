@@ -1,3 +1,4 @@
+const CityOffice = require('../models/city-office');
 const CityOfficeTerms = require('../models/city-office-term');
 
 const db = require('./db');
@@ -9,6 +10,16 @@ const getAll = async (options = {}) => {
 
   return results.map(result => {
     const cityOfficeTerm = new CityOfficeTerms(result);
+    const cityOffice = new CityOffice({
+      id:         result.city_office_id,
+      office:     result.office,
+      district:   result.district,
+      position:   result.position,
+      is_elected: result.is_elected, // eslint-disable-line camelcase
+    });
+
+    cityOfficeTerm.setCityOffice(cityOffice);
+    // console.log(cityOfficeTerm.adapted)
 
     return cityOfficeTerm.adapted;
   });

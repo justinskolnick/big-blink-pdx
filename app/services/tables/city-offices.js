@@ -7,7 +7,7 @@ class CityOffices extends Table {
     office:     { select: true, },
     district:   { select: true, },
     position:   { select: true, },
-    is_elected: { select: true, },
+    is_elected: { select: true, adapt: { method: 'readableBoolean' }, },
     date_start: { select: false, },
     date_end:   { select: false, },
 
