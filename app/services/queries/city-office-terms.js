@@ -2,8 +2,8 @@ const { SORT_ASC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
 
-const ElectiveOffices = require('../tables/elective-offices');
-const ElectiveOfficeTerms = require('../tables/elective-office-terms');
+const CityOffices = require('../tables/city-offices');
+const CityOfficeTerms = require('../tables/city-office-terms');
 const People = require('../tables/people');
 
 const getAllQuery = (options = {}) => {
@@ -20,21 +20,21 @@ const getAllQuery = (options = {}) => {
   if (hasPersonId) {
     clauses.push('SELECT');
 
-    selections.push(...ElectiveOfficeTerms.fields());
-    selections.push(...ElectiveOffices.fields());
+    selections.push(...CityOfficeTerms.fields());
+    selections.push(...CityOffices.fields());
 
     clauses.push(selections.join(', '));
 
-    clauses.push(`FROM ${ElectiveOfficeTerms.tableName()}`);
-    clauses.push(queryHelper.leftJoin(ElectiveOfficeTerms, ElectiveOffices, true));
+    clauses.push(`FROM ${CityOfficeTerms.tableName()}`);
+    clauses.push(queryHelper.leftJoin(CityOfficeTerms, CityOffices, true));
 
     clauses.push('WHERE');
-    clauses.push(`${ElectiveOfficeTerms.field(People.foreignKey())} = ?`);
+    clauses.push(`${CityOfficeTerms.field(People.foreignKey())} = ?`);
 
     params.push(personId);
 
     clauses.push('ORDER BY');
-    clauses.push(`${ElectiveOfficeTerms.field('date_start')} ${SORT_ASC}`);
+    clauses.push(`${CityOfficeTerms.field('date_start')} ${SORT_ASC}`);
   }
 
   return { clauses, params };

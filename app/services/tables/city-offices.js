@@ -1,6 +1,6 @@
 const Table = require('../../lib/db/mysql/table');
 
-class ElectiveOffices extends Table {
+class CityOffices extends Table {
   /* eslint-disable camelcase */
   static fieldNames = {
     id:         { select: true, },
@@ -14,4 +14,4 @@ class ElectiveOffices extends Table {
   /* eslint-enable camelcase */
 }
 
-module.exports = ElectiveOffices;
+module.exports = CityOffices;

@@ -1,6 +1,6 @@
 const Base = require('./shared/base');
 
-const ElectiveOfficeTermsTable = require('../services/tables/elective-office-terms');
+const ElectiveOfficeTermsTable = require('../services/tables/city-office-terms');
 
 class ElectiveOfficeTerm extends Base {
   static table = ElectiveOfficeTermsTable;
