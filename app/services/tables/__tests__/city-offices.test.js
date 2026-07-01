@@ -19,6 +19,7 @@ describe('fields()', () => {
       'city_offices.office',
       'city_offices.district',
       'city_offices.position',
+      'city_offices.is_elected',
     ]);
   });
 });

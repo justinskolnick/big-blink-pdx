@@ -16,6 +16,7 @@ describe('fields()', () => {
   test('returns the expected fields', () => {
     expect(CityOfficeTerms.fields()).toEqual([
       'city_office_terms.id',
+      'city_office_terms.city_office_id',
       'city_office_terms.duration_years',
       'city_office_terms.date_start',
       'city_office_terms.date_end',
