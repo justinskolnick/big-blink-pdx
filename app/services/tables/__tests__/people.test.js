@@ -20,6 +20,7 @@ describe('fields()', () => {
       'people.pernr',
       'people.type',
       'people.name',
+      'people.given',
     ]);
   });
 });

@@ -8,6 +8,7 @@ class People extends Table {
     pernr:        { select: true, },
     type:         { select: true, },
     name:         { select: true, },
+    given:        { select: true, adapt: false, },
     family:       { select: false, },
   };
   /* eslint-enable camelcase */
