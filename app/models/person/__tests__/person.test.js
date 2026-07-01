@@ -6,10 +6,14 @@ const {
   ROLE_OFFICIAL,
 } = require('../../../config/constants');
 
-const resultLobbyist = require('../__mocks__/result-lobbyist');
-const resultOfficial = require('../__mocks__/result-official');
+const resultCityOfficeCityCouncilor = require('../../__mocks__/city-office/result-city-councilor.json');
+const resultCityCouncilor = require('../../__mocks__/city-office-term/result-city-councilor.json');
+const resultLobbyist = require('../../__mocks__/person/result-lobbyist.json');
+const resultOfficial = require('../../__mocks__/person/result-official.json');
 
 const Person = require('../person');
+const CityOffice = require('../../city-office');
+const CityOfficeTerm = require('../../city-office-term');
 
 describe('labelPrefix', () => {
   test('returns the expected labelPrefix', () => {
@@ -134,6 +138,45 @@ describe('adapt()', () => {
       },
       links: {
         self: '/people/123'
+      },
+    });
+  });
+
+  test('adapts a result with terms', () => {
+    const result = new Person(resultOfficial);
+    const cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
+    const cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+
+    cityOfficeTerm.setCityOffice(cityOffice);
+
+    result.setOverviewDescription({
+      hasBeenEmployee: true,
+      hasBeenLobbied: true,
+      hasLobbied: false,
+      terms: [cityOfficeTerm],
+    });
+    result.setOverview();
+
+    expect(result.adapted).toEqual({
+      id: 321,
+      type: 'person',
+      name: 'John Doe',
+      overview: {
+        label: 'Overview',
+        labels: {
+          details: 'John was elected to a four-year term as City Councilor for District 1 starting on January 1, 2025.',
+          intro: '<strong>John Doe</strong> has been lobbied as a City of Portland official.',
+          title: 'Overview',
+        },
+      },
+      pernr: 1020304,
+      roles: {
+        label: 'Roles and Associations',
+        list: [],
+        options: {},
+      },
+      links: {
+        self: '/people/321'
       },
     });
   });
@@ -328,6 +371,7 @@ describe('setData()', () => {
     expect(person.hasLinks()).toBe(true);
 
     expect(person.data).toEqual({
+      given: 'John',
       id: 321,
       identical_id: null, // eslint-disable-line camelcase
       name: 'John Doe',

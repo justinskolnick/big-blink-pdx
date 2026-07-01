@@ -1,0 +1,9 @@
+{
+    "id": 9,
+    "office": "City Councilor",
+    "district": 1,
+    "position": 2,
+    "is_elected": 1,
+    "date_start": "2025-01-01",
+    "date_end": null
+}

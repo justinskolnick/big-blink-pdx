@@ -5,7 +5,10 @@ const db = require('./db');
 const { getAllQuery } = require('./queries/city-office-terms');
 
 const getAll = async (options = {}) => {
-  const { clauses, params } = getAllQuery(options);
+  const { person } = options;
+  const { clauses, params } = getAllQuery({
+    personId: person.id,
+  });
   const results = await db.getAll(clauses, params);
 
   return results.map(result => {
@@ -19,9 +22,8 @@ const getAll = async (options = {}) => {
     });
 
     cityOfficeTerm.setCityOffice(cityOffice);
-    // console.log(cityOfficeTerm.adapted)
 
-    return cityOfficeTerm.adapted;
+    return cityOfficeTerm;
   });
 };
 

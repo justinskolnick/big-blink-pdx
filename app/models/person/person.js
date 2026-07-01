@@ -34,24 +34,60 @@ class Person extends IncidentedBase {
       hasLobbied,
       hasBeenEmployee,
       hasBeenLobbied,
+      terms,
     } = values;
 
     const labelPrefix = this.constructor.labelPrefix;
-    let labelKey;
+    const hasTerms = terms?.length > 0;
+
+    let descriptionKey;
+    let detailsKey;
+    let lastTerm;
 
     if (hasBeenEmployee || hasBeenLobbied) {
       if (hasLobbied) {
-        labelKey = 'overview_description_has_been_both_name';
+        descriptionKey = 'overview_description_has_been_both_name';
       } else {
-        labelKey = 'overview_description_has_been_official_name';
+        descriptionKey = 'overview_description_has_been_official_name';
       }
     } else if (hasLobbied) {
-      labelKey = 'overview_description_has_been_lobbyist_name';
+      descriptionKey = 'overview_description_has_been_lobbyist_name';
     }
 
-    if (labelKey) {
-      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+    if (hasTerms) {
+      lastTerm = terms.at(0);
+
+      if (lastTerm.cityOffice.isElected) {
+        if (lastTerm.isCurrent) {
+          if (lastTerm.cityOffice.isCityCouncilor) {
+            detailsKey = 'overview_details_elected_council_current';
+          } else {
+            detailsKey = 'overview_details_elected_position_current';
+          }
+        } else if (lastTerm.cityOffice.isCityCommissioner) {
+          detailsKey = 'overview_details_elected_commission';
+        } else if (lastTerm.cityOffice.isCityCouncilor) {
+          detailsKey = 'overview_details_elected_council_past';
+        } else {
+          detailsKey = 'overview_details_elected_position_past';
+        }
+      }
+    }
+
+    if (descriptionKey) {
+      this.overviewDescription = this.getLabel(descriptionKey, labelPrefix, {
         name: this.getData('name'),
+      });
+    }
+
+    if (lastTerm && detailsKey) {
+      this.overviewDetails = this.getLabel(detailsKey, labelPrefix, {
+        date_end: lastTerm.readableDateEnd, // eslint-disable-line camelcase
+        date_start: lastTerm.readableDateStart, // eslint-disable-line camelcase
+        duration: lastTerm.duration,
+        name: this.getData('given'),
+        district: lastTerm.cityOffice.getData('district'),
+        office: lastTerm.cityOffice.office,
       });
     }
   }

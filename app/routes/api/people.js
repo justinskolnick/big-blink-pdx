@@ -155,7 +155,7 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     terms = await cityOfficeTerms.getAll({
-      personId: id,
+      person: result,
     });
     incidentsStats = await stats.getIncidentsStats({
       personId: id,
@@ -171,6 +171,7 @@ router.get('/:id', async (req, res, next) => {
       hasBeenEmployee,
       hasBeenLobbied,
       hasLobbied,
+      terms,
     });
     result.setOverview(incidentsStats);
 

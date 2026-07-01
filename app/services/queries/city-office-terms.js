@@ -1,4 +1,4 @@
-const { SORT_ASC } = require('../../config/constants');
+const { SORT_DESC } = require('../../config/constants');
 
 const queryHelper = require('../../helpers/query');
 
@@ -34,7 +34,7 @@ const getAllQuery = (options = {}) => {
     params.push(personId);
 
     clauses.push('ORDER BY');
-    clauses.push(`${CityOfficeTerms.field('date_start')} ${SORT_ASC}`);
+    clauses.push(`${CityOfficeTerms.field('date_start')} ${SORT_DESC}`);
   }
 
   return { clauses, params };
