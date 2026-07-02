@@ -51,7 +51,7 @@ describe('with a mayor', () => {
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.isCurrent).toBe(true);
+      expect(cityOfficeTerm.isCurrent()).toBe(true);
     });
   });
 });
@@ -93,7 +93,7 @@ describe('with a city commissioner', () => {
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.isCurrent).toBe(false);
+      expect(cityOfficeTerm.isCurrent()).toBe(false);
     });
   });
 });
@@ -135,7 +135,7 @@ describe('with a city councilor', () => {
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.isCurrent).toBe(true);
+      expect(cityOfficeTerm.isCurrent()).toBe(true);
     });
   });
 });

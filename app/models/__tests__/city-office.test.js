@@ -15,19 +15,19 @@ describe('with a mayor', () => {
 
   describe('isCityCommissioner()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCityCommissioner).toBe(false);
+      expect(cityOffice.isCityCommissioner()).toBe(false);
     });
   });
 
   describe('isElected()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isElected).toBe(true);
+      expect(cityOffice.isElected()).toBe(true);
     });
   });
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCurrent).toBe(true);
+      expect(cityOffice.isCurrent()).toBe(true);
     });
   });
 
@@ -49,19 +49,19 @@ describe('with a city commissioner', () => {
 
   describe('isCityCommissioner()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCityCommissioner).toBe(true);
+      expect(cityOffice.isCityCommissioner()).toBe(true);
     });
   });
 
   describe('isElected()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isElected).toBe(true);
+      expect(cityOffice.isElected()).toBe(true);
     });
   });
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCurrent).toBe(false);
+      expect(cityOffice.isCurrent()).toBe(false);
     });
   });
 
@@ -83,19 +83,19 @@ describe('with a city councilor', () => {
 
   describe('isCityCommissioner()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCityCommissioner).toBe(false);
+      expect(cityOffice.isCityCommissioner()).toBe(false);
     });
   });
 
   describe('isElected()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isElected).toBe(true);
+      expect(cityOffice.isElected()).toBe(true);
     });
   });
 
   describe('isCurrent()', () => {
     test('returns the expected value', () => {
-      expect(cityOffice.isCurrent).toBe(true);
+      expect(cityOffice.isCurrent()).toBe(true);
     });
   });
 

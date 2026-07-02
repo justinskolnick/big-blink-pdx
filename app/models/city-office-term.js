@@ -23,6 +23,14 @@ class CityOfficeTerm extends Base {
     });
   }
 
+  isCurrent() {
+    const dateStart = new Date(this.getData('date_start'));
+    const dateEnd = new Date(this.getData('date_end'));
+    const now = new Date();
+
+    return dateStart < now && dateEnd > now;
+  }
+
   get duration() {
     const numeral = toNumeral(this.getData('duration_number'));
     const unit = this.getData('duration_unit');
@@ -39,14 +47,6 @@ class CityOfficeTerm extends Base {
 
   get readableDateEnd() {
     return this.constructor.readableDate(this.getData('date_end'));
-  }
-
-  get isCurrent() {
-    const dateStart = new Date(this.getData('date_start'));
-    const dateEnd = new Date(this.getData('date_end'));
-    const now = new Date();
-
-    return dateStart < now && dateEnd > now;
   }
 }
 

@@ -73,16 +73,16 @@ class Person extends IncidentedBase {
       recentTerm = terms.at(0);
       priorTerm = terms.at(1);
 
-      if (recentTerm.cityOffice.isElected) {
-        if (recentTerm.isCurrent) {
-          if (recentTerm.cityOffice.isCityCouncilor) {
+      if (recentTerm.cityOffice.isElected()) {
+        if (recentTerm.isCurrent()) {
+          if (recentTerm.cityOffice.isCityCouncilor()) {
             recentTermKey = 'overview_details_elected_council_current';
           } else {
             recentTermKey = 'overview_details_elected_position_current';
           }
-        } else if (recentTerm.cityOffice.isCityCommissioner) {
+        } else if (recentTerm.cityOffice.isCityCommissioner()) {
           recentTermKey = 'overview_details_elected_commission';
-        } else if (recentTerm.cityOffice.isCityCouncilor) {
+        } else if (recentTerm.cityOffice.isCityCouncilor()) {
           recentTermKey = 'overview_details_elected_council_past';
         } else {
           recentTermKey = 'overview_details_elected_position_past';
@@ -90,7 +90,7 @@ class Person extends IncidentedBase {
       }
 
       if (priorTerm) {
-        if (priorTerm.cityOffice.isElected) {
+        if (priorTerm.cityOffice.isElected()) {
           priorTermKey = 'overview_details_elected_position_prior';
         }
       }
