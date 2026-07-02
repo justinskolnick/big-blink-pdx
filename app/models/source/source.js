@@ -67,6 +67,24 @@ class Source extends IncidentedBase {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setOverviewDetails(values = {}) {
+    const labelPrefix = this.constructor.labelPrefix;
+    let labelKey;
+
+    if (this.getData('type') === this.getType('activity')) {
+      labelKey = 'activity_disclaimer';
+    } else if (this.getData('type') === this.getType('personnel')) {
+      labelKey = 'personnel_disclaimer';
+    } else if (this.getData('type') === this.getType('registration')) {
+      labelKey = 'registration_disclaimer';
+    }
+
+    if (labelKey) {
+      this.overviewDetails = this.getLabel(labelKey, labelPrefix);
+    }
+  }
+
   adapt(result) {
     const otherValues = {};
 

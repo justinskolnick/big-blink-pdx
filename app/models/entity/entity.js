@@ -33,30 +33,36 @@ class Entity extends IncidentedBase {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setOverviewDescription(values = {}) {
-    const {
-      locations,
-    } = values;
-
     const labelPrefix = this.constructor.labelPrefix;
     const isIndividual = this.getData('type') === 'individual';
+
+    let labelKey;
+
+    if (isIndividual) {
+      labelKey = 'overview_description_individual_name';
+    } else {
+      labelKey = 'overview_description_organization_name';
+    }
+
+    if (labelKey) {
+      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+        name: this.getData('name'),
+      });
+    }
+  }
+
+  setOverviewDetails(values = {}) {
+    const { locations } = values;
+
+    const labelPrefix = this.constructor.labelPrefix;
     const hasLocations = locations.length > 0;
     const hasManyLocations = locations.length > 1;
 
-    let descriptionLabelKey;
-    let detailsLabelKey;
+    let labelKey;
     let domainString;
     let locationsString;
-
-    if (isIndividual) {
-      descriptionLabelKey = hasLocations
-        ? 'overview_description_individual_name'
-        : 'overview_description_individual_name';
-    } else {
-      descriptionLabelKey = hasLocations
-        ? 'overview_description_organization_name'
-        : 'overview_description_organization_name';
-    }
 
     if (hasLocations) {
       locationsString = toSentence(
@@ -68,7 +74,7 @@ class Entity extends IncidentedBase {
       const domainURL = getURLforDomain(this.getData('domain'));
 
       domainString = `<a href="${domainURL}" target="_blank">${this.getData('domain')}</a>`;
-      detailsLabelKey = 'overview_details_locations_domain';
+      labelKey = 'overview_details_locations_domain';
     }
 
     if (hasLocations) {
@@ -83,28 +89,22 @@ class Entity extends IncidentedBase {
 
     if (domainString && locationsString) {
       if (hasManyLocations) {
-        detailsLabelKey = 'overview_details_locations_domain';
+        labelKey = 'overview_details_locations_domain';
       } else {
-        detailsLabelKey = 'overview_details_location_domain';
+        labelKey = 'overview_details_location_domain';
       }
     } else if (locationsString) {
       if (hasManyLocations) {
-        detailsLabelKey = 'overview_details_locations';
+        labelKey = 'overview_details_locations';
       } else {
-        detailsLabelKey = 'overview_details_location';
+        labelKey = 'overview_details_location';
       }
     } else if (domainString) {
-      detailsLabelKey = 'overview_details_domain';
+      labelKey = 'overview_details_domain';
     }
 
-    if (descriptionLabelKey) {
-      this.overviewDescription = this.getLabel(descriptionLabelKey, labelPrefix, {
-        name: this.getData('name'),
-      });
-    }
-
-    if (detailsLabelKey) {
-      this.overviewDetails = this.getLabel(detailsLabelKey, labelPrefix, {
+    if (labelKey) {
+      this.overviewDetails = this.getLabel(labelKey, labelPrefix, {
         domain: domainString,
         locations: locationsString,
       });

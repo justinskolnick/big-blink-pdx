@@ -34,28 +34,40 @@ class Person extends IncidentedBase {
       hasLobbied,
       hasBeenEmployee,
       hasBeenLobbied,
-      terms,
     } = values;
+
+    const labelPrefix = this.constructor.labelPrefix;
+
+    let labelKey;
+
+    if (hasBeenEmployee || hasBeenLobbied) {
+      if (hasLobbied) {
+        labelKey = 'overview_description_has_been_both_name';
+      } else {
+        labelKey = 'overview_description_has_been_official_name';
+      }
+    } else if (hasLobbied) {
+      labelKey = 'overview_description_has_been_lobbyist_name';
+    }
+
+    if (labelKey) {
+      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+        name: this.getData('name'),
+      });
+    }
+  }
+
+  setOverviewDetails(values = {}) {
+    const { terms } = values;
 
     const labelPrefix = this.constructor.labelPrefix;
     const hasTerms = terms?.length > 0;
     const details = [];
 
-    let descriptionKey;
     let recentTermKey;
     let priorTermKey;
     let recentTerm;
     let priorTerm;
-
-    if (hasBeenEmployee || hasBeenLobbied) {
-      if (hasLobbied) {
-        descriptionKey = 'overview_description_has_been_both_name';
-      } else {
-        descriptionKey = 'overview_description_has_been_official_name';
-      }
-    } else if (hasLobbied) {
-      descriptionKey = 'overview_description_has_been_lobbyist_name';
-    }
 
     if (hasTerms) {
       recentTerm = terms.at(0);
@@ -82,12 +94,6 @@ class Person extends IncidentedBase {
           priorTermKey = 'overview_details_elected_position_prior';
         }
       }
-    }
-
-    if (descriptionKey) {
-      this.overviewDescription = this.getLabel(descriptionKey, labelPrefix, {
-        name: this.getData('name'),
-      });
     }
 
     if (recentTermKey) {

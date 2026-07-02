@@ -153,6 +153,8 @@ describe('adapt()', () => {
       hasBeenEmployee: true,
       hasBeenLobbied: true,
       hasLobbied: false,
+    });
+    result.setOverviewDetails({
       terms: [cityOfficeTerm],
     });
     result.setOverview();
@@ -189,6 +191,7 @@ describe('adapt()', () => {
       hasBeenLobbied: true,
       hasLobbied: true,
     });
+    person.setOverviewDetails();
     person.setOverview();
 
     expect(person.adapted).toEqual({

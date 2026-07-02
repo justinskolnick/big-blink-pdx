@@ -171,8 +171,8 @@ router.get('/:id', async (req, res, next) => {
       hasBeenEmployee,
       hasBeenLobbied,
       hasLobbied,
-      terms,
     });
+    result.setOverviewDetails({ terms });
     result.setOverview(incidentsStats);
 
     record = result.adapted;

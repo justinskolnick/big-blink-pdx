@@ -108,6 +108,7 @@ describe('adapt()', () => {
     const source = new Source(resultWithTotal);
 
     source.setOverviewDescription();
+    source.setOverviewDetails();
     source.setOverview();
 
     expect(source.adapted).toEqual({
@@ -164,6 +165,7 @@ describe('adapt()', () => {
 
     sourceWithTotal.setGlobalIncidentCount(incidentCountResult);
     sourceWithTotal.setOverviewDescription();
+    sourceWithTotal.setOverviewDetails();
     sourceWithTotal.setOverview();
 
     expect(source.adapted).toEqual({
