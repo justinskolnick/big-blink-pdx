@@ -39,10 +39,13 @@ class Person extends IncidentedBase {
 
     const labelPrefix = this.constructor.labelPrefix;
     const hasTerms = terms?.length > 0;
+    const details = [];
 
     let descriptionKey;
-    let detailsKey;
-    let lastTerm;
+    let recentTermKey;
+    let priorTermKey;
+    let recentTerm;
+    let priorTerm;
 
     if (hasBeenEmployee || hasBeenLobbied) {
       if (hasLobbied) {
@@ -55,21 +58,28 @@ class Person extends IncidentedBase {
     }
 
     if (hasTerms) {
-      lastTerm = terms.at(0);
+      recentTerm = terms.at(0);
+      priorTerm = terms.at(1);
 
-      if (lastTerm.cityOffice.isElected) {
-        if (lastTerm.isCurrent) {
-          if (lastTerm.cityOffice.isCityCouncilor) {
-            detailsKey = 'overview_details_elected_council_current';
+      if (recentTerm.cityOffice.isElected) {
+        if (recentTerm.isCurrent) {
+          if (recentTerm.cityOffice.isCityCouncilor) {
+            recentTermKey = 'overview_details_elected_council_current';
           } else {
-            detailsKey = 'overview_details_elected_position_current';
+            recentTermKey = 'overview_details_elected_position_current';
           }
-        } else if (lastTerm.cityOffice.isCityCommissioner) {
-          detailsKey = 'overview_details_elected_commission';
-        } else if (lastTerm.cityOffice.isCityCouncilor) {
-          detailsKey = 'overview_details_elected_council_past';
+        } else if (recentTerm.cityOffice.isCityCommissioner) {
+          recentTermKey = 'overview_details_elected_commission';
+        } else if (recentTerm.cityOffice.isCityCouncilor) {
+          recentTermKey = 'overview_details_elected_council_past';
         } else {
-          detailsKey = 'overview_details_elected_position_past';
+          recentTermKey = 'overview_details_elected_position_past';
+        }
+      }
+
+      if (priorTerm) {
+        if (priorTerm.cityOffice.isElected) {
+          priorTermKey = 'overview_details_elected_position_prior';
         }
       }
     }
@@ -80,15 +90,32 @@ class Person extends IncidentedBase {
       });
     }
 
-    if (lastTerm && detailsKey) {
-      this.overviewDetails = this.getLabel(detailsKey, labelPrefix, {
-        date_end: lastTerm.readableDateEnd, // eslint-disable-line camelcase
-        date_start: lastTerm.readableDateStart, // eslint-disable-line camelcase
-        duration: lastTerm.duration,
-        name: this.getData('given'),
-        district: lastTerm.cityOffice.getData('district'),
-        office: lastTerm.cityOffice.office,
-      });
+    if (recentTermKey) {
+      details.push(
+        this.getLabel(recentTermKey, labelPrefix, {
+          date_end: recentTerm.readableDateEnd, // eslint-disable-line camelcase
+          date_start: recentTerm.readableDateStart, // eslint-disable-line camelcase
+          duration: recentTerm.duration,
+          name: this.getData('given'),
+          district: recentTerm.cityOffice.getData('district'),
+          office: recentTerm.cityOffice.office,
+        })
+      );
+    }
+
+    if (priorTermKey) {
+      details.push(
+        this.getLabel(priorTermKey, labelPrefix, {
+          date_end: priorTerm.readableDateEnd, // eslint-disable-line camelcase
+          date_start: priorTerm.readableDateStart, // eslint-disable-line camelcase
+          pronoun: this.getData('pronoun_subject'),
+          office: priorTerm.cityOffice.office,
+        })
+      );
+    }
+
+    if (details.length) {
+      this.overviewDetails = details.join(' ');
     }
   }
 

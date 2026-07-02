@@ -21,6 +21,7 @@ describe('fields()', () => {
       'people.type',
       'people.name',
       'people.given',
+      'people.pronoun_subject',
     ]);
   });
 });

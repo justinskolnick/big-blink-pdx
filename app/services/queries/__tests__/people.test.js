@@ -12,7 +12,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery()).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
           'FROM people',
           'WHERE',
           'people.identical_id IS NULL',
@@ -29,7 +29,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ page: 4 })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
           'FROM people',
           'WHERE',
           'people.identical_id IS NULL',
@@ -45,7 +45,7 @@ describe('getAllQuery()', () => {
         expect(getAllQuery({ page: 4, perPage: 15 })).toEqual({
           clauses: [
             'SELECT',
-            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
             'FROM people',
             'WHERE',
             'people.identical_id IS NULL',
@@ -67,7 +67,7 @@ describe('getAllQuery()', () => {
       })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
           'FROM people',
           'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
           'LEFT JOIN incidents ON incidents.id = incident_attendees.incident_id',
@@ -97,7 +97,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
-            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
             'FROM people',
             'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
             'LEFT JOIN incidents ON incidents.id = incident_attendees.incident_id',
@@ -130,7 +130,7 @@ describe('getAllQuery()', () => {
       })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
           'FROM people',
           'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
           'LEFT JOIN incidents ON incidents.id = incident_attendees.incident_id',
@@ -154,7 +154,7 @@ describe('getAllQuery()', () => {
         })).toEqual({
           clauses: [
             'SELECT',
-            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+            'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
             'FROM people',
             'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
             'LEFT JOIN incidents ON incidents.id = incident_attendees.incident_id',
@@ -179,7 +179,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ limit: 5 })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
           'FROM people',
           'WHERE',
           'people.identical_id IS NULL',
@@ -197,7 +197,7 @@ describe('getAllQuery()', () => {
       expect(getAllQuery({ includeTotal: true })).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, COUNT(incident_attendees.id) AS total',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject, COUNT(incident_attendees.id) AS total',
           'FROM people',
           'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
           'WHERE',
@@ -219,7 +219,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, COUNT(incident_attendees.id) AS total',
+              'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject, COUNT(incident_attendees.id) AS total',
               'FROM people',
               'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
               'WHERE',
@@ -242,7 +242,7 @@ describe('getAllQuery()', () => {
           })).toEqual({
             clauses: [
               'SELECT',
-              'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, COUNT(incident_attendees.id) AS total',
+              'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject, COUNT(incident_attendees.id) AS total',
               'FROM people',
               'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
               'WHERE',
@@ -271,7 +271,7 @@ describe('getAtIdQuery()', () => {
       expect(getAtIdQuery(8675309)).toEqual({
         clauses: [
           'SELECT',
-          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, GROUP_CONCAT(distinct incident_attendees.role) AS roles',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject, GROUP_CONCAT(distinct incident_attendees.role) AS roles',
           'FROM people',
           'LEFT JOIN incident_attendees ON incident_attendees.person_id = people.id',
           'WHERE people.id = ?',
