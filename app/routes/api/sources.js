@@ -158,6 +158,7 @@ router.get('/:id', async (req, res, next) => {
       });
 
       result.setOverviewDescription();
+      result.setOverviewDetails();
       result.setOverview(incidentsStats);
       record = result.adapted;
 

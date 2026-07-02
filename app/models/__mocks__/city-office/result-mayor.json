@@ -1,0 +1,9 @@
+{
+    "id": 1,
+    "office": "Mayor",
+    "district": null,
+    "position": null,
+    "is_elected": 1,
+    "date_start": null,
+    "date_end": null
+}

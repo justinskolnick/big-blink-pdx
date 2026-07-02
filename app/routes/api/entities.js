@@ -155,6 +155,9 @@ router.get('/:id', async (req, res, next) => {
     result.setOverviewDescription({
       locations: entityLocations,
     });
+    result.setOverviewDetails({
+      locations: entityLocations,
+    });
     result.setOverview(incidentsStats);
 
     record = result.adapted;

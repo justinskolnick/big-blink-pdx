@@ -37,6 +37,7 @@ const Incident = require('../../models/incident');
 const OfficialPosition = require('../../models/official-position');
 const Person = require('../../models/person/person');
 
+const cityOfficeTerms = require('../../services/city-office-terms');
 const incidentAttendees = require('../../services/incident-attendees');
 const incidents = require('../../services/incidents');
 const officialPositions = require('../../services/official-positions');
@@ -137,6 +138,7 @@ router.get('/:id', async (req, res, next) => {
   let result;
   let record;
   let incidentsStats;
+  let terms;
   let data;
   let meta;
 
@@ -152,6 +154,9 @@ router.get('/:id', async (req, res, next) => {
   }
 
   try {
+    terms = await cityOfficeTerms.getAll({
+      person: result,
+    });
     incidentsStats = await stats.getIncidentsStats({
       personId: id,
     });
@@ -167,6 +172,7 @@ router.get('/:id', async (req, res, next) => {
       hasBeenLobbied,
       hasLobbied,
     });
+    result.setOverviewDetails({ terms });
     result.setOverview(incidentsStats);
 
     record = result.adapted;

@@ -85,7 +85,8 @@ describe('adapt()', () => {
   test('adapts a result with a total', () => {
     const entity = new Entity(resultWithTotal);
 
-    entity.setOverviewDescription({
+    entity.setOverviewDescription();
+    entity.setOverviewDetails({
       locations: [
         {
           id: 9876,

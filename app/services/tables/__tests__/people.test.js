@@ -20,6 +20,8 @@ describe('fields()', () => {
       'people.pernr',
       'people.type',
       'people.name',
+      'people.given',
+      'people.pronoun_subject',
     ]);
   });
 });

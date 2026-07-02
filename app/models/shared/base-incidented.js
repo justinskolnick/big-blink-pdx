@@ -169,6 +169,11 @@ class IncidentedBase extends Base {
     return this.overviewDescription !== null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setOverviewDetails(values = {}) {
+    this.overviewDetails = null;
+  }
+
   setOverview(stats = {}) {
     this.setOverviewObject();
 
