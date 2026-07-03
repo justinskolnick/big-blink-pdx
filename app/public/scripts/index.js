@@ -23341,6 +23341,9 @@
 
   // node_modules/react-router/dist/production/lib/router/utils.js
   var React$1 = __toESM(require_react(), 1);
+  function createContext2(defaultValue) {
+    return { defaultValue };
+  }
   var RouterContextProvider = class {
     #map = /* @__PURE__ */ new Map();
     /**
@@ -23756,6 +23759,21 @@
   function getRoutePattern(matches2) {
     return joinPaths(matches2.map((m2) => m2.route.path).filter(Boolean)) || "/";
   }
+  function createDataFunctionUrl(request, path) {
+    let url = new URL(typeof request === "string" || request instanceof URL ? request : request.url);
+    let parsed = typeof path === "string" ? parsePath(path) : path;
+    url.pathname = parsed.pathname || "/";
+    if (parsed.search) {
+      let searchParams = new URLSearchParams(parsed.search);
+      let indexValues = searchParams.getAll("index");
+      searchParams.delete("index");
+      for (let value of indexValues.filter(Boolean)) searchParams.append("index", value);
+      let search = searchParams.toString();
+      url.search = search ? `?${search}` : "";
+    } else url.search = "";
+    url.hash = parsed.hash || "";
+    return url;
+  }
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   function parseToInfo(_to, basename) {
     let to2 = _to;
@@ -23784,6 +23802,8 @@
 
   // node_modules/react-router/dist/production/lib/router/instrumentation.js
   var UninstrumentedSymbol = /* @__PURE__ */ Symbol("Uninstrumented");
+  var instrumentationResultMetaContext = createContext2();
+  var instrumentationClientResultMetaReceivers = /* @__PURE__ */ new WeakMap();
   function getRouteInstrumentationUpdates(fns, route) {
     let aggregated = {
       lazy: [],
@@ -23799,50 +23819,67 @@
       index: route.index,
       path: route.path,
       instrument(i2) {
-        let keys = Object.keys(aggregated);
-        for (let key of keys) if (i2[key]) aggregated[key].push(i2[key]);
+        if (i2.lazy != null) aggregated.lazy.push(i2.lazy);
+        if (i2["lazy.loader"] != null) aggregated["lazy.loader"].push(i2["lazy.loader"]);
+        if (i2["lazy.action"] != null) aggregated["lazy.action"].push(i2["lazy.action"]);
+        if (i2["lazy.middleware"] != null) aggregated["lazy.middleware"].push(i2["lazy.middleware"]);
+        if (i2.middleware != null) aggregated.middleware.push(i2.middleware);
+        if (i2.loader != null) aggregated.loader.push(i2.loader);
+        if (i2.action != null) aggregated.action.push(i2.action);
       }
     }));
     let updates = {};
     if (typeof route.lazy === "function" && aggregated.lazy.length > 0) {
-      let instrumented = wrapImpl(aggregated.lazy, route.lazy, () => void 0);
-      if (instrumented) updates.lazy = instrumented;
+      let lazy = route.lazy;
+      updates.lazy = async (...args) => {
+        return throwOrReturnResult(await recurseRight(aggregated.lazy, void 0, () => lazy(...args), getInstrumentationInnerResult));
+      };
     }
     if (typeof route.lazy === "object") {
       let lazyObject = route.lazy;
-      [
-        "middleware",
-        "loader",
-        "action"
-      ].forEach((key) => {
-        let lazyFn = lazyObject[key];
-        let instrumentations = aggregated[`lazy.${key}`];
-        if (typeof lazyFn === "function" && instrumentations.length > 0) {
-          let instrumented = wrapImpl(instrumentations, lazyFn, () => void 0);
-          if (instrumented) updates.lazy = Object.assign(updates.lazy || {}, { [key]: instrumented });
-        }
-      });
+      if (typeof lazyObject.middleware === "function" && aggregated["lazy.middleware"].length > 0) {
+        let middleware2 = lazyObject.middleware;
+        updates.lazy = Object.assign(updates.lazy || {}, { middleware: async (...args) => {
+          return throwOrReturnResult(await recurseRight(aggregated["lazy.middleware"], void 0, () => middleware2(...args), getInstrumentationInnerResult));
+        } });
+      }
+      if (typeof lazyObject.loader === "function" && aggregated["lazy.loader"].length > 0) {
+        let loader = lazyObject.loader;
+        updates.lazy = Object.assign(updates.lazy || {}, { loader: async (...args) => {
+          return throwOrReturnResult(await recurseRight(aggregated["lazy.loader"], void 0, () => loader(...args), getInstrumentationInnerResult));
+        } });
+      }
+      if (typeof lazyObject.action === "function" && aggregated["lazy.action"].length > 0) {
+        let action = lazyObject.action;
+        updates.lazy = Object.assign(updates.lazy || {}, { action: async (...args) => {
+          return throwOrReturnResult(await recurseRight(aggregated["lazy.action"], void 0, () => action(...args), getInstrumentationInnerResult));
+        } });
+      }
     }
-    ["loader", "action"].forEach((key) => {
-      let handler = route[key];
-      if (typeof handler === "function" && aggregated[key].length > 0) {
-        let original2 = handler[UninstrumentedSymbol] ?? handler;
-        let instrumented = wrapImpl(aggregated[key], original2, (...args) => getHandlerInfo(args[0]));
-        if (instrumented) {
-          if (key === "loader" && original2.hydrate === true) instrumented.hydrate = true;
-          instrumented[UninstrumentedSymbol] = original2;
-          updates[key] = instrumented;
-        }
-      }
-    });
+    if (typeof route.loader === "function" && aggregated.loader.length > 0) {
+      let original2 = getUninstrumentedHandler(route.loader);
+      let instrumented = async (...args) => {
+        return throwOrReturnResult(await recurseRight(aggregated.loader, getHandlerInfo(args[0]), () => original2(...args), getInstrumentationInnerResult));
+      };
+      if (original2.hydrate === true) instrumented.hydrate = true;
+      setUninstrumentedHandler(instrumented, original2);
+      updates.loader = instrumented;
+    }
+    if (typeof route.action === "function" && aggregated.action.length > 0) {
+      let original2 = getUninstrumentedHandler(route.action);
+      let instrumented = async (...args) => {
+        return throwOrReturnResult(await recurseRight(aggregated.action, getHandlerInfo(args[0]), () => original2(...args), getInstrumentationInnerResult));
+      };
+      setUninstrumentedHandler(instrumented, original2);
+      updates.action = instrumented;
+    }
     if (route.middleware && route.middleware.length > 0 && aggregated.middleware.length > 0) updates.middleware = route.middleware.map((middleware2) => {
-      let original2 = middleware2[UninstrumentedSymbol] ?? middleware2;
-      let instrumented = wrapImpl(aggregated.middleware, original2, (...args) => getHandlerInfo(args[0]));
-      if (instrumented) {
-        instrumented[UninstrumentedSymbol] = original2;
-        return instrumented;
-      }
-      return middleware2;
+      let original2 = getUninstrumentedHandler(middleware2);
+      let instrumented = async (...args) => {
+        return throwOrReturnResult(await recurseRight(aggregated.middleware, getHandlerInfo(args[0]), () => original2(...args), getInstrumentationInnerResult));
+      };
+      setUninstrumentedHandler(instrumented, original2);
+      return instrumented;
     });
     return updates;
   }
@@ -23852,77 +23889,111 @@
       fetch: []
     };
     fns.forEach((fn) => fn({ instrument(i2) {
-      let keys = Object.keys(i2);
-      for (let key of keys) if (i2[key]) aggregated[key].push(i2[key]);
+      if (i2.navigate != null) aggregated.navigate.push(i2.navigate);
+      if (i2.fetch != null) aggregated.fetch.push(i2.fetch);
     } }));
     if (aggregated.navigate.length > 0) {
-      let navigate = router2.navigate[UninstrumentedSymbol] ?? router2.navigate;
-      let instrumentedNavigate = wrapImpl(aggregated.navigate, navigate, (...args) => {
+      let navigate = getUninstrumentedHandler(router2.navigate);
+      let instrumentedNavigate = async (...args) => {
         let [to2, opts] = args;
-        return {
+        let meta;
+        let info = {
           to: typeof to2 === "number" || typeof to2 === "string" ? to2 : to2 ? createPath(to2) : ".",
           ...getRouterInfo(router2, opts ?? {})
         };
-      });
-      if (instrumentedNavigate) {
-        instrumentedNavigate[UninstrumentedSymbol] = navigate;
-        router2.navigate = instrumentedNavigate;
-      }
+        return throwOrReturnResult(await recurseRight(aggregated.navigate, info, async () => {
+          if (typeof to2 === "number") return await navigate(...args);
+          let cleanup = setInstrumentationClientResultMetaReceiver(router2, (value) => {
+            meta = value;
+          });
+          try {
+            return await navigate(...args);
+          } finally {
+            cleanup();
+          }
+        }, (result) => ({
+          ...getInstrumentationInnerResult(result),
+          meta
+        })));
+      };
+      setUninstrumentedHandler(instrumentedNavigate, navigate);
+      router2.navigate = instrumentedNavigate;
     }
     if (aggregated.fetch.length > 0) {
-      let fetch2 = router2.fetch[UninstrumentedSymbol] ?? router2.fetch;
-      let instrumentedFetch = wrapImpl(aggregated.fetch, fetch2, (...args) => {
-        let [key, , href, opts] = args;
-        return {
+      let fetch2 = getUninstrumentedHandler(router2.fetch);
+      let instrumentedFetch = async (...args) => {
+        let [key, _2, href, opts] = args;
+        let meta;
+        return throwOrReturnResult(await recurseRight(aggregated.fetch, {
           href: href ?? ".",
           fetcherKey: key,
           ...getRouterInfo(router2, opts ?? {})
-        };
-      });
-      if (instrumentedFetch) {
-        instrumentedFetch[UninstrumentedSymbol] = fetch2;
-        router2.fetch = instrumentedFetch;
-      }
+        }, async () => {
+          let cleanup = setInstrumentationClientResultMetaReceiver(router2, (value) => {
+            meta = value;
+          });
+          try {
+            return await fetch2(...args);
+          } finally {
+            cleanup();
+          }
+        }, (result) => ({
+          ...getInstrumentationInnerResult(result),
+          meta
+        })));
+      };
+      setUninstrumentedHandler(instrumentedFetch, fetch2);
+      router2.fetch = instrumentedFetch;
     }
     return router2;
   }
-  function wrapImpl(impls, handler, getInfo) {
-    if (impls.length === 0) return null;
-    return async (...args) => {
-      let result = await recurseRight(impls, getInfo(...args), () => handler(...args), impls.length - 1);
-      if (result.type === "error") throw result.value;
-      return result.value;
+  function getUninstrumentedHandler(handler) {
+    return handler[UninstrumentedSymbol] ?? handler;
+  }
+  function setUninstrumentedHandler(handler, uninstrumentedHandler) {
+    handler[UninstrumentedSymbol] = uninstrumentedHandler;
+  }
+  function setInstrumentationClientResultMetaReceiver(router2, receiver) {
+    instrumentationClientResultMetaReceivers.set(router2, receiver);
+    return () => {
+      if (instrumentationClientResultMetaReceivers.get(router2) === receiver) instrumentationClientResultMetaReceivers.delete(router2);
     };
   }
-  async function recurseRight(impls, info, handler, index) {
+  function consumeInstrumentationClientResultMetaReceiver(router2) {
+    let receiver = instrumentationClientResultMetaReceivers.get(router2);
+    instrumentationClientResultMetaReceivers.delete(router2);
+    return receiver;
+  }
+  function throwOrReturnResult(result) {
+    if (result.type === "error") throw result.value;
+    return result.value;
+  }
+  async function recurseRight(impls, info, handler, getInnerResult, state = {
+    result: null,
+    innerResult: null
+  }, index = impls.length - 1) {
     let impl = impls[index];
-    let result;
-    if (!impl) try {
-      result = {
-        type: "success",
-        value: await handler()
-      };
-    } catch (e2) {
-      result = {
-        type: "error",
-        value: e2
-      };
-    }
-    else {
+    if (!impl) {
+      try {
+        state.result = {
+          type: "success",
+          value: await handler()
+        };
+      } catch (e2) {
+        state.result = {
+          type: "error",
+          value: e2
+        };
+      }
+      state.innerResult = getInnerResult(state.result, info);
+    } else {
       let handlerPromise = void 0;
       let callHandler = async () => {
         if (handlerPromise) console.error("You cannot call instrumented handlers more than once");
-        else handlerPromise = recurseRight(impls, info, handler, index - 1);
-        result = await handlerPromise;
-        invariant(result, "Expected a result");
-        if (result.type === "error" && result.value instanceof Error) return {
-          status: "error",
-          error: result.value
-        };
-        return {
-          status: "success",
-          error: void 0
-        };
+        else handlerPromise = recurseRight(impls, info, handler, getInnerResult, state, index - 1);
+        await handlerPromise;
+        invariant(state.innerResult, "Expected an inner result");
+        return state.innerResult;
       };
       try {
         await impl(callHandler, info);
@@ -23932,18 +24003,30 @@
       if (!handlerPromise) await callHandler();
       await handlerPromise;
     }
-    if (result) return result;
-    return {
+    if (state.result) return state.result;
+    state.result = {
       type: "error",
       value: /* @__PURE__ */ new Error("No result assigned in instrumentation chain.")
     };
+    state.innerResult = getInnerResult(state.result, info);
+    return state.result;
+  }
+  function getInstrumentationInnerResult(result) {
+    if (result.type === "error" && result.value instanceof Error) return {
+      status: "error",
+      error: result.value
+    };
+    return {
+      status: "success",
+      error: void 0
+    };
   }
   function getHandlerInfo(args) {
-    let { request, context, params, pattern } = args;
+    let { request, context, params } = args;
     return {
+      ...args,
       request: getReadonlyRequest(request),
       params: { ...params },
-      pattern,
       context: getReadonlyContext(context)
     };
   }
@@ -24359,6 +24442,7 @@
         init.history.go(to2);
         return promise;
       }
+      let instrumentationNavigateMetaReceiver = consumeInstrumentationClientResultMetaReceiver(router2);
       let { path, submission, error } = normalizeNavigateOptions(false, normalizeTo(state.location, state.matches, basename, to2, opts?.fromRouteId, opts?.relative), opts);
       let maskPath;
       if (opts?.mask) maskPath = {
@@ -24416,7 +24500,8 @@
         replace: opts && opts.replace,
         enableViewTransition: opts && opts.viewTransition,
         flushSync,
-        callSiteDefaultShouldRevalidate: opts && opts.defaultShouldRevalidate
+        callSiteDefaultShouldRevalidate: opts && opts.defaultShouldRevalidate,
+        instrumentationNavigateMetaReceiver
       });
     }
     function revalidate() {
@@ -24452,6 +24537,10 @@
       }
       let fogOfWar = checkFogOfWar(matches2, routesToUse, location2.pathname);
       if (fogOfWar.active && fogOfWar.matches) matches2 = fogOfWar.matches;
+      if (opts?.instrumentationNavigateMetaReceiver) {
+        let meta = getInstrumentationNavigateMeta(init.history, location2, matches2);
+        opts.instrumentationNavigateMetaReceiver(meta);
+      }
       if (!matches2) {
         let { error, notFoundMatches, route } = handleNavigational404(location2.pathname);
         completeNavigation(location2, {
@@ -24711,11 +24800,13 @@
     async function fetch2(key, routeId, href, opts) {
       abortFetcher(key);
       let flushSync = (opts && opts.flushSync) === true;
+      let instrumentationResultMetaReceiver = consumeInstrumentationClientResultMetaReceiver(router2);
       let routesToUse = dataRoutes.activeRoutes;
       let normalizedPath = normalizeTo(state.location, state.matches, basename, href, routeId, opts?.relative);
       let matches2 = matchRoutesImpl(routesToUse, normalizedPath, basename, false, dataRoutes.branches);
       let fogOfWar = checkFogOfWar(matches2, routesToUse, normalizedPath);
       if (fogOfWar.active && fogOfWar.matches) matches2 = fogOfWar.matches;
+      if (instrumentationResultMetaReceiver) instrumentationResultMetaReceiver(getInstrumentationNavigateMeta(init.history, normalizedPath, matches2));
       if (!matches2) {
         setFetcherError(key, routeId, getInternalRouterError(404, { pathname: normalizedPath }), { flushSync });
         return;
@@ -26103,21 +26194,6 @@
     }
     return new Request(url, init);
   }
-  function createDataFunctionUrl(request, path) {
-    let url = new URL(request.url);
-    let parsed = typeof path === "string" ? parsePath(path) : path;
-    url.pathname = parsed.pathname || "/";
-    if (parsed.search) {
-      let searchParams = new URLSearchParams(parsed.search);
-      let indexValues = searchParams.getAll("index");
-      searchParams.delete("index");
-      for (let value of indexValues.filter(Boolean)) searchParams.append("index", value);
-      let search = searchParams.toString();
-      url.search = search ? `?${search}` : "";
-    } else url.search = "";
-    url.hash = parsed.hash || "";
-    return url;
-  }
   function convertFormDataToSearchParams(formData) {
     let searchParams = new URLSearchParams();
     for (let [key, value] of formData.entries()) searchParams.append(key, typeof value === "string" ? value : value.name);
@@ -26318,6 +26394,13 @@
     if (matches2[matches2.length - 1].route.index && hasNakedIndexQuery(search || "")) return matches2[matches2.length - 1];
     let pathMatches = getPathContributingMatches(matches2);
     return pathMatches[pathMatches.length - 1];
+  }
+  function getInstrumentationNavigateMeta(history, location2, matches2) {
+    return {
+      url: createDataFunctionUrl(history.createURL(location2), location2),
+      pattern: matches2 ? getRoutePattern(matches2) : "",
+      params: matches2?.[0]?.params ? { ...matches2[0].params } : {}
+    };
   }
   function getSubmissionFromNavigation(navigation2) {
     let { formMethod, formAction, formEncType, text: text2, formData, json } = navigation2;
@@ -27651,7 +27734,7 @@
   var React$17 = __toESM(require_react(), 1);
   var isBrowser2 = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   try {
-    if (isBrowser2) window.__reactRouterVersion = "8.0.1";
+    if (isBrowser2) window.__reactRouterVersion = "8.1.0";
   } catch (e2) {
   }
   function createBrowserRouter(routes, opts) {
@@ -47641,7 +47724,7 @@ Hook ${hookName} was either not provided or not a function.`);
       max: keepZero(max, change)
     };
   }
-  function createContext5(parentContext, context) {
+  function createContext6(parentContext, context) {
     return Object.assign(Object.create(parentContext), context);
   }
   function _createResolver(scopes, prefixes = [
@@ -48602,7 +48685,7 @@ Hook ${hookName} was either not provided or not a function.`);
       let style;
       for (i2 = start + 1; i2 <= segment.end; i2++) {
         const pt = points[i2 % count];
-        style = readStyle(segmentOptions.setContext(createContext5(chartContext, {
+        style = readStyle(segmentOptions.setContext(createContext6(chartContext, {
           type: "segment",
           p0: prev2,
           p1: pt,
@@ -49195,7 +49278,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return Object.keys(scales).filter((key) => scales[key].axis === axis).shift();
   }
   function createDatasetContext(parent, index) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       active: false,
       dataset: void 0,
       datasetIndex: index,
@@ -49205,7 +49288,7 @@ Hook ${hookName} was either not provided or not a function.`);
     });
   }
   function createDataContext(parent, index, element) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       active: false,
       dataIndex: index,
       parsed: void 0,
@@ -51541,13 +51624,13 @@ Hook ${hookName} was either not provided or not a function.`);
     return lines * font.lineHeight + padding.height;
   }
   function createScaleContext(parent, scale) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       scale,
       type: "scale"
     });
   }
   function createTickContext(parent, index, tick) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       tick,
       index,
       type: "tick"
@@ -54004,7 +54087,7 @@ Hook ${hookName} was either not provided or not a function.`);
       return meta;
     }
     getContext() {
-      return this.$context || (this.$context = createContext5(null, {
+      return this.$context || (this.$context = createContext6(null, {
         chart: this,
         type: "chart"
       }));
@@ -55751,7 +55834,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return pushOrConcat([], splitNewlines(callback2));
   }
   function createTooltipContext(parent, tooltip, tooltipItems) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       tooltip,
       tooltipItems,
       type: "tooltip"
@@ -57283,7 +57366,7 @@ Hook ${hookName} was either not provided or not a function.`);
     ctx.restore();
   }
   function createPointLabelContext(parent, index, label) {
-    return createContext5(parent, {
+    return createContext6(parent, {
       label,
       index,
       type: "pointLabel"
@@ -60565,7 +60648,7 @@ react-router/dist/production/lib/dom/ssr/components.js:
 react-router/dist/production/lib/dom/lib.js:
 react-router/dist/production/index.js:
   (**
-   * react-router v8.0.1
+   * react-router v8.1.0
    *
    * Copyright (c) Remix Software Inc.
    *
