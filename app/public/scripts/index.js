@@ -42450,11 +42450,6 @@ Hook ${hookName} was either not provided or not a function.`);
   var DEFAULT_CLASSNAMES = `${LAYER_CLASSES.default} ${STYLE_CLASSES.fixedWidth}`;
 
   // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
-  var faMinus = {
-    prefix: "fas",
-    iconName: "minus",
-    icon: [448, 512, [8211, 8722, 10134, "subtract"], "f068", "M0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32z"]
-  };
   var faFileExcel = {
     prefix: "fas",
     iconName: "file-excel",
@@ -42515,6 +42510,11 @@ Hook ${hookName} was either not provided or not a function.`);
     iconName: "arrow-up",
     icon: [384, 512, [8593], "f062", "M214.6 9.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 109.3 160 480c0 17.7 14.3 32 32 32s32-14.3 32-32l0-370.7 105.4 105.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"]
   };
+  var faCalendar = {
+    prefix: "fas",
+    iconName: "calendar",
+    icon: [448, 512, [128197, 128198], "f133", "M128 0C110.3 0 96 14.3 96 32l0 32-32 0C28.7 64 0 92.7 0 128l0 48 448 0 0-48c0-35.3-28.7-64-64-64l-32 0 0-32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 32-128 0 0-32c0-17.7-14.3-32-32-32zM0 224L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-192-448 0z"]
+  };
   var faCheck = {
     prefix: "fas",
     iconName: "check",
@@ -42561,6 +42561,11 @@ Hook ${hookName} was either not provided or not a function.`);
     iconName: "asterisk",
     icon: [448, 512, [10033, 61545], "2a", "M224 0c17.7 0 32 14.3 32 32l0 168.6 144-83.1c15.3-8.8 34.9-3.6 43.7 11.7s3.6 34.9-11.7 43.7L288 256 432 339.1c15.3 8.8 20.6 28.4 11.7 43.7s-28.4 20.6-43.7 11.7L256 311.4 256 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-168.6-144 83.1c-15.3 8.8-34.9 3.6-43.7-11.7S.7 348 16 339.1L160 256 16 172.9C.7 164-4.5 144.5 4.3 129.1S32.7 108.6 48 117.4L192 200.6 192 32c0-17.7 14.3-32 32-32z"]
   };
+  var faFilePdf = {
+    prefix: "fas",
+    iconName: "file-pdf",
+    icon: [576, 512, [], "f1c1", "M96 0C60.7 0 32 28.7 32 64l0 384c0 35.3 28.7 64 64 64l80 0 0-112c0-35.3 28.7-64 64-64l176 0 0-165.5c0-17-6.7-33.3-18.7-45.3L290.7 18.7C278.7 6.7 262.5 0 245.5 0L96 0zM357.5 176L264 176c-13.3 0-24-10.7-24-24L240 58.5 357.5 176zM240 380c-11 0-20 9-20 20l0 128c0 11 9 20 20 20s20-9 20-20l0-28 12 0c33.1 0 60-26.9 60-60s-26.9-60-60-60l-32 0zm32 80l-12 0 0-40 12 0c11 0 20 9 20 20s-9 20-20 20zm96-80c-11 0-20 9-20 20l0 128c0 11 9 20 20 20l32 0c28.7 0 52-23.3 52-52l0-64c0-28.7-23.3-52-52-52l-32 0zm20 128l0-88 12 0c6.6 0 12 5.4 12 12l0 64c0 6.6-5.4 12-12 12l-12 0zm88-108l0 128c0 11 9 20 20 20s20-9 20-20l0-44 28 0c11 0 20-9 20-20s-9-20-20-20l-28 0 0-24 28 0c11 0 20-9 20-20s-9-20-20-20l-48 0c-11 0-20 9-20 20z"]
+  };
   var faArrowLeft = {
     prefix: "fas",
     iconName: "arrow-left",
@@ -42571,11 +42576,6 @@ Hook ${hookName} was either not provided or not a function.`);
     iconName: "landmark",
     icon: [512, 512, [127963], "f66f", "M238.7 5.1c10.5-6.8 24.1-6.8 34.6 0l224 144c11.9 7.7 17.4 22.3 13.4 35.9s-16.5 23-30.7 23l-32 0 0 208 51.2 38.4c8.1 6 12.8 15.5 12.8 25.6 0 17.7-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32 0-10.1 4.7-19.6 12.8-25.6l51.2-38.4 0 0 0-208-32 0c-14.2 0-26.7-9.4-30.7-23s1.5-28.3 13.4-35.9l224-144zM336 208l0 208 64 0 0-208-64 0zM224 416l64 0 0-208-64 0 0 208zM112 208l0 208 64 0 0-208-64 0z"]
   };
-  var faPlus = {
-    prefix: "fas",
-    iconName: "plus",
-    icon: [448, 512, [10133, 61543, "add"], "2b", "M256 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 160-160 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0 0 160c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160 160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0 0-160z"]
-  };
   var faBriefcase = {
     prefix: "fas",
     iconName: "briefcase",
@@ -42585,13 +42585,6 @@ Hook ${hookName} was either not provided or not a function.`);
     prefix: "fas",
     iconName: "arrow-down",
     icon: [384, 512, [8595], "f063", "M169.4 502.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 402.7 224 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 370.7-105.4-105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"]
-  };
-
-  // node_modules/@fortawesome/free-regular-svg-icons/index.mjs
-  var faCalendar = {
-    prefix: "far",
-    iconName: "calendar",
-    icon: [448, 512, [128197, 128198], "f133", "M120 0c13.3 0 24 10.7 24 24l0 40 160 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 32 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 128C0 92.7 28.7 64 64 64l32 0 0-40c0-13.3 10.7-24 24-24zm0 112l-56 0c-8.8 0-16 7.2-16 16l0 48 352 0 0-48c0-8.8-7.2-16-16-16l-264 0zM48 224l0 192c0 8.8 7.2 16 16 16l320 0c8.8 0 16-7.2 16-16l0-192-352 0z"]
   };
 
   // assets/scripts/components/links.tsx
@@ -42835,13 +42828,12 @@ Hook ${hookName} was either not provided or not a function.`);
     faDatabase,
     faFileCsv,
     faFileExcel,
+    faFilePdf,
     faFilter,
     faHandshake,
     faLandmark,
     faLink,
     faListOl,
-    faMinus,
-    faPlus,
     faThumbtack,
     faTriangleExclamation,
     faTrophy,
@@ -42856,7 +42848,7 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["asterisk"] = "fas" /* Solid */;
     SetForIcon2["briefcase"] = "fas" /* Solid */;
     SetForIcon2["building"] = "fas" /* Solid */;
-    SetForIcon2["calendar"] = "far" /* Regular */;
+    SetForIcon2["calendar"] = "fas" /* Solid */;
     SetForIcon2["chart-line"] = "fas" /* Solid */;
     SetForIcon2["chart-simple"] = "fas" /* Solid */;
     SetForIcon2["check"] = "fas" /* Solid */;
@@ -42865,13 +42857,12 @@ Hook ${hookName} was either not provided or not a function.`);
     SetForIcon2["database"] = "fas" /* Solid */;
     SetForIcon2["file-csv"] = "fas" /* Solid */;
     SetForIcon2["file-excel"] = "fas" /* Solid */;
+    SetForIcon2["file-pdf"] = "fas" /* Solid */;
     SetForIcon2["filter"] = "fas" /* Solid */;
     SetForIcon2["handshake"] = "fas" /* Solid */;
     SetForIcon2["landmark"] = "fas" /* Solid */;
     SetForIcon2["link"] = "fas" /* Solid */;
     SetForIcon2["list-ol"] = "fas" /* Solid */;
-    SetForIcon2["minus"] = "fas" /* Solid */;
-    SetForIcon2["plus"] = "fas" /* Solid */;
     SetForIcon2["thumbtack"] = "fas" /* Solid */;
     SetForIcon2["triangle-exclamation"] = "fas" /* Solid */;
     SetForIcon2["trophy"] = "fas" /* Solid */;
@@ -44023,27 +44014,35 @@ Hook ${hookName} was either not provided or not a function.`);
 
   // assets/scripts/components/people/icon.tsx
   var import_jsx_runtime18 = __toESM(require_jsx_runtime());
-  var TypeForIcon = /* @__PURE__ */ ((TypeForIcon2) => {
-    TypeForIcon2["group"] = "user-group";
-    TypeForIcon2["person"] = "user-large";
-    TypeForIcon2["unknown"] = "circle-question";
-    return TypeForIcon2;
+  var TypeForIcon = /* @__PURE__ */ ((TypeForIcon3) => {
+    TypeForIcon3["group"] = "user-group";
+    TypeForIcon3["person"] = "user-large";
+    TypeForIcon3["unknown"] = "circle-question";
+    return TypeForIcon3;
   })(TypeForIcon || {});
-  var getIconName2 = (person) => TypeForIcon[person?.type ?? "person"];
-  var PeopleIcon = ({ person }) => {
-    const { id } = useParams();
-    const numericId = Number(id);
-    const personAtId = useGetPersonById(numericId);
-    const name = getIconName2(person || personAtId);
+  var getIconName2 = (item) => TypeForIcon[item?.type ?? "person"];
+  var PeopleIcon = ({ item }) => {
+    const name = getIconName2(item);
     return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(icon_default, { name });
   };
   var icon_default4 = PeopleIcon;
 
   // assets/scripts/components/sources/icon.tsx
   var import_jsx_runtime19 = __toESM(require_jsx_runtime());
-  var iconName3 = "database";
-  var EntitiesIcon2 = () => /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(icon_default, { name: iconName3 });
-  var icon_default5 = EntitiesIcon2;
+  var TypeForIcon2 = /* @__PURE__ */ ((TypeForIcon3) => {
+    TypeForIcon3["source"] = "database";
+    TypeForIcon3["csv"] = "file-csv";
+    TypeForIcon3["excel"] = "file-excel";
+    TypeForIcon3["pdf"] = "file-pdf";
+    return TypeForIcon3;
+  })(TypeForIcon2 || {});
+  var iconName3 = "database" /* source */;
+  var getIconName3 = (item) => TypeForIcon2[item?.format ?? "source"];
+  var SourcesIcon = ({ item }) => {
+    const name = getIconName3(item);
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(icon_default, { name });
+  };
+  var icon_default5 = SourcesIcon;
 
   // assets/scripts/components/section-icon.tsx
   var import_jsx_runtime20 = __toESM(require_jsx_runtime());
@@ -58996,7 +58995,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(
       ItemRow,
       {
-        icon: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(icon_default4, { person }),
+        icon: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(icon_default4, { item: person }),
         name: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(item_link_default, { item: person, children: person.name }),
         total: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(FilterLink, { newParams: getWithPeopleParams(person, personRole, role), hasIcon: true, children: item.total })
       }
@@ -59041,7 +59040,7 @@ Hook ${hookName} was either not provided or not a function.`);
     RoleIcon2[RoleIcon2["source"] = iconName3] = "source";
     return RoleIcon2;
   })(RoleIcon || {});
-  var getIconName3 = (role) => RoleIcon[role];
+  var getIconName4 = (role) => RoleIcon[role];
 
   // assets/scripts/components/incident-activity-groups.tsx
   var import_jsx_runtime62 = __toESM(require_jsx_runtime());
@@ -59243,7 +59242,7 @@ Hook ${hookName} was either not provided or not a function.`);
         detail_activity_subhead_default,
         {
           title: namedRole.label,
-          icon: getIconName3(namedRole.role)
+          icon: getIconName4(namedRole.role)
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime65.jsx)(
@@ -59875,7 +59874,7 @@ Hook ${hookName} was either not provided or not a function.`);
     return /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(
       ItemRow,
       {
-        icon: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(icon_default4, { person }),
+        icon: /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(icon_default4, { item: person }),
         name: hasTotal ? /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(item_link_default, { item: person, children: person.name }) : person.name,
         percentage: percentage ?? /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_jsx_runtime82.Fragment, { children: "-" }),
         total: total ?? /* @__PURE__ */ (0, import_jsx_runtime82.jsx)(import_jsx_runtime82.Fragment, { children: "-" })
@@ -60272,7 +60271,7 @@ Hook ${hookName} was either not provided or not a function.`);
     }, [id, source, trigger]);
     if (!hasSource) return null;
     return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(icon_default5, {}) }),
+      /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(icon_default5, { item: source }) }),
       source.type === "activity" ? /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(ActivityItem, { source }) : /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(OtherItem, { source })
     ] });
   };
@@ -60660,7 +60659,6 @@ react-router/dist/production/index.js:
 
 @fortawesome/fontawesome-svg-core/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
-@fortawesome/free-regular-svg-icons/index.mjs:
   (*!
    * Font Awesome Free 7.3.0 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

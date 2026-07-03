@@ -60,7 +60,7 @@ const Item = ({ id }: Props) => {
   return (
     <ItemLink item={source} className='item-source-quarter'>
       <div className='item-source-quarter-icon'>
-        <Icon />
+        <Icon item={source} />
       </div>
 
       {source.type === 'activity' ? (

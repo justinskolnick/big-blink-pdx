@@ -24,7 +24,7 @@ export const Item = ({ id }: Props) => {
 
   return (
     <ItemRow
-      icon={<Icon person={person} />}
+      icon={<Icon item={person} />}
       name={(
         hasTotal ? (
           <ItemLink item={person}>{person.name}</ItemLink>

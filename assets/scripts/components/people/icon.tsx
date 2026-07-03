@@ -1,14 +1,11 @@
 import React from 'react';
-import { useParams } from 'react-router';
 
 import Icon from '../icon';
-
-import { useGetPersonById } from '../../reducers/people';
 
 import type { PersonObject } from '../../types';
 
 interface Props {
-  person?: PersonObject;
+  item?: PersonObject;
 }
 
 enum TypeForIcon {
@@ -19,15 +16,10 @@ enum TypeForIcon {
 
 export const iconName = TypeForIcon.group;
 
-const getIconName = (person?: PersonObject) => TypeForIcon[person?.type ?? 'person'];
+const getIconName = (item?: PersonObject) => TypeForIcon[item?.type ?? 'person'];
 
-const PeopleIcon = ({ person }: Props) => {
-  const { id } = useParams();
-  const numericId = Number(id);
-
-  const personAtId = useGetPersonById(numericId);
-
-  const name = getIconName(person || personAtId);
+const PeopleIcon = ({ item }: Props) => {
+  const name = getIconName(item);
 
   return <Icon name={name} />;
 };

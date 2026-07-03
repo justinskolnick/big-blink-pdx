@@ -44,7 +44,7 @@ const AffiliatedPerson = ({ item, personRole, role }: AffiliatedPersonProps) => 
 
   return (
     <ItemRow
-      icon={<Icon person={person} />}
+      icon={<Icon item={person} />}
       name={(
         <ItemLink item={person}>
           {person.name}

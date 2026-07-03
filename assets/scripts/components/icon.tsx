@@ -10,6 +10,7 @@ import {
   faAsterisk,
   faBriefcase,
   faBuilding,
+  faCalendar,
   faChartLine,
   faChartSimple,
   faCheck,
@@ -18,22 +19,18 @@ import {
   faDatabase,
   faFileCsv,
   faFileExcel,
+  faFilePdf,
   faFilter,
   faHandshake,
   faLandmark,
   faLink,
   faListOl,
-  faMinus,
-  faPlus,
   faThumbtack,
   faTriangleExclamation,
   faTrophy,
   faUserGroup,
   faUserLarge,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faCalendar,
-} from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faArrowDown,
@@ -52,13 +49,12 @@ library.add(
   faDatabase,
   faFileCsv,
   faFileExcel,
+  faFilePdf,
   faFilter,
   faHandshake,
   faLandmark,
   faLink,
   faListOl,
-  faMinus,
-  faPlus,
   faThumbtack,
   faTriangleExclamation,
   faTrophy,
@@ -71,7 +67,6 @@ import { BetterLink as Link } from './links';
 import type { LinkTo } from '../types';
 
 enum IconSets {
-  Regular = 'far',
   Solid = 'fas',
 }
 
@@ -83,7 +78,7 @@ enum SetForIcon {
   'asterisk' = IconSets.Solid,
   'briefcase' = IconSets.Solid,
   'building' = IconSets.Solid,
-  'calendar' = IconSets.Regular,
+  'calendar' = IconSets.Solid,
   'chart-line' = IconSets.Solid,
   'chart-simple' = IconSets.Solid,
   'check' = IconSets.Solid,
@@ -92,13 +87,12 @@ enum SetForIcon {
   'database' = IconSets.Solid,
   'file-csv' = IconSets.Solid,
   'file-excel' = IconSets.Solid,
+  'file-pdf' = IconSets.Solid,
   'filter' = IconSets.Solid,
   'handshake' = IconSets.Solid,
   'landmark' = IconSets.Solid,
   'link' = IconSets.Solid,
   'list-ol' = IconSets.Solid,
-  'minus' = IconSets.Solid,
-  'plus' = IconSets.Solid,
   'thumbtack' = IconSets.Solid,
   'triangle-exclamation' = IconSets.Solid,
   'trophy' = IconSets.Solid,
