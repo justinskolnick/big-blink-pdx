@@ -28,7 +28,7 @@ const ActivityItem = ({ source }: ItemProps) => {
   const labels = useSelector(getLabels);
 
   return (
-    <div className='item-source-quarter-description'>
+    <div className='item-source-description'>
       <h6>{source.title}</h6>
       {hasTotals && (
         <p>{total} {labels.incidents}</p>
@@ -38,7 +38,7 @@ const ActivityItem = ({ source }: ItemProps) => {
 };
 
 const OtherItem = ({ source }: ItemProps) => (
-  <div className='item-source-quarter-description'>
+  <div className='item-source-description'>
     <h6>{source.title}</h6>
   </div>
 );
@@ -58,8 +58,8 @@ const Item = ({ id }: Props) => {
   if (!hasSource) return null;
 
   return (
-    <ItemLink item={source} className='item-source-quarter'>
-      <div className='item-source-quarter-icon'>
+    <ItemLink item={source} className='item-source'>
+      <div className='item-source-icon'>
         <Icon item={source} />
       </div>
 

@@ -2663,78 +2663,70 @@ ul.incident-types ::marker {
 }
 .section.section-sources .section-index .item-index-group-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: calc(18px / 2);
-  grid-gap: calc(var(--gap) / 2);
-  gap: calc(18px / 2);
-  gap: calc(var(--gap) / 2);
-}
-@media screen and (max-width: 780px) {
-  .section.section-sources .section-index .item-index-group-grid {
-    grid-template-columns: 1fr;
-  }
+  grid-auto-rows: minmax(36px, auto);
+  grid-gap: 18px;
+  grid-gap: var(--gap);
+  gap: 18px;
+  gap: var(--gap);
 }
 .section.section-sources .item-detail .meta-section + .activity-overview {
   margin-top: calc(3 * 18px);
   margin-top: calc(3 * var(--gap));
 }
-.section.section-sources .item-source-quarter {
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-start;
-  overflow: hidden;
-  border-radius: 9px;
-  border: 1px solid cornflowerblue;
-  border: 1px solid var(--color-blue);
+.section.section-sources .item-source {
+  position: relative;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  grid-gap: 18px;
+  grid-gap: var(--gap);
+  gap: 18px;
+  gap: var(--gap);
 }
-.section.section-sources .item-source-quarter .item-source-quarter-icon,
-.section.section-sources .item-source-quarter .item-source-quarter-description {
-  padding: 12px 18px;
+.section.section-sources .item-source:hover {
+  border-bottom: none;
 }
-.section.section-sources .item-source-quarter .item-source-quarter-icon {
-  display: flex;
+.section.section-sources .item-source:hover .item-source-description h6 {
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+}
+.section.section-sources .item-source .item-source-icon {
+  display: grid;
   align-items: center;
-  background-color: aliceblue;
-  background-color: var(--color-light-blue);
-  color: cornflowerblue;
-  color: var(--color-blue);
+  justify-items: center;
+  place-items: center;
 }
-.section.section-sources .item-source-quarter .item-source-quarter-icon .icon {
+.section.section-sources .item-source .item-source-icon .icon {
   font-size: 14px;
 }
-.section.section-sources .item-source-quarter .item-source-quarter-description {
-  width: 100%;
+.section.section-sources .item-source .item-source-description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: calc(18px / 6);
+  gap: calc(var(--gap) / 6);
 }
-.section.section-sources .item-source-quarter .item-source-quarter-description h6 {
+.section.section-sources .item-source .item-source-description h6 {
+  flex-basis: 300px;
   color: black;
   color: var(--color-black);
+  font-size: 14px;
   line-height: 18px;
 }
-.section.section-sources .item-source-quarter .item-source-quarter-description p {
+.section.section-sources .item-source .item-source-description p {
   color: gray;
   color: var(--color-gray);
   font-size: 12px;
   line-height: 18px;
 }
-@media screen and (min-width: 901px) {
-  .section.section-sources .item-source-quarter .item-source-quarter-description {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-@media screen and (min-width: 781px) and (max-width: 900px) {
-  .section.section-sources .item-source-quarter .item-source-quarter-description h6 + p {
-    margin-top: 3px;
-  }
-}
-@media screen and (min-width: 451px) and (max-width: 780px) {
-  .section.section-sources .item-source-quarter .item-source-quarter-description {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-@media screen and (max-width: 450px) {
-  .section.section-sources .item-source-quarter .item-source-quarter-description h6 + p {
-    margin-top: 3px;
-  }
+.section.section-sources .item-source + .item-source::before {
+  content: "";
+  position: absolute;
+  top: calc(18px / 2 * -1);
+  top: calc(var(--gap) / 2 * -1);
+  width: 100%;
+  height: 1px;
+  display: block;
+  border-top: 1px solid gainsboro;
+  border-top: 1px solid var(--color-divider);
 }

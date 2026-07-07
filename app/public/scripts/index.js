@@ -60251,7 +60251,7 @@ Hook ${hookName} was either not provided or not a function.`);
     const total = source.overview?.totals?.values?.total?.value;
     const hasTotals = Boolean(total);
     const labels = use_app_selector_default(getLabels);
-    return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)("div", { className: "item-source-quarter-description", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)("div", { className: "item-source-description", children: [
       /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("h6", { children: source.title }),
       hasTotals && /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)("p", { children: [
         total,
@@ -60260,7 +60260,7 @@ Hook ${hookName} was either not provided or not a function.`);
       ] })
     ] });
   };
-  var OtherItem = ({ source }) => /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-quarter-description", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("h6", { children: source.title }) });
+  var OtherItem = ({ source }) => /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-description", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("h6", { children: source.title }) });
   var Item3 = ({ id }) => {
     const [trigger] = api_default.useLazyGetSourceByIdQuery();
     const source = useGetSourceById(id);
@@ -60270,8 +60270,8 @@ Hook ${hookName} was either not provided or not a function.`);
       trigger({ id });
     }, [id, source, trigger]);
     if (!hasSource) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)(item_link_default3, { item: source, className: "item-source-quarter", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-quarter-icon", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(icon_default5, { item: source }) }),
+    return /* @__PURE__ */ (0, import_jsx_runtime96.jsxs)(item_link_default3, { item: source, className: "item-source", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime96.jsx)("div", { className: "item-source-icon", children: /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(icon_default5, { item: source }) }),
       source.type === "activity" ? /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(ActivityItem, { source }) : /* @__PURE__ */ (0, import_jsx_runtime96.jsx)(OtherItem, { source })
     ] });
   };
