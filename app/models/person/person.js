@@ -101,7 +101,7 @@ class Person extends IncidentedBase {
         this.getLabel(recentTermKey, labelPrefix, {
           date_end: recentTerm.readableDateEnd, // eslint-disable-line camelcase
           date_start: recentTerm.readableDateStart, // eslint-disable-line camelcase
-          duration: recentTerm.duration,
+          duration: recentTerm.readableDuration,
           name: this.getData('given'),
           district: recentTerm.cityOffice.getData('district'),
           office: recentTerm.cityOffice.office,
