@@ -34,6 +34,10 @@ class CityOffice extends Base {
     return (!this.hasDateStart() && !this.hasDateEnd()) || (dateStart < now && !this.hasDateEnd());
   }
 
+  get id() {
+    return this.getData('id');
+  }
+
   get office() {
     return this.getData('office');
   }

@@ -11,6 +11,16 @@ const getDaysApart = (dateString1, dateString2) => {
   return Math.floor(difference / dayInMilliseconds);
 };
 
+const getMonthsToYears = (months, round = true) => {
+  const value = months / 12;
+
+  return round ? Math.round(value) : [Math.floor(value), months % 12];
+};
+
+const getYearsToMonths = (years) => years * 12;
+
 module.exports = {
   getDaysApart,
+  getMonthsToYears,
+  getYearsToMonths,
 };

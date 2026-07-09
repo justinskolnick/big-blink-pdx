@@ -71,8 +71,6 @@ describe('collect', () => {
         {
           dateEnd: 'December 31, 2028',
           dateStart: 'January 1, 2021',
-          durationNumber: 8,
-          durationUnit: 'year',
           id: 3,
           office: {
             district: null,
@@ -85,12 +83,14 @@ describe('collect', () => {
             dateEnd: '2028-12-31',
             dateStart: '2021-01-01',
           },
+          tenure: {
+            number: 96,
+            unit: 'month',
+          },
         },
         {
           dateEnd: 'December 31, 2020',
           dateStart: 'January 1, 2017',
-          durationNumber: 4,
-          durationUnit: 'year',
           id: 1,
           office: {
             district: null,
@@ -103,6 +103,10 @@ describe('collect', () => {
             dateEnd: '2020-12-31',
             dateStart: '2017-01-01',
           },
+          tenure: {
+            number: 48,
+            unit: 'month',
+          },
         },
       ]);
     });
@@ -110,6 +114,27 @@ describe('collect', () => {
     describe('wasReelected()', () => {
       test('returns the expected value', () => {
         expect(collected.at(0).wasReelected()).toBe(true);
+        expect(collected.at(1).wasReelected()).toBe(false);
+      });
+    });
+
+    describe('tenure', () => {
+      test('returns the expected value', () => {
+        expect(collected.at(0).tenure).toEqual({
+          number: 96,
+          unit: 'month',
+        });
+        expect(collected.at(1).tenure).toEqual({
+          number: 48,
+          unit: 'month',
+        });
+      });
+    });
+
+    describe('termCount', () => {
+      test('returns the expected value', () => {
+        expect(collected.at(0).termCount).toBe(2);
+        expect(collected.at(1).termCount).toBe(1);
       });
     });
   });
@@ -136,8 +161,6 @@ describe('with a mayor', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2028',
         dateStart: 'January 1, 2025',
-        durationNumber: 4,
-        durationUnit: 'year',
         id: 3,
         office: {
           district: null,
@@ -150,22 +173,17 @@ describe('with a mayor', () => {
           dateEnd: '2028-12-31',
           dateStart: '2025-01-01',
         },
+        tenure: {
+          number: 48,
+          unit: 'month',
+        },
       });
     });
   });
 
-  describe('duration()', () => {
+  describe('readableTenure()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.duration).toEqual({
-        number: 4,
-        unit: 'year',
-      });
-    });
-  });
-
-  describe('readableDuration()', () => {
-    test('returns the expected value', () => {
-      expect(cityOfficeTerm.readableDuration).toEqual('four-year');
+      expect(cityOfficeTerm.readableTenure).toEqual('four-year');
     });
   });
 
@@ -193,8 +211,6 @@ describe('with a city commissioner', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2024',
         dateStart: 'January 1, 2021',
-        durationNumber: 4,
-        durationUnit: 'year',
         id: 19,
         office: {
           district: null,
@@ -207,22 +223,17 @@ describe('with a city commissioner', () => {
           dateEnd: '2024-12-31',
           dateStart: '2021-01-01',
         },
+        tenure: {
+          number: 48,
+          unit: 'month',
+        },
       });
     });
   });
 
-  describe('duration()', () => {
+  describe('readableTenure()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.duration).toEqual({
-        number: 4,
-        unit: 'year',
-      });
-    });
-  });
-
-  describe('readableDuration()', () => {
-    test('returns the expected value', () => {
-      expect(cityOfficeTerm.readableDuration).toEqual('four-year');
+      expect(cityOfficeTerm.readableTenure).toEqual('four-year');
     });
   });
 
@@ -250,8 +261,6 @@ describe('with a city councilor', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2028',
         dateStart: 'January 1, 2025',
-        durationNumber: 4,
-        durationUnit: 'year',
         id: 4,
         office: {
           district: 1,
@@ -264,22 +273,17 @@ describe('with a city councilor', () => {
           dateEnd: '2028-12-31',
           dateStart: '2025-01-01',
         },
+        tenure: {
+          number: 48,
+          unit: 'month',
+        },
       });
     });
   });
 
-  describe('duration()', () => {
+  describe('readableTenure()', () => {
     test('returns the expected value', () => {
-      expect(cityOfficeTerm.duration).toEqual({
-        number: 4,
-        unit: 'year',
-      });
-    });
-  });
-
-  describe('readableDuration()', () => {
-    test('returns the expected value', () => {
-      expect(cityOfficeTerm.readableDuration).toEqual('four-year');
+      expect(cityOfficeTerm.readableTenure).toEqual('four-year');
     });
   });
 

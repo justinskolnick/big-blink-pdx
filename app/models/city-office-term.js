@@ -1,31 +1,29 @@
-const Base = require('./shared/base');
+const {
+  TIME_MONTH,
+  TIME_YEAR,
+} = require('../config/constants');
 
-const { getDaysApart } = require('../lib/date');
+const {
+  getDaysApart,
+  getMonthsToYears,
+  getYearsToMonths,
+} = require('../lib/date');
 const { toNumeral } = require('../lib/number');
+
+const Base = require('./shared/base');
 
 const CityOfficeTermsTable = require('../services/tables/city-office-terms');
 
 class CityOfficeTerm extends Base {
   static table = CityOfficeTermsTable;
 
-  static termsAreConsecutive(current, previous) {
-    const daysApart = getDaysApart(current.dateEnd, previous.dateStart);
-
-    return daysApart === 1;
-  }
-
-  static officesAreIdentical(current, previous) {
-    return current.cityOffice.office === previous.cityOffice.office;
-  }
-
   static collect(results) {
     return results.reduce((collected, current, i) => {
       if (i > 0) {
         const previous = collected.at(-1);
 
-        if (this.termsAreConsecutive(current, previous) && this.officesAreIdentical(current, previous)) {
-          previous.setCumulativeDates(current.dateStart, previous.dateEnd);
-          previous.setCumulativeDuration(previous.duration.number + current.duration.number, previous.duration.unit);
+        if (current.isConsecutiveWithTerm(previous) && current.isSameOfficeAsTerm(previous)) {
+          previous.addTerm(current);
         } else {
           collected.push(current);
         }
@@ -38,41 +36,56 @@ class CityOfficeTerm extends Base {
   }
 
   cityOffice = null;
-  cumulative = {
-    dates: null,
-    duration: null,
-  };
+
+  configureOtherValues() {
+    super.terms = [];
+
+    this.setTerm();
+  }
 
   setCityOffice(cityOffice) {
     this.cityOffice = cityOffice;
   }
 
-  setCumulativeDates(start, end) {
-    this.cumulative.dates = {
-      start,
-      end,
-    };
+  setTerm() {
+    let number = this.getData('duration_number');
+
+    if (this.getData('duration_unit') === TIME_YEAR) {
+      number = getYearsToMonths(this.getData('duration_number'));
+    }
+
+    this.terms.push({
+      dates: {
+        start: this.getData('date_start'),
+        end: this.getData('date_end'),
+      },
+      number,
+      unit: TIME_MONTH,
+    });
   }
 
-  setCumulativeDuration(number, unit) {
-    this.cumulative.duration = {
-      number,
-      unit,
-    };
+  addTerm(term) {
+    this.terms = [].concat(this.terms, term.terms);
   }
 
   adapt(result) {
     return this.adaptResult(result, {
-      dateStart: this.readableDateStart,
       dateEnd: this.readableDateEnd,
-      durationNumber: this.duration.number,
-      durationUnit: this.duration.unit,
+      dateStart: this.readableDateStart,
+      tenure: this.tenure,
+      id: this.id,
       office: this.cityOffice.adapted,
       raw: {
         dateStart: this.dateStart,
         dateEnd: this.dateEnd,
       },
     });
+  }
+
+  isConsecutiveWithTerm(term) {
+    const daysApart = getDaysApart(this.dateEnd, term.dateStart);
+
+    return daysApart === 1;
   }
 
   isCurrent() {
@@ -83,26 +96,24 @@ class CityOfficeTerm extends Base {
     return dateStart < now && dateEnd > now;
   }
 
+  isSameOfficeAsTerm(term) {
+    return this.cityOffice.id === term.cityOffice.id;
+  }
+
   wasReelected() {
-    return this.cumulative.dates !== null;
+    return this.terms.length > 1;
   }
 
   get dateStart() {
-    return this.cumulative.dates?.start ?? this.getData('date_start');
+    return this.terms.map(term => term.dates.start).sort().at(0);
   }
 
   get dateEnd() {
-    return this.cumulative.dates?.end ?? this.getData('date_end');
+    return this.terms.map(term => term.dates.end).sort().at(-1);
   }
 
-  get duration() {
-    const number = this.cumulative.duration?.number ?? this.getData('duration_number');
-    const unit = this.cumulative.duration?.unit ?? this.getData('duration_unit');
-
-    return {
-      number,
-      unit,
-    };
+  get id() {
+    return this.getData('id');
   }
 
   get readableDateStart() {
@@ -113,14 +124,30 @@ class CityOfficeTerm extends Base {
     return this.constructor.readableDate(this.dateEnd);
   }
 
-  get readableDuration() {
-    const number = this.duration.number;
-    const unit = this.duration.unit;
+  get readableTenure() {
+    const number = getMonthsToYears(this.tenure.number);
+    const unit = TIME_YEAR;
 
     return this.getLabel('number-unit', null, {
       number: this.getLabel(toNumeral(number), 'numeral'),
       unit: this.getLabel(unit, 'unit'),
     });
+  }
+
+  get tenure() {
+    return this.terms.reduce((collected, current) => {
+      const number = collected.number || 0;
+      const unit = collected.unit || TIME_MONTH;
+
+      return {
+        number: number + current.number,
+        unit,
+      };
+    }, {});
+  }
+
+  get termCount() {
+    return this.terms.length;
   }
 }
 

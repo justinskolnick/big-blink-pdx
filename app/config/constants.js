@@ -58,6 +58,8 @@ const SECTION_INCIDENTS = 'incidents';
 const SECTION_PEOPLE = 'people';
 const SECTION_SOURCES = 'sources';
 
+const TIME_MONTH = 'month';
+const TIME_YEAR = 'year';
 const TIME_ZONE = 'America/Los_Angeles';
 
 module.exports = {
@@ -103,5 +105,7 @@ module.exports = {
   SORT_BY_TOTAL,
   SORT_DESC,
   SORT_OPTIONS,
+  TIME_MONTH,
+  TIME_YEAR,
   TIME_ZONE,
 };

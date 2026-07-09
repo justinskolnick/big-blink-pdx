@@ -137,6 +137,7 @@ class Base {
 
     this.configureLabels();
     this.configureLinksObject();
+    this.configureOtherValues();
   }
 
   setData(key, value) {
@@ -182,6 +183,8 @@ class Base {
       }
     }
   }
+
+  configureOtherValues() {}
 
   getLabel(key, prefix = '', values = null) {
     return this.constructor.getLabel(key, prefix, values);
