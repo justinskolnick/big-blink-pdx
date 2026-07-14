@@ -459,6 +459,17 @@ export type ItemOverview = {
 
 export type ItemTableLabels = LeaderboardTableLabels;
 
+type ItemObjectLabels = {
+  disclaimer?: string;
+  incidents?: {
+    title: string;
+  };
+  overview: {
+    chart: string;
+    title: string;
+  };
+};
+
 export type ItemRegistrations = {
   isRegistered: boolean;
   labels: {
@@ -477,6 +488,7 @@ export type EntityObject = {
   overview?: ItemOverview;
   roles?: EntityObjectRoles;
   type: 'entity';
+  labels: ItemObjectLabels;
   links?: LinkObject;
 };
 
@@ -719,6 +731,7 @@ export type PersonObject = {
   incidents?: IncidentsIdsObject;
   officialPositions?: PersonOfficialPosition[];
   overview?: ItemOverview;
+  labels: ItemObjectLabels;
   links?: LinkObject;
 };
 
@@ -752,9 +765,7 @@ export type SourceObject = {
   incidents?: IncidentsIdsObject;
   details?: Details;
   overview?: ItemOverview;
-  labels: {
-    disclaimer: string;
-  };
+  labels: ItemObjectLabels;
   links?: LinkObject;
 };
 
@@ -779,7 +790,7 @@ export type SourcesByType = {
 };
 
 export type ItemObject = EntityObject | IncidentObject | PersonObject | SourceObject;
-export type ItemDetailObject = EntityObject | PersonObject;
+export type ItemDetailObject = EntityObject | PersonObject | SourceObject;
 
 export type ItemStat = {
   dataSourceId: Id;

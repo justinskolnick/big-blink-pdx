@@ -4,6 +4,10 @@ import Filter, { Filters } from './filter';
 import IncidentsHeader, { PrimaryAssociation } from './incidents-header';
 import IncidentList from './incident-list';
 
+import useSelector from '../hooks/use-app-selector';
+
+import { getLabels } from '../selectors';
+
 import type {
   Filters as FiltersType,
   Ids,
@@ -15,7 +19,7 @@ interface Props {
   filters?: FiltersType;
   hasSort?: boolean;
   ids?: Ids;
-  label: string;
+  label?: string;
   pagination?: Pagination;
   ref?: Ref;
   roleIsPrimary?: boolean;
@@ -29,35 +33,39 @@ const DetailIncidents = ({
   pagination,
   ref,
   roleIsPrimary,
-}: Props) => (
-  <section className='activity-stat-section incident-list-section' ref={ref}>
-    <IncidentsHeader subtitle={
-      <PrimaryAssociation label={label}>
-        {roleIsPrimary && (
-          <Filter filter={filters?.role} inline />
-        )}
-      </PrimaryAssociation>
-    }>
-      <Filters className='incidents-filters'>
-        <Filter filter={filters?.entities} />
-        {roleIsPrimary ? (
-          <Filter filter={filters?.people} />
-        ) : (
-          <Filter filter={filters?.people} filterRelated={filters?.role} />
-        )}
-        <Filter filter={filters?.quarter} />
-        <Filter filter={filters?.dates} />
-      </Filters>
-    </IncidentsHeader>
+}: Props) => {
+  const labels = useSelector(getLabels);
 
-    {ids?.length && pagination && (
-      <IncidentList
-        hasSort={hasSort}
-        ids={ids}
-        pagination={pagination}
-      />
-    )}
-  </section>
-);
+  return (
+    <section className='activity-stat-section incident-list-section' ref={ref}>
+      <IncidentsHeader subtitle={
+        <PrimaryAssociation label={label || labels.thisItem}>
+          {roleIsPrimary && (
+            <Filter filter={filters?.role} inline />
+          )}
+        </PrimaryAssociation>
+      }>
+        <Filters className='incidents-filters'>
+          <Filter filter={filters?.entities} />
+          {roleIsPrimary ? (
+            <Filter filter={filters?.people} />
+          ) : (
+            <Filter filter={filters?.people} filterRelated={filters?.role} />
+          )}
+          <Filter filter={filters?.quarter} />
+          <Filter filter={filters?.dates} />
+        </Filters>
+      </IncidentsHeader>
+
+      {ids?.length && pagination && (
+        <IncidentList
+          hasSort={hasSort}
+          ids={ids}
+          pagination={pagination}
+        />
+      )}
+    </section>
+  );
+};
 
 export default DetailIncidents;

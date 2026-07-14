@@ -147,6 +147,20 @@ class Entity extends IncidentedBase {
     return this.adaptResult(result, otherValues);
   }
 
+  adaptLabels(result, adapted) {
+    adapted.labels = {
+      incidents: {
+        title: this.getData('name'),
+      },
+      overview: {
+        chart: this.getData('name'),
+        title: this.getData('name'),
+      },
+    };
+
+    return adapted;
+  }
+
   configureLabels() {
     /* eslint-disable camelcase */
     this.constructor.setLabelKeySubstitutions({

@@ -107,6 +107,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 123,
+                  labels: {
+                    incidents: {
+                      title: 'Zaida Melchiori',
+                    },
+                    overview: {
+                      chart: 'Zaida Melchiori',
+                      title: 'Zaida Melchiori',
+                    },
+                  },
                   links: {
                     self: '/people/123',
                   },
@@ -124,6 +133,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 124,
+                  labels: {
+                    incidents: {
+                      title: 'Lorette Carcieri',
+                    },
+                    overview: {
+                      chart: 'Lorette Carcieri',
+                      title: 'Lorette Carcieri',
+                    },
+                  },
                   links: {
                     self: '/people/124',
                   },
@@ -141,6 +159,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 125,
+                  labels: {
+                    incidents: {
+                      title: 'Julio Mari',
+                    },
+                    overview: {
+                      chart: 'Julio Mari',
+                      title: 'Julio Mari',
+                    },
+                  },
                   links: {
                     self: '/people/125',
                   },
@@ -158,6 +185,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 126,
+                  labels: {
+                    incidents: {
+                      title: 'Tonda Vierk',
+                    },
+                    overview: {
+                      chart: 'Tonda Vierk',
+                      title: 'Tonda Vierk',
+                    },
+                  },
                   links: {
                     self: '/people/126',
                   },
@@ -175,6 +211,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 127,
+                  labels: {
+                    incidents: {
+                      title: 'Danae Buntjer',
+                    },
+                    overview: {
+                      chart: 'Danae Buntjer',
+                      title: 'Danae Buntjer',
+                    },
+                  },
                   links: {
                     self: '/people/127',
                   },
@@ -192,6 +237,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 128,
+                  labels: {
+                    incidents: {
+                      title: 'Dirk Chiarello',
+                    },
+                    overview: {
+                      chart: 'Dirk Chiarello',
+                      title: 'Dirk Chiarello',
+                    },
+                  },
                   links: {
                     self: '/people/128',
                   },
@@ -224,6 +278,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 126,
+                  labels: {
+                    incidents: {
+                      title: 'Burton Eriksen',
+                    },
+                    overview: {
+                      chart: 'Burton Eriksen',
+                      title: 'Burton Eriksen',
+                    },
+                  },
                   links: {
                     self: '/people/126',
                   },
@@ -241,6 +304,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 127,
+                  labels: {
+                    incidents: {
+                      title: 'Tianna Fosso',
+                    },
+                    overview: {
+                      chart: 'Tianna Fosso',
+                      title: 'Tianna Fosso',
+                    },
+                  },
                   links: {
                     self: '/people/127',
                   },
@@ -289,6 +361,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 123,
+                    labels: {
+                      incidents: {
+                        title: 'Zaida Melchiori',
+                      },
+                      overview: {
+                        chart: 'Zaida Melchiori',
+                        title: 'Zaida Melchiori',
+                      },
+                    },
                     links: {
                       self: '/people/123',
                     },
@@ -306,6 +387,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 124,
+                    labels: {
+                      incidents: {
+                        title: 'Lorette Carcieri',
+                      },
+                      overview: {
+                        chart: 'Lorette Carcieri',
+                        title: 'Lorette Carcieri',
+                      },
+                    },
                     links: {
                       self: '/people/124',
                     },
@@ -323,6 +413,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 125,
+                    labels: {
+                      incidents: {
+                        title: 'Julio Mari',
+                      },
+                      overview: {
+                        chart: 'Julio Mari',
+                        title: 'Julio Mari',
+                      },
+                    },
                     links: {
                       self: '/people/125',
                     },
@@ -355,6 +454,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 126,
+                    labels: {
+                      incidents: {
+                        title: 'Burton Eriksen',
+                      },
+                      overview: {
+                        chart: 'Burton Eriksen',
+                        title: 'Burton Eriksen',
+                      },
+                    },
                     links: {
                       self: '/people/126',
                     },
@@ -372,6 +480,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 127,
+                    labels: {
+                      incidents: {
+                        title: 'Tianna Fosso',
+                      },
+                      overview: {
+                        chart: 'Tianna Fosso',
+                        title: 'Tianna Fosso',
+                      },
+                    },
                     links: {
                       self: '/people/127',
                     },
@@ -419,6 +536,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 123,
+                    labels: {
+                      incidents: {
+                        title: 'Zaida Melchiori',
+                      },
+                      overview: {
+                        chart: 'Zaida Melchiori',
+                        title: 'Zaida Melchiori',
+                      },
+                    },
                     links: {
                       self: '/people/123',
                     },
@@ -436,6 +562,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 124,
+                    labels: {
+                      incidents: {
+                        title: 'Lorette Carcieri',
+                      },
+                      overview: {
+                        chart: 'Lorette Carcieri',
+                        title: 'Lorette Carcieri',
+                      },
+                    },
                     links: {
                       self: '/people/124',
                     },
@@ -453,6 +588,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 125,
+                    labels: {
+                      incidents: {
+                        title: 'Julio Mari',
+                      },
+                      overview: {
+                        chart: 'Julio Mari',
+                        title: 'Julio Mari',
+                      },
+                    },
                     links: {
                       self: '/people/125',
                     },
@@ -485,6 +629,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 126,
+                    labels: {
+                      incidents: {
+                        title: 'Burton Eriksen',
+                      },
+                      overview: {
+                        chart: 'Burton Eriksen',
+                        title: 'Burton Eriksen',
+                      },
+                    },
                     links: {
                       self: '/people/126',
                     },
@@ -502,6 +655,15 @@ describe('toRoleObject()', () => {
                 {
                   person: {
                     id: 127,
+                    labels: {
+                      incidents: {
+                        title: 'Tianna Fosso',
+                      },
+                      overview: {
+                        chart: 'Tianna Fosso',
+                        title: 'Tianna Fosso',
+                      },
+                    },
                     links: {
                       self: '/people/127',
                     },
@@ -550,6 +712,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 123,
+                  labels: {
+                    incidents: {
+                      title: 'Zaida Melchiori',
+                    },
+                    overview: {
+                      chart: 'Zaida Melchiori',
+                      title: 'Zaida Melchiori',
+                    },
+                  },
                   links: {
                     self: '/people/123',
                   },
@@ -567,6 +738,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 124,
+                  labels: {
+                    incidents: {
+                      title: 'Lorette Carcieri',
+                    },
+                    overview: {
+                      chart: 'Lorette Carcieri',
+                      title: 'Lorette Carcieri',
+                    },
+                  },
                   links: {
                     self: '/people/124',
                   },
@@ -584,6 +764,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 125,
+                  labels: {
+                    incidents: {
+                      title: 'Julio Mari',
+                    },
+                    overview: {
+                      chart: 'Julio Mari',
+                      title: 'Julio Mari',
+                    },
+                  },
                   links: {
                     self: '/people/125',
                   },
@@ -616,6 +805,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 126,
+                  labels: {
+                    incidents: {
+                      title: 'Burton Eriksen',
+                    },
+                    overview: {
+                      chart: 'Burton Eriksen',
+                      title: 'Burton Eriksen',
+                    },
+                  },
                   links: {
                     self: '/people/126',
                   },
@@ -633,6 +831,15 @@ describe('toRoleObject()', () => {
               {
                 person: {
                   id: 127,
+                  labels: {
+                    incidents: {
+                      title: 'Tianna Fosso',
+                    },
+                    overview: {
+                      chart: 'Tianna Fosso',
+                      title: 'Tianna Fosso',
+                    },
+                  },
                   links: {
                     self: '/people/127',
                   },

@@ -9,7 +9,6 @@ import type { SearchValue } from '../hooks/use-limited-query';
 
 import api from '../services/api';
 
-import { ActivityDetailsSection } from './detail-activity-details';
 import ActivityHeader from './detail-activity-header';
 import ActivitySubhead from './detail-activity-subhead';
 import AffiliatedEntitiesTable from './affiliated-entities-table';
@@ -51,6 +50,10 @@ type QueryType = typeof api.useLazyGetPersonRolesByIdQuery | typeof api.useLazyG
 
 interface FnGetQueryByType {
   (type: string): QueryType
+}
+
+interface ContainerProps {
+  children: ReactNode;
 }
 
 interface GroupProps {
@@ -116,6 +119,18 @@ const useGetItemRolesByItem: FnUseGetItemRolesById = (item, searchOptions, isPau
     search: searchOptions,
   });
 };
+
+const ActivityDetailsSection = ({ children }: ContainerProps) => (
+  <section className='activity-details-section'>
+    {children}
+  </section>
+);
+
+const ActivityDetails = ({ children }: ContainerProps) => (
+  <section className='activity-details'>
+    {children}
+  </section>
+);
 
 export const Group = ({ children, icon, title }: GroupProps) => {
   const ref = useRef<RefElement>(null);
@@ -310,13 +325,13 @@ const Associations = ({ item }: Props) => {
   if (!hasItem || !hasItemRoles) return null;
 
   return (
-    <>
+    <ActivityDetails>
       <ActivityHeader title={item.roles?.label ?? ''} />
 
       {roles.map((role, i) => (
         <NamedRole key={i} item={item} role={role} />
       ))}
-    </>
+    </ActivityDetails>
   );
 };
 

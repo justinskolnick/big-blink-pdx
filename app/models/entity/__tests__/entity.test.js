@@ -66,6 +66,15 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'example.com',
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
+        },
+      },
       links: {
         self: '/entities/1'
       },
@@ -124,6 +133,15 @@ describe('adapt()', () => {
           },
         },
       },
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
+        },
+      },
       links: {
         self: '/entities/1'
       },
@@ -173,6 +191,15 @@ describe('adapt()', () => {
               value: 123,
             },
           },
+        },
+      },
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
         },
       },
       links: {
@@ -270,6 +297,15 @@ describe('adapt()', () => {
           },
         },
       },
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
+        },
+      },
       links: {
         self: '/entities/1'
       },
@@ -293,6 +329,15 @@ describe('adapt()', () => {
       id: 1,
       name: 'Spacely Sprockets',
       domain: 'example.com',
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
+        },
+      },
       links: {
         self: '/entities/1'
       },
@@ -408,6 +453,15 @@ describe('setData()', () => {
       domain: 'example.com',
       id: 1,
       name: 'Spacely Sprockets',
+      labels: {
+        incidents: {
+          title: 'Spacely Sprockets',
+        },
+        overview: {
+          chart: 'Spacely Sprockets',
+          title: 'Spacely Sprockets',
+        },
+      },
       links: {
         self: '/entities/1'
       },
