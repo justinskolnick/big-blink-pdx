@@ -7,7 +7,7 @@ class EntityLobbyistLocations extends Table {
     data_source_id: { select: false, },
     entity_id:      { select: false, },
     city:           { select: true, },
-    region:         { select: true, },
+    region:         { select: true, adapt: { method: 'readableRegion' } },
   };
   /* eslint-enable camelcase */
 }
