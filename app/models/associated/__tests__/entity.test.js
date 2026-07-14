@@ -47,6 +47,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 123,
+                  labels: {
+                    incidents: {
+                      title: 'ikhslzZsVq1Vz',
+                    },
+                    overview: {
+                      chart: 'ikhslzZsVq1Vz',
+                      title: 'ikhslzZsVq1Vz',
+                    },
+                  },
                   links: {
                     self: '/entities/123',
                   },
@@ -78,6 +87,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 124,
+                  labels: {
+                    incidents: {
+                      title: 'sIVGOYPh',
+                    },
+                    overview: {
+                      chart: 'sIVGOYPh',
+                      title: 'sIVGOYPh',
+                    },
+                  },
                   links: {
                     self: '/entities/124',
                   },
@@ -109,6 +127,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 125,
+                  labels: {
+                    incidents: {
+                      title: 'tH49K0mbUpl3',
+                    },
+                    overview: {
+                      chart: 'tH49K0mbUpl3',
+                      title: 'tH49K0mbUpl3',
+                    },
+                  },
                   links: {
                     self: '/entities/125',
                   },
@@ -169,6 +196,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 123,
+                  labels: {
+                    incidents: {
+                      title: 'ikhslzZsVq1Vz',
+                    },
+                    overview: {
+                      chart: 'ikhslzZsVq1Vz',
+                      title: 'ikhslzZsVq1Vz',
+                    },
+                  },
                   links: {
                     self: '/entities/123',
                   },
@@ -190,6 +226,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 124,
+                  labels: {
+                    incidents: {
+                      title: 'sIVGOYPh',
+                    },
+                    overview: {
+                      chart: 'sIVGOYPh',
+                      title: 'sIVGOYPh',
+                    },
+                  },
                   links: {
                     self: '/entities/124',
                   },
@@ -211,6 +256,15 @@ describe('toRoleObject()', () => {
                 entity: {
                   domain: undefined,
                   id: 125,
+                  labels: {
+                    incidents: {
+                      title: 'tH49K0mbUpl3',
+                    },
+                    overview: {
+                      chart: 'tH49K0mbUpl3',
+                      title: 'tH49K0mbUpl3',
+                    },
+                  },
                   links: {
                     self: '/entities/125',
                   },

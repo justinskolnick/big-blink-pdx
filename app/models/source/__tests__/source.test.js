@@ -97,6 +97,13 @@ describe('adapt()', () => {
       },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        incidents: {
+          title: 'Lobbying Activity Report for Q1 2014',
+        },
+        overview: {
+          chart: '2014 Q1',
+          title: '2014 Q1',
+        },
       },
       links: {
         self: '/sources/1'
@@ -132,6 +139,13 @@ describe('adapt()', () => {
       },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        incidents: {
+          title: 'Lobbying Activity Report for Q1 2014',
+        },
+        overview: {
+          chart: '2014 Q1',
+          title: '2014 Q1',
+        },
       },
       links: {
         self: '/sources/1'
@@ -189,6 +203,13 @@ describe('adapt()', () => {
       },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        incidents: {
+          title: 'Lobbying Activity Report for Q1 2014',
+        },
+        overview: {
+          chart: '2014 Q1',
+          title: '2014 Q1',
+        },
       },
       links: {
         self: '/sources/1'
@@ -216,6 +237,13 @@ describe('adapt()', () => {
       },
       labels: {
         disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        incidents: {
+          title: 'Lobbying Activity Report for Q1 2014',
+        },
+        overview: {
+          chart: '2014 Q1',
+          title: '2014 Q1',
+        },
       },
       links: {
         self: '/sources/1'
@@ -273,6 +301,13 @@ describe('adaptDisclaimer()', () => {
         year: 2014,
         labels: {
           disclaimer: 'Data was retrieved on <strong>March 28, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+          incidents: {
+            title: 'Lobbying Activity Report for Q1 2014',
+          },
+          overview: {
+            chart: '2014 Q1',
+            title: '2014 Q1',
+          },
         },
         links: {
           self: '/sources/1',
@@ -297,6 +332,7 @@ describe('adaptDisclaimer()', () => {
         year: null,
         labels: {
           disclaimer: 'Data was received from the City of Portland on <strong>June 18, 2025</strong> in <strong>Excel</strong> format via public records request. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability, and some inferences have been made.',
+          overview: {},
         },
         links: {
           self: '/sources/1',
@@ -321,6 +357,10 @@ describe('adaptDisclaimer()', () => {
         year: 2014,
         labels: {
           disclaimer: 'Data was retrieved on <strong>June 26, 2023</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=registration&registrationQtr=1&registrationYear=2014&submit=View%20Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Data has been condensed and edited to facilitate database input, address obvious typos, and improve readability.',
+          overview: {
+            chart: '2014 Q1',
+            title: '2014 Q1',
+          },
         },
         links: {
           self: '/sources/1',
@@ -470,6 +510,13 @@ describe('setData()', () => {
       year: 2014,
       labels: {
         disclaimer: 'Data was retrieved on <strong>February 14, 2025</strong> in <strong>CSV</strong> format from <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report" target="_blank" rel="noreferrer">the Portland City Auditor’s Office</a> as published in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible" target="_blank" rel="noreferrer">Open Data Policy</a>. Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
+        incidents: {
+          title: 'Lobbying Activity Report for Q1 2014',
+        },
+        overview: {
+          chart: '2014 Q1',
+          title: '2014 Q1',
+        },
       },
       links: {
         self: '/sources/1'

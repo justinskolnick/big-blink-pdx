@@ -131,6 +131,20 @@ class Person extends IncidentedBase {
     });
   }
 
+  adaptLabels(result, adapted) {
+    adapted.labels = {
+      incidents: {
+        title: this.getData('name'),
+      },
+      overview: {
+        chart: this.getData('name'),
+        title: this.getData('name'),
+      },
+    };
+
+    return adapted;
+  }
+
   get hasMoved() {
     return this.hasData('identical_id');
   }

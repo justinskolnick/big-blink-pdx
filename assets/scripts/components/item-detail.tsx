@@ -1,7 +1,6 @@
 import React, { useRef, ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
-import ActivityDetails from './detail-activity-details';
 import ActivityOverview from './detail-activity-overview';
 import Associations from './detail-activity-associations';
 import Incidents from './detail-incidents';
@@ -32,6 +31,7 @@ interface Props {
   className?: string;
   IncidentsTrigger: (props: TriggerProps) => ReactNode;
   item?: ItemDetailObject;
+  roleIsPrimary?: boolean;
 }
 
 export const Container = ({
@@ -48,11 +48,13 @@ const ItemDetail = ({
   className,
   IncidentsTrigger,
   item,
+  roleIsPrimary,
 }: Props) => {
   const incidentsRef = useRef<RefElement>(null);
 
   const hasItem = item !== undefined;
   const hasNamedRoles = hasItem && Boolean(item.roles?.named);
+  const hasIncidents = hasItem && 'incidents' in item && item.incidents?.ids !== undefined;
 
   const canLoadDetails = hasItem;
   const canLoadIncidents = hasNamedRoles;
@@ -64,15 +66,13 @@ const ItemDetail = ({
       <ActivityOverview
         overview={item.overview}
         ref={incidentsRef}
-        title={item.name}
+        title={item.labels.overview.title}
       >
-        <Chart label={item.name} />
+        {canLoadDetails && <Chart label={item.labels.overview.chart} />}
       </ActivityOverview>
 
       {canLoadDetails && (
-        <ActivityDetails>
-          <Associations item={item} />
-        </ActivityDetails>
+        <Associations item={item} />
       )}
 
       {canLoadIncidents && (
@@ -83,15 +83,15 @@ const ItemDetail = ({
               ref={incidentsRef}
               trigger={trigger}
             >
-              {'incidents' in item && (
+              {hasIncidents && (
                 <Incidents
                   filters={item.incidents?.filters}
                   hasSort
                   ids={item.incidents?.ids}
-                  label={item.name}
+                  label={item.labels.incidents?.title}
                   pagination={item.incidents?.pagination}
                   ref={incidentsRef}
-                  roleIsPrimary
+                  roleIsPrimary={roleIsPrimary}
                 />
               )}
             </IncidentsFetcher>

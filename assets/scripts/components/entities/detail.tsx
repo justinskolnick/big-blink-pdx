@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import { useGetEntityById } from '../../reducers/entities';
-
 import Chart from './chart';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
+
+import { useGetEntityById } from '../../reducers/entities';
 
 const Detail = () => {
   const { id } = useParams();
@@ -18,6 +18,7 @@ const Detail = () => {
       Chart={Chart}
       IncidentsTrigger={IncidentsTrigger}
       item={item}
+      roleIsPrimary
     />
   );
 };

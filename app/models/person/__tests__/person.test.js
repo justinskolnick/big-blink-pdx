@@ -92,6 +92,15 @@ describe('adapt()', () => {
         list: [],
         options: {},
       },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
+      },
       links: {
         self: '/people/123'
       },
@@ -110,6 +119,15 @@ describe('adapt()', () => {
         label: 'Roles and Associations',
         list: [],
         options: {},
+      },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
       },
       links: {
         self: '/people/321'
@@ -134,6 +152,15 @@ describe('adapt()', () => {
         options: {
           lobbyist: true,
           official: true,
+        },
+      },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
         },
       },
       links: {
@@ -176,6 +203,15 @@ describe('adapt()', () => {
         label: 'Roles and Associations',
         list: [],
         options: {},
+      },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
       },
       links: {
         self: '/people/321'
@@ -222,6 +258,15 @@ describe('adapt()', () => {
           },
         },
       },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
+      },
       links: {
         self: '/people/123'
       },
@@ -246,6 +291,15 @@ describe('adapt()', () => {
         label: 'Roles and Associations',
         list: [],
         options: {},
+      },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
       },
       links: {
         self: '/people/123'
@@ -283,6 +337,15 @@ describe('adapt()', () => {
               value: 123,
             },
           },
+        },
+      },
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
         },
       },
       links: {
@@ -396,6 +459,15 @@ describe('setData()', () => {
         options: {},
       },
       type: 'person',
+      labels: {
+        incidents: {
+          title: 'John Doe',
+        },
+        overview: {
+          chart: 'John Doe',
+          title: 'John Doe',
+        },
+      },
       links: {
         self: '/people/321'
       },

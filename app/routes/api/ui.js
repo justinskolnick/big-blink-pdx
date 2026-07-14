@@ -35,6 +35,7 @@ router.get('/', async (req, res, next) => {
         sortListByName: labels.getLabel('sort_list_by_name'),
         sortListByTitle: labels.getLabel('sort_list_by_title'),
         sourcesItemInformation: labels.getLabel('item_information', 'sources'),
+        thisItem: labels.getLabel('this_item'),
       },
     };
 

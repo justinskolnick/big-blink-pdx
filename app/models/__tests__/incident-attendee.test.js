@@ -18,6 +18,15 @@ describe('adapt()', () => {
       as: 'Orbit, Henry',
       person: {
         id: 321,
+        labels: {
+          incidents: {
+            title: 'Henry Orbit',
+          },
+          overview: {
+            chart: 'Henry Orbit',
+            title: 'Henry Orbit',
+          },
+        },
         links: {
           self: '/people/321',
         },
@@ -69,6 +78,15 @@ describe('setData()', () => {
       id: 123,
       person: {
         id: 321,
+        labels: {
+          incidents: {
+            title: 'Henry Orbit',
+          },
+          overview: {
+            chart: 'Henry Orbit',
+            title: 'Henry Orbit',
+          },
+        },
         links: {
           self: '/people/321',
         },

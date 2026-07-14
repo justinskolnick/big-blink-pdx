@@ -75,13 +75,15 @@ class Source extends IncidentedBase {
   }
 
   adapt(result) {
-    const otherValues = {};
+    let roles;
 
     if (result.type === 'activity') {
-      otherValues.roles = this.adaptRoles(ROLE_SOURCE);
+      roles = this.adaptRoles(ROLE_SOURCE);
     }
 
-    return this.adaptResult(result, otherValues);
+    return this.adaptResult(result, {
+      roles,
+    });
   }
 
   static adaptEntity(result) {
@@ -149,6 +151,14 @@ class Source extends IncidentedBase {
     return null;
   }
 
+  adaptQuarterLabel() {
+    if (this.hasData('year') && this.hasData('quarter')) {
+      return `${this.getData('year')} Q${this.getData('quarter')}`;
+    }
+
+    return undefined;
+  }
+
   readableFormat(value) {
     if (value === 'csv') {
       return 'CSV';
@@ -160,9 +170,21 @@ class Source extends IncidentedBase {
   }
 
   adaptLabels(result, adapted) {
-    adapted.labels = {
+    const labels = {
       disclaimer: this.adaptDisclaimer(result, adapted),
+      overview: {
+        chart: this.adaptQuarterLabel(),
+        title: this.adaptQuarterLabel(),
+      },
     };
+
+    if (result.type === 'activity') {
+      labels.incidents = {
+        title: this.getData('title'),
+      };
+    }
+
+    adapted.labels = labels;
 
     return adapted;
   }
