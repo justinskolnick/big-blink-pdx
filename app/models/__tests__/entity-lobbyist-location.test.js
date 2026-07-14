@@ -11,7 +11,7 @@ describe('adapt()', () => {
     const result = {
       id: 1,
       city: 'Orbit City',
-      region: 'WA',
+      region: 'Washington',
     };
 
     const location = new EntityLobbyistLocation(result);
@@ -19,7 +19,7 @@ describe('adapt()', () => {
     expect(location.adapted).toEqual({
       city: 'Orbit City',
       id: 1,
-      region: 'WA',
+      region: 'Washington',
     });
   });
 
@@ -30,7 +30,7 @@ describe('adapt()', () => {
       data_source_id: 2,
       entity_id: 4,
       city: 'Orbit City',
-      region: 'WA',
+      region: 'Washington',
     });
     /* eslint-enable camelcase */
 
@@ -42,7 +42,7 @@ describe('adapt()', () => {
       data_source_id: 2,
       entity_id: 4,
       city: 'Orbit City',
-      region: 'WA',
+      region: 'Washington',
       z: 'abc',
     });
     /* eslint-enable camelcase */
@@ -50,7 +50,7 @@ describe('adapt()', () => {
     expect(location.adapted).toEqual({
       city: 'Orbit City',
       id: 1,
-      region: 'WA',
+      region: 'Washington',
     });
   });
 });
