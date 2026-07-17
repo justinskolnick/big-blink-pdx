@@ -21,6 +21,7 @@ describe('fields()', () => {
       'data_sources.title',
       'data_sources.year',
       'data_sources.quarter',
+      'data_sources.month',
       'data_sources.public_url',
       'data_sources.is_via_public_records',
       'data_sources.retrieved_at',

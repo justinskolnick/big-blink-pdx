@@ -748,7 +748,7 @@ export enum DataFormat {
 }
 
 
-export type SourceType = 'activity' | 'personnel' | 'registration';
+export type SourceType = 'activity' | 'election' | 'personnel' | 'registration';
 export type SourceTypeObject = Record<SourceType, KeyLabel>;
 
 export type SourceObject = {
@@ -756,6 +756,7 @@ export type SourceObject = {
   type: SourceType;
   title: string;
   format: DataFormat;
+  month?: number;
   quarter?: number;
   year: number;
   publicUrl?: string;

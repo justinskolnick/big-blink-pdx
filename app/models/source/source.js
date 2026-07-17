@@ -18,6 +18,7 @@ class Source extends IncidentedBase {
 
   static types = {
     activity: 'activity',
+    election: 'election',
     personnel: 'personnel',
     registration: 'registration',
   };
@@ -49,6 +50,7 @@ class Source extends IncidentedBase {
       this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
         date: this.constructor.readableDate(this.getData('retrieved_at')),
         format: this.readableFormat(this.getData('format')),
+        source_publication: this.getLabel('website_auditor', labelPrefix), // eslint-disable-line camelcase
         title: this.getData('title'),
         url: this.getData('public_url'),
       });
@@ -67,6 +69,8 @@ class Source extends IncidentedBase {
       labelKey = 'personnel_disclaimer';
     } else if (this.getData('type') === this.getType('registration')) {
       labelKey = 'registration_disclaimer';
+    } else if (this.getData('type') === this.getType('election')) {
+      labelKey = 'election_disclaimer';
     }
 
     if (labelKey) {
@@ -142,6 +146,8 @@ class Source extends IncidentedBase {
       labels.push(this.getLabel('personnel_disclaimer', prefix));
     } else if (result.type === this.getType('registration')) {
       labels.push(this.getLabel('registration_disclaimer', prefix));
+    } else if (result.type === this.getType('election')) {
+      labels.push(this.getLabel('election_disclaimer', prefix));
     }
 
     if (labels.length > 0) {
@@ -164,6 +170,8 @@ class Source extends IncidentedBase {
       return 'CSV';
     } else if (value === 'excel') {
       return 'Excel';
+    } else if (value === 'pdf') {
+      return 'PDF';
     }
 
     return value;

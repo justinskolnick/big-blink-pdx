@@ -3,6 +3,7 @@ const Table = require('../../lib/db/mysql/table');
 class DataSources extends Table {
   static types = {
     activity: 'activity',
+    election: 'election',
     personnel: 'personnel',
     registration: 'registration',
   };
@@ -16,6 +17,7 @@ class DataSources extends Table {
     year:                   { select: true, },
     quarter:                { select: true, },
     quarter_id:             { select: false, },
+    month:                  { select: true, },
     public_url:             { select: true, },
     is_via_public_records:  { select: true, adapt: { method: 'readableBoolean' } },
     retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: 'readableDate' } },

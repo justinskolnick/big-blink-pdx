@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { sortQuarterAscendingTypeDecending } from './lib/sorting';
+import { sortSourceDateAscendingTypeDecending } from './lib/sorting';
 
 import { RootState } from './lib/store';
 import type {
@@ -111,7 +111,7 @@ export const getSourcesByType = createSelector(getSources, (sources) => {
 
     byType[type].years[year].items.push(item);
 
-    byType[type].years[year].items.sort(sortQuarterAscendingTypeDecending);
+    byType[type].years[year].items.sort(sortSourceDateAscendingTypeDecending);
 
     return byType;
   }, {} as Record<SourceType, SourcesByType>);

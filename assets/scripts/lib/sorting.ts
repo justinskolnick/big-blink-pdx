@@ -1,12 +1,14 @@
 import type { SourceObject } from '../types';
 
-const demoteIfQuarterIsNull = (obj: SourceObject) => {
+const demoteIfQuarterAndMonthAreNull = (obj: SourceObject): number => {
   if ('quarter' in obj && obj.quarter) {
     return obj.quarter;
+  } else if ('month' in obj && obj.month) {
+    return obj.month;
   }
 
-  return 5;
+  return 10;
 };
 
-export const sortQuarterAscendingTypeDecending = (a: SourceObject, b: SourceObject) =>
-  demoteIfQuarterIsNull(a) - demoteIfQuarterIsNull(b) || a.type.localeCompare(b.type);
+export const sortSourceDateAscendingTypeDecending = (a: SourceObject, b: SourceObject) =>
+  demoteIfQuarterAndMonthAreNull(a) - demoteIfQuarterAndMonthAreNull(b) || a.type.localeCompare(b.type);

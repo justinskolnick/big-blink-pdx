@@ -1,7 +1,7 @@
 // todo: mocks
 
 import {
-  sortQuarterAscendingTypeDecending,
+  sortSourceDateAscendingTypeDecending,
 } from '../sorting';
 
 import {
@@ -83,9 +83,9 @@ const items = [
   item5,
 ];
 
-describe('sortQuarterAscendingTypeDecending()', () => {
+describe('sortSourceDateAscendingTypeDecending()', () => {
   test('sorts by quarter and type', () => {
-    expect(items.sort(sortQuarterAscendingTypeDecending)).toEqual([
+    expect(items.sort(sortSourceDateAscendingTypeDecending)).toEqual([
       item1,
       item3,
       item2,

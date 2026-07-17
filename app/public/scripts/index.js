@@ -32814,13 +32814,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
 
   // assets/scripts/lib/sorting.ts
-  var demoteIfQuarterIsNull = (obj) => {
+  var demoteIfQuarterAndMonthAreNull = (obj) => {
     if ("quarter" in obj && obj.quarter) {
       return obj.quarter;
+    } else if ("month" in obj && obj.month) {
+      return obj.month;
     }
-    return 5;
+    return 10;
   };
-  var sortQuarterAscendingTypeDecending = (a2, b2) => demoteIfQuarterIsNull(a2) - demoteIfQuarterIsNull(b2) || a2.type.localeCompare(b2.type);
+  var sortSourceDateAscendingTypeDecending = (a2, b2) => demoteIfQuarterAndMonthAreNull(a2) - demoteIfQuarterAndMonthAreNull(b2) || a2.type.localeCompare(b2.type);
 
   // assets/scripts/selectors.ts
   var getEntities = (state) => state.entities;
@@ -32908,7 +32910,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
       }
       byType[type].years[year].items.push(item);
-      byType[type].years[year].items.sort(sortQuarterAscendingTypeDecending);
+      byType[type].years[year].items.sort(sortSourceDateAscendingTypeDecending);
       return byType;
     }, {});
     return Object.values(types);
