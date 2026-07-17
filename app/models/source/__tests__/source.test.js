@@ -18,8 +18,10 @@ describe('getLabel()', () => {
     expect(Source.getLabel('percentage', 'incidents')).toBe('Share of total');
     expect(Source.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Source.getLabel('totals')).toBe('Totals');
-    expect(Source.getLabel('activity', 'lobbying')).toBe('Lobbying activity');
-    expect(Source.getLabel('registration', 'lobbying')).toBe('Lobbying registration');
+    expect(Source.getLabel('activity', 'source')).toBe('Lobbying activity');
+    expect(Source.getLabel('election', 'source')).toBe('Elections');
+    expect(Source.getLabel('personnel', 'source')).toBe('City personnel');
+    expect(Source.getLabel('registration', 'source')).toBe('Lobbying registration');
     expect(Source.getLabel('first_incident', 'appearances')).toBe('First incident');
     expect(Source.getLabel('last_incident', 'appearances')).toBe('Last incident');
 
@@ -154,7 +156,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           details: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
-          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to the <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
+          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">the Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
           title: 'Overview',
         },
         totals: {
@@ -252,7 +254,7 @@ describe('adapt()', () => {
         label: 'Overview',
         labels: {
           details: 'Other than light formatting performed to facilitate database input, indexing to accommodate a modern API, and editing to address obvious typos and improve readability, data from this source remains as downloaded.',
-          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to the <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
+          intro: '<strong>Lobbying Activity Report for Q1 2014</strong> was published to <a href="https://www.portlandoregon.gov/auditor/lobbyist/reports.cfm?action=Reports&reportType=lobbyingActivities&activitiesQtr=1&activitiesYear=2014&submit=View+Report">the Portland City Auditor’s website</a>. Data was retrieved in CSV format on March 28, 2023, in accordance with the City’s <a href="https://www.portland.gov/what-works-cities/making-data-publicly-accessible">Open Data Policy</a>.',
           title: 'Overview',
         },
         totals: {

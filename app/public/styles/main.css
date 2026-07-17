@@ -2707,7 +2707,6 @@ ul.incident-types ::marker {
   gap: calc(var(--gap) / 6);
 }
 .section.section-sources .item-source .item-source-description h6 {
-  flex-basis: 300px;
   color: black;
   color: var(--color-black);
   font-size: 14px;

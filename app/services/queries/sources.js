@@ -14,6 +14,7 @@ const buildQuery = (options = {}) => {
 
   const clauses = [];
   const selections = [];
+  const sorting = [];
   const params = [];
 
   clauses.push('SELECT');
@@ -53,7 +54,12 @@ const buildQuery = (options = {}) => {
       clauses.push(`GROUP BY ${Incidents.field(Sources.foreignKey())}`);
     }
 
-    clauses.push(`ORDER BY ${Sources.field('id')} ASC`);
+    clauses.push('ORDER BY');
+
+    sorting.push(`${Sources.field('quarter')} ASC`);
+    sorting.push(`${Sources.field('month')} ASC`);
+
+    clauses.push(sorting.join(', '));
   }
 
   return { clauses, params };

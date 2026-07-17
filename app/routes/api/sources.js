@@ -52,6 +52,8 @@ const router = express.Router({
 
 router.get('/', async (req, res, next) => {
   let activitySourcesResult;
+  let electionSourcesResult;
+  let personnelSourcesResult;
   let registrationSourcesResult;
   let sourceTotal;
   let records;
@@ -70,6 +72,11 @@ router.get('/', async (req, res, next) => {
       return source.adapted;
     });
 
+    electionSourcesResult = await sources.getAll({
+      types: [Source.types.election],
+    });
+    electionSourcesResult = electionSourcesResult.map(source => source.adapted);
+
     personnelSourcesResult = await sources.getAll({
       types: [Source.types.personnel],
     });
@@ -83,6 +90,7 @@ router.get('/', async (req, res, next) => {
     sourceTotal = await sources.getTotal({
       types: [
         Source.types.activity,
+        Source.types.election,
         Source.types.personnel,
         Source.types.registration,
       ],
@@ -90,6 +98,7 @@ router.get('/', async (req, res, next) => {
 
     records = [].concat(
       activitySourcesResult,
+      electionSourcesResult,
       personnelSourcesResult,
       registrationSourcesResult
     );
@@ -97,7 +106,7 @@ router.get('/', async (req, res, next) => {
     types = unique(records.map(record => record.type)).reduce((all, type) => {
       all[type] = {
         key: type,
-        label: Source.getLabel(type, 'lobbying'),
+        label: Source.getLabel(type, 'source'),
       };
 
       return all;
