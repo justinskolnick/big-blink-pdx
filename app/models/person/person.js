@@ -6,6 +6,7 @@ const {
 } = require('../../config/constants');
 
 const IncidentedBase = require('../shared/base-incidented');
+// const CityOfficeTerm = require('../city-office-term');
 
 const PeopleTable = require('../../services/tables/people');
 
@@ -63,6 +64,13 @@ class Person extends IncidentedBase {
     const labelPrefix = this.constructor.labelPrefix;
     const hasTerms = terms?.length > 0;
     const details = [];
+
+    // if (hasTerms) {
+    //   CityOfficeTerm.collect(terms).forEach(t => {
+    //     console.log(t.cityOffice.office)
+    //     console.log(t.wasReelected())
+    //   });
+    // }
 
     let recentTermKey;
     let priorTermKey;
