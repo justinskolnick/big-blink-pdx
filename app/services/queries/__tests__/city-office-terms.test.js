@@ -7,9 +7,10 @@ describe('getAtPernrQuery()', () => {
     expect(getAllQuery({ personId: 123456 })).toEqual({
       clauses: [
         'SELECT',
-        'city_office_terms.id, city_office_terms.city_office_id, city_office_terms.duration_number, city_office_terms.duration_unit, city_office_terms.date_start, city_office_terms.date_end, city_offices.id, city_offices.office, city_offices.district, city_offices.position, city_offices.is_elected',
+        'city_office_terms.id, city_office_terms.city_office_id, city_office_terms.duration_number, city_office_terms.duration_unit, city_office_terms.election_id, city_office_terms.date_start, city_office_terms.date_end, city_offices.office, city_offices.district, city_offices.position, city_offices.is_elected, elections.year, elections.type, elections.election_day',
         'FROM city_office_terms',
         'LEFT JOIN city_offices ON city_office_terms.city_office_id = city_offices.id',
+        'LEFT JOIN elections ON city_office_terms.election_id = elections.id',
         'WHERE',
         'city_office_terms.person_id = ?',
         'ORDER BY',

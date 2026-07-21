@@ -2,6 +2,7 @@
     "id": 3,
     "person_id": 987,
     "city_office_id": 1,
+    "election_id": 5,
     "duration_number": 4,
     "duration_unit": "year",
     "date_start": "2025-01-01",

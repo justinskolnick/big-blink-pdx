@@ -36,6 +36,7 @@ class CityOfficeTerm extends Base {
   }
 
   cityOffice = null;
+  election = null;
 
   configureOtherValues() {
     super.terms = [];
@@ -45,6 +46,10 @@ class CityOfficeTerm extends Base {
 
   setCityOffice(cityOffice) {
     this.cityOffice = cityOffice;
+  }
+
+  setElection(election) {
+    this.election = election;
   }
 
   setTerm() {
@@ -69,17 +74,34 @@ class CityOfficeTerm extends Base {
   }
 
   adapt(result) {
-    return this.adaptResult(result, {
+    const otherValues = {
       dateEnd: this.readableDateEnd,
       dateStart: this.readableDateStart,
       tenure: this.tenure,
       id: this.id,
-      office: this.cityOffice.adapted,
       raw: {
         dateStart: this.dateStart,
         dateEnd: this.dateEnd,
       },
-    });
+    };
+
+    if (this.hasCityOffice()) {
+      otherValues.office = this.cityOffice.adapted;
+    }
+
+    if (this.hasElection()) {
+      otherValues.election = this.election.adapted;
+    }
+
+    return this.adaptResult(result, otherValues);
+  }
+
+  hasCityOffice() {
+    return this.cityOffice !== null;
+  }
+
+  hasElection() {
+    return this.election !== null;
   }
 
   isConsecutiveWithTerm(term) {

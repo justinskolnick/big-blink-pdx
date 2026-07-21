@@ -6,9 +6,13 @@ const resultCityCouncilor = require('../__mocks__/city-office-term/result-city-c
 const resultMayor = require('../__mocks__/city-office-term/result-mayor.json');
 const resultMayorPriorDates = require('../__mocks__/city-office-term/result-mayor-prior-dates.json');
 const resultMayorPriorPosition = require('../__mocks__/city-office-term/result-mayor-prior-position.json');
+const resultElection2024General = require('../__mocks__/elections/result-2024-general.json');
+const resultElection2020General = require('../__mocks__/elections/result-2020-general.json');
+const resultElection2016General = require('../__mocks__/elections/result-2016-general.json');
 
 const CityOffice = require('../city-office');
 const CityOfficeTerm = require('../city-office-term');
+const Election = require('../election');
 
 describe('className()', () => {
   test('returns the expected field', () => {
@@ -17,22 +21,30 @@ describe('className()', () => {
 });
 
 describe('collect', () => {
-  let offices;
+  let cityOffices;
+  let elections;
 
   beforeAll(() => {
-    offices = [
+    cityOffices = [
       resultCityOfficeCityCommissioner,
       resultCityOfficeCityCouncilor,
       resultCityOfficeMayor,
     ];
+    elections = [
+      resultElection2016General,
+      resultElection2020General,
+      resultElection2024General,
+    ];
   });
 
   afterAll(() => {
-    offices = undefined;
+    cityOffices = undefined;
+    elections = undefined;
   });
 
   describe('with a reelection', () => {
     let cityOffice;
+    let election;
     let results;
     let collected;
     let adapted;
@@ -45,8 +57,11 @@ describe('collect', () => {
       ].map(result => {
         const cityOfficeTerm = new CityOfficeTerm(result);
 
-        cityOffice = new CityOffice(offices.find(office => office.id === result.city_office_id));
+        cityOffice = new CityOffice(cityOffices.find(office => office.id === result.city_office_id));
+        election = new Election(elections.find(election => election.id === result.election_id));
+
         cityOfficeTerm.setCityOffice(cityOffice);
+        cityOfficeTerm.setElection(election);
 
         return cityOfficeTerm;
       });
@@ -79,6 +94,15 @@ describe('collect', () => {
             office: 'Mayor',
             position: null,
           },
+          election: {
+            date: {
+              label: 'November 5, 2024',
+              value: '2024-11-05',
+            },
+            id: 5,
+            type: 'general',
+            year: 2024,
+          },
           raw: {
             dateEnd: '2028-12-31',
             dateStart: '2021-01-01',
@@ -98,6 +122,15 @@ describe('collect', () => {
             isElected: true,
             office: 'City Commissioner',
             position: 4,
+          },
+          election: {
+            date: {
+              label: 'November 8, 2016',
+              value: '2016-11-08',
+            },
+            id: 24,
+            type: 'general',
+            year: 2016,
           },
           raw: {
             dateEnd: '2020-12-31',
@@ -143,17 +176,21 @@ describe('collect', () => {
 describe('with a mayor', () => {
   let cityOffice;
   let cityOfficeTerm;
+  let election;
 
   beforeAll(() => {
     cityOffice = new CityOffice(resultCityOfficeMayor);
     cityOfficeTerm = new CityOfficeTerm(resultMayor);
+    election = new Election(resultElection2024General);
 
     cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
   });
 
   afterAll(() => {
     cityOffice = undefined;
     cityOfficeTerm = undefined;
+    election = undefined;
   });
 
   describe('adapt()', () => {
@@ -168,6 +205,15 @@ describe('with a mayor', () => {
           isElected: true,
           office: 'Mayor',
           position: null,
+        },
+        election: {
+          date: {
+            label: 'November 5, 2024',
+            value: '2024-11-05',
+          },
+          id: 5,
+          type: 'general',
+          year: 2024,
         },
         raw: {
           dateEnd: '2028-12-31',
@@ -201,10 +247,24 @@ describe('with a mayor', () => {
 });
 
 describe('with a city commissioner', () => {
-  const cityOffice = new CityOffice(resultCityOfficeCityCommissioner);
-  const cityOfficeTerm = new CityOfficeTerm(resultCityCommissioner);
+  let cityOffice;
+  let cityOfficeTerm;
+  let election;
 
-  cityOfficeTerm.setCityOffice(cityOffice);
+  beforeAll(() => {
+    cityOffice = new CityOffice(resultCityOfficeCityCommissioner);
+    cityOfficeTerm = new CityOfficeTerm(resultCityCommissioner);
+    election = new Election(resultElection2020General);
+
+    cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
+  });
+
+  afterAll(() => {
+    cityOffice = undefined;
+    cityOfficeTerm = undefined;
+    election = undefined;
+  });
 
   describe('adapt()', () => {
     test('returns the expected object', () => {
@@ -218,6 +278,15 @@ describe('with a city commissioner', () => {
           isElected: true,
           office: 'City Commissioner',
           position: 4,
+        },
+        election: {
+          date: {
+            label: 'November 3, 2020',
+            value: '2020-11-03',
+          },
+          id: 13,
+          type: 'general',
+          year: 2020,
         },
         raw: {
           dateEnd: '2024-12-31',
@@ -251,10 +320,24 @@ describe('with a city commissioner', () => {
 });
 
 describe('with a city councilor', () => {
-  const cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
-  const cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+  let cityOffice;
+  let cityOfficeTerm;
+  let election;
 
-  cityOfficeTerm.setCityOffice(cityOffice);
+  beforeAll(() => {
+    cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
+    cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+    election = new Election(resultElection2024General);
+
+    cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
+  });
+
+  afterAll(() => {
+    cityOffice = undefined;
+    cityOfficeTerm = undefined;
+    election = undefined;
+  });
 
   describe('adapt()', () => {
     test('returns the expected object', () => {
@@ -268,6 +351,15 @@ describe('with a city councilor', () => {
           isElected: true,
           office: 'City Councilor',
           position: 2,
+        },
+        election: {
+          date: {
+            label: 'November 5, 2024',
+            value: '2024-11-05',
+          },
+          id: 5,
+          type: 'general',
+          year: 2024,
         },
         raw: {
           dateEnd: '2028-12-31',

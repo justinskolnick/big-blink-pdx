@@ -1,5 +1,6 @@
 const CityOffice = require('../models/city-office');
 const CityOfficeTerms = require('../models/city-office-term');
+const Election = require('../models/election');
 
 const db = require('./db');
 const { getAllQuery } = require('./queries/city-office-terms');
@@ -20,8 +21,15 @@ const getAll = async (options = {}) => {
       position:   result.position,
       is_elected: result.is_elected, // eslint-disable-line camelcase
     });
+    const election = new Election({
+      id:           result.election_id,
+      year:         result.year,
+      election_day: result.election_day,
+      type:         result.type,
+    });
 
     cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
 
     return cityOfficeTerm;
   });

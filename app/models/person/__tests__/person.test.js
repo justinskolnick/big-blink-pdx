@@ -8,12 +8,14 @@ const {
 
 const resultCityOfficeCityCouncilor = require('../../__mocks__/city-office/result-city-councilor.json');
 const resultCityCouncilor = require('../../__mocks__/city-office-term/result-city-councilor.json');
+const resultElection2024General = require('../../__mocks__/elections/result-2024-general.json');
 const resultLobbyist = require('../../__mocks__/person/result-lobbyist.json');
 const resultOfficial = require('../../__mocks__/person/result-official.json');
 
 const Person = require('../person');
 const CityOffice = require('../../city-office');
 const CityOfficeTerm = require('../../city-office-term');
+const Election = require('../../election');
 
 describe('labelPrefix', () => {
   test('returns the expected labelPrefix', () => {
@@ -173,8 +175,10 @@ describe('adapt()', () => {
     const result = new Person(resultOfficial);
     const cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
     const cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+    const election = new Election(resultElection2024General);
 
     cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
 
     result.setOverviewDescription({
       hasBeenEmployee: true,
