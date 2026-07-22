@@ -1,3 +1,5 @@
+const { LOCALE } = require('../config/constants');
+
 const numerals = {
   1: 'one',
   2: 'two',
@@ -12,6 +14,26 @@ const numerals = {
   11: 'eleven',
   12: 'twelve',
 };
+const ordinals = {
+  1: 'first',
+  2: 'second',
+  3: 'third',
+  4: 'fourth',
+  5: 'fifth',
+  6: 'sixth',
+  7: 'seventh',
+  8: 'eighth',
+  9: 'ninth',
+  10: 'tenth',
+  11: 'eleventh',
+  12: 'twelveth',
+};
+const ordinalSuffixes = {
+  one: 'st',
+  two: 'nd',
+  few: 'rd',
+  other: 'th',
+};
 
 const percentage = (portion, total) => Number.parseFloat(portion / total * 100).toFixed(2);
 
@@ -23,7 +45,27 @@ const toNumeral = (num) => {
   return num;
 };
 
+const generateOrdinal = (num) => {
+  const rules = new Intl.PluralRules(LOCALE, {
+    type: 'ordinal',
+  });
+
+  const rule = rules.select(num);
+  const suffix = ordinalSuffixes[rule];
+
+  return `${num}${suffix}`;
+};
+
+const toOrdinal = (num) => {
+  if (num in ordinals) {
+    return ordinals[num];
+  }
+
+  return generateOrdinal(num);
+};
+
 module.exports = {
   percentage,
   toNumeral,
+  toOrdinal,
 };

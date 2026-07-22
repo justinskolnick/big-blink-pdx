@@ -1,0 +1,9 @@
+{
+    "id": 4,
+    "office": "City Commissioner",
+    "district": null,
+    "position": 2,
+    "is_elected": 1,
+    "date_start": null,
+    "date_end": "2024-12-31"
+}

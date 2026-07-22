@@ -1,3 +1,5 @@
+const pluralize = require('pluralize');
+
 const {
   COLLECTION_ATTENDEES,
   COLLECTION_ENTITIES,
@@ -5,7 +7,14 @@ const {
   ROLE_OFFICIAL,
 } = require('../../config/constants');
 
+const {
+  toNumeral,
+  toOrdinal,
+} = require('../../lib/number');
+const { capitalize } = require('../../lib/string');
+
 const IncidentedBase = require('../shared/base-incidented');
+const CityOfficeTerm = require('../city-office-term');
 
 const PeopleTable = require('../../services/tables/people');
 
@@ -62,62 +71,53 @@ class Person extends IncidentedBase {
 
     const labelPrefix = this.constructor.labelPrefix;
     const hasTerms = terms?.length > 0;
-    const details = [];
 
-    let recentTermKey;
-    let priorTermKey;
-    let recentTerm;
-    let priorTerm;
+    let details = [];
 
     if (hasTerms) {
-      recentTerm = terms.at(0);
-      priorTerm = terms.at(1);
+      details = CityOfficeTerm.collect(terms).map((term, i) => {
+        let termKey;
 
-      if (recentTerm.cityOffice.isElected()) {
-        if (recentTerm.isCurrent()) {
-          if (recentTerm.cityOffice.isCityCouncilor()) {
-            recentTermKey = 'overview_details_elected_council_current';
+        if (term.cityOffice.isElected()) {
+          if (term.cityOffice.isCityCouncilor()) {
+            if (term.isCurrent()) {
+              termKey = 'overview_details_elected_council_current';
+            } else {
+              termKey = 'overview_details_elected_council_past';
+            }
+          } else if (term.cityOffice.isCityCommissioner()) {
+            if (i > 0) {
+              termKey = 'overview_details_elected_commission_prior';
+            } else {
+              termKey = 'overview_details_elected_commission';
+            }
+          } else if (term.isCurrent()) {
+            termKey = 'overview_details_elected_position_current';
+          } else if (term.wasReelected()) {
+            termKey = 'overview_details_elected_position_reelected_past';
           } else {
-            recentTermKey = 'overview_details_elected_position_current';
+            termKey = 'overview_details_elected_position_prior';
           }
-        } else if (recentTerm.cityOffice.isCityCommissioner()) {
-          recentTermKey = 'overview_details_elected_commission';
-        } else if (recentTerm.cityOffice.isCityCouncilor()) {
-          recentTermKey = 'overview_details_elected_council_past';
-        } else {
-          recentTermKey = 'overview_details_elected_position_past';
         }
-      }
 
-      if (priorTerm) {
-        if (priorTerm.cityOffice.isElected()) {
-          priorTermKey = 'overview_details_elected_position_prior';
+        if (termKey) {
+          return this.getLabel(termKey, labelPrefix, {
+            date_end: term.readableDateEnd, // eslint-disable-line camelcase
+            date_start: term.readableDateStart, // eslint-disable-line camelcase
+            duration: term.readableTenure,
+            name: (i > 0) ? capitalize(this.getData('pronoun_subject')) : this.getData('given'),
+            pronoun: this.getData('pronoun_subject'),
+            pronoun_initial: capitalize(this.getData('pronoun_subject')), // eslint-disable-line camelcase
+            district: term.cityOffice.getData('district'),
+            office: term.cityOffice.office,
+            ordinal: toOrdinal(term.termCount),
+            election_year: term.electionHistory.at(0).year, // eslint-disable-line camelcase
+            terms: `${toNumeral(term.termCount)} ${pluralize(this.getLabel('term'), term.termCount)}`,
+          });
         }
-      }
-    }
 
-    if (recentTermKey) {
-      details.push(
-        this.getLabel(recentTermKey, labelPrefix, {
-          date_end: recentTerm.readableDateEnd, // eslint-disable-line camelcase
-          date_start: recentTerm.readableDateStart, // eslint-disable-line camelcase
-          duration: recentTerm.readableTenure,
-          name: this.getData('given'),
-          district: recentTerm.cityOffice.getData('district'),
-          office: recentTerm.cityOffice.office,
-        })
-      );
-    }
-
-    if (priorTermKey) {
-      details.push(
-        this.getLabel(priorTermKey, labelPrefix, {
-          date_end: priorTerm.readableDateEnd, // eslint-disable-line camelcase
-          date_start: priorTerm.readableDateStart, // eslint-disable-line camelcase
-          pronoun: this.getData('pronoun_subject'),
-          office: priorTerm.cityOffice.office,
-        })
-      );
+        return null;
+      });
     }
 
     if (details.length) {

@@ -46,6 +46,15 @@ class Table {
     return fields;
   }
 
+  static fieldsForJoin(prefix = true) {
+    const fields = Object.entries(this.fieldNames)
+      .filter(([, value]) => value.select)
+      .filter(([key,]) => key !== 'id')
+      .map(([key,]) => this.field(key, prefix));
+
+    return fields;
+  }
+
   static hasAdaptField(fieldName) {
     return 'adapt' in this.fieldNames[fieldName];
   }

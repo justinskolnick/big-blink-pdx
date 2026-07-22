@@ -10,7 +10,6 @@ class CityOffices extends Table {
     is_elected: { select: true, adapt: { method: 'readableBoolean' }, },
     date_start: { select: false, },
     date_end:   { select: false, },
-
   };
   /* eslint-enable camelcase */
 }

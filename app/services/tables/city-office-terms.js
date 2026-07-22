@@ -8,6 +8,7 @@ class CityOfficeTerms extends Table {
     city_office_id:   { select: true, adapt: false, },
     duration_number:  { select: true, adapt: false, },
     duration_unit:    { select: true, adapt: false, },
+    election_id:      { select: true, adapt: false, },
     date_start:       { select: true, adapt: { method: 'readableDate' }, },
     date_end:         { select: true, adapt: { method: 'readableDate' }, },
   };

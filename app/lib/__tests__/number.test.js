@@ -1,6 +1,7 @@
 const {
   percentage,
   toNumeral,
+  toOrdinal,
 } = require('../number');
 
 describe('percentage()', () => {
@@ -18,5 +19,17 @@ describe('toNumeral()', () => {
     expect(toNumeral(13)).toEqual(13);
     expect(toNumeral(21)).toEqual(21);
     expect(toNumeral(123)).toEqual(123);
+  });
+});
+
+describe('toOrdinal()', () => {
+  test('returns the expected values', () => {
+    expect(toOrdinal(1)).toEqual('first');
+    expect(toOrdinal(2)).toEqual('second');
+    expect(toOrdinal(10)).toEqual('tenth');
+    expect(toOrdinal(12)).toEqual('twelveth');
+    expect(toOrdinal(13)).toEqual('13th');
+    expect(toOrdinal(21)).toEqual('21st');
+    expect(toOrdinal(123)).toEqual('123rd');
   });
 });

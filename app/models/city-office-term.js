@@ -9,6 +9,7 @@ const {
   getYearsToMonths,
 } = require('../lib/date');
 const { toNumeral } = require('../lib/number');
+const { sortDateStartDescending } = require('../lib/sorting');
 
 const Base = require('./shared/base');
 
@@ -18,12 +19,16 @@ class CityOfficeTerm extends Base {
   static table = CityOfficeTermsTable;
 
   static collect(results) {
-    return results.reduce((collected, current, i) => {
+    return results.sort(sortDateStartDescending).reduce((collected, current, i) => {
       if (i > 0) {
         const previous = collected.at(-1);
 
         if (current.isConsecutiveWithTerm(previous) && current.isSameOfficeAsTerm(previous)) {
           previous.addTerm(current);
+
+          if (previous.hasElection()) {
+            previous.addElection(current);
+          }
         } else {
           collected.push(current);
         }
@@ -36,6 +41,8 @@ class CityOfficeTerm extends Base {
   }
 
   cityOffice = null;
+  election = null;
+  elections = [];
 
   configureOtherValues() {
     super.terms = [];
@@ -45,6 +52,11 @@ class CityOfficeTerm extends Base {
 
   setCityOffice(cityOffice) {
     this.cityOffice = cityOffice;
+  }
+
+  setElection(election) {
+    this.election = election;
+    this.elections.push(election);
   }
 
   setTerm() {
@@ -64,22 +76,47 @@ class CityOfficeTerm extends Base {
     });
   }
 
+  addElection(term) {
+    this.elections = [].concat(this.elections, term.elections);
+  }
+
   addTerm(term) {
     this.terms = [].concat(this.terms, term.terms);
   }
 
   adapt(result) {
-    return this.adaptResult(result, {
+    const otherValues = {
       dateEnd: this.readableDateEnd,
       dateStart: this.readableDateStart,
       tenure: this.tenure,
       id: this.id,
-      office: this.cityOffice.adapted,
       raw: {
         dateStart: this.dateStart,
         dateEnd: this.dateEnd,
       },
-    });
+    };
+
+    if (this.hasCityOffice()) {
+      otherValues.office = this.cityOffice.adapted;
+    }
+
+    if (this.hasElections()) {
+      otherValues.elections = this.elections.map(e => e.adapted);
+    }
+
+    return this.adaptResult(result, otherValues);
+  }
+
+  hasCityOffice() {
+    return this.cityOffice !== null;
+  }
+
+  hasElection() {
+    return this.election !== null;
+  }
+
+  hasElections() {
+    return this.elections.length > 0;
   }
 
   isConsecutiveWithTerm(term) {
@@ -97,7 +134,7 @@ class CityOfficeTerm extends Base {
   }
 
   isSameOfficeAsTerm(term) {
-    return this.cityOffice.id === term.cityOffice.id;
+    return this.cityOffice?.id === term.cityOffice?.id;
   }
 
   wasReelected() {
@@ -105,11 +142,11 @@ class CityOfficeTerm extends Base {
   }
 
   get dateStart() {
-    return this.terms.map(term => term.dates.start).sort().at(0);
+    return this.terms.map(term => term.dates.start).reverse().at(0);
   }
 
   get dateEnd() {
-    return this.terms.map(term => term.dates.end).sort().at(-1);
+    return this.terms.map(term => term.dates.end).reverse().at(-1);
   }
 
   get id() {
@@ -132,6 +169,10 @@ class CityOfficeTerm extends Base {
       number: this.getLabel(toNumeral(number), 'numeral'),
       unit: this.getLabel(unit, 'unit'),
     });
+  }
+
+  get electionHistory() {
+    return this.elections.map(election => election.adapted);
   }
 
   get tenure() {

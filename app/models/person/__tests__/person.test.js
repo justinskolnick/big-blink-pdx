@@ -8,12 +8,14 @@ const {
 
 const resultCityOfficeCityCouncilor = require('../../__mocks__/city-office/result-city-councilor.json');
 const resultCityCouncilor = require('../../__mocks__/city-office-term/result-city-councilor.json');
+const resultElection2024General = require('../../__mocks__/elections/result-2024-general.json');
 const resultLobbyist = require('../../__mocks__/person/result-lobbyist.json');
 const resultOfficial = require('../../__mocks__/person/result-official.json');
 
 const Person = require('../person');
 const CityOffice = require('../../city-office');
 const CityOfficeTerm = require('../../city-office-term');
+const Election = require('../../election');
 
 describe('labelPrefix', () => {
   test('returns the expected labelPrefix', () => {
@@ -173,8 +175,10 @@ describe('adapt()', () => {
     const result = new Person(resultOfficial);
     const cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
     const cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+    const election = new Election(resultElection2024General);
 
     cityOfficeTerm.setCityOffice(cityOffice);
+    cityOfficeTerm.setElection(election);
 
     result.setOverviewDescription({
       hasBeenEmployee: true,
@@ -193,7 +197,7 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
-          details: 'John was elected to a four-year term as City Councilor for District 1 starting on January 1, 2025.',
+          details: 'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025.',
           intro: '<strong>John Doe</strong> has been lobbied as a City of Portland official.',
           title: 'Overview',
         },
@@ -442,6 +446,7 @@ describe('setData()', () => {
       identical_id: null, // eslint-disable-line camelcase
       name: 'John Doe',
       pernr: 1020304,
+      pronoun_subject: 'he', // eslint-disable-line camelcase
       type: 'person',
       x: 'y',
       z: 'abc',
