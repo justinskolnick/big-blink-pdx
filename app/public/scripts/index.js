@@ -1268,7 +1268,7 @@
         exports.useTransition = function() {
           return resolveDispatcher().useTransition();
         };
-        exports.version = "19.2.7";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -1524,7 +1524,7 @@
         exports.useFormStatus = function() {
           return resolveDispatcher().useHostTransitionStatus();
         };
-        exports.version = "19.2.7";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -21316,9 +21316,9 @@
         };
         (function() {
           var isomorphicReactPackageVersion = React38.version;
-          if ("19.2.7" !== isomorphicReactPackageVersion)
+          if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
-              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.7\nLearn more: https://react.dev/warnings/version-mismatch")
+              'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
             );
         })();
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
@@ -21342,10 +21342,10 @@
         if (!(function() {
           var internals = {
             bundleType: 1,
-            version: "19.2.7",
+            version: "19.2.8",
             rendererPackageName: "react-dom",
             currentDispatcherRef: ReactSharedInternals,
-            reconcilerVersion: "19.2.7"
+            reconcilerVersion: "19.2.8"
           };
           internals.overrideHookState = overrideHookState;
           internals.overrideHookStateDeletePath = overrideHookStateDeletePath;
@@ -21436,7 +21436,7 @@
           listenToAllSupportedEvents(container);
           return new ReactDOMHydrationRoot(initialChildren);
         };
-        exports.version = "19.2.7";
+        exports.version = "19.2.8";
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
     }
@@ -23537,6 +23537,8 @@
     branches.sort((a2, b2) => a2.score !== b2.score ? b2.score - a2.score : compareIndexes(a2.routesMeta.map((meta) => meta.childrenIndex), b2.routesMeta.map((meta) => meta.childrenIndex)));
   }
   var paramRe = /^:[\w-]+$/;
+  var partialParamRe = /^:[\w-]+/;
+  var partialDynamicSegmentValue = 3.5;
   var dynamicSegmentValue = 3;
   var indexRouteValue = 2;
   var emptySegmentValue = 1;
@@ -23548,7 +23550,7 @@
     let initialScore = segments.length;
     if (segments.some(isSplat)) initialScore += splatPenalty;
     if (index) initialScore += indexRouteValue;
-    return segments.filter((s2) => !isSplat(s2)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+    return segments.filter((s2) => !isSplat(s2)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : partialParamRe.test(segment) ? partialDynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
   }
   function compareIndexes(a2, b2) {
     return a2.length === b2.length && a2.slice(0, -1).every((n2, i2) => n2 === b2[i2]) ? a2[a2.length - 1] - b2[b2.length - 1] : 0;
@@ -23631,7 +23633,7 @@
         return "(?:/([^\\/]*))?";
       }
       return "/([^\\/]+)";
-    }).replace(/\/([\w-]+)\?(\/|$)/g, "(/$1)?$2");
+    }).replace(/\/([\w-]+)\?(?=\/|$|\()/g, "(?:/$1)?");
     if (path.endsWith("*")) {
       params.push({ paramName: "*" });
       regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
@@ -24372,7 +24374,7 @@
       else actionData = null;
       let loaderData = newState.loaderData ? mergeLoaderData(state.loaderData, newState.loaderData, newState.matches || [], newState.errors) : state.loaderData;
       let blockers = state.blockers;
-      if (blockers.size > 0) {
+      if (blockers.size > 0 && !isUninterruptedRevalidation) {
         blockers = new Map(blockers);
         blockers.forEach((_2, k2) => blockers.set(k2, IDLE_BLOCKER));
       }
@@ -27734,7 +27736,7 @@
   var React$17 = __toESM(require_react(), 1);
   var isBrowser2 = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   try {
-    if (isBrowser2) window.__reactRouterVersion = "8.1.0";
+    if (isBrowser2) window.__reactRouterVersion = "8.3.0";
   } catch (e2) {
   }
   function createBrowserRouter(routes, opts) {
@@ -27863,7 +27865,7 @@
     if (nextLocationPathname && basename) nextLocationPathname = stripBasename(nextLocationPathname, basename) || nextLocationPathname;
     const endSlashPosition = toPathname !== "/" && toPathname.endsWith("/") ? toPathname.length - 1 : toPathname.length;
     let isActive = locationPathname === toPathname || !end3 && locationPathname.startsWith(toPathname) && locationPathname.charAt(endSlashPosition) === "/";
-    let isPending2 = nextLocationPathname != null && (nextLocationPathname === toPathname || !end3 && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(toPathname.length) === "/");
+    let isPending2 = nextLocationPathname != null && (nextLocationPathname === toPathname || !end3 && nextLocationPathname.startsWith(toPathname) && nextLocationPathname.charAt(endSlashPosition) === "/");
     let renderProps = {
       isActive,
       isPending: isPending2,
@@ -40863,7 +40865,7 @@ Hook ${hookName} was either not provided or not a function.`);
     mark: noop$1,
     measure: noop$1
   };
-  var preamble = 'FA "7.3.0"';
+  var preamble = 'FA "7.3.1"';
   var begin = function begin2(name) {
     p$2.mark("".concat(preamble, " ").concat(name, " begins"));
     return function() {
@@ -42248,7 +42250,17 @@ Hook ${hookName} was either not provided or not a function.`);
     spin: "fa-spin",
     spinPulse: "fa-spin-pulse",
     spinReverse: "fa-spin-reverse",
-    pulse: "fa-pulse"
+    pulse: "fa-pulse",
+    // the following animations are only supported in version 7.3.0 and later
+    flip360: "fa-flip-360",
+    buzz: "fa-buzz",
+    float: "fa-float",
+    jello: "fa-jello",
+    spinSnap: "fa-spin-snap",
+    spinSnap4: "fa-spin-snap-4",
+    spinSnap8: "fa-spin-snap-8",
+    swing: "fa-swing",
+    wag: "fa-wag"
   };
   var PULL_CLASSES = {
     left: "fa-pull-left",
@@ -42287,7 +42299,10 @@ Hook ${hookName} was either not provided or not a function.`);
     inverse: "fa-inverse",
     rotateBy: "fa-rotate-by",
     swapOpacity: "fa-swap-opacity",
-    widthAuto: "fa-width-auto"
+    widthAuto: "fa-width-auto",
+    // the following style classes are only supported in version 7.3.0 and later
+    canvasSquare: "fa-canvas-square",
+    canvasRoomy: "fa-canvas-roomy"
   };
   var LAYER_CLASSES = {
     default: "fa-layers"
@@ -42320,6 +42335,17 @@ Hook ${hookName} was either not provided or not a function.`);
       swapOpacity,
       rotateBy,
       widthAuto,
+      canvasSquare,
+      canvasRoomy,
+      flip360,
+      buzz,
+      float,
+      jello,
+      spinSnap,
+      spinSnap4,
+      spinSnap8,
+      swing,
+      wag,
       className
     } = props;
     const result = [];
@@ -42352,6 +42378,17 @@ Hook ${hookName} was either not provided or not a function.`);
     if (!getIsVersion7OrLater()) return result;
     if (rotateBy) result.push(STYLE_CLASSES.rotateBy);
     if (widthAuto) result.push(STYLE_CLASSES.widthAuto);
+    if (canvasSquare) result.push(STYLE_CLASSES.canvasSquare);
+    if (canvasRoomy) result.push(STYLE_CLASSES.canvasRoomy);
+    if (flip360) result.push(ANIMATION_CLASSES.flip360);
+    if (buzz) result.push(ANIMATION_CLASSES.buzz);
+    if (float) result.push(ANIMATION_CLASSES.float);
+    if (jello) result.push(ANIMATION_CLASSES.jello);
+    if (spinSnap) result.push(ANIMATION_CLASSES.spinSnap);
+    if (spinSnap4) result.push(ANIMATION_CLASSES.spinSnap4);
+    if (spinSnap8) result.push(ANIMATION_CLASSES.spinSnap8);
+    if (swing) result.push(ANIMATION_CLASSES.swing);
+    if (wag) result.push(ANIMATION_CLASSES.wag);
     const prefix2 = config$1.cssPrefix || config$1.familyPrefix || DEFAULT_CLASSNAME_PREFIX;
     return prefix2 === DEFAULT_CLASSNAME_PREFIX ? result : (
       // TODO: see if we can achieve custom prefix support without iterating
@@ -42401,7 +42438,18 @@ Hook ${hookName} was either not provided or not a function.`);
     titleId: void 0,
     transform: void 0,
     swapOpacity: false,
-    widthAuto: false
+    widthAuto: false,
+    canvasSquare: false,
+    canvasRoomy: false,
+    flip360: false,
+    buzz: false,
+    float: false,
+    jello: false,
+    spinSnap: false,
+    spinSnap4: false,
+    spinSnap8: false,
+    swing: false,
+    wag: false
   };
   var DEFAULT_PROP_KEYS = new Set(Object.keys(DEFAULT_PROPS));
   var FontAwesomeIcon = import_react4.default.forwardRef((props, ref) => {
@@ -60606,7 +60654,7 @@ react-router/dist/production/lib/dom/ssr/components.js:
 react-router/dist/production/lib/dom/lib.js:
 react-router/dist/production/index.js:
   (**
-   * react-router v8.1.0
+   * react-router v8.3.0
    *
    * Copyright (c) Remix Software Inc.
    *
@@ -60619,7 +60667,7 @@ react-router/dist/production/index.js:
 @fortawesome/fontawesome-svg-core/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
   (*!
-   * Font Awesome Free 7.3.0 by @fontawesome - https://fontawesome.com
+   * Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2026 Fonticons, Inc.
    *)
