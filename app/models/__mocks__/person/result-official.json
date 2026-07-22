@@ -4,5 +4,6 @@
     "identical_id": null,
     "pernr": 1020304,
     "type": "person",
-    "name": "John Doe"
+    "name": "John Doe",
+    "pronoun_subject": "he"
 }

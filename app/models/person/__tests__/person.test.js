@@ -446,6 +446,7 @@ describe('setData()', () => {
       identical_id: null, // eslint-disable-line camelcase
       name: 'John Doe',
       pernr: 1020304,
+      pronoun_subject: 'he', // eslint-disable-line camelcase
       type: 'person',
       x: 'y',
       z: 'abc',

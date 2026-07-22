@@ -107,6 +107,7 @@ class Person extends IncidentedBase {
             duration: term.readableTenure,
             name: (i > 0) ? capitalize(this.getData('pronoun_subject')) : this.getData('given'),
             pronoun: this.getData('pronoun_subject'),
+            pronoun_initial: capitalize(this.getData('pronoun_subject')), // eslint-disable-line camelcase
             district: term.cityOffice.getData('district'),
             office: term.cityOffice.office,
             ordinal: toOrdinal(term.termCount),

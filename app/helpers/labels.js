@@ -27,7 +27,7 @@ class Labels {
   }
 
   getInterpolatedLabel(str, values = {}) {
-    return Object.entries(values).reduce((acc, [key, value]) => {
+    return Object.entries(values).reverse().reduce((acc, [key, value]) => {
       const symbol = snakeCase(key);
 
       return acc.replaceAll(`:${symbol}`, value);

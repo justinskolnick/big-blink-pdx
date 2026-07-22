@@ -142,11 +142,11 @@ class CityOfficeTerm extends Base {
   }
 
   get dateStart() {
-    return this.terms.map(term => term.dates.start).sort().at(0);
+    return this.terms.map(term => term.dates.start).reverse().at(0);
   }
 
   get dateEnd() {
-    return this.terms.map(term => term.dates.end).sort().at(-1);
+    return this.terms.map(term => term.dates.end).reverse().at(-1);
   }
 
   get id() {
