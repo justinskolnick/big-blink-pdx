@@ -77,7 +77,7 @@ class CityOfficeTerm extends Base {
   }
 
   addElection(term) {
-    this.elections.push(term.election);
+    this.elections = [].concat(this.elections, term.elections);
   }
 
   addTerm(term) {
@@ -171,17 +171,9 @@ class CityOfficeTerm extends Base {
     });
   }
 
-  // get elections() {
-  //   // console.log(this)
-  //   return this.terms.reduce((collected, current) => {
-  //     // console.log(current)
-  //     // collected.push(current.election);
-  //     // const number = collected.number || 0;
-  //     // const unit = collected.unit || TIME_MONTH;
-
-  //     return collected;
-  //   }, []);
-  // }
+  get electionHistory() {
+    return this.elections.map(election => election.adapted);
+  }
 
   get tenure() {
     return this.terms.reduce((collected, current) => {

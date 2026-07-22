@@ -174,6 +174,42 @@ describe('collect', () => {
         });
       });
 
+      describe('electionHistory', () => {
+        test('returns the expected value', () => {
+          expect(collected.at(0).electionHistory).toEqual([
+            {
+              date: {
+                label: 'November 5, 2024',
+                value: '2024-11-05',
+              },
+              id: 5,
+              type: 'general',
+              year: 2024,
+            },
+          ]);
+          expect(collected.at(1).electionHistory).toEqual([
+            {
+              date: {
+                label: 'May 17, 2022',
+                value: '2022-05-17',
+              },
+              id: 10,
+              type: 'primary',
+              year: 2022,
+            },
+            {
+              date: {
+                label: 'August 11, 2020',
+                value: '2020-08-11',
+              },
+              id: 14,
+              type: 'special',
+              year: 2020,
+            },
+          ]);
+        });
+      });
+
       describe('tenure', () => {
         test('returns the expected value', () => {
           expect(collected.at(0).tenure).toEqual({
@@ -316,6 +352,42 @@ describe('collect', () => {
         test('returns the expected value', () => {
           expect(collected.at(0).wasReelected()).toBe(true);
           expect(collected.at(1).wasReelected()).toBe(false);
+        });
+      });
+
+      describe('electionHistory', () => {
+        test('returns the expected value', () => {
+          expect(collected.at(0).electionHistory).toEqual([
+            {
+              date: {
+                label: 'November 5, 2024',
+                value: '2024-11-05',
+              },
+              id: 5,
+              type: 'general',
+              year: 2024,
+            },
+            {
+              date: {
+                label: 'November 3, 2020',
+                value: '2020-11-03',
+              },
+              id: 13,
+              type: 'general',
+              year: 2020,
+            },
+          ]);
+          expect(collected.at(1).electionHistory).toEqual([
+            {
+              date: {
+                label: 'November 8, 2016',
+                value: '2016-11-08',
+              },
+              id: 24,
+              type: 'general',
+              year: 2016,
+            },
+          ]);
         });
       });
 
