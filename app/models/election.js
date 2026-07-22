@@ -1,5 +1,3 @@
-const { isTruthy } = require('../lib/util');
-
 const Base = require('./shared/base');
 
 const ElectionsTable = require('../services/tables/elections');

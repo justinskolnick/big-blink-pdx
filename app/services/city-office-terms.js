@@ -24,7 +24,7 @@ const getAll = async (options = {}) => {
     const election = new Election({
       id:           result.election_id,
       year:         result.year,
-      election_day: result.election_day,
+      election_day: result.election_day, // eslint-disable-line camelcase
       type:         result.type,
     });
 
