@@ -96,15 +96,17 @@ describe('collect', () => {
           {
             dateEnd: 'December 31, 2028',
             dateStart: 'January 1, 2025',
-            election: {
-              date: {
-                label: 'November 5, 2024',
-                value: '2024-11-05',
+            elections: [
+              {
+                date: {
+                  label: 'November 5, 2024',
+                  value: '2024-11-05',
+                },
+                id: 5,
+                type: 'general',
+                year: 2024,
               },
-              id: 5,
-              type: 'general',
-              year: 2024,
-            },
+            ],
             id: 8,
             office: {
               district: 2,
@@ -125,15 +127,26 @@ describe('collect', () => {
           {
             dateEnd: 'December 31, 2024',
             dateStart: 'September 9, 2020',
-            election: {
-              date: {
-                label: 'May 17, 2022',
-                value: '2022-05-17',
+            elections: [
+              {
+                date: {
+                  label: 'May 17, 2022',
+                  value: '2022-05-17',
+                },
+                id: 10,
+                type: 'primary',
+                year: 2022,
               },
-              id: 10,
-              type: 'primary',
-              year: 2022,
-            },
+              {
+                date: {
+                  label: 'August 11, 2020',
+                  value: '2020-08-11',
+                },
+                id: 14,
+                type: 'special',
+                year: 2020,
+              },
+            ],
             id: 17,
             office: {
               district: null,
@@ -147,7 +160,7 @@ describe('collect', () => {
               dateStart: '2020-09-09',
             },
             tenure: {
-              number: 48,
+              number: 39,
               unit: 'month',
             },
           }
@@ -168,7 +181,7 @@ describe('collect', () => {
             unit: 'month',
           });
           expect(collected.at(1).tenure).toEqual({
-            number: 48,
+            number: 39,
             unit: 'month',
           });
         });
@@ -236,15 +249,26 @@ describe('collect', () => {
               office: 'Mayor',
               position: null,
             },
-            election: {
-              date: {
-                label: 'November 5, 2024',
-                value: '2024-11-05',
+            elections: [
+              {
+                date: {
+                  label: 'November 5, 2024',
+                  value: '2024-11-05',
+                },
+                id: 5,
+                type: 'general',
+                year: 2024,
               },
-              id: 5,
-              type: 'general',
-              year: 2024,
-            },
+              {
+                date: {
+                  label: 'November 3, 2020',
+                  value: '2020-11-03',
+                },
+                id: 13,
+                type: 'general',
+                year: 2020,
+              },
+            ],
             raw: {
               dateEnd: '2028-12-31',
               dateStart: '2021-01-01',
@@ -265,15 +289,17 @@ describe('collect', () => {
               office: 'City Commissioner',
               position: 4,
             },
-            election: {
-              date: {
-                label: 'November 8, 2016',
-                value: '2016-11-08',
+            elections: [
+              {
+                date: {
+                  label: 'November 8, 2016',
+                  value: '2016-11-08',
+                },
+                id: 24,
+                type: 'general',
+                year: 2016,
               },
-              id: 24,
-              type: 'general',
-              year: 2016,
-            },
+            ],
             raw: {
               dateEnd: '2020-12-31',
               dateStart: '2017-01-01',
@@ -349,15 +375,17 @@ describe('with a mayor', () => {
           office: 'Mayor',
           position: null,
         },
-        election: {
-          date: {
-            label: 'November 5, 2024',
-            value: '2024-11-05',
+        elections: [
+          {
+            date: {
+              label: 'November 5, 2024',
+              value: '2024-11-05',
+            },
+            id: 5,
+            type: 'general',
+            year: 2024,
           },
-          id: 5,
-          type: 'general',
-          year: 2024,
-        },
+        ],
         raw: {
           dateEnd: '2028-12-31',
           dateStart: '2025-01-01',
@@ -422,15 +450,17 @@ describe('with a city commissioner', () => {
           office: 'City Commissioner',
           position: 2,
         },
-        election: {
-          date: {
-            label: 'November 3, 2020',
-            value: '2020-11-03',
+        elections: [
+          {
+            date: {
+              label: 'November 3, 2020',
+              value: '2020-11-03',
+            },
+            id: 13,
+            type: 'general',
+            year: 2020,
           },
-          id: 13,
-          type: 'general',
-          year: 2020,
-        },
+        ],
         raw: {
           dateEnd: '2024-12-31',
           dateStart: '2023-01-01',
@@ -495,15 +525,17 @@ describe('with a city councilor', () => {
           office: 'City Councilor',
           position: 3,
         },
-        election: {
-          date: {
-            label: 'November 5, 2024',
-            value: '2024-11-05',
+        elections: [
+          {
+            date: {
+              label: 'November 5, 2024',
+              value: '2024-11-05',
+            },
+            id: 5,
+            type: 'general',
+            year: 2024,
           },
-          id: 5,
-          type: 'general',
-          year: 2024,
-        },
+        ],
         raw: {
           dateEnd: '2028-12-31',
           dateStart: '2025-01-01',

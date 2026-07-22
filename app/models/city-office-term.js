@@ -25,6 +25,10 @@ class CityOfficeTerm extends Base {
 
         if (current.isConsecutiveWithTerm(previous) && current.isSameOfficeAsTerm(previous)) {
           previous.addTerm(current);
+
+          if (previous.hasElection()) {
+            previous.addElection(current);
+          }
         } else {
           collected.push(current);
         }
@@ -38,6 +42,7 @@ class CityOfficeTerm extends Base {
 
   cityOffice = null;
   election = null;
+  elections = [];
 
   configureOtherValues() {
     super.terms = [];
@@ -51,6 +56,7 @@ class CityOfficeTerm extends Base {
 
   setElection(election) {
     this.election = election;
+    this.elections.push(election);
   }
 
   setTerm() {
@@ -68,6 +74,10 @@ class CityOfficeTerm extends Base {
       number,
       unit: TIME_MONTH,
     });
+  }
+
+  addElection(term) {
+    this.elections.push(term.election);
   }
 
   addTerm(term) {
@@ -90,8 +100,8 @@ class CityOfficeTerm extends Base {
       otherValues.office = this.cityOffice.adapted;
     }
 
-    if (this.hasElection()) {
-      otherValues.election = this.election.adapted;
+    if (this.hasElections()) {
+      otherValues.elections = this.elections.map(e => e.adapted);
     }
 
     return this.adaptResult(result, otherValues);
@@ -103,6 +113,10 @@ class CityOfficeTerm extends Base {
 
   hasElection() {
     return this.election !== null;
+  }
+
+  hasElections() {
+    return this.elections.length > 0;
   }
 
   isConsecutiveWithTerm(term) {
@@ -156,6 +170,18 @@ class CityOfficeTerm extends Base {
       unit: this.getLabel(unit, 'unit'),
     });
   }
+
+  // get elections() {
+  //   // console.log(this)
+  //   return this.terms.reduce((collected, current) => {
+  //     // console.log(current)
+  //     // collected.push(current.election);
+  //     // const number = collected.number || 0;
+  //     // const unit = collected.unit || TIME_MONTH;
+
+  //     return collected;
+  //   }, []);
+  // }
 
   get tenure() {
     return this.terms.reduce((collected, current) => {
