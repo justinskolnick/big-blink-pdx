@@ -9,6 +9,7 @@ const {
   getYearsToMonths,
 } = require('../lib/date');
 const { toNumeral } = require('../lib/number');
+const { sortDateStartDescending } = require('../lib/sorting');
 
 const Base = require('./shared/base');
 
@@ -18,7 +19,7 @@ class CityOfficeTerm extends Base {
   static table = CityOfficeTermsTable;
 
   static collect(results) {
-    return results.reduce((collected, current, i) => {
+    return results.sort(sortDateStartDescending).reduce((collected, current, i) => {
       if (i > 0) {
         const previous = collected.at(-1);
 
@@ -119,7 +120,7 @@ class CityOfficeTerm extends Base {
   }
 
   isSameOfficeAsTerm(term) {
-    return this.cityOffice.id === term.cityOffice.id;
+    return this.cityOffice?.id === term.cityOffice?.id;
   }
 
   wasReelected() {

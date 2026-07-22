@@ -1,4 +1,4 @@
-const resultCityCommissioner = require('../__mocks__/city-office/result-city-commissioner.json');
+const resultCityCommissioner = require('../__mocks__/city-office/result-city-commissioner-2.json');
 const resultCityCouncilor = require('../__mocks__/city-office/result-city-councilor.json');
 const resultMayor = require('../__mocks__/city-office/result-mayor.json');
 
@@ -69,10 +69,10 @@ describe('with a city commissioner', () => {
     test('returns the expected object', () => {
       expect(cityOffice.adapted).toEqual({
         district: null,
-        id: 6,
+        id: 4,
         isElected: true,
         office: 'City Commissioner',
-        position: 4,
+        position: 2,
       });
     });
   });
@@ -102,11 +102,11 @@ describe('with a city councilor', () => {
   describe('adapt()', () => {
     test('returns the expected object', () => {
       expect(cityOffice.adapted).toEqual({
-        district: 1,
-        id: 9,
+        district: 2,
+        id: 12,
         isElected: true,
         office: 'City Councilor',
-        position: 2,
+        position: 3,
       });
     });
   });

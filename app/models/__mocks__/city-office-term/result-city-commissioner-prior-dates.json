@@ -1,0 +1,10 @@
+{
+    "id": 20,
+    "person_id": 196,
+    "city_office_id": 4,
+    "election_id": 14,
+    "duration_number": 2,
+    "duration_unit": "year",
+    "date_start": "2020-09-09",
+    "date_end": "2022-12-31"
+}

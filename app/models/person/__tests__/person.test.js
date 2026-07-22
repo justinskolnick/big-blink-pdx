@@ -197,7 +197,7 @@ describe('adapt()', () => {
       overview: {
         label: 'Overview',
         labels: {
-          details: 'John was elected to a four-year term as City Councilor for District 1 starting on January 1, 2025.',
+          details: 'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025.',
           intro: '<strong>John Doe</strong> has been lobbied as a City of Portland official.',
           title: 'Overview',
         },
