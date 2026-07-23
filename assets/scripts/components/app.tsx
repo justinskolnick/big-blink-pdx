@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from '@dr.pogodin/react-helmet';
 
 import { hasAlertClass } from './alert-portal';
 import { hasModalClass } from './modal-portal';
@@ -27,17 +27,19 @@ const App = () => {
 
   return (
     <div className='global-layout'>
-      <Helmet
-        defaultTitle='The Big Blink PDX'
-        titleTemplate='%s · The Big Blink PDX'
-      >
-        {pageTitle && (
-          <title>{pageTitle}</title>
-        )}
-        {description && (
-          <meta name='description' content={description} />
-        )}
-      </Helmet>
+      <HelmetProvider>
+        <Helmet
+          defaultTitle='The Big Blink PDX'
+          titleTemplate='%s · The Big Blink PDX'
+        >
+          {pageTitle && (
+            <title>{pageTitle}</title>
+          )}
+          {description && (
+            <meta name='description' content={description} />
+          )}
+        </Helmet>
+      </HelmetProvider>
 
       <AlertError />
       <AlertMessage />

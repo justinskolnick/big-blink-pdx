@@ -15,6 +15,7 @@ router.get('/', async (req, res, next) => {
   try {
     data = {
       labels: {
+        globalTitle: labels.getLabel('title', 'global'),
         incidents: labels.getLabel('incidents'),
         incidentsItemCategory: labels.getLabel('item_category', 'incidents'),
         incidentsItemDataSourceTitle: labels.getLabel('data_source_title', 'incidents'),

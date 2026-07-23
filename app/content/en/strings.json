@@ -41,6 +41,7 @@
     "home__overview_intro": "The figures in the chart below represent the total number of lobbying incident entries submitted to the City of Portland by lobbying entities.",
     "home__overview_details": "Since 2025 Q2, a single entry can represent any number of lobbying interactions. Entry contact types are tallied in an attempt to estimate this number; in many cases, the actual number of interactions is likely much higher.",
     "home__overview_title": "Lobbying activity over time",
+    "global__title": "Remixing lobbying data published by the City of Portland, Oregon",
     "incidents": "incidents",
     "incidents__percentage": "Share of total",
     "incidents__item_category": "Category",

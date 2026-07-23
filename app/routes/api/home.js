@@ -11,8 +11,6 @@ const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
 const stats = require('../../services/stats');
 
-const title = 'Remixing lobbying data published by the City of Portland, Oregon';
-
 const labels = new Labels();
 
 const router = express.Router({
@@ -20,11 +18,14 @@ const router = express.Router({
 });
 
 router.get('/', async (req, res, next) => {
+  let title;
   let results;
   let data;
   let meta;
 
   try {
+    title = labels.getLabel('title', 'global');
+
     results = await Promise.all([
       incidents.getTotal(),
       incidents.getFirstAndLastDates(),
