@@ -3,6 +3,8 @@ const Role = require('../role');
 
 const { percentage } = require('../../lib/number');
 
+const Overview = require('./overview');
+
 class IncidentedBase extends Base {
   static labelPrefix = null;
   static linkKey = null;
@@ -19,20 +21,14 @@ class IncidentedBase extends Base {
     return this.roleCollections.includes(collection);
   }
 
-  overviewProps = [
-    'first',
-    'last',
-    'percentage',
-    'total',
-  ];
-
-  overviewDescription = null;
-  overviewDetails = null;
-
   role = null;
 
   globalIncidentCount = null;
   globalIncidentPercentage = null;
+
+  configureOtherValues() {
+    super.overview = new Overview();
+  }
 
   setRole(role) {
     if (this.constructor.isValidRoleOption(role)) {
@@ -41,6 +37,10 @@ class IncidentedBase extends Base {
       this.role.setLabelPrefix(this.constructor.singular());
       this.role.initCollections(this.constructor.roleCollections);
     }
+  }
+
+  hasOverview() {
+    return this.overview !== null && this.overview.hasValues();
   }
 
   hasRole() {
@@ -87,47 +87,27 @@ class IncidentedBase extends Base {
     return 'total' in this.data && typeof this.data.total === 'number';
   }
 
-  setOverviewObject() {
-    this.setData('overview', {
-      label: this.constructor.getLabel('overview'),
-      labels: {
-        intro: this.overviewDescription,
-        details: this.overviewDetails,
-        title: this.constructor.getLabel('overview'),
-      },
-    });
-  }
-
   setOverviewAppearances(stats) {
-    this.data.overview.appearances = {
+    this.overview.setAppearances({
       label: this.constructor.getLabel('appearances'),
       values: {},
-    };
+    });
 
     if (this.statsHasFirstIncident(stats)) {
-      this.setOverviewAppearanceValue('first', stats.first);
+      this.overview.setAppearancesValue('first', stats.first);
     }
 
     if (this.statsHasLastIncident(stats)) {
-      this.setOverviewAppearanceValue('last', stats.last);
+      this.overview.setAppearancesValue('last', stats.last);
     }
   }
 
-  setOverviewAppearanceValue(key, value) {
-    this.data.overview.appearances.values[key] = {
-      key,
-      label: this.constructor.getLabel(key, 'appearances'),
-      value,
-    };
-  }
-
   setOverviewTotals() {
-    this.data.overview.totals = {
+    this.overview.setTotals({
       label: this.constructor.getLabel('totals'),
       values: {},
-    };
-
-    this.setOverviewTotalValue(this.data.total);
+    });
+    this.overview.setTotalsValue('total', this.data.total);
 
     if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
       let value;
@@ -139,45 +119,23 @@ class IncidentedBase extends Base {
       }
 
       if (value) {
-        this.setOverviewPercentageValue(value);
+        this.overview.setTotalsValue('percentage', `${value}%`);
       }
     }
   }
 
-  setOverviewTotalValue(value) {
-    this.data.overview.totals.values.total = {
-      key: 'total',
-      label: this.constructor.getLabel('total', 'incidents'),
-      value,
-    };
-  }
-
-  setOverviewPercentageValue(value) {
-    this.data.overview.totals.values.percentage = {
-      key: 'percentage',
-      label: this.constructor.getLabel('percentage', 'incidents'),
-      value: `${value}%`,
-    };
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setOverviewDescription(values = {}) {
-    this.overviewDescription = null;
-  }
-
-  hasOverviewDescription() {
-    return this.overviewDescription !== null;
+    this.overview.setDescription();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setOverviewDetails(values = {}) {
-    this.overviewDetails = null;
+    this.overview.setDetails();
   }
 
   setOverview(stats = {}) {
-    this.setOverviewObject();
-
-    if (this.dataHasTotal() || this.overviewProps.some(prop => prop in stats)) {
+    if (this.dataHasTotal() || Overview.props.some(prop => prop in stats)) {
       if (this.statsHasTotal(stats)) {
         this.setData('total', stats.total);
       }
@@ -220,8 +178,8 @@ class IncidentedBase extends Base {
       adapted.incidents = result.incidents;
     }
 
-    if (result.overview) {
-      adapted.overview = result.overview;
+    if (this.hasOverview()) {
+      adapted.overview = this.overview.toObject();
     }
 
     return adapted;

@@ -60,9 +60,9 @@ class Person extends IncidentedBase {
     }
 
     if (labelKey) {
-      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+      this.overview.setDescription(this.getLabel(labelKey, labelPrefix, {
         name: this.getData('name'),
-      });
+      }));
     }
   }
 
@@ -121,7 +121,7 @@ class Person extends IncidentedBase {
     }
 
     if (details.length) {
-      this.overviewDetails = details.join(' ');
+      this.overview.setDetails(details.join(' '));
     }
   }
 
