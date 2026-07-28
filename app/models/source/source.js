@@ -47,13 +47,13 @@ class Source extends IncidentedBase {
     }
 
     if (labelKey) {
-      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+      this.overview.setDescription(this.getLabel(labelKey, labelPrefix, {
         date: this.constructor.readableDate(this.getData('retrieved_at')),
         format: this.readableFormat(this.getData('format')),
         source_publication: this.getLabel('website_auditor', labelPrefix), // eslint-disable-line camelcase
         title: this.getData('title'),
         url: this.getData('public_url'),
-      });
+      }));
     }
   }
 
@@ -74,7 +74,7 @@ class Source extends IncidentedBase {
     }
 
     if (labelKey) {
-      this.overviewDetails = this.getLabel(labelKey, labelPrefix);
+      this.overview.setDetails(this.getLabel(labelKey, labelPrefix));
     }
   }
 

@@ -47,9 +47,9 @@ class Entity extends IncidentedBase {
     }
 
     if (labelKey) {
-      this.overviewDescription = this.getLabel(labelKey, labelPrefix, {
+      this.overview.setDescription(this.getLabel(labelKey, labelPrefix, {
         name: this.getData('name'),
-      });
+      }));
     }
   }
 
@@ -104,10 +104,10 @@ class Entity extends IncidentedBase {
     }
 
     if (labelKey) {
-      this.overviewDetails = this.getLabel(labelKey, labelPrefix, {
+      this.overview.setDetails(this.getLabel(labelKey, labelPrefix, {
         domain: domainString,
         locations: locationsString,
-      });
+      }));
     }
   }
 
