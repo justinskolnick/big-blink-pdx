@@ -14,8 +14,8 @@ COPY package.json .
 COPY yarn.lock .
 
 RUN corepack enable
-RUN corepack install --global yarn@4.16.0
-RUN yarn set version 4.16.0
+RUN corepack install --global yarn@4.18.0
+RUN yarn set version 4.18.0
 RUN yarn install
 
 RUN chown -R node:node $BUILD_DIR/*
