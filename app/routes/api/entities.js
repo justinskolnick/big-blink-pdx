@@ -131,6 +131,7 @@ router.get('/:id', async (req, res, next) => {
   let result;
   let record;
   let incidentsStats;
+  let statsResult;
   let entityLocations;
   let data;
   let meta;
@@ -147,8 +148,13 @@ router.get('/:id', async (req, res, next) => {
   }
 
   try {
-    entityLocations = await entityLobbyistLocations.getAll({ entityId: id });
+    entityLocations = await entityLobbyistLocations.getAll({
+      entityId: id,
+    });
     incidentsStats = await stats.getIncidentsStats({
+      entityId: id,
+    });
+    statsResult = await stats.getStats({
       entityId: id,
     });
 
@@ -158,6 +164,7 @@ router.get('/:id', async (req, res, next) => {
     result.setOverviewDetails({
       locations: entityLocations,
     });
+    result.overview.setStats(statsResult);
     result.setOverview(incidentsStats);
 
     record = result.adapted;

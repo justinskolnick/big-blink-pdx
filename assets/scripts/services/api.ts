@@ -163,9 +163,6 @@ const api = createApi({
     getEntityRolesById: builder.query(getAncillaryRoute(
       ({ id, limit, search }) => getPathnameWithLimit(`api/entities/${id}/roles`, { limit, search })
     )),
-    getEntityStatsById: builder.query(getAncillaryRoute(
-      ({ id }) => `api/entities/${id}/stats`
-    )),
 
     getIncidentById: builder.query(getAncillaryRoute(
       ({ id }) => `api/incidents/${id}`
@@ -179,9 +176,6 @@ const api = createApi({
     )),
     getPersonRolesById: builder.query(getAncillaryRoute(
       ({ id, limit, search }) => getPathnameWithLimit(`api/people/${id}/roles`, { limit, search })
-    )),
-    getPersonStatsById: builder.query(getAncillaryRoute(
-      ({ id }) => `api/people/${id}/stats`
     )),
 
     getSourceIncidentsById: builder.query(getAncillaryRoute(

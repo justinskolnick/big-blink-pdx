@@ -11,6 +11,7 @@ import type { TriggerChildren } from '../services/api';
 import type {
   ItemDetailObject,
   RefElement,
+  StatsObject,
 } from '../types';
 
 interface ContainerProps {
@@ -20,6 +21,7 @@ interface ContainerProps {
 
 interface ChartProps {
   label?: string;
+  stats?: StatsObject;
 }
 
 interface TriggerProps {
@@ -68,7 +70,12 @@ const ItemDetail = ({
         ref={incidentsRef}
         title={item.labels.overview.title}
       >
-        {canLoadDetails && <Chart label={item.labels.overview.chart} />}
+        {canLoadDetails && (
+          <Chart
+            label={item.labels.overview.chart}
+            stats={item.overview?.stats}
+          />
+        )}
       </ActivityOverview>
 
       {canLoadDetails && (

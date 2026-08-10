@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import Chart from './chart';
 import IncidentsTrigger from './detail-incidents-trigger';
+import { ItemChartStacked as ItemChart } from '../item-chart';
 import ItemDetail from '../item-detail';
 
 import { useGetSourceById } from '../../reducers/sources';
@@ -15,7 +15,7 @@ const Detail = () => {
 
   return (
     <ItemDetail
-      Chart={Chart}
+      Chart={ItemChart}
       IncidentsTrigger={IncidentsTrigger}
       item={item}
     />

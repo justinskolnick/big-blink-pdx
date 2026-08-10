@@ -11,6 +11,7 @@ const resultCityCouncilor = require('../../__mocks__/city-office-term/result-cit
 const resultElection2024General = require('../../__mocks__/elections/result-2024-general.json');
 const resultLobbyist = require('../../__mocks__/person/result-lobbyist.json');
 const resultOfficial = require('../../__mocks__/person/result-official.json');
+const resultPersonStats = require('../__mocks__/result-person-stats.json');
 
 const Person = require('../person');
 const CityOffice = require('../../city-office');
@@ -232,6 +233,7 @@ describe('adapt()', () => {
       hasLobbied: true,
     });
     person.setOverviewDetails();
+    person.overview.setStats(resultPersonStats);
     person.setOverview();
 
     expect(person.adapted).toEqual({
@@ -250,6 +252,75 @@ describe('adapt()', () => {
           details: null,
           intro: '<strong>John Doe</strong> has been lobbied as a City of Portland official and has lobbied City officials.',
           title: 'Overview',
+        },
+        stats: {
+          entries: [
+            {
+              dataSourceId: 13,
+              id: 123,
+              total: 22,
+            },
+            {
+              dataSourceId: 21,
+              id: 123,
+              total: 19,
+            },
+            {
+              dataSourceId: 22,
+              id: 123,
+              total: 11,
+            },
+            {
+              dataSourceId: 23,
+              id: 123,
+              total: 29,
+            },
+            {
+              dataSourceId: 24,
+              id: 123,
+              total: 24,
+            },
+            {
+              dataSourceId: 25,
+              id: 123,
+              total: 7,
+            },
+            {
+              dataSourceId: 49,
+              id: 123,
+              total: 6,
+            },
+          ],
+          estimates: [
+            {
+              dataSourceId: 13,
+              total: null,
+            },
+            {
+              dataSourceId: 21,
+              total: null,
+            },
+            {
+              dataSourceId: 22,
+              total: null,
+            },
+            {
+              dataSourceId: 23,
+              total: null,
+            },
+            {
+              dataSourceId: 24,
+              total: null,
+            },
+            {
+              dataSourceId: 25,
+              total: null,
+            },
+            {
+              dataSourceId: 49,
+              total: 25,
+            },
+          ],
         },
         totals: {
           label: 'Totals',

@@ -1,0 +1,69 @@
+{
+    "entries": [
+        {
+            "dataSourceId": 13,
+            "id": 123,
+            "total": 22
+        },
+        {
+            "dataSourceId": 21,
+            "id": 123,
+            "total": 19
+        },
+        {
+            "dataSourceId": 22,
+            "id": 123,
+            "total": 11
+        },
+        {
+            "dataSourceId": 23,
+            "id": 123,
+            "total": 29
+        },
+        {
+            "dataSourceId": 24,
+            "id": 123,
+            "total": 24
+        },
+        {
+            "dataSourceId": 25,
+            "id": 123,
+            "total": 7
+        },
+        {
+            "dataSourceId": 49,
+            "id": 123,
+            "total": 6
+        }
+    ],
+    "estimates": [
+        {
+            "dataSourceId": 13,
+            "total": null
+        },
+        {
+            "dataSourceId": 21,
+            "total": null
+        },
+        {
+            "dataSourceId": 22,
+            "total": null
+        },
+        {
+            "dataSourceId": 23,
+            "total": null
+        },
+        {
+            "dataSourceId": 24,
+            "total": null
+        },
+        {
+            "dataSourceId": 25,
+            "total": null
+        },
+        {
+            "dataSourceId": 49,
+            "total": 25
+        }
+    ]
+}

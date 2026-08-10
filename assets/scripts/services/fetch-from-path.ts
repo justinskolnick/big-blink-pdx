@@ -131,12 +131,6 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       if ('sources' in data.stats) {
         dispatch(statsActions.setSources(data.stats.sources));
       }
-      if ('entity' in data.stats) {
-        dispatch(statsActions.setEntity(data.stats.entity));
-      }
-      if ('person' in data.stats) {
-        dispatch(statsActions.setPerson(data.stats.person));
-      }
     }
 
     if ('leaderboard' in data) {
