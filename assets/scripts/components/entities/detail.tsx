@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 
-import Chart from './chart';
 import IncidentsTrigger from './detail-incidents-trigger';
 import ItemDetail from '../item-detail';
+import ItemDetailChart from '../detail-activity-overview-chart';
 
 import { useGetEntityById } from '../../reducers/entities';
 
@@ -15,7 +15,7 @@ const Detail = () => {
 
   return (
     <ItemDetail
-      Chart={Chart}
+      Chart={ItemDetailChart}
       IncidentsTrigger={IncidentsTrigger}
       item={item}
       roleIsPrimary

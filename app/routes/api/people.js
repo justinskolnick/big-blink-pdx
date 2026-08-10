@@ -138,6 +138,7 @@ router.get('/:id', async (req, res, next) => {
   let result;
   let record;
   let incidentsStats;
+  let statsResult;
   let terms;
   let data;
   let meta;
@@ -160,6 +161,9 @@ router.get('/:id', async (req, res, next) => {
     incidentsStats = await stats.getIncidentsStats({
       personId: id,
     });
+    statsResult = await stats.getStats({
+      personId: id,
+    });
 
     const {
       hasBeenEmployee,
@@ -173,6 +177,7 @@ router.get('/:id', async (req, res, next) => {
       hasLobbied,
     });
     result.setOverviewDetails({ terms });
+    result.overview.setStats(statsResult);
     result.setOverview(incidentsStats);
 
     record = result.adapted;

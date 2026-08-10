@@ -4,18 +4,11 @@ import { sortSourceDateAscendingTypeDecending } from './lib/sorting';
 
 import { RootState } from './lib/store';
 import type {
-  Id,
   Ids,
   ItemStat,
   SourcesByType,
   SourceType,
-  StatsObject,
 } from './types';
-
-type StatsValue = {
-  id: Id;
-  stats: StatsObject;
-};
 
 export const getEntities = (state: RootState) => state.entities;
 export const getHome = (state: RootState) => state.home;
@@ -68,7 +61,7 @@ export const getHomeChartData = createSelector(getHomeStats, (stats) => ({
 }));
 
 const getSourcesStats = createSelector(getStats, stats => stats.sources);
-const getSourcesChartIds = createSelector(
+export const getSourcesChartIds = createSelector(
   getSourcesStats,
   stats => stats.map(value => value.id)
 );
@@ -119,40 +112,14 @@ export const getSourcesByType = createSelector(getSources, (sources) => {
   return Object.values(types);
 });
 
-const getTotalFromSourceIds = (sourceIds: Ids, items: ItemStat[]) =>
+export const getTotalFromSourceIds = (sourceIds: Ids, items?: ItemStat[]) =>
   sourceIds.map(sourceId => {
-    const item = items.find((stat: ItemStat) => (
+    const item = items?.find((stat: ItemStat) => (
       stat.dataSourceId === sourceId
     ));
 
     return item ? item.total : null;
   });
-
-const getIndexedEntriesAndEstimates = (sourceIds: Ids, values: StatsValue[]) =>
-  values.map(value => value.id).reduce((indexed, id) => {
-    const match = values.find(value => value.id === id);
-
-    if (match) {
-      indexed[id] = {
-        entries: getTotalFromSourceIds(sourceIds, match.stats.entries),
-        estimates: getTotalFromSourceIds(sourceIds, match.stats.estimates),
-      };
-    }
-
-    return indexed;
-  }, {} as { [index: Id]: Record<keyof StatsObject, (number | null)[]>; });
-
-const getEntitiesStats = createSelector(getStats, stats => stats.entities);
-export const getEntitiesChartData = createSelector(
-  [getSourcesChartIds, getEntitiesStats],
-  getIndexedEntriesAndEstimates
-);
-
-const getPeopleStats = createSelector(getStats, stats => stats.people);
-export const getPeopleChartData = createSelector(
-  [getSourcesChartIds, getPeopleStats],
-  getIndexedEntriesAndEstimates
-);
 
 export const getCurrent = createSelector(getUI, ui => ui.current);
 export const getDescription = createSelector(getUI, ui => ui.description);

@@ -451,6 +451,7 @@ export type ItemOverview = {
     label: string;
     values?: ItemOverviewAppearancesValues;
   };
+  stats?: StatsObject;
   totals?: {
     label: string;
     values?: ItemOverviewTotalsValues;
@@ -811,11 +812,6 @@ export type StatsObject = {
   entries: ItemStat[];
   estimates: ItemStat[];
 };
-
-export type StatsObjectWithId = {
-  id: Id;
-  stats: StatsObject;
-}
 
 type Error = {
   customMessage?: string | TrustedHTML;

@@ -16,6 +16,7 @@ class Overview {
   details = null;
 
   appearances = null;
+  stats = null;
   totals = null;
 
   getLabel(key, prefix) {
@@ -54,6 +55,14 @@ class Overview {
     };
   }
 
+  setStats(stats) {
+    this.stats = stats;
+  }
+
+  hasStats() {
+    return this.stats !== null;
+  }
+
   setTotals(totals) {
     this.totals = totals;
   }
@@ -71,7 +80,11 @@ class Overview {
   }
 
   hasValues() {
-    return this.hasDescription() || this.hasDetails() || this.hasAppearances() || this.hasTotals();
+    return this.hasDescription()
+        || this.hasDetails()
+        || this.hasAppearances()
+        || this.hasStats()
+        || this.hasTotals();
   }
 
   toObject() {
@@ -86,6 +99,10 @@ class Overview {
 
     if (this.hasAppearances()) {
       obj.appearances = this.appearances;
+    }
+
+    if (this.hasStats()) {
+      obj.stats = this.stats;
     }
 
     if (this.hasTotals()) {
