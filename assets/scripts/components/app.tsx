@@ -9,18 +9,33 @@ import AlertMessage from './alert-message';
 import AlertWarning from './alert-warning';
 import GlobalFooter from './global-footer';
 import GlobalMain from './global-main';
+import ItemDetail from './item-detail';
 
 import useCaptureScrollPosition from '../hooks/use-capture-scroll-position';
 import useSelector from '../hooks/use-app-selector';
 import useTriggerPrimaryQuery from '../hooks/use-trigger-primary-query';
 
 import { getDescription, getPageTitle } from '../selectors';
+import { getCurrent } from '../selectors';
+
+const useGetIsDetail = () => {
+  const current = useSelector(getCurrent);
+  let isItemDetail = false;
+
+  if (current) {
+    isItemDetail = ['entities', 'people', 'sources'].includes(current.section) && current.layout === 'detail';
+  }
+
+  return isItemDetail;
+};
 
 const App = () => {
   const description = useSelector(getDescription);
   const pageTitle = useSelector(getPageTitle);
 
   const scrollCaptureClasses: Array<string> = [hasAlertClass, hasModalClass];
+
+  const isItemDetail = useGetIsDetail();
 
   useCaptureScrollPosition(scrollCaptureClasses);
   useTriggerPrimaryQuery();
@@ -46,7 +61,11 @@ const App = () => {
       <AlertWarning />
 
       <GlobalMain>
-        <Outlet />
+        {isItemDetail ? (
+          <ItemDetail />
+        ) : (
+          <Outlet />
+        )}
       </GlobalMain>
 
       <GlobalFooter />

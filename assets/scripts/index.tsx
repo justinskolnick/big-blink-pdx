@@ -11,14 +11,11 @@ import { store } from './lib/store';
 import AlertError from './components/alert-error';
 import App from './components/app';
 import EntitiesIndex from './components/entities/index';
-import EntitiesDetail from './components/entities/detail';
 import Home from './components/home/index';
 import IncidentsIndex from './components/incidents/index';
 import IncidentsDetail from './components/incidents/detail';
 import PeopleIndex from './components/people/index';
-import PeopleDetail from './components/people/detail';
 import SourcesIndex from './components/sources/index';
-import SourcesDetail from './components/sources/detail';
 import { alertPortalId, alertRootId } from './components/alert-portal';
 import { modalPortalId, modalRootId } from './components/modal-portal';
 
@@ -42,7 +39,7 @@ const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <EntitiesDetail />,
+            element: null,
           },
         ],
       },
@@ -68,7 +65,7 @@ const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <PeopleDetail />,
+            element: null,
           },
         ],
       },
@@ -81,7 +78,7 @@ const router = createBrowserRouter([
           },
           {
             path: ':id',
-            element: <SourcesDetail />,
+            element: null,
           },
         ],
       },
