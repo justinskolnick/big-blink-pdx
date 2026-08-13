@@ -26,8 +26,11 @@ interface InitialState {
 const adapter = createEntityAdapter<EntityObject>();
 
 const selectors = adapter.getSelectors(getEntities);
+
+export const getEntityById = (id: Id) => (state: RootState) => selectors.selectById(state, id);
+
 export const useGetEntityById = (id: Id): EntityObject => {
-  const entity = useSelector((state: RootState) => selectors.selectById(state, id));
+  const entity = useSelector(getEntityById(id));
 
   return entity;
 };

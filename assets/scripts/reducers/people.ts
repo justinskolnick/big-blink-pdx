@@ -30,8 +30,10 @@ export const adapter = createEntityAdapter<PersonObject>();
 
 const selectors = adapter.getSelectors(getPeople);
 
+export const getPersonById = (id: Id) => (state: RootState) => selectors.selectById(state, id);
+
 export const useGetPersonById = (id: Id): PersonObject => {
-  const person = useSelector((state: RootState) => selectors.selectById(state, id));
+  const person = useSelector(getPersonById(id));
 
   return person;
 };

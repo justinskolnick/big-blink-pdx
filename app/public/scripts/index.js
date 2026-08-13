@@ -32686,6 +32686,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var getSources = (state) => state.sources;
   var getStats = (state) => state.stats;
   var getUI = (state) => state.ui;
+  var getNullItem = (id) => (state) => null;
   var getEntitiesPagination = createSelector(getEntities, (entities) => entities.pagination);
   var getEntitiesPageIds = createSelector(getEntities, (entities) => entities.pageIds);
   var getHomeHeader = createSelector(getHome, (home) => home.header);
@@ -32784,8 +32785,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // assets/scripts/reducers/people.ts
   var adapter = createEntityAdapter();
   var selectors = adapter.getSelectors(getPeople);
+  var getPersonById = (id) => (state) => selectors.selectById(state, id);
   var useGetPersonById = (id) => {
-    const person = use_app_selector_default((state) => selectors.selectById(state, id));
+    const person = use_app_selector_default(getPersonById(id));
     return person;
   };
   var useGetPersonPosition = (id, date) => {
@@ -36366,8 +36368,9 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/reducers/entities.ts
   var adapter2 = createEntityAdapter();
   var selectors2 = adapter2.getSelectors(getEntities);
+  var getEntityById = (id) => (state) => selectors2.selectById(state, id);
   var useGetEntityById = (id) => {
-    const entity = use_app_selector_default((state) => selectors2.selectById(state, id));
+    const entity = use_app_selector_default(getEntityById(id));
     return entity;
   };
   var adapters2 = {
@@ -36552,8 +36555,9 @@ Hook ${hookName} was either not provided or not a function.`);
   // assets/scripts/reducers/sources.ts
   var adapter4 = createEntityAdapter();
   var selectors4 = adapter4.getSelectors(getSources);
+  var getSourceById = (id) => (state) => selectors4.selectById(state, id);
   var useGetSourceById = (id) => {
-    const entity = use_app_selector_default((state) => selectors4.selectById(state, id));
+    const entity = use_app_selector_default(getSourceById(id));
     return entity;
   };
   var adapters4 = {
@@ -45555,16 +45559,17 @@ Hook ${hookName} was either not provided or not a function.`);
     const { id } = useParams();
     const numericId = Number(providedId || id);
     const current2 = use_app_selector_default(getCurrent2);
+    let selector = getNullItem;
     if (numericId && current2) {
       if (current2.section === "entities") {
-        return useGetEntityById(numericId);
+        selector = getEntityById;
       } else if (current2.section === "people") {
-        return useGetPersonById(numericId);
+        selector = getPersonById;
       } else if (current2.section === "sources") {
-        return useGetSourceById(numericId);
+        selector = getSourceById;
       }
     }
-    return null;
+    return use_app_selector_default(selector(numericId));
   };
   var use_get_item_by_id_default = useGetItemById;
 

@@ -4,6 +4,7 @@ import { sortSourceDateAscendingTypeDecending } from './lib/sorting';
 
 import { RootState } from './lib/store';
 import type {
+  Id,
   Ids,
   ItemStat,
   SourcesByType,
@@ -18,6 +19,9 @@ export const getPeople = (state: RootState) => state.people;
 export const getSources = (state: RootState) => state.sources;
 export const getStats = (state: RootState) => state.stats;
 export const getUI = (state: RootState) => state.ui;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getNullItem = (id: Id) => (state: RootState) => null;
 
 export const getEntitiesPagination = createSelector(getEntities, entities => entities.pagination);
 export const getEntitiesPageIds = createSelector(getEntities, entities => entities.pageIds);
