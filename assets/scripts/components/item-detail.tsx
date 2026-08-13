@@ -1,39 +1,28 @@
 import React, { useRef, ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
+import useSelector from '../hooks/use-app-selector';
+import useGetItemById from '../hooks/use-get-item-by-id';
+
 import ActivityOverview from './detail-activity-overview';
+import ActivityOverviewChart from './detail-activity-overview-chart';
 import Associations from './detail-activity-associations';
 import Incidents from './detail-incidents';
 import IncidentsFetcher from './detail-incidents-fetcher';
+import IncidentsTrigger from './detail-incidents-trigger';
+import { ItemChartStacked as ItemChart } from './item-chart';
 
-import type { TriggerChildren } from '../services/api';
+import { getCurrent } from '../selectors';
 
-import type {
-  ItemDetailObject,
-  RefElement,
-  StatsObject,
-} from '../types';
+import type { RefElement } from '../types';
 
 interface ContainerProps {
   children: ReactNode;
   className?: string;
 }
 
-interface ChartProps {
-  label?: string;
-  stats?: StatsObject;
-}
-
-interface TriggerProps {
-  children: TriggerChildren;
-}
-
 interface Props {
-  Chart: (props: ChartProps) => ReactNode;
   className?: string;
-  IncidentsTrigger: (props: TriggerProps) => ReactNode;
-  item?: ItemDetailObject;
-  roleIsPrimary?: boolean;
 }
 
 export const Container = ({
@@ -45,23 +34,26 @@ export const Container = ({
   </section>
 );
 
-const ItemDetail = ({
-  Chart,
-  className,
-  IncidentsTrigger,
-  item,
-  roleIsPrimary,
-}: Props) => {
+const ItemDetail = ({ className }: Props) => {
   const incidentsRef = useRef<RefElement>(null);
 
+  const item = useGetItemById();
+  const current = useSelector(getCurrent);
+
+  let roleIsPrimary = false;
+
+  if (current) {
+    roleIsPrimary = ['entities', 'people'].includes(current.section);
+  }
+
   const hasItem = item !== undefined;
-  const hasNamedRoles = hasItem && Boolean(item.roles?.named);
-  const hasIncidents = hasItem && 'incidents' in item && item.incidents?.ids !== undefined;
+  const hasNamedRoles = item && Boolean(item?.roles?.named);
+  const hasIncidents = item && 'incidents' in item && item.incidents?.ids !== undefined;
 
   const canLoadDetails = hasItem;
   const canLoadIncidents = hasNamedRoles;
 
-  if (!hasItem) return null;
+  if (!item) return null;
 
   return (
     <Container className={className}>
@@ -71,10 +63,14 @@ const ItemDetail = ({
         title={item.labels.overview.title}
       >
         {canLoadDetails && (
-          <Chart
-            label={item.labels.overview.chart}
-            stats={item.overview?.stats}
-          />
+          roleIsPrimary ? (
+            <ActivityOverviewChart
+              label={item.labels.overview.chart}
+              stats={item.overview?.stats}
+            />
+          ) : (
+            <ItemChart label={item.labels.overview.chart} />
+          )
         )}
       </ActivityOverview>
 
