@@ -17,7 +17,7 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-    command: sh -c "yarn install && yarn start:dev "
+    command: sh -c "yarn install && yarn build:dev && yarn build && yarn start:dev"
   db:
     container_name: db
     image: mariadb
