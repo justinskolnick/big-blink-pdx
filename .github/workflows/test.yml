@@ -26,6 +26,7 @@ jobs:
         cache: yarn
     - run: yarn set version 4.18.0
     - run: yarn install
+    - run: yarn build:dev
     - run: yarn test
     - run: yarn lint
     - run: yarn tsc
