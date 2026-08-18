@@ -27,7 +27,8 @@ describe('getContent()', () => {
     test('returns the expected value', async () => {
       const result = await getContent('sources-introduction.txt');
 
-      expect(result.message).toEqual("ENOENT: no such file or directory, access '/usr/src/app/content/en/sources-introduction.txt'");
+      expect(result.message).toEqual(expect.stringContaining('ENOENT: no such file or directory, access'));
+      expect(result.message).toEqual(expect.stringContaining('app/content/en/sources-introduction.txt'));
     });
   });
 });
