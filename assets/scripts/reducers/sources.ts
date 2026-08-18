@@ -16,6 +16,7 @@ import type {
   Ids,
   IncidentPayload,
   Pagination,
+  SectionObject,
   SourceObject,
   SourceObjectRoles,
   SourcePayload,
@@ -25,6 +26,7 @@ import type {
 interface InitialState {
   pageIds: Ids | [];
   pagination?: Pagination;
+  section?: SectionObject;
   types?: SourceTypeObject;
 }
 
@@ -72,6 +74,7 @@ export const adapters = {
 const initialState: InitialState = {
   pageIds: [],
   pagination: undefined,
+  section: undefined,
   types: undefined,
 };
 
@@ -91,12 +94,22 @@ export const sourcesSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
+    setSection: (state, action: PayloadAction<SectionObject>) => {
+      state.section = action.payload;
+    },
     setTypes: (state, action: PayloadAction<SourceTypeObject>) => {
       state.types = action.payload;
     },
   },
 });
 
-export const { set, setAll, setPageIds, setPagination, setTypes } = sourcesSlice.actions;
+export const {
+  set,
+  setAll,
+  setPageIds,
+  setPagination,
+  setSection,
+  setTypes,
+} = sourcesSlice.actions;
 
 export default sourcesSlice.reducer;

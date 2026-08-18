@@ -23,6 +23,7 @@ const {
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
+const { getMarkdownContent } = require('../../lib/content');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
@@ -61,10 +62,12 @@ router.get('/', async (req, res, next) => {
   let results;
   let entityTotal;
   let incidentCountResult;
+  let introduction;
   let data;
   let meta;
 
   try {
+    introduction = await getMarkdownContent('entities-introduction');
     incidentCountResult = await incidents.getTotal();
 
     results = await entities.getAll({
@@ -100,6 +103,9 @@ router.get('/', async (req, res, next) => {
           params,
           path: links.entities(),
         }),
+        section: {
+          introduction,
+        },
         total: entityTotal,
       },
     };

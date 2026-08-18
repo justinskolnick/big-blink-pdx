@@ -10,11 +10,13 @@ import {
   Content,
   Index as SectionIndex,
   Introduction,
+  IntroductionContent,
 } from '../section-index';
 import Source from './item';
 
 import {
   getSourcesByType,
+  getSourcesSection,
   getSourceTypes,
 } from '../../selectors';
 
@@ -112,6 +114,8 @@ const TypeAnchorLink = ({ handleScroll, typeKey }: TypeAnchorLinkProps) => {
 const Sources = ({ isLoading, types }: SourcesProps) => {
   const refs = useRef<Map<SourceTypeKey, HTMLDivElement>>(null);
 
+  const section = useSelector(getSourcesSection);
+
   const keys = types.map(type => type.type);
 
   const scrollToList = (type: SourceTypeKey) => {
@@ -132,7 +136,7 @@ const Sources = ({ isLoading, types }: SourcesProps) => {
   return (
     <>
       <Introduction>
-        <p>The sources of the data used on this site are grouped by type below.</p>
+        <IntroductionContent content={section?.introduction} />
 
         <ul>
           {keys.map((key) => (

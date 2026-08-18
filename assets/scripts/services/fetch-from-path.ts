@@ -188,6 +188,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
         dispatch(entityActions.setPageIds(ids));
         dispatch(entityActions.setPagination(data.entities.pagination));
       }
+
+      if ('section' in data.entities) {
+        dispatch(entityActions.setSection(data.entities.section));
+      }
     }
 
     if ('incident' in data) {
@@ -211,6 +215,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
         dispatch(incidentActions.setLast(adaptIncident(state, data.incidents.last)));
         dispatch(personActions.setAll(lastPeople));
+      }
+
+      if ('section' in data.incidents) {
+        dispatch(incidentActions.setSection(data.incidents.section));
       }
 
       if ('total' in data.incidents) {
@@ -279,6 +287,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
         dispatch(personActions.setPageIds(ids));
         dispatch(personActions.setPagination(data.people.pagination));
       }
+
+      if ('section' in data.people) {
+        dispatch(personActions.setSection(data.people.section));
+      }
     }
 
     if ('source' in data) {
@@ -321,6 +333,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
         dispatch(sourceActions.setPageIds(ids));
         dispatch(sourceActions.setPagination(data.sources.pagination));
+      }
+
+      if ('section' in data.sources) {
+        dispatch(sourceActions.setSection(data.sources.section));
       }
 
       if ('types' in data.sources) {

@@ -26,6 +26,7 @@ const {
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
+const { getMarkdownContent } = require('../../lib/content');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
@@ -68,10 +69,12 @@ router.get('/', async (req, res, next) => {
   let records;
   let personTotal;
   let incidentCountResult;
+  let introduction;
   let data;
   let meta;
 
   try {
+    introduction = await getMarkdownContent('people-introduction');
     incidentCountResult = await incidents.getTotal();
 
     result = await people.getAll({
@@ -107,6 +110,9 @@ router.get('/', async (req, res, next) => {
           params,
           path: links.people(),
         }),
+        section: {
+          introduction,
+        },
         total: personTotal,
       },
     };

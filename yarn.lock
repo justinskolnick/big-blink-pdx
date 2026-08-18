@@ -3928,6 +3928,7 @@ __metadata:
     jest: "npm:^30.4.2"
     jest-mock-console: "npm:^2.0.0"
     lodash.camelcase: "npm:^4.3.0"
+    marked: "npm:^18.0.10"
     morgan: "npm:~1.11.0"
     mysql2: "npm:^3.23.3"
     nodemon: "npm:^3.1.14"
@@ -7224,6 +7225,15 @@ __metadata:
   dependencies:
     object-visit: "npm:^1.0.0"
   checksum: 10c0/fb3475e5311939a6147e339999113db607adc11c7c3cd3103e5e9dbf502898416ecba6b1c7c649c6d4d12941de00cee58b939756bdf20a9efe7d4fa5a5738b73
+  languageName: node
+  linkType: hard
+
+"marked@npm:^18.0.10":
+  version: 18.0.10
+  resolution: "marked@npm:18.0.10"
+  bin:
+    marked: bin/marked.js
+  checksum: 10c0/7ffdfae727e1cb73e786431953950ee941c38251c8d469b07058446043d070a8746d51ef52d59c1c935875126a35c04b579ac1f1e5b6b0b94aa9eeb44f815287
   languageName: node
   linkType: hard
 

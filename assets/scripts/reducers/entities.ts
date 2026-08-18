@@ -16,11 +16,13 @@ import type {
   Ids,
   IncidentPayload,
   Pagination,
+  SectionObject,
 } from '../types';
 
 interface InitialState {
   pageIds: Ids;
   pagination?: Pagination;
+  section?: SectionObject;
 }
 
 const adapter = createEntityAdapter<EntityObject>();
@@ -67,6 +69,7 @@ export const adapters = {
 const initialState: InitialState = {
   pageIds: [],
   pagination: undefined,
+  section: undefined,
 };
 
 export const entitiesSlice = createSlice({
@@ -85,6 +88,9 @@ export const entitiesSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
+    setSection: (state, action: PayloadAction<SectionObject>) => {
+      state.section = action.payload;
+    },
   },
 });
 
@@ -93,6 +99,7 @@ export const {
   setAll,
   setPageIds,
   setPagination,
+  setSection,
 } = entitiesSlice.actions;
 
 export default entitiesSlice.reducer;

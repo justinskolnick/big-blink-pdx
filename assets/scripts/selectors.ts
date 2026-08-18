@@ -25,12 +25,14 @@ export const getNullItem = (id: Id) => (state: RootState) => null;
 
 export const getEntitiesPagination = createSelector(getEntities, entities => entities.pagination);
 export const getEntitiesPageIds = createSelector(getEntities, entities => entities.pageIds);
+export const getEntitiesSection = createSelector(getEntities, entities => entities.section);
 
 export const getHomeHeader = createSelector(getHome, home => home.header);
 export const getHomeOverview = createSelector(getHome, home => home.overview);
 
 export const getIncidentsPagination = createSelector(getIncidents, incidents => incidents.pagination);
 export const getIncidentsPageIds = createSelector(getIncidents, incidents => incidents.pageIds);
+export const getIncidentsSection = createSelector(getIncidents, incidents => incidents.section);
 
 export const getLeaderboardLabels = createSelector(getLeaderboard, leaderboard => leaderboard.labels);
 export const getHasLeaderboardLabels = createSelector(getLeaderboard, leaderboard => Object.values(leaderboard?.labels ?? {}).length > 0);
@@ -49,6 +51,7 @@ export const getPeoplePageIds = createSelector(getPeople, people => people.pageI
 const getOfficialPositionsLookup = createSelector(
   getPeople, people => people.positionLookup
 );
+export const getPeopleSection = createSelector(getPeople, people => people.section);
 export const getOfficialPositionsLookupCompleted = createSelector(
   getOfficialPositionsLookup, lookup => lookup.completed
 );
@@ -86,6 +89,7 @@ export const getSourcesDataForChart = createSelector(
   (labels, data) => ({ labels, data, })
 );
 
+export const getSourcesSection = createSelector(getSources, sources => sources.section);
 export const getSourceTypes = createSelector(getSources, (sources) => sources.types);
 export const getSourcesByType = createSelector(getSources, (sources) => {
   const types = Object.values(sources.entities).reduce((byType, item) => {

@@ -23,6 +23,10 @@ interface IndexProps {
   children: ReactNode;
 }
 
+interface IntroductionContentProps {
+  content?: string | TrustedHTML;
+}
+
 interface IntroductionProps {
   children: ReactNode;
 }
@@ -49,16 +53,31 @@ export const Index = ({ className, children }: IndexProps) => (
   </section>
 );
 
-export const Introduction = ({ children }: IntroductionProps) => (
-  <section
-    className='section-index-introduction'
-    id='section-introduction'
-  >
-    <h4>Introduction</h4>
+export const IntroductionContent = ({ content }: IntroductionContentProps) => {
+  if (!content) return null;
 
-    {children}
-  </section>
-);
+  return (
+    <div
+      className='introduction-content'
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
+  );
+};
+
+export const Introduction = ({ children }: IntroductionProps) => {
+  const labels = useSelector(getLabels);
+
+  return (
+    <section
+      className='section-index-introduction'
+      id='section-introduction'
+    >
+      <h4>{labels.introduction}</h4>
+
+      {children}
+    </section>
+  );
+};
 
 export const Content = ({ children, isLoading }: ContentProps) => (
   <div className='item-content'>

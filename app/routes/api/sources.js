@@ -24,6 +24,7 @@ const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
 const { unique } = require('../../lib/array');
+const { getMarkdownContent } = require('../../lib/content');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
@@ -58,10 +59,12 @@ router.get('/', async (req, res, next) => {
   let sourceTotal;
   let records;
   let types;
+  let introduction;
   let data;
   let meta;
 
   try {
+    introduction = await getMarkdownContent('sources-introduction');
     activitySourcesResult = await sources.getAll({
       includeTotal: true,
       types: [Source.types.activity],
@@ -115,6 +118,9 @@ router.get('/', async (req, res, next) => {
     data = {
       sources: {
         records,
+        section: {
+          introduction,
+        },
         total: sourceTotal,
         types,
       }

@@ -15,6 +15,7 @@ const {
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
+const { getMarkdownContent } = require('../../lib/content');
 const { getFilters } = require('../../lib/filters/incident');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
@@ -51,10 +52,12 @@ router.get('/', async (req, res, next) => {
   let records;
   let filters;
   let params;
+  let introduction;
   let data;
   let meta;
 
   try {
+    introduction = await getMarkdownContent('incidents-introduction');
     paginationTotal = await stats.getPaginationStats({
       dateOn,
       dateRangeFrom,
@@ -86,6 +89,9 @@ router.get('/', async (req, res, next) => {
           perPage,
           total: paginationTotal,
         }),
+        section: {
+          introduction,
+        },
         total: incidentCountResult,
       }
     };

@@ -36,6 +36,10 @@ export enum Sections {
   Sources = 'sources',
 }
 
+export type SectionObject = {
+  introduction?: string;
+};
+
 type SectionLinks = {
   section: {
     label: string;
