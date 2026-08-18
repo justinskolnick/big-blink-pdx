@@ -116,5 +116,5 @@ dist
 .DS_Store
 
 # compiled assets
-public/scripts
-public/styles
+app/public/scripts
+app/public/styles
