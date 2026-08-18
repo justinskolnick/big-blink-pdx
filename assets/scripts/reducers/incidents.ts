@@ -17,6 +17,7 @@ import type {
   IncidentPayload,
   IncidentPayloadAttendees,
   Pagination,
+  SectionObject,
 } from '../types';
 
 interface InitialState {
@@ -24,6 +25,7 @@ interface InitialState {
   pagination?: Pagination;
   first?: IncidentObject;
   last?: IncidentObject;
+  section?: SectionObject;
   total: number;
 }
 
@@ -68,6 +70,7 @@ const initialState: InitialState = {
   pagination: undefined,
   first: undefined,
   last: undefined,
+  section: undefined,
   total: 0,
 };
 
@@ -95,6 +98,9 @@ export const incidentsSlice = createSlice({
       state.last = action.payload;
       adapter.upsertOne(state, action.payload);
     },
+    setSection: (state, action: PayloadAction<SectionObject>) => {
+      state.section = action.payload;
+    },
     setTotal(state, action: PayloadAction<number>) {
       state.total = action.payload;
     },
@@ -108,6 +114,7 @@ export const {
   setLast,
   setPageIds,
   setPagination,
+  setSection,
   setTotal,
 } = incidentsSlice.actions;
 

@@ -35,6 +35,7 @@
     "express": "~5.2.1",
     "http-errors": "~2.0.1",
     "lodash.camelcase": "^4.3.0",
+    "marked": "^18.0.10",
     "morgan": "~1.11.0",
     "mysql2": "^3.23.3",
     "pluralize": "^8.0.0"

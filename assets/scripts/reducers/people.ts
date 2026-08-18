@@ -18,12 +18,14 @@ import type {
   PersonObject,
   PersonObjectRoles,
   PersonPayload,
+  SectionObject,
 } from '../types';
 
 interface InitialState {
   pageIds: Ids;
   pagination?: Pagination;
   positionLookup: Record<'completed' | 'queue', (Id | undefined)[]>;
+  section?: SectionObject;
 }
 
 export const adapter = createEntityAdapter<PersonObject>();
@@ -89,6 +91,7 @@ const initialState: InitialState = {
     completed: [],
     queue: [],
   },
+  section: undefined,
 };
 
 export const peopleSlice = createSlice({
@@ -107,6 +110,9 @@ export const peopleSlice = createSlice({
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.pagination = { ...action.payload };
     },
+    setSection: (state, action: PayloadAction<SectionObject>) => {
+      state.section = action.payload;
+    },
     addToLookupCompleted: (state, action: PayloadAction<Id>) => {
       state.positionLookup.queue = state.positionLookup.queue.filter(id => id !== action.payload);
       state.positionLookup.completed.push(action.payload);
@@ -124,6 +130,7 @@ export const {
   setAll,
   setPageIds,
   setPagination,
+  setSection,
 } = peopleSlice.actions;
 
 export default peopleSlice.reducer;

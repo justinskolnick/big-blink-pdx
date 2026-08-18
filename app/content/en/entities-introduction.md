@@ -1,0 +1,3 @@
+The entities listed below reported their lobbying activity to the City of Portland. City Code ([2.12.020](https://www.portland.gov/code/2/12/020)) defines a “Lobbying entity” as:
+
+> any individual, business association, corporation, partnership, association, club, company, business trust, organization or other group who lobbies either by employing or otherwise authorizing a lobbyist to lobby on that person’s behalf.

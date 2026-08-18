@@ -60,6 +60,7 @@
     "incidents__data_source_title": "Data Source",
     "incidents__notes_title": "Notes about this incident",
     "incidents__total": "Incident entry count",
+    "introduction": "Introduction",
     "leaderboard__description_period": "In :period, :lobbyists_total_result lobbyists representing :entities_total_result entities reported lobbying :officials_total_result City of Portland officials across :incident_count_result incidents.",
     "leaderboard__description_since": "Since 2014, :lobbyists_total_result lobbyists representing :entities_total_result entities reported lobbying :officials_total_result City of Portland officials across :incident_count_result incidents.",
     "leaderboard__filter_a_quarter": "a quarter",
