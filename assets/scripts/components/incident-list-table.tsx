@@ -8,7 +8,11 @@ import {
   SortLink,
 } from './links';
 
+import useSelector from '../hooks/use-app-selector';
+
 import { useGetIncidentById } from '../reducers/incidents';
+
+import { getLabels } from '../selectors';
 
 import { SortByValues, SortValues } from '../types';
 import type { Id, Ids } from '../types';
@@ -79,6 +83,8 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
 };
 
 const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
+  const labels = useSelector(getLabels);
+
   const hasIds = ids?.length > 0;
 
   if (!ids) return null;
@@ -111,7 +117,7 @@ const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
               <IncidentRow key={id} id={id} />
             )) : (
               <tr className='incident-list-item'>
-                <td colSpan={4}>No results</td>
+                <td colSpan={4}>{labels.incidentsNoResults}</td>
               </tr>
             )}
           </tbody>

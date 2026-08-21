@@ -32,6 +32,7 @@ router.get('/', async (req, res, next) => {
         incidentsItemTypes: labels.getLabel('item_types', 'incidents'),
         incidentsModalLinkTitle: labels.getLabel('modal_link', 'incidents'),
         incidentsModalTitle: labels.getLabel('modal_title', 'incidents'),
+        incidentsNoResults: labels.getLabel('no_results', 'incidents'),
         introduction: labels.getLabel('introduction'),
         overview: labels.getLabel('overview'),
         sortListByName: labels.getLabel('sort_list_by_name'),
