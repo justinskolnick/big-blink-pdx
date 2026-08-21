@@ -8,7 +8,6 @@ const {
 } = require('../../config/constants');
 const {
   PARAM_OPTIONS,
-  QUARTER_PATTERN_DEPRECATED,
   dateOptions,
   peopleOptions,
   quarterOptions,
@@ -85,8 +84,7 @@ const hasDate = (value) => validate(value, dateOptions);
 const hasYear = (value) => validate(value, yearOptions);
 const hasYearAndQuarter = (value) => validate(value, quarterOptions);
 const hasInteger = (value) => validate(value, Number.isInteger(Number(value)));
-const hasQuarterAndYearDeprecated = (value) => validate(value, QUARTER_PATTERN_DEPRECATED.test(value));
-const hasQuarter = (value) => validate(value, (hasYearAndQuarter(value) || hasQuarterAndYearDeprecated(value)));
+const hasQuarter = (value) => validate(value, hasYearAndQuarter(value));
 const hasRole = (value) => validate(value, PARAM_ROLE);
 const hasSort = (value) => validate(value, PARAM_SORT);
 const hasSortBy = (value) => validate(value, PARAM_SORT_BY);
@@ -117,9 +115,7 @@ const getQuarterAndYear = (param) => {
   let quarter;
   let year;
 
-  if (hasQuarterAndYearDeprecated(param)) {
-    [quarter, year] = param.match(QUARTER_PATTERN_DEPRECATED).slice(1,3).map(Number);
-  } else if (hasYearAndQuarter(param)) {
+  if (hasYearAndQuarter(param)) {
     [year, quarter] = param.match(quarterOptions.pattern).slice(1,3).map(Number);
   }
 
@@ -130,12 +126,9 @@ const getQuarterAndYear = (param) => {
   return null;
 };
 
-const getQuarterSlug = (param) =>
-  param.toLowerCase().split('-').sort().join('-');
-
-const migrateQuarterSlug = (param) => {
-  if (hasQuarter(param)) {
-    return getQuarterSlug(param);
+const getQuarterSlug = (value) => {
+  if (value) {
+    return value.toLowerCase().split('-').sort().join('-');
   }
 
   return null;
@@ -294,7 +287,6 @@ module.exports = {
   hasDate,
   hasInteger,
   hasQuarter,
-  hasQuarterAndYearDeprecated,
   hasRole,
   hasSort,
   hasSortBy,
@@ -302,5 +294,4 @@ module.exports = {
   hasYearAndQuarter,
   isDeprecated,
   isValid,
-  migrateQuarterSlug,
 };

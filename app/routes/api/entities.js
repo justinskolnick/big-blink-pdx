@@ -225,7 +225,7 @@ router.get('/:id/incidents', async (req, res, next) => {
   let meta;
 
   const peopleArray = searchParams.getPeople(people);
-  const quarterSlug = searchParams.migrateQuarterSlug(quarter);
+  const quarterSlug = searchParams.getQuarterSlug(quarter);
 
   if (quarterSlug) {
     quarterSourceId = await sources.getIdForQuarter(quarterSlug);

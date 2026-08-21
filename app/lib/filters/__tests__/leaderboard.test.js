@@ -78,7 +78,7 @@ describe('getFilters()', () => {
 
   describe('with a quarter', () => {
     test('should return the expected values', () => {
-      const queryParams = new URLSearchParams('quarter=Q2-2014');
+      const queryParams = new URLSearchParams('quarter=2014-Q2');
 
       expect(getFilters(queryParams, options)).toEqual({
         period: {
@@ -103,7 +103,7 @@ describe('getFilters()', () => {
           ],
           model: null,
           values: {
-            quarter: 'Q2-2014',
+            quarter: '2014-Q2',
           },
         },
       });

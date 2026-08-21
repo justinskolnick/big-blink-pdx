@@ -11,7 +11,6 @@ const {
   hasAssociation,
   hasDate,
   hasQuarter,
-  hasQuarterAndYearDeprecated,
   hasRole,
   hasSort,
   hasSortBy,
@@ -19,7 +18,6 @@ const {
   hasYearAndQuarter,
   isDeprecated,
   isValid,
-  migrateQuarterSlug,
 } = require('../search-params');
 
 describe('getParams()', () => {
@@ -118,7 +116,6 @@ describe('getPeople()', () => {
 describe('getQuarterAndYear()', () => {
   test('with param values', () => {
     expect(getQuarterAndYear('2021-Q4', true)).toEqual({ quarter: 4, year: 2021 });
-    expect(getQuarterAndYear('Q4-2021', true)).toEqual({ quarter: 4, year: 2021 });
   });
 });
 
@@ -183,18 +180,8 @@ describe('hasDate()', () => {
 describe('hasQuarter()', () => {
   test('with a param value', () => {
     expect(hasQuarter(null)).toBe(false);
-    expect(hasQuarter('Q4-2021')).toBe(true);
     expect(hasQuarter('Q42021')).toBe(false);
     expect(hasQuarter('2021-Q4')).toBe(true);
-  });
-});
-
-describe('hasQuarterAndYearDeprecated()', () => {
-  test('with a param value', () => {
-    expect(hasQuarterAndYearDeprecated(null)).toBe(false);
-    expect(hasQuarterAndYearDeprecated('Q4-2021')).toBe(true);
-    expect(hasQuarterAndYearDeprecated('Q42021')).toBe(false);
-    expect(hasQuarterAndYearDeprecated('2021-Q4')).toBe(false);
   });
 });
 
@@ -264,15 +251,3 @@ describe('isValid()', () => {
     });
   });
 });
-
-describe('migrateQuarterSlug()', () => {
-  test('with a param value', () => {
-    expect(migrateQuarterSlug(null)).toBe(null);
-    expect(migrateQuarterSlug('Q42021')).toBe(null);
-    expect(migrateQuarterSlug('q4-2021')).toBe('2021-q4');
-    expect(migrateQuarterSlug('Q4-2021')).toBe('2021-q4');
-    expect(migrateQuarterSlug('2021-q4')).toBe('2021-q4');
-    expect(migrateQuarterSlug('2021-Q4')).toBe('2021-q4');
-  });
-});
-

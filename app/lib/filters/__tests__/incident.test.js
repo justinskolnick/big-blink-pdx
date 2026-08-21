@@ -386,7 +386,7 @@ describe('getFilters()', () => {
 
   describe('with a quarter', () => {
     test('should include the quarter', () => {
-      const queryParams = new URLSearchParams('sort=ASC&with_entity_id=123&quarter=Q2-2014');
+      const queryParams = new URLSearchParams('sort=ASC&with_entity_id=123&quarter=2014-Q2');
 
       expect(getFilters(queryParams)).toEqual({
         dates: {
@@ -480,7 +480,7 @@ describe('getFilters()', () => {
           ],
           model: null,
           values: {
-            quarter: 'Q2-2014',
+            quarter: '2014-Q2',
           },
         },
       });

@@ -27,7 +27,6 @@ const {
 const DATE_PATTERN = /^20[1|2][\d]-[\d]{2}-[\d]{2}$/;
 const PEOPLE_PATTERN = /^([\d]+)(?::([a-z]+))?$/;
 const QUARTER_PATTERN = /^(20[1-2][0-9])-q([1-4])$/i;
-const QUARTER_PATTERN_DEPRECATED = /^Q([1-4])-(20[1-2][0-9])$/i;
 const YEAR_PATTERN = /^20[1-2][0-9]$/;
 
 const dateOptions = {
@@ -104,7 +103,6 @@ module.exports = {
   PARAM_OPTIONS,
   PEOPLE_PATTERN,
   QUARTER_PATTERN,
-  QUARTER_PATTERN_DEPRECATED,
   YEAR_PATTERN,
   dateOptions,
   peopleOptions,
