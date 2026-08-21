@@ -7,8 +7,8 @@ import type { Ids, Pagination as PaginationType } from '../types';
 
 interface Props {
   hasSort?: boolean;
-  ids: Ids;
-  pagination: PaginationType;
+  ids?: Ids;
+  pagination?: PaginationType;
 }
 
 const IncidentList = ({
@@ -19,7 +19,7 @@ const IncidentList = ({
   <div className='incident-list'>
     <IncidentListTable hasSort={hasSort} ids={ids} />
 
-    {pagination && ids.length > 0 && (
+    {pagination && (ids?.length ?? 0) > 0 && (
       <footer className='incident-list-footer'>
         <Pagination pagination={pagination} />
       </footer>

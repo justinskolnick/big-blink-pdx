@@ -23,7 +23,7 @@ interface IncidentRowProps {
 
 interface IncidentListTableProps {
   hasSort?: boolean;
-  ids: Ids;
+  ids?: Ids;
 }
 
 const IncidentRow = ({ id }: IncidentRowProps) => {
@@ -85,7 +85,7 @@ const IncidentRow = ({ id }: IncidentRowProps) => {
 const IncidentListTable = ({ hasSort, ids }: IncidentListTableProps) => {
   const labels = useSelector(getLabels);
 
-  const hasIds = ids?.length > 0;
+  const hasIds = (ids?.length ?? 0) > 0;
 
   if (!ids) return null;
 
