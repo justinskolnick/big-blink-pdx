@@ -3,8 +3,6 @@ const {
   PARAM_YEAR,
 } = require('../../config/constants');
 
-const { Labels } = require('../../helpers/labels');
-
 const {
   getLabel,
   getLabelText,
@@ -15,12 +13,11 @@ const {
   getYear,
 } = require('../request/search-params');
 
-const labels = new Labels();
+const LABEL_PREFIX = 'leaderboard';
 
 const getPeriodFilter = (searchParams, options) => {
   const hasYearParam = searchParams.has(PARAM_YEAR);
   const hasQuarterParam = searchParams.has(PARAM_QUARTER);
-  const labelPrefix = 'leaderboard';
 
   if (hasYearParam) {
     const param = searchParams.get(PARAM_YEAR);
@@ -30,7 +27,7 @@ const getPeriodFilter = (searchParams, options) => {
       return {
         fields: null,
         labels: [
-          getLabelText(labels.getLabel('intro_during', labelPrefix)),
+          getLabelText('intro_during', LABEL_PREFIX),
           getLabel(year),
         ],
         model: null,
@@ -47,9 +44,9 @@ const getPeriodFilter = (searchParams, options) => {
       return {
         fields: null,
         labels: [
-          getLabelText(labels.getLabel('intro_during', labelPrefix)),
+          getLabelText('intro_during', LABEL_PREFIX),
           getLabel(`Q${quarter}`),
-          getLabelText(labels.getLabel('of')),
+          getLabelText('of'),
           getLabel(year),
         ],
         model: null,
@@ -63,7 +60,7 @@ const getPeriodFilter = (searchParams, options) => {
   return {
     fields: {
       'year-select': [
-        getLabelText(labels.getLabel('intro_during_imperative', labelPrefix)),
+        getLabelText('intro_during_imperative', LABEL_PREFIX),
         {
           name: PARAM_YEAR,
           options: options.year,
@@ -71,7 +68,7 @@ const getPeriodFilter = (searchParams, options) => {
         },
       ],
       'quarter-select': [
-        getLabelText(labels.getLabel('intro_during_imperative', labelPrefix)),
+        getLabelText('intro_during_imperative', LABEL_PREFIX),
         {
           name: PARAM_QUARTER,
           options: options.quarter,
@@ -80,10 +77,10 @@ const getPeriodFilter = (searchParams, options) => {
       ],
     },
     labels: [
-      getLabelText(labels.getLabel('intro_during_imperative', labelPrefix)),
-      getLabelLink('year-select', null, labels.getLabel('filter_a_year', labelPrefix)),
-      getLabelText(labels.getLabel('or')),
-      getLabelLink('quarter-select', null, labels.getLabel('filter_a_quarter', labelPrefix)),
+      getLabelText('intro_during_imperative', LABEL_PREFIX),
+      getLabelLink('year-select', null, 'filter_a_year', LABEL_PREFIX),
+      getLabelText('or'),
+      getLabelLink('quarter-select', null, 'filter_a_quarter', LABEL_PREFIX),
     ],
     model: null,
   };

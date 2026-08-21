@@ -6,10 +6,6 @@
   color: var(--color-light);
 }
 
-.filter-label {
-  font-weight: 600;
-}
-
 .filter-link {
   cursor: pointer;
   color: var(--color-link);
@@ -26,22 +22,10 @@
   align-items: center;
 }
 
-.filter-text {
-  &:has(+ .filter-form-field) {
-    margin-right: calc(var(--gap) / 3);
-  }
-}
-
 .filter-form-field {
   &[type="date"] {
-    margin-top: calc(var(--gap) / 6);
-    margin-bottom: calc(var(--gap) / 6);
     font-family: inherit;
     font-size: 12px;
-  }
-
-  &:has(+ .filter-text) {
-    margin-right: calc(var(--gap) / 3);
   }
 }
 
@@ -52,6 +36,11 @@
 
   &:has(+ button) {
     margin-right: calc(var(--gap) / 2);
+  }
+
+  :is(span):has(+ input[type=date], + select),
+  :is(input[type=date], select):has(+ span) {
+    margin-right: calc(var(--gap) / 3);
   }
 }
 

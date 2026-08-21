@@ -13,7 +13,6 @@ const {
 } = require('../../config/constants');
 
 const dateHelper = require('../../helpers/date');
-const { Labels } = require('../../helpers/labels');
 
 const {
   getLabel,
@@ -29,8 +28,6 @@ const {
   hasQuarter,
   hasRole,
 } = require('../request/search-params');
-
-const labels = new Labels();
 
 const getPeopleLabels = (value, role = null) => {
   const labels = [
@@ -53,7 +50,7 @@ const getRoleLabels = (value) => {
   }
 
   return [
-    getLabelText(labels.getLabel(labelKey)),
+    getLabelText(labelKey),
     getLabel(value),
   ];
 };
@@ -118,9 +115,9 @@ const getDatesFilter = searchParams => {
       ],
     },
     labels: [
-      getLabelLink('date-select', null, 'on a date'),
+      getLabelLink('date-select', null, 'on_a_date'),
       getLabelText('or'),
-      getLabelLink('date-range-select', null, 'between dates'),
+      getLabelLink('date-range-select', null, 'between_dates'),
     ],
     model: null,
   };

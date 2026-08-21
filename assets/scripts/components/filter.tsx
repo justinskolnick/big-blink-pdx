@@ -121,15 +121,11 @@ const FilterAction = ({ action, children, handleClick }: FilterActionProps) => {
 };
 
 export const FilterLabel = ({ label }: FilterLabelProps) => (
-  <span className='filter-label'>
-    {label}
-  </span>
+  <strong>{label}</strong>
 );
 
 export const FilterText = ({ children }: FilterTextProps) => (
-  <span className='filter-text'>
-    {children}
-  </span>
+  <span>{children}</span>
 );
 
 const FilterRemove = ({ newParams }: FilterRemoveProps) => (
