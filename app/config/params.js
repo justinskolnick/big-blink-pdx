@@ -11,6 +11,7 @@ const {
   PARAM_PEOPLE,
   PARAM_QUARTER,
   PARAM_ROLE,
+  PARAM_SEARCH,
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,
@@ -27,6 +28,7 @@ const {
 const DATE_PATTERN = /^20[1|2][\d]-[\d]{2}-[\d]{2}$/;
 const PEOPLE_PATTERN = /^([\d]+)(?::([a-z]+))?$/;
 const QUARTER_PATTERN = /^(20[1-2][0-9])-q([1-4])$/i;
+const SEARCH_PATTERN = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.,\-&']+$/;
 const YEAR_PATTERN = /^20[1-2][0-9]$/;
 
 const dateOptions = {
@@ -83,6 +85,10 @@ const PARAM_OPTIONS = {
       ROLE_SOURCE,
     ],
   },
+  [PARAM_SEARCH]: {
+    min: 3,
+    pattern: SEARCH_PATTERN,
+  },
   [PARAM_SORT]: {
     adapt: 'getSort',
     values: Object.values(SORT_OPTIONS),
@@ -103,6 +109,7 @@ module.exports = {
   PARAM_OPTIONS,
   PEOPLE_PATTERN,
   QUARTER_PATTERN,
+  SEARCH_PATTERN,
   YEAR_PATTERN,
   dateOptions,
   peopleOptions,

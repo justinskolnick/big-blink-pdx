@@ -1,6 +1,7 @@
 const {
   PARAM_ASSOCIATION,
   PARAM_ROLE,
+  PARAM_SEARCH,
   PARAM_SORT,
   PARAM_SORT_BY,
   SORT_BY_OPTIONS,
@@ -45,6 +46,12 @@ const validate = (value, paramOrDefinition) => {
       .every(entry => definition.pattern.test(entry));
   }
 
+  if (definition.min) {
+    if (value.length < definition.min) {
+      return false;
+    }
+  }
+
   if (definition.values) {
     return definition.values.includes(value);
   }
@@ -86,6 +93,7 @@ const hasYearAndQuarter = (value) => validate(value, quarterOptions);
 const hasInteger = (value) => validate(value, Number.isInteger(Number(value)));
 const hasQuarter = (value) => validate(value, hasYearAndQuarter(value));
 const hasRole = (value) => validate(value, PARAM_ROLE);
+const hasSearch = (value) => validate(value, PARAM_SEARCH);
 const hasSort = (value) => validate(value, PARAM_SORT);
 const hasSortBy = (value) => validate(value, PARAM_SORT_BY);
 
@@ -129,6 +137,14 @@ const getQuarterAndYear = (param) => {
 const getQuarterSlug = (value) => {
   if (value) {
     return value.toLowerCase().split('-').sort().join('-');
+  }
+
+  return null;
+};
+
+const getSearch = (value) => {
+  if (hasSearch(value)) {
+    return value;
   }
 
   return null;
@@ -280,6 +296,7 @@ module.exports = {
   getPeople,
   getQuarterAndYear,
   getQuarterSlug,
+  getSearch,
   getSort,
   getSortBy,
   getYear,
@@ -288,6 +305,7 @@ module.exports = {
   hasInteger,
   hasQuarter,
   hasRole,
+  hasSearch,
   hasSort,
   hasSortBy,
   hasYear,
