@@ -21,6 +21,7 @@ const buildQuery = (options = {}) => {
     limit,
     page,
     perPage,
+    search,
     sort,
     sortBy = SORT_BY_NAME,
     year,
@@ -30,6 +31,7 @@ const buildQuery = (options = {}) => {
   const hasLimit = Boolean(limit);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
+  const hasSearch = Boolean(search);
   const hasYear = Boolean(year);
 
   const hasDateOption = hasDateRange || hasYear;
@@ -59,16 +61,23 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Entities.tableName()}`);
 
-  if (includeTotal || hasDateOption) {
+  if (includeTotal || hasDateOption || hasSearch) {
     clauses.push(queryHelper.leftJoin(Entities, Incidents));
+
+    if (hasDateOption || (hasSearch && !includeTotalOnly)) {
+      clauses.push('WHERE');
+    }
 
     if (hasDateOption) {
       const dateConditions = buildDateConditions(options);
 
       conditions.push(...dateConditions.conditions);
       params.push(...dateConditions.params);
+    }
 
-      clauses.push('WHERE');
+    if (hasSearch && !includeTotalOnly) {
+      conditions.push(`${Entities.field('name')} LIKE '%?%'`);
+      params.push(search);
     }
 
     clauses.push(...queryHelper.joinConditions(conditions));

@@ -257,6 +257,27 @@ describe('getAllQuery()', () => {
       });
     });
   });
+
+  describe('with a search', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ search: 'John Doe' })).toEqual({
+        clauses: [
+          'SELECT',
+          'people.id, people.identical_id, people.pernr, people.type, people.name, people.given, people.pronoun_subject',
+          'FROM people',
+          'WHERE',
+          'people.identical_id IS NULL',
+          'AND',
+          "people.name LIKE '%?%'",
+          'ORDER BY',
+          'people.family ASC, people.given ASC',
+        ],
+        params: [
+          'John Doe',
+        ],
+      });
+    });
+  });
 });
 
 describe('getAtIdQuery()', () => {
