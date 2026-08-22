@@ -268,12 +268,12 @@ describe('getAllQuery()', () => {
           'WHERE',
           'people.identical_id IS NULL',
           'AND',
-          "people.name LIKE '%?%'",
+          'people.name LIKE ?',
           'ORDER BY',
           'people.family ASC, people.given ASC',
         ],
         params: [
-          'John Doe',
+          '%John Doe%',
         ],
       });
     });

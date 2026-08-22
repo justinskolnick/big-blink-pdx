@@ -14,6 +14,7 @@ const {
   PARAM_PEOPLE,
   PARAM_QUARTER,
   PARAM_ROLE,
+  PARAM_SEARCH,
   PARAM_SORT,
   PARAM_SORT_BY,
   PARAM_WITH_ENTITY_ID,
@@ -58,6 +59,7 @@ const router = express.Router({
 
 router.get('/', async (req, res, next) => {
   const page = req.searchParams.get(PARAM_PAGE) || 1;
+  const search = req.searchParams.get(PARAM_SEARCH);
   const sort = req.searchParams.get(PARAM_SORT);
   const sortBy = req.searchParams.get(PARAM_SORT_BY);
 
@@ -81,6 +83,7 @@ router.get('/', async (req, res, next) => {
       page,
       perPage,
       includeTotal: true,
+      search,
       sort,
       sortBy,
     });
@@ -91,8 +94,13 @@ router.get('/', async (req, res, next) => {
       return person.adapted;
     });
 
-    personTotal = await people.getTotal();
+    personTotal = await people.getTotal({
+      search,
+    });
 
+    if (searchParams.hasSearch(search)) {
+      params.search = searchParams.getSearch(search);
+    }
     if (searchParams.hasSort(sort)) {
       params.sort = searchParams.getSort(sort);
     }

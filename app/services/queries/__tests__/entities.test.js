@@ -184,15 +184,13 @@ describe('getAllQuery()', () => {
           'SELECT',
           "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
           'FROM entities',
-          'LEFT JOIN incidents ON incidents.entity_id = entities.id',
           'WHERE',
-          "entities.name LIKE '%?%'",
-          'GROUP BY entities.id',
+          'entities.name LIKE ?',
           'ORDER BY',
           'sort_name ASC',
         ],
         params: [
-          'Spacely Sprockets',
+          '%Spacely Sprockets%',
         ],
       });
     });

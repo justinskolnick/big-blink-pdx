@@ -81,12 +81,14 @@ const buildQuery = (options = {}) => {
     }
   }
 
-  if (hasSearch && !includeTotalOnly) {
-    conditions.push(`${People.field('name')} LIKE '%?%'`);
-    params.push(search);
+  if (hasSearch) {
+    conditions.push(`${People.field('name')} LIKE ?`);
+    params.push(`%${search}%`);
   }
 
-  clauses.push(...queryHelper.joinConditions(conditions));
+  if (conditions.length) {
+    clauses.push(...queryHelper.joinConditions(conditions));
+  }
 
   if (includeTotal || hasRole || hasDateOption) {
     if (!includeTotalOnly) {

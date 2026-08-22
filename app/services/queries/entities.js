@@ -61,27 +61,31 @@ const buildQuery = (options = {}) => {
 
   clauses.push(`FROM ${Entities.tableName()}`);
 
-  if (includeTotal || hasDateOption || hasSearch) {
+  if (includeTotal || hasDateOption) {
     clauses.push(queryHelper.leftJoin(Entities, Incidents));
+  }
 
-    if (hasDateOption || (hasSearch && !includeTotalOnly)) {
-      clauses.push('WHERE');
-    }
+  if (hasDateOption || hasSearch) {
+    clauses.push('WHERE');
+  }
 
-    if (hasDateOption) {
-      const dateConditions = buildDateConditions(options);
+  if (hasDateOption) {
+    const dateConditions = buildDateConditions(options);
 
-      conditions.push(...dateConditions.conditions);
-      params.push(...dateConditions.params);
-    }
+    conditions.push(...dateConditions.conditions);
+    params.push(...dateConditions.params);
+  }
 
-    if (hasSearch && !includeTotalOnly) {
-      conditions.push(`${Entities.field('name')} LIKE '%?%'`);
-      params.push(search);
-    }
+  if (hasSearch) {
+    conditions.push(`${Entities.field('name')} LIKE ?`);
+    params.push(`%${search}%`);
+  }
 
+  if (conditions.length) {
     clauses.push(...queryHelper.joinConditions(conditions));
+  }
 
+  if (includeTotal || hasDateOption) {
     if (!includeTotalOnly) {
       clauses.push(`GROUP BY ${Entities.primaryKey()}`);
     }

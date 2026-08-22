@@ -25,6 +25,10 @@ const getDefinition = (param) => {
   return null;
 };
 
+const decodeParamValue = (searchParams, param) => decodeURIComponent(searchParams.get(param));
+
+const escapeValue = value => value.trim().replace(/(['"])/g, '\\$1');
+
 const validate = (value, paramOrDefinition) => {
   if (!hasParam(value)) return false;
 
@@ -144,7 +148,7 @@ const getQuarterSlug = (value) => {
 
 const getSearch = (value) => {
   if (hasSearch(value)) {
-    return value;
+    return escapeValue(value);
   }
 
   return null;
@@ -175,11 +179,9 @@ const validators = {
   hasYear,
 };
 
-const decodeParamValue = (searchParams, param) => decodeURIComponent(searchParams.get(param));
-
 const getParamValue = (searchParams, param) => {
   const definition = getDefinition(param);
-  let value = decodeParamValue(searchParams, param);
+  let value = escapeValue(decodeParamValue(searchParams, param));
 
   if (definition.adapt in adapters) {
     value = adapters[definition.adapt](value);

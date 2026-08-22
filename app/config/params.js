@@ -28,7 +28,7 @@ const {
 const DATE_PATTERN = /^20[1|2][\d]-[\d]{2}-[\d]{2}$/;
 const PEOPLE_PATTERN = /^([\d]+)(?::([a-z]+))?$/;
 const QUARTER_PATTERN = /^(20[1-2][0-9])-q([1-4])$/i;
-const SEARCH_PATTERN = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.,\-&']+$/;
+const SEARCH_PATTERN = /^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s.,:\-&']+$/;
 const YEAR_PATTERN = /^20[1-2][0-9]$/;
 
 const dateOptions = {
