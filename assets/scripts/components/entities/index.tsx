@@ -10,6 +10,7 @@ import SectionIndex, { IntroductionContent } from '../section-index';
 import useSelector from '../../hooks/use-app-selector';
 
 import {
+  getEntitiesFilters,
   getEntitiesPageIds,
   getEntitiesPagination,
   getEntitiesSection,
@@ -20,11 +21,10 @@ import type { RefTableElement } from '../../types';
 const Index = () => {
   const ref = useRef<RefTableElement>(null);
 
+  const filters = useSelector(getEntitiesFilters);
   const pagination = useSelector(getEntitiesPagination);
   const pageIds = useSelector(getEntitiesPageIds);
   const section = useSelector(getEntitiesSection);
-
-  const hasPageIds = pageIds?.length > 0;
 
   const fetch: FetchWithCallbackRef = async (callback) => {
     if (callback) {
@@ -36,14 +36,16 @@ const Index = () => {
 
   return (
     <SectionIndex
+      filters={filters}
       introduction={
         <IntroductionContent content={section?.introduction} />
       }
-      isLoading={!hasPageIds}
+      isLoading={false}
       item={(id) => <EntityItem id={id} />}
       pageIds={pageIds}
       pagination={pagination}
       ref={ref}
+      title={section?.name}
     />
   );
 };

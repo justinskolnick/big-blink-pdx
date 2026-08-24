@@ -38,6 +38,7 @@ export enum Sections {
 
 export type SectionObject = {
   introduction?: string;
+  name?: string;
 };
 
 type SectionLinks = {
@@ -215,6 +216,10 @@ type RoleParams = {
   role?: Role | null;
 };
 
+type SearchParams = {
+  search?: string;
+};
+
 type YearParams = {
   quarter?: string | null;
 };
@@ -225,11 +230,12 @@ type SortParams = {
 };
 
 export type NewParams = DatesParams & EntitiesParams & PaginationParams & PeopleParams & QuarterParams & RoleParams & SortParams & WithPersonParams;
-export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & PeopleFilterParams & QuarterParams & RoleParams & WithPersonParams & YearParams;
+export type NewFilterParams = DatesParams & EntitiesParams & PeopleParams & PeopleFilterParams & QuarterParams & RoleParams & WithPersonParams & SearchParams & YearParams;
 
 export enum FiltersLabelTypes {
   Id = 'id',
   InputDate = 'input-date',
+  InputSearch = 'input-search',
   Label = 'label',
   Link = 'link',
   Select = 'select',
@@ -263,13 +269,18 @@ export type FiltersDateField = {
   type: FiltersLabelTypes.InputDate;
   value?: FilterStringValue;
 };
+export type FiltersSearchField = {
+  name: keyof SearchParams;
+  type: FiltersLabelTypes.InputSearch;
+  value?: FilterStringValue;
+};
 export type FiltersSelectField = {
   name: string;
   options: GenericObject;
   type: FiltersLabelTypes.Select;
   value?: FilterStringValue;
 };
-export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField | FiltersSelectField;
+export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField | FiltersSearchField | FiltersSelectField;
 
 type DateFilterLabel = FiltersLabelLabel | FiltersLabelLink | FiltersLabelText;
 type DateFilterFieldLabel = FiltersDateField | FiltersLabelText;
@@ -277,6 +288,7 @@ type ModelIdFilterLabel = FiltersLabelId | FiltersLabelText;
 
 type FiltersDates = {
   fields: Record<FiltersDatesActionValue, DateFilterFieldLabel[]> | undefined;
+  id: undefined;
   labels: DateFilterLabel[];
   model: undefined;
   values: DatesParams;
@@ -284,6 +296,7 @@ type FiltersDates = {
 
 type FiltersEntities = {
   fields: undefined;
+  id: undefined;
   labels: ModelIdFilterLabel[];
   model: Sections.Entities;
   values: EntitiesParams;
@@ -291,6 +304,7 @@ type FiltersEntities = {
 
 type FiltersWithPerson = {
   fields: undefined;
+  id: undefined;
   labels: ModelIdFilterLabel[];
   model: Sections.People;
   values: WithPersonParams;
@@ -298,6 +312,7 @@ type FiltersWithPerson = {
 
 type FiltersWithPeople = {
   fields: undefined;
+  id: undefined;
   labels: ModelIdFilterLabel[];
   model: Sections.People;
   values: PeopleFilterParams;
@@ -305,6 +320,7 @@ type FiltersWithPeople = {
 
 type FiltersQuarter = {
   fields: undefined;
+  id: undefined;
   labels: FiltersLabel[];
   model: undefined;
   values: QuarterParams;
@@ -312,19 +328,29 @@ type FiltersQuarter = {
 
 type FiltersRole = {
   fields: undefined;
+  id: undefined;
   labels: FiltersLabel[];
   model: undefined;
   values: RoleParams;
 };
 
+type FiltersSearch = {
+  fields: undefined;
+  id: string;
+  labels: FiltersLabel[];
+  model: undefined;
+  values: SearchParams;
+};
+
 type FiltersYear = {
   fields: undefined;
+  id: undefined;
   labels: FiltersLabel[];
   model: undefined;
   values: YearParams;
 };
 
-export type FiltersValues = DatesParams | EntitiesParams | WithPersonParams | PeopleFilterParams | QuarterParams | RoleParams | YearParams;
+export type FiltersValues = DatesParams | EntitiesParams | WithPersonParams | PeopleFilterParams | QuarterParams | RoleParams | SearchParams | YearParams;
 
 export type Filters = {
   dates?: FiltersDates;
@@ -333,6 +359,7 @@ export type Filters = {
   period?: FiltersQuarter | FiltersYear;
   quarter?: FiltersQuarter;
   role?: FiltersRole;
+  search?: FiltersSearch;
   year?: FiltersYear;
 };
 
@@ -851,8 +878,9 @@ export type MetaType = {
 };
 
 export type RefElement = HTMLElement | HTMLDivElement | null;
-export type RefTableElement = HTMLTableElement | null;
 export type RefDialogElement = HTMLDialogElement | null;
+export type RefInputElement = HTMLInputElement | null;
+export type RefTableElement = HTMLTableElement | null;
 export type Ref = RefObject<RefElement>;
 export type RefDialog = RefObject<RefDialogElement>;
 export type RefTable = RefObject<RefTableElement>;

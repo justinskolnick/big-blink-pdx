@@ -11,6 +11,7 @@ import { getPeople } from '../selectors';
 
 import type { RootState } from '../lib/store';
 import type {
+  Filters as FiltersType,
   Id,
   Ids,
   IncidentPayload,
@@ -22,6 +23,7 @@ import type {
 } from '../types';
 
 interface InitialState {
+  filters?: FiltersType;
   pageIds: Ids;
   pagination?: Pagination;
   positionLookup: Record<'completed' | 'queue', (Id | undefined)[]>;
@@ -85,6 +87,7 @@ export const adapters = {
 };
 
 const initialState: InitialState = {
+  filters: undefined,
   pageIds: [],
   pagination: undefined,
   positionLookup: {
@@ -103,6 +106,9 @@ export const peopleSlice = createSlice({
     },
     setAll: (state, action: PayloadAction<PersonObject[]>) => {
       adapter.upsertMany(state, action.payload);
+    },
+    setFilters: (state, action: PayloadAction<FiltersType>) => {
+      state.filters = action.payload;
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {
       state.pageIds = action.payload;
@@ -128,6 +134,7 @@ export const {
   addToLookupQueue,
   set,
   setAll,
+  setFilters,
   setPageIds,
   setPagination,
   setSection,

@@ -24,11 +24,13 @@ const {
   SECTION_PEOPLE,
 } = require('../../config/constants');
 
+const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
 const { getMarkdownContent } = require('../../lib/content');
-const { getFilters } = require('../../lib/filters/incident');
+const { getFilters: getIncidentFilters } = require('../../lib/filters/incident');
+const { getFilters: getListFilters } = require('../../lib/filters/list');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
 
@@ -46,6 +48,8 @@ const officialPositions = require('../../services/official-positions');
 const people = require('../../services/people');
 const sources = require('../../services/sources');
 const stats = require('../../services/stats');
+
+const labels = new Labels();
 
 const title = 'People';
 const slug = SECTION_PEOPLE;
@@ -67,11 +71,12 @@ router.get('/', async (req, res, next) => {
   const perPage = Person.perPage;
   const links = linkHelper.links;
 
-  let result;
   let records;
+  let results;
   let personTotal;
   let incidentCountResult;
   let introduction;
+  let sectionName;
   let data;
   let meta;
 
@@ -79,7 +84,14 @@ router.get('/', async (req, res, next) => {
     introduction = await getMarkdownContent('people-introduction');
     incidentCountResult = await incidents.getTotal();
 
-    result = await people.getAll({
+    sectionName = labels.getLabel('people', 'section');
+    filters = getListFilters(req.query, {
+      search: {
+        id: 'people-search',
+      }
+    });
+
+    results = await people.getAll({
       page,
       perPage,
       includeTotal: true,
@@ -87,7 +99,7 @@ router.get('/', async (req, res, next) => {
       sort,
       sortBy,
     });
-    records = result.map(person => {
+    records = results.map(person => {
       person.setGlobalIncidentCount(incidentCountResult);
       person.setOverview();
 
@@ -110,7 +122,7 @@ router.get('/', async (req, res, next) => {
 
     data = {
       people: {
-        records,
+        filters,
         pagination: linkHelper.getPagination({
           total: personTotal,
           perPage,
@@ -118,8 +130,10 @@ router.get('/', async (req, res, next) => {
           params,
           path: links.people(),
         }),
+        records,
         section: {
           introduction,
+          name: sectionName,
         },
         total: personTotal,
       },
@@ -280,7 +294,7 @@ router.get('/:id/incidents', async (req, res, next) => {
 
     records = await incidentAttendees.getAllForIncidents(personIncidents);
 
-    filters = getFilters(req.query);
+    filters = getIncidentFilters(req.query);
     params = searchParams.getParamsFromFilters(req.query, filters);
 
     data = {

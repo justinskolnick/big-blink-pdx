@@ -21,11 +21,13 @@ const {
   SECTION_ENTITIES,
 } = require('../../config/constants');
 
+const { Labels } = require('../../helpers/labels');
 const linkHelper = require('../../helpers/links');
 const metaHelper = require('../../helpers/meta');
 
 const { getMarkdownContent } = require('../../lib/content');
-const { getFilters } = require('../../lib/filters/incident');
+const { getFilters: getIncidentFilters } = require('../../lib/filters/incident');
+const { getFilters: getListFilters } = require('../../lib/filters/list');
 const searchParams = require('../../lib/request/search-params');
 const Meta = require('../../lib/route/meta');
 
@@ -40,6 +42,8 @@ const incidents = require('../../services/incidents');
 const incidentAttendees = require('../../services/incident-attendees');
 const sources = require('../../services/sources');
 const stats = require('../../services/stats');
+
+const labels = new Labels();
 
 const title = 'Entities';
 const slug = SECTION_ENTITIES;
@@ -61,16 +65,26 @@ router.get('/', async (req, res, next) => {
   const perPage = Entity.perPage;
   const links = linkHelper.links;
 
+  let records;
   let results;
   let entityTotal;
+  let filters;
   let incidentCountResult;
   let introduction;
+  let sectionName;
   let data;
   let meta;
 
   try {
     introduction = await getMarkdownContent('entities-introduction');
     incidentCountResult = await incidents.getTotal();
+
+    sectionName = labels.getLabel('entities', 'section');
+    filters = getListFilters(req.query, {
+      search: {
+        id: 'entity-search',
+      }
+    });
 
     results = await entities.getAll({
       page,
@@ -80,7 +94,7 @@ router.get('/', async (req, res, next) => {
       sort,
       sortBy,
     });
-    results = results.map(entity => {
+    records = results.map(entity => {
       entity.setGlobalIncidentCount(incidentCountResult);
       entity.setOverview();
 
@@ -103,7 +117,7 @@ router.get('/', async (req, res, next) => {
 
     data = {
       entities: {
-        records: results,
+        filters,
         pagination: linkHelper.getPagination({
           total: entityTotal,
           perPage,
@@ -111,8 +125,10 @@ router.get('/', async (req, res, next) => {
           params,
           path: links.entities(),
         }),
+        records,
         section: {
           introduction,
+          name: sectionName,
         },
         total: entityTotal,
       },
@@ -129,7 +145,7 @@ router.get('/', async (req, res, next) => {
       title,
       data,
       meta: meta.toObject(),
-      });
+    });
   } catch (err) {
     console.error('Error while getting entities:', err.message); // eslint-disable-line no-console
     next(createError(err));
@@ -264,7 +280,7 @@ router.get('/:id/incidents', async (req, res, next) => {
 
     records = await incidentAttendees.getAllForIncidents(entityIncidents);
 
-    filters = getFilters(req.query);
+    filters = getIncidentFilters(req.query);
     params = searchParams.getParamsFromFilters(req.query, filters);
 
     data = {

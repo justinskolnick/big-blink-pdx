@@ -1,13 +1,26 @@
 .section-index {
-  a {
-    color: var(--color-link);
-
-    &:hover {
-      border-bottom: 1px solid var(--color-link);
-    }
-  }
-
   .item-content {
+    .index-list-header + .index-list {
+      margin-top: calc(var(--gap) * 2);
+    }
+
+    .index-list-header {
+      h4 {
+        display: inline;
+      }
+
+      h5 {
+        display: inline;
+      }
+
+      h4 + h5 {
+        &::before {
+          content: '·';
+          margin-right: 0.5ch;
+        }
+      }
+    }
+
     table.section-index-list {
       width: 100%;
 
