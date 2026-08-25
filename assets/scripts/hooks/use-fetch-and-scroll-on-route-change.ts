@@ -4,6 +4,7 @@ import { useLocation, useSearchParams } from 'react-router';
 import { delayedScrollToRef, delayedScrollToTop } from '../lib/dom';
 import {
   hasIncidentFilterSearchParams,
+  hasListFilterSearchParams,
   hasPageSearchParams,
   hasSortSearchParams,
 } from '../lib/params';
@@ -37,18 +38,20 @@ const useScrollOnRouteChange = (fetch: FetchWithCallback | FetchWithCallbackRef 
   const [hasFetched, setHasFetched] = useState(false);
 
   const action = (ref?: Ref) => {
+    const hasListFilterParams = hasListFilterSearchParams(searchParams);
     const hasPageParams = hasPageSearchParams(searchParams);
     const hasSortParams = hasSortSearchParams(searchParams);
     const hasIncidentFilterParams = hasIncidentFilterSearchParams(searchParams);
 
-    const hasParams = hasPageParams || hasSortParams || hasIncidentFilterParams;
+    const hasParams = hasListFilterParams || hasPageParams || hasSortParams || hasIncidentFilterParams;
 
     if (scroll) {
       if (location.pathname === lastPathname) {
+        const hadListFilterParams = hasListFilterSearchParams(lastSearchParams);
         const hadPageParams = hasPageSearchParams(lastSearchParams);
         const hadSortParams = hasSortSearchParams(lastSearchParams);
         const hadIncidentFilterParams = hasIncidentFilterSearchParams(lastSearchParams);
-        const hadParams = hadPageParams || hadSortParams || hadIncidentFilterParams;
+        const hadParams = hadListFilterParams || hadPageParams || hadSortParams || hadIncidentFilterParams;
 
         if (ref?.current && (hasParams || hadParams)) {
           delayedScrollToRef(ref);

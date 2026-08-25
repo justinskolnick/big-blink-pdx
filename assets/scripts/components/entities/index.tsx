@@ -16,10 +16,10 @@ import {
   getEntitiesSection,
 } from '../../selectors';
 
-import type { RefTableElement } from '../../types';
+import type { RefDivElement } from '../../types';
 
 const Index = () => {
-  const ref = useRef<RefTableElement>(null);
+  const ref = useRef<RefDivElement>(null);
 
   const filters = useSelector(getEntitiesFilters);
   const pagination = useSelector(getEntitiesPagination);

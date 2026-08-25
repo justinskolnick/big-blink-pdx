@@ -5,6 +5,7 @@ export const pageParam = 'page';
 export const peopleParam = 'people';
 export const quarterParam = 'quarter';
 export const roleParam = 'role';
+export const searchParam = 'search';
 export const sortParam = 'sort';
 export const sortByParam = 'sort_by';
 export const withEntityIdParam = 'with_entity_id';

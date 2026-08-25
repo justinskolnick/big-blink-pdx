@@ -18,7 +18,7 @@ import {
   type Id,
   type Ids,
   type Pagination as PaginationType,
-  type RefTable,
+  type RefDiv,
 } from '../types';
 
 interface IndexProps {
@@ -37,6 +37,7 @@ interface IntroductionProps {
 interface ContentProps {
   children: ReactNode;
   isLoading?: boolean;
+  ref?: RefDiv;
 }
 
 interface Props {
@@ -48,7 +49,7 @@ interface Props {
   item?: (id: Id) => ReactNode;
   pagination?: PaginationType;
   pageIds?: Ids;
-  ref?: RefTable;
+  ref?: RefDiv;
   title?: string;
 }
 
@@ -84,8 +85,8 @@ export const Introduction = ({ children }: IntroductionProps) => {
   );
 };
 
-export const Content = ({ children, isLoading }: ContentProps) => (
-  <div className='item-content'>
+export const Content = ({ children, isLoading, ref }: ContentProps) => (
+  <div className='item-content' ref={ref}>
     {isLoading ? <Loading /> : children}
   </div>
 );
@@ -117,7 +118,7 @@ const SectionIndex = ({
         <Introduction>{introduction}</Introduction>
       )}
 
-      <Content isLoading={isLoading}>
+      <Content isLoading={isLoading} ref={ref}>
         {children || (
           <>
             <IndexListHeader title={title}
@@ -131,7 +132,7 @@ const SectionIndex = ({
               </Filters>
             </IndexListHeader>
 
-            <table className='section-index-list index-list' cellPadding='0' cellSpacing='0' ref={ref}>
+            <table className='section-index-list index-list' cellPadding='0' cellSpacing='0'>
               <thead>
                 <tr>
                   <th className='cell-name' colSpan={2}>

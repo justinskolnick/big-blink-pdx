@@ -261,19 +261,21 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
         </fieldset>
       )}
 
-      <button
-        className='filter-form-button filter-form-submit'
-        type='submit'
-      >
-        Submit
-      </button>
-      <button
-        className='filter-form-button filter-form-cancel'
-        onClick={handleCancel}
-        type='button'
-      >
-        &times;
-      </button>
+      <div className='filter-form-actions'>
+        <button
+          className='filter-form-button filter-form-submit'
+          type='submit'
+        >
+          Submit
+        </button>
+        <button
+          className='filter-form-button filter-form-cancel'
+          onClick={handleCancel}
+          type='button'
+        >
+          &times;
+        </button>
+      </div>
     </form>
   );
 };

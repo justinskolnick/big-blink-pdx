@@ -159,5 +159,9 @@
 }
 
 .section-index-introduction + .item-content {
-  margin-top: calc(2 * var(--gap));
+  margin-top: calc(var(--gap) / 2 * 3);
+
+  &:has(.index-list-header.has-icon) {
+    padding-top: calc(var(--gap) / 2);
+  }
 }

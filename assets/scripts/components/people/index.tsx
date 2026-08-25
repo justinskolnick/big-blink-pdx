@@ -16,10 +16,10 @@ import {
   getPeopleSection,
 } from '../../selectors';
 
-import type { RefTableElement } from '../../types';
+import type { RefDivElement } from '../../types';
 
 const Index = () => {
-  const ref = useRef<RefTableElement>(null);
+  const ref = useRef<RefDivElement>(null);
 
   const filters = useSelector(getPeopleFilters);
   const pagination = useSelector(getPeoplePagination);
