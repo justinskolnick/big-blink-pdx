@@ -122,8 +122,8 @@ const SectionIndex = ({
           <>
             <IndexListHeader title={title}
               subtitle={hasSearch
-                ? labels.listShowingAllResultsFilteredSearch
-                : labels.listShowingAllResults
+                ? labels.listAllResultsFilteredSearch
+                : labels.listAllResults
               }
             >
               <Filters className='list-filters'>
