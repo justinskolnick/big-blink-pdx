@@ -23,6 +23,7 @@ export const getUI = (state: RootState) => state.ui;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getNullItem = (id: Id) => (state: RootState) => null;
 
+export const getEntitiesFilters = createSelector(getEntities, entities => entities.filters);
 export const getEntitiesPagination = createSelector(getEntities, entities => entities.pagination);
 export const getEntitiesPageIds = createSelector(getEntities, entities => entities.pageIds);
 export const getEntitiesSection = createSelector(getEntities, entities => entities.section);
@@ -46,6 +47,7 @@ export const getLeaderboardEntitiesValues = createSelector(getLeaderboardValues,
 export const getLeaderboardLobbyistsValues = createSelector(getLeaderboardValues, values => values.lobbyists);
 export const getLeaderboardOfficialsValues = createSelector(getLeaderboardValues, values => values.officials);
 
+export const getPeopleFilters = createSelector(getPeople, people => people.filters);
 export const getPeoplePagination = createSelector(getPeople, people => people.pagination);
 export const getPeoplePageIds = createSelector(getPeople, people => people.pageIds);
 const getOfficialPositionsLookup = createSelector(

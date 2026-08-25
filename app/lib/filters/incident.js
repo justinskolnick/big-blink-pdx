@@ -82,7 +82,7 @@ const getDateRangeFilter = searchParams => ({
   },
 });
 
-const getDatesFilter = searchParams => {
+const getDatesFilter = (searchParams) => {
   const hasDateOn = searchParams.has(PARAM_DATE_ON) && hasDate(searchParams.get(PARAM_DATE_ON));
   const hasDateRange = [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p) && hasDate(searchParams.get(p)));
 
@@ -123,7 +123,7 @@ const getDatesFilter = searchParams => {
   };
 };
 
-const getEntitiesFilter = searchParams => {
+const getEntitiesFilter = (searchParams) => {
   if (searchParams.has(PARAM_WITH_ENTITY_ID)) {
     if (hasInteger(searchParams.get(PARAM_WITH_ENTITY_ID))) {
       return {
@@ -141,7 +141,7 @@ const getEntitiesFilter = searchParams => {
   }
 };
 
-const getPeopleFilter = searchParams => {
+const getPeopleFilter = (searchParams) => {
   if (searchParams.has(PARAM_PEOPLE)) {
     const people = getPeople(searchParams.get(PARAM_PEOPLE));
 
@@ -200,7 +200,7 @@ const getQuarterFilter = (searchParams) => {
   }
 };
 
-const getRoleFilter = searchParams => {
+const getRoleFilter = (searchParams) => {
   if (searchParams.has(PARAM_ROLE)) {
     const param = searchParams.get(PARAM_ROLE);
 

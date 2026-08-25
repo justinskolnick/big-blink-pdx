@@ -5,6 +5,7 @@ const {
   getPeople,
   getQuarterAndYear,
   getQuarterSlug,
+  getSearch,
   getSort,
   getSortBy,
   getYear,
@@ -12,6 +13,7 @@ const {
   hasDate,
   hasQuarter,
   hasRole,
+  hasSearch,
   hasSort,
   hasSortBy,
   hasYear,
@@ -126,6 +128,20 @@ describe('getQuarterSlug()', () => {
   });
 });
 
+describe('getSearch()', () => {
+  test('returns the expected value', () => {
+    expect(getSearch('Spacely Sprockets')).toEqual('Spacely Sprockets');
+    expect(getSearch("Auntie Annie's")).not.toBe("Auntie Annie's");
+    expect(getSearch("Auntie Annie's")).toBe("Auntie Annie\\'s");
+    expect(getSearch('nonce')).toEqual('nonce');
+    expect(getSearch('Zoë')).toEqual('Zoë');
+    expect(getSearch('João Juruá Salvação')).toEqual('João Juruá Salvação');
+    expect(getSearch('Spacely "Good" Sprockets')).toEqual(null);
+    expect(getSearch('xy')).toEqual(null);
+    expect(getSearch('')).toEqual(null);
+  });
+});
+
 describe('getSort()', () => {
   test('with a param value', () => {
     expect(getSort('ASC')).toEqual('ASC');
@@ -192,6 +208,19 @@ describe('hasRole()', () => {
     expect(hasRole('officila')).toBe(false);
     expect(hasRole('lobbyist')).toBe(true);
     expect(hasRole('lobbying')).toBe(false);
+  });
+});
+
+describe('hasSearch()', () => {
+  test('returns the expected value', () => {
+    expect(hasSearch('Spacely Sprockets')).toBe(true);
+    expect(hasSearch("Auntie Annie's")).toBe(true);
+    expect(hasSearch('nonce')).toBe(true);
+    expect(hasSearch('Zoë')).toBe(true);
+    expect(hasSearch('João Juruá Salvação')).toBe(true);
+    expect(hasSearch('Spacely "Good" Sprockets')).toEqual(false);
+    expect(hasSearch('xy')).toBe(false);
+    expect(hasSearch('')).toBe(false);
   });
 });
 

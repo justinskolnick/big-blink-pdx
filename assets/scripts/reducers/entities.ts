@@ -2,16 +2,17 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import camelcaseKeys from 'camelcase-keys';
 
+import useSelector from '../hooks/use-app-selector';
+
 import { adaptIncidents, adaptRoles } from './shared/adapters';
 import { getEntities } from '../selectors';
-
-import useSelector from '../hooks/use-app-selector';
 
 import type { RootState } from '../lib/store';
 import type {
   EntityObject,
   EntityObjectRoles,
   EntityPayload,
+  Filters as FiltersType,
   Id,
   Ids,
   IncidentPayload,
@@ -20,6 +21,7 @@ import type {
 } from '../types';
 
 interface InitialState {
+  filters?: FiltersType;
   pageIds: Ids;
   pagination?: Pagination;
   section?: SectionObject;
@@ -67,6 +69,7 @@ export const adapters = {
 };
 
 const initialState: InitialState = {
+  filters: undefined,
   pageIds: [],
   pagination: undefined,
   section: undefined,
@@ -81,6 +84,9 @@ export const entitiesSlice = createSlice({
     },
     setAll: (state, action: PayloadAction<EntityObject[]>) => {
       adapter.upsertMany(state, action.payload);
+    },
+    setFilters: (state, action: PayloadAction<FiltersType>) => {
+      state.filters = action.payload;
     },
     setPageIds: (state, action: PayloadAction<Ids>) => {
       state.pageIds = action.payload;
@@ -97,6 +103,7 @@ export const entitiesSlice = createSlice({
 export const {
   set,
   setAll,
+  setFilters,
   setPageIds,
   setPagination,
   setSection,

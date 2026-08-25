@@ -182,6 +182,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
 
       dispatch(entityActions.setAll(entities));
 
+      if ('filters' in data.entities) {
+        dispatch(entityActions.setFilters(data.entities.filters));
+      }
+
       if ('pagination' in data.entities) {
         const ids = entityActions.adapters.getIds(entities);
 
@@ -280,6 +284,10 @@ export const handleResult = (result: Result, isPrimary?: boolean) => {
       const people = data.people.records.map((person: PersonPayload) => adaptPerson(state, person));
 
       dispatch(personActions.setAll(people));
+
+      if ('filters' in data.people) {
+        dispatch(personActions.setFilters(data.people.filters));
+      }
 
       if ('pagination' in data.people) {
         const ids = personActions.adapters.getIds(data.people.records);

@@ -1,5 +1,6 @@
 .filter {
   min-height: 27px;
+  font-size: 14px;
 }
 
 .filter-option {
@@ -24,8 +25,20 @@
 
 .filter-form-field {
   &[type="date"] {
-    font-family: inherit;
-    font-size: 12px;
+    height: 22px;
+  }
+
+  &[type="search"] {
+    height: 24px;
+  }
+
+  &[type="date"],
+  &[type="search"] {
+    border: 1px solid var(--color-gray);
+    border-radius: 3px;
+    color: inherit;
+    font-family: monospace;
+    font-size: 13px;
   }
 }
 
@@ -34,14 +47,34 @@
   align-items: center;
   flex-wrap: wrap;
 
-  &:has(+ button) {
+  &:has(+ .filter-form-actions) {
     margin-right: calc(var(--gap) / 2);
   }
 
-  :is(span):has(+ input[type=date], + select),
-  :is(input[type=date], select):has(+ span) {
+  :is(span):has(
+    + input[type=date],
+    + input[type=search],
+    + select
+  ),
+  :is(
+    input[type=date],
+    input[type=search],
+    select
+  ):has(+ span) {
     margin-right: calc(var(--gap) / 3);
   }
+
+  @media screen and (max-width: 600px) {
+    &:has(+ .filter-form-actions) {
+      margin-bottom: calc(var(--gap) / 2);
+    }
+  }
+}
+
+.filter-form-actions {
+  display: flex;
+  align-items: center;
+  height: 27px;
 }
 
 .filter-form-button {

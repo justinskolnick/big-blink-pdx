@@ -21,6 +21,7 @@ const buildQuery = (options = {}) => {
     limit,
     page,
     perPage,
+    search,
     sort,
     sortBy = SORT_BY_NAME,
     year,
@@ -30,6 +31,7 @@ const buildQuery = (options = {}) => {
   const hasLimit = Boolean(limit);
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
+  const hasSearch = Boolean(search);
   const hasYear = Boolean(year);
 
   const hasDateOption = hasDateRange || hasYear;
@@ -61,18 +63,29 @@ const buildQuery = (options = {}) => {
 
   if (includeTotal || hasDateOption) {
     clauses.push(queryHelper.leftJoin(Entities, Incidents));
+  }
 
-    if (hasDateOption) {
-      const dateConditions = buildDateConditions(options);
+  if (hasDateOption || hasSearch) {
+    clauses.push('WHERE');
+  }
 
-      conditions.push(...dateConditions.conditions);
-      params.push(...dateConditions.params);
+  if (hasDateOption) {
+    const dateConditions = buildDateConditions(options);
 
-      clauses.push('WHERE');
-    }
+    conditions.push(...dateConditions.conditions);
+    params.push(...dateConditions.params);
+  }
 
+  if (hasSearch) {
+    conditions.push(`${Entities.field('name')} LIKE ?`);
+    params.push(`%${search}%`);
+  }
+
+  if (conditions.length) {
     clauses.push(...queryHelper.joinConditions(conditions));
+  }
 
+  if (includeTotal || hasDateOption) {
     if (!includeTotalOnly) {
       clauses.push(`GROUP BY ${Entities.primaryKey()}`);
     }

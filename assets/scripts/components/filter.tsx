@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, MouseEvent, ReactElement, ReactNode } from 'react';
+import React, { useEffect, useRef, useState, Fragment, MouseEvent, ReactElement, ReactNode, SubmitEvent } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
 
@@ -17,11 +17,13 @@ import type {
   FiltersLabel,
   FiltersLabelId,
   FiltersObjects,
+  FiltersSearchField,
   FiltersSelectField,
   FiltersValues,
   Id,
   NewFilterParams,
   PaginationParams,
+  RefInputElement,
 } from '../types';
 
 type NewFilterAndPaginationParams = NewFilterParams & PaginationParams;
@@ -32,7 +34,7 @@ interface FilterActionHandlerType {
 }
 
 interface SubmitHandler {
-  (formData: FormData): void;
+  (event: SubmitEvent<HTMLFormElement>): void;
 }
 
 interface FiltersProps {
@@ -47,11 +49,11 @@ interface FilterBaseProps {
 }
 
 interface FilterTagProps extends FilterBaseProps {
-  filter: FiltersObjects;
+  filter?: FiltersObjects;
 }
 
 interface FilterProps extends FilterBaseProps {
-  filter: FiltersObjects | FiltersObjects[];
+  filter?: FiltersObjects | FiltersObjects[];
 }
 
 interface FilterActionProps {
@@ -95,6 +97,10 @@ interface FilterModelIdProps {
 
 interface FilterDateFieldProps {
   field: FiltersDateField;
+}
+
+interface FilterSearchFieldProps {
+  field: FiltersSearchField;
 }
 
 interface FilterSelecteFieldProps {
@@ -178,6 +184,25 @@ const FilterDateField = ({ field }: FilterDateFieldProps) => (
   />
 );
 
+const FilterSearchField = ({ field }: FilterSearchFieldProps) => {
+  const ref = useRef<RefInputElement>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current?.focus();
+    }
+  }, []);
+
+  return (
+    <input
+      className='filter-form-field'
+      type='search'
+      name={field.name}
+      ref={ref}
+    />
+  );
+};
+
 const FilterSelectField = ({ field }: FilterSelecteFieldProps) => (
   <select
     className='filter-form-field'
@@ -194,6 +219,7 @@ const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArray
   <Fragment key={i}>
     {label.type === FiltersLabelTypes.Id && <FilterModelId label={label} model={model} />}
     {label.type === FiltersLabelTypes.InputDate && <FilterDateField field={label} />}
+    {label.type === FiltersLabelTypes.InputSearch && <FilterSearchField field={label} />}
     {label.type === FiltersLabelTypes.Label && <FilterLabel label={label.value} />}
     {label.type === FiltersLabelTypes.Link && (
       <FilterAction action={label.action} handleClick={handleActionClick}>
@@ -213,7 +239,10 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
 
-  const handleSubmit: SubmitHandler = (formData) => {
+  const handleSubmit: SubmitHandler = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
     const formParams = Object.fromEntries(formData.entries());
     const params = {
       ...formParams,
@@ -225,26 +254,28 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
   };
 
   return (
-    <form className='filter-form' action={handleSubmit}>
+    <form className='filter-form' onSubmit={handleSubmit} id={filter?.id}>
       {actionFields !== undefined && (
         <fieldset className='filter-form-fieldset'>
           <FilterLabelArray labels={actionFields} handleActionClick={handleActionClick} />
         </fieldset>
       )}
 
-      <button
-        className='filter-form-button filter-form-submit'
-        type='submit'
-      >
-        Submit
-      </button>
-      <button
-        className='filter-form-button filter-form-cancel'
-        onClick={handleCancel}
-        type='button'
-      >
-        &times;
-      </button>
+      <div className='filter-form-actions'>
+        <button
+          className='filter-form-button filter-form-submit'
+          type='submit'
+        >
+          Submit
+        </button>
+        <button
+          className='filter-form-button filter-form-cancel'
+          onClick={handleCancel}
+          type='button'
+        >
+          &times;
+        </button>
+      </div>
     </form>
   );
 };
@@ -336,15 +367,12 @@ const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) 
   const hasActiveAction = Boolean(activeAction);
 
   const handleActionClick: FilterActionHandlerType = (event, action) => {
-    event.preventDefault();
-
     if (action) {
       setActiveAction(action);
     }
   };
-  const handleCancelActionClick: FilterActionHandlerType = (event) => {
-    event.preventDefault();
 
+  const handleCancelActionClick: FilterActionHandlerType = () => {
     clearAction();
   };
 
@@ -356,7 +384,7 @@ const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) 
     }
   }, [hasValues, clearAction]);
 
-  if (!hasFilter) return null;
+  if (!hasFilter && !children) return null;
 
   return (
     <Tag className={cx('filter', !hasValues && 'filter-option')}>
@@ -376,7 +404,7 @@ const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) 
       )}
       {children && (
         <>
-          {' '}
+          {hasFilter && ' '}
           {children}
         </>
       )}

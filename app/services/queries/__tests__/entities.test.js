@@ -176,6 +176,25 @@ describe('getAllQuery()', () => {
       });
     });
   });
+
+  describe('with a search', () => {
+    test('returns the expected SQL', () => {
+      expect(getAllQuery({ search: 'Spacely Sprockets' })).toEqual({
+        clauses: [
+          'SELECT',
+          "entities.id, entities.name, entities.type, entities.domain, CASE WHEN entities.name LIKE 'The %' THEN TRIM(SUBSTR(entities.name FROM 4)) ELSE entities.name END AS sort_name",
+          'FROM entities',
+          'WHERE',
+          'entities.name LIKE ?',
+          'ORDER BY',
+          'sort_name ASC',
+        ],
+        params: [
+          '%Spacely Sprockets%',
+        ],
+      });
+    });
+  });
 });
 
 describe('getAtIdQuery()', () => {

@@ -18,6 +18,7 @@ const buildQuery = (options = {}) => {
     page,
     perPage,
     role,
+    search,
     sort,
     sortBy,
     year,
@@ -28,6 +29,7 @@ const buildQuery = (options = {}) => {
   const hasPage = Boolean(page);
   const hasPerPage = Boolean(perPage);
   const hasRole = Boolean(role);
+  const hasSearch = Boolean(search);
   const hasYear = Boolean(year);
 
   const hasDateOption = hasDateRange || hasYear;
@@ -79,7 +81,14 @@ const buildQuery = (options = {}) => {
     }
   }
 
-  clauses.push(...queryHelper.joinConditions(conditions));
+  if (hasSearch) {
+    conditions.push(`${People.field('name')} LIKE ?`);
+    params.push(`%${search}%`);
+  }
+
+  if (conditions.length) {
+    clauses.push(...queryHelper.joinConditions(conditions));
+  }
 
   if (includeTotal || hasRole || hasDateOption) {
     if (!includeTotalOnly) {

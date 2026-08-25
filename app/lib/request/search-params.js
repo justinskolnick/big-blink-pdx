@@ -1,6 +1,7 @@
 const {
   PARAM_ASSOCIATION,
   PARAM_ROLE,
+  PARAM_SEARCH,
   PARAM_SORT,
   PARAM_SORT_BY,
   SORT_BY_OPTIONS,
@@ -24,6 +25,10 @@ const getDefinition = (param) => {
   return null;
 };
 
+const decodeParamValue = (searchParams, param) => decodeURIComponent(searchParams.get(param));
+
+const escapeValue = value => value.trim().replace(/(['"])/g, '\\$1');
+
 const validate = (value, paramOrDefinition) => {
   if (!hasParam(value)) return false;
 
@@ -43,6 +48,12 @@ const validate = (value, paramOrDefinition) => {
     return value.split(definition.delimiter)
       .filter(Boolean)
       .every(entry => definition.pattern.test(entry));
+  }
+
+  if (definition.min) {
+    if (value.length < definition.min) {
+      return false;
+    }
   }
 
   if (definition.values) {
@@ -86,6 +97,7 @@ const hasYearAndQuarter = (value) => validate(value, quarterOptions);
 const hasInteger = (value) => validate(value, Number.isInteger(Number(value)));
 const hasQuarter = (value) => validate(value, hasYearAndQuarter(value));
 const hasRole = (value) => validate(value, PARAM_ROLE);
+const hasSearch = (value) => validate(value, PARAM_SEARCH);
 const hasSort = (value) => validate(value, PARAM_SORT);
 const hasSortBy = (value) => validate(value, PARAM_SORT_BY);
 
@@ -134,6 +146,14 @@ const getQuarterSlug = (value) => {
   return null;
 };
 
+const getSearch = (value) => {
+  if (hasSearch(value)) {
+    return escapeValue(value);
+  }
+
+  return null;
+};
+
 const getYear = (param) => {
   if (hasYear(param)) {
     return param;
@@ -159,11 +179,9 @@ const validators = {
   hasYear,
 };
 
-const decodeParamValue = (searchParams, param) => decodeURIComponent(searchParams.get(param));
-
 const getParamValue = (searchParams, param) => {
   const definition = getDefinition(param);
-  let value = decodeParamValue(searchParams, param);
+  let value = escapeValue(decodeParamValue(searchParams, param));
 
   if (definition.adapt in adapters) {
     value = adapters[definition.adapt](value);
@@ -280,6 +298,7 @@ module.exports = {
   getPeople,
   getQuarterAndYear,
   getQuarterSlug,
+  getSearch,
   getSort,
   getSortBy,
   getYear,
@@ -288,6 +307,7 @@ module.exports = {
   hasInteger,
   hasQuarter,
   hasRole,
+  hasSearch,
   hasSort,
   hasSortBy,
   hasYear,

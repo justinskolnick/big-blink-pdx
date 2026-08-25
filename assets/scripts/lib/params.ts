@@ -5,6 +5,7 @@ import {
   pageParam,
   peopleParam,
   quarterParam,
+  searchParam,
   sortByParam,
   sortParam,
   withEntityIdParam,
@@ -24,6 +25,9 @@ const SORT_PARAMS = [
   sortByParam,
   sortParam,
 ];
+const LIST_FILTER_PARAMS = [
+  searchParam,
+];
 const INCIDENT_FILTER_PARAMS = [
   dateOnParam,
   dateRangeFromParam,
@@ -40,6 +44,7 @@ const LEADERBOARD_FILTER_PARAMS = [
 
 export const isDetailRoute = (pathname: LocationPathname) => DETAIL_ROUTE_PATTERN.test(pathname);
 export const hasPageSearchParams = (searchParams: URLSearchParams) => PAGE_PARAMS.some(p => searchParams.has(p));
+export const hasListFilterSearchParams = (searchParams: URLSearchParams) => LIST_FILTER_PARAMS.some(p => searchParams.has(p));
 export const hasSortSearchParams = (searchParams: URLSearchParams) => SORT_PARAMS.some(p => searchParams.has(p));
 export const hasIncidentFilterSearchParams = (searchParams: URLSearchParams) => INCIDENT_FILTER_PARAMS.some(p => searchParams.has(p));
 export const hasLeaderboardFilterSearchParams = (searchParams: URLSearchParams) => LEADERBOARD_FILTER_PARAMS.some(p => searchParams.has(p));

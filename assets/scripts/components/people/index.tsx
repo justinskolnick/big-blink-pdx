@@ -10,21 +10,21 @@ import SectionIndex, { IntroductionContent } from '../section-index';
 import useSelector from '../../hooks/use-app-selector';
 
 import {
+  getPeopleFilters,
   getPeoplePageIds,
   getPeoplePagination,
   getPeopleSection,
 } from '../../selectors';
 
-import type { RefTableElement } from '../../types';
+import type { RefDivElement } from '../../types';
 
 const Index = () => {
-  const ref = useRef<RefTableElement>(null);
+  const ref = useRef<RefDivElement>(null);
 
+  const filters = useSelector(getPeopleFilters);
   const pagination = useSelector(getPeoplePagination);
   const pageIds = useSelector(getPeoplePageIds);
   const section = useSelector(getPeopleSection);
-
-  const hasPageIds = pageIds?.length > 0;
 
   const fetch: FetchWithCallbackRef = async (callback) => {
     if (callback) {
@@ -36,14 +36,16 @@ const Index = () => {
 
   return (
     <SectionIndex
+      filters={filters}
       introduction={
         <IntroductionContent content={section?.introduction} />
       }
-      isLoading={!hasPageIds}
+      isLoading={false}
       item={(id) => <PersonItem id={id} />}
       pageIds={pageIds}
       pagination={pagination}
       ref={ref}
+      title={section?.name}
     />
   );
 };
