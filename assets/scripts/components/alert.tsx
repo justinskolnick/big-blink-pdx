@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, MouseEvent } from 'react';
+import React, { useEffect, useRef, KeyboardEvent, MouseEvent } from 'react';
 
 import ItemTextWithIcon from './item-text-with-icon';
 
@@ -104,6 +104,17 @@ const Alert = ({
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const target: RefDialogElement = ref.current;
+
+    if (e.code === 'Escape') {
+      e.preventDefault();
+
+      target?.classList.add('is-closing');
+      target?.addEventListener('transitionend', handleTransitionEnd);
+    }
+  };
+
   useEffect(() => {
     if (isActive) {
       ref.current?.showModal();
@@ -114,6 +125,7 @@ const Alert = ({
     <dialog
       className='alert'
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       ref={ref}
     >
       <section className={classNames}>

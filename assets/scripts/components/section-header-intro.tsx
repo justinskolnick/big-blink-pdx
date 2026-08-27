@@ -1,5 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useCallback, useEffect, useState, useRef, KeyboardEvent, MouseEvent } from 'react';
 import { cx } from '@emotion/css';
 
 import Icon from './icon';
@@ -12,11 +11,17 @@ import { actions as uiActions } from '../reducers/ui';
 
 import { getHomeHeader } from '../selectors';
 
+import type {
+  RefElement,
+  RefLinkElement,
+} from '../types';
+
 interface Props {
   note: string;
 }
 
 const DateRangeNote = ({ note }: Props) => {
+  const ref = useRef<RefLinkElement>(null);
   const dispatch = useDispatch();
 
   const handleClick = (event: MouseEvent) => {
@@ -28,38 +33,55 @@ const DateRangeNote = ({ note }: Props) => {
       message: note,
     }));
   };
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    if (event.code === 'Enter' && event.target === ref.current) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      dispatch(uiActions.setMessage({
+        customMessage: note,
+        message: note,
+      }));
+    }
+  }, [note, ref]);
 
   return (
-    <span className='global-date-range-note' onClick={handleClick}>
+    <a className='global-date-range-note' onClick={handleClick} onKeyDown={handleKeyDown} tabIndex={0} ref={ref}>
       <Icon name='asterisk' />
-    </span>
+    </a>
   );
 };
 
 const HeaderIntro = () => {
-  const navigate = useNavigate();
+  const ref = useRef<RefElement>(null);
 
   const [provisionalId, setProvisionalId] = useState<number | null>();
   const [selectedId, setSelectedId] = useState<number | null>();
 
   const header = useSelector(getHomeHeader);
   const hasIntro = 'intro' in header;
-  const isLoading = !hasIntro;
-
-  const deactivate = () => setSelectedId(null);
   const hasProvisionalId = typeof provisionalId === 'number';
   const hasSelectedId = typeof selectedId === 'number';
+  const isLoading = !hasIntro;
+
+  const deactivate = useCallback(() => {
+    const element = ref.current?.querySelector(`a[data-id="${selectedId}"]`) as HTMLElement;
+
+    setSelectedId(null);
+
+    if (element) {
+      element.focus();
+    }
+  }, [ref, selectedId, setSelectedId]);
 
   const handleClick = (event: MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-
     if (event.target instanceof HTMLAnchorElement) {
       if (event.target.tagName === 'A') {
         if (event.target.dataset.id && !Number.isNaN(event.target.dataset.id)) {
+          event.preventDefault();
+          event.stopPropagation();
+
           setSelectedId(Number(event.target.dataset.id));
-        } else {
-          navigate(event.target.pathname);
         }
       }
     }
@@ -78,7 +100,10 @@ const HeaderIntro = () => {
     <div className={cx('header-intro', isLoading && 'is-loading')}>
       {header && (
         <p onClick={handleClick}>
-          <span dangerouslySetInnerHTML={{ __html: header.intro }} />
+          <span
+            dangerouslySetInnerHTML={{ __html: header.intro }}
+            ref={ref}
+          />
           <DateRangeNote note={header.note} />
         </p>
       )}

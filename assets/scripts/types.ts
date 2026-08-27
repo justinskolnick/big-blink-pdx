@@ -881,10 +881,12 @@ export type RefElement = HTMLElement | HTMLDivElement | null;
 export type RefDivElement = HTMLDivElement | null;
 export type RefDialogElement = HTMLDialogElement | null;
 export type RefInputElement = HTMLInputElement | null;
+export type RefLinkElement = HTMLAnchorElement | null;
 export type RefTableElement = HTMLTableElement | null;
 export type Ref = RefObject<RefElement>;
 export type RefDiv = RefObject<RefDivElement>;
 export type RefDialog = RefObject<RefDialogElement>;
+export type RefLink = RefObject<RefLinkElement>;
 export type RefTable = RefObject<RefTableElement>;
 
 export interface Fn {
