@@ -1,16 +1,20 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useEffect, useRef, useState, MouseEvent } from 'react';
 
 import IncidentModal from './incident-modal';
 import { BetterLink as Link } from './links';
 import StatBox from './stat-box';
 
-import type { IncidentsStatsValue } from '../types';
+import type {
+  IncidentsStatsValue,
+  RefLinkElement,
+} from '../types';
 
 interface Props {
   incident: IncidentsStatsValue;
 }
 
 const IncidentDateBox = ({ incident }: Props) => {
+  const ref = useRef<RefLinkElement>(null);
   const [isActive, setIsActive] = useState<boolean>(false);
   const hasIncident = Boolean(incident?.value);
 
@@ -26,6 +30,12 @@ const IncidentDateBox = ({ incident }: Props) => {
     }
   };
 
+  useEffect(() => {
+    if (ref?.current && !isActive) {
+      ref.current.focus();
+    }
+  }, [isActive, ref]);
+
   if (!hasIncident) return null;
 
   return (
@@ -34,6 +44,7 @@ const IncidentDateBox = ({ incident }: Props) => {
         <Link
           to={incident.value.links.self}
           onClick={handleLinkClick}
+          ref={ref}
         >
           {incident.value.contactDate}
         </Link>

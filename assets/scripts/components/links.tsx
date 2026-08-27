@@ -22,6 +22,7 @@ import {
   type LinkTo,
   type NewParams,
   type PersonObject,
+  type RefLink,
   type SortValue,
 } from '../types';
 
@@ -30,6 +31,7 @@ export interface LinkProps {
   className?: string;
   onClick?: (event?: ReactMouseEvent) => void;
   preventScrollReset?: boolean;
+  ref?: RefLink;
   title?: string;
   to?: LinkTo;
 }

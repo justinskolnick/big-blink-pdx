@@ -1,4 +1,4 @@
-import React, { forwardRef, KeyboardEvent, ReactNode } from 'react';
+import React, { useEffect, KeyboardEvent, PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '@emotion/css';
 
@@ -8,21 +8,24 @@ export const hasModalClass = 'has-modal';
 export const modalRootId = 'modal-root';
 export const modalPortalId = 'modal-root-portal';
 
+import type { RefDiv } from '../types';
+
 interface Props {
-  children: ReactNode;
   className: string;
   deactivate: () => void;
   isActive: boolean;
+  ref?: RefDiv;
 }
 
 const Escape = 'Escape';
 
-const ModalPortal = forwardRef<HTMLDivElement, Props>(({
+const ModalPortal = ({
   children,
   className,
   deactivate,
   isActive,
-}, ref) => {
+  ref,
+}: PropsWithChildren<Props>) => {
   const target = document.getElementById(modalPortalId)!;
 
   const handleOverlayClick = (): void => {
@@ -33,6 +36,12 @@ const ModalPortal = forwardRef<HTMLDivElement, Props>(({
       deactivate();
     }
   };
+
+  useEffect(() => {
+    if (ref?.current) {
+      ref.current.focus();
+    }
+  }, [ref]);
 
   useFixedBodyWhenHasClass(hasModalClass);
 
@@ -53,6 +62,6 @@ const ModalPortal = forwardRef<HTMLDivElement, Props>(({
     </div>,
     target
   );
-});
+};
 
 export default ModalPortal;
