@@ -16,9 +16,13 @@ interface Props {
 const IncidentDateBox = ({ incident }: Props) => {
   const ref = useRef<RefLinkElement>(null);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [hasBeenActive, setHasBeenActive] = useState<boolean>(false);
   const hasIncident = Boolean(incident?.value);
 
-  const deactivate = () => setIsActive(false);
+  const deactivate = () => {
+    setIsActive(false);
+  };
+
   const handleLinkClick = (event?: MouseEvent) => {
     event?.preventDefault();
     event?.stopPropagation();
@@ -26,15 +30,16 @@ const IncidentDateBox = ({ incident }: Props) => {
     if (event?.target instanceof HTMLElement) {
       if (event?.target.closest('.activity-stat')) {
         setIsActive(true);
+        setHasBeenActive(true);
       }
     }
   };
 
   useEffect(() => {
-    if (ref?.current && !isActive) {
+    if (ref?.current && hasBeenActive && !isActive) {
       ref.current.focus();
     }
-  }, [isActive, ref]);
+  }, [isActive, hasBeenActive, ref]);
 
   if (!hasIncident) return null;
 
