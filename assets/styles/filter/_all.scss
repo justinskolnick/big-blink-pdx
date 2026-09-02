@@ -1,6 +1,16 @@
 .filter {
   min-height: 27px;
   font-size: 14px;
+
+  .filter-form-actions {
+    display: inline-flex;
+  }
+
+  &:has(span, strong) {
+    .filter-form-actions {
+      margin-left: 1ch;
+    }
+  }
 }
 
 .filter-option {
@@ -74,12 +84,31 @@
 .filter-form-actions {
   display: flex;
   align-items: center;
-  height: 27px;
+  height: 18px;
+
+  .filter-form-button {
+    &:has(+ .filter-form-button) {
+      margin-right: 0.5ch;
+    }
+  }
 }
 
 .filter-form-button {
   cursor: pointer;
+  display: inline-flex;
+  padding: 0;
   border: none;
+
+  .icon-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transition: background-color 250ms ease-in-out,
+                color 250ms ease-in-out;
+  }
 }
 
 .filter-form-submit {
@@ -96,16 +125,46 @@
   }
 }
 
-.filter-form-cancel {
-  background-color: transparent;
-}
-
 .filter-form-cancel,
 .filter-remove {
-  color: var(--color-danger);
-  font-weight: 600;
+  background-color: transparent;
+
+  .icon-action {
+    background-color: var(--color-background);
+    color: var(--color-danger);
+    font-size: 9px;
+  }
 
   &:hover {
-    border-bottom-color: var(--color-danger);
+    .icon-action {
+    background-color: var(--color-danger);
+      color: var(--color-background);
+    }
+  }
+}
+
+.filter-form-edit {
+  background-color: transparent;
+
+  .icon-action {
+    background-color: var(--color-background);
+    color: var(--color-text-light);
+    font-size: 9px;
+  }
+
+  &:hover {
+    .icon-action {
+      color: var(--color-link);
+    }
+  }
+}
+
+// .filter-form-cancel,
+.filter-remove {
+//   color: var(--color-danger);
+//   font-weight: 600;
+
+  &:hover {
+    border-bottom: none;
   }
 }

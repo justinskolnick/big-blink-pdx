@@ -19,13 +19,32 @@ const getPeriodFilter = (searchParams, options) => {
   const hasYearParam = searchParams.has(PARAM_YEAR);
   const hasQuarterParam = searchParams.has(PARAM_QUARTER);
 
+  const fields = {
+    'year-select': [
+      getLabelText('intro_during_imperative', LABEL_PREFIX),
+      {
+        name: PARAM_YEAR,
+        options: options.year,
+        type: 'select',
+      },
+    ],
+    'quarter-select': [
+      getLabelText('intro_during_imperative', LABEL_PREFIX),
+      {
+        name: PARAM_QUARTER,
+        options: options.quarter,
+        type: 'select',
+      },
+    ],
+  };
+
   if (hasYearParam) {
     const param = searchParams.get(PARAM_YEAR);
     const year = getYear(param);
 
     if (year) {
       return {
-        fields: null,
+        fields,
         labels: [
           getLabelText('intro_during', LABEL_PREFIX),
           getLabel(year),
@@ -42,7 +61,7 @@ const getPeriodFilter = (searchParams, options) => {
 
     if (year && quarter) {
       return {
-        fields: null,
+        fields,
         labels: [
           getLabelText('intro_during', LABEL_PREFIX),
           getLabel(`Q${quarter}`),
@@ -58,24 +77,7 @@ const getPeriodFilter = (searchParams, options) => {
   }
 
   return {
-    fields: {
-      'year-select': [
-        getLabelText('intro_during_imperative', LABEL_PREFIX),
-        {
-          name: PARAM_YEAR,
-          options: options.year,
-          type: 'select',
-        },
-      ],
-      'quarter-select': [
-        getLabelText('intro_during_imperative', LABEL_PREFIX),
-        {
-          name: PARAM_QUARTER,
-          options: options.quarter,
-          type: 'select',
-        },
-      ],
-    },
+    fields,
     labels: [
       getLabelText('intro_during_imperative', LABEL_PREFIX),
       getLabelLink('year-select', null, 'filter_a_year', LABEL_PREFIX),

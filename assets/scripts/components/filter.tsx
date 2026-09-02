@@ -5,6 +5,7 @@ import { cx } from '@emotion/css';
 import { getQueryParams } from '../lib/links';
 import { isEmpty } from '../lib/util';
 
+import Icon from './icon';
 import { LinkToQueryParams } from './links';
 
 import { useGetEntityById } from '../reducers/entities';
@@ -13,12 +14,14 @@ import { useGetPersonById } from '../reducers/people';
 import { FiltersLabelTypes, Sections } from '../types';
 import type {
   FiltersDateField,
-  FiltersDatesActionValue,
+  FiltersActionValue,
   FiltersLabel,
   FiltersLabelId,
+  FiltersLabelWithName,
   FiltersObjects,
   FiltersSearchField,
   FiltersSelectField,
+  FilterStringValue,
   FiltersValues,
   Id,
   NewFilterParams,
@@ -30,7 +33,7 @@ type NewFilterAndPaginationParams = NewFilterParams & PaginationParams;
 type FiltersValuesKeys = keyof FiltersValues;
 
 interface FilterActionHandlerType {
-  (event: MouseEvent, action?: FiltersDatesActionValue): void;
+  (event?: MouseEvent, action?: FiltersActionValue): void;
 }
 
 interface SubmitHandler {
@@ -57,7 +60,7 @@ interface FilterProps extends FilterBaseProps {
 }
 
 interface FilterActionProps {
-  action?: FiltersDatesActionValue;
+  action?: FiltersActionValue;
   children: ReactNode;
   handleClick?: FilterActionHandlerType;
   to?: string;
@@ -73,8 +76,11 @@ interface FilterTextProps {
 
 interface FilterLabelsProps {
   filter: FiltersObjects;
-  handleActionClick?: FilterActionHandlerType;
   filterRelated?: FiltersObjects;
+  handleActionClick?: FilterActionHandlerType;
+  handleEditClick?: FilterActionHandlerType;
+  handleRemoveClick?: FilterActionHandlerType;
+  isEditable?: boolean;
 }
 
 interface FilterLabelArrayProps {
@@ -84,10 +90,11 @@ interface FilterLabelArrayProps {
 }
 
 interface FilterFormProps {
-  action: FiltersDatesActionValue | null;
+  action: FiltersActionValue | null;
   filter: FiltersObjects;
   handleActionClick?: FilterActionHandlerType;
   handleCancel: FilterActionHandlerType;
+  setIsEditable: (value: boolean) => void;
 }
 
 interface FilterModelIdProps {
@@ -107,7 +114,16 @@ interface FilterSelecteFieldProps {
   field: FiltersSelectField;
 }
 
+interface FilterCancelProps {
+  handleClick: FilterActionHandlerType | undefined;
+}
+
+interface FilterEditProps {
+  handleClick: FilterActionHandlerType | undefined;
+}
+
 interface FilterRemoveProps {
+  handleClick: FilterActionHandlerType | undefined;
   newParams: NewFilterAndPaginationParams;
 }
 
@@ -134,15 +150,45 @@ export const FilterText = ({ children }: FilterTextProps) => (
   <span>{children}</span>
 );
 
-const FilterRemove = ({ newParams }: FilterRemoveProps) => (
+const FilterCancel = ({ handleClick }: FilterCancelProps) => (
+  <button
+    className='filter-form-button filter-form-cancel'
+    onClick={handleClick}
+    type='button'
+  >
+    <Icon name='xmark' className='icon-action' />
+  </button>
+);
+
+const FilterEdit = ({ handleClick }: FilterEditProps) => (
+  <button
+    className='filter-form-button filter-form-edit'
+    onClick={handleClick}
+    type='button'
+  >
+    <Icon name='pen' className='icon-action' />
+  </button>
+);
+
+const FilterRemove = ({ handleClick, newParams }: FilterRemoveProps) => (
   <LinkToQueryParams
-    className='filter-remove'
+    className='filter-form-button filter-remove'
+    onClick={handleClick}
     newParams={newParams}
     replace={false}
     title='Remove this association'
   >
-    &times;
+    <Icon name='xmark' className='icon-action' />
   </LinkToQueryParams>
+);
+
+const FilterSubmit = () => (
+  <button
+    className='filter-form-button filter-form-submit'
+    type='submit'
+  >
+    Submit
+  </button>
 );
 
 const Entity = ({ id }: { id: Id }) => {
@@ -175,17 +221,35 @@ const FilterModelId = ({ label, model }: FilterModelIdProps) => {
   return null;
 };
 
-const FilterDateField = ({ field }: FilterDateFieldProps) => (
-  <input
-    className='filter-form-field'
-    type='date'
-    id={field.name}
-    name={field.name}
-  />
-);
+const FilterDateField = ({ field }: FilterDateFieldProps) => {
+  const [searchParams] = useSearchParams();
+
+  let value;
+
+  if (searchParams.has(field.name)) {
+    value = searchParams.get(field.name) as string;
+  }
+
+  return (
+    <input
+      className='filter-form-field'
+      defaultValue={value}
+      id={field.name}
+      name={field.name}
+      type='date'
+    />
+  );
+};
 
 const FilterSearchField = ({ field }: FilterSearchFieldProps) => {
   const ref = useRef<RefInputElement>(null);
+  const [searchParams] = useSearchParams();
+
+  let value;
+
+  if (searchParams.has(field.name)) {
+    value = searchParams.get(field.name) as string;
+  }
 
   useEffect(() => {
     if (ref.current) {
@@ -196,26 +260,42 @@ const FilterSearchField = ({ field }: FilterSearchFieldProps) => {
   return (
     <input
       className='filter-form-field'
-      type='search'
+      defaultValue={value}
       name={field.name}
       ref={ref}
+      type='search'
     />
   );
 };
 
-const FilterSelectField = ({ field }: FilterSelecteFieldProps) => (
-  <select
-    className='filter-form-field'
-    id={field.name}
-    name={field.name}
-  >
-    {Object.entries(field.options).map(([key, value]) => (
-      <option key={key} value={key}>{value}</option>
-    ))}
-  </select>
-);
+const FilterSelectField = ({ field }: FilterSelecteFieldProps) => {
+  const [searchParams] = useSearchParams();
 
-const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArrayProps) => labels.map((label, i) => (
+  let value;
+
+  if (searchParams.has(field.name)) {
+    value = searchParams.get(field.name) as string;
+  }
+
+  return (
+    <select
+      className='filter-form-field'
+      defaultValue={value}
+      id={field.name}
+      name={field.name}
+    >
+      {Object.entries(field.options).map(([key, value]) => (
+        <option key={key} value={key}>{value}</option>
+      ))}
+    </select>
+  );
+};
+
+const FilterLabelArray = ({
+  handleActionClick,
+  labels,
+  model,
+}: FilterLabelArrayProps) => labels.map((label, i) => (
   <Fragment key={i}>
     {label.type === FiltersLabelTypes.Id && <FilterModelId label={label} model={model} />}
     {label.type === FiltersLabelTypes.InputDate && <FilterDateField field={label} />}
@@ -231,10 +311,16 @@ const FilterLabelArray = ({ handleActionClick, labels, model }: FilterLabelArray
   </Fragment>
 )).reduce((prev: ReactElement, curr: ReactElement): any => [prev, ' ', curr]);
 
-const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterFormProps) => {
+const FilterForm = ({
+  action,
+  filter,
+  handleActionClick,
+  handleCancel,
+  setIsEditable,
+}: FilterFormProps) => {
   const hasFields = filter && 'fields' in filter && typeof filter.fields === 'object';
   const hasAction = hasFields && action && filter.fields && action in filter.fields;
-  const actionFields = hasFields && hasAction && filter.fields ? filter?.fields[action] : undefined;
+  const fields = hasFields && hasAction && filter.fields ? filter?.fields[action] : undefined;
 
   const location = useLocation();
   const [, setSearchParams] = useSearchParams();
@@ -251,36 +337,36 @@ const FilterForm = ({ action, filter, handleActionClick, handleCancel }: FilterF
     const queryParams = getQueryParams(location, params, false);
 
     setSearchParams(queryParams.searchParams);
+    setIsEditable(true);
   };
 
   return (
     <form className='filter-form' onSubmit={handleSubmit} id={filter?.id}>
-      {actionFields !== undefined && (
+      {fields !== undefined && (
         <fieldset className='filter-form-fieldset'>
-          <FilterLabelArray labels={actionFields} handleActionClick={handleActionClick} />
+          <FilterLabelArray
+            handleActionClick={handleActionClick}
+            labels={fields}
+          />
         </fieldset>
       )}
 
       <div className='filter-form-actions'>
-        <button
-          className='filter-form-button filter-form-submit'
-          type='submit'
-        >
-          Submit
-        </button>
-        <button
-          className='filter-form-button filter-form-cancel'
-          onClick={handleCancel}
-          type='button'
-        >
-          &times;
-        </button>
+        <FilterSubmit />
+        <FilterCancel handleClick={handleCancel} />
       </div>
     </form>
   );
 };
 
-const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabelsProps) => {
+const FilterLabels = ({
+  filter,
+  filterRelated,
+  handleActionClick,
+  handleEditClick,
+  handleRemoveClick,
+  isEditable,
+}: FilterLabelsProps) => {
   const [searchParams] = useSearchParams();
   const hasOtherFilter = filterRelated !== undefined;
 
@@ -305,7 +391,7 @@ const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabels
       if (keyValues && Array.isArray(filterKeyValues)) {
         const values = filterKeyValues as FiltersValuesKeys[];
 
-        newValue = keyValues.split(',').filter((v: string) => !values.includes(v as FiltersValuesKeys)).join(',');
+        newValue = keyValues.split(',').filter((v: FilterStringValue) => !values.includes(v as FiltersValuesKeys)).join(',');
       }
 
       return {
@@ -333,10 +419,19 @@ const FilterLabels = ({ filter, filterRelated, handleActionClick }: FilterLabels
           />
         </>
       )}
-      {isRemovable && (
+      {(isEditable || isRemovable) && (
         <>
-          {' '}
-          <FilterRemove newParams={newParams} />
+          <div className='filter-form-actions'>
+            {isEditable && (
+              <FilterEdit handleClick={handleEditClick} />
+            )}
+            {isRemovable && (
+              <FilterRemove
+                handleClick={handleRemoveClick}
+                newParams={newParams}
+              />
+            )}
+          </div>
         </>
       )}
     </>
@@ -356,50 +451,83 @@ export const Filters = ({ children, className }: FiltersProps) => (
 );
 
 const FilterTag = ({ children, filter, filterRelated, inline }: FilterTagProps) => {
+  const [searchParams] = useSearchParams();
+
   const hasFilter = filter !== undefined;
-  const hasFields = hasFilter && 'fields' in filter;
+  const hasFields = hasFilter && 'fields' in filter && filter.fields !== null;
   const hasValues = hasFilter && 'values' in filter;
 
-  const [activeAction, setActiveAction] = useState<FiltersDatesActionValue | null>(null);
-
-  const clearAction = () => setActiveAction(null);
+  const [activeAction, setActiveAction] = useState<FiltersActionValue | null>(null);
+  const [isEditable, setIsEditable] = useState<boolean>(hasValues);
 
   const hasActiveAction = Boolean(activeAction);
 
   const handleActionClick: FilterActionHandlerType = (event, action) => {
     if (action) {
       setActiveAction(action);
+      setIsEditable(false);
     }
   };
 
-  const handleCancelActionClick: FilterActionHandlerType = () => {
-    clearAction();
+  const handleCancelClick: FilterActionHandlerType = () => {
+    setActiveAction(null);
+    setIsEditable(true);
+  };
+
+  const handleEditClick: FilterActionHandlerType = () => {
+    setIsEditable(false);
+  };
+
+  const handleRemoveClick: FilterActionHandlerType = () => {
+    setActiveAction(null);
+    setIsEditable(false);
   };
 
   const Tag = inline ? 'span' : 'div';
 
   useEffect(() => {
-    if (hasValues) {
-      clearAction();
+    if (hasFields && isEditable && !activeAction) {
+      const initialActions: FiltersActionValue[] = [];
+      const fields = filter.fields as Record<FiltersActionValue, FiltersLabel[]> | FiltersLabel[];
+
+      const actions = Object.entries(fields).reduce((selectedActions, [key, value]) => {
+        const params: (keyof FiltersValues)[] = value
+          .filter((obj: FiltersLabel) => 'name' in obj)
+          .map((obj: FiltersLabelWithName) => obj.name);
+
+        if (params.some(param => searchParams.has(param))) {
+          selectedActions.push(key as FiltersActionValue);
+        }
+
+        return selectedActions;
+      }, initialActions);
+
+      if (actions.length) {
+        setActiveAction(actions[0]);
+      }
     }
-  }, [hasValues, clearAction]);
+  }, [activeAction, filter, hasFields, isEditable, searchParams, setActiveAction]);
 
   if (!hasFilter && !children) return null;
 
   return (
-    <Tag className={cx('filter', !hasValues && 'filter-option')}>
-      {hasActiveAction && !hasValues && hasFields ? (
+    <Tag className={cx('filter', !isEditable && 'filter-option')}>
+      {hasActiveAction && !isEditable && hasFields ? (
         <FilterForm
           filter={filter}
           action={activeAction}
-          handleCancel={handleCancelActionClick}
+          handleCancel={handleCancelClick}
           handleActionClick={handleActionClick}
+          setIsEditable={setIsEditable}
         />
       ) : (
         <FilterLabels
           filter={filter}
           filterRelated={filterRelated}
           handleActionClick={handleActionClick}
+          handleEditClick={handleEditClick}
+          handleRemoveClick={handleRemoveClick}
+          isEditable={isEditable && hasActiveAction}
         />
       )}
       {children && (

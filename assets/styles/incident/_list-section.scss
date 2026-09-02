@@ -1,4 +1,17 @@
 .incident-list-section {
+  .item-subhead-content {
+    .item-subhead-content-title {
+      &:has(+ .filter) {
+        display: inline-block;
+        margin-right: 0.5ch;
+
+        & + .filter {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
   .item-subhead + .incident-list {
     margin-top: calc(var(--gap) * 2);
   }

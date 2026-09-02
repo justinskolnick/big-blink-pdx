@@ -82,7 +82,30 @@ describe('getFilters()', () => {
 
       expect(getFilters(queryParams, options)).toEqual({
         period: {
-          fields: null,
+          fields: {
+            'quarter-select': [
+              {
+                type: 'text',
+                value: 'Show activity during',
+              },
+              {
+                name: 'quarter',
+                options: options.quarter,
+                type: 'select',
+              },
+            ],
+            'year-select': [
+              {
+                type: 'text',
+                value: 'Show activity during',
+              },
+              {
+                name: 'year',
+                options: options.year,
+                type: 'select',
+              },
+            ],
+          },
           labels: [
             {
               type: 'text',
@@ -116,7 +139,30 @@ describe('getFilters()', () => {
 
       expect(getFilters(queryParams, options)).toEqual({
         period: {
-          fields: null,
+          fields: {
+            'quarter-select': [
+              {
+                type: 'text',
+                value: 'Show activity during',
+              },
+              {
+                name: 'quarter',
+                options: options.quarter,
+                type: 'select',
+              },
+            ],
+            'year-select': [
+              {
+                type: 'text',
+                value: 'Show activity during',
+              },
+              {
+                name: 'year',
+                options: options.year,
+                type: 'select',
+              },
+            ],
+          },
           labels: [
             {
               type: 'text',

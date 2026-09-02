@@ -242,9 +242,10 @@ export enum FiltersLabelTypes {
   Text = 'text',
 }
 
-type FilterStringValue = string;
+export type FilterStringValue = string;
 
 export type FiltersDatesActionValue = 'date-select' | 'date-range-select';
+export type FiltersActionValue = FiltersDatesActionValue;
 
 export type FiltersLabelId = {
   type: FiltersLabelTypes.Id;
@@ -281,13 +282,15 @@ export type FiltersSelectField = {
   value?: FilterStringValue;
 };
 export type FiltersLabel = FiltersLabelId | FiltersLabelLabel | FiltersLabelLink | FiltersLabelText | FiltersDateField | FiltersSearchField | FiltersSelectField;
+export type FiltersLabelWithName = FiltersDateField | FiltersSearchField | FiltersSelectField;
 
 type DateFilterLabel = FiltersLabelLabel | FiltersLabelLink | FiltersLabelText;
-type DateFilterFieldLabel = FiltersDateField | FiltersLabelText;
 type ModelIdFilterLabel = FiltersLabelId | FiltersLabelText;
 
+type FiltersFields = Record<FiltersActionValue, FiltersLabel[]> | undefined;
+
 type FiltersDates = {
-  fields: Record<FiltersDatesActionValue, DateFilterFieldLabel[]> | undefined;
+  fields: FiltersFields;
   id: undefined;
   labels: DateFilterLabel[];
   model: undefined;

@@ -25,12 +25,14 @@ import {
   faLandmark,
   faLink,
   faListOl,
+  faPen,
   faTableList,
   faThumbtack,
   faTriangleExclamation,
   faTrophy,
   faUserGroup,
   faUserLarge,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -56,12 +58,14 @@ library.add(
   faLandmark,
   faLink,
   faListOl,
+  faPen,
   faTableList,
   faThumbtack,
   faTriangleExclamation,
   faTrophy,
   faUserGroup,
   faUserLarge,
+  faXmark,
 );
 
 import { BetterLink as Link } from './links';
@@ -95,12 +99,14 @@ enum SetForIcon {
   'landmark' = IconSets.Solid,
   'link' = IconSets.Solid,
   'list-ol' = IconSets.Solid,
+  'pen' = IconSets.Solid,
   'table-list' = IconSets.Solid,
   'thumbtack' = IconSets.Solid,
   'triangle-exclamation' = IconSets.Solid,
   'trophy' = IconSets.Solid,
   'user-group' = IconSets.Solid,
   'user-large' = IconSets.Solid,
+  'xmark' = IconSets.Solid,
 }
 
 interface Props {

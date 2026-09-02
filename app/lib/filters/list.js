@@ -16,13 +16,23 @@ const LABEL_PREFIX = 'filter';
 const getSearchFilter = (searchParams, options = {}) => {
   const hasSearchParam = searchParams.has(PARAM_SEARCH);
 
+  const fields = {
+    'search-input': [
+      getLabelText('show_results_matching', LABEL_PREFIX),
+      {
+        name: PARAM_SEARCH,
+        type: 'input-search',
+      },
+    ],
+  };
+
   if (hasSearchParam) {
     const param = searchParams.get(PARAM_SEARCH);
     const search = getSearch(param);
 
     if (search) {
       return {
-        fields: null,
+        fields,
         id: options.search.id,
         labels: [
           getLabelText('showing_results_matching', LABEL_PREFIX),
@@ -37,15 +47,7 @@ const getSearchFilter = (searchParams, options = {}) => {
   }
 
   return {
-    fields: {
-      'search-input': [
-        getLabelText('show_results_matching', LABEL_PREFIX),
-        {
-          name: PARAM_SEARCH,
-          type: 'input-search',
-        },
-      ],
-    },
+    fields,
     id: options.search.id,
     labels: [
       getLabelText('filter_this_list_by', LABEL_PREFIX),
