@@ -125,19 +125,18 @@
   }
 }
 
-.filter-form-cancel,
-.filter-remove {
+.filter-form-cancel {
   background-color: transparent;
 
   .icon-action {
     background-color: var(--color-background);
-    color: var(--color-danger);
+    color: var(--color-light);
     font-size: 9px;
   }
 
   &:hover {
     .icon-action {
-    background-color: var(--color-danger);
+      background-color: var(--color-light);
       color: var(--color-background);
     }
   }
@@ -159,12 +158,21 @@
   }
 }
 
-// .filter-form-cancel,
 .filter-remove {
-//   color: var(--color-danger);
-//   font-weight: 600;
+  background-color: transparent;
+
+  .icon-action {
+    background-color: var(--color-background);
+    color: var(--color-danger);
+    font-size: 9px;
+  }
 
   &:hover {
     border-bottom: none;
+
+    .icon-action {
+      background-color: var(--color-danger);
+      color: var(--color-background);
+    }
   }
 }

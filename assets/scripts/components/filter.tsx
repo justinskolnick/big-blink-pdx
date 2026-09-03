@@ -145,6 +145,7 @@ export const FilterText = ({ children }: PropsWithChildren) => (
 
 const FilterCancel = ({ handleClick }: FilterCancelProps) => (
   <button
+    aria-label='Cancel'
     className='filter-form-button filter-form-cancel'
     onClick={handleClick}
     type='button'
@@ -155,6 +156,7 @@ const FilterCancel = ({ handleClick }: FilterCancelProps) => (
 
 const FilterEdit = ({ handleClick }: FilterEditProps) => (
   <button
+    aria-label='Edit Filter'
     className='filter-form-button filter-form-edit'
     onClick={handleClick}
     type='button'
@@ -165,6 +167,7 @@ const FilterEdit = ({ handleClick }: FilterEditProps) => (
 
 const FilterRemove = ({ handleClick, newParams }: FilterRemoveProps) => (
   <LinkToQueryParams
+    aria-label='Remove Filter'
     className='filter-form-button filter-remove'
     onClick={handleClick}
     newParams={newParams}
