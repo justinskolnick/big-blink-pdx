@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Fragment, MouseEvent, ReactElement, ReactNode, SubmitEvent } from 'react';
+import React, { useEffect, useRef, useState, Fragment, MouseEvent, PropsWithChildren, ReactElement, SubmitEvent } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 import { cx } from '@emotion/css';
 
@@ -40,13 +40,11 @@ interface SubmitHandler {
   (event: SubmitEvent<HTMLFormElement>): void;
 }
 
-interface FiltersProps {
-  children: ReactNode;
+interface FiltersProps extends PropsWithChildren {
   className?: string;
 }
 
-interface FilterBaseProps {
-  children?: ReactNode;
+interface FilterBaseProps extends PropsWithChildren {
   filterRelated?: FiltersObjects;
   inline?: boolean;
 }
@@ -59,19 +57,14 @@ interface FilterProps extends FilterBaseProps {
   filter?: FiltersObjects | FiltersObjects[];
 }
 
-interface FilterActionProps {
+interface FilterActionProps extends PropsWithChildren {
   action?: FiltersActionValue;
-  children: ReactNode;
   handleClick?: FilterActionHandlerType;
   to?: string;
 }
 
 interface FilterLabelProps {
   label: FiltersLabel['value'];
-}
-
-interface FilterTextProps {
-  children: ReactNode;
 }
 
 interface FilterLabelsProps {
@@ -146,7 +139,7 @@ export const FilterLabel = ({ label }: FilterLabelProps) => (
   <strong>{label}</strong>
 );
 
-export const FilterText = ({ children }: FilterTextProps) => (
+export const FilterText = ({ children }: PropsWithChildren) => (
   <span>{children}</span>
 );
 
@@ -438,7 +431,7 @@ const FilterLabels = ({
   );
 };
 
-export const FilterIntro = ({ children }: FilterTextProps) => (
+export const FilterIntro = ({ children }: PropsWithChildren) => (
   <div className='filter-intro'>
     {children}
   </div>
