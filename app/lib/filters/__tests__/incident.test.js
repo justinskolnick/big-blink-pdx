@@ -9,7 +9,36 @@ describe('getFilters()', () => {
 
       expect(getFilters(queryParams)).toEqual({
         dates: {
-          fields: null,
+          fields: {
+            'date-range-select': [
+              {
+                type: 'text',
+                value: 'between',
+              },
+              {
+                name: 'date_range_from',
+                type: 'input-date',
+              },
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                name: 'date_range_to',
+                type: 'input-date',
+              },
+            ],
+            'date-select': [
+              {
+                type: 'text',
+                value: 'on',
+              },
+              {
+                name: 'date_on',
+                type: 'input-date',
+              },
+            ],
+          },
           labels: [
             {
               type: 'text',
@@ -87,7 +116,36 @@ describe('getFilters()', () => {
 
       expect(getFilters(queryParams)).toEqual({
         dates: {
-          fields: null,
+          fields: {
+            'date-range-select': [
+              {
+                type: 'text',
+                value: 'between',
+              },
+              {
+                name: 'date_range_from',
+                type: 'input-date',
+              },
+              {
+                type: 'text',
+                value: 'and',
+              },
+              {
+                name: 'date_range_to',
+                type: 'input-date',
+              },
+            ],
+            'date-select': [
+              {
+                type: 'text',
+                value: 'on',
+              },
+              {
+                name: 'date_on',
+                type: 'input-date',
+              },
+            ],
+          },
           labels: [
             {
               type: 'text',

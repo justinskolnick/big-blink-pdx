@@ -39,12 +39,11 @@ const DetailIncidents = ({
   return (
     <section className='activity-stat-section incident-list-section' ref={ref}>
       <IncidentsHeader subtitle={
-        <PrimaryAssociation label={label || labels.thisItem}>
-          {roleIsPrimary && (
-            <Filter filter={filters?.role} inline />
-          )}
-        </PrimaryAssociation>
+        <PrimaryAssociation label={label || labels.thisItem} />
       }>
+        {roleIsPrimary && (
+          <Filter filter={filters?.role} />
+        )}
         <Filters className='incidents-filters'>
           <Filter filter={filters?.entities} />
           {roleIsPrimary ? (

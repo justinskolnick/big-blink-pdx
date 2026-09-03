@@ -30,10 +30,12 @@ const ItemSubhead = ({
       className
     )}
   >
-    {icon && <Icon name={icon} />}
+    {icon && <Icon name={icon} className='item-subhead-icon' />}
     <div className='item-subhead-content'>
-      {title && <h4>{title}</h4>}
-      {subtitle && <h5>{subtitle}</h5>}
+      <div className='item-subhead-content-title'>
+        {title && <h4>{title}</h4>}
+        {subtitle && <h5>{subtitle}</h5>}
+      </div>
       {children}
     </div>
   </header>

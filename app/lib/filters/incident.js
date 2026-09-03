@@ -55,8 +55,8 @@ const getRoleLabels = (value) => {
   ];
 };
 
-const getDateOnFilter = searchParams => ({
-  fields: null,
+const getDateOnFilter = (fields, searchParams) => ({
+  fields,
   labels: [
     getLabelText('on'),
     getLabel(dateHelper.formatDateString(searchParams.get(PARAM_DATE_ON))),
@@ -67,8 +67,8 @@ const getDateOnFilter = searchParams => ({
   },
 });
 
-const getDateRangeFilter = searchParams => ({
-  fields: null,
+const getDateRangeFilter = (fields, searchParams) => ({
+  fields,
   labels: [
     getLabelText('between'),
     getLabel(dateHelper.formatDateString(searchParams.get(PARAM_DATE_RANGE_FROM))),
@@ -86,34 +86,36 @@ const getDatesFilter = (searchParams) => {
   const hasDateOn = searchParams.has(PARAM_DATE_ON) && hasDate(searchParams.get(PARAM_DATE_ON));
   const hasDateRange = [PARAM_DATE_RANGE_FROM, PARAM_DATE_RANGE_TO].every(p => searchParams.has(p) && hasDate(searchParams.get(p)));
 
+  const fields = {
+    'date-select': [
+      getLabelText('on'),
+      {
+        name: PARAM_DATE_ON,
+        type: 'input-date',
+      },
+    ],
+    'date-range-select': [
+      getLabelText('between'),
+      {
+        name: PARAM_DATE_RANGE_FROM,
+        type: 'input-date',
+      },
+      getLabelText('and'),
+      {
+        name: PARAM_DATE_RANGE_TO,
+        type: 'input-date',
+      },
+    ],
+  };
+
   if (hasDateOn) {
-    return getDateOnFilter(searchParams);
+    return getDateOnFilter(fields, searchParams);
   } else if (hasDateRange) {
-    return getDateRangeFilter(searchParams);
+    return getDateRangeFilter(fields, searchParams);
   }
 
   return {
-    fields: {
-      'date-select': [
-        getLabelText('on'),
-        {
-          name: PARAM_DATE_ON,
-          type: 'input-date',
-        },
-      ],
-      'date-range-select': [
-        getLabelText('between'),
-        {
-          name: PARAM_DATE_RANGE_FROM,
-          type: 'input-date',
-        },
-        getLabelText('and'),
-        {
-          name: PARAM_DATE_RANGE_TO,
-          type: 'input-date',
-        },
-      ],
-    },
+    fields,
     labels: [
       getLabelLink('date-select', null, 'on_a_date'),
       getLabelText('or'),
