@@ -7,6 +7,7 @@ import {
 } from 'react-router';
 
 import { store } from './lib/store';
+import { iOSSafariInputFix } from './lib/util/user-agent';
 
 import AlertError from './components/alert-error';
 import App from './components/app';
@@ -18,6 +19,8 @@ import PeopleIndex from './components/people/index';
 import SourcesIndex from './components/sources/index';
 import { alertPortalId, alertRootId } from './components/alert-portal';
 import { modalPortalId, modalRootId } from './components/modal-portal';
+
+iOSSafariInputFix();
 
 const rootTarget = document.getElementById('root');
 const router = createBrowserRouter([
