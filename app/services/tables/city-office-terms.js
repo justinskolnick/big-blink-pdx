@@ -11,6 +11,8 @@ class CityOfficeTerms extends Table {
     election_id:      { select: true, adapt: false, },
     date_start:       { select: true, adapt: { method: 'readableDate' }, },
     date_end:         { select: true, adapt: { method: 'readableDate' }, },
+    date_end_actual:  { select: true, adapt: { method: 'readableDate' }, },
+    date_end_reason:  { select: false },
   };
   /* eslint-enable camelcase */
 }

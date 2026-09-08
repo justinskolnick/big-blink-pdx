@@ -6,5 +6,6 @@
     "duration_number": 15,
     "duration_unit": "month",
     "date_start": "2020-09-09",
-    "date_end": "2022-12-31"
+    "date_end": "2022-12-31",
+    "date_end_actual": null
 }

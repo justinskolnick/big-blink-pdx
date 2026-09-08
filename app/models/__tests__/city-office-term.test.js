@@ -95,6 +95,7 @@ describe('collect', () => {
         expect(adapted).toEqual([
           {
             dateEnd: 'December 31, 2028',
+            dateEndActual: null,
             dateStart: 'January 1, 2025',
             elections: [
               {
@@ -126,6 +127,7 @@ describe('collect', () => {
           },
           {
             dateEnd: 'December 31, 2024',
+            dateEndActual: null,
             dateStart: 'September 9, 2020',
             elections: [
               {
@@ -276,6 +278,7 @@ describe('collect', () => {
         expect(adapted).toEqual([
           {
             dateEnd: 'December 31, 2028',
+            dateEndActual: null,
             dateStart: 'January 1, 2021',
             id: 3,
             office: {
@@ -316,6 +319,7 @@ describe('collect', () => {
           },
           {
             dateEnd: 'December 31, 2020',
+            dateEndActual: null,
             dateStart: 'January 1, 2017',
             id: 1,
             office: {
@@ -438,6 +442,7 @@ describe('with a mayor', () => {
     test('returns the expected object', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2028',
+        dateEndActual: null,
         dateStart: 'January 1, 2025',
         id: 3,
         office: {
@@ -513,6 +518,7 @@ describe('with a city commissioner', () => {
     test('returns the expected object', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2024',
+        dateEndActual: null,
         dateStart: 'January 1, 2023',
         id: 17,
         office: {
@@ -588,6 +594,7 @@ describe('with a city councilor', () => {
     test('returns the expected object', () => {
       expect(cityOfficeTerm.adapted).toEqual({
         dateEnd: 'December 31, 2028',
+        dateEndActual: null,
         dateStart: 'January 1, 2025',
         id: 8,
         office: {

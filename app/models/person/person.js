@@ -57,6 +57,8 @@ class Person extends IncidentedBase {
       }
     } else if (hasLobbied) {
       labelKey = 'overview_description_has_been_lobbyist_name';
+    } else {
+      labelKey = 'overview_description_unknown';
     }
 
     if (labelKey) {
@@ -95,8 +97,10 @@ class Person extends IncidentedBase {
             termKey = 'overview_details_elected_position_current';
           } else if (term.wasReelected()) {
             termKey = 'overview_details_elected_position_reelected_past';
-          } else {
+          } else if (i > 0) {
             termKey = 'overview_details_elected_position_prior';
+          } else {
+            termKey = 'overview_details_elected_position_past';
           }
         }
 

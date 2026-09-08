@@ -70,6 +70,7 @@ class CityOfficeTerm extends Base {
       dates: {
         start: this.getData('date_start'),
         end: this.getData('date_end'),
+        endActual: this.getData('date_end_actual'),
       },
       number,
       unit: TIME_MONTH,
@@ -146,7 +147,7 @@ class CityOfficeTerm extends Base {
   }
 
   get dateEnd() {
-    return this.terms.map(term => term.dates.end).reverse().at(-1);
+    return this.terms.map(term => term.dates.endActual || term.dates.end).reverse().at(-1);
   }
 
   get id() {
@@ -163,10 +164,11 @@ class CityOfficeTerm extends Base {
 
   get readableTenure() {
     const number = getMonthsToYears(this.tenure.number);
+    const numeral = toNumeral(number);
     const unit = TIME_YEAR;
 
     return this.getLabel('number-unit', null, {
-      number: this.getLabel(toNumeral(number), 'numeral'),
+      number: typeof numeral === 'string' ? this.getLabel(numeral, 'numeral') : numeral,
       unit: this.getLabel(unit, 'unit'),
     });
   }

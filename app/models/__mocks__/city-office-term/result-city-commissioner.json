@@ -6,5 +6,6 @@
     "duration_number": 2,
     "duration_unit": "year",
     "date_start": "2023-01-01",
-    "date_end": "2024-12-31"
+    "date_end": "2024-12-31",
+    "date_end_actual": null
 }
