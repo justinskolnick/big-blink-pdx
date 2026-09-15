@@ -459,31 +459,4 @@ router.get('/:id/roles', async (req, res, next) => {
   }
 });
 
-router.get('/:id/stats', async (req, res, next) => {
-  const id = Number(req.params.id);
-
-  let result;
-  let data;
-  let meta;
-
-  try {
-    result = await stats.getStats({ personId: id });
-
-    data = {
-      stats: {
-        person: {
-          id,
-          stats: result,
-        },
-      },
-    };
-    meta = metaHelper.getMeta(req, { id, view });
-
-    res.status(200).json({ title, data, meta });
-  } catch (err) {
-    console.error('Error while getting person stats:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
 module.exports = router;

@@ -404,40 +404,4 @@ router.get('/:id/roles', async (req, res, next) => {
   }
 });
 
-router.get('/:id/stats', async (req, res, next) => {
-  const id = Number(req.params.id);
-
-  let result;
-  let data;
-  let meta;
-
-  try {
-    result = await stats.getStats({ entityId: id });
-
-    data = {
-      stats: {
-        entity: {
-          id,
-          stats: result,
-        },
-      },
-    };
-
-    meta = new Meta(req);
-    meta.setOtherValues({
-      id,
-      view,
-    });
-
-    res.status(200).json({
-      title,
-      data,
-      meta: meta.toObject(false),
-    });
-  } catch (err) {
-    console.error('Error while getting entity:', err.message); // eslint-disable-line no-console
-    next(createError(err));
-  }
-});
-
 module.exports = router;
