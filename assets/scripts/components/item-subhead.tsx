@@ -1,24 +1,37 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren, ReactNode } from 'react';
 import { cx } from '@emotion/css';
 
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 
 import Icon from './icon';
 
-interface Props {
-  children?: ReactNode;
+import type { LinkTo } from '../types';
+
+interface ItemSubheadIconProps {
+  name: IconName;
+  title?: string;
+  to?: LinkTo;
+}
+
+interface Props extends PropsWithChildren {
   className?: string;
   hasBorder?: boolean;
   icon?: IconName;
+  iconTo?: LinkTo;
   title?: string | ReactNode;
   subtitle?: string | ReactNode;
 }
+
+export const ItemSubheadIcon = ({ name, title, to }: ItemSubheadIconProps) => (
+  <Icon name={name} title={title} to={to} className='item-subhead-icon' />
+);
 
 const ItemSubhead = ({
   children,
   className,
   hasBorder,
   icon,
+  iconTo,
   title,
   subtitle,
 }: Props) => (
@@ -30,7 +43,7 @@ const ItemSubhead = ({
       className
     )}
   >
-    {icon && <Icon name={icon} className='item-subhead-icon' />}
+    {icon && <ItemSubheadIcon name={icon} to={iconTo} />}
     <div className='item-subhead-content'>
       <div className='item-subhead-content-title'>
         {title && <h4>{title}</h4>}

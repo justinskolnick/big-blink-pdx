@@ -114,10 +114,7 @@ interface Props {
   name: IconName;
   size?: SizeProp;
   title?: string;
-}
-
-interface LinkIconProps extends Props {
-  to: LinkTo;
+  to?: LinkTo;
 }
 
 interface FnGetIconFromSet {
@@ -126,16 +123,14 @@ interface FnGetIconFromSet {
 
 const getIconFromSet: FnGetIconFromSet = (name) => [SetForIcon[name as keyof typeof SetForIcon], name];
 
-export const LinkIcon = ({ className, name, size = 'lg', title, to }: LinkIconProps) => (
-  <Link className={cx(`icon icon-${name} link-icon`, className)} to={to} title={title}>
-    <FontAwesomeIcon icon={getIconFromSet(name)} size={size} />
-  </Link>
-);
-
-const Icon = ({ className, name, size = 'lg', title }: Props) => (
+const Icon = ({ className, name, size = 'lg', title, to }: Props) => (to === undefined) ? (
   <span className={cx(`icon icon-${name}`, className)} title={title}>
     <FontAwesomeIcon icon={getIconFromSet(name)} size={size} />
   </span>
+) : (
+  <Link className={cx(`icon icon-${name} link-icon`, className)} to={to} title={title}>
+    <FontAwesomeIcon icon={getIconFromSet(name)} size={size} />
+  </Link>
 );
 
 export default Icon;

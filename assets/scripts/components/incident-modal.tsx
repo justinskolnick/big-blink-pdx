@@ -9,10 +9,9 @@ import api from '../services/api';
 import { getLabels } from '../selectors';
 
 import { iconName } from './incidents/icon';
-import { LinkIcon } from './icon';
 import IncidentNotesBox from './incident-notes-box';
 import IncidentTable from './incident-table';
-import ItemSubhead from './item-subhead';
+import ItemSubhead, { ItemSubheadIcon } from './item-subhead';
 import MetaSection from './meta-section';
 import Modal from './modal';
 
@@ -28,7 +27,6 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
   const [trigger] = api.useLazyGetIncidentByIdQuery();
 
   const labels = useSelector(getLabels);
-
   const incident = useGetIncidentById(id);
 
   const hasIncident = Boolean(incident);
@@ -48,22 +46,12 @@ const IncidentModal = ({ deactivate, id, isActive }: Props) => {
       <section className='modal-incident'>
         <header className='incident-header'>
           <ItemSubhead
-            title={(
-              <>
-                {incident?.links && (
-                  <LinkIcon
-                    name={iconName}
-                    to={incident.links.self}
-                  />
-                )}
-                <span className='item-text'>
-                  {labels.incidentsModalTitle}
-                </span>
-              </>
-            )}
+            icon={iconName}
+            iconTo={incident?.links?.self}
+            title={labels.incidentsModalTitle}
           >
             {incident?.links && (
-              <LinkIcon
+              <ItemSubheadIcon
                 name='link'
                 title={labels.incidentsModalLinkTitle}
                 to={incident.links.self}
