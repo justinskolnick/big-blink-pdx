@@ -27,13 +27,11 @@ const Chart = () => {
   };
 
   return (
-    <div className='home-subsection'>
-      <IncidentActivityChart>
-        <IncidentQuarterlyActivityChart
-          lineProps={lineProps}
-        />
-      </IncidentActivityChart>
-    </div>
+    <IncidentActivityChart>
+      <IncidentQuarterlyActivityChart
+        lineProps={lineProps}
+      />
+    </IncidentActivityChart>
   );
 };
 

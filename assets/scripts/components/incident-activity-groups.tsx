@@ -3,6 +3,7 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import StatSection from './stat-section';
+import SubsectionContent from './subsection-content';
 
 import type { Ref } from '../types';
 
@@ -24,16 +25,16 @@ const IncidentActivityGroups = ({
   title,
 }: Props) => (
   <StatSection
-    className={cx('incident-activity-stat-groups', className)}
+    className={cx('subsection', className)}
     icon={icon}
     title={title}
     description={description}
     ref={ref}
     stylized
   >
-    <div className='incident-activity-stat-groups-list'>
+    <SubsectionContent>
       {children}
-    </div>
+    </SubsectionContent>
   </StatSection>
 );
 

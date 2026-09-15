@@ -2,30 +2,12 @@
   .item-subsection {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(261px, 1fr));
-    grid-gap: var(--gap);
-  }
-
-  .activity-stat-titles {
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 21px;
-    color: var(--color-text-lighter);
-
-    &:has(+ .activity-stat-value) {
-      margin-top: calc(var(--gap) / 6);
-      margin-bottom: var(--gap);
-    }
+    grid-gap: calc(var(--gap) * 2);
   }
 
   .activity-stat-value {
     table {
       width: 100%;
-    }
-  }
-
-  @media screen and (max-width: 812px) {
-    .activity-stat-titles {
-      font-size: 14px;
     }
   }
 

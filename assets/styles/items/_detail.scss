@@ -7,19 +7,12 @@
     margin-top: calc(var(--gap) * 2);
   }
 
-  .activity-meta-section + .activity-stat-section {
-    padding-top: calc(var(--gap) * 3);
-  }
-
-  .activity-overview + .activity-details,
-  .activity-overview + .incident-activity-stat-groups {
+  .activity-overview + .activity-details {
     margin-top: calc(var(--gap) * 3);
     padding-top: calc(var(--gap) * 3);
     border-top: 3px solid var(--color-divider);
   }
 
-  .incident-activity-stat-groups + .incident-activity-stat-groups,
-  .incident-activity-stat-groups + .incident-list-section,
   .activity-details + .incident-list-section {
     margin-top: calc(var(--gap) * 1.5);
     padding-top: calc(var(--gap) * 1.5);

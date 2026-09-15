@@ -1,6 +1,5 @@
 .activity-overview {
   .activity-numbers {
-
     .activity-stat {
       justify-content: space-between;
       padding: var(--gap) 0;
@@ -27,11 +26,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
 
-    .activity-stat-titles {
-      font-weight: 400;
-      font-size: 16px;
+      h6 {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 27px;
+      }
     }
 
     .activity-stat-value {

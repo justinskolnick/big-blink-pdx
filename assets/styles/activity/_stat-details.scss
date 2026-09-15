@@ -9,19 +9,9 @@
     justify-content: space-between;
   }
 
-  .activity-stat-titles {
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 21px;
-  }
-
   .activity-stat-value {
     font-size: 13px;
     line-height: 21px;
-  }
-
-  .activity-stat-titles + .activity-stat-value {
-    margin-left: calc(var(--gap) / 2);
   }
 }
 

@@ -3,6 +3,7 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { cx } from '@emotion/css';
 
 import Icon from './icon';
+import ItemSubhead from './item-subhead';
 
 import type { ClassNames } from '../types';
 
@@ -31,11 +32,7 @@ const StatBox = ({
     {icon && <Icon name={icon} />}
     <div className='activity-stat-content'>
       {title && (
-        <h6 className='activity-stat-titles'>
-          <span className='activity-stat-title'>
-            {title}
-          </span>
-        </h6>
+        <ItemSubhead subsubtitle={title} />
       )}
       <div
         className='activity-stat-value'

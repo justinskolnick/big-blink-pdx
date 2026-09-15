@@ -1,3 +1,22 @@
+.subsection {
+  margin-top: calc(var(--gap) * 1.5);
+  padding-top: calc(var(--gap) * 1.5);
+
+  @media screen and (min-width: 813px) {
+    display: grid;
+    grid-gap: calc(var(--gap) * 2);
+    grid-template-columns: repeat(12, 1fr);
+
+    .subsection-header {
+      grid-column: 1/span 3;
+    }
+
+    .subsection-content {
+      grid-column: 4/span 9;
+    }
+  }
+}
+
 .subsection-header {
   .item-subhead {
     .item-description {
@@ -12,9 +31,29 @@
       }
     }
 
-    & + .leaderboard-subsection-group,
-    & + .incident-activity-stat-groups-list {
-      margin-top: calc(2 * var(--gap));
+    & + .subsection-content {
+      margin-top: calc(var(--gap) * 2);
+    }
+  }
+}
+
+.subsection-content {
+  .item-subhead {
+    h6 {
+      color: var(--color-text-light);
+      font-weight: 400;
+    }
+  }
+
+  .item-subhead + .item-table {
+    margin-top: var(--gap);
+  }
+
+  @media screen and (min-width: 401px) {
+    .item-subhead-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 }
