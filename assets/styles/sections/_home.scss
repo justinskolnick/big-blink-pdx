@@ -86,8 +86,10 @@
         }
       }
 
-      .header + .home-subsection {
-        margin-top: calc(var(--gap) * 3);
+      .chart-section {
+        .header + .item-chart {
+          margin-top: calc(var(--gap) * 3);
+        }
       }
 
       .chart-section + .leaderboard-section {
@@ -117,8 +119,10 @@
         }
       }
 
-      .header + .home-subsection {
-        margin-top: calc(var(--gap) * 2);
+      .chart-section {
+        .header + .item-chart {
+          margin-top: calc(var(--gap) * 2);
+        }
       }
 
       .chart-section + .leaderboard-section {

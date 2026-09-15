@@ -106,7 +106,6 @@ const getRoleQuery: FnGetQueryByType = (type) => {
   }
 
   return api.useLazyGetPersonRolesByIdQuery;
-  // return null;
 };
 
 const useGetItemRolesByItem: FnUseGetItemRolesById = (item, searchOptions, isPaused) => {

@@ -7,12 +7,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-  }
-
-  .activity-stat-titles {
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 21px;
+    flex-flow: wrap;
   }
 
   .activity-stat-value {
@@ -20,8 +15,10 @@
     line-height: 21px;
   }
 
-  .activity-stat-titles + .activity-stat-value {
-    margin-left: calc(var(--gap) / 2);
+  .item-subhead {
+    &:has(+ .activity-stat-value) {
+      margin-right: 1ch;
+    }
   }
 }
 

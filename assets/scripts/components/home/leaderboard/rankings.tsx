@@ -7,11 +7,11 @@ import EntityItem from '../../entities/item';
 import ItemSubhead from '../../item-subhead';
 import ItemSubsection from '../../item-subsection';
 import ItemTable from '../../item-table';
-import { TableMoreLinks } from '../../affiliated-item-table';
-import LeaderboardSubsection from './subsection';
-import LeaderboardSubsectionGroup from './subsection-group';
 import PersonItem from '../../people/item';
+import Subsection from '../../subsection';
+import SubsectionContent from '../../subsection-content';
 import SubsectionSubhead from '../../subsection-subhead';
+import { TableMoreLinks } from '../../affiliated-item-table';
 
 import { getLeaderboardLabels } from '../../../selectors';
 
@@ -19,7 +19,6 @@ import { Sections } from '../../../types';
 import type { LeaderboardSet } from '../../../types';
 
 interface Props {
-  isGrid?: boolean;
   rankings: LeaderboardSet;
   section: Sections;
   setLimit: FnSetLimit;
@@ -36,7 +35,6 @@ const useGetItem = (section: string): typeof EntityItem | typeof PersonItem | nu
 };
 
 const Rankings = ({
-  isGrid = false,
   rankings,
   section,
   setLimit,
@@ -56,15 +54,16 @@ const Rankings = ({
   if (!hasIds || !hasLabels || !Item) return null;
 
   return (
-    <LeaderboardSubsection isGrid={isGrid}>
+    <Subsection>
       <SubsectionSubhead title={rankingsLabels.title}>
         {rankingsLabels.subtitle}
       </SubsectionSubhead>
 
-      <LeaderboardSubsectionGroup>
-        <ItemSubhead subtitle={rankingsLabels.table.title}>
-          {hasPeriod && <h6>{labels.period}</h6>}
-        </ItemSubhead>
+      <SubsectionContent>
+        <ItemSubhead
+          subtitle={rankingsLabels.table.title}
+          subsubtitle={hasPeriod && labels.period}
+        />
 
         <ItemSubsection>
           <ItemTable hasPercent labels={rankingsLabels.table}>
@@ -79,8 +78,8 @@ const Rankings = ({
             setLimit={setLimit}
           />
         </ItemSubsection>
-      </LeaderboardSubsectionGroup>
-    </LeaderboardSubsection>
+      </SubsectionContent>
+    </Subsection>
   );
 };
 

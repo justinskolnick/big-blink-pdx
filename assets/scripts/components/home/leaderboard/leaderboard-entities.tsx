@@ -27,7 +27,6 @@ const EntitiesLeaderboard = () => {
 
   return (
     <LeaderboardRankings
-      isGrid
       rankings={result}
       section={Sections.Entities}
       setLimit={setRecordLimit}

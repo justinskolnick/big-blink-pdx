@@ -27,7 +27,6 @@ const OfficialsLeaderboard = () => {
 
   return (
     <LeaderboardRankings
-      isGrid
       rankings={result}
       section={Sections.People}
       setLimit={setRecordLimit}

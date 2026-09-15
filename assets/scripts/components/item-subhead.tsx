@@ -20,6 +20,7 @@ interface Props extends PropsWithChildren {
   iconTo?: LinkTo;
   title?: string | ReactNode;
   subtitle?: string | ReactNode;
+  subsubtitle?: string | ReactNode;
 }
 
 export const ItemSubheadIcon = ({ name, title, to }: ItemSubheadIconProps) => (
@@ -34,6 +35,7 @@ const ItemSubhead = ({
   iconTo,
   title,
   subtitle,
+  subsubtitle,
 }: Props) => (
   <header
     className={cx(
@@ -48,6 +50,7 @@ const ItemSubhead = ({
       <div className='item-subhead-content-title'>
         {title && <h4>{title}</h4>}
         {subtitle && <h5>{subtitle}</h5>}
+        {subsubtitle && <h6>{subsubtitle}</h6>}
       </div>
       {children}
     </div>
