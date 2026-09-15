@@ -7,11 +7,18 @@
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+    flex-flow: wrap;
   }
 
   .activity-stat-value {
     font-size: 13px;
     line-height: 21px;
+  }
+
+  .item-subhead {
+    &:has(+ .activity-stat-value) {
+      margin-right: 1ch;
+    }
   }
 }
 

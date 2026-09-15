@@ -18,10 +18,23 @@
   }
 
   .subsection-content {
-    h5 {
-      margin-bottom: var(--gap);
+    h6 {
       color: var(--color-text-lighter);
       font-size: 13px;
+    }
+
+    .item-subhead-content-title {
+      width: 100%;
+    }
+
+    .item-subhead + .activity-stat-value {
+      margin-top: var(--gap);
+    }
+
+    @media screen and (max-width: 812px) {
+      h6 {
+        font-size: 14px;
+      }
     }
   }
 }
