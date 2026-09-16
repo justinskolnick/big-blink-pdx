@@ -126,7 +126,7 @@ export const ItemChartStacked = ({ label }: StackedProps) => {
       data: sources.data.map((item, i) => i === labelIndex ? item : 0),
       borderColor: itemColorStatic,
       backgroundColor: itemColorStatic,
-      borderWidth: 2,
+      borderWidth: 3,
       stack: 'combined',
       type: barType,
     } as ChartDataset<BarType>;
@@ -177,6 +177,7 @@ const ItemChart = ({ handleClick, lineProps }: Props) => {
     data: lineProps.entries.data,
     borderColor: itemColorLink,
     backgroundColor: itemColorLink,
+    pointRadius: 4,
     type: lineType,
   };
   let datasets: ChartDataset<BarOrLine>[] = [itemData, sourceData];
@@ -188,6 +189,7 @@ const ItemChart = ({ handleClick, lineProps }: Props) => {
       borderColor: itemColorDashed,
       borderDash: [2, 2],
       backgroundColor: itemColorDashed,
+      pointRadius: 4,
       type: lineType,
     };
 
