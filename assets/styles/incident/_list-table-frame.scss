@@ -2,12 +2,12 @@
   position: relative;
   padding: 9px;
   border-radius: 9px;
-  background: linear-gradient(to bottom, rgba(var(--color-table-frame-background), 0.5) 50%, rgba(var(--color-table-frame-background), 0.25) 100%);
+  background: linear-gradient(to bottom, rgb(var(--color-table-frame-background) / 0.5) 50%, rgb(var(--color-table-frame-background) / 0.25) 100%);
 
   .incident-list-table {
     padding: 2px;
     border-radius: 9px;
-    background-color: rgba(var(--color-table-frame-background), 0.25);
+    background-color: rgb(var(--color-table-frame-background) / 0.25);
     overflow-x: auto;
   }
 

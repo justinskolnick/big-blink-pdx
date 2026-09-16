@@ -59,7 +59,7 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      fill: rgba(var(--color-accent-alt-lighter-rgb), 0.5);
+      fill: rgb(var(--color-accent-alt-lighter-rgb) / 0.5);
     }
   }
 }

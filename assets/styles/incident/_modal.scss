@@ -1,6 +1,6 @@
 .incident-modal {
   .modal-overlay {
-    background-color: rgba(var(--color-blue-rgb), 0);
+    background-color: rgb(var(--color-blue-rgb) / 0);
     overflow: hidden;
     transition: background-color 250ms ease-in-out;
   }
@@ -34,7 +34,7 @@
       left: 0;
       right: 0;
       padding: var(--incident-space-size);
-      background: linear-gradient(rgba(var(--color-background-rgb), 1) 50%, rgba(var(--color-background-rgb), 0) 100%);
+      background: linear-gradient(rgb(var(--color-background-rgb) / 1) 50%, rgb(var(--color-background-rgb) / 0) 100%);
 
       .item-subhead-content {
         display: flex;
@@ -76,7 +76,7 @@
 
   &[class*="modal-enter"] {
     .modal-overlay {
-      background-color: rgba(var(--color-blue-rgb), 0.75);
+      background-color: rgb(var(--color-blue-rgb) / 0.75);
     }
 
     .modal-incident {
