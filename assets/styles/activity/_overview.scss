@@ -20,10 +20,6 @@
     }
   }
 
-  .activity-stat-group + .activity-stat-group {
-    margin-top: calc(var(--gap) * 2);
-  }
-
   .activity-stat {
     &.has-icon {
       .icon {
@@ -36,8 +32,28 @@
   @media screen and (min-width: 813px) {
     .activity-overview-stats {
       display: grid;
-      grid-template-columns: 3fr 5fr;
-      grid-column-gap: var(--gap);
+      grid-template-columns: 8fr 4fr;
+      grid-column-gap: calc(var(--gap) * 2);
+
+      .activity-stat-section {
+        &.activity-numbers-and-dates {
+          order: 2;
+        }
+
+        &.activity-chart {
+          order: 1;
+        }
+      }
+    }
+
+    .activity-stat-group {
+      &:last-of-type {
+        padding-block-end: calc(var(--gap) / 2 * 3);
+      }
+    }
+
+    .activity-stat-group + .activity-stat-group {
+      margin-top: var(--gap);
     }
   }
 
@@ -48,6 +64,10 @@
     }
 
     .activity-stat-section + .activity-stat-section {
+      margin-top: calc(var(--gap) * 2);
+    }
+
+    .activity-stat-group + .activity-stat-group {
       margin-top: calc(var(--gap) * 2);
     }
   }
