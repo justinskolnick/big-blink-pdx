@@ -74,10 +74,10 @@ th {
 .root::before {
   z-index: 1;
   background-color: var(--color-light-yellow);
-  background-image: linear-gradient(135deg, rgba(var(--color-yellow-rgb), 0.5) 25%, transparent 25%),
+  background-image: linear-gradient(135deg, rgb(var(--color-yellow-rgb) / 0.5) 25%, transparent 25%),
                     linear-gradient(225deg, var(--color-yellow) 25%, transparent 25%),
                     linear-gradient(45deg, var(--color-yellow) 25%, transparent 25%),
-                    linear-gradient(315deg, rgba(var(--color-yellow-rgb), 0.5) 25%, var(--color-light-yellow) 25%);
+                    linear-gradient(315deg, rgb(var(--color-yellow-rgb) / 0.5) 25%, var(--color-light-yellow) 25%);
   background-position:  18px 0,
                         18px 0,
                         0 0,
@@ -88,7 +88,7 @@ th {
 
 .root::after {
   z-index: 2;
-  background-image: linear-gradient(to bottom, rgba(var(--color-background-rgb), 0.8) 0%, rgba(var(--color-background-rgb), 1) 100%);
+  background-image: linear-gradient(to bottom, rgb(var(--color-background-rgb) / 0.8) 0%, rgb(var(--color-background-rgb) / 1) 100%);
 }
 
 .modal-root,

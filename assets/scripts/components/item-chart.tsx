@@ -109,8 +109,8 @@ export const ItemChartStacked = ({ label }: StackedProps) => {
   const sourceData: ChartDataset<BarType> = {
     label: defaultLabel,
     data: sources.data,
-    borderColor: 'rgba(222, 184, 135, 0.5)',
-    backgroundColor: 'rgba(222, 184, 135, 0.5)',
+    borderColor: 'rgb(222 184 135 / 0.5)',
+    backgroundColor: 'rgb(222 184 135 / 0.5)',
     stack: 'combined',
     type: barType,
   };
@@ -168,8 +168,8 @@ const ItemChart = ({ handleClick, lineProps }: Props) => {
   const sourceData: ChartDataset<BarType> = {
     label: defaultLabel,
     data: sources.data,
-    borderColor: 'rgba(222, 184, 135, 0.5)',
-    backgroundColor: 'rgba(222, 184, 135, 0.5)',
+    borderColor: 'rgb(222 184 135 / 0.5)',
+    backgroundColor: 'rgb(222 184 135 / 0.5)',
     type: barType,
   };
   const itemData: ChartDataset<LineType> = {
