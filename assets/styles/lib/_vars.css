@@ -29,6 +29,7 @@
   --color-blue: cornflowerblue;
   --color-blue-rgb: 100 149 237;
   --color-dark-blue: darkblue;
+  --color-dark-blue-rgb: 0 0 139;
   --color-light-blue: aliceblue;
   --color-green: olivedrab;
   --color-dark-green: darkolivegreen;
@@ -83,4 +84,21 @@
   --color-stat: var(--color-black);
   --color-stat-label: var(--color-accent-darker);
   --color-stat-light: var(--color-off-white);
+
+  @media (prefers-contrast: more) {
+    --color-header-accent: var(--color-dark-blue);
+    --color-header-icon-link: var(--color-dark-blue);
+    --color-text-light: var(--color-black);
+    --color-text-lighter: var(--color-black);
+    --color-link: var(--color-dark-blue);
+    --color-accent: var(--color-dark-green);
+    --color-light: var(--color-black);
+
+    --color-table-accent: var(--color-black);
+    --color-table-header-background: var(--color-dark-blue);
+    --color-table-frame-background: var(--color-dark-blue-rgb);
+    --color-table-footer-color: var(--color-black);
+    --color-table-divider: var(--color-dark-blue);
+    --color-table-link: var(--color-dark-blue);
+  }
 }

@@ -9,5 +9,10 @@
   .incident-list-footer {
     padding: 18px 9px;
     color: var(--color-table-footer-color);
+
+    a {
+      color: revert;
+      text-decoration: none;
+    }
   }
 }

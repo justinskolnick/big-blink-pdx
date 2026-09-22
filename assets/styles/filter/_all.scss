@@ -176,3 +176,9 @@
     }
   }
 }
+
+@media (prefers-contrast: more) {
+  .filter-link {
+    text-decoration: underline;
+  }
+}
