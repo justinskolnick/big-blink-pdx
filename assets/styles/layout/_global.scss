@@ -54,4 +54,10 @@
     --layout-margin-x: var(--gap);
     --layout-margin-y: var(--gap);
   }
+
+  @media (prefers-contrast: more) {
+    a {
+      text-decoration: underline;
+    }
+  }
 }

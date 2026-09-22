@@ -89,7 +89,6 @@
       line-height: 18px;
 
       a {
-        color: var(--color-link);
         white-space: wrap;
       }
 
@@ -209,6 +208,10 @@
         content: "\b7";
       }
     }
+  }
+
+  @media (prefers-contrast: more) {
+    color: var(--color-text);
   }
 }
 

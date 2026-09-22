@@ -348,4 +348,20 @@
     padding-left: var(--layout-margin-x);
     padding-right: var(--layout-margin-x);
   }
+
+  @media (prefers-contrast: more) {
+    .header {
+      a {
+        text-decoration: none;
+      }
+
+      .header-identity {
+        h1 {
+          .text-secondary {
+            color: var(--color-black);
+          }
+        }
+      }
+    }
+  }
 }
