@@ -2,17 +2,16 @@
   font-size: 12px;
   line-height: 18px;
 
-  a {
-    color: var(--color-table-link);
-  }
-
   .incident-list-footer {
     padding: 18px 9px;
     color: var(--color-table-footer-color);
+  }
 
-    a {
-      color: revert;
-      text-decoration: none;
+  @media (prefers-contrast: more) {
+    .incident-list-footer {
+      a {
+        text-decoration: none;
+      }
     }
   }
 }
