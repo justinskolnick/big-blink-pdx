@@ -10,6 +10,12 @@ class EntityLobbyistLocation extends Base {
   static readableRegion(str) {
     return getRegionFromAbbreviation(str);
   }
+
+  adapt(result) {
+    return this.adaptResult(result, {
+      region: this.constructor.readableRegion(result.region),
+    });
+  }
 }
 
 module.exports = EntityLobbyistLocation;

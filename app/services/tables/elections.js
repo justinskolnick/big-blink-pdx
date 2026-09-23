@@ -9,10 +9,10 @@ class Elections extends Table {
 
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:           { select: true, },
-    year:         { select: true, },
-    type:         { select: true, },
-    election_day: { select: true, adapt: false, },
+    id:           { type: 'integer',  select: true, },
+    year:         { type: 'integer',  select: true, },
+    type:         { type: 'string',   select: true, },
+    election_day: { type: 'date',     select: true,   adapt: false, },
   };
   /* eslint-enable camelcase */
 }

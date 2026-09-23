@@ -55,8 +55,32 @@ class Table {
     return fields;
   }
 
+  static fieldType(fieldName) {
+    return this.fieldNames[fieldName].type;
+  }
+
+  static fieldTypeIsBoolean(fieldName) {
+    return this.fieldType(fieldName) === 'boolean';
+  }
+
+  static fieldTypeIsDate(fieldName) {
+    return this.fieldType(fieldName) === 'date';
+  }
+
+  static fieldTypeIsTimestamp(fieldName) {
+    return this.fieldType(fieldName) === 'timestamp';
+  }
+
   static hasAdaptField(fieldName) {
     return 'adapt' in this.fieldNames[fieldName];
+  }
+
+  static adaptFieldIsBoolean(fieldName) {
+    return typeof this.fieldNames[fieldName].adapt === 'boolean';
+  }
+
+  static adaptFieldIsObject(fieldName) {
+    return typeof this.fieldNames[fieldName].adapt === 'object';
   }
 
   static hasFieldAlias(fieldName) {
@@ -85,8 +109,10 @@ class Table {
 
   static hasAdaptMethod(fieldName) {
     if (this.hasAdaptField(fieldName)) {
-      if ('method' in this.fieldNames[fieldName].adapt) {
-        return true;
+      if (this.adaptFieldIsObject(fieldName)) {
+        if ('method' in this.fieldNames[fieldName].adapt) {
+          return true;
+        }
       }
     }
 

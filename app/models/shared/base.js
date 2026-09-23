@@ -99,15 +99,24 @@ class Base {
 
   static fieldValue(fieldName, result) {
     let value = result[fieldName];
+    let method = null;
+
+    if (value === undefined || value === null) {
+      return value;
+    }
 
     if (this.hasAdaptMethod(fieldName)) {
-      if (value === undefined || value === null) {
-        value = null;
-      } else {
-        const method = this.adaptMethod(fieldName);
+      method = this.adaptMethod(fieldName);
+    } else if (this.table.fieldTypeIsDate(fieldName)) {
+      method = this.readableDate;
+    } else if (this.table.fieldTypeIsBoolean(fieldName)) {
+      method = this.readableBoolean;
+    } else if (this.table.fieldTypeIsTimestamp(fieldName)) {
+      method = this.readableDate;
+    }
 
-        value = method(value);
-      }
+    if (method) {
+      value = method(value);
     }
 
     return value;
@@ -118,7 +127,11 @@ class Base {
   }
 
   static readableDate(str) {
-    return dateHelper.formatDateString(str);
+    if (str !== null) {
+      return dateHelper.formatDateString(str);
+    }
+
+    return str;
   }
 
   static readableDateRange(dateStrStart, dateStrEnd) {
@@ -211,6 +224,11 @@ class Base {
       return obj;
     }, {});
 
+    adapted = {
+      ...adapted,
+      ...otherValues,
+    };
+
     if (typeof this.adaptOtherValues === 'function') {
       adapted = this.adaptOtherValues(result, adapted);
     }
@@ -223,10 +241,7 @@ class Base {
       adapted.links = this.links;
     }
 
-    return {
-      ...adapted,
-      ...otherValues,
-    };
+    return adapted;
   }
 
   adapt(result) {

@@ -86,6 +86,7 @@ class Source extends IncidentedBase {
     }
 
     return this.adaptResult(result, {
+      retrievedDate: this.constructor.fieldValue('retrieved_at', result),
       roles,
     });
   }

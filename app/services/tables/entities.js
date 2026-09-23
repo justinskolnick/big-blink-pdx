@@ -2,10 +2,10 @@ const Table = require('../../lib/db/mysql/table');
 
 class Entities extends Table {
   static fieldNames = {
-    id:     { select: true, },
-    name:   { select: true, },
-    type:   { select: true, },
-    domain: { select: true, },
+    id:     { type: 'integer',  select: true, },
+    name:   { type: 'string',   select: true, },
+    type:   { type: 'string',   select: true, },
+    domain: { type: 'string',   select: true, },
   };
 }
 

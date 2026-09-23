@@ -24,6 +24,7 @@ class Incident extends Base {
   adapt(result) {
     return this.adaptResult(result, {
       contactDateRange: this.adaptReadableDateRange(result),
+      contactTypes: this.constructor.adaptContactTypes(result.contact_type),
       entityName: result.entity,
       raw: {
         dateStart: result.contact_date,
@@ -31,6 +32,7 @@ class Incident extends Base {
         officials: result.officials,
         lobbyists: result.lobbyists,
       },
+      sourceId: result.data_source_id,
     });
   }
 }

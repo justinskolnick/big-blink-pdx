@@ -5,11 +5,11 @@ const People = require('./people');
 class IncidentAttendees extends Table {
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:           { select: true, },
-    incident_id:  { select: false, },
-    person_id:    { select: false, },
-    appears_as:   { select: true, adapt: { as: 'as' } },
-    role:         { select: true, },
+    id:           { type: 'integer',  select: true, },
+    incident_id:  { type: 'integer',  select: false, },
+    person_id:    { type: 'integer',  select: false, },
+    appears_as:   { type: 'string',   select: true,   adapt: false, },
+    role:         { type: 'string',   select: true, },
   };
   /* eslint-enable camelcase */
 

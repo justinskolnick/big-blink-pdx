@@ -3,14 +3,14 @@ const Table = require('../../lib/db/mysql/table');
 class People extends Table {
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:               { select: true, },
-    identical_id:     { select: true, adapt: false, },
-    pernr:            { select: true, },
-    type:             { select: true, },
-    name:             { select: true, },
-    given:            { select: true, adapt: false, },
-    family:           { select: false, },
-    pronoun_subject:  { select: true, adapt: false, },
+    id:               { type: 'integer',  select: true, },
+    identical_id:     { type: 'integer',  select: true,   adapt: false, },
+    pernr:            { type: 'integer',  select: true, },
+    type:             { type: 'string',   select: true, },
+    name:             { type: 'string',   select: true, },
+    given:            { type: 'string',   select: true,   adapt: false, },
+    family:           { type: 'string',   select: false, },
+    pronoun_subject:  { type: 'string',   select: true,   adapt: false, },
   };
   /* eslint-enable camelcase */
 }

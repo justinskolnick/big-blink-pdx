@@ -3,10 +3,10 @@ const Table = require('../../lib/db/mysql/table');
 class EntityLobbyistRegistrations extends Table {
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:             { select: true, },
-    data_source_id: { select: false, },
-    entity_id:      { select: true, },
-    person_id:      { select: true, },
+    id:             { type: 'integer',  select: true, },
+    data_source_id: { type: 'integer',  select: false, },
+    entity_id:      { type: 'integer',  select: true, },
+    person_id:      { type: 'integer',  select: true, },
   };
   /* eslint-enable camelcase */
 }
