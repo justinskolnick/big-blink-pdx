@@ -10,17 +10,17 @@ class DataSources extends Table {
 
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:                     { select: true, },
-    type:                   { select: true, },
-    format:                 { select: true, },
-    title:                  { select: true, },
-    year:                   { select: true, },
-    quarter:                { select: true, },
-    quarter_id:             { select: false, },
-    month:                  { select: true, },
-    public_url:             { select: true, },
-    is_via_public_records:  { select: true, adapt: { method: 'readableBoolean' } },
-    retrieved_at:           { select: true, adapt: { as: 'retrievedDate', method: 'readableDate' } },
+    id:                     { type: 'integer',    select: true, },
+    type:                   { type: 'string',     select: true, },
+    format:                 { type: 'string',     select: true, },
+    title:                  { type: 'string',     select: true, },
+    year:                   { type: 'integer',    select: true, },
+    quarter:                { type: 'integer',    select: true, },
+    quarter_id:             { type: 'integer',    select: false, },
+    month:                  { type: 'integer',    select: true, },
+    public_url:             { type: 'string',     select: true, },
+    is_via_public_records:  { type: 'boolean',    select: true, },
+    retrieved_at:           { type: 'timestamp',  select: true,   adapt: false, },
   };
   /* eslint-enable camelcase */
 }

@@ -77,16 +77,6 @@ class Base {
     return this.table.fieldShouldBeAdapted(fieldName);
   }
 
-  static hasAdaptMethod(fieldName) {
-    return this.table.hasAdaptMethod(fieldName);
-  }
-
-  static adaptMethod(fieldName) {
-    const method = this.table.adaptMethod(fieldName);
-
-    return this[method];
-  }
-
   static fieldKey(fieldName) {
     if (this.hasFieldAlias(fieldName)) {
       const alias = this.fieldAlias(fieldName);
@@ -99,15 +89,22 @@ class Base {
 
   static fieldValue(fieldName, result) {
     let value = result[fieldName];
+    let method = null;
 
-    if (this.hasAdaptMethod(fieldName)) {
-      if (value === undefined || value === null) {
-        value = null;
-      } else {
-        const method = this.adaptMethod(fieldName);
+    if (value === undefined || value === null) {
+      return value;
+    }
 
-        value = method(value);
-      }
+    if (this.table.fieldTypeIsDate(fieldName)) {
+      method = this.readableDate;
+    } else if (this.table.fieldTypeIsBoolean(fieldName)) {
+      method = this.readableBoolean;
+    } else if (this.table.fieldTypeIsTimestamp(fieldName)) {
+      method = this.readableDate;
+    }
+
+    if (method) {
+      value = method(value);
     }
 
     return value;
@@ -118,7 +115,11 @@ class Base {
   }
 
   static readableDate(str) {
-    return dateHelper.formatDateString(str);
+    if (str !== null) {
+      return dateHelper.formatDateString(str);
+    }
+
+    return str;
   }
 
   static readableDateRange(dateStrStart, dateStrEnd) {
@@ -211,6 +212,11 @@ class Base {
       return obj;
     }, {});
 
+    adapted = {
+      ...adapted,
+      ...otherValues,
+    };
+
     if (typeof this.adaptOtherValues === 'function') {
       adapted = this.adaptOtherValues(result, adapted);
     }
@@ -223,10 +229,7 @@ class Base {
       adapted.links = this.links;
     }
 
-    return {
-      ...adapted,
-      ...otherValues,
-    };
+    return adapted;
   }
 
   adapt(result) {

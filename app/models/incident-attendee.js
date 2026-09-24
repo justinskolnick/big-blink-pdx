@@ -41,6 +41,7 @@ class IncidentAttendee extends Base {
   adapt(result) {
     const person = this.hasPerson ? this.person.adapted : this.person;
     const adapted = this.adaptResult(result, {
+      as: result.appears_as,
       person,
     });
 
