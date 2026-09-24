@@ -10,19 +10,32 @@ class DataSources extends Table {
 
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:                     { type: 'integer',    select: true, },
-    type:                   { type: 'string',     select: true, },
-    format:                 { type: 'string',     select: true, },
-    title:                  { type: 'string',     select: true, },
-    year:                   { type: 'integer',    select: true, },
-    quarter:                { type: 'integer',    select: true, },
-    quarter_id:             { type: 'integer',    select: false, },
-    month:                  { type: 'integer',    select: true, },
-    public_url:             { type: 'string',     select: true, },
-    is_via_public_records:  { type: 'boolean',    select: true, },
-    retrieved_at:           { type: 'timestamp',  select: true,   adapt: false, },
+    id:                     { type: 'integer', },
+    type:                   { type: 'string', },
+    format:                 { type: 'string', },
+    title:                  { type: 'string', },
+    year:                   { type: 'integer', },
+    quarter:                { type: 'integer', },
+    quarter_id:             { type: 'integer', },
+    month:                  { type: 'integer', },
+    public_url:             { type: 'string', },
+    is_via_public_records:  { type: 'boolean', },
+    retrieved_at:           { type: 'timestamp',  adapt: false, },
   };
   /* eslint-enable camelcase */
+
+  static defaultFields = [
+    'id',
+    'type',
+    'format',
+    'title',
+    'year',
+    'quarter',
+    'month',
+    'public_url',
+    'is_via_public_records',
+    'retrieved_at',
+  ];
 }
 
 module.exports = DataSources;
