@@ -53,16 +53,8 @@ class Base {
     return pluralize(titleCase(this.className())).toLowerCase();
   }
 
-  static fieldNames() {
-    return this.table.fieldNames;
-  }
-
   static fields(prefix = true) {
-    const fields = Object.entries(this.fieldNames())
-      .filter(([, value]) => value.select)
-      .map(([key,]) => this.field(key, prefix));
-
-    return fields;
+    return this.table.fields(prefix);
   }
 
   static hasFieldAlias(fieldName) {

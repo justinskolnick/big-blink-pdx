@@ -6,6 +6,10 @@ const { snakeCase, titleCase } = require('../../string');
 class Table {
   static primaryKeyField = 'id';
 
+  static fieldNames = {};
+
+  static defaultFields = [];
+
   static field(fieldName, prefix = true) {
     return prefix ? [this.tableName(), fieldName].join('.') : fieldName;
   }
@@ -27,7 +31,7 @@ class Table {
   }
 
   static plural() {
-    return pluralize(titleCase(this.className())).toLowerCase();
+    return pluralize(titleCase(this.className()), 2).toLowerCase();
   }
 
   static foreignKey() {
@@ -39,20 +43,13 @@ class Table {
   }
 
   static fields(prefix = true) {
-    const fields = Object.entries(this.fieldNames)
-      .filter(([, value]) => value.select)
-      .map(([key,]) => this.field(key, prefix));
-
-    return fields;
+    return this.defaultFields.map((fieldName) => this.field(fieldName, prefix));
   }
 
   static fieldsForJoin(prefix = true) {
-    const fields = Object.entries(this.fieldNames)
-      .filter(([, value]) => value.select)
-      .filter(([key,]) => key !== 'id')
-      .map(([key,]) => this.field(key, prefix));
-
-    return fields;
+    return this.defaultFields
+      .filter((fieldName) => fieldName !== 'id')
+      .map((fieldName) => this.field(fieldName, prefix));
   }
 
   static fieldType(fieldName) {

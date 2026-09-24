@@ -9,12 +9,19 @@ class Elections extends Table {
 
   /* eslint-disable camelcase */
   static fieldNames = {
-    id:           { type: 'integer',  select: true, },
-    year:         { type: 'integer',  select: true, },
-    type:         { type: 'string',   select: true, },
-    election_day: { type: 'date',     select: true,   adapt: false, },
+    id:           { type: 'integer', },
+    year:         { type: 'integer', },
+    type:         { type: 'string',  },
+    election_day: { type: 'date',     adapt: false, },
   };
   /* eslint-enable camelcase */
+
+  static defaultFields = [
+    'id',
+    'year',
+    'type',
+    'election_day',
+  ];
 }
 
 module.exports = Elections;
