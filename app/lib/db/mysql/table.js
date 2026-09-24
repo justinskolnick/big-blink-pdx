@@ -75,14 +75,6 @@ class Table {
     return 'adapt' in this.fieldNames[fieldName];
   }
 
-  static adaptFieldIsBoolean(fieldName) {
-    return typeof this.fieldNames[fieldName].adapt === 'boolean';
-  }
-
-  static adaptFieldIsObject(fieldName) {
-    return typeof this.fieldNames[fieldName].adapt === 'object';
-  }
-
   static hasFieldAlias(fieldName) {
     if (this.hasAdaptField(fieldName)) {
       if ('as' in this.fieldNames[fieldName].adapt) {
@@ -105,22 +97,6 @@ class Table {
     }
 
     return true;
-  }
-
-  static hasAdaptMethod(fieldName) {
-    if (this.hasAdaptField(fieldName)) {
-      if (this.adaptFieldIsObject(fieldName)) {
-        if ('method' in this.fieldNames[fieldName].adapt) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  static adaptMethod(fieldName) {
-    return this.fieldNames[fieldName].adapt.method;
   }
 
   static fieldKey(fieldName) {

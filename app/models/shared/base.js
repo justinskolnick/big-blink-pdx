@@ -77,16 +77,6 @@ class Base {
     return this.table.fieldShouldBeAdapted(fieldName);
   }
 
-  static hasAdaptMethod(fieldName) {
-    return this.table.hasAdaptMethod(fieldName);
-  }
-
-  static adaptMethod(fieldName) {
-    const method = this.table.adaptMethod(fieldName);
-
-    return this[method];
-  }
-
   static fieldKey(fieldName) {
     if (this.hasFieldAlias(fieldName)) {
       const alias = this.fieldAlias(fieldName);
@@ -105,9 +95,7 @@ class Base {
       return value;
     }
 
-    if (this.hasAdaptMethod(fieldName)) {
-      method = this.adaptMethod(fieldName);
-    } else if (this.table.fieldTypeIsDate(fieldName)) {
+    if (this.table.fieldTypeIsDate(fieldName)) {
       method = this.readableDate;
     } else if (this.table.fieldTypeIsBoolean(fieldName)) {
       method = this.readableBoolean;
