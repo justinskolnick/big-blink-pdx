@@ -21,8 +21,8 @@
   }
 
   th {
-    &:first-child {
-      padding-left: 0;
+    &.cell-name {
+      padding-left: 36px;
     }
   }
 
