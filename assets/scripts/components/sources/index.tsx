@@ -63,7 +63,7 @@ const SourceTypeYear = ({ year }: SourceTypeYearProps) => (
 
     <div className='item-index-group-grid'>
       {year.items.map(source => (
-        <Source key={source.id} id={source.id} />
+        <Source key={source.id} id={source.id} allowActivity />
       ))}
     </div>
   </div>

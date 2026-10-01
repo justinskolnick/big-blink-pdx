@@ -48,52 +48,6 @@
       }
     }
 
-    .item-source {
-      position: relative;
-      display: grid;
-      grid-template-columns: 36px 1fr;
-      gap: var(--gap);
-
-      &:hover {
-        border-bottom: none;
-
-        .item-source-description {
-          h6 {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      .item-source-icon {
-        display: grid;
-        place-items: center;
-
-        .icon {
-          font-size: 14px;
-        }
-      }
-
-      .item-source-description {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: calc(var(--gap) / 6);
-
-        h6 {
-          color: var(--color-black);
-          font-size: 14px;
-          line-height: 18px;
-        }
-
-        p {
-          color: var(--color-gray);
-          font-size: 12px;
-          line-height: 18px;
-        }
-      }
-    }
-
     .item-source + .item-source {
       &::before {
         content: '';

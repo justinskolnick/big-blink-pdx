@@ -77,6 +77,7 @@
   --color-table-footer-background: var(--color-light-blue);
   --color-table-footer-color: var(--color-blue);
   --color-table-border: var(--color-blue);
+  --color-table-icon: var(--color-gray);
   --color-table-text-hover: var(--color-background);
   --color-table-divider: var(--color-blue);
   --color-table-link: var(--color-blue);

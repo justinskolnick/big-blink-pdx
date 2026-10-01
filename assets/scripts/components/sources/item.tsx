@@ -18,6 +18,7 @@ interface ItemProps {
 }
 
 interface Props {
+  allowActivity?: boolean;
   id: Id;
 }
 
@@ -43,7 +44,7 @@ const OtherItem = ({ source }: ItemProps) => (
   </div>
 );
 
-const Item = ({ id }: Props) => {
+const Item = ({ allowActivity, id }: Props) => {
   const [trigger] = api.useLazyGetSourceByIdQuery();
 
   const source = useGetSourceById(id);
@@ -63,7 +64,7 @@ const Item = ({ id }: Props) => {
         <Icon item={source} />
       </div>
 
-      {source.type === 'activity' ? (
+      {allowActivity && source.type === 'activity' ? (
         <ActivityItem source={source} />
       ) : (
         <OtherItem source={source} />
