@@ -5,10 +5,10 @@ import useFetchAndScrollOnRouteChange from '../../hooks/use-fetch-and-scroll-on-
 import useSelector from '../../hooks/use-app-selector';
 
 import IncidentNotesBox from '../incident-notes-box';
-import IncidentSourceBox from '../incident-source-box';
 import MetaSection from '../meta-section';
 import IncidentTable from '../incident-table';
 import { Container as ItemDetail } from '../item-detail';
+import SourceItem from '../sources/item';
 import ItemSubhead from '../item-subhead';
 
 import { getLabels } from '../../selectors';
@@ -39,20 +39,24 @@ const Detail = () => {
         </div>
       </div>
 
-      <div className='item-content-section item-content-section-secondary'>
-        <MetaSection>
-          {hasNotes && (
+      {hasNotes && (
+        <div className='item-content-section item-content-section-secondary'>
+          <MetaSection>
             <IncidentNotesBox
               title={labels.incidentsItemNotesTitle}
               incident={incident}
             />
-          )}
+          </MetaSection>
+        </div>
+      )}
 
-          <IncidentSourceBox
-            title={labels.incidentsItemDataSourceTitle}
-            incident={incident}
-          />
-        </MetaSection>
+      <div className='item-content-section item-content-section-secondary'>
+        <div className='incident-source'>
+          <ItemSubhead title={labels.sourcesItemInformation} />
+          <div className='incident-source-details'>
+            <SourceItem id={incident?.sourceId} />
+          </div>
+        </div>
       </div>
     </ItemDetail>
   );
