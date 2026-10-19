@@ -6,11 +6,16 @@ const {
   ROLE_OFFICIAL,
 } = require('../../../config/constants');
 
-const resultCityOfficeCityCouncilor = require('../../__mocks__/city-office/result-city-councilor.json');
-const resultCityCouncilor = require('../../__mocks__/city-office-term/result-city-councilor.json');
-const resultElection2024General = require('../../__mocks__/elections/result-2024-general.json');
-const resultLobbyist = require('../../__mocks__/person/result-lobbyist.json');
-const resultOfficial = require('../../__mocks__/person/result-official.json');
+const resultCityOfficeCityCommissioner = require('../../__fixtures__/city-office/result-city-commissioner-2.json');
+const resultCityOfficeCityCouncilor = require('../../__fixtures__/city-office/result-city-councilor.json');
+const resultCityCommissioner = require('../../__fixtures__/city-office-term/result-city-commissioner.json');
+const resultCityCouncilor = require('../../__fixtures__/city-office-term/result-city-councilor.json');
+const resultCityCouncilorDied = require('../../__fixtures__/city-office-term/result-city-councilor-died.json');
+const resultCityCouncilorResigned = require('../../__fixtures__/city-office-term/result-city-councilor-resigned.json');
+const resultElection2022Primary = require('../../__fixtures__/elections/result-2022-primary.json');
+const resultElection2024General = require('../../__fixtures__/elections/result-2024-general.json');
+const resultLobbyist = require('../../__fixtures__/person/result-lobbyist.json');
+const resultOfficial = require('../../__fixtures__/person/result-official.json');
 const resultPersonStats = require('../__mocks__/result-person-stats.json');
 
 const Person = require('../person');
@@ -69,6 +74,134 @@ describe('isValidRoleCollection()', () => {
     expect(Person.isValidRoleCollection('nada')).toBe(false);
     expect(Person.isValidRoleCollection('')).toBe(false);
     expect(Person.isValidRoleCollection(null)).toBe(false);
+  });
+});
+
+describe('getOverviewDetails()', () => {
+  let person;
+  let cityOffice;
+  let cityOfficePrior;
+  let cityOfficeTerm;
+  let cityOfficeTermPrior;
+  let election;
+  let electionPrior;
+
+  describe('with a city councilor', () => {
+    beforeAll(() => {
+      person = new Person(resultOfficial);
+      cityOffice = new CityOffice(resultCityOfficeCityCouncilor);
+    });
+
+    afterAll(() => {
+      person = undefined;
+      cityOffice = undefined;
+    });
+
+    describe('serving a full term', () => {
+      beforeAll(() => {
+        cityOfficeTerm = new CityOfficeTerm(resultCityCouncilor);
+        election = new Election(resultElection2024General);
+
+        cityOfficeTerm.setCityOffice(cityOffice);
+        cityOfficeTerm.setElection(election);
+      });
+
+      afterAll(() => {
+        cityOfficeTerm = undefined;
+        election = undefined;
+      });
+
+      test('returns the expected details', () => {
+        expect(person.getOverviewDetails({
+          terms: [cityOfficeTerm],
+        })).toEqual([
+          'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025.'
+        ]);
+      });
+    });
+
+    describe('who died in office', () => {
+      describe('during a first term', () => {
+        beforeAll(() => {
+          cityOfficeTerm = new CityOfficeTerm(resultCityCouncilorDied);
+          election = new Election(resultElection2024General);
+
+          cityOfficeTerm.setCityOffice(cityOffice);
+          cityOfficeTerm.setElection(election);
+        });
+
+        afterAll(() => {
+          cityOfficeTerm = undefined;
+          election = undefined;
+        });
+
+        test('returns the expected details', () => {
+          expect(person.getOverviewDetails({
+            terms: [cityOfficeTerm],
+          })).toEqual([
+            'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025. He died in office on November 30, 2025.',
+          ]);
+        });
+      });
+
+      describe('during a second term', () => {
+        beforeAll(() => {
+          cityOfficeTerm = new CityOfficeTerm(resultCityCouncilorDied);
+          election = new Election(resultElection2024General);
+
+          cityOfficeTerm.setCityOffice(cityOffice);
+          cityOfficeTerm.setElection(election);
+
+          cityOfficePrior = new CityOffice(resultCityOfficeCityCommissioner);
+          cityOfficeTermPrior = new CityOfficeTerm(resultCityCommissioner);
+          electionPrior = new Election(resultElection2022Primary);
+
+          cityOfficeTermPrior.setCityOffice(cityOfficePrior);
+          cityOfficeTermPrior.setElection(electionPrior);
+        });
+
+        afterAll(() => {
+          cityOfficePrior = undefined;
+          cityOfficeTerm = undefined;
+          cityOfficeTermPrior = undefined;
+          election = undefined;
+          electionPrior = undefined;
+        });
+
+        test('returns the expected details', () => {
+          expect(person.getOverviewDetails({
+            terms: [cityOfficeTerm, cityOfficeTermPrior],
+          })).toEqual([
+            'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025. He died in office on November 30, 2025.',
+            'He served on the former City Commission between January 1, 2023 and December 31, 2024.',
+          ]);
+        });
+      });
+    });
+
+    describe('who resigned', () => {
+      beforeAll(() => {
+        cityOfficeTerm = new CityOfficeTerm(resultCityCouncilorResigned);
+        election = new Election(resultElection2024General);
+
+        cityOfficeTerm.setCityOffice(cityOffice);
+        cityOfficeTerm.setElection(election);
+      });
+
+      afterAll(() => {
+        cityOfficeTerm = undefined;
+        election = undefined;
+      });
+
+      test('returns the expected details', () => {
+        expect(person.getOverviewDetails({
+          terms: [cityOfficeTerm],
+        })).toEqual([
+          'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025. He resigned effective November 30, 2025.',
+        ]);
+      });
+    });
+
   });
 });
 

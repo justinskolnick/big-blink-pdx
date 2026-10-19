@@ -25,6 +25,7 @@ class CityOfficeTerms extends Table {
     'date_start',
     'date_end',
     'date_end_actual',
+    'date_end_reason',
   ];
 }
 

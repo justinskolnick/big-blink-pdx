@@ -23,6 +23,7 @@ describe('fields()', () => {
       'city_office_terms.date_start',
       'city_office_terms.date_end',
       'city_office_terms.date_end_actual',
+      'city_office_terms.date_end_reason',
     ]);
   });
 });

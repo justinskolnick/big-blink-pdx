@@ -1,6 +1,6 @@
-const resultCityCommissioner = require('../__mocks__/city-office/result-city-commissioner-2.json');
-const resultCityCouncilor = require('../__mocks__/city-office/result-city-councilor.json');
-const resultMayor = require('../__mocks__/city-office/result-mayor.json');
+const resultCityCommissioner = require('../__fixtures__/city-office/result-city-commissioner-2.json');
+const resultCityCouncilor = require('../__fixtures__/city-office/result-city-councilor.json');
+const resultMayor = require('../__fixtures__/city-office/result-mayor.json');
 
 const CityOffice = require('../city-office');
 
