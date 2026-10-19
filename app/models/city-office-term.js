@@ -71,6 +71,7 @@ class CityOfficeTerm extends Base {
         start: this.getData('date_start'),
         end: this.getData('date_end'),
         endActual: this.getData('date_end_actual'),
+        endReason: this.getData('date_end_reason'),
       },
       number,
       unit: TIME_MONTH,
@@ -88,6 +89,8 @@ class CityOfficeTerm extends Base {
   adapt(result) {
     const otherValues = {
       dateEnd: this.readableDateEnd,
+      dateEndActual: this.readableDateEndActual,
+      dateEndReason: this.readableDateEndReason,
       dateStart: this.readableDateStart,
       tenure: this.tenure,
       id: this.id,
@@ -142,12 +145,32 @@ class CityOfficeTerm extends Base {
     return this.terms.length > 1;
   }
 
+  endedEarly() {
+    return this.dateEndActual !== null && (this.died() || this.resigned());
+  }
+
+  resigned() {
+    return this.dateEndReason === 'resignation';
+  }
+
+  died() {
+    return this.dateEndReason === 'death';
+  }
+
   get dateStart() {
     return this.terms.map(term => term.dates.start).reverse().at(0);
   }
 
   get dateEnd() {
     return this.terms.map(term => term.dates.endActual || term.dates.end).reverse().at(-1);
+  }
+
+  get dateEndActual() {
+    return this.terms.map(term => term.dates.endActual).reverse().at(-1);
+  }
+
+  get dateEndReason() {
+    return this.terms.map(term => term.dates.endReason).reverse().at(-1);
   }
 
   get id() {
@@ -160,6 +183,14 @@ class CityOfficeTerm extends Base {
 
   get readableDateEnd() {
     return this.constructor.readableDate(this.dateEnd);
+  }
+
+  get readableDateEndActual() {
+    return this.constructor.readableDate(this.dateEndActual);
+  }
+
+  get readableDateEndReason() {
+    return this.dateEndReason;
   }
 
   get readableTenure() {

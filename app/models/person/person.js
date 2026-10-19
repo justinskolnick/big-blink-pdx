@@ -68,15 +68,14 @@ class Person extends IncidentedBase {
     }
   }
 
-  setOverviewDetails(values = {}) {
+  getOverviewDetails(values = {}) {
     const { terms } = values;
 
     const labelPrefix = this.constructor.labelPrefix;
-    const hasTerms = terms?.length > 0;
 
     let details = [];
 
-    if (hasTerms) {
+    if (terms?.length > 0) {
       details = CityOfficeTerm.collect(terms).map((term, i) => {
         let termKey;
 
@@ -84,17 +83,35 @@ class Person extends IncidentedBase {
           if (term.cityOffice.isCityCouncilor()) {
             if (term.isCurrent()) {
               termKey = 'overview_details_elected_council_current';
+            } else if (term.died()) {
+              termKey = 'overview_details_elected_council_died';
+            } else if (term.resigned()) {
+              termKey = 'overview_details_elected_council_resigned';
             } else {
               termKey = 'overview_details_elected_council_past';
             }
           } else if (term.cityOffice.isCityCommissioner()) {
             if (i > 0) {
-              termKey = 'overview_details_elected_commission_prior';
+              if (term.died()) {
+                termKey = 'overview_details_elected_commission_prior_died';
+              } else if (term.resigned()) {
+                termKey = 'overview_details_elected_commission_prior_resigned';
+              } else {
+                termKey = 'overview_details_elected_commission_prior';
+              }
+            } else if (term.died()) {
+              termKey = 'overview_details_elected_commission_died';
+            } else if (term.resigned()) {
+              termKey = 'overview_details_elected_commission_resigned';
             } else {
               termKey = 'overview_details_elected_commission';
             }
           } else if (term.isCurrent()) {
             termKey = 'overview_details_elected_position_current';
+          } else if (term.died()) {
+            termKey = 'overview_details_elected_position_reelected_past_died';
+          } else if (term.resigned()) {
+            termKey = 'overview_details_elected_position_reelected_past_resigned';
           } else if (term.wasReelected()) {
             termKey = 'overview_details_elected_position_reelected_past';
           } else if (i > 0) {
@@ -107,6 +124,7 @@ class Person extends IncidentedBase {
         if (termKey) {
           return this.getLabel(termKey, labelPrefix, {
             date_end: term.readableDateEnd, // eslint-disable-line camelcase
+            date_end_actual: term.readableDateEndActual, // eslint-disable-line camelcase
             date_start: term.readableDateStart, // eslint-disable-line camelcase
             duration: term.readableTenure,
             name: (i > 0) ? capitalize(this.getData('pronoun_subject')) : this.getData('given'),
@@ -124,8 +142,18 @@ class Person extends IncidentedBase {
       });
     }
 
-    if (details.length) {
-      this.overview.setDetails(details.join(' '));
+    return details;
+  }
+
+  setOverviewDetails(values = {}) {
+    const { terms } = values;
+
+    if (terms?.length > 0) {
+      const details = this.getOverviewDetails(values);
+
+      if (details.length) {
+        this.overview.setDetails(details.join(' '));
+      }
     }
   }
 
