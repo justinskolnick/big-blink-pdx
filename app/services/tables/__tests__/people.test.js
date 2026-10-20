@@ -22,6 +22,7 @@ describe('fields()', () => {
       'people.name',
       'people.given',
       'people.pronoun_subject',
+      'people.pronoun_possessive',
     ]);
   });
 });

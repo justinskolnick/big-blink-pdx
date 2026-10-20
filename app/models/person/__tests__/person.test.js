@@ -173,7 +173,7 @@ describe('getOverviewDetails()', () => {
             terms: [cityOfficeTerm, cityOfficeTermPrior],
           })).toEqual([
             'John was elected to a four-year term as City Councilor for District 2 starting on January 1, 2025. He died in office on November 30, 2025.',
-            'He served on the former City Commission between January 1, 2023 and December 31, 2024.',
+            'He served on the former City Commission between January 1, 2023, and December 31, 2024.',
           ]);
         });
       });
@@ -646,11 +646,13 @@ describe('setData()', () => {
 
     expect(person.data).toEqual({
       given: 'John',
+      family: 'Doe',
       id: 321,
       identical_id: null, // eslint-disable-line camelcase
       name: 'John Doe',
       pernr: 1020304,
       pronoun_subject: 'he', // eslint-disable-line camelcase
+      pronoun_possessive: 'his', // eslint-disable-line camelcase
       type: 'person',
       x: 'y',
       z: 'abc',

@@ -1,7 +1,11 @@
 {
+    "given": "John",
+    "family": "Doe",
     "id": 123,
     "identical_id": null,
     "pernr": null,
     "type": "person",
-    "name": "John Doe"
+    "name": "John Doe",
+    "pronoun_subject": null,
+    "pronoun_possessive": null
 }
