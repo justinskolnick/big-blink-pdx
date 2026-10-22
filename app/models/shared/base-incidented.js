@@ -79,6 +79,10 @@ class IncidentedBase extends Base {
     return 'percentage' in stats && stats.percentage !== null;
   }
 
+  statsHasEstimated(stats) {
+    return 'estimated' in stats;
+  }
+
   statsHasTotal(stats) {
     return 'total' in stats;
   }
@@ -109,6 +113,10 @@ class IncidentedBase extends Base {
     });
     this.overview.setTotalsValue('total', this.data.total);
 
+    if (this.data.estimated_total > this.data.total) {
+      this.overview.setTotalsValue('estimated_total', this.data.estimated_total);
+    }
+
     if (this.hasGlobalIncidentCount() || this.hasGlobalIncidentPercentage()) {
       let value;
 
@@ -138,6 +146,12 @@ class IncidentedBase extends Base {
     if (this.dataHasTotal() || Overview.props.some(prop => prop in stats)) {
       if (this.statsHasTotal(stats)) {
         this.setData('total', stats.total);
+      }
+
+      if (this.statsHasEstimated(stats)) {
+        if (stats.estimated > stats.total) {
+          this.setData('estimated_total', stats.estimated);
+        }
       }
 
       if (this.statsHasPercentage(stats)) {

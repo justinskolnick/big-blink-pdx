@@ -80,6 +80,7 @@ const buildQuery = (options = {}) => {
     dateRangeFrom,
     dateRangeTo,
     entityId,
+    includeEstimatedTotalOnly = false,
     includeTotalOnly = false,
     page,
     people = [],
@@ -114,10 +115,15 @@ const buildQuery = (options = {}) => {
   const params = [];
 
   clauses.push('SELECT');
-  clauses.push('DISTINCT');
+
+  if (!includeEstimatedTotalOnly) {
+    clauses.push('DISTINCT');
+  }
 
   if (primaryKeyOnly) {
     clauses.push(Incidents.primaryKey());
+  } else if (includeEstimatedTotalOnly) {
+    clauses.push(Incidents.field('contact_type'));
   } else if (includeTotalOnly) {
     clauses.push(`COUNT(${Incidents.primaryKey()}) AS total`);
   } else {
@@ -198,7 +204,7 @@ const buildQuery = (options = {}) => {
 
   clauses.push(...queryHelper.joinConditions(conditions));
 
-  if (!primaryKeyOnly && !includeTotalOnly) {
+  if (!primaryKeyOnly && !includeEstimatedTotalOnly && !includeTotalOnly) {
     if (hasPeople || hasPersonIds) {
       clauses.push('GROUP BY');
       clauses.push(Incidents.primaryKey());
@@ -247,6 +253,11 @@ const getBoundaryDateSubquery = () => {
 
   return clauses;
 };
+
+const getEstimatedTotalQuery = (options = {}) => buildQuery({
+  ...options,
+  includeEstimatedTotalOnly: true,
+});
 
 const getFirstAndLastDatesQuery = (options = {}) => {
   const {
@@ -313,6 +324,7 @@ module.exports = {
   buildDateConditions,
   getAllQuery,
   getAtIdQuery,
+  getEstimatedTotalQuery,
   getFirstAndLastDatesQuery,
   getTotalQuery,
 };

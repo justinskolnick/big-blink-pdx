@@ -16,7 +16,7 @@ const resultElection2022Primary = require('../../__fixtures__/elections/result-2
 const resultElection2024General = require('../../__fixtures__/elections/result-2024-general.json');
 const resultLobbyist = require('../../__fixtures__/person/result-lobbyist.json');
 const resultOfficial = require('../../__fixtures__/person/result-official.json');
-const resultPersonStats = require('../__mocks__/result-person-stats.json');
+const resultPersonStats = require('../../__fixtures__/person/result-stats.json');
 
 const Person = require('../person');
 const CityOffice = require('../../city-office');
@@ -32,6 +32,7 @@ describe('labelPrefix', () => {
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Person.getLabel('percentage', 'incidents')).toBe('Share of total');
+    expect(Person.getLabel('estimated_total', 'incidents')).toBe('Estimated count');
     expect(Person.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Person.getLabel('totals')).toBe('Totals');
   });

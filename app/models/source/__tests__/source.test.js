@@ -16,6 +16,7 @@ const Source = require('../source');
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Source.getLabel('percentage', 'incidents')).toBe('Share of total');
+    expect(Source.getLabel('estimated_total', 'incidents')).toBe('Estimated count');
     expect(Source.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Source.getLabel('totals')).toBe('Totals');
     expect(Source.getLabel('activity', 'source')).toBe('Lobbying activity');

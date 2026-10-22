@@ -79,25 +79,30 @@ const getIncidentsStats = async (options = {}) => {
   const hasSourceId = Boolean(sourceId);
 
   const incidentTotal = await incidents.getTotal();
+  let estimated;
   let firstAndLastIncidents;
   let total;
 
   if (hasEntityId) {
+    estimated = await incidents.getEstimatedTotal({ entityId });
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ entityId });
     total = await incidents.getTotal({ entityId });
   }
 
   if (hasPersonId) {
+    estimated = await incidents.getEstimatedTotal({ personId });
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ personId });
     total = await incidents.getTotal({ personId });
   }
 
   if (hasSourceId) {
+    estimated = await incidents.getEstimatedTotal({ sourceId });
     firstAndLastIncidents = await incidents.getFirstAndLastDates({ sourceId });
     total = await incidents.getTotal({ sourceId });
   }
 
   return {
+    estimated,
     first: firstAndLastIncidents.first,
     last: firstAndLastIncidents.last,
     percentage: percentage(total, incidentTotal),

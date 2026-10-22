@@ -4,6 +4,7 @@ const db = require('./db');
 const {
   getAllQuery,
   getAtIdQuery,
+  getEstimatedTotalQuery,
   getFirstAndLastDatesQuery,
   getTotalQuery,
 } = require('./queries/incidents');
@@ -20,6 +21,21 @@ const getAtId = async (id) => {
   const result = await db.get(clauses, params);
 
   return new Incident(result);
+};
+
+const getEstimatedTotal = async (options = {}) => {
+  const { clauses, params } = getEstimatedTotalQuery(options);
+  const results = await db.getAll(clauses, params);
+
+  return results.map(result => result.contact_type).reduce((total, contactTypes) => {
+    const contactTypeCount = contactTypes.split('; ').length;
+
+    if (contactTypeCount > 0) {
+      return total + contactTypeCount;
+    }
+
+    return total;
+  }, 0);
 };
 
 const getFirstAndLastDates = async (options = {}) => {
@@ -48,6 +64,7 @@ const getTotal = async (options = {}) => {
 module.exports = {
   getAll,
   getAtId,
+  getEstimatedTotal,
   getFirstAndLastDates,
   getTotal,
 };

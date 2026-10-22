@@ -9,6 +9,7 @@ const {
 const {
   getAllQuery,
   getAtIdQuery,
+  getEstimatedTotalQuery,
   getFirstAndLastDatesQuery,
   getTotalQuery,
 } = require('../incidents');
@@ -600,6 +601,67 @@ describe('getAtIdQuery()', () => {
           'LIMIT 1',
         ],
         params: [8675309],
+      });
+    });
+  });
+});
+
+describe('getEstimatedTotalQuery()', () => {
+  describe('with default options', () => {
+    test('returns the expected SQL', () => {
+      expect(getEstimatedTotalQuery()).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.contact_type',
+          'FROM incidents',
+        ],
+        params: [],
+      });
+    });
+  });
+
+  describe('with an entityId', () => {
+    test('returns the expected SQL', () => {
+      expect(getEstimatedTotalQuery({ entityId: 123 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.contact_type',
+          'FROM incidents',
+          'WHERE',
+          'incidents.entity_id = ?',
+        ],
+        params: [123],
+      });
+    });
+  });
+
+  describe('with a sourceId', () => {
+    test('returns the expected SQL', () => {
+      expect(getEstimatedTotalQuery({ sourceId: 3 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.contact_type',
+          'FROM incidents',
+          'WHERE',
+          'incidents.data_source_id = ?',
+        ],
+        params: [3],
+      });
+    });
+  });
+
+  describe('with a personId', () => {
+    test('returns the expected SQL', () => {
+      expect(getEstimatedTotalQuery({ personId: 3 })).toEqual({
+        clauses: [
+          'SELECT',
+          'incidents.contact_type',
+          'FROM incidents',
+          'LEFT JOIN incident_attendees ON incident_attendees.incident_id = incidents.id',
+          'WHERE',
+          'incident_attendees.person_id = ?',
+        ],
+        params: [3],
       });
     });
   });

@@ -6,6 +6,26 @@
       padding: calc(var(--gap) / 2) 0;
       border-bottom: 2px solid var(--color-divider);
 
+      .activity-stat-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        h6 {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 27px;
+        }
+      }
+
+      .activity-stat-value {
+        color: var(--color-stat);
+        font-weight: 200;
+        font-size: 27px;
+        line-height: 27px;
+      }
+
+
       &.is-interactive {
         .activity-stat-value {
           cursor: pointer;
@@ -20,24 +40,22 @@
           }
         }
       }
-    }
 
-    .activity-stat-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      &.stat-estimated-total {
+        .activity-stat-content {
+          h6 {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 18px;
+          }
+        }
 
-      h6 {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 27px;
+        .activity-stat-value {
+          font-weight: 300;
+          font-size: 16px;
+          line-height: 18px;
+        }
       }
-    }
-
-    .activity-stat-value {
-      color: var(--color-stat);
-      font-weight: 200;
-      font-size: 27px;
     }
   }
 }

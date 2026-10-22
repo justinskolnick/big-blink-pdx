@@ -1,6 +1,6 @@
 import { ReactNode, RefObject } from 'react';
 
-export type ClassNames = string | boolean | undefined;
+export type ClassNames = string | boolean | Record<string, boolean> | undefined;
 
 export type Id = number;
 
@@ -434,6 +434,7 @@ type IncidentStatsAppearances = {
 type IncidentStatsTotals = {
   label: string;
   values: {
+    estimated_total?: IncidentsTotalValue;
     percentage?: IncidentsPercentageValue;
     total: IncidentsTotalValue;
   };

@@ -72,13 +72,17 @@ const ActivityOverview = ({
                 />
 
                 {totalsValues.map(item => {
-                  const isInteractive = item.key === 'total';
+                  const isTotal = item.key === 'total';
+                  const classKey = item.key.replace('_', '-');
 
                   return (
                     <StatBox
                       key={item.key}
-                      className={isInteractive && 'is-interactive'}
-                      onClick={isInteractive ? scrollToIncidents : undefined}
+                      className={{
+                        [`stat-${classKey}`]: true,
+                        'is-interactive': isTotal,
+                      }}
+                      onClick={isTotal ? scrollToIncidents : undefined}
                       title={item.label}
                     >
                       {item.value}

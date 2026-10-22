@@ -6,6 +6,7 @@ class Overview {
   }
 
   static props = [
+    'estimated_total',
     'first',
     'last',
     'percentage',

@@ -1,5 +1,5 @@
 const resultEntityAttendees = require('../../entity/__mocks__/result-entity-attendees');
-const resultPersonAttendees = require('../../person/__mocks__/result-person-attendees');
+const resultPersonAttendees = require('../../__fixtures__/person/result-attendees.json');
 const resultSourceAttendees = require('../../source/__mocks__/result-source-attendees');
 
 const {

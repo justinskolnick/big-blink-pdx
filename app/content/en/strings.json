@@ -55,6 +55,7 @@
     "home__overview_title": "Lobbying activity over time",
     "global__title": "Remixing lobbying data published by the City of Portland, Oregon",
     "incidents": "incidents",
+    "incidents__estimated_total": "Estimated count",
     "incidents__percentage": "Share of total",
     "incidents__item_category": "Category",
     "incidents__item_date": "Date",

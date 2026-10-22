@@ -11,6 +11,7 @@ const Entity = require('../entity');
 describe('getLabel()', () => {
   test('returns the expected labels', () => {
     expect(Entity.getLabel('percentage', 'incidents')).toBe('Share of total');
+    expect(Entity.getLabel('estimated_total', 'incidents')).toBe('Estimated count');
     expect(Entity.getLabel('total', 'incidents')).toBe('Incident entry count');
     expect(Entity.getLabel('totals')).toBe('Totals');
   });
@@ -239,6 +240,7 @@ describe('adapt()', () => {
     const incidentCountResult = 246;
 
     const stats = {
+      estimated: 156,
       first: incident,
       total: 123,
     };
@@ -284,6 +286,11 @@ describe('adapt()', () => {
         totals: {
           label: 'Totals',
           values: {
+            estimated_total: { // eslint-disable-line camelcase
+              key: 'estimated_total',
+              label: 'Estimated count',
+              value: 156,
+            },
             percentage: {
               key: 'percentage',
               label: 'Share of total',

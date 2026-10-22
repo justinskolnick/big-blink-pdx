@@ -1,4 +1,4 @@
-const resultPersonEntities = require('../../person/__mocks__/result-person-entities');
+const resultPersonEntities = require('../../__fixtures__/person/result-entities.json');
 const resultSourceEntities = require('../../source/__mocks__/result-source-entities');
 
 const {
